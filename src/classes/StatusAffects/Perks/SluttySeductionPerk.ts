@@ -1,8 +1,8 @@
-import PerkDesc from "./PerkDesc"
-import Perk from "./Perk"
+import StatusAffectDesc from "../StatusAffectDesc";
+import StatusAffect from "../StatusAffect";
 
-export default class SluttySeductionPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
+export default class SluttySeductionPerk extends StatusAffectDesc {
+    public desc(params: StatusAffect = null): string {
         return "Increases odds of successfully teasing and lust damage of successful teases by " + params.value1 + " points."
     }
 

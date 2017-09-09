@@ -1,9 +1,9 @@
-import kGAMECLASS from "../Game/Game"
-import PerkDesc from "./PerkDesc"
-import Perk from "./Perk"
+import StatusAffectDesc from "../StatusAffectDesc";
+import StatusAffect from "../StatusAffect";
+import Game from "../../Game/Game";
 
-export default class ControlledBreathPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
+export default class ControlledBreathPerk extends StatusAffectDesc {
+    public desc(params: StatusAffect = null): string {
         if (Game.player.stats.cor >= 30) return "<b>DISABLED</b> - Corruption too high!";
         else return super.desc(params);
     }

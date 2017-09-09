@@ -1,8 +1,8 @@
-import PerkDesc from "./PerkDesc"
-import Perk from "./Perk"
+import StatusAffectDesc from "../StatusAffectDesc";
+import StatusAffect from "../StatusAffect";
 
-export default class WizardsFocusPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
+export default class WizardsFocusPerk extends StatusAffectDesc {
+    public desc(params: StatusAffect = null): string {
         return "Increases your spell effect modifier by " + params.value1 * 100 + "%.";
     }
 

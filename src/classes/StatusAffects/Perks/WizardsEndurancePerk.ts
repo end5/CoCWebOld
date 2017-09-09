@@ -1,8 +1,8 @@
-import PerkDesc from "./PerkDesc"
-import Perk from "./Perk"
+import StatusAffectDesc from "../StatusAffectDesc";
+import StatusAffect from "../StatusAffect";
 
-export default class WizardsEndurancePerk extends PerkDesc {
-    public desc(params: Perk = null): string {
+export default class WizardsEndurancePerk extends StatusAffectDesc {
+    public desc(params: StatusAffect = null): string {
 			return "Reduces fatigue cost of spells by " + params.value1 + "%.";
     }
 
