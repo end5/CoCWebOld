@@ -14,34 +14,34 @@
 			game.spriteSelect(7);
 			if (findStatusAffect(StatusAffects.Uber) < 0) {
 				if (rand(2) == 0) {
-					outputText("Ceraph winks and says, \"<i>Have you ever cum without being touched? You will.</i>\"\n\n", false);
+					Render.text("Ceraph winks and says, \"<i>Have you ever cum without being touched? You will.</i>\"\n\n", false);
 				}
 				else {
-					outputText("Ceraph titters, \"<i>Let me show you the true power of an Omnibus.</i>\"\n\n", false);
+					Render.text("Ceraph titters, \"<i>Let me show you the true power of an Omnibus.</i>\"\n\n", false);
 				}
-				outputText("Despite her sultry tease, you can tell she's starting to build up to something big...", false);
+				Render.text("Despite her sultry tease, you can tell she's starting to build up to something big...", false);
 				statusAffects.add(new StatusAffect("Uber", 0, 0, 0, 0)));
 			}
 			else {
 				//(Next Round)
 				if (statusAffects.get("Uber").value1 == 0) {
 					statusAffects.get("Uber").value1 = 1;
-					if (rand(2) == 0) outputText("The demonic hermaphrodite begins forging demonic symbols in the air before her, each glowing brilliant pink before they blur away in a haze.", false);
-					else outputText("The demonette makes obscene motions with her hands, as if masturbating an imaginary cock or vagina while her hands are wreathed in pink flames.", false);
-					outputText("  <b>She's about to unleash something huge!</b>", false);
-					if (player.stats.int > 50) outputText("  You should probably wait so you'll have a chance to avoid whatever's coming.", false);
+					if (rand(2) == 0) Render.text("The demonic hermaphrodite begins forging demonic symbols in the air before her, each glowing brilliant pink before they blur away in a haze.", false);
+					else Render.text("The demonette makes obscene motions with her hands, as if masturbating an imaginary cock or vagina while her hands are wreathed in pink flames.", false);
+					Render.text("  <b>She's about to unleash something huge!</b>", false);
+					if (player.stats.int > 50) Render.text("  You should probably wait so you'll have a chance to avoid whatever's coming.", false);
 				}
 				//FIRE!
 				else {
 					statusAffects.remove("Uber");
 					//(Avoid!)
 					if (flags[FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG] == 1) {
-						outputText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Thanks to your decision to wait, it's easy to avoid the onrushing flames and her attack.\n\n", false);
-						outputText("Ceraph sighs and asks, \"<i>Why would you move?  It would make you feel soooo good!</i>\"", false);
+						Render.text("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Thanks to your decision to wait, it's easy to avoid the onrushing flames and her attack.\n\n", false);
+						Render.text("Ceraph sighs and asks, \"<i>Why would you move?  It would make you feel soooo good!</i>\"", false);
 					}
 					//(AUTO-LOSE)
 					else {
-						outputText("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Too busy with your own attack to effectively dodge, you're hit full on by the pink fire.  Incredibly, it doesn't burn.  The fire actually seems to flow inside you, disappearing into your skin.  You stumble, confused for a second, but then it hits you.  Every inch of your body is buzzing with pleasure, practically squirming and convulsing with sexual delight.  You collapse, twitching and heaving, feeling the constant sensation of sexual release running from your head to your " + player.feet() + ".  Too horny and pleasured to resist, you lie down and tremble, occasionally rubbing yourself to enhance the bliss.", false);
+						Render.text("She throws her hands out, palms facing you, and a rush of pink flame washes towards you.  Too busy with your own attack to effectively dodge, you're hit full on by the pink fire.  Incredibly, it doesn't burn.  The fire actually seems to flow inside you, disappearing into your skin.  You stumble, confused for a second, but then it hits you.  Every inch of your body is buzzing with pleasure, practically squirming and convulsing with sexual delight.  You collapse, twitching and heaving, feeling the constant sensation of sexual release running from your head to your " + player.feet() + ".  Too horny and pleasured to resist, you lie down and tremble, occasionally rubbing yourself to enhance the bliss.", false);
 						game.dynStats("lus", 1500);
 					}
 				}
@@ -52,10 +52,10 @@
 		private function ceraphSpecial2():void
 		{
 			if (player.findStatusAffect(StatusAffects.Bound) < 0) {
-				outputText("Ceraph snaps her whip at you, lightning fast.  Unable to avoid the blinding speed of her attack, you find yourself wrapped from head to toe in the strong leather of her whip.  Remarkably, the fire dies out everywhere the whip touches you, leaving you bound but unharmed.", false);
+				Render.text("Ceraph snaps her whip at you, lightning fast.  Unable to avoid the blinding speed of her attack, you find yourself wrapped from head to toe in the strong leather of her whip.  Remarkably, the fire dies out everywhere the whip touches you, leaving you bound but unharmed.", false);
 				//If player has l2 piercing
 				if (flags[FlagEnum.PC_FETISH] >= 2) {
-					outputText("  Gods this turns you on!", false);
+					Render.text("  Gods this turns you on!", false);
 					game.dynStats("lus", 5);
 				}
 				player.statusAffects.add(new StatusAffect("Bound", 2 + rand(5))), 0, 0, 0);
@@ -63,16 +63,16 @@
 			//[SPECIAL WHILE PC RESTRAINED]
 			else {
 				if (rand(2) == 0) {
-					outputText("Ceraph cuddles up against you, embracing you tenderly.  Her more-than-ample bosom crushes against your flank, and her demonic prick grinds and rubs against your " + player.skinDesc + ", smearing it with her juices.  Her hands slide over your bound form, sneaking underneath your " + player.armorName + " to caress you more intimately while you're at her mercy.", false);
+					Render.text("Ceraph cuddles up against you, embracing you tenderly.  Her more-than-ample bosom crushes against your flank, and her demonic prick grinds and rubs against your " + player.skinDesc + ", smearing it with her juices.  Her hands slide over your bound form, sneaking underneath your " + player.armorName + " to caress you more intimately while you're at her mercy.", false);
 					game.dynStats("lus", 9 + player.stats.sens / 10);
 				}
 				//[SPECIAL 2 WHILE PC RESTRAINED]
 				else {
-					outputText("Ceraph blows hot kisses in your ear and slides and rubs against you as she slips over to embrace your front.  She holds up a finger, licks it, and wiggles it back and forth.  It begins to glow pink, dimly at first and then with increasing luminosity.  Once it's reached a brilliant intensity, the sparkling digit is roughly inserted into your mouth.  You can feel the dark magic soaking into your body just like water soaks into a sponge.  ", false);
-					if (player.lust < 33) outputText("It makes you feel warm and flushed.", false);
-					else if (player.lust < 60) outputText("It gets inside you and turns you on, stoking the flames of your desire.", false);
-					else if (player.lust < 80) outputText("It makes you very horny, and you begin to wonder if it's worth resisting.", false);
-					else outputText("It makes you ache and tremble with need, practically begging for another touch.", false);
+					Render.text("Ceraph blows hot kisses in your ear and slides and rubs against you as she slips over to embrace your front.  She holds up a finger, licks it, and wiggles it back and forth.  It begins to glow pink, dimly at first and then with increasing luminosity.  Once it's reached a brilliant intensity, the sparkling digit is roughly inserted into your mouth.  You can feel the dark magic soaking into your body just like water soaks into a sponge.  ", false);
+					if (player.lust < 33) Render.text("It makes you feel warm and flushed.", false);
+					else if (player.lust < 60) Render.text("It gets inside you and turns you on, stoking the flames of your desire.", false);
+					else if (player.lust < 80) Render.text("It makes you very horny, and you begin to wonder if it's worth resisting.", false);
+					else Render.text("It makes you ache and tremble with need, practically begging for another touch.", false);
 					game.dynStats("lus", 5 + player.stats.cor / 10 + player.stats.lib / 20);
 				}
 			}
@@ -82,45 +82,45 @@
 		//(Struggle)
 		public function ceraphBindingStruggle():void
 		{
-			outputText("", true);
-			outputText("You wriggle in the tight binding, trying your best to escape.  ", false);
+			Render.text("", true);
+			Render.text("You wriggle in the tight binding, trying your best to escape.  ", false);
 			if (player.statusAffects.get("Bound").value1 - 1 <= 0) {
-				outputText("With a mighty twist and stretch, the whip gives and uncurls from you all at once.  You've regained your freedom", false);
+				Render.text("With a mighty twist and stretch, the whip gives and uncurls from you all at once.  You've regained your freedom", false);
 				if (flags[FlagEnum.PC_FETISH] >= 2) {
-					outputText(", though you miss the tight leathery embrace", false);
+					Render.text(", though you miss the tight leathery embrace", false);
 				}
-				outputText("!", false);
+				Render.text("!", false);
 				player.statusAffects.remove("Bound");
 				combatRoundOver();
 				return;
 			}
 			else {
-				outputText("Despite your frantic struggling, all you manage to do is chafe against her impressively taut leather whip.", false);
+				Render.text("Despite your frantic struggling, all you manage to do is chafe against her impressively taut leather whip.", false);
 				if (flags[FlagEnum.PC_FETISH] >= 2) {
-					outputText("  You get nice and hot from being so effectively restrained, maybe you should just accept it?", false);
+					Render.text("  You get nice and hot from being so effectively restrained, maybe you should just accept it?", false);
 				}
 				player.statusAffects.get("Bound").value1 = -1;
 				//Strong characters break free faster
 				if (player.str > 65 && rand(player.str) > 45) {
-					outputText("  Though you didn't break free, it seems like your mighty struggles loosened the whip slightly...", false);
+					Render.text("  Though you didn't break free, it seems like your mighty struggles loosened the whip slightly...", false);
 					player.statusAffects.get("Bound").value1 = -1;
 				}
 			}
-			outputText("\n\n", false);
+			Render.text("\n\n", false);
 			doAI();
 		}
 
 //(Wait)
 		public function ceraphBoundWait():void
 		{
-			outputText("", true);
-			outputText("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your " + player.skinDesc + ", is intoxicating.", false);
+			Render.text("", true);
+			Render.text("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your " + player.skinDesc + ", is intoxicating.", false);
 			if (flags[FlagEnum.PC_FETISH] >= 2) {
-				outputText("  You squirm inside the bindings as you get more and more turned on, hoping that Ceraph will strip away your armor and force you to parade around as her bound, naked pet.", false);
+				Render.text("  You squirm inside the bindings as you get more and more turned on, hoping that Ceraph will strip away your armor and force you to parade around as her bound, naked pet.", false);
 				game.dynStats("lus", 5);
 			}
 			game.dynStats("lus", player.stats.lib / 20 + 5 + rand(5));
-			outputText("\n\n", false);
+			Render.text("\n\n", false);
 			doAI();
 		}
 
@@ -130,8 +130,8 @@
 		{
 			//[Mini-cum] – takes place of double-attack if very horny
 			if (lust >= 75) {
-				outputText("Ceraph spreads her legs and buries three fingers in her sopping twat, her thumb vigorously rubbing against the base of her bumpy prick.  Her other hand wraps around the meaty pole and begins jerking it rapidly.  In one practiced movement she stops jerking long enough to wrap the whip around her nodule-studded demon-cock, using it like a cockring.  The organ swells thanks to the forced blood-flow, and after a few more seconds of intense masturbation, the demoness cums hard.  Her cunny squirts all over her hand, dripping clear feminine drool down her thighs.  Ceraph's masculine endowment pulses and twitches, blasting out two big squirts of jizm before it slows to a trickle.\n", false);
-				outputText("Letting out a throaty sigh, the demon unties her self-induced binding and gives you a wink.  Did you really just stand there and watch the whole thing?  Amazingly Ceraph actually seems stronger after such a crude display...", false);
+				Render.text("Ceraph spreads her legs and buries three fingers in her sopping twat, her thumb vigorously rubbing against the base of her bumpy prick.  Her other hand wraps around the meaty pole and begins jerking it rapidly.  In one practiced movement she stops jerking long enough to wrap the whip around her nodule-studded demon-cock, using it like a cockring.  The organ swells thanks to the forced blood-flow, and after a few more seconds of intense masturbation, the demoness cums hard.  Her cunny squirts all over her hand, dripping clear feminine drool down her thighs.  Ceraph's masculine endowment pulses and twitches, blasting out two big squirts of jizm before it slows to a trickle.\n", false);
+				Render.text("Letting out a throaty sigh, the demon unties her self-induced binding and gives you a wink.  Did you really just stand there and watch the whole thing?  Amazingly Ceraph actually seems stronger after such a crude display...", false);
 				//(+10 str/toughness, 1 level, and 10 xp reward.)
 				XP += 10;
 				level += 1;
@@ -140,30 +140,30 @@
 				HP += 20;
 				lust = 33;
 				game.dynStats("lus", 3);
-				outputText("\n", false);
+				Render.text("\n", false);
 				combatRoundOver();
 				return;
 			}
 			let damage:number = 0;
-			outputText("The demoness weaves her whip in the air until you can practically hear it slithering like a snake, cutting the air as it weaves back and forth, still magically alight with flames.  In a blink she lashes out twice in quick succession!\n", false);
+			Render.text("The demoness weaves her whip in the air until you can practically hear it slithering like a snake, cutting the air as it weaves back and forth, still magically alight with flames.  In a blink she lashes out twice in quick succession!\n", false);
 			//First hit!
 			doNext(game.playerMenu);
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(10) != 9) {
-				outputText(capitalA + short + " completely misses you with a blind attack!", false);
+				Render.text(capitalA + short + " completely misses you with a blind attack!", false);
 			}
 			//Determine if dodged!
 			else if (player.stats.spe - spe > 0 && int(Math.random() * (((player.stats.spe - spe) / 4) + 80)) > 80) {
-				if (player.stats.spe - spe < 8) outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!", false);
-				if (player.stats.spe - spe >= 8 && player.stats.spe - spe < 20) outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!", false);
-				if (player.stats.spe - spe >= 20) outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".", false);
+				if (player.stats.spe - spe < 8) Render.text("You narrowly avoid " + a + short + "'s " + weaponVerb + "!", false);
+				if (player.stats.spe - spe >= 8 && player.stats.spe - spe < 20) Render.text("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!", false);
+				if (player.stats.spe - spe >= 20) Render.text("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".", false);
 			}
 			//Determine if evaded
 			else if (player.perks.has("Evade") && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.", false);
+				Render.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.", false);
 			}
 			else if (player.perks.has("Misdirection") && rand(100) < 15 && player.armorName == "red, high-society bodysuit") {
-				outputText("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.", false);
+				Render.text("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.", false);
 			}
 			//Determine damage - str modified by enemy toughness!
 			else {
@@ -174,41 +174,41 @@
 				if (damage <= 0) {
 					damage = 0;
 					//Due to toughness or amor...
-					if (rand(player.armorDef + player.tou) < player.armorDef) outputText("Your " + player.armorName + " absorb and deflect every " + weaponVerb + " from " + a + short + ".", false);
-					else outputText("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+					if (rand(player.armorDef + player.tou) < player.armorDef) Render.text("Your " + player.armorName + " absorb and deflect every " + weaponVerb + " from " + a + short + ".", false);
+					else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 				}
 				if (damage > 0 && damage < 6) {
-					outputText("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
+					Render.text("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
 				}
 				if (damage > 5 && damage < 11) {
-					outputText(capitalA + short + " wounds you! (" + damage + ")", false);
+					Render.text(capitalA + short + " wounds you! (" + damage + ")", false);
 				}
 				if (damage > 10 && damage < 21) {
-					outputText(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
+					Render.text(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
 				}
 				if (damage > 20) {
-					outputText(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
+					Render.text(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
 				}
 			}
 			game.statScreenRefresh();
-			outputText("\n", false);
+			Render.text("\n", false);
 			//SECOND ATTACK HERE------
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(10) != 9) {
-				outputText(capitalA + short + " completely misses you with a blind attack!", false);
+				Render.text(capitalA + short + " completely misses you with a blind attack!", false);
 			}
 			//Determine if dodged!
 			else if (player.stats.spe - spe > 0 && int(Math.random() * (((player.stats.spe - spe) / 4) + 80)) > 80) {
-				if (player.stats.spe - spe < 8) outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!", false);
-				if (player.stats.spe - spe >= 8 && player.stats.spe - spe < 20) outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!", false);
-				if (player.stats.spe - spe >= 20) outputText("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".", false);
+				if (player.stats.spe - spe < 8) Render.text("You narrowly avoid " + a + short + "'s " + weaponVerb + "!", false);
+				if (player.stats.spe - spe >= 8 && player.stats.spe - spe < 20) Render.text("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!", false);
+				if (player.stats.spe - spe >= 20) Render.text("You deftly avoid " + a + short + "'s slow " + weaponVerb + ".", false);
 			}
 			//Determine if evaded
 			else if (player.perks.has("Evade") && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.", false);
+				Render.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.", false);
 			}
 			else if (player.perks.has("Misdirection") && rand(100) < 15 && player.armorName == "red, high-society bodysuit") {
-				outputText("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.", false);
+				Render.text("With Raphael's teachings and the easy movement afforded by your bodysuit, you easily anticipate and sidestep " + a + short + "'s attack.", false);
 			}
 			else {
 				//Determine damage - str modified by enemy toughness!
@@ -219,25 +219,25 @@
 				if (damage <= 0) {
 					damage = 0;
 					//Due to toughness or amor...
-					if (rand(player.armorDef + player.tou) < player.armorDef) outputText("Your " + player.armorName + " absorb and deflect every " + weaponVerb + " from " + a + short + ".", false);
-					else outputText("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+					if (rand(player.armorDef + player.tou) < player.armorDef) Render.text("Your " + player.armorName + " absorb and deflect every " + weaponVerb + " from " + a + short + ".", false);
+					else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 				}
 				if (damage > 0 && damage < 6) {
-					outputText("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
+					Render.text("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
 				}
 				if (damage > 5 && damage < 11) {
-					outputText(capitalA + short + " wounds you! (" + damage + ")", false);
+					Render.text(capitalA + short + " wounds you! (" + damage + ")", false);
 				}
 				if (damage > 10 && damage < 21) {
-					outputText(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
+					Render.text(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
 				}
 				if (damage > 20) {
-					outputText(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
+					Render.text(capitalA + short + " <b>mutilates</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
 				}
 
 			}
 			game.statScreenRefresh();
-			outputText("\n", false);
+			Render.text("\n", false);
 			combatRoundOver();
 		}
 
@@ -277,7 +277,7 @@
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
-				outputText("\n\nYour foe doesn't seem disgusted enough to leave...");
+				Render.text("\n\nYour foe doesn't seem disgusted enough to leave...");
 				doNext(game.endLustLoss);
 			} else {
 				game.ceraphScene.loseFUCKME();

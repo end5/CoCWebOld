@@ -17,7 +17,7 @@
 
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
-			outputText("Overcome by your "+(hpVictory?"wounds":"lust")+", you sink to your knees as the colony of worms swarms all over your body...\n\n", true);
+			Render.text("Overcome by your "+(hpVictory?"wounds":"lust")+", you sink to your knees as the colony of worms swarms all over your body...\n\n", true);
 			game.infest1();
 		}
 

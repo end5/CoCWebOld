@@ -110,7 +110,7 @@ public function customPCSetup():void {
 		flags[FlagEnum.VALARIA_AT_CAMP] = 1;
 		
 		player.stats.gems += 30000;
-		outputText("You're something of a powerhouse, and you wager that between your odd mutations, power strong enough to threaten the village order, and talents, you're the natural choice to send through the portal.");
+		Render.text("You're something of a powerhouse, and you wager that between your odd mutations, power strong enough to threaten the village order, and talents, you're the natural choice to send through the portal.");
 		
 		player.itemSlot4.unlocked = true;
 		player.itemSlot5.unlocked = true;
@@ -285,7 +285,7 @@ public function customPCSetup():void {
 		player.stats.int += 2;
 		player.stats.spe += 2;
 		player.stats.gems += 300;
-		outputText("You're something of a powerhouse, and you wager that between your odd mutations, power strong enough to threaten the village order, and talents, you're the natural choice to send through the portal.");
+		Render.text("You're something of a powerhouse, and you wager that between your odd mutations, power strong enough to threaten the village order, and talents, you're the natural choice to send through the portal.");
 	}
 	if(player.short == "Leah") {
 		player.setArmor(armors.LEATHRA);
@@ -419,7 +419,7 @@ public function customPCSetup():void {
 		player.stats.int = 30;
 		if(player.findStatusAffect(StatusAffects.BonusVCapacity) < 0) player.statusAffects.add(new StatusAffect("BonusVCapacity",0,0,0,0)));
 		else player.addStatusValue(StatusAffects.BonusVCapacity,1,5+rand(10));
-		outputText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
+		Render.text("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 	}
 	if(player.short == "Nixi") {
 		//-Perks
@@ -514,7 +514,7 @@ public function customPCSetup():void {
 		player.str = 40;
 		//full chain
 		player.setArmor(armors.FULLCHN);
-		outputText("As a German-Shepherd morph, the rest of the village never really knew what to do with you... until they sent you through the portal to face whatever's on the other side...");
+		Render.text("As a German-Shepherd morph, the rest of the village never really knew what to do with you... until they sent you through the portal to face whatever's on the other side...");
 	}
 	if(player.short == "Galatea") {
 		//"(Dangit Fenoxo!  Stop adding sexy must-have things to the game!  If it's not too late to update it I've added in that sexy new armor.  Thanks!)		
@@ -560,7 +560,7 @@ public function customPCSetup():void {
 		player.itemSlot4.unlocked = true;
 		player.itemSlot4.setItemAndQty(armors.BIMBOSK,1);
 		player.itemSlot5.unlocked = true;
-		outputText("You've got large breasts prone to lactation.  You aren't sure WHY you got chosen as a champion, but with your considerable strength, you're sure you'll do a good job protecting Ingnam.");
+		Render.text("You've got large breasts prone to lactation.  You aren't sure WHY you got chosen as a champion, but with your considerable strength, you're sure you'll do a good job protecting Ingnam.");
 	}
 	if(player.short == "Siveen") {
 		//Female
@@ -604,7 +604,7 @@ public function customPCSetup():void {
 		player.tou = 25;
 		player.stats.int = 25;
 		player.stats.spe = 25;
-		outputText("You are a literal angel from beyond, and you take the place of a vilage's champion for your own reasons...");
+		Render.text("You are a literal angel from beyond, and you take the place of a vilage's champion for your own reasons...");
 	}
 	if(player.short == "Betram") {
 		//Character Creation	
@@ -627,7 +627,7 @@ public function customPCSetup():void {
 			player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
 		}
 		player.gender = 3;
-		outputText("You're quite the foxy herm, and as different as you were compared to the rest of Ingnam, it's no suprise you were sent through first.");
+		Render.text("You're quite the foxy herm, and as different as you were compared to the rest of Ingnam, it's no suprise you were sent through first.");
 	}
 	if(player.short == "Ceveo") {
 		//Male. 2 cock. 5.5 average thickness and 12 in with excessive thickness both pierced with silver rings. Balls, large, about the size of a billiard ball, four of them. All humanish, more details on the character.
@@ -687,7 +687,7 @@ public function customPCSetup():void {
 		player.stats.cor = 30;
 		player.stats.lib = 30;
 		player.stats.sens = 10;
-		outputText("As a wandering mage you had found your way into no small amount of trouble in the search for knowledge.  A strange tome here, a ritual there, most people found your pale form unsettling. They would be further troubled if they could see your feet!  Lets not even begin on the blood magic.  Yes, your interest in examining every aspect of magic has run you down a strange path, so when you wandered into Ingram and began to hear of the exile of the Champion, and the superstitions that surrounded it you were intrigued, as every little rumor and ritual often had a grain of truth.  You snuck into the cave prior to the ritual, where the old man supposedly led every Champion, and there you found a strange portal that emanated a certain degree of spacial transparency -  more than the portal's own.  Within it must have been a whole new world!  Throwing caution to the wind, your curiosities engulfing you, you dove in with nary a thought for the consequences.");
+		Render.text("As a wandering mage you had found your way into no small amount of trouble in the search for knowledge.  A strange tome here, a ritual there, most people found your pale form unsettling. They would be further troubled if they could see your feet!  Lets not even begin on the blood magic.  Yes, your interest in examining every aspect of magic has run you down a strange path, so when you wandered into Ingram and began to hear of the exile of the Champion, and the superstitions that surrounded it you were intrigued, as every little rumor and ritual often had a grain of truth.  You snuck into the cave prior to the ritual, where the old man supposedly led every Champion, and there you found a strange portal that emanated a certain degree of spacial transparency -  more than the portal's own.  Within it must have been a whole new world!  Throwing caution to the wind, your curiosities engulfing you, you dove in with nary a thought for the consequences.");
 	}
 	if(player.short == "Nami") {
 		//Female with the sand-trap black pussy
@@ -749,7 +749,7 @@ public function customPCSetup():void {
 		player.tou = 15;
 		
 		clearOutput();
-		outputText("Your exotic appearance caused you some trouble growing up, but you buried your nose in books until it came time to go through the portal.");
+		Render.text("Your exotic appearance caused you some trouble growing up, but you buried your nose in books until it came time to go through the portal.");
 	}
 	if(player.short == "Prismere") {
 		//Specific Character	Female, virgin, high fertility, tight with standard wetness and clit.
@@ -757,7 +757,7 @@ public function customPCSetup():void {
 		player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
 		player.fertility = 4;
 		player.stats.spe += 20;
-		outputText("You're more of a scout than a fighter, but you still feel confident you can handle your responsibilities as champion.  After all, what's to worry about when you can outrun everything you encounter?  You have olive skin, deep red hair, and a demonic tail and wings to blend in with the locals.");
+		Render.text("You're more of a scout than a fighter, but you still feel confident you can handle your responsibilities as champion.  After all, what's to worry about when you can outrun everything you encounter?  You have olive skin, deep red hair, and a demonic tail and wings to blend in with the locals.");
 		//Perk is speed, she was a scout, and it'd be neat (if possible) to give her something akin to the Runner perk. She might not start out very strong or tough, but at least she's fast.
 		player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
 		player.createPerk(PerkLib.Runner, 0, 0, 0, 0);
@@ -784,7 +784,7 @@ public function customPCSetup():void {
 	if(player.short == "Mihari") {
 		//[Values will be listed as if taken from Minerva]
 		//I'm kinda going under the assumption you are letting us go hog wild if not, take what's allowed and do what you wish out of what's below
-		outputText("The portal is not something you fear, not with your imposing armor and inscribed spellblade.  You're much faster and stronger than every champion that came before you, but will it be enough?");
+		Render.text("The portal is not something you fear, not with your imposing armor and inscribed spellblade.  You're much faster and stronger than every champion that came before you, but will it be enough?");
 		//Core Stats:
 		player.str = 40;
 		player.tou = 20;
@@ -843,7 +843,7 @@ public function customPCSetup():void {
 
 	}
 	if(player.short == "Aria") {
-		outputText("It's really no surprise that you were sent through the portal to deal with the demons - you look enough like one as-is.  Your numerous fetish-inducing piercings, magical fox-tails, and bimbo-licious personality were all the motivation the elders needed to keep you from corrupting the village youth.");
+		Render.text("It's really no surprise that you were sent through the portal to deal with the demons - you look enough like one as-is.  Your numerous fetish-inducing piercings, magical fox-tails, and bimbo-licious personality were all the motivation the elders needed to keep you from corrupting the village youth.");
 		//2/26/2013 8:18:21	rdolave@gmail.com	Character Creation	"female DD breasts feminity 100 butt size 5 hip size 5 body thickness 10 clit I would like her nipples pierced with Ceraphs piercing
 		//(on a side note how much do you think it would cost to add bell nipple,labia and clit piercings as well as an option for belly button piercings would like to see belly button piecings with a few different options as well.  Also would love to have handcuff ear piercings.)"	Would like the bimbo brain and bimbo body perks as well as the nine tail PerkLib.  demonic high heels, pink skin, obscenely long pink hair  would like her to be a kitsune with the nine tails.  pink fur.  starting equipment would like to be the succubus whip and nurse's outfit.  Also would like the xmas perk and all three Vday perks	Aria
 		if(!player.lowerBody.vaginaSpot.hasVagina()) player.createVagina();
@@ -888,7 +888,7 @@ public function customPCSetup():void {
 	}
 	if(player.short == "Lucina") {
 		//428347355782040	Character Creation	Female,wetness=wet, Looseness=normal,not a virgin, Fertility high i guess i dont really care can be up to you.	for her face normal human, ears i want Elvin, no tails, just normal skin, body thickness i want to be slender, body tone kinda athletic but not too much, hair i want really long i think like a 30 on the codex number i think and her hair color light blonde, i want her to have normal D size breast with you can choose how you want them really though i dont think i really care, nipple size i dont care, her skin color a fair light light color but not too pale, for her starting equipment i want im not sure what i want her to wear but basically i want a Elvin archer with a bow. so maybe you can do something about the clothing. i just want a Elvin character in the game since theres goblins plus another archer besides kelt a female one add to that.	Lucina
-		outputText("You're a blond, fair-skinned lass with a well-made bow and the skills to use it.  You have D-cup breasts and a very moist cunt that's seen a little action.  You're fit and trim, but not too thin, nor too well-muscled.  All in all, you're a good fit for championing your village's cause.");
+		Render.text("You're a blond, fair-skinned lass with a well-made bow and the skills to use it.  You have D-cup breasts and a very moist cunt that's seen a little action.  You're fit and trim, but not too thin, nor too well-muscled.  All in all, you're a good fit for championing your village's cause.");
 		if(!player.lowerBody.vaginaSpot.hasVagina()) player.createVagina();
 		player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
 		player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LOOSE;
@@ -908,7 +908,7 @@ public function customPCSetup():void {
 	}
 	if(player.short == "Rann Rayla") {
 		//Specific Character	Virgin female.	Max femininity. Thin with a little muscle. Size C breasts. Long red hair. Light colored skin. 5'5" tall. 	Rann Rayla
-		outputText("You're a young, fiery redhead who\'s utterly feminine.  You've got C-cup breasts and long red hair.  Being a champion can\'t be that bad, right?");
+		Render.text("You're a young, fiery redhead who\'s utterly feminine.  You've got C-cup breasts and long red hair.  Being a champion can\'t be that bad, right?");
 		player.createVagina();
 		player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
 		player.createBreastRow();
@@ -925,7 +925,7 @@ public function customPCSetup():void {
 		player.tallness = 65;
 	}
 	if(player.short == "Charaun") {
-		outputText("As a gifted fox with a juicy, thick knot, a wet cunt, and magical powers, you have no problems with being chosen as champion.");
+		Render.text("As a gifted fox with a juicy, thick knot, a wet cunt, and magical powers, you have no problems with being chosen as champion.");
 		//Herm, Fox Cock: (27"l x 1.4"w, knot multiplier 3.6), No Balls, Cum Multiplier: 7,500, Vaginal Wetness: 5, Clit length: 0.5, Virgin, Fertility: 15	9-tailed "enlightened" kitsune( a pure-blooded kitsune with the "Enlightened Nine-tails" perk and magic specials) 
 		if(!player.lowerBody.cockSpot.hasCock()) player.lowerBody.cockSpot.add(new Cock());
 		if(!player.lowerBody.vaginaSpot.hasVagina()) player.createVagina();
@@ -973,7 +973,7 @@ public function customPCSetup():void {
 
 	}
 	if(player.short == "Navorn") {
-		outputText("There's been something special about you since day one, whether it's your numerous sexual endowments or your supernatural abilities.  You're a natural pick for champion.");
+		Render.text("There's been something special about you since day one, whether it's your numerous sexual endowments or your supernatural abilities.  You're a natural pick for champion.");
 		//Character Creation	"Herm same number and types of cocks from email sent earlier. 
 		//Special abilities: Fire breath, fox fire?
 		player.createPerk(PerkLib.Dragonfire,0,0,0,0);
@@ -1068,7 +1068,7 @@ public function customPCSetup():void {
 	}
 	if(player.short == "Hikari") {
 		//Character Creation	If possible I would like a herm with a cat cock that is 10 inches by 4 inches. Anything else is up to you.	I would like a herm catmorph with two large d breasts and shoulder length hair. Also if possible I would like to start with some gel armor. Everything else is fair game.	Hikari
-		outputText("As a herm with a super-thick cat-cock, D-cup breasts, and out-of-this-world armor, you're a natural pick for champion.");
+		Render.text("As a herm with a super-thick cat-cock, D-cup breasts, and out-of-this-world armor, you're a natural pick for champion.");
 		if(!player.lowerBody.cockSpot.hasCock()) player.lowerBody.cockSpot.add(new Cock());
 		player.lowerBody.cockSpot.list[0].cockType = CockType.CAT;
 		player.lowerBody.cockSpot.list[0].cockLength = 10;
@@ -1080,7 +1080,7 @@ public function customPCSetup():void {
 		player.gender = 3;
 	}
 	if(player.short == "Isaac") {
-		outputText("Born of a disgraced priestess, Isaac was raised alone until she was taken by illness.  He worked a number of odd jobs until he was eventually chosen as champion.");
+		Render.text("Born of a disgraced priestess, Isaac was raised alone until she was taken by illness.  He worked a number of odd jobs until he was eventually chosen as champion.");
 		//- gift: fast
 		player.stats.spe += 5;
 		player.tone += 10;
@@ -1152,7 +1152,7 @@ public function customPCSetup():void {
 	}
 	//529315025394020	Character Creation	Neuter (no genitals) "50-50 masculine-feminine ratio. Shark teeth."	Rope
 	if(player.short == "Rope") {
-		outputText("Despite outward appearances, you're actually something of a neuter, with shark-like teeth, an androgynous face, and a complete lack of genitalia.");
+		Render.text("Despite outward appearances, you're actually something of a neuter, with shark-like teeth, an androgynous face, and a complete lack of genitalia.");
 		if(player.lowerBody.cockSpot.hasCock()) player.lowerBody.cockSpot.remove(0,1);
 		if(player.lowerBody.vaginaSpot.hasVagina()) player.removeVagina();
 		player.gender = 0;
@@ -1160,7 +1160,7 @@ public function customPCSetup():void {
 		player.faceType = FACE.SHARK_TEETH;
 	}
 	if(player.short == "Katti") {
-		outputText("You have big breasts with big, fuckable nipples on them, and no matter what, your vagina always seems to be there to keep you company.");
+		Render.text("You have big breasts with big, fuckable nipples on them, and no matter what, your vagina always seems to be there to keep you company.");
 		//Gender: Female	
 		if(!player.lowerBody.vaginaSpot.hasVagina()) {
 			player.createVagina();
@@ -1177,7 +1177,7 @@ public function customPCSetup():void {
 		player.upperBody.chest.list[0].fuckable = true;
 	}
 	if(player.short == "Cody") {
-		outputText("Your orange and black tiger stripes make you cut a more imposing visage than normal, and with your great strength, armor, and claymore, you're a natural pick for champion.");
+		Render.text("Your orange and black tiger stripes make you cut a more imposing visage than normal, and with your great strength, armor, and claymore, you're a natural pick for champion.");
 		//well to start off the name would be Cody
 		//-Cat with (black and orange tiger fur if possible) if not just Orange fur
 		player.hairColor = "black and orange";
@@ -1191,7 +1191,7 @@ public function customPCSetup():void {
 
 	}
 	if(player.short == "Annetta") {
-		outputText("You're a rather well-endowed hermaphrodite that sports a thick, dog-knotted cock, an unused pussy, and a nice, stretchy butt-hole.  You've also got horns and demonic high-heels on your feet.  It makes you wonder why you would ever get chosen to be champion!");
+		Render.text("You're a rather well-endowed hermaphrodite that sports a thick, dog-knotted cock, an unused pussy, and a nice, stretchy butt-hole.  You've also got horns and demonic high-heels on your feet.  It makes you wonder why you would ever get chosen to be champion!");
 		//Specific Character	"Gender: Herm
 		//Penis: 13 inch long 3 inch wide penis, dog shaped, 6.5 inch knot
 		//Balls: Four 5 inch wide
@@ -1238,7 +1238,7 @@ public function customPCSetup():void {
 		player.gender = 3;
 	}
 	if(player.short == "Tyriana") {
-		outputText("Your many, posh tits, incredible fertility, and well-used cunt made you more popular than the village bicycle.  With your cat-like ears, paws, and tail, you certainly had a feline appeal.  It's time to see how you fare in the next chapter of your life.");
+		Render.text("Your many, posh tits, incredible fertility, and well-used cunt made you more popular than the village bicycle.  With your cat-like ears, paws, and tail, you certainly had a feline appeal.  It's time to see how you fare in the next chapter of your life.");
 		//"Gender: Female
 		player.gender = 2;
 		//Vagina: Ridiculously loose, 3 inch clitoris, dripping constantly, fertile like a bunny on steroids and non-virgin
@@ -1285,12 +1285,12 @@ public function customPCSetup():void {
 		player.teaseLevel = 3;
 	}
 	if(player.short == "Gundam") {
-		outputText("You're fabulously rich, thanks to a rather well-placed bet on who would be the champion.  Hopefully you can buy yourself out of any trouble you might get in.");
+		Render.text("You're fabulously rich, thanks to a rather well-placed bet on who would be the champion.  Hopefully you can buy yourself out of any trouble you might get in.");
 		player.stats.gems = 1500 + rand(1000);
 		//for my custom character profile i want the name to be gundam all i want is to start out with around 1000-2500 gems like as a gift from the elder or something to help me out.
 	}
 	if(player.short == "Charlie") {
-		outputText("You're strong, smart, fast, and tough.  It also helps that you've got four dongs well beyond what others have lurking in their trousers.  With your wings, bow, weapon, and tough armor, you're a natural for protecting the town.");
+		Render.text("You're strong, smart, fast, and tough.  It also helps that you've got four dongs well beyond what others have lurking in their trousers.  With your wings, bow, weapon, and tough armor, you're a natural for protecting the town.");
 		player.gender = 1;
 		player.tou +=2;
 		player.str += 3;
@@ -1370,7 +1370,7 @@ public function customPCSetup():void {
 		player.cumMultiplier = 50;
 	}
 	if(player.short == "Sera") {
-		outputText("You're something of a shemale - three rows of C-cup breasts matched with three, plump, juicy cocks.  Some decent sized balls, bat wings, and cat-like ears round out the package.");
+		Render.text("You're something of a shemale - three rows of C-cup breasts matched with three, plump, juicy cocks.  Some decent sized balls, bat wings, and cat-like ears round out the package.");
 		player.gender = 1;
 		player.tou +=2;
 		player.str += 3;
@@ -1425,7 +1425,7 @@ public function customPCSetup():void {
 	}
 	if(player.short == "Mirvanna") {
 		//Any equine or dragonny attributes accompanying it a big plus! As I'm a dragon-unicorn furry (Qilin~). Bonus points if you add a horn type for unicorn horn. 
-		outputText("You're an equine dragon-herm with a rather well-proportioned body.  Ingnam is certainly going to miss having you whoring yourself out around town.  You don't think they'll miss cleaning up all the messy sex, though.");
+		Render.text("You're an equine dragon-herm with a rather well-proportioned body.  Ingnam is certainly going to miss having you whoring yourself out around town.  You don't think they'll miss cleaning up all the messy sex, though.");
 		player.gender = 3;
 		player.stats.spe+=3;
 		player.stats.int+=2;
@@ -1487,7 +1487,7 @@ public function customPCSetup():void {
 	if(player.short == "Mara") {
 		//#226096893686530
 		//For the custom PC Profile can you make a Bimbo Bunny girl (no bunny feet) (named Mara) dont really care about clothes i can get what i want pretty quickly and I change from time to time.
-		outputText("You're a bunny-girl with bimbo-tier curves, jiggly and soft, a curvy, wet girl with a bit of a flirty past.");
+		Render.text("You're a bunny-girl with bimbo-tier curves, jiggly and soft, a curvy, wet girl with a bit of a flirty past.");
 		player.gender = 2;
 		player.stats.spe+=3;
 		player.stats.int+=2;

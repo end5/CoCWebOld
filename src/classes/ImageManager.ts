@@ -259,7 +259,7 @@
 
 				// Hook the loader to notify us when the image has finished loading
 				// this gaurantees that anything we do to the content of mainText will ONLY happen after a scene's calls
-				// to outputText has finished
+				// to Render.text has finished
 				loader.contentLoaderInfo.addEventListener(Event.COMPLETE, doFixup);
 			}
 		}

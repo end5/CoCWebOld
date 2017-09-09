@@ -9,7 +9,7 @@ package classes.Scenes.NPCs
 
 		public eAttack():void
 		{
-			outputText("Giggling playfully, the anemone launches several tentacles at you.  Most are aimed for your crotch, but a few attempt to caress your chest and face.\n", false);
+			Render.text("Giggling playfully, the anemone launches several tentacles at you.  Most are aimed for your crotch, but a few attempt to caress your chest and face.\n", false);
 			super.eAttack();
 		}
 
@@ -63,7 +63,7 @@ package classes.Scenes.NPCs
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
-				outputText("\n\nYour foe doesn't seem to mind at all...");
+				Render.text("\n\nYour foe doesn't seem to mind at all...");
 				doNext(game.endLustLoss);
 			} else {
 				game.anemoneScene.loseToAnemone();
@@ -72,7 +72,7 @@ package classes.Scenes.NPCs
 
 		public outputAttack(damage: number):void
 		{
-			outputText("You jink and dodge valiantly but the tentacles are too numerous and coming from too many directions.  A few get past your guard and caress your skin, leaving a tingling, warm sensation that arouses you further.", false);
+			Render.text("You jink and dodge valiantly but the tentacles are too numerous and coming from too many directions.  A few get past your guard and caress your skin, leaving a tingling, warm sensation that arouses you further.", false);
 		}
 
 		public function Anemone()

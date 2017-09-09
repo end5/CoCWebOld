@@ -1,6 +1,6 @@
 ﻿export default class BallsChangeDescriptor {
     public static ballsRemovalDescription(creature: Creature) {
-        outputText("  <b>Your " + BallsDescriptor.sackDescript(creature) + " and " + BallsDescriptor.ballsDescription(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
+        Render.text("  <b>Your " + BallsDescriptor.sackDescript(creature) + " and " + BallsDescriptor.ballsDescription(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
     }
 
 }

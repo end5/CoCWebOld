@@ -19,7 +19,7 @@
 			if (statusAffects.has("KitsuneFight")) {
 				game.forest.kitsuneScene.loseKitsuneImpFight();
 			} else if (pcCameWorms) {
-				outputText("\n\nThe imp grins at your already corrupted state...", false);
+				Render.text("\n\nThe imp grins at your already corrupted state...", false);
 				player.lust = 100;
 				doNext(game.impScene.impRapesYou);
 			} else {
@@ -28,41 +28,41 @@
 		}
 		
 		protected function lustMagicAttack():void {
-			outputText("You see " + a + short + " make sudden arcane gestures at you!\n\n");
+			Render.text("You see " + a + short + " make sudden arcane gestures at you!\n\n");
 			game.dynStats("lus", player.stats.lib / 10 + player.stats.cor / 10 + 10);
-			if (player.lust < 30) outputText("You feel strangely warm.  ");
-			if (player.lust >= 30 && player.lust < 60) outputText("Blood rushes to your groin as a surge of arousal hits you, making your knees weak.  ");
-			if (player.lust >= 60) outputText("Images of yourself fellating and fucking the imp assault your mind, unnaturally arousing you.  ");
+			if (player.lust < 30) Render.text("You feel strangely warm.  ");
+			if (player.lust >= 30 && player.lust < 60) Render.text("Blood rushes to your groin as a surge of arousal hits you, making your knees weak.  ");
+			if (player.lust >= 60) Render.text("Images of yourself fellating and fucking the imp assault your mind, unnaturally arousing you.  ");
 			if (player.lowerBody.cockSpot.count() > 0) {
 				if (player.lust >= 60)
-					outputText("You feel your " + player.multiCockDescriptLight() + " dribble pre-cum.");
+					Render.text("You feel your " + player.multiCockDescriptLight() + " dribble pre-cum.");
 				else if (player.lust >= 30 && player.lowerBody.cockSpot.count() == 1)
-					outputText("Your " + player.cockDescript(0) + " hardens, distracting you further.");
+					Render.text("Your " + player.cockDescript(0) + " hardens, distracting you further.");
 				else if (player.lust >= 30 && player.lowerBody.cockSpot.count() > 1)
-					outputText("Your " + player.multiCockDescriptLight() + " harden uncomfortably.");
-				if (player.lowerBody.vaginaSpot.hasVagina()) outputText("  ");
+					Render.text("Your " + player.multiCockDescriptLight() + " harden uncomfortably.");
+				if (player.lowerBody.vaginaSpot.hasVagina()) Render.text("  ");
 			}
 			if (player.lust >= 60 && player.lowerBody.vaginaSpot.hasVagina()) {
 				switch (player.vaginas[0].vaginalWetness) {
 					case VAGINA_WETNESS.NORMAL:
-						outputText("Your " + game.allVaginaDescript() + " dampen" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " perceptibly.");
+						Render.text("Your " + game.allVaginaDescript() + " dampen" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " perceptibly.");
 						break;
 					case VAGINA_WETNESS.WET:
-						outputText("Your crotch becomes sticky with girl-lust.");
+						Render.text("Your crotch becomes sticky with girl-lust.");
 						break;
 					case VAGINA_WETNESS.SLICK:
-						outputText("Your " + game.allVaginaDescript() + " become" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " sloppy and wet.");
+						Render.text("Your " + game.allVaginaDescript() + " become" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " sloppy and wet.");
 						break;
 					case VAGINA_WETNESS.DROOLING:
-						outputText("Thick runners of girl-lube stream down the insides of your thighs.");
+						Render.text("Thick runners of girl-lube stream down the insides of your thighs.");
 						break;
 					case VAGINA_WETNESS.SLAVERING:
-						outputText("Your " + game.allVaginaDescript() + " instantly soak" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " your groin.");
+						Render.text("Your " + game.allVaginaDescript() + " instantly soak" + (player.lowerBody.vaginaSpot.count() > 1 ? "" : "s") + " your groin.");
 					default: //Dry vaginas are unaffected
 						
 				}
 			}
-			outputText("\n");
+			Render.text("\n");
 			if (player.lust > 99)
 				doNext(game.endLustLoss);
 			else doNext(game.playerMenu);

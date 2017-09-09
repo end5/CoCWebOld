@@ -18,23 +18,23 @@
 		public defeated(hpVictory:boolean):void
 		{
 			if (hpVictory) {
-				outputText("You strike out and the last of the demons tumbles to the ground with a thud. You stand there for a second surrounded by dead or unconscious demons feeling like a god of battle. Then you realize that if a god of battle does exist he lives on a demonic plane like this, so to avoid insulting him you take your hands off your hips and your " + player.legs() + " off the head of the demon leader before you start to search the bodies.", true);
+				Render.text("You strike out and the last of the demons tumbles to the ground with a thud. You stand there for a second surrounded by dead or unconscious demons feeling like a god of battle. Then you realize that if a god of battle does exist he lives on a demonic plane like this, so to avoid insulting him you take your hands off your hips and your " + player.legs() + " off the head of the demon leader before you start to search the bodies.", true);
 				game.dynStats("lus", 1);
 			} else {
-				outputText("The demons stop attacking, and reach out to touch your body. Some are already masturbating like it's the only thing in the world and you know that right now, if you wanted to, you could make each and every one of them fuck you.");
+				Render.text("The demons stop attacking, and reach out to touch your body. Some are already masturbating like it's the only thing in the world and you know that right now, if you wanted to, you could make each and every one of them fuck you.");
 			}
 			if(statusAffects.has("phyllafight")) {
 				doNext(game.desert.antsScene.consolePhylla);
 			} else if (hpVictory){
 				game.cleanupAfterCombat();
 			} else {
-				outputText("  Do you rape them?", true);
+				Render.text("  Do you rape them?", true);
 				game.doYesNo(rapeDemons, game.cleanupAfterCombat);
 			}
 		}
 
 		private function rapeDemons():void{
-			outputText("You open your arms and step into the throng of eager demons. They jump eagerly to touch you, becoming more and more lust-frenzied every second. You take the nearest demon and throw it to the ground and without a moment's thought the rest of the group leap to join you in a thoughtless madness of lust...", true);
+			Render.text("You open your arms and step into the throng of eager demons. They jump eagerly to touch you, becoming more and more lust-frenzied every second. You take the nearest demon and throw it to the ground and without a moment's thought the rest of the group leap to join you in a thoughtless madness of lust...", true);
 			doNext(game.desert.oasis.oasisSexing);
 		}
 
@@ -42,30 +42,30 @@
 		{
 			if (player.gender == 0){
 				if (hpVictory) {
-					outputText("You collapse before the demons, who laugh at your utter lack of male or female endowments, beating you until you pass out.", true);
+					Render.text("You collapse before the demons, who laugh at your utter lack of male or female endowments, beating you until you pass out.", true);
 				} else {
-					outputText("You offer yourself to the demons, who promptly begin laughing at your lack of endowments.  They fall on you as one, beating you into unconsciousness.", true);
+					Render.text("You offer yourself to the demons, who promptly begin laughing at your lack of endowments.  They fall on you as one, beating you into unconsciousness.", true);
 				}
 				game.cleanupAfterCombat();
 			} else if (hpVictory){
-				outputText("The demons finally beat you down and you collapse onto the sand of the oasis. Almost immediately you feel demonic hands pressing and probing your prone form. You hear the leader of the group say something in a strange tongue but you have a feeling you know what it means. The demons dive onto your inert body with intent and begin to press themselves against you...", true);
+				Render.text("The demons finally beat you down and you collapse onto the sand of the oasis. Almost immediately you feel demonic hands pressing and probing your prone form. You hear the leader of the group say something in a strange tongue but you have a feeling you know what it means. The demons dive onto your inert body with intent and begin to press themselves against you...", true);
 				doNext(game.desert.oasis.oasisSexing);
 			} else {
-				outputText("You struggle to keep your mind on the fight and fail to do so. ", true);
+				Render.text("You struggle to keep your mind on the fight and fail to do so. ", true);
 				if (pcCameWorms){
-					outputText("\n\nThe demons joke and smile, obviously unconcerned with your state.\n\n", false);
+					Render.text("\n\nThe demons joke and smile, obviously unconcerned with your state.\n\n", false);
 				}
 				if(player.lowerBody.cockSpot.count() > 0) {
-					if(player.lowerBody.cockSpot.count() > 1) outputText("Each of y", false);
-					else outputText("Y", false);
-					outputText("our " + player.multiCockDescriptLight() + " throbs ", false);
-					if(player.lowerBody.vaginaSpot.hasVagina()) outputText(" and your ", false);
+					if(player.lowerBody.cockSpot.count() > 1) Render.text("Each of y", false);
+					else Render.text("Y", false);
+					Render.text("our " + player.multiCockDescriptLight() + " throbs ", false);
+					if(player.lowerBody.vaginaSpot.hasVagina()) Render.text(" and your ", false);
 				}
 				if(player.lowerBody.vaginaSpot.count() > 0) {
-					if(!player.lowerBody.cockSpot.hasCock()) outputText("Your ", false);
-					outputText(game.vaginaDescript(0) + " burns ", false);
+					if(!player.lowerBody.cockSpot.hasCock()) Render.text("Your ", false);
+					Render.text(game.vaginaDescript(0) + " burns ", false);
 				}
-				outputText("with arousal.  You make a grab for the nearest demon and catch a handful of jiggly breast. You try desperately to use your other arm to pull her closer to slake your thirst but you both go tumbling to the ground. The demonic leader laughs out loud and the rest of the tribe falls on you, grabbing for anything it can find.", false);
+				Render.text("with arousal.  You make a grab for the nearest demon and catch a handful of jiggly breast. You try desperately to use your other arm to pull her closer to slake your thirst but you both go tumbling to the ground. The demonic leader laughs out loud and the rest of the tribe falls on you, grabbing for anything it can find.", false);
 				doNext(game.desert.oasis.oasisSexing);
 			}
 		}
@@ -73,11 +73,11 @@
 
 		public teased(lustDelta:number):void
 		{
-			outputText("\n", false);
-			if(lustDelta == 0) outputText("\n" + capitalA + short + " seems unimpressed.");
-			else if(lustDelta > 0 && lustDelta < 5) outputText("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.", false);
-			else if(lustDelta >= 5 && lustDelta < 10) outputText("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.", false);
-			else if(lustDelta >= 10) outputText("The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.", false);
+			Render.text("\n", false);
+			if(lustDelta == 0) Render.text("\n" + capitalA + short + " seems unimpressed.");
+			else if(lustDelta > 0 && lustDelta < 5) Render.text("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.", false);
+			else if(lustDelta >= 5 && lustDelta < 10) Render.text("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.", false);
+			else if(lustDelta >= 10) Render.text("The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.", false);
 			applyTease(lustDelta);
 		}
 

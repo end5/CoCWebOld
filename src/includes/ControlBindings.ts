@@ -30,7 +30,7 @@ inputManager.AddBindableControl(
 		{
 			mainView.nameBox.text = "";
 			saves.saveGame("CoC_1");
-			outputText("Game saved to slot 1!", true);
+			Render.text("Game saved to slot 1!", true);
 			doNext(playerMenu);
 		}
 	});
@@ -43,7 +43,7 @@ inputManager.AddBindableControl(
 		{
 			mainView.nameBox.text = "";
 			saves.saveGame("CoC_2");
-			outputText("Game saved to slot 2!", true);
+			Render.text("Game saved to slot 2!", true);
 			doNext(playerMenu);
 		}
 	});
@@ -56,7 +56,7 @@ inputManager.AddBindableControl(
 		{
 			mainView.nameBox.text = "";
 			saves.saveGame("CoC_3");
-			outputText("Game saved to slot 3!", true);
+			Render.text("Game saved to slot 3!", true);
 			doNext(playerMenu);
 		}
 	});
@@ -69,7 +69,7 @@ inputManager.AddBindableControl(
 		{
 			mainView.nameBox.text = "";
 			saves.saveGame("CoC_4");
-			outputText("Game saved to slot 4!", true);
+			Render.text("Game saved to slot 4!", true);
 			doNext(playerMenu);
 		}
 	});
@@ -82,7 +82,7 @@ inputManager.AddBindableControl(
 		{
 			mainView.nameBox.text = "";
 			saves.saveGame("CoC_5");
-			outputText("Game saved to slot 5!", true);
+			Render.text("Game saved to slot 5!", true);
 			doNext(playerMenu);
 		}
 	});
@@ -100,7 +100,7 @@ inputManager.AddBindableControl(
 				{
 					showStats();
 					statScreenRefresh();
-					outputText("Slot 1 Loaded!", true);
+					Render.text("Slot 1 Loaded!", true);
 					doNext(playerMenu);
 				}
 			}
@@ -120,7 +120,7 @@ inputManager.AddBindableControl(
 				{
 					showStats();
 					statScreenRefresh();
-					outputText("Slot 2 Loaded!", true);
+					Render.text("Slot 2 Loaded!", true);
 					doNext(playerMenu);
 				}
 			}
@@ -140,7 +140,7 @@ inputManager.AddBindableControl(
 				{
 					showStats();
 					statScreenRefresh();
-					outputText("Slot 3 Loaded!", true);
+					Render.text("Slot 3 Loaded!", true);
 					doNext(playerMenu);
 				}
 			}
@@ -160,7 +160,7 @@ inputManager.AddBindableControl(
 				{
 					showStats();
 					statScreenRefresh();
-					outputText("Slot 4 Loaded!", true);
+					Render.text("Slot 4 Loaded!", true);
 					doNext(playerMenu);
 				}
 			}
@@ -180,7 +180,7 @@ inputManager.AddBindableControl(
 				{
 					showStats();
 					statScreenRefresh();
-					outputText("Slot 5 Loaded!", true);
+					Render.text("Slot 5 Loaded!", true);
 					doNext(playerMenu);
 				}
 			}

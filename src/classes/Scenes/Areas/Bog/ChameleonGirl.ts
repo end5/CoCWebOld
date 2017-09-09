@@ -23,18 +23,18 @@ package classes.Scenes.Areas.Bog
 		{
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind claw-attack!\n", false);
+				Render.text(capitalA + short + " completely misses you with a blind claw-attack!\n", false);
 			}
 			//Evade:
-			else if (game.combatMiss() || game.combatEvade() || game.combatFlexibility() || game.combatMisdirect()) outputText("The chameleon girl's claws slash towards you, but you lean away from them and they fly by in a harmless blur.");
+			else if (game.combatMiss() || game.combatEvade() || game.combatFlexibility() || game.combatMisdirect()) Render.text("The chameleon girl's claws slash towards you, but you lean away from them and they fly by in a harmless blur.");
 			//Get hit
 			else {
 				let damage:number = int((str + weaponAttack) - rand(player.tou));
 				if (damage > 0) {
 					damage = player.takeDamage(damage);
-					outputText("The chameleon swings her arm at you, catching you with her claws.  You wince as they scratch your skin, leaving thin cuts in their wake. (" + damage + ")");
+					Render.text("The chameleon swings her arm at you, catching you with her claws.  You wince as they scratch your skin, leaving thin cuts in their wake. (" + damage + ")");
 				}
-				else outputText("The chameleon swings her arm at you, catching you with her claws.  You defend against the razor sharp attack.");
+				else Render.text("The chameleon swings her arm at you, catching you with her claws.  You defend against the razor sharp attack.");
 			}
 			combatRoundOver();
 		}
@@ -44,13 +44,13 @@ package classes.Scenes.Areas.Bog
 		{
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(3) < 1) {
-				outputText(capitalA + short + " completely misses you with a blind roll-kick!\n", false);
+				Render.text(capitalA + short + " completely misses you with a blind roll-kick!\n", false);
 			}
 			//Evade:
 			else if (game.combatMiss() || game.combatEvade() || game.combatFlexibility() || game.combatMisdirect()) {
 				let damage2:number = 1 + rand(10);
 				damage2 = game.doDamage(damage2);
-				outputText("The chameleon girl leaps in your direction, rolls, and kicks at you.  You sidestep her flying charge and give her a push from below to ensure she lands face-first in the bog. (" + damage2 + ")");
+				Render.text("The chameleon girl leaps in your direction, rolls, and kicks at you.  You sidestep her flying charge and give her a push from below to ensure she lands face-first in the bog. (" + damage2 + ")");
 
 			}
 			//Get hit
@@ -58,9 +58,9 @@ package classes.Scenes.Areas.Bog
 				let damage:number = int((str + weaponAttack) - rand(player.tou) - player.armorDef) + 25;
 				if (damage > 0) {
 					damage = player.takeDamage(damage);
-					outputText("The chameleon leaps in your direction, rolls, and kicks you square in the shoulder as she ascends, sending you reeling.  You grunt in pain as a set of sharp claws rake across your chest. (" + damage + ")");
+					Render.text("The chameleon leaps in your direction, rolls, and kicks you square in the shoulder as she ascends, sending you reeling.  You grunt in pain as a set of sharp claws rake across your chest. (" + damage + ")");
 				}
-				else outputText("The chameleon rolls in your direction and kicks up at your chest, but you knock her aside without taking any damage..");
+				else Render.text("The chameleon rolls in your direction and kicks up at your chest, but you knock her aside without taking any damage..");
 			}
 			combatRoundOver();
 		}
@@ -84,7 +84,7 @@ package classes.Scenes.Areas.Bog
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				outputText("\n\nThe chameleon girl recoils.  \"<i>Ew, gross!</i>\" she screetches as she runs away, leaving you to recover from your defeat alone.");
+				Render.text("\n\nThe chameleon girl recoils.  \"<i>Ew, gross!</i>\" she screetches as she runs away, leaving you to recover from your defeat alone.");
 				game.cleanupAfterCombat();
 			} else {
 				game.bog.chameleonGirlScene.loseToChameleonGirl();
@@ -93,15 +93,15 @@ package classes.Scenes.Areas.Bog
 
 		override protected function outputPlayerDodged(dodge: number):void
 		{
-			outputText("The chameleon girl whips her head and sends her tongue flying at you, but you hop to the side and manage to avoid it.  The pink blur flies back into her mouth as quickly as it came at you, and she looks more than a bit angry that she didn't find her target.\n");
+			Render.text("The chameleon girl whips her head and sends her tongue flying at you, but you hop to the side and manage to avoid it.  The pink blur flies back into her mouth as quickly as it came at you, and she looks more than a bit angry that she didn't find her target.\n");
 		}
 
 		public outputAttack(damage: number):void
 		{
 			if (damage <= 0) {
-				outputText("The Chameleon Girl lashes out with her tongue, but you deflect the sticky projectile off your arm, successfully defending against it.  She doesn't look happy about it when she slurps the muscle back into her mouth.");
+				Render.text("The Chameleon Girl lashes out with her tongue, but you deflect the sticky projectile off your arm, successfully defending against it.  She doesn't look happy about it when she slurps the muscle back into her mouth.");
 			} else {
-				outputText("The chameleon whips her head forward and sends her tongue flying at you.  It catches you in the gut, the incredible force behind it staggering you.  The pink blur flies back into her mouth as quickly as it came at you, and she laughs mockingly as you recover your footing. (" + damage + ")");
+				Render.text("The chameleon whips her head forward and sends her tongue flying at you.  It catches you in the gut, the incredible force behind it staggering you.  The pink blur flies back into her mouth as quickly as it came at you, and she laughs mockingly as you recover your footing. (" + damage + ")");
 			}
 		}
 

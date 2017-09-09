@@ -32,7 +32,7 @@ package classes.Scenes.Explore
 			clearOutput();
 			menu();
 
-			outputText("<b>Monsters</b> &nbsp; combat each monster.\n\n");
+			Render.text("<b>Monsters</b> &nbsp; combat each monster.\n\n");
 			addButton(0, "Monsters", exploreDebugMonsters);
 		}
 
@@ -130,7 +130,7 @@ package classes.Scenes.Explore
 			menu();
 
 			if (monsterIdx == 0) {
-				outputText("<b>WARNING.</b> You are going to fight (probably) all the monsters. " +
+				Render.text("<b>WARNING.</b> You are going to fight (probably) all the monsters. " +
 						"You won't be penalized for defeat or awarded for victory. " +
 						"Even though the monsters' victory and defeat events are removed, " +
 						"fighting certain quest monsters/NPCs through this debug scene " +
@@ -138,7 +138,7 @@ package classes.Scenes.Explore
 			}
 
 			if (monsterIdx >= allMonsters.length) {
-				outputText("You have fought every monster.");
+				Render.text("You have fought every monster.");
 			} else {
 				let m:Monster = allMonsters[monsterIdx]();
 				m.onDefeated = function (hpVictory:boolean):void
@@ -162,9 +162,9 @@ package classes.Scenes.Explore
 					statScreenRefresh();
 					exploreDebugMonsters(monsterIdx + 1);
 				};
-				outputText("You are going to fight " + m.a + " " + m.short + ".");
+				Render.text("You are going to fight " + m.a + " " + m.short + ".");
 				addButton(0, "Fight", function():void{
-					outputText("\n\nStarting combat...");
+					Render.text("\n\nStarting combat...");
 					startCombat(m);
 				});
 				addButton(1, "Skip", exploreDebugMonsters, monsterIdx+1);

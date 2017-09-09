@@ -13,30 +13,30 @@ package classes.Scenes.NPCs
 		private function IzmaSpecials1():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 2) {
-				outputText("Izma attempts to close the distance with you, but misses completely because of her blindness.\n", false);
+				Render.text("Izma attempts to close the distance with you, but misses completely because of her blindness.\n", false);
 				return;
 			}
 			//Determine if dodged!
 			if(player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 80) {
-				outputText("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
+				Render.text("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
 				return;
 			}
 			//Determine if evaded
 			if(player.perks.has("Evade") && rand(100) < 10) {
-				outputText("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
+				Render.text("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
 				return;
 			}
 			//("Misdirection"
 			if(player.perks.has("Misdirection") && rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
-				outputText("Izma attempts to get close, but you put Raphael's teachings to use and side-step the sharkgirl, confusing her with your movements.\n", false);
+				Render.text("Izma attempts to get close, but you put Raphael's teachings to use and side-step the sharkgirl, confusing her with your movements.\n", false);
 				return;
 			}
 			//Determine if cat'ed
 			if(player.perks.has("Flexibility") && rand(100) < 6) {
-				outputText("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
+				Render.text("Izma attempts to get close, but you manage to side-step her before she can lay her gauntleted hands on you.\n", false);
 				return;
 			}
-			outputText("Izma rushes you with impressive speed, striking a few precise locations on your joints with her fingertips before leaping back.  It doesn't hurt, but you feel tired and sore. \"<i>Pressure points...</i>\" she laughs, seeing your confused expression.", false);
+			Render.text("Izma rushes you with impressive speed, striking a few precise locations on your joints with her fingertips before leaping back.  It doesn't hurt, but you feel tired and sore. \"<i>Pressure points...</i>\" she laughs, seeing your confused expression.", false);
 			//(Fatigue damage)
 			game.fatigue(20+rand(20));
 		}
@@ -44,44 +44,44 @@ package classes.Scenes.NPCs
 		private function IzmaSpecials2():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 2) {
-				outputText("Izma blindly tries to clinch you, but misses completely.\n", false);
+				Render.text("Izma blindly tries to clinch you, but misses completely.\n", false);
 				return;
 			}
 			//Determine if dodged!
 			if(player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 80) {
-				outputText("Izma tries to clinch you, but you use your speed to keep just out of reach.\n", false);
+				Render.text("Izma tries to clinch you, but you use your speed to keep just out of reach.\n", false);
 				return;
 			}
 			//Determine if evaded
 			if(player.perks.has("Evade") && rand(100) < 10) {
-				outputText("Izma tries to clinch you, but she didn't count on your skills in evasion.  You manage to sidestep her at the last second.\n", false);
+				Render.text("Izma tries to clinch you, but she didn't count on your skills in evasion.  You manage to sidestep her at the last second.\n", false);
 				return;
 			}
 			//("Misdirection"
 			if(player.perks.has("Misdirection") && rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
-				outputText("Izma ducks and weaves forward to clinch you, but thanks to Raphael's teachings, you're easily able to misguide her and avoid the clumsy grab.\n", false);
+				Render.text("Izma ducks and weaves forward to clinch you, but thanks to Raphael's teachings, you're easily able to misguide her and avoid the clumsy grab.\n", false);
 				return;
 			}
 			//Determine if cat'ed
 			if(player.perks.has("Flexibility") && rand(100) < 6) {
-				outputText("Izma tries to lock you in a clinch, but your cat-like flexibility makes it easy to twist away from her grab.\n", false);
+				Render.text("Izma tries to lock you in a clinch, but your cat-like flexibility makes it easy to twist away from her grab.\n", false);
 				return;
 			}
 			let damage:number = 0;
 			damage = Math.round(130 - rand(player.tou+player.armorDef));
 			if(damage < 0) damage = 0;
-			outputText("Izma ducks and jinks, working to close quarters, and clinches you. Unable to get your weapon into play, you can only ", false);
+			Render.text("Izma ducks and jinks, working to close quarters, and clinches you. Unable to get your weapon into play, you can only ", false);
 			if(player.armorDef >= 10 || damage == 0) {
 				//(armor-dependent Health damage, fullplate, chain, scale, and bee chitin armor are unaffected, has a chance to inflict 'Bleed' damage which removes 2-5% of health for the next three turns if successful)
 				damage = player.takeDamage(damage);
-				outputText("writhe as she painfully drags the blades of her glove down your back", false);
+				Render.text("writhe as she painfully drags the blades of her glove down your back", false);
 				player.statusAffects.add(new StatusAffect("IzmaBleed",3,0,0,0)));
 			}
-			else outputText("laugh as her blades scape uselessly at your armor-clad back", false);
-			outputText(" before breaking her embrace and leaping away. (" + damage + ")", false);
+			else Render.text("laugh as her blades scape uselessly at your armor-clad back", false);
+			Render.text(" before breaking her embrace and leaping away. (" + damage + ")", false);
 		}
 		private function IzmaSpecials3():void {
-			outputText("Rather than move to attack you, Izma grins at you and grabs her breasts, massaging them as she caresses her long penis with one knee. Her tail thrashes and thumps the sand heavily behind her as she simulates an orgasm, moaning loudly into the air. The whole display leaves you more aroused than before.", false);
+			Render.text("Rather than move to attack you, Izma grins at you and grabs her breasts, massaging them as she caresses her long penis with one knee. Her tail thrashes and thumps the sand heavily behind her as she simulates an orgasm, moaning loudly into the air. The whole display leaves you more aroused than before.", false);
 			//(lust gain)
 			game.dynStats("lus", (20 + player.stats.lib/5));
 		}
@@ -103,7 +103,7 @@ package classes.Scenes.NPCs
 
 		public eAttack():void
 		{
-			outputText("Izma slides up to you, throws a feint, and then launches a rain of jabs at you!\n", false);
+			Render.text("Izma slides up to you, throws a feint, and then launches a rain of jabs at you!\n", false);
 			super.eAttack();
 		}
 
@@ -131,7 +131,7 @@ package classes.Scenes.NPCs
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				outputText("\n\n\"<i>Gross!</i>\" Izma cries as she backs away, leaving you to recover alone.");
+				Render.text("\n\n\"<i>Gross!</i>\" Izma cries as she backs away, leaving you to recover alone.");
 				game.cleanupAfterCombat();
 			} else {
 				game.izmaScene.IzmaWins();

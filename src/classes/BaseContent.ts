@@ -198,9 +198,9 @@ export default class BaseContent
 		kGAMECLASS.rawOutputText(output, purgeText);
 	}
 
-	protected outputText(output:string, purgeText:boolean = false, parseAsMarkdown:boolean = false):void
+	protected Render.text(output:string, purgeText:boolean = false, parseAsMarkdown:boolean = false):void
 	{
-		kGAMECLASS.outputText(output, purgeText, parseAsMarkdown);
+		kGAMECLASS.Render.text(output, purgeText, parseAsMarkdown);
 	}
 		
 	protected clearOutput():void

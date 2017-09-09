@@ -11,28 +11,28 @@ export default class HairExtensionSerum extends Consumable {
 
     public canUse(player: Player): boolean {
         if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED) <= 2) return true;
-        outputText("<b>No way!</b>  Your head itches like mad from using the rest of these, and you will NOT use another.\n");
+        Render.text("<b>No way!</b>  Your head itches like mad from using the rest of these, and you will NOT use another.\n");
         return false;
     }
 
     public use(player: Player) {
-        outputText("You open the bottle of hair extension serum and follow the directions carefully, massaging it into your scalp and being careful to keep it from getting on any other skin.  You wash off your hands with lakewater just to be sure.");
+        Render.text("You open the bottle of hair extension serum and follow the directions carefully, massaging it into your scalp and being careful to keep it from getting on any other skin.  You wash off your hands with lakewater just to be sure.");
         if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING) <= 0) {
-            outputText("\n\nThe tingling on your head lets you know that it's working!");
+            Render.text("\n\nThe tingling on your head lets you know that it's working!");
             Flags.set(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING, 7);
             Flags.set(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED, 1);
         }
         else if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED) == 1) {
-            outputText("\n\nThe tingling intensifies, nearly making you feel like tiny invisible faeries are massaging your scalp.");
+            Render.text("\n\nThe tingling intensifies, nearly making you feel like tiny invisible faeries are massaging your scalp.");
             Flags.increase(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED);
         }
         else if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED) == 2) {
-            outputText("\n\nThe tingling on your scalp is intolerable!  It's like your head is a swarm of angry ants, though you could swear your hair is growing so fast that you can feel it weighing you down more and more!");
+            Render.text("\n\nThe tingling on your scalp is intolerable!  It's like your head is a swarm of angry ants, though you could swear your hair is growing so fast that you can feel it weighing you down more and more!");
             Flags.increase(FlagEnum.INCREASED_HAIR_GROWTH_SERUM_TIMES_APPLIED);
         }
         if (Flags.get(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD) > 0 && player.upperBody.head.hairType != HairType.ANEMONE) {
             Flags.set(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD, 0);
-            outputText("\n\n<b>Somehow you know that your " + player.hairDescript() + " is growing again.</b>");
+            Render.text("\n\n<b>Somehow you know that your " + player.hairDescript() + " is growing again.</b>");
         }
         if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING) < 7) Flags.set(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING, 7);
         return (false);

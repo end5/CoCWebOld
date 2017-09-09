@@ -11,30 +11,30 @@ package classes.Scenes.Areas.Swamp
 			//SPIDER HORDE ATTACK - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 			if(statusAffects.has("MissFirstRound") || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 				statusAffects.remove("MissFirstRound");
-				outputText("A number of spiders rush at you, trying to claw and bite you.  You manage to beat them all back, though, with some literal covering fire from Kiha.", false);
+				Render.text("A number of spiders rush at you, trying to claw and bite you.  You manage to beat them all back, though, with some literal covering fire from Kiha.", false);
 			}
 			//SPIDER HORDE ATTACK - Hit
 			else {
-				outputText("A number of spiders rush at you, trying to claw and bite you.  You manage to knock most of them away, but a few nasty hits manage to punch through your [armorName].  ", false);
+				Render.text("A number of spiders rush at you, trying to claw and bite you.  You manage to knock most of them away, but a few nasty hits manage to punch through your [armorName].  ", false);
 				//Determine damage - str modified by enemy toughness!
 				let damage: number = int((str + weaponAttack) - rand(player.tou) - player.armorDef) + 20;
 				if(damage > 0) damage = player.takeDamage(damage);
 				if(damage <= 0) {
 					damage = 0;
-					if(rand(player.armorDef + player.tou) < player.armorDef) outputText("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
-					else outputText("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+					if(rand(player.armorDef + player.tou) < player.armorDef) Render.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
+					else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 				}
-				else if(damage < 6) outputText("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
-				else if(damage < 11) outputText(capitalA + short + " wounds you! (" + damage + ")", false);
-				else if(damage < 21) outputText(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
+				else if(damage < 6) Render.text("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
+				else if(damage < 11) Render.text(capitalA + short + " wounds you! (" + damage + ")", false);
+				else if(damage < 21) Render.text(capitalA + short + " staggers you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
 				else if(damage > 20) {
-					outputText(capitalA + short + " <b>mutilate", false);
-					outputText("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
+					Render.text(capitalA + short + " <b>mutilate", false);
+					Render.text("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
 				}
 				if(damage > 0) {
 					if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
-						if(!plural) outputText("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
-						else outputText("\n" + capitalA + short + " brush against your exposed skin and jerk back in surprise, coloring slightly from seeing so much of you revealed.", false);
+						if(!plural) Render.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
+						else Render.text("\n" + capitalA + short + " brush against your exposed skin and jerk back in surprise, coloring slightly from seeing so much of you revealed.", false);
 						lust += 10 * lustVuln;
 					}
 				}
@@ -47,11 +47,11 @@ package classes.Scenes.Areas.Swamp
 		private function spoidahHordeWebLaunchahs():void {
 			//SPIDER HORDE WEB - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 			if(statusAffects.has("MissFirstRound") || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
-				outputText("One of the driders launches a huge glob of webbing right at you!  Luckily, Kiha manages to burn it out of the air with a well-timed gout of flame!", false);
+				Render.text("One of the driders launches a huge glob of webbing right at you!  Luckily, Kiha manages to burn it out of the air with a well-timed gout of flame!", false);
 				combatRoundOver();
 			}
 			else {
-				outputText("Some of the spiders and driders launch huge globs of wet webbing right at you, hitting you in the torso!  You try to wiggle out, but it's no use; you're stuck like this for now.  Though comfortingly, the driders' open stance and self-satisfaction allow Kiha to blast them in the side with a huge conflagration!", false);
+				Render.text("Some of the spiders and driders launch huge globs of wet webbing right at you, hitting you in the torso!  You try to wiggle out, but it's no use; you're stuck like this for now.  Though comfortingly, the driders' open stance and self-satisfaction allow Kiha to blast them in the side with a huge conflagration!", false);
 				//(PC cannot attack or use spells for one turn; can use Magical Special and Possess)
 				player.statusAffects.add(new StatusAffect("UBERWEB",0,0,0,0)));
 				HP -= 250;
@@ -60,9 +60,9 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		private function kihaSPOIDAHAI():void {
-			outputText("[pg]", false);
+			Render.text("[pg]", false);
 			game.spriteSelect(72);
-			outputText("While they're tangled up with you, however, Kiha takes the opportunity to get in a few shallow swings with her axe, to the accompaniment of crunching chitin.", false);
+			Render.text("While they're tangled up with you, however, Kiha takes the opportunity to get in a few shallow swings with her axe, to the accompaniment of crunching chitin.", false);
 			//horde loses HP
 			HP -= 50;
 			combatRoundOver();
@@ -84,7 +84,7 @@ package classes.Scenes.Areas.Swamp
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				outputText("\n\nThe spiders smile to one at another as they watch your display, then close in...");
+				Render.text("\n\nThe spiders smile to one at another as they watch your display, then close in...");
 				doNext(game.endLustLoss);
 			} else {
 				game.kihaFollower.loseToSpiderMob();

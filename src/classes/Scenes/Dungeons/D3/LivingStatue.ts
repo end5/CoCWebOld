@@ -57,13 +57,13 @@ package classes.Scenes.Dungeons.D3
 		
 		override protected function handleStun():boolean
 		{
-			game.outputText("The stone giant's unforgiving flesh seems incapable of being stunned.");
+			Render.text("The stone giant's unforgiving flesh seems incapable of being stunned.");
 			return true;
 		}
 		
 		override protected function handleFear():boolean
 		{
-			game.outputText("The stone giant cares little for your attempted intimidation.");
+			Render.text("The stone giant cares little for your attempted intimidation.");
 			return true;
 		}
 		
@@ -75,7 +75,7 @@ package classes.Scenes.Dungeons.D3
 		private function concussiveBlow():void
 		{
 			//Maybe replace this with passive stun? TERRIBLE IDEA
-			outputText("The giant raises his hammer for an obvious downward strike. His marble muscles flex as he swings it downward. You're able to hop out of the way of the clearly telegraphed attack, but nothing could prepare you for the shockwave it emits as it craters the ground.");
+			Render.text("The giant raises his hammer for an obvious downward strike. His marble muscles flex as he swings it downward. You're able to hop out of the way of the clearly telegraphed attack, but nothing could prepare you for the shockwave it emits as it craters the ground.");
 
 			//Light magic-type damage!
 			let damage:number = (100 * ((inte/player.stats.int) / 4));
@@ -84,82 +84,82 @@ package classes.Scenes.Dungeons.D3
 			//Stun success
 			if (rand(2) == 0 && player.findStatusAffect(StatusAffects.Stunned) < 0)
 			{
-				outputText(" <b>The vibrations leave you rattled and stunned. It'll take you a moment to recover!</b>");
+				Render.text(" <b>The vibrations leave you rattled and stunned. It'll take you a moment to recover!</b>");
 				player.statusAffects.add(new StatusAffect("Stunned", 2, 0, 0, 0)));
 			}
 			else
 			//Fail
 			{
-				outputText(" You shake off the vibrations immediately. It'll take more than that to stop you!");
+				Render.text(" You shake off the vibrations immediately. It'll take more than that to stop you!");
 			}
 			
-			outputText(" (" + damage + ")");
+			Render.text(" (" + damage + ")");
 		}
 		
 		private function dirtKick():void
 		{
-			outputText("The animated sculpture brings its right foot around, dragging it through the gardens at a high enough speed to tear a half score of bushes out by the root. A cloud of shrubbery and dirt washes over you!");
+			Render.text("The animated sculpture brings its right foot around, dragging it through the gardens at a high enough speed to tear a half score of bushes out by the root. A cloud of shrubbery and dirt washes over you!");
 			
 			//blind
 			if (rand(2) == 0 && player.findStatusAffect(StatusAffects.Blind) < 0)
 			{
 				player.statusAffects.add(new StatusAffect("Blind", 2, 0, 0, 0)));
-				outputText(" <b>You are blinded!</b>");
+				Render.text(" <b>You are blinded!</b>");
 			}
 			else
 			{
 				//Not blind
-				outputText(" You close your eyes until it passes and resume the fight!");
+				Render.text(" You close your eyes until it passes and resume the fight!");
 			}
 		}
 		
 		private function backhand():void
 		{
 			//Knocks you away and forces you to spend a turn running back to do melee attacks.
-			outputText("The marble golem's visage twists into a grimace of irritation, and it swings its hand at you in a vicious backhand.");
+			Render.text("The marble golem's visage twists into a grimace of irritation, and it swings its hand at you in a vicious backhand.");
 	
 			let damage:number = int ((str + weaponAttack) - rand(player.tou) - player.armorDef);
 			//Dodge
-			if (damage <= 0 || (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect())) outputText(" You slide underneath the surprise swing!");
+			if (damage <= 0 || (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect())) Render.text(" You slide underneath the surprise swing!");
 			else
 			{
 				//Get hit
-				outputText(" It chits you square in the chest. The momentum sends you flying through the air. You land with a crunch against a wall. <b>You'll have to run back to the giant to engage it in melee once more.</b>");
+				Render.text(" It chits you square in the chest. The momentum sends you flying through the air. You land with a crunch against a wall. <b>You'll have to run back to the giant to engage it in melee once more.</b>");
 				
 				player.statusAffects.add(new StatusAffect("KnockedBack", 0, 0, 0, 0)));
 				this.statusAffects.add(new StatusAffect("KnockedBack", 0, 0, 0, 0))); // Applying to mob as a "used ability" marker
 				damage = player.takeDamage(damage);
 				
-				outputText(" (" + damage + ")");
+				Render.text(" (" + damage + ")");
 			}
 		}
 		
 		private function overhandSmash():void
 		{
 			//High damage, lowish accuracy.
-			outputText("Raising its hammer high overhead, the giant swiftly brings its hammer down in a punishing strike!");
+			Render.text("Raising its hammer high overhead, the giant swiftly brings its hammer down in a punishing strike!");
 			
 			let damage:number = 175 + int((str + weaponAttack) - rand(player.tou) - player.armorDef);
-			if (damage <= 0 || rand(100) < 25 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) outputText(" You're able to sidestep it just in time.");
+			if (damage <= 0 || rand(100) < 25 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text(" You're able to sidestep it just in time.");
 			else
 			{
 				//Hit
-				outputText(" The concussive strike impacts you with bonecrushing force.");
+				Render.text(" The concussive strike impacts you with bonecrushing force.");
 				damage = player.takeDamage(damage);
-				outputText(" (" + damage + ")");
+				Render.text(" (" + damage + ")");
 			}
 		}
 		
 		private function disarm():void
 		{
-			outputText("The animated statue spins its hammer around, striking at your [weapon] with its haft.");
+			Render.text("The animated statue spins its hammer around, striking at your [weapon] with its haft.");
 	
 			//Avoid
-			if ((combatMiss() && combatMiss()) || combatEvade() || combatFlexibility() || combatMisdirect()) outputText(" You manage to hold onto your equipment, for now.");
+			if ((combatMiss() && combatMiss()) || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text(" You manage to hold onto your equipment, for now.");
 			//Oh noes!
 			else
 			{
-				outputText(" Your equipment flies off into the bushes! You'll have to fight another way. (" + player.takeDamage(str + weaponAttack) + ")");
+				Render.text(" Your equipment flies off into the bushes! You'll have to fight another way. (" + player.takeDamage(str + weaponAttack) + ")");
 				player.statusAffects.add(new StatusAffect("Disarmed", 0, 0, 0, 0)));
 				this.statusAffects.add(new StatusAffect("Disarmed", 0, 0, 0, 0)));
 				flags[FlagEnum.PLAYER_DISARMED_WEAPON_ID] = player.weapon.id;
@@ -172,17 +172,17 @@ package classes.Scenes.Dungeons.D3
 		private function cycloneStrike():void
 		{
 			//Difficult to avoid, moderate damage.
-			outputText("Twisting back, the giant abruptly launches into a circular spin. Its hammer stays low enough to the ground that its circular path is tearing a swath of destruction through the once pristine garden, and it's coming in your direction!");
+			Render.text("Twisting back, the giant abruptly launches into a circular spin. Its hammer stays low enough to the ground that its circular path is tearing a swath of destruction through the once pristine garden, and it's coming in your direction!");
 
 			let damage:number = (175 + int((str + weaponAttack) - rand(player.tou) - player.armorDef)) / (rand(3) + 2);
 			//Avoid
-			if (damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) outputText(" By the grace of the gods, you somehow avoid the spinning hammer.");
+			if (damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text(" By the grace of the gods, you somehow avoid the spinning hammer.");
 			else
 			{
 				//Hit
-				outputText(" You're squarely struck by the spinning hammer.");
+				Render.text(" You're squarely struck by the spinning hammer.");
 				damage = player.takeDamage(damage);
-				outputText(" (" + damage + ")");
+				Render.text(" (" + damage + ")");
 			}
 		}
 		

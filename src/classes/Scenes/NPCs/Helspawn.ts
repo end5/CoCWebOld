@@ -30,8 +30,8 @@ package classes.Scenes.NPCs
 // Two light attacks
 private function helspawnTwinStrikes():void {
 	//if Bowmander
-	if(flags[FlagEnum.HELSPAWN_WEAPON] == "bow") outputText(flags[FlagEnum.HELSPAWN_NAME] + " leaps back out of your reach and nocks a pair of blunted arrows, drawing them back together and loosing them at once!\n");
-	else outputText(flags[FlagEnum.HELSPAWN_NAME] + " lunges at you, scimitar cleaving through the air toward your throat!\n");
+	if(flags[FlagEnum.HELSPAWN_WEAPON] == "bow") Render.text(flags[FlagEnum.HELSPAWN_NAME] + " leaps back out of your reach and nocks a pair of blunted arrows, drawing them back together and loosing them at once!\n");
+	else Render.text(flags[FlagEnum.HELSPAWN_NAME] + " lunges at you, scimitar cleaving through the air toward your throat!\n");
 	statusAffects.add(new StatusAffect("Attacks",0,0,0,0)));
 	eAttack();
 }
@@ -39,12 +39,12 @@ private function helspawnTwinStrikes():void {
 //Called Shot (Bowmander Only)
 // Super-high chance of hitting. On hit, speed debuff
 private function calledShot():void {
-	outputText(flags[FlagEnum.HELSPAWN_NAME] + " draws back her bowstring, spending an extra second aiming before letting fly!");
+	Render.text(flags[FlagEnum.HELSPAWN_NAME] + " draws back her bowstring, spending an extra second aiming before letting fly!");
 	let damage:number = int((str + weaponAttack) - rand(player.tou) - player.armorDef);
 	//standard dodge/miss text
-	if(damage <= 0 || (rand(2) == 0 && (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()))) outputText("\nYou avoid the hit!");
+	if(damage <= 0 || (rand(2) == 0 && (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()))) Render.text("\nYou avoid the hit!");
 	else {
-		outputText("\nOne of her arrows smacks right into your [leg], nearly bowling you over.  God DAMN that hurt! You're going to be limping for a while!");
+		Render.text("\nOne of her arrows smacks right into your [leg], nearly bowling you over.  God DAMN that hurt! You're going to be limping for a while!");
 		let affect: number = 20 + rand(5);
 		if(player.statusAffects.has("CalledShot")) {
 			while(affect > 0 && player.stats.spe >= 2) {
@@ -68,14 +68,14 @@ private function calledShot():void {
 			}
 		}
 		damage = player.takeDamage(damage);
-		outputText(" (" + damage + ")");
+		Render.text(" (" + damage + ")");
 	}
 }
 
 		//Berzerkergang (Berzerkermander Only)
 		//Gives Helspawn the benefit of the Berzerk special ability
 		private function helSpawnBerserk():void {
-			outputText(flags[FlagEnum.HELSPAWN_NAME] + " lets out a savage warcry, throwing her head back in primal exaltation before charging back into the fray with utter bloodlust in her wild eyes!");
+			Render.text(flags[FlagEnum.HELSPAWN_NAME] + " lets out a savage warcry, throwing her head back in primal exaltation before charging back into the fray with utter bloodlust in her wild eyes!");
 			this.weaponAttack = weaponAttack + 30;
 			armorDef = 0;
 		}
@@ -85,17 +85,17 @@ private function calledShot():void {
 			clearOutput();
 			let damage:number = int((str) - rand(player.tou) - player.armorDef);
 			// Stuns a bitch
-			outputText(flags[FlagEnum.HELSPAWN_NAME] + " lashes out with her shield, trying to knock you back!");
+			Render.text(flags[FlagEnum.HELSPAWN_NAME] + " lashes out with her shield, trying to knock you back!");
 			//standard dodge/miss text
-			if(damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) outputText("\nYou evade the strike.");
+			if(damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text("\nYou evade the strike.");
 			else {
-				outputText("\nHer shield catches you right in the face, sending you tumbling to the ground and leaving you open to attack!");
+				Render.text("\nHer shield catches you right in the face, sending you tumbling to the ground and leaving you open to attack!");
 				damage = player.takeDamage(damage);
 				if(rand(2) == 0 && player.findStatusAffect(StatusAffects.Stunned) < 0) {
 					player.statusAffects.add(new StatusAffect("Stunned",0,0,0,0)));
-					outputText(" <b>The hit stuns you.</b>");
+					Render.text(" <b>The hit stuns you.</b>");
 				}
-				outputText(" (" + damage + ")");
+				Render.text(" (" + damage + ")");
 			}
 		}
 
@@ -103,38 +103,38 @@ private function calledShot():void {
 		private function tailWhipShitYo():void {
 			// Light physical, armor piercing (fire, bitch). Random chance to get this on top of any other attack
 			let damage:number = int((str) - rand(player.tou));
-			outputText("\n" + flags[FlagEnum.HELSPAWN_NAME] + " whips at you with her tail, trying to sear you with her brilliant flames!");
+			Render.text("\n" + flags[FlagEnum.HELSPAWN_NAME] + " whips at you with her tail, trying to sear you with her brilliant flames!");
 			//standard dodge/miss text
-			if(damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) outputText("\nYou evade the strike.");
+			if(damage <= 0 || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text("\nYou evade the strike.");
 			else {
-				outputText("\n" + flags[FlagEnum.HELSPAWN_NAME] + "'s tail catches you as you try to dodge.  Your [armor] sizzles, and you leap back with a yelp as she gives you a light burning.");
+				Render.text("\n" + flags[FlagEnum.HELSPAWN_NAME] + "'s tail catches you as you try to dodge.  Your [armor] sizzles, and you leap back with a yelp as she gives you a light burning.");
 				damage = player.takeDamage(damage);
-				outputText(" (" + damage + ")");
+				Render.text(" (" + damage + ")");
 			}
 		}
 
 		//Tease (Sluttymander Only)
 		private function sluttyMander():void {
 			// Medium Lust damage
-			outputText(flags[FlagEnum.HELSPAWN_NAME] + " jumps just out of reach before spinning around, planting her weapon in the ground as she turns her backside to you and gives her sizable ass a rhythmic shake, swaying her full hips hypnotically.");
+			Render.text(flags[FlagEnum.HELSPAWN_NAME] + " jumps just out of reach before spinning around, planting her weapon in the ground as she turns her backside to you and gives her sizable ass a rhythmic shake, swaying her full hips hypnotically.");
 			//if no effect:
-			if(rand(2) == 0) outputText("\nWhat the fuck is she trying to do?  You walk over and give her a sharp kick in the kiester, \"<i>Keep your head in the game, kiddo.  Pick up your weapon!</i>\"");
+			if(rand(2) == 0) Render.text("\nWhat the fuck is she trying to do?  You walk over and give her a sharp kick in the kiester, \"<i>Keep your head in the game, kiddo.  Pick up your weapon!</i>\"");
 			else {
-				outputText("\nDat ass.  You lean back, enjoying the show as the slutty little salamander slips right past your guard, practically grinding up against you until you can feel a fire boiling in your loins!");
+				Render.text("\nDat ass.  You lean back, enjoying the show as the slutty little salamander slips right past your guard, practically grinding up against you until you can feel a fire boiling in your loins!");
 				let lustDelta:number = player.lustVuln * (10 + player.stats.lib/10);
 				player.lust += lustDelta;
 				game.mainView.statsView.showStatUp( 'lust' );
 				// lustDown.visible = false;
 				// lustUp.visible = true;
 				lustDelta = Math.round(lustDelta * 10)/10;
-				outputText(" (" + lustDelta + ")", false);
+				Render.text(" (" + lustDelta + ")", false);
 			}
 		}
 
 		//Focus (Chastemander Only)
 		//Self-healing & lust restoration
 		private function helSpawnFocus():void {
-			outputText("Seeing a momentary lull in the melee, " + flags[FlagEnum.HELSPAWN_NAME] + " slips out of reach, stumbling back and clutching at the bruises forming all over her body.  \"<i>Come on, " + flags[FlagEnum.HELSPAWN_NAME] + ", you can do this. Focus, focus,</i>\" she mutters, trying to catch her breath.  A moment later and she seems to have taken a second wind as she readies her weapon with a renewed vigor.");
+			Render.text("Seeing a momentary lull in the melee, " + flags[FlagEnum.HELSPAWN_NAME] + " slips out of reach, stumbling back and clutching at the bruises forming all over her body.  \"<i>Come on, " + flags[FlagEnum.HELSPAWN_NAME] + ", you can do this. Focus, focus,</i>\" she mutters, trying to catch her breath.  A moment later and she seems to have taken a second wind as she readies her weapon with a renewed vigor.");
 			lust -= 30;
 			if(lust < 0) lust = 0;
 			addHP(eMaxHP() / 3.0);

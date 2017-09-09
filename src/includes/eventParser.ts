@@ -63,9 +63,9 @@ public function eventParser(eventNo:Function):void {
 		*/
 		/*if(eventNo == 1000 && gameState == 1 && menuLoc == 1) {
 			menuLoc = 0;
-			outputText("\n\n", false);
+			Render.text("\n\n", false);
 			if(!combatRoundOver()) enemyAI();
-			else outputText(monster.capitalA + monster.short + " is defeated!");
+			else Render.text(monster.capitalA + monster.short + " is defeated!");
 			return;
 		}*/
 
@@ -91,7 +91,7 @@ public function gameOver(clear:boolean = false):void { //Leaves text on screen u
 	}
 	else {
 		if (clear) clearOutput();
-		outputText("\n\n<b>GAME OVER</b>");
+		Render.text("\n\n<b>GAME OVER</b>");
 		menu();
 		addButton(0, "Game Over", gameOverMenuOverride);
 		addButton(3, "NewGamePlus", charCreation.newGamePlus);
@@ -192,7 +192,7 @@ public function doSystem(eventNo:number):void {
 //		case 13:
 //			camp.returnToCampUseOneHour();
 /*			//Pass an hour
-			outputText("An hour passes...\n", true);
+			Render.text("An hour passes...\n", true);
 			timeQ = 1;
 			goNext(1, false); */
 //			return;
@@ -200,7 +200,7 @@ public function doSystem(eventNo:number):void {
 
 //		case 14:
 //			camp.returnToCampUseTwoHours();
-/*			outputText("Two hours pass...\n", true);
+/*			Render.text("Two hours pass...\n", true);
 			timeQ = 2;
 			goNext(2, false); */
 //			return;
@@ -208,7 +208,7 @@ public function doSystem(eventNo:number):void {
 
 //		case 15:
 //			camp.returnToCampUseFourHours();
-/*			outputText("Four hours pass...\n", true);
+/*			Render.text("Four hours pass...\n", true);
 			timeQ = 4;
 			goNext(4, false); */
 //			return;
@@ -216,14 +216,14 @@ public function doSystem(eventNo:number):void {
 
 //		case 16:
 //			camp.returnToCampUseEightHours();
-/*			outputText("Eight hours pass...\n", true);
+/*			Render.text("Eight hours pass...\n", true);
 			timeQ = 8;
 			goNext(8, false); */
 /*			return;
 
 
 		case 17:
-			outputText("", true);
+			Render.text("", true);
 			goNext(24, false);
 			return;
 */
@@ -283,7 +283,7 @@ public function doSystem(eventNo:number):void {
 		case 44:
 			//Gain +5 Str due to level
 			dynStats("str", 5);
-			outputText("Your muscles feel significantly stronger from your time adventuring.", true);
+			Render.text("Your muscles feel significantly stronger from your time adventuring.", true);
 			doNext(perkBuyMenu);
 			return;
 
@@ -293,7 +293,7 @@ public function doSystem(eventNo:number):void {
 			dynStats("tou", 5);
 			trace("HP: " + player.HP + " MAX HP: " + maxHP());
 			statScreenRefresh();
-			outputText("You feel tougher from all the fights you have endured.", true);
+			Render.text("You feel tougher from all the fights you have endured.", true);
 			doNext(perkBuyMenu);
 			return;
 
@@ -301,7 +301,7 @@ public function doSystem(eventNo:number):void {
 		case 46:
 			//Gain +5 Intelligence due to level
 			dynStats("int", 5);
-			outputText("Your time spent fighting the creatures of this realm has sharpened your wit.", true);
+			Render.text("Your time spent fighting the creatures of this realm has sharpened your wit.", true);
 			doNext(perkBuyMenu);
 			return;
 
@@ -309,7 +309,7 @@ public function doSystem(eventNo:number):void {
 		case 47:
 			//Gain +5 speed due to level
 			dynStats("spe", 5);
-			outputText("Your time in combat has driven you to move faster.", true);
+			Render.text("Your time in combat has driven you to move faster.", true);
 			doNext(perkBuyMenu);
 			return;
 
@@ -427,7 +427,7 @@ public function doSystem(eventNo:number):void {
 			if (!monster.hasVagina()) monster.createVagina();
 			monster.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.GAPING;
 			monster.ass.analLooseness = 3;
-			outputText(mainView.eventTestInput.text, true, true);
+			Render.text(mainView.eventTestInput.text, true, true);
 			simpleChoices("Again", 117, "", 0, "", 0, "", 0, "Quit", mainMenu);
 			mainView.eventTestInput.x = -10207.5;
 			mainView.eventTestInput.y = -1055.1;
@@ -481,7 +481,7 @@ public function goNext(time:number, needNext:boolean):boolean  {
 	//Update system time
 	//date = new Date();
 	//trace ("MONTH: " + date.month + " DATE: " + date.date + " MINUTES: " + date.minutes);
-	//outputText("", true);
+	//Render.text("", true);
 	if (timeAwareLargeLastEntry >= 0) { //Finish calling timeChangeLarge before advancing the hour again
 		for (; timeAwareLargeLastEntry < _timeAwareClassList.length; timeAwareLargeLastEntry++) {
 			if (_timeAwareClassList[timeAwareLargeLastEntry].timeChangeLarge()) return true;
@@ -500,11 +500,11 @@ public function goNext(time:number, needNext:boolean):boolean  {
 			model.time.days++;
 		}
 		else if (model.time.hours == 21) {
-			outputText("\nThe sky darkens as a starless night falls.  The blood-red moon slowly rises up over the horizon.\n");
+			Render.text("\nThe sky darkens as a starless night falls.  The blood-red moon slowly rises up over the horizon.\n");
 			needNext = true;
 		}
 		else if (model.time.hours == 6) {
-			outputText("\nThe sky begins to grow brighter as the moon descends over distant mountains, casting a few last ominous shadows before they burn away in the light.\n");
+			Render.text("\nThe sky begins to grow brighter as the moon descends over distant mountains, casting a few last ominous shadows before they burn away in the light.\n");
 			needNext = true;
 		}
 		//BIG EVENTS GO IN HERE
@@ -539,23 +539,23 @@ public function goNext(time:number, needNext:boolean):boolean  {
 					return true;
 				}
 				else if (flags[FlagEnum.KIHA_CAMP_WATCH] > 0 && kihaFollower.followerKiha()) {
-					outputText("\n<b>You find charred imp carcasses all around the camp once you wake.  It looks like Kiha repelled a swarm of the little bastards.</b>\n");
+					Render.text("\n<b>You find charred imp carcasses all around the camp once you wake.  It looks like Kiha repelled a swarm of the little bastards.</b>\n");
 					needNext = true;
 				}
 				else if (flags[FlagEnum.HEL_GUARDING] > 0 && helFollower.followerHel()) {
-					outputText("\n<b>Helia informs you over a mug of beer that she whupped some major imp asshole last night.  She wiggles her tail for emphasis.</b>\n");
+					Render.text("\n<b>Helia informs you over a mug of beer that she whupped some major imp asshole last night.  She wiggles her tail for emphasis.</b>\n");
 					needNext = true;
 				}
 				else if (player.gender > 0 && player.statusAffects.has("JojoNightWatch") && player.statusAffects.has("PureCampJojo")) {
-					outputText("\n<b>Jojo informs you that he dispatched a crowd of imps as they tried to sneak into camp in the night.</b>\n");
+					Render.text("\n<b>Jojo informs you that he dispatched a crowd of imps as they tried to sneak into camp in the night.</b>\n");
 					needNext = true;
 				}
 				else if (flags[FlagEnum.HOLLI_DEFENSE_ON] > 0) {
-					outputText("\n<b>During the night, you hear distant screeches of surprise, followed by orgasmic moans.  It seems some imps found their way into Holli's canopy...</b>\n");
+					Render.text("\n<b>During the night, you hear distant screeches of surprise, followed by orgasmic moans.  It seems some imps found their way into Holli's canopy...</b>\n");
 					needNext = true;
 				}
 				else if (flags[FlagEnum.ANEMONE_WATCH] > 0) {
-					outputText("\n<b>Your sleep is momentarily disturbed by the sound of tiny clawed feet skittering away in all directions.  When you sit up, you can make out Kid A holding a struggling, concussed imp in a headlock and wearing a famished expression.  You catch her eye and she sheepishly retreats to a more urbane distance before beginning her noisy meal.</b>\n");
+					Render.text("\n<b>Your sleep is momentarily disturbed by the sound of tiny clawed feet skittering away in all directions.  When you sit up, you can make out Kid A holding a struggling, concussed imp in a headlock and wearing a famished expression.  You catch her eye and she sheepishly retreats to a more urbane distance before beginning her noisy meal.</b>\n");
 					needNext = true;
 				}
 			}
@@ -566,15 +566,15 @@ public function goNext(time:number, needNext:boolean):boolean  {
 					return true;
 				}
 				else if (flags[FlagEnum.HEL_GUARDING] > 0 && helFollower.followerHel()) {
-					outputText("\n<b>Helia informs you over a mug of beer that she stomped a horde of gross worms into paste.  She shudders after at the memory.</b>\n");
+					Render.text("\n<b>Helia informs you over a mug of beer that she stomped a horde of gross worms into paste.  She shudders after at the memory.</b>\n");
 					needNext = true;
 				}
 				else if (player.gender > 0 && player.statusAffects.has("JojoNightWatch") && player.statusAffects.has("PureCampJojo")) {
-					outputText("\n<b>Jojo informs you that he dispatched a horde of tiny, white worms as they tried to sneak into camp in the night.</b>\n");
+					Render.text("\n<b>Jojo informs you that he dispatched a horde of tiny, white worms as they tried to sneak into camp in the night.</b>\n");
 					needNext = true;
 				}
 				else if (flags[FlagEnum.ANEMONE_WATCH] > 0) {
-					outputText("\n<b>Kid A seems fairly well fed in the morning, and you note a trail of slime leading off in the direction of the lake.</b>\n"); // Yeah, blah blah travel weirdness. Quickfix so it seems logically correct.
+					Render.text("\n<b>Kid A seems fairly well fed in the morning, and you note a trail of slime leading off in the direction of the lake.</b>\n"); // Yeah, blah blah travel weirdness. Quickfix so it seems logically correct.
 					needNext = true;
 				}
 			}
@@ -621,7 +621,7 @@ public function goNext(time:number, needNext:boolean):boolean  {
 		else if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] > 0 && (player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0)) {
 			if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] == 1) {
 				flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 0;
-				outputText("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.", false);
+				Render.text("\n\nYour body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.", false);
 				needNext = true;
 			}
 			if (flags[FlagEnum.EVENT_PARSER_ESCAPE] == 1) {
@@ -710,28 +710,28 @@ public function goNext(time:number, needNext:boolean):boolean  {
 	
 	//Drop axe if too short!
 	if (player.tallness < 78 && player.weapon == weapons.L__AXE) {
-		outputText("<b>\nThis axe is too large for someone of your stature to use, though you can keep it in your inventory until you are big enough.</b>\n");
+		Render.text("<b>\nThis axe is too large for someone of your stature to use, though you can keep it in your inventory until you are big enough.</b>\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}
 	if (player.weapon == weapons.L_HAMMR && player.tallness < 60) {
-		outputText("<b>\nYou've become too short to use this hammer anymore.  You can still keep it in your inventory, but you'll need to be taller to effectively wield it.</b>\n");
+		Render.text("<b>\nYou've become too short to use this hammer anymore.  You can still keep it in your inventory, but you'll need to be taller to effectively wield it.</b>\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}		
 	if (player.weapon == weapons.CLAYMOR && player.str < 40) {
-		outputText("\n<b>You aren't strong enough to handle the weight of your weapon any longer, and you're forced to stop using it.</b>\n");
+		Render.text("\n<b>You aren't strong enough to handle the weight of your weapon any longer, and you're forced to stop using it.</b>\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}
 	if (player.weapon == weapons.WARHAMR && player.str < 80) {
-		outputText("\n<b>You aren't strong enough to handle the weight of your weapon any longer!</b>\n");
+		Render.text("\n<b>You aren't strong enough to handle the weight of your weapon any longer!</b>\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}
 	//Drop beautiful sword if corrupted!
 	if (player.weaponPerk == "holySword" && player.stats.cor >= 35) {
-		outputText("<b>\nThe <u>" + player.weaponName + "</u> grows hot in your hand, until you are forced to drop it.  Whatever power inhabits this blade appears to be unhappy with you.  Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
+		Render.text("<b>\nThe <u>" + player.weaponName + "</u> grows hot in your hand, until you are forced to drop it.  Whatever power inhabits this blade appears to be unhappy with you.  Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
 		inventory.takeItem(player.setWeapon(WeaponLib.FISTS), playerMenu);
 		return true;
 	}
@@ -740,22 +740,22 @@ public function goNext(time:number, needNext:boolean):boolean  {
 		//Removal due to no longer fitting:
 		//Grew Cock or Balls
 		if (player.lowerBody.cockSpot.hasCock() || player.lowerBody.balls > 0) {
-			outputText("\nYou fidget uncomfortably in the g-string of your lewd bikini - there simply isn't enough room for your ");
-			if (player.lowerBody.cockSpot.hasCock()) outputText("maleness");
-			else outputText("bulgy balls");
-			outputText(" within the imprisoning leather, and it actually hurts to wear it.  <b>You'll have to find some other form of protection!</b>\n\n");
+			Render.text("\nYou fidget uncomfortably in the g-string of your lewd bikini - there simply isn't enough room for your ");
+			if (player.lowerBody.cockSpot.hasCock()) Render.text("maleness");
+			else Render.text("bulgy balls");
+			Render.text(" within the imprisoning leather, and it actually hurts to wear it.  <b>You'll have to find some other form of protection!</b>\n\n");
 			inventory.takeItem(player.setArmor(ArmorLib.COMFORTABLE_UNDERCLOTHES), playerMenu);
 			return true;
 		}
 		//Lost pussy
 		else if (!player.lowerBody.vaginaSpot.hasVagina()) {
-			outputText("\nYou fidget uncomfortably as the crease in the gusset of your lewd bikini digs into your sensitive, featureless loins.  There's simply no way you can continue to wear this outfit in comfort - it was expressly designed to press in on the female mons, and without a vagina, <b>you simply can't wear this exotic armor.</b>\n\n");
+			Render.text("\nYou fidget uncomfortably as the crease in the gusset of your lewd bikini digs into your sensitive, featureless loins.  There's simply no way you can continue to wear this outfit in comfort - it was expressly designed to press in on the female mons, and without a vagina, <b>you simply can't wear this exotic armor.</b>\n\n");
 			inventory.takeItem(player.setArmor(ArmorLib.COMFORTABLE_UNDERCLOTHES), playerMenu);
 			return true;
 		}
 		//Tits gone or too small
 		else if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 4) {
-			outputText("\nThe fine chain that makes up your lewd bikini-top is dangling slack against your flattened chest.  Every movement and step sends it jangling noisily, slapping up against your [nipples], uncomfortably cold after being separated from your " + player.skinFurScales() + " for so long.  <b>There's no two ways about it - you'll need to find something else to wear.</b>\n\n");
+			Render.text("\nThe fine chain that makes up your lewd bikini-top is dangling slack against your flattened chest.  Every movement and step sends it jangling noisily, slapping up against your [nipples], uncomfortably cold after being separated from your " + player.skinFurScales() + " for so long.  <b>There's no two ways about it - you'll need to find something else to wear.</b>\n\n");
 			inventory.takeItem(player.setArmor(ArmorLib.COMFORTABLE_UNDERCLOTHES), playerMenu);
 			return true;
 		}
@@ -805,39 +805,39 @@ public function growHair(amount:number = .1):boolean {
 	temp = player.hairLength;
 	player.hairLength += amount;
 	if(player.hairLength > 0 && temp == 0) {
-		outputText("\n<b>You are no longer bald.  You now have " + hairDescript() + " coating your head.\n</b>", false);
+		Render.text("\n<b>You are no longer bald.  You now have " + hairDescript() + " coating your head.\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 1 && temp < 1) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 3 && temp < 3) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 6 && temp < 6) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 10 && temp < 10) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 16 && temp < 16) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 26 && temp < 26) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 40 && temp < 40) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	else if(player.hairLength >= 40 && player.hairLength >= player.tallness && temp < player.tallness) {
-		outputText("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
+		Render.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + hairDescript() + ".\n</b>", false);
 		return true;
 	}
 	return false;

@@ -10,22 +10,22 @@ package classes.Scenes.Areas.Forest
 		private function midRoundMadness():void {
 			let selector:number = rand(4);
 			if(selector == 0) {
-				outputText("A slender hand reaches inside your " + player.armorName + " and gives your ", false);
+				Render.text("A slender hand reaches inside your " + player.armorName + " and gives your ", false);
 				if(player.lowerBody.balls > 0) {
-					if(rand(2) == 0) outputText(player.multiCockDescriptLight(), false);
-					else outputText(player.ballsDescriptLight(), false);
+					if(rand(2) == 0) Render.text(player.multiCockDescriptLight(), false);
+					else Render.text(player.ballsDescriptLight(), false);
 				}
-				else outputText(player.multiCockDescriptLight(), false);
-				outputText(" a gentle squeeze.  You twist away but your breathing gets a little heavier.\n\n", false);
+				else Render.text(player.multiCockDescriptLight(), false);
+				Render.text(" a gentle squeeze.  You twist away but your breathing gets a little heavier.\n\n", false);
 			}
 			else if(selector == 1) {
-				outputText("A girl latches onto your " + player.legs() + " and begins caressing your body lovingly, humming happily.  You quickly shake her loose but the attention makes you blush a little more.\n\n", false);
+				Render.text("A girl latches onto your " + player.legs() + " and begins caressing your body lovingly, humming happily.  You quickly shake her loose but the attention makes you blush a little more.\n\n", false);
 			}
 			else if(selector == 2) {
-				outputText("One of your daughters launches onto your back and presses her hard, pierced nipples against your neck.  She whispers in your ear, \"<i>Twist my nipples dad!</i>\"\n\n", false);
-				outputText("You reach back and throw her off, but her perverted taunts still leave you feeling a little hot under the collar.\n\n", false);
+				Render.text("One of your daughters launches onto your back and presses her hard, pierced nipples against your neck.  She whispers in your ear, \"<i>Twist my nipples dad!</i>\"\n\n", false);
+				Render.text("You reach back and throw her off, but her perverted taunts still leave you feeling a little hot under the collar.\n\n", false);
 			}
-			else outputText("A daughter lays down in front of you and starts jilling herself on the spot.  It's impossible to not glance down and see her or hear her pleasured moans.  You step away to remove the distraction but it definitely causes some discomfort in your " + player.armorName + ".\n\n", false);
+			else Render.text("A daughter lays down in front of you and starts jilling herself on the spot.  It's impossible to not glance down and see her or hear her pleasured moans.  You step away to remove the distraction but it definitely causes some discomfort in your " + player.armorName + ".\n\n", false);
 			game.dynStats("lus", 1 + player.stats.lib/15+rand(player.stats.cor/30));
 		}
 
@@ -35,8 +35,8 @@ package classes.Scenes.Areas.Forest
 			}
 			else if (rand(6) == 0) {
 				TamainsDaughtersScene.tamaniPresent = true;
-				outputText("A high-pitched yet familiar voice calls out, \"<i><b>So this is where you skanks ran off to---wait a second.  Are you trying to poach Tamani's man!?</b></i>\"\n\n", false);
-				outputText("You can see Tamani lurking around the rear of the goblin pack, visibly berating her daughters.  On one hand it sounds like she might help you, but knowing goblins, she'll probably forget about her anger and help them subdue you for more cum...\n\n", false);
+				Render.text("A high-pitched yet familiar voice calls out, \"<i><b>So this is where you skanks ran off to---wait a second.  Are you trying to poach Tamani's man!?</b></i>\"\n\n", false);
+				Render.text("You can see Tamani lurking around the rear of the goblin pack, visibly berating her daughters.  On one hand it sounds like she might help you, but knowing goblins, she'll probably forget about her anger and help them subdue you for more cum...\n\n", false);
 				//(+5 mob strength)
 				str += 5;
 				//(+5 mob toughness)
@@ -85,7 +85,7 @@ package classes.Scenes.Areas.Forest
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
-				outputText("\n\nYour foes seem visibly disgusted and leave, telling you to, \"<i>quit being so fucking gross...</i>\"");
+				Render.text("\n\nYour foes seem visibly disgusted and leave, telling you to, \"<i>quit being so fucking gross...</i>\"");
 				game.cleanupAfterCombat();
 			} else {
 				game.forest.tamaniDaughtersScene.loseToDaughters();

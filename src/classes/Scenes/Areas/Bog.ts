@@ -39,7 +39,7 @@ package classes.Scenes.Areas
 			else if (rand(2) == 0) chameleonGirlScene.encounterChameleon();
 			else {
 				clearOutput();
-				outputText("You wander around through the humid muck, but you don't run into anything interesting.");
+				Render.text("You wander around through the humid muck, but you don't run into anything interesting.");
 				doNext(camp.returnToCampUseOneHour);
 			}
 		}

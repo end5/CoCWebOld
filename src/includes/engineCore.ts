@@ -70,15 +70,15 @@ public function HPChange(changeNum:number, display:boolean):void
 		if(player.perks.has("HistoryHealer")) changeNum *= 1.2;
 		if(player.HP + int(changeNum) > maxHP()) {
 			if(player.HP >= maxHP()) {
-				if(display) outputText("You're as healthy as you can be.\n", false);
+				if(display) Render.text("You're as healthy as you can be.\n", false);
 				return;
 			}
-			if(display) outputText("Your HP maxes out at " + maxHP() + ".\n", false);
+			if(display) Render.text("Your HP maxes out at " + maxHP() + ".\n", false);
 			player.HP = maxHP();
 		}
 		else
 		{
-			if(display) outputText("You gain " + int(changeNum) + " HP.\n", false);
+			if(display) Render.text("You gain " + int(changeNum) + " HP.\n", false);
 			player.HP += int(changeNum);
 			mainView.statsView.showStatUp( 'hp' );
 			// hpUp.visible = true;
@@ -88,11 +88,11 @@ public function HPChange(changeNum:number, display:boolean):void
 	else
 	{
 		if(player.HP + changeNum <= 0) {
-			if(display) outputText("You take " + int(changeNum*-1) + " damage, dropping your HP to 0.\n", false);
+			if(display) Render.text("You take " + int(changeNum*-1) + " damage, dropping your HP to 0.\n", false);
 			player.HP = 0;
 		}
 		else {
-			if(display) outputText("You take " + int(changeNum*-1) + " damage.\n", false);
+			if(display) Render.text("You take " + int(changeNum*-1) + " damage.\n", false);
 			player.HP += changeNum;
 		}
 	}
@@ -110,7 +110,7 @@ public function clone(source:Object):* {
 public function speech(output:string, speaker:string):void {
 	let speech:string = "";
 	speech = speaker + " says, \"<i>" + output + "</i>\"\n";
-	outputText(speech, false);
+	Render.text(speech, false);
 }
 */
 	
@@ -149,7 +149,7 @@ public function rawOutputText(output:string, purgeText:boolean = false):void
 
 }
 
-public function outputText(output:string, 
+public function Render.text(output:string, 
 						purgeText:boolean = false, 
 						parseAsMarkdown:boolean = false):void
 {
@@ -203,20 +203,20 @@ public function flushOutputTextToGUI():void
 
 public function displayPerks(e:MouseEvent = null):void {
 	let temp: number = 0;
-	outputText("", true);
+	Render.text("", true);
 	while(temp < player.perks.length) {
-		outputText("<b>" + player.perk(temp).perkName + "</b> - " + player.perk(temp).perkDesc + "\n", false);
+		Render.text("<b>" + player.perk(temp).perkName + "</b> - " + player.perk(temp).perkDesc + "\n", false);
 		temp++;
 	}
 	menu();
 	if(player.perkPoints > 0) {
-		outputText("\n<b>You have " + num2Text(player.perkPoints) + " perk point", false);
-		if(player.perkPoints > 1) outputText("s", false);
-		outputText(" to spend.</b>", false);
+		Render.text("\n<b>You have " + num2Text(player.perkPoints) + " perk point", false);
+		if(player.perkPoints > 1) Render.text("s", false);
+		Render.text(" to spend.</b>", false);
 		addButton(1, "Perk Up", perkBuyMenu);
 	}
 	if(player.perks.has("DoubleAttack")) {
-		outputText("\n<b>You can adjust your double attack settings.</b>");
+		Render.text("\n<b>You can adjust your double attack settings.</b>");
 		addButton(2,"Dbl Options",doubleAttackOptions);
 	}
 	addButton(0, "Next", playerMenu);
@@ -226,23 +226,23 @@ public function doubleAttackOptions():void {
 	clearOutput();
 	menu();
 	if(flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
-		outputText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
-		outputText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
-		outputText("\nYou can change it to always single attack.");
+		Render.text("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
+		Render.text("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
+		Render.text("\nYou can change it to always single attack.");
 		addButton(1,"Dynamic",doubleAttackDynamic);
 		addButton(2,"Single",doubleAttackOff);
 	}
 	else if(flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 1) {
-		outputText("You will currently double attack until your strength exceeds sixty, and then single attack.");
-		outputText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-		outputText("\nYou can change it to always single attack.");
+		Render.text("You will currently double attack until your strength exceeds sixty, and then single attack.");
+		Render.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+		Render.text("\nYou can change it to always single attack.");
 		addButton(0,"All Double",doubleAttackForce);
 		addButton(2,"Single",doubleAttackOff);
 	}
 	else {
-		outputText("You will always single attack your foes in combat.");
-		outputText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-		outputText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
+		Render.text("You will always single attack your foes in combat.");
+		Render.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+		Render.text("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
 		addButton(0,"All Double",doubleAttackForce);
 		addButton(1,"Dynamic",doubleAttackDynamic);
 	}
@@ -271,7 +271,7 @@ public function levelUpGo(e:MouseEvent = null):void {
 	if (player.XP >= (player.level) * 100) {
 		player.level++;
 		player.perkPoints++;
-		outputText("<b>You are now level " + player.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
+		Render.text("<b>You are now level " + player.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
 		player.XP -= (player.level - 1) * 100;
 		menu();
 		addButton(0, "Strength", levelUpStatStrength);
@@ -284,7 +284,7 @@ public function levelUpGo(e:MouseEvent = null):void {
 		perkBuyMenu();
 	}
 	else {
-		outputText("<b>ERROR.  LEVEL UP PUSHED WHEN PC CANNOT LEVEL OR GAIN PERKS.  PLEASE REPORT THE STEPS TO REPRODUCE THIS BUG TO FENOXO@GMAIL.COM OR THE FENOXO.COM BUG REPORT FORUM.</b>");
+		Render.text("<b>ERROR.  LEVEL UP PUSHED WHEN PC CANNOT LEVEL OR GAIN PERKS.  PLEASE REPORT THE STEPS TO REPRODUCE THIS BUG TO FENOXO@GMAIL.COM OR THE FENOXO.COM BUG REPORT FORUM.</b>");
 		doNext(playerMenu);
 	}
 }
@@ -292,7 +292,7 @@ public function levelUpGo(e:MouseEvent = null):void {
 private function levelUpStatStrength():void {
 	dynStats("str", 5); //Gain +5 Str due to level
 	clearOutput();
-	outputText("Your muscles feel significantly stronger from your time adventuring.");
+	Render.text("Your muscles feel significantly stronger from your time adventuring.");
 	doNext(perkBuyMenu);
 }
 
@@ -301,21 +301,21 @@ private function levelUpStatToughness():void {
 	trace("HP: " + player.HP + " MAX HP: " + maxHP());
 	statScreenRefresh();
 	clearOutput();
-	outputText("You feel tougher from all the fights you have endured.");
+	Render.text("You feel tougher from all the fights you have endured.");
 	doNext(perkBuyMenu);
 }
 
 private function levelUpStatSpeed():void {
 	dynStats("spe", 5); //Gain +5 speed due to level
 	clearOutput();
-	outputText("Your time in combat has driven you to move faster.");
+	Render.text("Your time in combat has driven you to move faster.");
 	doNext(perkBuyMenu);
 }
 
 private function levelUpStatIntelligence():void {
 	dynStats("int", 5); //Gain +5 Intelligence due to level
 	clearOutput();
-	outputText("Your time spent fighting the creatures of this realm has sharpened your wit.");
+	Render.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
 	doNext(perkBuyMenu);
 }
 
@@ -324,9 +324,9 @@ private function perkBuyMenu():void {
 	let perkList:Array = buildPerkList();
 	
 	if (perkList.length == 0) {
-		outputText("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + num2Text(player.perkPoints) + " perk point");
-		if(player.perkPoints > 1) outputText("s");
-		outputText(".");
+		Render.text("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + num2Text(player.perkPoints) + " perk point");
+		if(player.perkPoints > 1) Render.text("s");
+		Render.text(".");
 		doNext(playerMenu);
 		return;
 	}
@@ -335,7 +335,7 @@ private function perkBuyMenu():void {
 		addButton(0, "Next", perkSelect, perkList[rand(perkList.length)].perk);
 	}
 	else {
-		outputText("Please select a perk from the drop-down list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.\n\n");
+		Render.text("Please select a perk from the drop-down list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.\n\n");
 		mainView.aCb.x = 210;
 		mainView.aCb.y = 112;
 		
@@ -371,8 +371,8 @@ private function changeHandler(event:Event):void {
 	clearOutput();
  	let selected:PerkClass = ComboBox(event.target).selectedItem.perk;
 	mainView.aCb.move(210, 85);
-	outputText("You have selected the following perk:\n\n");
-	outputText("<b>" + selected.perkName + ":</b> " + selected.perkLongDesc + "\n\nIf you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
+	Render.text("You have selected the following perk:\n\n");
+	Render.text("<b>" + selected.perkName + ":</b> " + selected.perkLongDesc + "\n\nIf you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
 	menu();
 	addButton(0, "Okay", perkSelect, selected);
 	addButton(1, "Skip", perkSkip);
@@ -562,7 +562,7 @@ public function applyPerk(perk:PerkClass):void {
 	clearOutput();
 	player.perkPoints--;
 	//Apply perk here.
-	outputText("<b>" + perk.perkName + "</b> gained!");
+	Render.text("<b>" + perk.perkName + "</b> gained!");
 	player.createPerk(perk.ptype, perk.value1, perk.value2, perk.value3, perk.value4);
 	if (perk.ptype == PerkLib.StrongBack2) player.itemSlot5.unlocked = true;
 	if (perk.ptype == PerkLib.StrongBack) player.itemSlot4.unlocked = true;
@@ -1332,7 +1332,7 @@ public function doNext(event:Function):void { //Now typesafe
 /* Was never called
 public function doNextClear(eventNo:*):void 
 {
-	outputText("", true, true);
+	Render.text("", true, true);
 	//trace("DoNext Clearing display");
 	//trace("DoNext have item:", eventNo);
 	choices("Next", eventNo, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0, "", 0);
@@ -1460,7 +1460,7 @@ public function minLust():number {
 public function displayStats(e:MouseEvent = null):void
 {
 	spriteSelect(-1);
-	outputText("", true);
+	Render.text("", true);
 	
 	// Begin Combat Stats
 	let combatStats:string = "";
@@ -1479,7 +1479,7 @@ public function displayStats(e:MouseEvent = null):void
 	combatStats += "<b>Tease Skill (Out of 5):</b>  " + player.teaseLevel + "\n";
 	
 	if (combatStats != "")
-		outputText("<b><u>Combat Stats</u></b>\n" + combatStats, false);
+		Render.text("<b><u>Combat Stats</u></b>\n" + combatStats, false);
 	// End Combat Stats
 	
 	// Begin Children Stats
@@ -1564,7 +1564,7 @@ public function displayStats(e:MouseEvent = null):void
 		childStats += "<b>Number of Adult Minotaur Offspring:</b> " + flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] + "\n";
 	
 	if (childStats != "")
-		outputText("\n<b><u>Children</u></b>\n" + childStats, false);
+		Render.text("\n<b><u>Children</u></b>\n" + childStats, false);
 	// End Children Stats
 
 	// Begin Body Stats
@@ -1636,7 +1636,7 @@ public function displayStats(e:MouseEvent = null):void
 	}
 	
 	if (bodyStats != "")
-		outputText("\n<b><u>Body Stats</u></b>\n" + bodyStats, false);
+		Render.text("\n<b><u>Body Stats</u></b>\n" + bodyStats, false);
 	// End Body Stats
 
 	// Begin Misc Stats
@@ -1655,7 +1655,7 @@ public function displayStats(e:MouseEvent = null):void
 		miscStats += "<b>Spells Cast:</b> " + flags[FlagEnum.SPELLS_CAST] + "\n";
 		
 	if (miscStats != "")
-		outputText("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
+		Render.text("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
 	// End Misc Stats
 	
 	// Begin Addition Stats
@@ -1680,7 +1680,7 @@ public function displayStats(e:MouseEvent = null):void
 	}
 	
 	if (addictStats != "")
-		outputText("\n<b><u>Addictions</u></b>\n" + addictStats, false);
+		Render.text("\n<b><u>Addictions</u></b>\n" + addictStats, false);
 	// End Addition Stats
 	
 	// Begin Interpersonal Stats
@@ -1770,7 +1770,7 @@ public function displayStats(e:MouseEvent = null):void
 	}
 	
 	if (interpersonStats != "")
-		outputText("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats, false);
+		Render.text("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats, false);
 	// End Interpersonal Stats
 	
 	// Begin Ongoing Stat Effects
@@ -1789,7 +1789,7 @@ public function displayStats(e:MouseEvent = null):void
 		statEffects += "Black Cat Beer - " + player.statusAffects.get("BlackCatBeer").value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
 	
 	if (statEffects != "")
-		outputText("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects, false);
+		Render.text("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects, false);
 	// End Ongoing Stat Effects
 	
 	doNext(playerMenu);
@@ -1873,10 +1873,10 @@ public function applyOperator(old:number, op:string, val:number):number {
 }
 
 public function testDynStatsEvent():void {
-	outputText("Old: "+player.str+" "+player.tou+" "+player.stats.spe+" "+player.stats.int+" "+player.stats.lib+" "+player.stats.sens+" "+player.lust+"\n",true);
+	Render.text("Old: "+player.str+" "+player.tou+" "+player.stats.spe+" "+player.stats.int+" "+player.stats.lib+" "+player.stats.sens+" "+player.lust+"\n",true);
 	dynStats("tou", 1, "spe+", 2, "int-", 3, "lib*", 2, "sen=", 25,"lust/",2);
-	outputText("Mod: 0 1 +2 -3 *2 =25 /2\n");
-	outputText("New: "+player.str+" "+player.tou+" "+player.stats.spe+" "+player.stats.int+" "+player.stats.lib+" "+player.stats.sens+" "+player.lust+"\n");
+	Render.text("Mod: 0 1 +2 -3 *2 =25 /2\n");
+	Render.text("New: "+player.str+" "+player.tou+" "+player.stats.spe+" "+player.stats.int+" "+player.stats.lib+" "+player.stats.sens+" "+player.lust+"\n");
 	doNext(playerMenu);
 }
 
@@ -2115,7 +2115,7 @@ public function range(min:number, max:number, round:boolean = false):number
 public function cuntChangeOld(cIndex:number, vIndex:number, display:boolean):void {
 	//Virginity check
 	if(player.vaginas[vIndex].virgin) {
-		if(display) outputText("\nYour " + vaginaDescript(vIndex) + " loses its virginity!", false);
+		if(display) Render.text("\nYour " + vaginaDescript(vIndex) + " loses its virginity!", false);
 		player.vaginas[vIndex].virgin = false;
 	}        
 	//If cock is bigger than unmodified vagina can hold - 100% stretch!
@@ -2123,11 +2123,11 @@ public function cuntChangeOld(cIndex:number, vIndex:number, display:boolean):voi
 		if(player.vaginas[vIndex] < 5) {
 			trace("CUNT STRETCHED: By cock larger than it's total capacity.");
 			if(display) {
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING_WIDE) outputText("<b>Your " + vaginaDescript(0) + " is stretched even further, capable of taking even the largest of demons and beasts.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING) outputText("<b>Your " + vaginaDescript(0) + " painfully stretches, gaping wide-open.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.LOOSE) outputText("<b>Your " + vaginaDescript(0) + " is now very loose.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.NORMAL) outputText("<b>Your " + vaginaDescript(0) + " is now loose.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.TIGHT) outputText("<b>Your " + vaginaDescript(0) + " loses its virgin-like tightness.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING_WIDE) Render.text("<b>Your " + vaginaDescript(0) + " is stretched even further, capable of taking even the largest of demons and beasts.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING) Render.text("<b>Your " + vaginaDescript(0) + " painfully stretches, gaping wide-open.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.LOOSE) Render.text("<b>Your " + vaginaDescript(0) + " is now very loose.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.NORMAL) Render.text("<b>Your " + vaginaDescript(0) + " is now loose.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.TIGHT) Render.text("<b>Your " + vaginaDescript(0) + " loses its virgin-like tightness.</b>  ", false);
 			}
 			player.vaginas[vIndex].vaginalLooseness++;
 		}
@@ -2137,11 +2137,11 @@ public function cuntChangeOld(cIndex:number, vIndex:number, display:boolean):voi
 		if(player.vaginas[vIndex] < 5) {
 			trace("CUNT STRETCHED: By cock @ 75% of capacity.");
 			if(display) {
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING_WIDE) outputText("<b>Your " + vaginaDescript(0) + " is stretched even further, capable of taking even the largest of demons and beasts.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING) outputText("<b>Your " + vaginaDescript(0) + " painfully stretches, gaping wide-open.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.LOOSE) outputText("<b>Your " + vaginaDescript(0) + " is now very loose.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.NORMAL) outputText("<b>Your " + vaginaDescript(0) + " is now loose.</b>  ", false);
-				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.TIGHT) outputText("<b>Your " + vaginaDescript(0) + " loses its virgin-like tightness.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING_WIDE) Render.text("<b>Your " + vaginaDescript(0) + " is stretched even further, capable of taking even the largest of demons and beasts.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.GAPING) Render.text("<b>Your " + vaginaDescript(0) + " painfully stretches, gaping wide-open.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.LOOSE) Render.text("<b>Your " + vaginaDescript(0) + " is now very loose.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.NORMAL) Render.text("<b>Your " + vaginaDescript(0) + " is now loose.</b>  ", false);
+				if(player.vaginas[vIndex].vaginalLooseness == VAGINA_LOOSENESS.TIGHT) Render.text("<b>Your " + vaginaDescript(0) + " loses its virgin-like tightness.</b>  ", false);
 			}
 			player.vaginas[vIndex].vaginalLooseness++;
 		}

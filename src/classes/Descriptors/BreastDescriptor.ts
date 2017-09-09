@@ -294,62 +294,62 @@ export default class BreastDescriptor {
 
     public static breastGrowthDescription(amount: number, chest: BreastRowModule) {
         if (amount <= 2) {
-            if (chest.count() > 1) outputText("Your rows of " + breastDescript(0) + " jiggle with added weight, growing a bit larger.", false);
-            if (chest.count() == 1) outputText("Your " + breastDescript(0) + " jiggle with added weight as they expand, growing a bit larger.", false);
+            if (chest.count() > 1) Render.text("Your rows of " + breastDescript(0) + " jiggle with added weight, growing a bit larger.", false);
+            if (chest.count() == 1) Render.text("Your " + breastDescript(0) + " jiggle with added weight as they expand, growing a bit larger.", false);
         }
         else if (amount <= 4) {
-            if (chest.count() > 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + breastDescript(0) + " expand significantly.", false);
-            if (chest.count() == 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + breastDescript(0) + " expand significantly.", false);
+            if (chest.count() > 1) Render.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + breastDescript(0) + " expand significantly.", false);
+            if (chest.count() == 1) Render.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + breastDescript(0) + " expand significantly.", false);
         }
         else {
-            if (chest.count() > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
-            if (chest.count() == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
+            if (chest.count() > 1) Render.text("You drop to your knees from a massive change in your body's center of gravity.  Your " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
+            if (chest.count() == 1) Render.text("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
         }
         if (chest.BreastRatingLargest[0].breastRating >= 8.5 && chest.BreastRatingLargest[0].nippleLength < 2) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 2;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 7 && chest.BreastRatingLargest[0].nippleLength < 1) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 1;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 5 && chest.BreastRatingLargest[0].nippleLength < .75) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .75;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 3 && chest.BreastRatingLargest[0].nippleLength < .5) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .5;
         }
     }
 
     public static topRowBreastGrowthDescription(amount: number, chest: BreastRowModule) {
         if (amount <= 2) {
-            if (chest.count() > 1) outputText("Your top row of " + breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.", false);
-            if (chest.count() == 1) outputText("Your row of " + breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.", false);
+            if (chest.count() > 1) Render.text("Your top row of " + breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.", false);
+            if (chest.count() == 1) Render.text("Your row of " + breastDescript(0) + " jiggles with added weight as it expands, growing a bit larger.", false);
         }
         if (amount > 2 && amount <= 4) {
-            if (chest.count() > 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + breastDescript(0) + " expand significantly.", false);
-            if (chest.count() == 1) outputText("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + breastDescript(0) + " expand significantly.", false);
+            if (chest.count() > 1) Render.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + breastDescript(0) + " expand significantly.", false);
+            if (chest.count() == 1) Render.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + breastDescript(0) + " expand significantly.", false);
         }
         if (amount > 4) {
-            if (chest.count() > 1) outputText("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
-            if (chest.count() == 1) outputText("You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
+            if (chest.count() > 1) Render.text("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
+            if (chest.count() == 1) Render.text("You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
         }
         if (chest.BreastRatingLargest[0].breastRating >= 8.5 && chest.BreastRatingLargest[0].nippleLength < 2) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 2;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 7 && chest.BreastRatingLargest[0].nippleLength < 1) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 1;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 5 && chest.BreastRatingLargest[0].nippleLength < .75) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .75;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 3 && chest.BreastRatingLargest[0].nippleLength < .5) {
-            outputText("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            Render.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .5;
         }
     }

@@ -7,30 +7,30 @@ package classes.Scenes.Dungeons.HelDungeon
 
 		//Attack One: Hot Poker, Right Up Your Ass!
 		private function brigidPoke():void {
-			outputText("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + player.skin() + " and sending you reeling.");
+			Render.text("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + player.skin() + " and sending you reeling.");
 			//(Effect: Heavy Damage)
 			let damage:number = Math.round((str + weaponAttack) - rand(player.tou) - player.armorDef);
 			if(damage < 30) damage = 30;
 			damage = player.takeDamage(damage);
-			outputText(" (" + damage + ")");
+			Render.text(" (" + damage + ")");
 			game.combatRoundOver();
 		}
 
 		//Attack Two: SHIELD BOP! OOM BOP!
 		private function brigidBop():void {
-			outputText("The harpy feints at you with her poker; you dodge the blow, but you leave yourself vulnerable as she spins around and slams her heavy shield into you, knocking you off balance.");
+			Render.text("The harpy feints at you with her poker; you dodge the blow, but you leave yourself vulnerable as she spins around and slams her heavy shield into you, knocking you off balance.");
 			//(Effect: Stagger/Stun)
 			let damage:number = 5;
 			damage = player.takeDamage(5);
-			outputText(" (" + damage + ")");
-			if(player.perks.has("Resolute")) outputText("  Of course, your resolute posture prevents her from accomplishing much.");
+			Render.text(" (" + damage + ")");
+			if(player.perks.has("Resolute")) Render.text("  Of course, your resolute posture prevents her from accomplishing much.");
 			else player.statusAffects.add(new StatusAffect("Stunned",0,0,0,0)));
 			game.combatRoundOver();
 		}
 
 		//Attack Three: Harpy Ass Grind GO!
 		private function BrigidAssGrind():void {
-			outputText("Brigid grins as she approaches you.  She handily deflects a few defensive blows and grabs you by the shoulders.  She forces you onto your knees and before you can blink, has turned around and smashed your face into her ass!  \"<i>Mmm, you like that, don'tcha?</i>\" she growls, grinding her huge, soft ass across your face, giving you an up-close and personal feel of her egg-laying hips.");
+			Render.text("Brigid grins as she approaches you.  She handily deflects a few defensive blows and grabs you by the shoulders.  She forces you onto your knees and before you can blink, has turned around and smashed your face into her ass!  \"<i>Mmm, you like that, don'tcha?</i>\" she growls, grinding her huge, soft ass across your face, giving you an up-close and personal feel of her egg-laying hips.");
 			game.dynStats("lus", 30);
 			game.combatRoundOver();
 		}

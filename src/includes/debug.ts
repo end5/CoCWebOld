@@ -8,7 +8,7 @@ Author: Fake-Name
 */
 public function monkeyStartConfirm():void
 {
-	outputText(<![CDATA[
+	Render.text(<![CDATA[
 
 Chaos Monkah!
 
@@ -51,7 +51,7 @@ public function noSaveMonkey():void
 
 public function monkeyStartReallyConfirm():void
 {
-	outputText(<![CDATA[
+	Render.text(<![CDATA[
 
 **NO REALLY, THIS WILL PROBABLY OVERWRITE YOUR SAVES.**
 
@@ -66,7 +66,7 @@ public function monkeyStartReallyConfirm():void
 public function initiateTheMonkey():void
 {
 	// I swear, half the fun of this is just the function names I can write.
-	outputText(<![CDATA[
+	Render.text(<![CDATA[
 INITIATING MONKEY
 	]]>, true, true);
 
@@ -82,35 +82,35 @@ INITIATING MONKEY
 
 public function debugPane():void
 {
-	outputText("<b>Debug information!</b>\n", true);
+	Render.text("<b>Debug information!</b>\n", true);
 
-	outputText("\nPossible flash sandboxing contexts:");
-	outputText("<ul>");
-	outputText("<li><b>\"localWithNetwork\"</b> means images <b><u>will not work</u></b>!</li>");
-	outputText("<li><b>\"localWithFile\"</b> means images can work.</li>");
-	outputText("<li><b>\"localTrusted\"</b> means images can work, and you've somehow managed to install this swf into a flash trusted directory. How did you manage that?</li>");
-	outputText("</ul>");
-	outputText("\nNote that you still need the proper folder structure to have functional images.");
+	Render.text("\nPossible flash sandboxing contexts:");
+	Render.text("<ul>");
+	Render.text("<li><b>\"localWithNetwork\"</b> means images <b><u>will not work</u></b>!</li>");
+	Render.text("<li><b>\"localWithFile\"</b> means images can work.</li>");
+	Render.text("<li><b>\"localTrusted\"</b> means images can work, and you've somehow managed to install this swf into a flash trusted directory. How did you manage that?</li>");
+	Render.text("</ul>");
+	Render.text("\nNote that you still need the proper folder structure to have functional images.");
 
-	outputText("\n\nCurrent Sandbox mode: <b>" + Security.sandboxType + "</b>");
-	outputText("\n<hr /> --------"); // HR Tag! WHY U NO WORK?
+	Render.text("\n\nCurrent Sandbox mode: <b>" + Security.sandboxType + "</b>");
+	Render.text("\n<hr /> --------"); // HR Tag! WHY U NO WORK?
 
-	outputText("\nCurrently have " + images.getLoadedImageCount() + " images loaded into cache.");
+	Render.text("\nCurrently have " + images.getLoadedImageCount() + " images loaded into cache.");
 
 
 
 	if (CoC_Settings.haltOnErrors)  // Using a static class so I can grab it from anywhere.
-		outputText("\nCurrently set to halt on all errors.");
+		Render.text("\nCurrently set to halt on all errors.");
 	else
-		outputText("\nParsing or description errors only generate warning message");
+		Render.text("\nParsing or description errors only generate warning message");
 
-	outputText("\n<hr /> --------"); // HR Tag! WHY U NO WORK?
+	Render.text("\n<hr /> --------"); // HR Tag! WHY U NO WORK?
 
-	outputText("\n\n<b>FUNCTIONALITY ON THIS PAGE IS IN ALPHA-RELEASE STATUS</b>\n");
-	outputText("<b>IF YOU DON'T KNOW WHAT YOU ARE DOING AND/OR HAVE UNSAVED GAME PROGRESS, DO NOT CLICK ANY BUTTON EXCEPT \"BACK\"</b>\n");
+	Render.text("\n\n<b>FUNCTIONALITY ON THIS PAGE IS IN ALPHA-RELEASE STATUS</b>\n");
+	Render.text("<b>IF YOU DON'T KNOW WHAT YOU ARE DOING AND/OR HAVE UNSAVED GAME PROGRESS, DO NOT CLICK ANY BUTTON EXCEPT \"BACK\"</b>\n");
 
 
-	outputText(images.showImage("monster-ceraph"));
+	Render.text(images.showImage("monster-ceraph"));
 
 	menu();
 	addButton(0, "Event Tester", eventTestingPane);
@@ -145,7 +145,7 @@ public function doThatTestingThang():void
 	//
 	//
 
-	outputText(<![CDATA[
+	Render.text(<![CDATA[
 
 **Parser Tests!**
 

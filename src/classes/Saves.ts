@@ -125,10 +125,10 @@ public function loadScreenAIR():void
 	}
 	catch (error:Error)
 	{
-		outputText("Error reading save directory: " + airSaveDir.url + " (" + error.message + ")", true);
+		Render.text("Error reading save directory: " + airSaveDir.url + " (" + error.message + ")", true);
 		return;		
 	}
-	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r", true);
+	Render.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", true);
 	
 	let i:uint = 0;
 	for (let fileCount:uint = 0; fileCount < fileList.length; fileCount++)
@@ -143,7 +143,7 @@ public function loadScreenAIR():void
 			continue;
 
 		gameObjects[i] = getGameObjectFromFile(fileList[fileCount]);
-		outputText(loadSaveDisplay(gameObjects[i], String(i+1)), false);
+		Render.text(loadSaveDisplay(gameObjects[i], String(i+1)), false);
 				
 		if (gameObjects[i].data.exists)
 		{
@@ -153,9 +153,9 @@ public function loadScreenAIR():void
 				slots[i] = function() : void 		// Anonymous functions FTW
 				{
 					trace("Loading save with name ", fileList[fileCount].url, " at index ", i);
-					outputText("", true);
+					Render.text("", true);
 					loadGameObject(gameObjects[i]);
-					outputText("Slot " + String(i+1) + " Loaded!");
+					Render.text("Slot " + String(i+1) + " Loaded!");
 					statScreenRefresh();
 					doNext(playerMenu);
 				}
@@ -193,7 +193,7 @@ public function getGameObjectFromFile(aFile:File):Object
 	}
 	catch (error:Error)
 	{
-		outputText("Failed to read save file, " + aFile.url + " (" + error.message + ")", true);
+		Render.text("Failed to read save file, " + aFile.url + " (" + error.message + ")", true);
 	}
 	return null;
  }
@@ -204,12 +204,12 @@ public function loadScreen():void
 {
 	let slots:Array = new Array(saveFileNames.length);
 		
-	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r", true);
+	Render.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", true);
 	
 	for (let i: number = 0; i < saveFileNames.length; i += 1)
 	{
 		let test:Object = SharedObject.getLocal(saveFileNames[i], "/");
-		outputText(loadSaveDisplay(test, String(i + 1)), false);
+		Render.text(loadSaveDisplay(test, String(i + 1)), false);
 		if (test.data.exists && test.data.flags[2066] == undefined)
 		{
 			//trace("Creating function with indice = ", i);
@@ -223,7 +223,7 @@ public function loadScreen():void
 						doNext(playerMenu);
 						showStats();
 						statScreenRefresh();
-						outputText("Slot " + i + " Loaded!", true);
+						Render.text("Slot " + i + " Loaded!", true);
 					}
 				}
 			})(i);
@@ -256,10 +256,10 @@ public function saveScreen():void
 	
 	// let test; // Disabling this variable because it seems to be unused.
 	
-	outputText("", true);
+	Render.text("", true);
 	if (player.slotName != "VOID")
-		outputText("<b>Last saved or loaded from: " + player.slotName + "</b>\r\r", false);
-	outputText("<b><u>Slot: Sex,  Game Days Played</u></b>\r", false);
+		Render.text("<b>Last saved or loaded from: " + player.slotName + "</b>\r\r", false);
+	Render.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", false);
 	
 	let saveFuncs:Array = [];
 	
@@ -267,7 +267,7 @@ public function saveScreen():void
 	for (let i: number = 0; i < saveFileNames.length; i += 1)
 	{
 		let test:Object = SharedObject.getLocal(saveFileNames[i], "/");
-		outputText(loadSaveDisplay(test, String(i + 1)), false);
+		Render.text(loadSaveDisplay(test, String(i + 1)), false);
 		trace("Creating function with indice = ", i);
 		(function(i: number) : void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
 		{
@@ -282,9 +282,9 @@ public function saveScreen():void
 	
 
 	if (player.slotName == "VOID")
-		outputText("\r\r", false);
+		Render.text("\r\r", false);
 	
-	outputText("<b>Leave the notes box blank if you don't wish to change notes.\r<u>NOTES:</u></b>", false);
+	Render.text("<b>Leave the notes box blank if you don't wish to change notes.\r<u>NOTES:</u></b>", false);
 	choices("Slot 1", saveFuncs[0], 
 	"Slot 2", saveFuncs[1], 
 	"Slot 3", saveFuncs[2], 
@@ -304,16 +304,16 @@ public function saveLoad(e:MouseEvent = null):void
 	//Hide the name box in case of backing up from save
 	//screen so it doesnt overlap everything.
 	mainView.nameBox.visible = false;
-	outputText("", true);
-	outputText("<b>Where are my saves located?</b>\n", false);
-	outputText("<i>In Windows Vista/7 (IE/FireFox/Other): <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Player/#Shared Objects/{GIBBERISH}/</pre>\n\n", false);
-	outputText("In Windows Vista/7 (Chrome): <pre>Users/{username}/AppData/Local/Google/Chrome/User Data/Default/Pepper Data/Shockwave Flash/WritableRoot/#SharedObjects/{GIBBERISH}/</pre>\n\n", false);
-	outputText("Inside that folder it will saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n", false);
-	outputText("<b>Why do my saves disappear all the time?</b>\n<i>There are numerous things that will wipe out flash local shared files.  If your browser or player is set to delete flash cookies or data, that will do it.  CCleaner will also remove them.  CoC or its updates will never remove your savegames - if they disappear something else is wiping them out.</i>\n\n", false);
-	outputText("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.  Playing from your HDD will store things in a different location than fenoxo.com or FurAffinity.</i>\n", false);
-	outputText("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n", false);
-	outputText("<b>Why does the Save File and Load File option not work?</b>\n");
-	outputText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
+	Render.text("", true);
+	Render.text("<b>Where are my saves located?</b>\n", false);
+	Render.text("<i>In Windows Vista/7 (IE/FireFox/Other): <pre>Users/{username}/Appdata/Roaming/Macromedia/Flash Player/#Shared Objects/{GIBBERISH}/</pre>\n\n", false);
+	Render.text("In Windows Vista/7 (Chrome): <pre>Users/{username}/AppData/Local/Google/Chrome/User Data/Default/Pepper Data/Shockwave Flash/WritableRoot/#SharedObjects/{GIBBERISH}/</pre>\n\n", false);
+	Render.text("Inside that folder it will saved in a folder corresponding to where it was played from.  If you saved the CoC.swf to your HDD, then it will be in a folder called localhost.  If you played from my website, it will be in fenoxo.com.  The save files will be labelled CoC_1.sol, CoC_2.sol, CoC_3.sol, etc.</i>\n\n", false);
+	Render.text("<b>Why do my saves disappear all the time?</b>\n<i>There are numerous things that will wipe out flash local shared files.  If your browser or player is set to delete flash cookies or data, that will do it.  CCleaner will also remove them.  CoC or its updates will never remove your savegames - if they disappear something else is wiping them out.</i>\n\n", false);
+	Render.text("<b>When I play from my HDD I have one set of saves, and when I play off your site I have a different set of saves.  Why?</b>\n<i>Flash stores saved data relative to where it was accessed from.  Playing from your HDD will store things in a different location than fenoxo.com or FurAffinity.</i>\n", false);
+	Render.text("<i>If you want to be absolutely sure you don't lose a character, copy the .sol file for that slot out and back it up! <b>For more information, google flash shared objects.</b></i>\n\n", false);
+	Render.text("<b>Why does the Save File and Load File option not work?</b>\n");
+	Render.text("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 	//This is to clear the 'game over' block from stopping simpleChoices from working.  Loading games supercede's game over.
 	if (mainView.getButtonText( 0 ) == "Game Over")
 	{
@@ -394,7 +394,7 @@ private function autosaveToggle():void {
 
 public function deleteScreen():void
 {
-	outputText("Slot,  Race,  Sex,  Game Days Played\n", true);
+	Render.text("Slot,  Race,  Sex,  Game Days Played\n", true);
 	
 
 	let delFuncs:Array = [];
@@ -403,7 +403,7 @@ public function deleteScreen():void
 	for (let i: number = 0; i < saveFileNames.length; i += 1)
 	{
 		let test:Object = SharedObject.getLocal(saveFileNames[i], "/");
-		outputText(loadSaveDisplay(test, String(i + 1)), false);
+		Render.text(loadSaveDisplay(test, String(i + 1)), false);
 		if (test.data.exists)
 		{
 			//slots[i] = loadFuncs[i];
@@ -422,7 +422,7 @@ public function deleteScreen():void
 			delFuncs[i] = null;	//disable buttons for empty slots
 	}
 	
-	outputText("\n<b>ONCE DELETED, YOUR SAVE IS GONE FOREVER.</b>", false);
+	Render.text("\n<b>ONCE DELETED, YOUR SAVE IS GONE FOREVER.</b>", false);
 	choices("Slot 1", delFuncs[0], 
 			"Slot 2", delFuncs[1], 
 			"Slot 3", delFuncs[2], 
@@ -437,7 +437,7 @@ public function deleteScreen():void
 
 public function confirmDelete():void
 {
-	outputText("You are about to delete the following save: <b>" + flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
+	Render.text("You are about to delete the following save: <b>" + flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
 	simpleChoices("No", deleteScreen, "Yes", purgeTheMutant, "", null, "", null, "", null);
 }
 
@@ -449,7 +449,7 @@ public function purgeTheMutant():void
 	
 	trace(blah.length + " array slots");
 	let select:number = rand(blah.length);
-	outputText(flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + " has " + blah[select] + ".", true);
+	Render.text(flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + " has " + blah[select] + ".", true);
 	test.clear();
 	doNext(deleteScreen);
 }
@@ -493,13 +493,13 @@ public function loadGame(slot:string):void
 	if (numProps < sfVer)
 	{
 		trace("Got " + numProps + " file properties -- failed!");
-		outputText("<b>Aborting load.  The current save file is missing a number of expected properties.</b>\n\n", true);
+		Render.text("<b>Aborting load.  The current save file is missing a number of expected properties.</b>\n\n", true);
 		
 		let backup:SharedObject = SharedObject.getLocal(slot + "_backup", "/");
 		
 		if (backup.data.exists)
 		{
-			outputText("Would you like to load the backup version of this slot?");
+			Render.text("Would you like to load the backup version of this slot?");
 			menu();
 			addButton(0, "Yes", loadGame, (slot + "_backup"));
 			addButton(1, "No", saveLoad);
@@ -515,10 +515,10 @@ public function loadGame(slot:string):void
 		trace("Got " + numProps + " file properties -- success!");
 		// I want to be able to write some debug stuff to the GUI during the loading process
 		// Therefore, we clear the display *before* calling loadGameObject
-		outputText("", true);
+		Render.text("", true);
 
 		loadGameObject(saveFile, slot);
-		outputText("Game Loaded");
+		Render.text("Game Loaded");
 		temp = 0;
 		statScreenRefresh();
 		
@@ -925,7 +925,7 @@ public function saveGameObject(slot:string, isFile:boolean):void
 	{
 		if (!(kGAMECLASS.monkey.run))
 		{
-			//outputText(serializeToString(saveFile.data), true);
+			//Render.text(serializeToString(saveFile.data), true);
 			let bytes:ByteArray = new ByteArray();
 			bytes.writeObject(saveFile);
 			CONFIG::AIR
@@ -940,13 +940,13 @@ public function saveGameObject(slot:string, isFile:boolean):void
 					stream.open(airFile, FileMode.WRITE);
 					stream.writeBytes(bytes);
 					stream.close();
-					outputText("Saved to file: " + airFile.url, true);
+					Render.text("Saved to file: " + airFile.url, true);
 					doNext(playerMenu);
 				}
 				catch (error:Error)
 				{
 					backupAborted = true;
-					outputText("Failed to write to file: " + airFile.url + " (" + error.message + ")", true);
+					Render.text("Failed to write to file: " + airFile.url + " (" + error.message + ")", true);
 					doNext(playerMenu);
 				}
 			}
@@ -954,7 +954,7 @@ public function saveGameObject(slot:string, isFile:boolean):void
 			{
 				file = new FileReference();
 				file.save(bytes, null);
-				outputText("Attempted to save to file.", true);
+				Render.text("Attempted to save to file.", true);
 			}
 		}
 	}
@@ -978,9 +978,9 @@ public function saveGameObject(slot:string, isFile:boolean):void
 		// There should be 124 root properties minimum in the save file. Give some wiggleroom for things that might be omitted? (All of the broken saves I've seen are MUCH shorter than expected)
 		if (numProps < versionProperties[ver])
 		{
-			outputText("<b>Aborting save.  Your current save file is broken, and needs to be bug-reported.</b>\n\nWithin the save folder for CoC, there should be a pair of files named \"" + slot + ".sol\" and \"" + slot + "_backup.sol\"\n\n<b>We need BOTH of those files, and a quick report of what you've done in the game between when you last saved, and this message.</b>\n\n", true);
-			outputText("When you've sent us the files, you can copy the _backup file over your old save to continue from your last save.\n\n");
-			outputText("Alternatively, you can just hit the restore button to overwrite the broken save with the backup... but we'd really like the saves first!");
+			Render.text("<b>Aborting save.  Your current save file is broken, and needs to be bug-reported.</b>\n\nWithin the save folder for CoC, there should be a pair of files named \"" + slot + ".sol\" and \"" + slot + "_backup.sol\"\n\n<b>We need BOTH of those files, and a quick report of what you've done in the game between when you last saved, and this message.</b>\n\n", true);
+			Render.text("When you've sent us the files, you can copy the _backup file over your old save to continue from your last save.\n\n");
+			Render.text("Alternatively, you can just hit the restore button to overwrite the broken save with the backup... but we'd really like the saves first!");
 			trace("Backup Save Aborted! Broken save detected!");
 			backupAborted = true;
 		}
@@ -991,14 +991,14 @@ public function saveGameObject(slot:string, isFile:boolean):void
 		}
 		
 		if (!backupAborted)
-			outputText("Saved to slot" + slot + "!", true);
+			Render.text("Saved to slot" + slot + "!", true);
 	}
 	else
 	{
-		outputText("There was a processing error during saving. Please report the following message:\n\n");
-		outputText(dataError.message);
-		outputText("\n\n");
-		outputText(dataError.getStackTrace());
+		Render.text("There was a processing error during saving. Please report the following message:\n\n");
+		Render.text(dataError.message);
+		Render.text("\n\n");
+		Render.text(dataError.getStackTrace());
 	}
 	
 	if (!backupAborted)
@@ -1028,7 +1028,7 @@ public function restore(slotName:string):void
 	
 	overwriteFile.flush();
 	
-	outputText("Restored backup of " + slotName, true);
+	Render.text("Restored backup of " + slotName, true);
 	menu();
 	doNext(playerMenu);
 }
@@ -1087,13 +1087,13 @@ public function onFileLoaded(evt:Event):void
 	}
 	catch (error:Error)
 	{
-		outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC.swf file.\n\nLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.",true);
+		Render.text("<b>!</b> Save file not found, check that it is in the same directory as the CoC.swf file.\n\nLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.",true);
 	}
 }
 
 public function ioErrorHandler(e:IOErrorEvent):void
 {
-	outputText("<b>!</b> Save file not found, check that it is in the same directory as the CoC_" + ver + ".swf file.\r\rLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.", true);
+	Render.text("<b>!</b> Save file not found, check that it is in the same directory as the CoC_" + ver + ".swf file.\r\rLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.", true);
 	doNext(returnToSaveMenu);
 }
 
@@ -1109,7 +1109,7 @@ public function onDataLoaded(evt:Event):void
 	{
 		// I want to be able to write some debug stuff to the GUI during the loading process
 		// Therefore, we clear the display *before* calling loadGameObject
-		outputText("Loading save...", true);
+		Render.text("Loading save...", true);
 		trace("OnDataLoaded! - Reading data", loader, loader.data.readObject);
 		let tmpObj:Object = loader.data.readObject();
 		trace("Read in object = ", tmpObj);
@@ -1122,17 +1122,17 @@ public function onDataLoaded(evt:Event):void
 			}
 		}
 		loadGameObject(tmpObj);
-		outputText("Loaded Save");
+		Render.text("Loaded Save");
 	}
 	catch (rangeError:RangeError)
 	{
-		outputText("<b>!</b> File is either corrupted or not a valid save", true);
+		Render.text("<b>!</b> File is either corrupted or not a valid save", true);
 		doNext(returnToSaveMenu);
 	}
 	catch (error:Error)
 	{
-		outputText("<b>!</b> Unhandled Exception", true);
-		outputText("[pg]Failed to load save. The file may be corrupt!");
+		Render.text("<b>!</b> Unhandled Exception", true);
+		Render.text("[pg]Failed to load save. The file may be corrupt!");
 
 		doNext(returnToSaveMenu);
 	}
@@ -1916,7 +1916,7 @@ public function unFuckSave():void
 	{ // Valid contents of flags[FlagEnum.RUBI_COCK_TYPE] are either a CockType or a number
 
 		trace("Fixing save (goo girl)");
-		outputText("\n<b>Rubi's cockType is invalid. Defaulting him to human.</b>\n");
+		Render.text("\n<b>Rubi's cockType is invalid. Defaulting him to human.</b>\n");
 		flags[FlagEnum.RUBI_COCK_TYPE] = 0;
 	}
 
@@ -1925,7 +1925,7 @@ public function unFuckSave():void
 	{ // Valid contents of flags[FlagEnum.GOO_DICK_TYPE] are either a CockType or a number
 
 		trace("Fixing save (goo girl)");
-		outputText("\n<b>Latex Goo-Girls's cockType is invalid. Defaulting him to human.</b>\n");
+		Render.text("\n<b>Latex Goo-Girls's cockType is invalid. Defaulting him to human.</b>\n");
 		flags[FlagEnum.GOO_DICK_TYPE] = 0;
 	}
 

@@ -232,7 +232,7 @@ export default class Player extends Character {
         //Already in heat, intensify further.
         if (this.inHeat) {
             if (output) {
-                outputText("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
+                Render.text("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
             }
             let temp: number = this.statusAffects.has(StatusAffects.Heat);
             statusAffect(temp).value1 += 5 * intensity;
@@ -243,7 +243,7 @@ export default class Player extends Character {
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus this.stats.libido, v3 is hours till it's gone
         else {
             if (output) {
-                outputText("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>", false);
+                Render.text("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>", false);
             }
             this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
             game.dynStats("this.stats.lib", 15 * intensity, "resisted", false, "noBimbo", true);
@@ -267,7 +267,7 @@ export default class Player extends Character {
         //Has rut, intensify it!
         if (this.inRut) {
             if (output) {
-                outputText("\n\nYour " + cockDescript(0) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);
+                Render.text("\n\nYour " + cockDescript(0) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);
             }
 
             statusAffects.get("Rut").value1 = 100 * intensity;
@@ -277,7 +277,7 @@ export default class Player extends Character {
         }
         else {
             if (output) {
-                outputText("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!", false);
+                Render.text("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!", false);
             }
 
             //v1 - bonus cum production

@@ -8,7 +8,7 @@
 		//Special Attack 1
 		protected function impFire():void
 		{
-			outputText("The imp mutters something to himself. Before you have time to react the demonic creature's hand is filled with a bright red fire that he hurls at you.  The flames lick at your body leaving a painful burn on you torso, as well as an arousing heat in your groin.");
+			Render.text("The imp mutters something to himself. Before you have time to react the demonic creature's hand is filled with a bright red fire that he hurls at you.  The flames lick at your body leaving a painful burn on you torso, as well as an arousing heat in your groin.");
 			//[-HP // +Lust(minor)]
 			let damage: number = 40 + rand(10);
 			player.takeDamage(damage);
@@ -20,13 +20,13 @@
 		protected function impLordHeavyEncounter():void
 		{
 			let damage: number = int((str + weaponAttack + 20) - rand(player.tou) - player.armorDef);
-			outputText("The demonic creature slashes a clawed hand towards your stomach,");
-			if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) outputText(" but you handily avoid it.");
-			else if (damage <= 0) outputText(" but the attack proves ineffectual.");
+			Render.text("The demonic creature slashes a clawed hand towards your stomach,");
+			if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) Render.text(" but you handily avoid it.");
+			else if (damage <= 0) Render.text(" but the attack proves ineffectual.");
 			else {
-				outputText("leaving a large gash. The attack leaves you slightly stunned, but you recover. ");
+				Render.text("leaving a large gash. The attack leaves you slightly stunned, but you recover. ");
 				damage = player.takeDamage(damage);
-				outputText("(" + damage + ")");
+				Render.text("(" + damage + ")");
 			}
 			combatRoundOver();
 		}
@@ -34,7 +34,7 @@
 		//Lust Attack
 		protected function impLordLustAttack():void
 		{
-			outputText("Lowering his loincloth the imp reveals his inhumanly thick shaft.  He smirks and licks his lips as he gives his cock a squeeze, milking a few beads of clear pre from the tip.  You shake your head and try to ignore your growing need.");
+			Render.text("Lowering his loincloth the imp reveals his inhumanly thick shaft.  He smirks and licks his lips as he gives his cock a squeeze, milking a few beads of clear pre from the tip.  You shake your head and try to ignore your growing need.");
 			//[+Lust]
 			game.dynStats("lus", 5 + player.stats.lib / 5 + player.stats.cor / 5);
 			combatRoundOver();
@@ -43,10 +43,10 @@
 		//Lust and Light Attack
 		protected function impLordLustAttack2():void
 		{
-			outputText("Reaching into his satchel the devilish creature pulls out a leather riding crop.  He quickly rushes forward, but somehow manages to get behind you.  Before you can react the imp lashes out, striking your [butt] twice with the riding crop.  The strikes leave a slight burning feeling, as well as a strange sense of arousal.");
+			Render.text("Reaching into his satchel the devilish creature pulls out a leather riding crop.  He quickly rushes forward, but somehow manages to get behind you.  Before you can react the imp lashes out, striking your [butt] twice with the riding crop.  The strikes leave a slight burning feeling, as well as a strange sense of arousal.");
 			let damage: number = 3 + rand(10);
 			damage = player.takeDamage(damage);
-			outputText(" (" + damage + ")");
+			Render.text(" (" + damage + ")");
 			//[-HP(minor) // +Lust]
 			game.dynStats("lus", 5 + player.stats.sens / 4 + player.stats.cor / 10);
 			combatRoundOver();

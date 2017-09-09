@@ -152,7 +152,7 @@ replaced with `itype == library.THATITM` where `library` is item library (see be
 ## Class hierarchy
 
 1. `ItemType` is superclass for every item. It could be placed into player's inventory or chest.
-2. `CommonItem` contains handy methods `outputText`, `clearOutput` and a `game` property to use when performing item
+2. `CommonItem` contains handy methods `Render.text`, `clearOutput` and a `game` property to use when performing item
    effects.
 3. `Useable` has new method `useItem(player,output,external)` that **MUST** be overriden in subclasses. It is called
    whenever player uses this item, via inventory or *"Use Now"* button. To distinguish these cases, `external` property

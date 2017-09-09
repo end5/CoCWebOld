@@ -24,7 +24,7 @@ export default class Weapon extends Useable //Equipable
     public get displayname(): string { return this._displayname; }
 
     public use() {
-        outputText("You equip " + this._longName + ".  ");
+        Render.text("You equip " + this._longName + ".  ");
     }
 
     public playerEquip(): Weapon { //This item is being equipped by the player. Add any perks, etc. - This should only handle mechanics, not text output

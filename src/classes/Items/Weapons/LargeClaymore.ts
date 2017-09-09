@@ -7,7 +7,7 @@ export default class LargeClaymore extends Weapon {
 
     public canUse(): boolean {
         if (player.str >= 40) return true;
-        outputText("You aren't strong enough to handle such a heavy weapon!  ");
+        Render.text("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
 }

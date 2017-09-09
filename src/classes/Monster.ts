@@ -27,8 +27,8 @@
 		{
 			return player;
 		}
-		protected final function outputText(text:string,clear:boolean=false):void{
-			game.outputText(text,clear);
+		protected final function Render.text(text:string,clear:boolean=false):void{
+			Render.text(text,clear);
 		}
 		protected final function combatRoundOver():void{
 			game.combatRoundOver();
@@ -590,7 +590,7 @@
 					outputAttack(damage);
 					postAttack(damage);
 					game.statScreenRefresh();
-					outputText("\n", false);
+					Render.text("\n", false);
 				}
 				if (statusAffects.get("Attacks").value1 >= 0) {
 					statusAffects.get("Attacks").value1 = -1;
@@ -610,8 +610,8 @@
 		{
 			if (damage > 0) {
 				if (lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
-					if (!plural) outputText("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
-					else outputText("\n" + capitalA + short + " brush against your exposed skin and jerk back in surprise, coloring slightly from seeing so much of you revealed.", false);
+					if (!plural) Render.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
+					else Render.text("\n" + capitalA + short + " brush against your exposed skin and jerk back in surprise, coloring slightly from seeing so much of you revealed.", false);
 					lust += 5 * lustVuln;
 				}
 			}
@@ -621,27 +621,27 @@
 		{
 			if (damage <= 0) {
 				//Due to toughness or amor...
-				if (rand(player.armorDef + player.tou) < player.armorDef) outputText("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
+				if (rand(player.armorDef + player.tou) < player.armorDef) Render.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
 				else {
-					if (plural) outputText("You deflect and block every " + weaponVerb + " " + a + short + " throw at you.", false);
-					else outputText("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+					if (plural) Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throw at you.", false);
+					else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 				}
 			}
-			else if (damage < 6) outputText("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
+			else if (damage < 6) Render.text("You are struck a glancing blow by " + a + short + "! (" + damage + ")", false);
 			else if (damage < 11) {
-				outputText(capitalA + short + " wound");
-				if (!plural) outputText("s");
-				outputText(" you! (" + damage + ")", false);
+				Render.text(capitalA + short + " wound");
+				if (!plural) Render.text("s");
+				Render.text(" you! (" + damage + ")", false);
 			}
 			else if (damage < 21) {
-				outputText(capitalA + short + " stagger");
-				if (!plural) outputText("s");
-				outputText(" you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
+				Render.text(capitalA + short + " stagger");
+				if (!plural) Render.text("s");
+				Render.text(" you with the force of " + pronoun3 + " " + weaponVerb + "! (" + damage + ")", false);
 			}
 			else if (damage > 20) {
-				outputText(capitalA + short + " <b>mutilate", false);
-				if (!plural) outputText("s", false);
-				outputText("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
+				Render.text(capitalA + short + " <b>mutilate", false);
+				if (!plural) Render.text("s", false);
+				Render.text("</b> you with " + pronoun3 + " powerful " + weaponVerb + "! (" + damage + ")", false);
 			}
 		}
 
@@ -651,8 +651,8 @@
 		protected function handleBlind():boolean
 		{
 			if (rand(3) < 2) {
-				if (weaponVerb == "tongue-slap") outputText(capitalA + short + " completely misses you with a thrust from "+pronoun3+" tongue!\n", false);
-				else outputText(capitalA + short + " completely misses you with a blind attack!\n", false);
+				if (weaponVerb == "tongue-slap") Render.text(capitalA + short + " completely misses you with a thrust from "+pronoun3+" tongue!\n", false);
+				else Render.text(capitalA + short + " completely misses you with a blind attack!\n", false);
 				return false;
 			}
 			return true;
@@ -663,13 +663,13 @@
 		 */
 		protected function outputPlayerDodged(dodge: number):void
 		{
-			if (dodge==1) outputText("You narrowly avoid " + a + short + "'s " + weaponVerb + "!\n", false);
-			else if (dodge==2) outputText("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!\n", false);
+			if (dodge==1) Render.text("You narrowly avoid " + a + short + "'s " + weaponVerb + "!\n", false);
+			else if (dodge==2) Render.text("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!\n", false);
 			else {
-				outputText("You deftly avoid " + a + short);
-				if (plural) outputText("'");
-				else outputText("'s");
-				outputText(" slow " + weaponVerb + ".\n", false);
+				Render.text("You deftly avoid " + a + short);
+				if (plural) Render.text("'");
+				else Render.text("'s");
+				Render.text(" slow " + weaponVerb + ".\n", false);
 			}
 		}
 
@@ -683,21 +683,21 @@
 			}
 			//Determine if evaded
 			if (!(this is Kiha) && player.perks.has("Evade") && rand(100) < 10) {
-				outputText("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'");
-				if (!plural) outputText("s");
-				outputText(" attack.\n", false);
+				Render.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'");
+				if (!plural) Render.text("s");
+				Render.text(" attack.\n", false);
 				return true;
 			}
 			//("Misdirection"
 			if (player.perks.has("Misdirection") && rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
-				outputText("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' attacks.\n", false);
+				Render.text("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' attacks.\n", false);
 				return true;
 			}
 			//Determine if cat'ed
 			if (player.perks.has("Flexibility") && rand(100) < 6) {
-				outputText("With your incredible flexibility, you squeeze out of the way of " + a + short + "", false);
-				if (plural) outputText("' attacks.\n", false);
-				else outputText("'s attack.\n", false);
+				Render.text("With your incredible flexibility, you squeeze out of the way of " + a + short + "", false);
+				if (plural) Render.text("' attacks.\n", false);
+				else Render.text("'s attack.\n", false);
 				return true;
 			}
 			return false;
@@ -713,7 +713,7 @@
 			}
 			//Exgartuan gets to do stuff!
 			if (player.statusAffects.has("Exgartuan") && player.statusAffects.get("Exgartuan").value2 == 0 && rand(3) == 0) {
-				if (game.exgartuan.exgartuanCombatUpdate()) game.outputText("\n\n", false);
+				if (game.exgartuan.exgartuanCombatUpdate()) Render.text("\n\n", false);
 			}
 			if (statusAffects.has("Constricted")) {
 				if (!handleConstricted()) return;
@@ -733,7 +733,7 @@
 				 mainClassPtr.doNext(3);
 				 return;
 				 }
-				 mainClassPtr.outputText("Lust Placeholder!!", false);
+				 mainClassPtr.Render.text("Lust Placeholder!!", false);
 				 mainClassPtr.doNext(3);
 				 return;*/
 //			}
@@ -746,9 +746,9 @@
 		protected function handleConstricted():boolean
 		{
 			//Enemy struggles -
-			game.outputText("Your prey pushes at your tail, twisting and writhing in an effort to escape from your tail's tight bonds.", false);
+			Render.text("Your prey pushes at your tail, twisting and writhing in an effort to escape from your tail's tight bonds.", false);
 			if (statusAffects.get("Constricted").value1 <= 0) {
-				game.outputText("  " + capitalA + short + " proves to be too much for your tail to handle, breaking free of your tightly bound coils.", false);
+				Render.text("  " + capitalA + short + " proves to be too much for your tail to handle, breaking free of your tightly bound coils.", false);
 				statusAffects.remove("Constricted");
 			}
 			statusAffects.get("Constricted").value1 = -1;
@@ -764,17 +764,17 @@
 			if (statusAffects.get("Fear").value1 == 0) {
 				if (plural) {
 					statusAffects.remove("Fear");
-					game.outputText("Your foes shake free of their fear and ready themselves for battle.", false);
+					Render.text("Your foes shake free of their fear and ready themselves for battle.", false);
 				}
 				else {
 					statusAffects.remove("Fear");
-					game.outputText("Your foe shakes free of its fear and readies itself for battle.", false);
+					Render.text("Your foe shakes free of its fear and readies itself for battle.", false);
 				}
 			}
 			else {
 				statusAffects.get("Fear").value1 = -1;
-				if (plural) game.outputText(capitalA + short + " are too busy shivering with fear to fight.", false);
-				else game.outputText(capitalA + short + " is too busy shivering with fear to fight.", false);
+				if (plural) Render.text(capitalA + short + " are too busy shivering with fear to fight.", false);
+				else Render.text(capitalA + short + " is too busy shivering with fear to fight.", false);
 			}
 			game.combatRoundOver();
 			return false;
@@ -785,8 +785,8 @@
 		 */
 		protected function handleStun():boolean
 		{
-			if (plural) game.outputText("Your foes are too dazed from your last hit to strike back!", false);
-			else game.outputText("Your foe is too dazed from your last hit to strike back!", false);
+			if (plural) Render.text("Your foes are too dazed from your last hit to strike back!", false);
+			else Render.text("Your foe is too dazed from your last hit to strike back!", false);
 			if (statusAffects.get("Stunned").value1 <= 0) statusAffects.remove("Stunned");
 			else statusAffects.get("Stunned").value1 = -1;
 			game.combatRoundOver();
@@ -827,16 +827,16 @@
 		{
 			if (hpVictory){
 				player.HP = 1;
-				outputText("Your wounds are too great to bear, and you fall unconscious.", true);
+				Render.text("Your wounds are too great to bear, and you fall unconscious.", true);
 			} else {
-				outputText("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
+				Render.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
 				player.lust = 0;
 			}
 			game.inCombat = false;
 			game.clearStatuses(false);
 			let temp:number = rand(10) + 1;
 			if(temp > player.stats.gems) temp = player.stats.gems;
-			outputText("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
+			Render.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
 			player.stats.gems -= temp;
 			game.doNext(game.camp.returnToCampUseEightHours);
 		}
@@ -882,7 +882,7 @@
 			if(lustDelta > 0) {
 				//Imp mob uber interrupt!
 			  	if(statusAffects.has("ImpUber")) { // TODO move to proper class
-					outputText("\nThe imps in the back stumble over their spell, their loincloths tenting obviously as your display interrupts their casting.  One of them spontaneously orgasms, having managed to have his spell backfire.  He falls over, weakly twitching as a growing puddle of whiteness surrounds his defeated form.", false);
+					Render.text("\nThe imps in the back stumble over their spell, their loincloths tenting obviously as your display interrupts their casting.  One of them spontaneously orgasms, having managed to have his spell backfire.  He falls over, weakly twitching as a growing puddle of whiteness surrounds his defeated form.", false);
 					//(-5% of max enemy HP)
 					HP -= bonusHP * .05;
 					lust -= 15;
@@ -896,31 +896,31 @@
 		protected function outputDefaultTeaseReaction(lustDelta:number):void
 		{
 			if (plural) {
-				if (lustDelta == 0) outputText("\n\n" + capitalA + short + " seem unimpressed.", false);
-				if (lustDelta > 0 && lustDelta < 4) outputText("\n" + capitalA + short + " look intrigued by what " + pronoun1 + " see.", false);
-				if (lustDelta >= 4 && lustDelta < 10) outputText("\n" + capitalA + short + " definitely seem to be enjoying the show.", false);
-				if (lustDelta >= 10 && lustDelta < 15) outputText("\n" + capitalA + short + " openly stroke " + pronoun2 + "selves as " + pronoun1 + " watch you.", false);
-				if (lustDelta >= 15 && lustDelta < 20) outputText("\n" + capitalA + short + " flush hotly with desire, " + pronoun3 + " eyes filled with longing.", false);
-				if (lustDelta >= 20) outputText("\n" + capitalA + short + " lick " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " bodies.", false);
+				if (lustDelta == 0) Render.text("\n\n" + capitalA + short + " seem unimpressed.", false);
+				if (lustDelta > 0 && lustDelta < 4) Render.text("\n" + capitalA + short + " look intrigued by what " + pronoun1 + " see.", false);
+				if (lustDelta >= 4 && lustDelta < 10) Render.text("\n" + capitalA + short + " definitely seem to be enjoying the show.", false);
+				if (lustDelta >= 10 && lustDelta < 15) Render.text("\n" + capitalA + short + " openly stroke " + pronoun2 + "selves as " + pronoun1 + " watch you.", false);
+				if (lustDelta >= 15 && lustDelta < 20) Render.text("\n" + capitalA + short + " flush hotly with desire, " + pronoun3 + " eyes filled with longing.", false);
+				if (lustDelta >= 20) Render.text("\n" + capitalA + short + " lick " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " bodies.", false);
 			}
 			else {
-				if (lustDelta == 0) outputText("\n" + capitalA + short + " seems unimpressed.", false);
+				if (lustDelta == 0) Render.text("\n" + capitalA + short + " seems unimpressed.", false);
 				if (lustDelta > 0 && lustDelta < 4) {
-					if (plural) outputText("\n" + capitalA + short + " looks intrigued by what " + pronoun1 + " see.", false);
-					else outputText("\n" + capitalA + short + " looks intrigued by what " + pronoun1 + " sees.", false);
+					if (plural) Render.text("\n" + capitalA + short + " looks intrigued by what " + pronoun1 + " see.", false);
+					else Render.text("\n" + capitalA + short + " looks intrigued by what " + pronoun1 + " sees.", false);
 				}
-				if (lustDelta >= 4 && lustDelta < 10) outputText("\n" + capitalA + short + " definitely seems to be enjoying the show.", false);
+				if (lustDelta >= 4 && lustDelta < 10) Render.text("\n" + capitalA + short + " definitely seems to be enjoying the show.", false);
 				if (lustDelta >= 10 && lustDelta < 15) {
-					if (plural) outputText("\n" + capitalA + short + " openly strokes " + pronoun2 + "selves as " + pronoun1 + " watch you.", false);
-					else outputText("\n" + capitalA + short + " openly strokes " + pronoun2 + "self as " + pronoun1 + " watches you.", false);
+					if (plural) Render.text("\n" + capitalA + short + " openly strokes " + pronoun2 + "selves as " + pronoun1 + " watch you.", false);
+					else Render.text("\n" + capitalA + short + " openly strokes " + pronoun2 + "self as " + pronoun1 + " watches you.", false);
 				}
 				if (lustDelta >= 15 && lustDelta < 20) {
-					if (plural) outputText("\n" + capitalA + short + " flush hotly with desire, " + pronoun3 + " eyes filling with longing.", false);
-					else outputText("\n" + capitalA + short + " flushes hotly with desire, " + pronoun3 + " eyes filled with longing.", false);
+					if (plural) Render.text("\n" + capitalA + short + " flush hotly with desire, " + pronoun3 + " eyes filling with longing.", false);
+					else Render.text("\n" + capitalA + short + " flushes hotly with desire, " + pronoun3 + " eyes filled with longing.", false);
 				}
 				if (lustDelta >= 20) {
-					if (plural) outputText("\n" + capitalA + short + " licks " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " own bodies.", false);
-					else outputText("\n" + capitalA + short + " licks " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " own body.", false);
+					if (plural) Render.text("\n" + capitalA + short + " licks " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " own bodies.", false);
+					else Render.text("\n" + capitalA + short + " licks " + pronoun3 + " lips in anticipation, " + pronoun3 + " hands idly stroking " + pronoun3 + " own body.", false);
 				}
 			}
 		}
@@ -928,7 +928,7 @@
 		protected function applyTease(lustDelta:number):void{
 			lust += lustDelta;
 			lustDelta = Math.round(lustDelta * 10)/10;
-			outputText(" (" + lustDelta + ")", false);
+			Render.text(" (" + lustDelta + ")", false);
 		}
 
 		public function generateDebugDescription():string{
@@ -1053,58 +1053,58 @@
 			if(statusAffects.has("CoonWhip")) {
 				if(statusAffects.get("CoonWhip").value2 <= 0) {
 					armorDef += statusAffects.get("CoonWhip").value1;
-					outputText("<b>Tail whip wears off!</b>\n\n");
+					Render.text("<b>Tail whip wears off!</b>\n\n");
 					statusAffects.remove("CoonWhip");
 				}
 				else {
 					addStatusValue(StatusAffects.CoonWhip,2,-1);
-					outputText("<b>Tail whip is currently reducing your foe");
-					if(plural) outputText("s'");
-					else outputText("'s");
-					outputText(" armor by " + statusAffects.get("CoonWhip").value1 + ".</b>\n\n")
+					Render.text("<b>Tail whip is currently reducing your foe");
+					if(plural) Render.text("s'");
+					else Render.text("'s");
+					Render.text(" armor by " + statusAffects.get("CoonWhip").value1 + ".</b>\n\n")
 				}
 			}
 			if(statusAffects.has("Blind")) {
 				addStatusValue(StatusAffects.Blind,1,-1);
 				if(statusAffects.get("Blind").value1 <= 0) {
-					outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " no longer blind!</b>\n\n", false);
+					Render.text("<b>" + capitalA + short + (plural ? " are" : " is") + " no longer blind!</b>\n\n", false);
 					statusAffects.remove("Blind");
 				}
-				else outputText("<b>" + capitalA + short + (plural ? " are" : " is") + " currently blind!</b>\n\n", false);
+				else Render.text("<b>" + capitalA + short + (plural ? " are" : " is") + " currently blind!</b>\n\n", false);
 			}
 			if(statusAffects.has("Earthshield")) {
-				outputText("<b>" + capitalA + short + " is protected by a shield of rocks!</b>\n\n");
+				Render.text("<b>" + capitalA + short + " is protected by a shield of rocks!</b>\n\n");
 			}
 			if(statusAffects.has("Sandstorm")) {
 				//Blinded:
 				if(player.statusAffects.has("Blind")) {
-					outputText("<b>You blink the sand from your eyes, but you're sure that more will get you if you don't end it soon!</b>\n\n");
+					Render.text("<b>You blink the sand from your eyes, but you're sure that more will get you if you don't end it soon!</b>\n\n");
 					player.statusAffects.remove("Blind");
 				}
 				else {
 					if(statusAffects.get("Sandstorm").value1 == 0 || statusAffects.get("Sandstorm").value1 % 4 == 0) {
 						player.statusAffects.add(new StatusAffect("Blind",0,0,0,0)));
-						outputText("<b>The sand is in your eyes!  You're blinded this turn!</b>\n\n");
+						Render.text("<b>The sand is in your eyes!  You're blinded this turn!</b>\n\n");
 					}
 					else {
-						outputText("<b>The grainy mess cuts at any exposed flesh and gets into every crack and crevice of your armor.");
+						Render.text("<b>The grainy mess cuts at any exposed flesh and gets into every crack and crevice of your armor.");
 						let temp:number = player.takeDamage(1 + rand(2));
-						outputText(" (" + temp + ")");
-						outputText("</b>\n\n");
+						Render.text(" (" + temp + ")");
+						Render.text("</b>\n\n");
 					}
 				}
 				addStatusValue(StatusAffects.Sandstorm,1,1);
 			}
 			if(statusAffects.has("Stunned")) {
-				outputText("<b>" + capitalA + short + " is still stunned!</b>\n\n", false);
+				Render.text("<b>" + capitalA + short + " is still stunned!</b>\n\n", false);
 			}
 			if(statusAffects.has("Shell")) {
 				if(statusAffects.get("Shell").value1 >= 0) {
-					outputText("<b>A wall of many hues shimmers around " + a + short + ".</b>\n\n");
+					Render.text("<b>A wall of many hues shimmers around " + a + short + ".</b>\n\n");
 					addStatusValue(StatusAffects.Shell,1,-1);
 				}
 				else {
-					outputText("<b>The magical barrier " + a + short + " erected fades away to nothing at last.</b>\n\n");
+					Render.text("<b>The magical barrier " + a + short + " erected fades away to nothing at last.</b>\n\n");
 					statusAffects.remove("Shell");
 				}
 			}
@@ -1113,15 +1113,15 @@
 				addStatusValue(StatusAffects.IzmaBleed,1,-1);
 				//Heal wounds
 				if(statusAffects.get("IzmaBleed").value1 <= 0) {
-					outputText("The wounds you left on " + a + short + " stop bleeding so profusely.\n\n", false);
+					Render.text("The wounds you left on " + a + short + " stop bleeding so profusely.\n\n", false);
 					statusAffects.remove("IzmaBleed");
 				}
 				//Deal damage if still wounded.
 				else {
 					let store:number = eMaxHP() * (3 + rand(4))/100;
 					store = game.doDamage(store);
-					if(plural) outputText(capitalA + short + " bleed profusely from the jagged wounds your weapon left behind. (" + store + ")\n\n", false);
-					else outputText(capitalA + short + " bleeds profusely from the jagged wounds your weapon left behind. (" + store + ")\n\n", false);
+					if(plural) Render.text(capitalA + short + " bleed profusely from the jagged wounds your weapon left behind. (" + store + ")\n\n", false);
+					else Render.text(capitalA + short + " bleeds profusely from the jagged wounds your weapon left behind. (" + store + ")\n\n", false);
 				}
 			}
 			if(statusAffects.has("Timer")) {
@@ -1134,28 +1134,28 @@
 				switch(statusAffects.get("LustStick").value1) {
 					//First:
 					case 1:
-						if(plural) outputText("One of " + a + short + " pants and crosses " + mf("his","her") + " eyes for a moment.  " + mf("His","Her") + " dick flexes and bulges, twitching as " + mf("he","she") + " loses himself in a lipstick-fueled fantasy.  When " + mf("he","she") + " recovers, you lick your lips and watch " + mf("his","her") + " blush spread.\n\n", false);
-						else outputText(capitalA + short + " pants and crosses " + pronoun3 + " eyes for a moment.  " + mf("His","Her") + " dick flexes and bulges, twitching as " + pronoun1 + " loses " + mf("himself", "herself") + " in a lipstick-fueled fantasy.  When " + pronoun1 + " recovers, you lick your lips and watch " + mf("his","her") + " blush spread.\n\n", false);
+						if(plural) Render.text("One of " + a + short + " pants and crosses " + mf("his","her") + " eyes for a moment.  " + mf("His","Her") + " dick flexes and bulges, twitching as " + mf("he","she") + " loses himself in a lipstick-fueled fantasy.  When " + mf("he","she") + " recovers, you lick your lips and watch " + mf("his","her") + " blush spread.\n\n", false);
+						else Render.text(capitalA + short + " pants and crosses " + pronoun3 + " eyes for a moment.  " + mf("His","Her") + " dick flexes and bulges, twitching as " + pronoun1 + " loses " + mf("himself", "herself") + " in a lipstick-fueled fantasy.  When " + pronoun1 + " recovers, you lick your lips and watch " + mf("his","her") + " blush spread.\n\n", false);
 						break;
 					//Second:
 					case 2:
-						if(plural) outputText(capitalA + short + " moan out loud, " + pronoun3 + " dicks leaking and dribbling while " + pronoun1 + " struggle not to touch " + pronoun2 + ".\n\n", false);
-						else outputText(capitalA + short + " moans out loud, " + pronoun3 + " dick leaking and dribbling while " + pronoun1 + " struggles not to touch it.\n\n", false);
+						if(plural) Render.text(capitalA + short + " moan out loud, " + pronoun3 + " dicks leaking and dribbling while " + pronoun1 + " struggle not to touch " + pronoun2 + ".\n\n", false);
+						else Render.text(capitalA + short + " moans out loud, " + pronoun3 + " dick leaking and dribbling while " + pronoun1 + " struggles not to touch it.\n\n", false);
 						break;
 					//Third:
 					case 3:
-						if(plural) outputText(capitalA + short + " pump " + pronoun3 + " hips futilely, air-humping non-existent partners.  Clearly your lipstick is getting to " + pronoun2 + ".\n\n", false);
-						else outputText(capitalA + short + " pumps " + pronoun3 + " hips futilely, air-humping a non-existent partner.  Clearly your lipstick is getting to " + pronoun2 + ".\n\n", false);
+						if(plural) Render.text(capitalA + short + " pump " + pronoun3 + " hips futilely, air-humping non-existent partners.  Clearly your lipstick is getting to " + pronoun2 + ".\n\n", false);
+						else Render.text(capitalA + short + " pumps " + pronoun3 + " hips futilely, air-humping a non-existent partner.  Clearly your lipstick is getting to " + pronoun2 + ".\n\n", false);
 						break;
 					//Fourth:
 					case 4:
-						if(plural) outputText(capitalA + short + " close " + pronoun3 + " eyes and grunt, " + pronoun3 + " cocks twitching, bouncing, and leaking pre-cum.\n\n", false);
-						else outputText(capitalA + short + " closes " + pronoun2 + " eyes and grunts, " + pronoun3 + " cock twitching, bouncing, and leaking pre-cum.\n\n", false);
+						if(plural) Render.text(capitalA + short + " close " + pronoun3 + " eyes and grunt, " + pronoun3 + " cocks twitching, bouncing, and leaking pre-cum.\n\n", false);
+						else Render.text(capitalA + short + " closes " + pronoun2 + " eyes and grunts, " + pronoun3 + " cock twitching, bouncing, and leaking pre-cum.\n\n", false);
 						break;
 					//Fifth and repeat:
 					default:
-						if(plural) outputText("Drops of pre-cum roll steadily out of their dicks.  It's a marvel " + pronoun1 + " haven't given in to " + pronoun3 + " lusts yet.\n\n", false);
-						else outputText("Drops of pre-cum roll steadily out of " + a + short + "'s dick.  It's a marvel " + pronoun1 + " hasn't given in to " + pronoun3 + " lust yet.\n\n", false);
+						if(plural) Render.text("Drops of pre-cum roll steadily out of their dicks.  It's a marvel " + pronoun1 + " haven't given in to " + pronoun3 + " lusts yet.\n\n", false);
+						else Render.text("Drops of pre-cum roll steadily out of " + a + short + "'s dick.  It's a marvel " + pronoun1 + " hasn't given in to " + pronoun3 + " lust yet.\n\n", false);
 						break;
 				}
 				addStatusValue(StatusAffects.LustStick,1,1);
@@ -1165,32 +1165,32 @@
 			}
 			if(statusAffects.has("PCTailTangle")) {
 				//when Entwined
-				outputText("You are bound tightly in the kitsune's tails.  <b>The only thing you can do is try to struggle free!</b>\n\n");
-				outputText("Stimulated by the coils of fur, you find yourself growing more and more aroused...\n\n");
+				Render.text("You are bound tightly in the kitsune's tails.  <b>The only thing you can do is try to struggle free!</b>\n\n");
+				Render.text("Stimulated by the coils of fur, you find yourself growing more and more aroused...\n\n");
 				game.dynStats("lus", 5+player.stats.sens/10);
 			}
 			if(statusAffects.has("QueenBind")) {
-				outputText("You're utterly restrained by the Harpy Queen's magical ropes!\n\n");
+				Render.text("You're utterly restrained by the Harpy Queen's magical ropes!\n\n");
 				if(flags[FlagEnum.PC_FETISH] >= 2) game.dynStats("lus", 3);
 			}
 			if(this is SecretarialSuccubus || this is MilkySuccubus) {
-				if(player.lust < 45) outputText("There is something in the air around your opponent that makes you feel warm.\n\n", false);
-				if(player.lust >= 45 && player.lust < 70) outputText("You aren't sure why but you have difficulty keeping your eyes off your opponent's lewd form.\n\n", false);
-				if(player.lust >= 70 && player.lust < 90) outputText("You blush when you catch yourself staring at your foe's rack, watching it wobble with every step she takes.\n\n", false);
-				if(player.lust >= 90) outputText("You have trouble keeping your greedy hands away from your groin.  It would be so easy to just lay down and masturbate to the sight of your curvy enemy.  The succubus looks at you with a sexy, knowing expression.\n\n", false);
+				if(player.lust < 45) Render.text("There is something in the air around your opponent that makes you feel warm.\n\n", false);
+				if(player.lust >= 45 && player.lust < 70) Render.text("You aren't sure why but you have difficulty keeping your eyes off your opponent's lewd form.\n\n", false);
+				if(player.lust >= 70 && player.lust < 90) Render.text("You blush when you catch yourself staring at your foe's rack, watching it wobble with every step she takes.\n\n", false);
+				if(player.lust >= 90) Render.text("You have trouble keeping your greedy hands away from your groin.  It would be so easy to just lay down and masturbate to the sight of your curvy enemy.  The succubus looks at you with a sexy, knowing expression.\n\n", false);
 				game.dynStats("lus", 1+rand(8));
 			}
 			//[LUST GAINED PER ROUND] - Omnibus
 			if(statusAffects.has("LustAura")) {
-				if(player.lust < 33) outputText("Your groin tingles warmly.  The demon's aura is starting to get to you.\n\n", false);
-		 		if(player.lust >= 33 && player.lust < 66) outputText("You blush as the demon's aura seeps into you, arousing you more and more.\n\n", false);
+				if(player.lust < 33) Render.text("Your groin tingles warmly.  The demon's aura is starting to get to you.\n\n", false);
+		 		if(player.lust >= 33 && player.lust < 66) Render.text("You blush as the demon's aura seeps into you, arousing you more and more.\n\n", false);
 		  		if(player.lust >= 66) {
-					outputText("You flush bright red with desire as the lust in the air worms its way inside you.  ", false);
+					Render.text("You flush bright red with desire as the lust in the air worms its way inside you.  ", false);
 					temp = rand(4);
-					if(temp == 0) outputText("You have a hard time not dropping to your knees to service her right now.\n\n", false);
-					if(temp == 2) outputText("The urge to bury your face in her breasts and suckle her pink nipples nearly overwhelms you.\n\n", false);
-					if(temp == 1) outputText("You swoon and lick your lips, tasting the scent of the demon's pussy in the air.\n\n", false);
-					if(temp == 3) outputText("She winks at you and licks her lips, and you can't help but imagine her tongue sliding all over your body.  You regain composure moments before throwing yourself at her.  That was close.\n\n", false);
+					if(temp == 0) Render.text("You have a hard time not dropping to your knees to service her right now.\n\n", false);
+					if(temp == 2) Render.text("The urge to bury your face in her breasts and suckle her pink nipples nearly overwhelms you.\n\n", false);
+					if(temp == 1) Render.text("You swoon and lick your lips, tasting the scent of the demon's pussy in the air.\n\n", false);
+					if(temp == 3) Render.text("She winks at you and licks her lips, and you can't help but imagine her tongue sliding all over your body.  You regain composure moments before throwing yourself at her.  That was close.\n\n", false);
 				}
 				game.dynStats("lus", (3 + int(player.stats.lib/20 + player.stats.cor/30)));
 			}
@@ -1198,35 +1198,35 @@
 		
 		public function handleAwardItemText(itype:ItemType):void
 		{ //New Function, override this function in child classes if you want a monster to output special item drop text
-			if (itype != null) outputText("\nThere is " + itype.longName + " on your defeated opponent.  ");
+			if (itype != null) Render.text("\nThere is " + itype.longName + " on your defeated opponent.  ");
 		}
 
 		public function handleAwardText():void
 		{ //New Function, override this function in child classes if you want a monster to output special gem and XP text
 			//This function doesn’t add the gems or XP to the player, it just provides the output text
-			if (this.gems == 1) outputText("\n\nYou snag a single gem and " + this.XP + " XP as you walk away from your victory.");
-			else if (this.gems > 1) outputText("\n\nYou grab " + this.gems + " gems and " + this.XP + " XP from your victory.");
-			else if (this.gems == 0) outputText("\n\nYou gain " + this.XP + " XP from the battle.");
+			if (this.gems == 1) Render.text("\n\nYou snag a single gem and " + this.XP + " XP as you walk away from your victory.");
+			else if (this.gems > 1) Render.text("\n\nYou grab " + this.gems + " gems and " + this.XP + " XP from your victory.");
+			else if (this.gems == 0) Render.text("\n\nYou gain " + this.XP + " XP from the battle.");
 		}
 		
 		public function handleCombatLossText(inDungeon:boolean, gemsLost: number): number
 		{ //New Function, override this function in child classes if you want a monster to output special text after the player loses in combat
 			//This function doesn’t take the gems away from the player, it just provides the output text
 			if (!inDungeon) {
-				outputText("\n\nYou'll probably come to your senses in eight hours or so");
+				Render.text("\n\nYou'll probably come to your senses in eight hours or so");
 				if (player.stats.gems > 1)
-					outputText(", missing " + gemsLost + " gems.");
+					Render.text(", missing " + gemsLost + " gems.");
 				else if (player.stats.gems == 1)
-					outputText(", missing your only gem.");
-				else outputText(".");
+					Render.text(", missing your only gem.");
+				else Render.text(".");
 			}
 			else {
-				outputText("\n\nSomehow you came out of that alive");
+				Render.text("\n\nSomehow you came out of that alive");
 				if (player.stats.gems > 1)
-					outputText(", but after checking your gem pouch, you realize you're missing " + gemsLost + " gems.");
+					Render.text(", but after checking your gem pouch, you realize you're missing " + gemsLost + " gems.");
 				else if (player.stats.gems == 1)
-					outputText(", but after checking your gem pouch, you realize you're missing your only gem.");
-				else outputText(".");
+					Render.text(", but after checking your gem pouch, you realize you're missing your only gem.");
+				else Render.text(".");
 			}
 			return 8; //This allows different monsters to delay the player by different amounts of time after a combat loss. Normal loss causes an eight hour blackout
 		}

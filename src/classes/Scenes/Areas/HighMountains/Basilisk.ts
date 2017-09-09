@@ -27,10 +27,10 @@ package classes.Scenes.Areas.HighMountains
 		//(Check vs. Intelligence/Sensitivity, loss = recurrent speed loss each
 		//round, one time lust increase):
 		private function compulsion():void {
-			outputText("The basilisk opens its mouth and, staring at you, utters words in its strange, dry, sibilant tongue.  The sounds bore into your mind, working and buzzing at the edges of your resolve, suggesting, compelling, then demanding you look into the basilisk's eyes.  ", false);
+			Render.text("The basilisk opens its mouth and, staring at you, utters words in its strange, dry, sibilant tongue.  The sounds bore into your mind, working and buzzing at the edges of your resolve, suggesting, compelling, then demanding you look into the basilisk's eyes.  ", false);
 			//Success:
 			if(player.stats.int/5 + rand(20) < 24) {
-				outputText("You can't help yourself... you glimpse the reptile's grey, slit eyes. You look away quickly, but you can picture them in your mind's eye, staring in at your thoughts, making you feel sluggish and unable to coordinate. Something about the helplessness of it feels so good... you can't banish the feeling that really, you want to look in the basilisk's eyes forever, for it to have total control over you.", false);
+				Render.text("You can't help yourself... you glimpse the reptile's grey, slit eyes. You look away quickly, but you can picture them in your mind's eye, staring in at your thoughts, making you feel sluggish and unable to coordinate. Something about the helplessness of it feels so good... you can't banish the feeling that really, you want to look in the basilisk's eyes forever, for it to have total control over you.", false);
 				game.dynStats("lus", 3);
 				//apply status here
 				basiliskSpeed(player,20);
@@ -38,7 +38,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 			//Failure:
 			else {
-				outputText("You concentrate, focus your mind and resist the basilisk's psychic compulsion.", false);
+				Render.text("You concentrate, focus your mind and resist the basilisk's psychic compulsion.", false);
 			}
 			game.combatRoundOver();
 		}
@@ -49,8 +49,8 @@ package classes.Scenes.Areas.HighMountains
 		private function basiliskTailSwipe():void {
 			let damage:number = int((str + 20) - Math.random()*(player.tou+player.armorDef));
 			damage = player.takeDamage(damage);
-			outputText("The basilisk suddenly whips its tail at you, swiping your " + player.feet() + " from under you!  You quickly stagger upright, being sure to hold the creature's feet in your vision. (" + damage + ")", false);
-			if(damage == 0) outputText("  The fall didn't harm you at all.", false);
+			Render.text("The basilisk suddenly whips its tail at you, swiping your " + player.feet() + " from under you!  You quickly stagger upright, being sure to hold the creature's feet in your vision. (" + damage + ")", false);
+			if(damage == 0) Render.text("  The fall didn't harm you at all.", false);
 			game.combatRoundOver();
 		}
 
@@ -72,7 +72,7 @@ package classes.Scenes.Areas.HighMountains
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				outputText("\n\nThe basilisk smirks, but waits for you to finish...");
+				Render.text("\n\nThe basilisk smirks, but waits for you to finish...");
 				doNext(game.endLustLoss);
 			} else {
 				game.highMountains.basiliskScene.loseToBasilisk();

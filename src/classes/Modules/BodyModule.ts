@@ -2,13 +2,14 @@
 import LowerBodyModule, { LowerBodyType } from "./LowerBodyModule";
 import StatsModule from "./StatsModule";
 import ComponentList from "../Utilities/ComponentList";
-import StatusAffect from "../StatusAffect";
-import Perk from "../Perks/Perk";
 import Utils from "../Utilities/Utils";
 import BreastRow from "./BreastRow";
 import Vagina, { VaginaLooseness } from "./Vagina";
 import { PregnancyType } from "./PregnancyModule";
 import Butt, { ButtLooseness } from "./Butt";
+import StatusAffect from "../StatusAffects/StatusAffect";
+import Cock from "./Cock";
+import Render from "../Game/Render";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -45,7 +46,6 @@ export default class BodyModule {
     public lowerBody: LowerBodyModule;
 
     public stats: StatsModule;
-    public perks: ComponentList<Perk>;
     public statusAffects: ComponentList<StatusAffect>;
 
     public constructor() {
@@ -67,9 +67,7 @@ export default class BodyModule {
         this.upperBody = new UpperBodyModule();
         this.lowerBody = new LowerBodyModule();
 
-
         this.stats = new StatsModule(this);
-        this.perks = new ComponentList<Perk>();
         this.statusAffects = new ComponentList<StatusAffect>();
     }
 
@@ -103,9 +101,9 @@ export default class BodyModule {
         let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
         if (gildedCockSocks > 0) {
 
-            let randomCock: number = Utils.rand(this.lowerBody.cockSpot.count());
-            let bonusGems: number = Utils.rand(this.lowerBody.cockSpot.list[randomCock].cockThickness) + gildedCockSocks;
-            game.outputText("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
+            let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.list);
+            let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
+            Render.text("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
             this.stats.gems += bonusGems;
         }
     }

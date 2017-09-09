@@ -4,7 +4,7 @@ public function eventTestingPane():void
 {
 
 
-	outputText(<![CDATA[
+	Render.text(<![CDATA[
 
 
 
@@ -103,7 +103,7 @@ consequatur aut perferendis doloribus asperiores repellat.
 */
 
 public function eventTester():void {
-	outputText("", true);
+	Render.text("", true);
 	mainView.showTestInputPanel();
 	mainView.eventTestInput.text = <![CDATA[
 [screen startup |
@@ -132,7 +132,7 @@ public function eventTesterGo():void
 	trace("Temp = ", temp);
 
 	menu();
-	outputText(temp, true, true);
+	Render.text(temp, true, true);
 
 	addButton(9, "Back", eventTester)
 	flushOutputTextToGUI();

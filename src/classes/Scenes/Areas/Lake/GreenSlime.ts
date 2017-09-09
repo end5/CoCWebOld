@@ -9,23 +9,23 @@
 
 		public defeated(hpVictory:boolean):void
 		{
-			outputText("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.", true);
+			Render.text("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.", true);
 			//Boobfeed.
 			if(player.statusAffects.has("Feeder")) {
 				//Eligable to rape
 				if(player.lust >= 33 && player.gender > 0) {
-					outputText("\n\nYou're horny enough to try and rape it, though you'd rather see how much milk you can squirt into it.  What do you do?", false);
+					Render.text("\n\nYou're horny enough to try and rape it, though you'd rather see how much milk you can squirt into it.  What do you do?", false);
 					game.simpleChoices("B.Feed",game.lake.greenSlimeScene.rapeOozeWithMilk,"Rape",game.lake.greenSlimeScene.slimeVictoryRape,"",null,"",null,"Leave",game.cleanupAfterCombat);
 				}
 				//Rapes not on the table.
 				else {
-					outputText("\n\nYour nipples ache with the desire to forcibly breastfeed the gelatinous beast.  Do you?", false);
+					Render.text("\n\nYour nipples ache with the desire to forcibly breastfeed the gelatinous beast.  Do you?", false);
 					game.doYesNo(game.lake.greenSlimeScene.rapeOozeWithMilk,game.cleanupAfterCombat);
 				}
 			}
 			//Not a breastfeeder
 			else if(player.lust >= 33 && player.gender > 0) {
-				outputText("  Sadly you realize your own needs have not been met.  Of course, you could always play with the poor thing... Do you rape it?", false);
+				Render.text("  Sadly you realize your own needs have not been met.  Of course, you could always play with the poor thing... Do you rape it?", false);
 				game.doYesNo(game.lake.greenSlimeScene.slimeVictoryRape, game.cleanupAfterCombat);
 			}
 			else game.cleanupAfterCombat();
@@ -34,19 +34,19 @@
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				outputText("\n\nThe slime doesn't even seem to notice.\n\n");
+				Render.text("\n\nThe slime doesn't even seem to notice.\n\n");
 			}
 			doNext(game.lake.greenSlimeScene.slimeLoss);
 		}
 		
 		private function lustAttack():void {
-			outputText("The creature surges forward slowly with a swing that you easily manage to avoid.  You notice traces of green liquid spurt from the creature as it does, forming a thin mist that makes your skin tingle with excitement when you inhale it.");
+			Render.text("The creature surges forward slowly with a swing that you easily manage to avoid.  You notice traces of green liquid spurt from the creature as it does, forming a thin mist that makes your skin tingle with excitement when you inhale it.");
 			game.dynStats("lus", player.stats.lib / 10 + 8);
 			doNext(game.playerMenu);
 		}
 		
 		private function lustReduction():void {
-			outputText("The creature collapses backwards as its cohesion begins to give out, and the faint outline of eyes and a mouth form on its face.  Its chest heaves as if it were gasping, and the bolt upright erection it sports visibly quivers and pulses before relaxing slightly.");
+			Render.text("The creature collapses backwards as its cohesion begins to give out, and the faint outline of eyes and a mouth form on its face.  Its chest heaves as if it were gasping, and the bolt upright erection it sports visibly quivers and pulses before relaxing slightly.");
 			lust -= 13;
 			doNext(game.playerMenu);
 		}

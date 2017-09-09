@@ -18,10 +18,10 @@ package classes.Scenes.Places
 		}
 		public function discoverBoat():void {
 			player.statusAffects.add(new StatusAffect("BoatDiscovery",0,0,0,0)));
-			outputText("You journey around the lake, seeking demons to fight", true);
-			if(player.stats.cor > 60) outputText(" or fuck", false);
-			outputText(".  The air is fresh, and the grass is cool and soft under your feet.   Soft waves lap against the muddy sand of the lake-shore, as if radiating outward from the lake.   You pass around a few bushes carefully, being wary of hidden 'surprises', and come upon a small dock.  The dock is crafted from old growth trees lashed together with some crude rope.  Judging by the appearance of the rope, it is very old and has not been seen to in quite some time.  Tied to the dock is a small rowboat, only about seven feet long and three feet wide.   The boat appears in much better condition than the dock, and appears to be brand new.\n\n", false);
-			outputText("<b>You have discovered the lake boat!</b>\n(You may return and use the boat to explore the lake's interior by using the 'places' menu.)", false);
+			Render.text("You journey around the lake, seeking demons to fight", true);
+			if(player.stats.cor > 60) Render.text(" or fuck", false);
+			Render.text(".  The air is fresh, and the grass is cool and soft under your feet.   Soft waves lap against the muddy sand of the lake-shore, as if radiating outward from the lake.   You pass around a few bushes carefully, being wary of hidden 'surprises', and come upon a small dock.  The dock is crafted from old growth trees lashed together with some crude rope.  Judging by the appearance of the rope, it is very old and has not been seen to in quite some time.  Tied to the dock is a small rowboat, only about seven feet long and three feet wide.   The boat appears in much better condition than the dock, and appears to be brand new.\n\n", false);
+			Render.text("<b>You have discovered the lake boat!</b>\n(You may return and use the boat to explore the lake's interior by using the 'places' menu.)", false);
 			doNext(camp.returnToCampUseOneHour);
 		}
 		public function boatExplore():void
@@ -31,17 +31,17 @@ package classes.Scenes.Places
 				kGAMECLASS.helScene.helSexualAmbush();
 				return;
 			}
-			outputText("You reach the dock without any incident and board the small rowboat.  The water is calm and placid, perfect for rowing.  ", true);
+			Render.text("You reach the dock without any incident and board the small rowboat.  The water is calm and placid, perfect for rowing.  ", true);
 			if (player.statusAffects.has("FactoryOverload")) {
-				outputText("The water appears somewhat muddy and has a faint pungent odor.  ", false);
-				if (player.stats.int > 40) outputText("You realize what it smells like – sex.  ", false);
+				Render.text("The water appears somewhat muddy and has a faint pungent odor.  ", false);
+				if (player.stats.int > 40) Render.text("You realize what it smells like – sex.  ", false);
 			}
 			//3% chance of finding lost daughters
 			if (rand(100) <= 3 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00412] > 0 && kGAMECLASS.izmaScene.izmaFollower()) {
 				kGAMECLASS.izmaScene.findLostIzmaKids();
 				return;
 			}
-			outputText("You set out, wondering if you'll find any strange islands or creatures in the lake.\n\n", false);
+			Render.text("You set out, wondering if you'll find any strange islands or creatures in the lake.\n\n", false);
 			//20% chance if not done with marae of meeting her.
 			if (rand(10) <= 2 && player.findStatusAffect(StatusAffects.MaraeComplete) < 0 && player.findStatusAffect(StatusAffects.MetCorruptMarae) < 0) {
 				marae.encounterMarae();
@@ -62,11 +62,11 @@ package classes.Scenes.Places
 			//RUN CHOSEN EVENT
 			switch (selector) {
 				case 0:
-					outputText("You row for nearly an hour, until your arms practically burn with exhaustion from all the rowing.", false);
+					Render.text("You row for nearly an hour, until your arms practically burn with exhaustion from all the rowing.", false);
 					doNext(camp.returnToCampUseOneHour);
 					return;
 				case 1:
-					outputText("You give up on finding anything interesting, and decide to go check up on your camp.", false);
+					Render.text("You give up on finding anything interesting, and decide to go check up on your camp.", false);
 					doNext(camp.returnToCampUseOneHour);
 					return;
 				case 2:

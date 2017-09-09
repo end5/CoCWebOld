@@ -126,13 +126,13 @@ export default class BreastModifier {
                 }
                 if (this.upperBody.chest.list[0].breastRating < 0) this.upperBody.chest.list[0].breastRating = 0;
                 //Talk about shrinkage
-                if (temp == 1) outputText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
-                if (temp == 2) outputText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
+                if (temp == 1) Render.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
+                if (temp == 2) Render.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
             }
         }
         else if (this.upperBody.chest.count() > 1) {
             //multiple
-            outputText("\n", false);
+            Render.text("\n", false);
             //temp2 = amount changed
             //temp3 = counter
             let temp2: number = 0;
@@ -143,16 +143,16 @@ export default class BreastModifier {
                     this.upperBody.chest.list[temp3].breastRating--;
                     if (this.upperBody.chest.list[temp3].breastRating < 0) this.upperBody.chest.list[temp3].breastRating = 0;
                     temp2++;
-                    outputText("\n", false);
-                    if (temp3 < this.upperBody.chest.count() - 1) outputText("...and y", false);
-                    else outputText("Y", false);
-                    outputText("our " + breastDescript(temp3) + " shrink, dropping to " + breastCup(temp3) + "s.", false);
+                    Render.text("\n", false);
+                    if (temp3 < this.upperBody.chest.count() - 1) Render.text("...and y", false);
+                    else Render.text("Y", false);
+                    Render.text("our " + breastDescript(temp3) + " shrink, dropping to " + breastCup(temp3) + "s.", false);
                 }
                 if (this.upperBody.chest.list[temp3].breastRating < 0) this.upperBody.chest.list[temp3].breastRating = 0;
             }
-            if (temp2 == 2) outputText("\nYou feel so much lighter after the change.", false);
-            if (temp2 == 3) outputText("\nWithout the extra weight you feel particularly limber.", false);
-            if (temp2 >= 4) outputText("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.", false);
+            if (temp2 == 2) Render.text("\nYou feel so much lighter after the change.", false);
+            if (temp2 == 3) Render.text("\nWithout the extra weight you feel particularly limber.", false);
+            if (temp2 >= 4) Render.text("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.", false);
         }
     }
 
