@@ -7,7 +7,7 @@ package classes.Scenes.NPCs
 	public class Hel extends Monster
 	{
 
-		private function helAttack():void {
+		private helAttack():void {
 			let damage:number;
 			//return to combat menu when finished
 			doNext(game.playerMenu);
@@ -60,7 +60,7 @@ package classes.Scenes.NPCs
 
 		//Attack 2 – Tail Slap (Hit)
 		//low dodge chance, lower damage
-		private function helAttack2():void {
+		private helAttack2():void {
 			let damage:number;
 			//return to combat menu when finished
 			doNext(game.playerMenu);
@@ -112,7 +112,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 
-		private function helCleavage():void {
+		private helCleavage():void {
 			//FAIL
 			if((player.perks.has("Flexibility") && rand(100) < 6) || (player.perks.has("Evade") && rand(100) < 10) || (player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 80)) {
 				Render.text("To your surprise, the salamander suddenly pulls up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms reaches around your waist, and the other toward your head, but you roll away from her grip and push her bodily away.  She staggers a moment, but then quickly yanks the jangling bikini top back down with a glare.\n", false);
@@ -130,7 +130,7 @@ package classes.Scenes.NPCs
 			}
 			combatRoundOver();
 		}
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			trace("Hel Perform Combat Action Called");
 			let select:number = rand(3);
@@ -165,7 +165,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		public function Hel()
+		public Hel()
 		{
 			if (game.flags[FlagEnum.HEL_TALKED_ABOUT_HER] == 1) {
 				this.a = "";

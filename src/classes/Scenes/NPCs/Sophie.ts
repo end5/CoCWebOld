@@ -18,7 +18,7 @@
 		//per round of increasing lust by 20.  Repeat kisses add
 		//+20 lust.  Each kiss adds 2 hours to length of status
 		//affect.
-		private function sophieKissAttack():void {
+		private sophieKissAttack():void {
 			game.sophieBimbo.sophieSprite();
 			Render.text("Sophie bobs and weaves as she closes the distance between you in an instant.  ", false);
 			//Blind dodge change
@@ -77,7 +77,7 @@
 		//around PC's torso and smothering the PC with breasts 
 		//for a few moments.
 		//Easily dodged with evade or flexibility.
-		private function sophieHarpyBoatsPC():void {
+		private sophieHarpyBoatsPC():void {
 			game.sophieBimbo.sophieSprite();
 			Render.text(capitalA + short + " flaps her wings and launches herself forwards with her talons up.  ", false);
 			//Blind dodge change
@@ -113,7 +113,7 @@
 		}
 		
 		//Compulsion (Male Only)
-		private function sophieCompulsionAttack():void {
+		private sophieCompulsionAttack():void {
 			game.sophieBimbo.sophieSprite();
 			Render.text("Sophie spreads her thick thighs and slips four fingers into her slippery sex.  She commands, \"<i>Touch yourself for me.  Be a good pet and masturbate for me.</i>\"  ", false);
 			//Autosucceeds if player.stats.int < 40
@@ -133,7 +133,7 @@
 		//ON FEMALE PCz
 		//Talons (Female Only)
 		//High damage attack easily avoided by evade/flexibility.
-		private function talonsSophie():void {
+		private talonsSophie():void {
 			game.sophieBimbo.sophieSprite();
 			Render.text("Sophie pulls her leg up, cocking her thigh dangerously.  Look out!  ", false);
 			let damage:number = 0;
@@ -173,7 +173,7 @@
 		}
 		//Batter (Female Only)
 		//Batters PC with wings – 4x attack impossible to dodge.*/
-		private function batterAttackSophie():void {
+		private batterAttackSophie():void {
 			game.sophieBimbo.sophieSprite();
 			let damage:number = 0;
 			Render.text("Sophie comes at you in a flurry of beating wings!  There's no way to dodge the flurry of strikes!\n", false);
@@ -200,7 +200,7 @@
 			Render.text("Her right wing slams into the other side of your head! (" + damage + ")\n", false);
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//Sophie has special AI in harpySophie.as
 			game.sophieBimbo.sophieSprite();
@@ -252,7 +252,7 @@
 			}
 		}
 
-		public function Sophie()
+		public Sophie()
 		{
 			super(true);
 			trace("Sophie Constructor!");

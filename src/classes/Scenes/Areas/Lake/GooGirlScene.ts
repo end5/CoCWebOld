@@ -9,7 +9,7 @@ package classes.Scenes.Areas.Lake
 
 	public class GooGirlScene extends AbstractLakeContent
 	{
-		public function GooGirlScene()
+		public GooGirlScene()
 		{
 		}
 
@@ -17,7 +17,7 @@ package classes.Scenes.Areas.Lake
 //const GOOGIRL_BIRTHS: number = 384;
 //const GOOGIRL_CONSECUTIVE_LOSSES: number = 385;
 
-		private function gooGirl():GooGirl
+		private gooGirl():GooGirl
 		{
 			let g:GooGirl = monster as GooGirl;
 			if (g == null) {
@@ -30,7 +30,7 @@ package classes.Scenes.Areas.Lake
 //goo-girl encounter- 
 
 //[Lake]
-		public function encounterGooGirl():void
+		public encounterGooGirl():void
 		{
 			Render.text("", true);
 			spriteSelect(69);
@@ -44,7 +44,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //New Perk – Slime Core (requires goo player, random drop rate?)
-		private function coreDropChance():void
+		private coreDropChance():void
 		{
 			if (rand(4) == 0 && player.statusAffects.has("SlimeCraving") && !player.perks.has("SlimeCore") && player.isGoo() && player.gooScore() >= 4) {
 				Render.text("\n\nAs the goo-girl slithers away, into the lake's placid waves, you notice she seems to have left behind a small blob. Upon investigation, it appears to be a tiny, ruby heart, encased in a slimy " + gooColor8() + " membrane. As you reach to pick it up, the jelly ball quivers and pulses with a warm, cheerful light. Your fingers close on it and the nucleus slides through your palm, into your body!\n\n", false);
@@ -56,20 +56,20 @@ package classes.Scenes.Areas.Lake
 			}
 		}
 
-		private function gooColor():string { return gooGirl().gooColor(); }
-		private function gooColor2():string { return gooGirl().gooColor2(); }
-		private function gooColor3():string { return gooGirl().gooColor3(); }
-		private function gooColor4():string { return gooGirl().gooColor4(); }
-		private function gooColor5():string { return gooGirl().gooColor5(); }
-		private function gooColor6():string { return gooGirl().gooColor6(); }
-		private function gooColor7():string { return gooGirl().gooColor7(); }
-		private function gooColor8():string { return gooGirl().gooColor8(); }
-		private function gooColor9():string { return gooGirl().gooColor9(); }
-		private function gooColor10():string { return gooGirl().gooColor10(); }
-		private function gooColor11():string { return gooGirl().gooColor11(); }
+		private gooColor():string { return gooGirl().gooColor(); }
+		private gooColor2():string { return gooGirl().gooColor2(); }
+		private gooColor3():string { return gooGirl().gooColor3(); }
+		private gooColor4():string { return gooGirl().gooColor4(); }
+		private gooColor5():string { return gooGirl().gooColor5(); }
+		private gooColor6():string { return gooGirl().gooColor6(); }
+		private gooColor7():string { return gooGirl().gooColor7(); }
+		private gooColor8():string { return gooGirl().gooColor8(); }
+		private gooColor9():string { return gooGirl().gooColor9(); }
+		private gooColor10():string { return gooGirl().gooColor10(); }
+		private gooColor11():string { return gooGirl().gooColor11(); }
 
 //goo-girl Bad End – If the player loses to 3-5 goo encounters while under full goo Transformation
-		private function gooGirlBadEnd():void
+		private gooGirlBadEnd():void
 		{
 			Render.text("", true);
 			Render.text("You collapse, your strength gone, body open to the investigation of the goo-girl.  Her expression, however, has become one of excitement and focus rather than playful curiosity.  With exaggerated gestures, the " + gooColor() + " girl tilts her head left and right, shakes her shoulders, and wraps her fingers together, as if cracking her knuckles. Rubbing the dripping palms of her hands together, she draws backward before leaping at you. Instead of the slimy, semi-solid splash you were expecting, the girl sinks INTO your body, her muck penetrating your membrane and filling you in a way you've never felt before. Her crimson nucleus flashing rapidly within you, every inch of your body quivers and bulges under the pressure of her added mass.\n\n", false);
@@ -83,7 +83,7 @@ package classes.Scenes.Areas.Lake
 			doNext(gooGirlBadEnd2);
 		}
 
-		private function gooGirlBadEnd2():void
+		private gooGirlBadEnd2():void
 		{
 			Render.text("", true);
 			Render.text("<b>One Year Later...</b>\n", false);
@@ -103,12 +103,12 @@ package classes.Scenes.Areas.Lake
 			getGame().gameOver();
 		}
 
-		public function slimeBadEnd():void { //Another gooey bad end; you should have drunk more fluids
+		public slimeBadEnd():void { //Another gooey bad end; you should have drunk more fluids
 			Render.text("\nYour entire body wobbles as your strength fails, collapsing into itself.  You struggle to rise, but your form loses more and more rigidity, melting into an amorphous blob.  Without the strength to rise, you've no hope of getting the fluids you need.  The aching craving for moisture drives you to roll to the lake, which you slip into.  With the constant runoff of bodily fluids that enter the lake, you're able to subsist for a time, forgetting about your mission as the all-consuming need devours your personality.");
 			doNext(slimeBadEnd2);
 		}
 		
-		private function slimeBadEnd2():void {
+		private slimeBadEnd2():void {
 			clearOutput();
 			Render.text("One year later...");
 			Render.text("\n\nThe new champion has managed to escape imprisonment in the demons' sick plots, but the monsters and trials of this land have taken their toll on him.  He undresses and slips into the water, hesitant around his newly enlarged member, but once he slips beneath the soothing waters he forgets all about it and just relaxes.");
@@ -123,7 +123,7 @@ package classes.Scenes.Areas.Lake
 //===============
 //DEFEAT
 //===============
-		public function getBeatByGooGirl():void
+		public getBeatByGooGirl():void
 		{
 			flags[FlagEnum.GOOGIRL_CONSECUTIVE_LOSSES]++;
 			if (flags[FlagEnum.GOOGIRL_CONSECUTIVE_LOSSES] >= 5 && player.gooScore() >= 4) gooGirlBadEnd();
@@ -135,7 +135,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Defeat – Neuter
-		private function genderlessLoseToGooGal():void
+		private genderlessLoseToGooGal():void
 		{
 			Render.text("", true);
 			Render.text("You stumble, nearly falling to your knees and the slime recognizes her victory with a smile that nearly bisects her face. Clapping her hands in a wet splash, she oozes up to you and wraps her dripping, puddle-like lower body around yours, quickly stripping your " + player.armorName + " off. There's no strength left in your limbs to resist, the goo-girl's insistent tugging guides you into the lapping waves of the lake. The cool water eases the excited heat of the girl's slimy embrace and you barely notice the depth until she's dragged you up to your chin. A surge of panic thrills up your spine, but she seems comfortable enough here, so she halts to investigate her prize.\n\n", false);
@@ -156,7 +156,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Defeat – Male
-		private function dudeLoseToGooGal():void
+		private dudeLoseToGooGal():void
 		{
 			Render.text("", true);
 			let x:number = player.biggestCockIndex();
@@ -187,7 +187,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Defeat – Herm
-		private function hermLoseToGooGal():void
+		private hermLoseToGooGal():void
 		{
 			let x:number = player.biggestCockIndex();
 			Render.text("", true);
@@ -209,7 +209,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Defeat – Female
-		private function femaleLoseToGooGal():void
+		private femaleLoseToGooGal():void
 		{
 			Render.text("", true);
 			Render.text("You sway, finding it difficult to maintain your balance. When you fall, your " + buttDescript() + " splashes wetly in the enveloping folds of the goo-girl's eager slime. You weakly hold your hand up to keep her back, but the wide-eyed victor disregards the gesture with playful disdain. She slithers against you, moist muck slurping at your flesh with a hungry heat. Her semi-solid hands take yours, pulling your arms apart to bare your chest. She cranes her dripping head around your shoulders, skillfully removing your " + player.armorName + " with only her mouth. Your " + chestDesc() + " heave as the irrepressible heat of the slime sears your " + nippleDescript(0) + "s until beads of sweat well up on your " + player.skin() + " and trickle down your curves, leaving a wet sheen over your body.\n\n", false);
@@ -264,7 +264,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[Goo pregnancy- 3-4 days]
-		public function gooPregVagBirth():void
+		public gooPregVagBirth():void
 		{
 			flags[FlagEnum.GOOGIRL_BIRTHS]++;
 			Render.text("\n", false);
@@ -281,7 +281,7 @@ package classes.Scenes.Areas.Lake
 
 
 //VICTORY
-		public function beatUpGoo():void
+		public beatUpGoo():void
 		{
 			flags[FlagEnum.GOOGIRL_CONSECUTIVE_LOSSES] = 0;
 			Render.text("", true);
@@ -367,7 +367,7 @@ package classes.Scenes.Areas.Lake
 
 
 //Victory – Male
-		private function gooMaleRape(type:number = 1):void
+		private gooMaleRape(type:number = 1):void
 		{
 			flags[FlagEnum.TIMES_FUCKED_NORMAL_GOOS]++;
 			Render.text("", true);
@@ -416,7 +416,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Victory – Herm
-		private function victoryHermSex():void
+		private victoryHermSex():void
 		{
 			let x:number = player.biggestCockIndex();
 			flags[FlagEnum.TIMES_FUCKED_NORMAL_GOOS]++;
@@ -443,7 +443,7 @@ package classes.Scenes.Areas.Lake
 
 //FEMALE VICTORIES
 //[Feeder perk] 
-		private function victoryRapeAGooGalAsFeeder():void
+		private victoryRapeAGooGalAsFeeder():void
 		{
 			flags[FlagEnum.TIMES_FUCKED_NORMAL_GOOS]++;
 			Render.text("", true);
@@ -468,7 +468,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[Exhibitionist Perk]
-		private function exhibitionismGooGirlVictoryRape():void
+		private exhibitionismGooGirlVictoryRape():void
 		{
 			flags[FlagEnum.TIMES_FUCKED_NORMAL_GOOS]++;
 			Render.text("", true);
@@ -490,7 +490,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[Normal Female] 
-		private function normalFemaleRapesAGooGirl():void
+		private normalFemaleRapesAGooGirl():void
 		{
 			flags[FlagEnum.TIMES_FUCKED_NORMAL_GOOS]++;
 			Render.text("", true);
@@ -512,7 +512,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Ooze and Goo scene (one shot voyeur scene similar to the minotaur peep-show)– 
-		public function spyOnGooAndOozeSex():void
+		public spyOnGooAndOozeSex():void
 		{
 			monster = new GooGirl();
 			Render.text("", true);
@@ -528,7 +528,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 
-		private function layBeeEggsInGoo():void
+		private layBeeEggsInGoo():void
 		{
 			clearOutput();
 			Render.text("You stand triumphantly over the goo-girl, pondering how best to use her to sate your needs.  The girl doesn't seem quite interested in you anymore however, looking down between your feet instead.  Curious as to what grabbed her attention all of the sudden you look down behind you to find a small puddle of honey forming on the ground.  Your ovipositor twitches delightedly, dripping - and that's when you know just how to deal with your urges.");

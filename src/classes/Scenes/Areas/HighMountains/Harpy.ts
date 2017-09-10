@@ -15,7 +15,7 @@
 //dump it out altogether. It'd cause severe damage, 
 //in the 150 region if you don't wise up.*
 
-		protected function harpyUberCharge():void
+		protected harpyUberCharge():void
 		{
 			//(Harpy special attack 1, part one)
 			if (findStatusAffect(StatusAffects.Uber) < 0) {
@@ -41,7 +41,7 @@
 		}
 
 		//(Harpy special attack 2, lust increase)
-		protected function harpyTease():void
+		protected harpyTease():void
 		{
 			Render.text("The harpy charges at you carelessly, her body striking you with the full weight of her motherly hips.  The pair of you go crashing backwards onto the ground.  You grapple with her weighty ass, trying your best not to think dirty thoughts, but the way she's maniacally flapping and writhing her curvy body against you makes it impossible! After a brief, groping wrestle on the ground, she pushes you away and takes flight again.", false);
 			game.dynStats("lus", (12 + rand(player.stats.sens / 5)));
@@ -49,7 +49,7 @@
 		}
 
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let select:number = 1;
 			if (statusAffects.has("Uber")) {
@@ -75,7 +75,7 @@
 			}
 		}
 
-		override protected function outputPlayerDodged(dodge: number):void
+		override protected outputPlayerDodged(dodge: number):void
 		{
 			Render.text("With another deranged cry the harpy dives at you, swinging her razor-sharp talons through the air with the grace of a ballerina. Your quick reflexes allow you to dodge every vicious slash she makes at you.\n", false);
 		}
@@ -89,7 +89,7 @@
 			}
 		}
 
-		public function Harpy(noInit:boolean=false)
+		public Harpy(noInit:boolean=false)
 		{
 			if (noInit) return;
 			trace("Harpy Constructor!");

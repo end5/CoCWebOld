@@ -6,7 +6,7 @@ package classes.Scenes.Areas.Desert
 	public class CumWitch extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.cumWitchAI();
 		}
@@ -21,7 +21,7 @@ package classes.Scenes.Areas.Desert
 			game.defeatedByCumWitch();
 		}
 
-		public function CumWitch()
+		public CumWitch()
 		{
 			this.a = "the ";
 			this.short = "Cum Witch";

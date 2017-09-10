@@ -5,7 +5,7 @@ package classes.Scenes.NPCs
 
 	public class Ember extends Monster
 	{
-		private function emberMF(male:string,female:string):string{
+		private emberMF(male:string,female:string):string{
 			return game.emberScene.emberMF(male,female);
 		}
 		//The Actual Ember Fight (Z)
@@ -13,7 +13,7 @@ package classes.Scenes.NPCs
 		//It doesn't make sense to affect Ember's lust due to the nature of the combat, however it IS possible and encouraged to use lust moves when fighting Bimbo or Corrupt Ember.
 
 		//PC shouldn't lose their turn for doing this, unless you want to penalize them Fen.
-		private function emberReactsToLustiness():void {
+		private emberReactsToLustiness():void {
 			//(if PC uses any attack designed to increase Ember's lust)
 			Render.text("The dragon moans, weaving softly from side to side, eyes glazed and tongue lolling at the intimate prospect of sex... but then, to your surprise, " + emberMF("he","she") + " visibly shakes it off and recomposes " + emberMF("him","her") + "self, frowning at you.");
 			Render.text("\n\n\"<i>W-what do you think you're doing!?  I'm not some ordinary monster!  Don't think you can seduce me out of a battle!</i>\"");
@@ -25,7 +25,7 @@ package classes.Scenes.NPCs
 			game.cleanupAfterCombat();
 		}
 		//Ember Attacks:
-		private function emberAttack():void {
+		private emberAttack():void {
 			//Basic attack, average damage, average accuracy
 			Render.text("With a growl, the dragon lashes out in a ferocious splay-fingered slash, "+ emberMF("his","her") + " claws poised to rip into your flesh.  ");
 			//Blind dodge change
@@ -47,7 +47,7 @@ package classes.Scenes.NPCs
 		}
 		
 		//Dragon Breath: Very rare attack, very high damage
-		private function embersSupahSpecialDragonBreath():void {
+		private embersSupahSpecialDragonBreath():void {
 			if(statusAffects.has("Blind") && rand(2) == 0) {
 				//Blind Ember: 
 				Render.text("The blinded dragon tracks you with difficulty as you sprint around the landscape; seeing an opportunity, you strafe around " + emberMF("his","her") + " side, planting yourself behind a large flat boulder near " + emberMF("him","her") + " and pelting " + emberMF("him","her") + " with a small rock.  The scream as the dragon turns the magical conflagration toward you, only to have it hit the rock and blow up in " + emberMF("his","her") + " face, is quite satisfying.");
@@ -68,7 +68,7 @@ package classes.Scenes.NPCs
 		}
 		
 		//Tailslap: Rare attack, high damage, low accuracy
-		private function emberTailSlap():void {
+		private emberTailSlap():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind")) {
 				Render.text(capitalA + short + " completely misses you with a blind tail-slap!", false);
@@ -92,7 +92,7 @@ package classes.Scenes.NPCs
 		}
 				
 		//Dragon Force: Tainted Ember only
-		private function dragonFarce():void {
+		private dragonFarce():void {
 			//Effect: Stuns the PC for one turn and deals some damage, not much though. (Note: PC's version of this does something different and Ember has no cooldown to use this again. Obviously do not spam or peeps will rage.)
 			//Description:
 			Render.text("Ember bares "+ emberMF("his","her") + " teeth and releases a deafening roar; a concussive blast of force heads straight for you!");
@@ -109,7 +109,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 		
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (lust >= 40) {
 				emberReactsToLustiness();
@@ -141,7 +141,7 @@ package classes.Scenes.NPCs
 			game.emberScene.loseToEmberSpar();
 		}
 
-		public function Ember()
+		public Ember()
 		{
 			this.a = " ";
 			this.short = "Ember";

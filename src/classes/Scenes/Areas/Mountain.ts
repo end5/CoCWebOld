@@ -18,11 +18,11 @@ package classes.Scenes.Areas
 		public let infestedHellhoundScene:InfestedHellhoundScene = new InfestedHellhoundScene();
 		public let minotaurScene:MinotaurScene = new MinotaurScene();
 		public let salon:Salon = new Salon();
-		public function Mountain()
+		public Mountain()
 		{
 		}
 		//Explore Mountain
-		public function exploreMountain():void
+		public exploreMountain():void
 		{
 			player.exploredMountain++;
 			let chooser:number = rand(4);
@@ -279,7 +279,7 @@ package classes.Scenes.Areas
 				salon.hairDresser();
 			}
 		}
-		private function joinBeingAMinoCumSlut():void
+		private joinBeingAMinoCumSlut():void
 		{
 			clearOutput();
 			Render.text("The prospect of getting a huge dose of that fresh minotaur cum is just too much to bear.  Before you realize what's happening, you're moving out of your rocky hiding spot and making your way down to the two bovine creatures, stripping your [armor] as you go.  By the time you reach the two figures, you're as naked as they are.  You shiver softly, whether due to some chill in the air or desperate anticipation, you can't say.");
@@ -407,7 +407,7 @@ package classes.Scenes.Areas
 			inventory.takeItem(consumables.MINOCUM, camp.returnToCampUseOneHour);
 		}
 
-		private function watchAMinoCumSlut():void
+		private watchAMinoCumSlut():void
 		{
 			clearOutput();
 			Render.text("Deciding not to risk it, you settle back into your nook in the rocks and watch on eagerly.  The cow-girl turns and places her hands on a low ledge, causing her to bend over, her ample ass facing the minotaur.  The minotaur closes the distance between them in a single step.");
@@ -420,7 +420,7 @@ package classes.Scenes.Areas
 			addButton(0, "Next", watchMinoCumSlutII);
 		}
 
-		private function watchMinoCumSlutII():void
+		private watchMinoCumSlutII():void
 		{
 			clearOutput();
 			Render.text("They go at it for nearly an hour, oblivious to you watching them, before their intensity heightens as they near orgasm.  The results are almost explosive, both of them crying out as they begin twitching uncontrollably.  Clinging desperately to the cow-girl's ass, the minotaur pumps so much cum into her depths that it begins spurting out.  This accidental lubrication releases his grip and the pair collapse to the ground.  Yet the minotaur isn't finished, his man-milk spraying into the air almost like his still-erect dick is a hose and splattering down onto both of them.");
@@ -430,7 +430,7 @@ package classes.Scenes.Areas
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		private function continueMinoVoyeurism():void {
+		private continueMinoVoyeurism():void {
 			Render.text("They go at it for nearly an hour, oblivious to you watching them, before their intensity heightens as they near orgasm. The results are almost explosive, both of them crying out as they begin twitching uncontrollably. Clinging desperately to the cow-girl's ass, the minotaur pumps so much cum into her depths that it begins spurting out. This accidental lubrication releases his grip and the pair collapse to the ground. Yet the minotaur isn't finished, his man-milk spraying into the air almost like his still-erect dick is a hose and splattering down onto both of them.\n\n", true);
 			Render.text("As you look at the two cum-covered creatures laying their in their exhausted sex-induced stupors, the minotaur's thick horse-cock now slowly deflating, you realize that you've been touching yourself.  You make yourself stop ", false);
 			//[low corruption]

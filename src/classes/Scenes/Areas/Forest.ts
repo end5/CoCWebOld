@@ -25,10 +25,10 @@ package classes.Scenes.Areas
 		public let tamaniScene:TamaniScene = new TamaniScene();
 		public let tentacleBeastScene:TentacleBeastScene = new TentacleBeastScene();
 		public let erlkingScene:ErlKingScene = new ErlKingScene();
-		public function Forest()
+		public Forest()
 		{
 		}
-		public function exploreDeepwoods():void
+		public exploreDeepwoods():void
 		{
 			player.statusAffects.get("ExploredDeepwoods").value1 = 1;
 			
@@ -127,7 +127,7 @@ package classes.Scenes.Areas
 		}
 
 		//Explore forest
-		public function exploreForest():void
+		public exploreForest():void
 		{
 			player.exploredForest++;
 
@@ -480,7 +480,7 @@ package classes.Scenes.Areas
 		//Catch a Satyr using the corrupt glade and either leave or have your way with him.
 		//Suggested to Fen as the MaleXMale submission.
 		//Will be standalone
-		private function trappedSatyr():void {
+		private trappedSatyr():void {
 			Render.text("", true);
 			spriteSelect(99);
 			Render.text("As you wander through the woods, you find yourself straying into yet another corrupt glade.  However, this time the perverse grove isn't unoccupied; loud bleatings and brayings of pleasure split the air, and as you push past a bush covered in dripping, glans-shaped berries, you spot the source.\n\n", false);
@@ -502,7 +502,7 @@ package classes.Scenes.Areas
 		}
 
 		//[=No=]
-		private function ignoreSatyr():void {
+		private ignoreSatyr():void {
 			Render.text("", true);
 			spriteSelect(99);
 			Render.text("You shake your head, ", false);
@@ -513,7 +513,7 @@ package classes.Scenes.Areas
 			doNext(camp.returnToCampUseOneHour);
 		}
 		//Player returns to camp
-		private function rapeSatyr():void {
+		private rapeSatyr():void {
 			Render.text("", true);
 			spriteSelect(99);
 			let x:number = player.biggestCockIndex();
@@ -568,14 +568,14 @@ package classes.Scenes.Areas
 		}
 
 		//[=Leave=]
-		private function dontRepeatFuckSatyr():void {
+		private dontRepeatFuckSatyr():void {
 			Render.text("", true);
 			spriteSelect(99);
 			Render.text("You've had your fun, and you don't really want to fool around in the forest all day, so you grab your " + player.armorName + " and leave the rutting satyr behind.\n\n", false);
 			doNext(camp.returnToCampUseOneHour);
 		}
 		//[=Again=]
-		private function secondSatyrFuck():void {
+		private secondSatyrFuck():void {
 			let x: number = player.cockThatFits(monster.analCapacity());
 			if(x < 0) x = player.smallestCockIndex();
 			Render.text("", true);

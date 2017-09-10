@@ -27,7 +27,7 @@
 			}
 		}
 		
-		protected function lustMagicAttack():void {
+		protected lustMagicAttack():void {
 			Render.text("You see " + a + short + " make sudden arcane gestures at you!\n\n");
 			game.dynStats("lus", player.stats.lib / 10 + player.stats.cor / 10 + 10);
 			if (player.lust < 30) Render.text("You feel strangely warm.  ");
@@ -68,7 +68,7 @@
 			else doNext(game.playerMenu);
 		}
 		
-		public function Imp(noInit:boolean=false)
+		public Imp(noInit:boolean=false)
 		{
 			if (noInit) return;
 			trace("Imp Constructor!");

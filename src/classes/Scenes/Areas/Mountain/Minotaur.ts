@@ -45,7 +45,7 @@
 					(hasAxe?"<b>This minotaur seems to have found a deadly looking axe somewhere!</b>":"");
 		}
 
-		public function Minotaur(axe:boolean=false)
+		public Minotaur(axe:boolean=false)
 		{
 			//Most times they dont have an axe
 			hasAxe = axe || rand(3)==0;

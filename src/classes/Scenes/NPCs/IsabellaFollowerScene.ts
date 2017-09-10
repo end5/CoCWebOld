@@ -5,7 +5,7 @@
 	
 	public class IsabellaFollowerScene extends NPCAwareContent {
 
-	public function IsabellaFollowerScene()
+	public IsabellaFollowerScene()
 	{
 	}
 
@@ -67,7 +67,7 @@ internal function isabellaAffection(mod: number = 0): number {
 	return flags[FlagEnum.ISABELLA_AFFECTION];
 }
 
-public function isabellaSprite():void
+public isabellaSprite():void
 {
 	spriteSelect(31);
 }
@@ -112,7 +112,7 @@ internal function isabellaMoovesInGreeting():void {
 	flags[FlagEnum.ISABELLA_TIMES_OFFERED_FOLLOWER]++;
 }
 //Decline Izzy Initial Moving Offer (-10 affection) 
-private function turnDownIsabellaFollower():void {
+private turnDownIsabellaFollower():void {
 	spriteSelect(31);
 	isabellaAffection(-10);
 	Render.text("", true);
@@ -129,7 +129,7 @@ private function turnDownIsabellaFollower():void {
 		"", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
 }
 //Move Ze Bitch In! 
-private function moveTheBitchIn():void {
+private moveTheBitchIn():void {
 	spriteSelect(31);
 	Render.text("", true);
 	Render.text("As soon as you nod, Isabella smiles and tears her shield out of the ground, setting off a small avalanche of dirt and pebbles across her rugs.  The industrious cow-girl starts packing up her things immediately.  \"<i>It vas time to move out of zis little camp any how,</i>\" she declares as she folds her chair into a chest.  You get an eyeful of her generous backside, the plump rump swaying and jiggling back and forth with every movement Isabella's efforts generate.  It's almost hypnotizing, even half-hidden as it is under her olive-toned skirt.  A breeze blows the hem partway up, and though it doesn't go far, you watch with an intrigued, vacant stare.\n\n", false);
@@ -145,7 +145,7 @@ private function moveTheBitchIn():void {
 }
 
 //Follower Summoned Text: 
-public function callForFollowerIsabella():void {
+public callForFollowerIsabella():void {
 	spriteSelect(31);
 	Render.text("", true);
 	if (flags[FlagEnum.FOLLOWER_AT_FARM_ISABELLA] == 0)
@@ -205,7 +205,7 @@ public function callForFollowerIsabella():void {
 	if (flags[FlagEnum.FOLLOWER_AT_FARM_ISABELLA] == 1) addButton(9, "Back", kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function sendToFarm():void
+private sendToFarm():void
 {
 	clearOutput();
 	isabellaSprite();
@@ -222,7 +222,7 @@ private function sendToFarm():void
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function backToCamp():void
+private backToCamp():void
 {
 	clearOutput();
 	isabellaSprite();
@@ -237,7 +237,7 @@ private function backToCamp():void
 	doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function campIzzySexMenu():void {
+private campIzzySexMenu():void {
 	spriteSelect(31);
 	let tentacle:Function = null;
 	if(izzyTentacleRapeBool() && player.lust >= 33) tentacle = tentacleBoneFollowerIzzy;
@@ -270,7 +270,7 @@ private function campIzzySexMenu():void {
 
 
 //Accent Coaching
-private function isabellasAccentCoaching():void {
+private isabellasAccentCoaching():void {
 	spriteSelect(31);
 	Render.text("", true);
 	//Cooldown rejection
@@ -352,7 +352,7 @@ private function isabellasAccentCoaching():void {
 }
 
 //Morning Wakeup Call 
-public function isabellaMorningWakeupCall():void {
+public isabellaMorningWakeupCall():void {
 	spriteSelect(31);
 	flags[FlagEnum.ISABELLA_MORNING_FELLATIO_COUNT]++;
 	let x:number = player.shortestCockIndex();
@@ -420,7 +420,7 @@ public function isabellaMorningWakeupCall():void {
 	doNext(playerMenu);
 }
 //No BJ's Plz 
-private function toggleIsabellasMorningWoodChopping():void {
+private toggleIsabellasMorningWoodChopping():void {
 	spriteSelect(31);
 	Render.text("", true);
 	if(flags[FlagEnum.ISABELLA_BLOWJOBS_DISABLED] == 0) {
@@ -450,7 +450,7 @@ private function toggleIsabellasMorningWoodChopping():void {
 	doNext(campIzzySexMenu);
 }
 //Repeatable Campsex: Hot Dogginz' 
-private function repeatGermanBratwurstInCamp():void {
+private repeatGermanBratwurstInCamp():void {
 	spriteSelect(31);
 	Render.text("", true);
 	let x:number = player.smallestCockIndex();
@@ -582,7 +582,7 @@ private function repeatGermanBratwurstInCamp():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function izzyTentacleRapeBool():boolean {
+private izzyTentacleRapeBool():boolean {
 	spriteSelect(31);
 	let counter:number = 0;
 	temp = player.lowerBody.cockSpot.count();
@@ -600,7 +600,7 @@ private function izzyTentacleRapeBool():boolean {
 //Tentacle Rape (edited, but see notes -Z)
 //needs 3 cocks: 2 to tie her and lift her up and at least 
 //one for penetration
-private function tentacleBoneFollowerIzzy():void {
+private tentacleBoneFollowerIzzy():void {
 	spriteSelect(31);
 	//Tentacle dick index holders
 	let t1: number = -1;
@@ -734,7 +734,7 @@ private function tentacleBoneFollowerIzzy():void {
 
 //triggers when Izzy Milked Yet flag >= 10 and PC has Bmilker at farm; unless negative, flag gets reset to 0 if PC nurses from her in any nursing scene written later
 //PC wasn't thinking about the pressure; titties get swole
-public function milktasticLacticLactation():void {
+public milktasticLacticLactation():void {
 	spriteSelect(31);
 	Render.text("", true);
 	if(isabellaAccent()) Render.text("\"<i>Ohh, mein milkers...</i>\"\n\n", false);
@@ -747,14 +747,14 @@ public function milktasticLacticLactation():void {
 }
 
 //[No]
-private function izzyMilkYourselfDamnit():void {
+private izzyMilkYourselfDamnit():void {
 	//set Izzy Milked Yet flag to 0
 	//in other words, she handles it herself somehow but it repeats after another ten days without milking her
 	flags[FlagEnum.ISABELLA_MILKED_YET] = 0;
 	camp.returnToCampUseOneHour();
 }
 //[Yes]
-private function izzyMilkingMeinMilkersMya():void {
+private izzyMilkingMeinMilkersMya():void {
 	spriteSelect(31);
 	Render.text("", true);
 	if(player.stats.cor < 50) Render.text("Concerned", false);
@@ -784,7 +784,7 @@ private function izzyMilkingMeinMilkersMya():void {
 	//--next--
 	doNext(izzyMilkingMeinMilkersMya2);
 }
-private function izzyMilkingMeinMilkersMya2():void {
+private izzyMilkingMeinMilkersMya2():void {
 	spriteSelect(31);
 	Render.text("", true);
 	Render.text("In no time at all, Isabella has taken her place in your stall and you've helped her fasten the harnesses on and attach the milker cups.  The machinery whirrs and lifts her heavy form in the air ", false);
@@ -822,7 +822,7 @@ private function izzyMilkingMeinMilkersMya2():void {
 }
 
 //[I'll Allow It]
-private function AllowIzzyMilkerUse():void {
+private AllowIzzyMilkerUse():void {
 	spriteSelect(31);
 	Render.text("", true);
 	Render.text("With a smile, you tell Isabella she's free to come here whenever she's feeling pent-up, as long as there's enough left for you to have some fun together when you want to.  Isabella hugs you again, tits and nipples pressing into your ", false);
@@ -836,7 +836,7 @@ private function AllowIzzyMilkerUse():void {
 }
 
 //[Mine Mine MINE!]
-private function noMilkingMilky():void {
+private noMilkingMilky():void {
 	spriteSelect(31);
 	Render.text("", true);
 	Render.text("You grin at Isabella and pull her over to you.  Wrapping one arm around her waist, you tell her that this was only a stopgap; you'll be the one to take care of all her needs from now on.  To emphasize your point, you ", false);
@@ -853,7 +853,7 @@ private function noMilkingMilky():void {
 //[GetMilk] 
 //follower menu button 
 //(only appears if Izzy Milked Yet flag < 0)
-private function getMilk():void {
+private getMilk():void {
 	spriteSelect(31);
 	Render.text("", true);
 	Render.text("You tell Isabella that you want a bottle of her milk.  ", false);
@@ -888,7 +888,7 @@ private function getMilk():void {
 	inventory.takeItem(consumables.IZYMILK, camp.returnToCampUseOneHour);
 }
 //TDM's Angry Murble
-public function angryMurble():void {
+public angryMurble():void {
 	Render.text("", true);
 	Render.text("You come to Isabella's part of the camp with Marble in tow, supposing now is as good a time as ever to introduce the two.  Marble greats Isabella warmly but immediately starts bombarding her with questions about her origin.  From her persistence, it seems she is interested in meeting another cow-girl.  Though a little overwhelmed, Isabella recovers quickly, explaining her origins and the impurity of her cow-girl nature.  Marble is visibly disappointed.\n\n", false);
 	
@@ -901,7 +901,7 @@ public function angryMurble():void {
 //normal isabella combat + status affect "sparring"
 //v1 = 1, normal sparring.
 //v2 = 2, 'light' sparring.
-private function isabellaSparMenu():void {
+private isabellaSparMenu():void {
 	spriteSelect(31);
 	Render.text("", true);
 	if(flags[FlagEnum.ISABELLA_SPARRING_INTRO] == 0) {
@@ -919,7 +919,7 @@ private function isabellaSparMenu():void {
 	simpleChoices("Light", createCallBackFunction(sparring, 2), "Hard", createCallBackFunction(sparring, 1), "", null, "", null, "Back", callForFollowerIsabella);
 }
 
-private function sparring(type: number = 1):void {
+private sparring(type: number = 1):void {
 	spriteSelect(31);
 	Render.text("", true);
 	if(flags[FlagEnum.ISABELLA_SPARRING_INTRO] == 1) {
@@ -943,7 +943,7 @@ private function sparring(type: number = 1):void {
 //Isabella Burps
 
 //first time (Z)
-private function isabellaBurps():void {
+private isabellaBurps():void {
 	player.consumeItem(consumables.PROBOVA);
 	spriteSelect(31);
 	Render.text("", true);
@@ -986,7 +986,7 @@ private function isabellaBurps():void {
 }
 
 //run
-private function runAwayFromIzzyBurps():void {
+private runAwayFromIzzyBurps():void {
 	Render.text("", true);
 	spriteSelect(31);
 	//First time
@@ -1017,7 +1017,7 @@ private function runAwayFromIzzyBurps():void {
 }
 
 //help (ya dumbo)
-private function getIzzyBurped():void {
+private getIzzyBurped():void {
 	Render.text("", true);
 	spriteSelect(31);
 	flags[FlagEnum.ISABELLA_PROBOVA_BURP_COUNT]++;
@@ -1145,7 +1145,7 @@ private function getIzzyBurped():void {
 	doYesNo(acceptCowpology,declineIzzysCowBurpApology);
 }
 //no
-private function declineIzzysCowBurpApology():void {
+private declineIzzysCowBurpApology():void {
 	Render.text("", true);
 	spriteSelect(31);
 	if(flags[FlagEnum.ISABELLA_PROBOVA_BURP_COUNT] == 1) {
@@ -1163,7 +1163,7 @@ private function declineIzzysCowBurpApology():void {
 }
 
 //yes
-private function acceptCowpology():void {
+private acceptCowpology():void {
 	Render.text("", true);
 	spriteSelect(31);
 	//Clear burps!
@@ -1290,7 +1290,7 @@ internal function receiveAllTheCowTOngues():void {
 
 
 //Ey bitch u wan sum fuk? (Or, how Isabella learned to love the dick regardless of size and shape) (Z)
-private function fuckIsabella():void {
+private fuckIsabella():void {
 	clearOutput();
 	spriteSelect(31);
 	//AREA FOR SCENE ACCESS: (164);
@@ -1371,7 +1371,7 @@ private function fuckIsabella():void {
 //Savin
 //Introduction
 //(Chance to play when you EXPLORE the farm after Isabella moves to camp)
-public function findIzzyMilking():void {
+public findIzzyMilking():void {
 	clearOutput();
 	Render.text("As you wander around Whitney's farm, your exploration brings you back toward the barn.  Wiping the sweat from your brow after nearly an hour under the hot sun, you lean back against the hard wooden wall to take a breather - only to hear a faint, yet clearly ecstatic, mooing coming from inside.  You step over to the nearest window and, peering inside, are surprised to see a familiar towering cowgirl leaning over a railing, a pair of oversized milkers chugging away at her massive mounds.  Seeing her mooing softly as the milkers suckle the thick cream from her teats soon has you well aroused at the sight... and you think you could give her a sexy surprise while she's getting milked.");
 	
@@ -1384,7 +1384,7 @@ public function findIzzyMilking():void {
 }
 
 //Fuck Her (Male/Dick'd Herms)
-private function fuckIsabellaInTheBarn():void {
+private fuckIsabellaInTheBarn():void {
 	let x: number = player.biggestCockIndex();
 	clearOutput();
 	Render.text("You quietly slip into the barn and make your way over to Isabella's stall.  Silently opening the door, you're afforded a good look at the nude, bent-over cowgirl, your eyes drinking in her lush curves and thick, soft ass - and the glistening pussy between her meaty thighs, slightly parted by a pair of mottle-skinned fingers rubbing and teasing at her big clit.");
@@ -1423,7 +1423,7 @@ private function fuckIsabellaInTheBarn():void {
 	addButton(0,"Next",isabellaBarnFuckPartII);
 }
 
-private function isabellaBarnFuckPartII():void {
+private isabellaBarnFuckPartII():void {
 	clearOutput();
 	Render.text("Isabella collapses, shuddering and twitching after her orally-induced orgasm.  Playfully, you cup a hand around one of her well-milked breasts and roll her over, spreading her furry legs around your hips.  A slight groan escapes Isabella's lips as you loom over her, quickly taking one of her eight needy teats into your mouth.  A stream of ultra-sweet cream pours out at the slightest touch of your tongue, running down your throat just as fast as you can swallow.  The cow never seems to run out as you suckle from her, your head rising and falling with her heaving chest as she recovers from the squirting, thigh-quaking orgasm you just put her through.");
 	

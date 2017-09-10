@@ -50,7 +50,7 @@ package classes.display
 		 * 
 		 * @param	maxWidth	Defines the maximum available width that the control can consume for positining math
 		 */
-		public function BindDisplay(maxWidth: number) 
+		public BindDisplay(maxWidth: number) 
 		{
 			_maxWidth = maxWidth;
 			
@@ -64,7 +64,7 @@ package classes.display
 		/**
 		 * Init the shared formatting objects.
 		 */
-		private function InitFormatting():void
+		private InitFormatting():void
 		{
 			_textFont = new ButtonLabelFont();
 			
@@ -87,7 +87,7 @@ package classes.display
 		 * shared text formatting, would probably allow us to move to having a properly contained button class
 		 * without the need for seperate labels.
 		 */
-		private function InitButtons():void
+		private InitButtons():void
 		{
 			_buttons = new Array();
 			_buttonBgs = new Array();
@@ -126,7 +126,7 @@ package classes.display
 		/**
 		 * Create the primary label field used for text display outside of the buttons.
 		 */
-		private function InitLabel():void
+		private InitLabel():void
 		{
 			_nameLabel = new TextField();
 			_nameLabel.defaultTextFormat = _textFormatLabel;
@@ -138,37 +138,37 @@ package classes.display
 			this.addChild(_nameLabel);
 		}
 		
-		public function get text():string
+		public get text():string
 		{
 			return _nameLabel.text;
 		}
 		
-		public function set text(value:string):void
+		public set text(value:string):void
 		{
 			_nameLabel.text = value;
 		}
 		
-		public function get htmlText():string
+		public get htmlText():string
 		{
 			return _nameLabel.htmlText;
 		}
 		
-		public function set htmlText(value:string):void
+		public set htmlText(value:string):void
 		{
 			_nameLabel.htmlText = value;
 		}
 		
-		public function get button1Text():string
+		public get button1Text():string
 		{
 			return _button1Text;
 		}
 		
-		public function get button2Text():string
+		public get button2Text():string
 		{
 			return _button2Text;
 		}
 		
-		public function set button1Text(value:string):void
+		public set button1Text(value:string):void
 		{
 			if (value != _button1Text)
 			{
@@ -177,7 +177,7 @@ package classes.display
 			}
 		}
 		
-		public function set button2Text(value:string):void
+		public set button2Text(value:string):void
 		{
 			if (value != _button2Text)
 			{
@@ -186,12 +186,12 @@ package classes.display
 			}
 		}
 		
-		public function set button1Callback(callback:Function):void
+		public set button1Callback(callback:Function):void
 		{
 			_buttons[0].callback = callback;
 		}
 		
-		public function set button2Callback(callback:Function):void
+		public set button2Callback(callback:Function):void
 		{
 			_buttons[1].callback = callback;
 		}

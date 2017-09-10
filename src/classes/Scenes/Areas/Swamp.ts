@@ -16,10 +16,10 @@ package classes.Scenes.Areas
 		public let femaleSpiderMorphScene:FemaleSpiderMorphScene = new FemaleSpiderMorphScene();
 		public let maleSpiderMorphScene:MaleSpiderMorphScene = new MaleSpiderMorphScene();
 		public let rogar:Rogar = new Rogar();
-		public function Swamp()
+		public Swamp()
 		{
 		}
-		public function exploreSwamp():void
+		public exploreSwamp():void
 		{
 			//Discover 'Bog' at after 25 explores of swamp
 			if ((flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00272] >= 25) && flags[FlagEnum.BOG_EXPLORED] == 0) {

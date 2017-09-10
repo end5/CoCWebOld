@@ -13,7 +13,7 @@ package classes.Scenes.Areas.Lake
 //[Goo attacks]
 //Slap – The slime holds its hands up and they morph into a replica of your " + weaponName + ". Happily, she swings at you, painfully smacking her gooey limbs against your head.  You shake your " + hairDescript() + ", clearing your head of the dazing slap. (lightly damages hit points)
 //Acid Slap (Only after player's fire attack) – Her body quivering from your flames, the goo-girl delivers a painful slap across your cheek. You gasp when the light stinging becomes a searing burn that seems to get worse as time goes on! (heavily damages hit points and puts Acid Burn on the player)
-		private function gooGalAttack():void
+		private gooGalAttack():void
 		{
 			let damage:number = 0;
 			//return to combat menu when finished
@@ -82,7 +82,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Play – 
-		private function gooPlay():void
+		private gooPlay():void
 		{
 			Render.text("The goo-girl lunges, wrapping her slimy arms around your waist in a happy hug, hot muck quivering excitedly against you. She looks up, empty eyes confused by your lack of enthusiasm and forms her mouth into a petulant pout before letting go.  You shiver in the cold air, regretting the loss of her embrace.", false);
 			game.dynStats("lus", 3 + rand(3) + player.stats.sens / 10);
@@ -90,7 +90,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Throw – 
-		private function gooThrow():void
+		private gooThrow():void
 		{
 			Render.text("The girl reaches into her torso, pulls a large clump of goo out, and chucks it at you like a child throwing mud. The slime splatters on your chest and creeps under your " + player.armorName + ", tickling your skin like fingers dancing across your body.", false);
 			let damage:number = 1;
@@ -100,14 +100,14 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Engulf – 
-		private function gooEngulph():void
+		private gooEngulph():void
 		{
 			Render.text("The goo-girl gleefully throws her entire body at you and, before you can get out of the way, she has engulfed you in her oozing form! Tendrils of " + skinTone + " slime slide up your nostrils and through your lips, filling your lungs with the girl's muck. You begin suffocating!", false);
 			if (player.findStatusAffect(StatusAffects.GooBind) < 0) player.statusAffects.add(new StatusAffect("GooBind", 0, 0, 0, 0)));
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//1/3 chance of base attack + bonus if in acid mode
 			if ((findPerk(PerkLib.Acid) >= 0 && rand(3) == 0) || rand(3) == 0)
@@ -143,7 +143,7 @@ package classes.Scenes.Areas.Lake
 			applyTease(lustDelta);
 		}
 
-		public function GooGirl(noInit:boolean = false)
+		public GooGirl(noInit:boolean = false)
 		{
 			if (noInit) return;
 			let playerHasBigBoobs:boolean = player.upperBody.chest.BreastRatingLargest[0].breastRating >= 3;
@@ -192,14 +192,14 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Color types are presented as [Blue slimes/Purple Slimes/Clear Slimes]
-		public function gooColor():string
+		public gooColor():string
 		{
 			//blue, purple, or crystal
 			return skinTone;
 		}
 
 //[azure/plum/crystalline] 
-		public function gooColor2():string
+		public gooColor2():string
 		{
 			if (skinTone == "blue") return "azure";
 			else if (skinTone == "purple") return "plum";
@@ -207,7 +207,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[cerulean/violet/clear]
-		public function gooColor3():string
+		public gooColor3():string
 		{
 			if (skinTone == "blue") return "cerulean";
 			else if (skinTone == "purple") return "violet";
@@ -215,7 +215,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[teal/lavender/glassy] 
-		public function gooColor4():string
+		public gooColor4():string
 		{
 			if (skinTone == "blue") return "teal";
 			else if (skinTone == "purple") return "lavender";
@@ -223,7 +223,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[sapphire/amethyst/diamond]
-		public function gooColor5():string
+		public gooColor5():string
 		{
 			if (skinTone == "blue") return "sapphire";
 			else if (skinTone == "purple") return "amethyst";
@@ -231,7 +231,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[lapis/periwinkle/pure]
-		public function gooColor6():string
+		public gooColor6():string
 		{
 			if (skinTone == "blue") return "sapphire";
 			else if (skinTone == "purple") return "amethyst";
@@ -239,7 +239,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[blue berry/grape/crystal]
-		public function gooColor7():string
+		public gooColor7():string
 		{
 			if (skinTone == "blue") return "blueberry";
 			else if (skinTone == "purple") return "grape";
@@ -247,7 +247,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[aquamarine/plum/transparent]
-		public function gooColor8():string
+		public gooColor8():string
 		{
 			if (skinTone == "blue") return "aquamarine";
 			else if (skinTone == "purple") return "plum";
@@ -255,7 +255,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[an aquamarine/a lilac/a translucent]
-		public function gooColor9():string
+		public gooColor9():string
 		{
 			if (skinTone == "blue") return "an aquamarine";
 			else if (skinTone == "purple") return "a plum";
@@ -263,7 +263,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[blueberries/grapes/strawberries]
-		public function gooColor10():string
+		public gooColor10():string
 		{
 			if (skinTone == "blue") return "blueberries";
 			else if (skinTone == "purple") return "grapes";
@@ -271,7 +271,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //[cerulean tint/violet tint/clear body]
-		public function gooColor11():string
+		public gooColor11():string
 		{
 			if (skinTone == "blue") return "cerulean tint";
 			else if (skinTone == "purple") return "violet tint";

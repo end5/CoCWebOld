@@ -11,7 +11,7 @@ package classes.Scenes.NPCs
 	public class Shouldra extends Monster 
 	{
 
-		private function shouldrattack():void {
+		private shouldrattack():void {
 			let damage:number = 0;
 			//return to combat menu when finished
 			doNext(game.playerMenu);
@@ -62,20 +62,20 @@ package classes.Scenes.NPCs
 		}
 
 		//(lust attack 1)
-		private function shouldraLustAttack():void {
+		private shouldraLustAttack():void {
 			if(rand(2) == 0) Render.text("The girl spins away from one of your swings, her tunic flaring around her hips. The motion gives you a good view of her firm and moderately large butt. She notices your glance and gives you a little wink.\n", false);
 			else Render.text("The girl's feet get tangled on each other and she tumbles to the ground. Before you can capitalize on her slip, she rolls with the impact and comes up smoothly. As she rises, however, you reel back and raise an eyebrow in confusion; are her breasts FILLING the normally-loose tunic? She notices your gaze and smiles, performing a small pirouette on her heel before squaring up to you again. Your confusion only heightens when her torso comes back into view, her breasts back to their normal proportions. A trick of the light, perhaps? You shake your head and try to fall into the rhythm of the fight.\n", false);
 			game.dynStats("lus", (8+player.stats.lib/10));
 			combatRoundOver();
 		}
 		//(magic attack)
-		private function shouldraMagicLazers():void {
+		private shouldraMagicLazers():void {
 			let damage:number = player.takeDamage(20 + rand(10));
 			Render.text("Falling back a step, the girl raises a hand and casts a small spell. From her fingertips shoot four magic missiles that slam against your skin and cause a surprising amount of discomfort. (" + damage + ")\n", false);
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let attack:number = rand(3);
 			if(attack == 0) shouldrattack();
@@ -93,7 +93,7 @@ package classes.Scenes.NPCs
 			game.shouldraScene.loseToShouldra();
 		}
 
-		public function Shouldra()
+		public Shouldra()
 		{
 			this.a = "the ";
 			this.short = "plain girl";

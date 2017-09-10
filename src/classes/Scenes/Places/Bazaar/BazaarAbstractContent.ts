@@ -9,10 +9,10 @@ package classes.Scenes.Places.Bazaar
 
 	public class BazaarAbstractContent extends BaseContent
 	{
-		protected function get bazaar():Bazaar {
+		protected get bazaar():Bazaar {
 			return kGAMECLASS.bazaar;
 		}
-		public function BazaarAbstractContent()
+		public BazaarAbstractContent()
 		{
 		}
 	}

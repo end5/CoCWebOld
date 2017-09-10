@@ -66,7 +66,7 @@
 
 		private static const FETISHY_OUTFIT:string = "fetishy outfit";
 
-		private function cultistRaisePlayerLust():void {
+		private cultistRaisePlayerLust():void {
 			//Two text variants!
 			if(rand(2) == 0) {
 				if(armorName == PERVY_NUNS_CLOTHING) Render.text("She suddenly stops chanting and spreads her legs, opening her loose pussy wide with one hand while moaning like a whore.  She toys with her breasts and fondles one of her nipples with her other hand.\n\nDespite yourself,  you can't help but be aroused by the scene.", false);
@@ -84,7 +84,7 @@
 				doNext(game.endLustLoss);
 			else doNext(game.combatMenu);
 		}
-		private function cultistLustTransfer():void {
+		private cultistLustTransfer():void {
 			if(lust <= 30 || rand(2) == 0) {
 				Render.text("Her eyes glaze over, ", false);
 				if(player.stats.cor < 40) Render.text("and you're almost afraid to know ", false);
@@ -146,12 +146,12 @@
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			randomChoice(special1, special2)();
 		}
 
-		public function FetishCultist()
+		public FetishCultist()
 		{
 			trace("FetishCultist Constructor!");
 			this.a = "the ";

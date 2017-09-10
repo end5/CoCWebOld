@@ -9,7 +9,7 @@ package classes.Scenes.Monsters
 
 	public class GoblinAssassinScene extends BaseContent
 	{
-		public function GoblinAssassinScene()
+		public GoblinAssassinScene()
 		{
 		}
 
@@ -41,7 +41,7 @@ package classes.Scenes.Monsters
 		 Carries bottles of aphrodisiacs and drugs.
 		 Dressed in leather straps that support her chest (in a lewd way) while leaving her pierced nipples exposed and slightly parting her ass to expose her pucker & femmy funbits.  Pierced pointed ears.
 		 */
-		public function goblinAssassinEncounter():void {
+		public goblinAssassinEncounter():void {
 			clearOutput();
 			//First Time Intro
 			if(flags[FlagEnum.TIMES_ENCOUNTERED_GOBLIN_ASSASSIN] == 0)
@@ -60,7 +60,7 @@ package classes.Scenes.Monsters
 		}
 
 //[LOSS SEXAHNZ]
-		public function gobboAssassinBeatYaUp():void {
+		public gobboAssassinBeatYaUp():void {
 			clearOutput();
 			let x: number;
 			if(player.lust <= 99) Render.text("You collapse, utterly beaten. To make sure you'll be easier to handle, the victorious assassin saunters up, a pair of fluid filled needles in her hands. She jams them into your [player.legs], emptying the contents into you before you can so much as stammer a protest. Burning lust pours through your veins unbidden, and you moan out loud as the chemicals have their way with you as easily as the goblin soon will.\n\n");
@@ -183,7 +183,7 @@ package classes.Scenes.Monsters
 		}
 
 //[WIN RAEPZ]
-		public function gobboAssassinRapeIntro():void
+		public gobboAssassinRapeIntro():void
 		{
 			spriteSelect(24);
 			Render.text("", true);
@@ -249,7 +249,7 @@ package classes.Scenes.Monsters
 				cleanupAfterCombat();
 			}
 		}
-		private function giveGoblinAMilkMustache():void {
+		private giveGoblinAMilkMustache():void {
 			Render.text("", true);
 			Render.text("You slowly walk up to the downed goblin, gently telling her that everything will be all right now. She looks at you a bit incredulously and spreads her legs, obviously hoping that you will satisfy the urges that she has. You shake your head at her and instead cup your hands under your " + biggestBreastSizeDescript() + " and tell her that it's feeding time. The goblin looks at you annoyed and says, \"<i>I don't want your breasts! I want your naughty bits!</i>\" You laugh at her and grab her arms, pulling them behind her head.\n\n", false);
 
@@ -263,7 +263,7 @@ package classes.Scenes.Monsters
 			player.changeStatusValue(StatusAffects.Feeder,2,0);
 			cleanupAfterCombat();
 		}
-		private function gobboButtSecks():void
+		private gobboButtSecks():void
 		{
 			spriteSelect(24);
 			let x:number = player.cockThatFits(monster.analCapacity());
@@ -290,7 +290,7 @@ package classes.Scenes.Monsters
 		}
 
 //[FEMSAUCE]
-		private function gobboGetsRapedFem():void
+		private gobboGetsRapedFem():void
 		{
 			spriteSelect(24);
 			Render.text("", true);
@@ -399,7 +399,7 @@ package classes.Scenes.Monsters
 		}
 
 //Corrupt too big fuck
-		private function rapeAGoblinCorruptTooBig():void
+		private rapeAGoblinCorruptTooBig():void
 		{
 			let x:number = player.biggestCockIndex();
 			Render.text("", true);
@@ -478,7 +478,7 @@ package classes.Scenes.Monsters
 		}
 
 //(TOO BIG – pin the bitch to the ground with your cock, coat it in her potions, and make her lick it clean, then blow your load in her mouth, possible cum inflation.)
-		private function manRapesGoblinTooBig():void
+		private manRapesGoblinTooBig():void
 		{
 			Render.text("", true);
 			Render.text(images.showImage("goblin-win-male-corruptedbj"));
@@ -515,7 +515,7 @@ package classes.Scenes.Monsters
 		}
 
 //[DUDEGASM]
-		private function gobboGetsRapedMaleFits():void
+		private gobboGetsRapedMaleFits():void
 		{
 			spriteSelect(24);
 			let x:number = player.cockThatFits(monster.vaginalCapacity());
@@ -596,7 +596,7 @@ package classes.Scenes.Monsters
 
 
 //Spider goblin condom
-		private function goblinCondomed():void
+		private goblinCondomed():void
 		{
 			spriteSelect(24);
 			let x:number = player.cockThatFits(monster.vaginalCapacity());
@@ -624,7 +624,7 @@ package classes.Scenes.Monsters
 		}
 
 //REQUIRES: AT LEAST ONE DICK AND A COPY OF ATLAS SHRUGGED - MUST NOT BE MONSTROUSLY HUGE
-		private function gatsGoblinBoners():void
+		private gatsGoblinBoners():void
 		{
 			Render.text("", true);
 			let x:number = player.cockThatFits(monster.analCapacity());
@@ -666,7 +666,7 @@ package classes.Scenes.Monsters
 			cleanupAfterCombat();
 		}
 
-		private function laySomeDriderEggsInGobboTwat():void
+		private laySomeDriderEggsInGobboTwat():void
 		{
 			clearOutput();
 			Render.text(images.showImage("goblin-win-drider-egged"));

@@ -15,7 +15,7 @@ package classes.Scenes
 		public let exploreDebug:ExploreDebug = new ExploreDebug();
 		public let giacomo:Giacomo = new Giacomo();
 
-		public function Exploration()
+		public Exploration()
 		{
 		}
 
@@ -23,7 +23,7 @@ package classes.Scenes
 		//const HAS_SEEN_MINO_AND_COWGIRL: number = 892;
 		//const EXPLORATION_PAGE: number = 1015;
 		//const BOG_EXPLORED: number = 1016;
-		public function doExplore():void
+		public doExplore():void
 		{
 			if (player.explored == 0) {
 				Render.text("You tentatively step away from your campsite, alert and scanning the ground and sky for danger.  You walk for the better part of an hour, marking the rocks you pass for a return trip to your camp.  It worries you that the portal has an opening on this side, and it was totally unguarded...\n\n...Wait a second, why is your campsite in front of you? The portal's glow is clearly visible from inside the tall rock formation.   Looking carefully you see your footprints leaving the opposite side of your camp, then disappearing.  You look back the way you came and see your markings vanish before your eyes.  The implications boggle your mind as you do your best to mull over them.  Distance, direction, and geography seem to have little meaning here, yet your campsite remains exactly as you left it.  A few things click into place as you realize you found your way back just as you were mentally picturing the portal!  Perhaps memory influences travel here, just like time, distance, and speed would in the real world!\n\nThis won't help at all with finding new places, but at least you can get back to camp quickly.  You are determined to stay focused the next time you explore and learn how to traverse this gods-forsaken realm.", true);
@@ -53,7 +53,7 @@ package classes.Scenes
 			addButton(9, "Back", playerMenu);
 		}
 
-		private function explorePageII():void
+		private explorePageII():void
 		{
 			flags[FlagEnum.EXPLORATION_PAGE] = 2;
 			menu();
@@ -64,7 +64,7 @@ package classes.Scenes
 			addButton(9, "Back", playerMenu);
 		}
 
-		private function goBackToPageI():void
+		private goBackToPageI():void
 		{
 			flags[FlagEnum.EXPLORATION_PAGE] = 1;
 			doExplore();
@@ -72,7 +72,7 @@ package classes.Scenes
 
 
 		//Try to find a new location - called from doExplore once the first location is found
-		public function tryDiscover():void
+		public tryDiscover():void
 		{
 
 			// kGAMECLASS.goblinAssassinScene.goblinAssassinEncounter();
@@ -201,7 +201,7 @@ package classes.Scenes
 		}
 
 
-		public function debugOptions():void
+		public debugOptions():void
 		{
 			inventory.takeItem(consumables.W_FRUIT, playerMenu);
 		}
@@ -210,7 +210,7 @@ package classes.Scenes
 //[DESERT]
 //[RANDOM SCENE IF CHARACTER HAS AT LEAST ONE COCK LARGER THAN THEIR HEIGHT,
 //AND THE TOTAL COMBINED WIDTH OF ALL THEIR COCKS IS TWELVE INCHES OR GREATER]
-		public function bigJunkDesertScene():void
+		public bigJunkDesertScene():void
 		{
 			Render.text("", true);
 			let x:number = player.longestCock();

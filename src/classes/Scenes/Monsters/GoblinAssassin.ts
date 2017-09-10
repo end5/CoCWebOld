@@ -5,7 +5,7 @@
 
 	public class GoblinAssassin extends Monster
 	{
-		protected function goblinDrugAttack():void {
+		protected goblinDrugAttack():void {
 			let temp2:number = rand(5);
 			let color:string = "";
 			if(temp2 == 0) color = "red";
@@ -55,7 +55,7 @@
 			return;
 		}
 		//Lust Needle
-		protected function lustNeedle():void {
+		protected lustNeedle():void {
 			Render.text("With a swift step, the assassin vanishes, her movements too quick for you to follow. You take a sharp breath as you feel her ample thighs clench your head in between them, her slick cunt in full view as you take in her scent.");
 			//Miss
 			if (combatMiss() || combatEvade()) 
@@ -73,7 +73,7 @@
 			combatRoundOver();
 		}
 		//Dual Shot
-		protected function dualShot():void {
+		protected dualShot():void {
 			Render.text("The assassin throws a syringe onto the ground, shattering it and allowing the dissipating smoke from its contents to distract you long enough for her to slip underneath you. With a quick flick of her wrists two needles are placed into her hands, though you’ve already caught wind of her movements.");
 			//Miss: 
 			if (combatMiss() || combatEvade() || combatMisdirect() || combatFlexibility()) 
@@ -91,7 +91,7 @@
 			combatRoundOver();
 		}
 		//Explosion
-		protected function goblinExplosion():void {
+		protected goblinExplosion():void {
 			Render.text("Without a second thought, the assassin pulls a thin needle from the belt wrapped around her chest and strikes it against the ground, causing a flame to erupt on the tip. She twirls forward, launching the needle in your direction which subsequently bursts apart and showers you with heat.");
 			Render.text("\nYou shield yourself from the explosion, though the goblin has already lit a second needle which she throws behind you, launching your body forwards as it explodes behind your back. ");
 			//(High HP loss, no lust gain)
@@ -115,7 +115,7 @@
 				game.goblinAssassinScene.gobboAssassinBeatYaUp();
 			}
 		}
-		public function GoblinAssassin(noInit:boolean=false)
+		public GoblinAssassin(noInit:boolean=false)
 		{
 			if (noInit) return;
 			this.a = "the ";
@@ -155,7 +155,7 @@
 			checkMonster();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let actions:Array = [eAttack,goblinDrugAttack,lustNeedle,dualShot,goblinExplosion];
 			actions[rand(actions.length)]();

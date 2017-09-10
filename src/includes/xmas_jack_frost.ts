@@ -41,7 +41,7 @@ Meeting Jack
 */
 
 //Takes place when exploring the mountain.
-public function meetJackFrostInTheMountains():void {
+public meetJackFrostInTheMountains():void {
 	clearOutput();
 	Render.text("As you explore the mountainous heights, you come across something strange - a great spray of cold, wet, soft, creamy substance.  You realise with a start that it's snow!  You haven't even seen rain since you came to this world.  What's more, looking around shows you other strange drifts of snow; it almost looks like a path of some sort.  Curious, you decide to follow them, see if you can track down what's causing it.");
 	
@@ -75,7 +75,7 @@ public function meetJackFrostInTheMountains():void {
 }
 
 //[=No=]
-public function noJizzingInMyCampPlease():void {
+public noJizzingInMyCampPlease():void {
 	clearOutput();
 	Render.text("You thank the giant for his offer, but you'll have to refuse.  You really can't take even one day off your quest.");
 	Render.text("\n\n\"<i>Pity... well, if you'll excuse me, this mountain ain't snowy enough just yet!</i>\"  He resumes his furious masturbation, spraying another gush of snow on the side of the mountain.");
@@ -86,7 +86,7 @@ public function noJizzingInMyCampPlease():void {
 }
 
 //[=Yes=]
-public function jizzSnowOnMyCampPlease():void {
+public jizzSnowOnMyCampPlease():void {
 	clearOutput();
 	Render.text("You look around, and then find a convenient rock to climb.  From here, you can see your camp, and you indicate to the friendly giant where it is.  \"<i>Alright, I'll make sure to paint it white.</i>\"  He chuckles once more.  \"<i>I have a pretty good aim, I'll have you know, and my friend here can pump it far!</i>\"  He pats his enormous dick.  \"<i>Off you go, then.  And merry Winterfest.</i>\"  He smiles turning to point his gigantic prick at your camp and beginning to masturbate furiously.");
 
@@ -97,7 +97,7 @@ public function jizzSnowOnMyCampPlease():void {
 }
 
 //Back in camp
-public function processJackFrostEvent():void {
+public processJackFrostEvent():void {
 	hideUpDown();
 	clearOutput();
 	//Each follower PC has adds a block, having no followers just plays the no followers block.
@@ -541,7 +541,7 @@ public function processJackFrostEvent():void {
 
 //[=Fuck Her=]
 //PC needs to have a cock.
-public function kihaXmasFuck():void {
+public kihaXmasFuck():void {
 	clearOutput();
 	let x: number = player.cockThatFits(67);
 	if(x < 0) x = player.smallestCockIndex();
@@ -561,7 +561,7 @@ public function kihaXmasFuck():void {
 }
 //[=Lick Boobs and Finger Pussy=]
 //All sexes!
-public function kihaXmasFingering():void {
+public kihaXmasFingering():void {
 	clearOutput();
 	Render.text("You examine Kiha.  A small snowflake lands on one of her nipples and she yelps with a start at the sudden contact.   \"<i>Hey, I asked you to help warm me up, not to stare at me!</i>\" she complains. ");
 	Render.text("\n\nYou tell her not to worry, you know just the way to warm her all up.  \"<i>Get on with it then,</i>\" she grumbles.  You grab hold of the impatient dragoness's boobs, massaging them gently, and lick the snowflake off her nipple.  Taking it in your mouth to suckle, you nip at her erect nub.  She gasps and moans in equal parts pleasure and shock.  \"<i>W-what?  Oh, that's nice, but, how's that going to help?</i>\"  You unlatch from her breast momentarily to wink at her and tell her to trust you - you know what you're doing.  \"<i>You perv,</i>\" Kiha says, but she's smiling as she does so.");
@@ -578,7 +578,7 @@ public function kihaXmasFingering():void {
 
 //[=Fuck Her=]
 //Needs PC with cock that fits.
-public function penetradePureMouseWaifu():void {
+public penetradePureMouseWaifu():void {
 	clearOutput();
 	Render.text("Stripping down your [armor] and indicating Amily should do the same... you tell her that you were hoping for some good old-fashioned sex between a horny " + player.mf("man","herm") + " and " + player.mf("his","her") + " lovely mousette.  You playfully ask Amily if she has any objections?");
 	Render.text("\n\n\"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  You reply that just the sight of her getting nude is already making you a little warmer... thrusting your hips so she can see your erect " + player.multiCockDescriptLight() + ".  \"<i>Flattering flirt; you always think with your dick, don't you?</i>\" the mouse laughs.  That's rich; you can see her pussy dripping from here");
@@ -607,7 +607,7 @@ public function penetradePureMouseWaifu():void {
 
 //[=Make out=]
 //For any gender.
-public function makeOutWithPureMouseWaifu():void {
+public makeOutWithPureMouseWaifu():void {
 	clearOutput();
 	Render.text("You strip down your [armor] and suggest Amily should do the same.  \"<i>Well, it's a little counterproductive to take your clothes off if you want to get warm,</i>\" Amily notes.  Despite her words, she's stripping off without the slightest hesitation.  \"<i>So, what's on your mind, lover-" + player.mf("boy","girl") + "?</i>\" she asks.");
 	
@@ -639,7 +639,7 @@ public function makeOutWithPureMouseWaifu():void {
 
 //[=Pen Ass=]
 //PC needs a cock.
-public function penetradeCorruptJojoAss():void {
+public penetradeCorruptJojoAss():void {
 	clearOutput();
 	Render.text("You roughly pull the mouse slut's tail out of the way, getting a clear look at his accommodating ass.  Your broken slut of a murine monk rises to the tips of his toes in anticipation, already moaning in delight at the thought of your ravaging his ass.  You laugh at him, telling him he has come very far ever since the first time you've violated his bum.   \"<i>Yes [master], thank you [master],</i>\" is all Jojo's corrupted brain can think to say.");
 	Render.text("\n\nFeeling like you're just wasting your time, you drop your lower garments and begin stroking yourself into an erection.  With a throaty groan, Jojo wiggles his ass, crudely trying to tempt you to start.  You roughly shove your [cock] as far as it'll go on the former monk's ass, sinking a few inches in without any resistance.  Moaning, pre already dribbling from his cock, the fallen mouse bucks eagerly back into you, trying to shove more of your cock up his ass.");
@@ -661,7 +661,7 @@ public function penetradeCorruptJojoAss():void {
 }
 //[=Ride Cock=]
 //PC needs vagina
-public function rideCorruptJojoCock():void {
+public rideCorruptJojoCock():void {
 	clearOutput();
 	Render.text("With a flourish, you easily discard your [armor].  Then you grab a hold of the mouse-slut's tail and twist it to the side, forcing the former monk to crash into the ground on his back, shaft half-erect and covered in melting snow, pointing upwards like a perverted pole.  You ask him if he can see anything he would like from his current vantage point.");
 	Render.text("\n\n\"<i>Y-yes [master],</i>\" Jojo meekly declares, unable to take his eyes from your [cunt].  His cock immediately grows to full mast, which you can't help but think is one of his more convenient features since you remade him into this far more enjoyable version of himself.");
@@ -693,7 +693,7 @@ public function rideCorruptJojoCock():void {
 
 //[=Spank and Finger Ass=]
 //Available to all.
-public function spankNFingerCorruptJojoAss():void {
+public spankNFingerCorruptJojoAss():void {
 	clearOutput();
 	Render.text("Not bothering to undress, you yank the mouse's ropy tail out of the way with brutal force, to gaze at his white, heart-shaped ass.  Jojo stands on the tips of his toes, moaning at the rough treatment that surely follows.  His ass looks so inviting... so deserving of a good hard smack... you ask the former monk-turned-slut how he would like a good beating on his ass.");
 	Render.text("\n\n\"<i>M-[master], please, spank me!  I'm such a naughty boy - spank me hard!</i>\" Jojo cries.  You laugh at your wanton slut.  You've never seen a mouse as perverted as this, begging to be spanked and getting off on the idea... well, the slut certainly deserves it... you're pretty sure he has been masturbating without your permission, and you can't have that.");

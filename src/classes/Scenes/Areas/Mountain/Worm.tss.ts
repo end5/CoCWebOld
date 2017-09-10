@@ -6,7 +6,7 @@
 	{
 
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//Worms have different AI
 			if (rand(2) == 0)
@@ -26,7 +26,7 @@
 			return 40;
 		}
 
-		public function WormMass()
+		public WormMass()
 		{
 			trace("WormMass Constructor!");
 			this.a = "the ";

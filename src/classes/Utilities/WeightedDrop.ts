@@ -37,7 +37,7 @@ export class WeightedDrop implements RandomDrop {
     }
 
     /*
-    public function clone():WeightedDrop
+    public clone():WeightedDrop
     {
         let other:WeightedDrop = new WeightedDrop();
         other.items = this.items.slice();

@@ -5,7 +5,7 @@
 
 	public class Kaiju extends AbstractLakeContent {
 
-	public function Kaiju()
+	public Kaiju()
 	{
 	}
 
@@ -17,7 +17,7 @@
 
 //First encounter
 //Boat
-public function kaijuMeeting():void {
+public kaijuMeeting():void {
 	clearOutput();
 	if(flags[FlagEnum.KAIJU_MEETINGS] == 0) {
 		Render.text("Your explorations take you to a small island you haven't seen before.  It appears to be a large, smooth rock hill jutting out of the water.  Do you explore it?");
@@ -33,12 +33,12 @@ public function kaijuMeeting():void {
 	}
 }
 
-private function kaijuCock():boolean {
+private kaijuCock():boolean {
 	return (flags[FlagEnum.KAIJU_COCK] == 1);
 }
 
 //[If no]
-private function noMeetingKaijus():void {
+private noMeetingKaijus():void {
 	clearOutput();
 	Render.text("You continue rowing on, away from the hilly island.");
 	//[There is still a chance of finding the hill later]
@@ -46,7 +46,7 @@ private function noMeetingKaijus():void {
 }
 
 //[If yes]
-private function meetDatKaijuYo():void {
+private meetDatKaijuYo():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_MEETINGS] = 1;
@@ -67,7 +67,7 @@ private function meetDatKaijuYo():void {
 }
 
 //[If insult]
-private function insultTheKaijuFirstMeeting():void {
+private insultTheKaijuFirstMeeting():void {
 	clearOutput();
 	spriteSelect(103);
 	if(kaijuCock()) {
@@ -97,7 +97,7 @@ private function insultTheKaijuFirstMeeting():void {
 }
 
 //[If yes]
-private function yesBurnDatClit():void {
+private yesBurnDatClit():void {
 	clearOutput();
 	spriteSelect(103);
 	fatigue(30,1);
@@ -109,7 +109,7 @@ private function yesBurnDatClit():void {
 }
 
 //[If no] (Scene returns to regular blowjob/urethral insertion scene.)
-private function corruptKaijuInsertion():void {
+private corruptKaijuInsertion():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("She practically shoves your face into her dark green cock-head, your nose snug against the long slit.  It smells of the sexual corruption of the lake, of demonic jizz and tainted aphrodisiacs.  \"<i>Well go on,</i>\" she says, \"<i>lick it!</i>\"");
@@ -127,7 +127,7 @@ private function corruptKaijuInsertion():void {
 }
 
 //[If compliment]
-private function complimentKaiju():void {
+private complimentKaiju():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You decide to compliment her figure, stating it is proportional and very pleasing.");
@@ -140,7 +140,7 @@ private function complimentKaiju():void {
 }
 
 //[If stop it]
-private function stopItPlease():void {
+private stopItPlease():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You cry out and wave the inquisitive hand away.  You tell her that you mean no offense, but at such a size and strength disparity you are afraid of what a grip from such a woman could do accidentally.  She seems a bit saddened at that, but makes no further attempt to grab you.");
@@ -149,7 +149,7 @@ private function stopItPlease():void {
 }
 
 //[If let her]
-private function letKaijuHaveWayWithYou():void {
+private letKaijuHaveWayWithYou():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You make no moves as the hand firmly but gently picks you up and brings you upwards towards her ample bosom.  She holds you tightly to a breast, nearly smothering you in tit flesh.  Her perky nipple seems massive up close as it practically bounces off your head when she begins grinding you up and down her gargantuan breast");
@@ -198,7 +198,7 @@ private function letKaijuHaveWayWithYou():void {
 }
 
 //[If flirt]
-private function flirtWithKaiju():void {
+private flirtWithKaiju():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You decide to try and flirt up the giantess.  You tell her that her figure is perfect and statuesque, and that her curves are quite magnificent to behold.  It seems to work if her spreading look of pleasure is any indication.");
@@ -271,7 +271,7 @@ private function flirtWithKaiju():void {
 }
 
 //Second/Repeatable encounter/s at Boat
-private function repeatKaijuEncounter():void {
+private repeatKaijuEncounter():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("As you row through the lake you encounter a familiar sight, a giant shell as big as an island.  As you row near it the terrapin giantess, Venus emerges from the corrupted waters.  One giant green hand plays with her titanic jugs as the other remains in the water playing with her unseen sex.  It takes several moments before she notices you.  \"<i>Oh my, it's you again, my favorite voyeur!  Did you come back for a little peek, or do you want to have some real fun?</i>\"");
@@ -291,7 +291,7 @@ private function repeatKaijuEncounter():void {
 	addButton(9,"Leave",leaveRepeatKaiju);
 }
 //[If Hug Boobs]
-private function kaijuRepeatBoobHug():void {
+private kaijuRepeatBoobHug():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You decide it would be fun to play with her titanic titties for a while.");
@@ -338,7 +338,7 @@ private function kaijuRepeatBoobHug():void {
 }
 
 //[If Fuck] 
-private function fuckThisGiantYouDumbCunt():void {
+private fuckThisGiantYouDumbCunt():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You decide it’d be fun to fuck the giantess, even if at her size you’re really more of a living dildo than a rutting stud.  She seems pretty happy with the thought if her spreading look of pleasure is any indication.");
@@ -416,7 +416,7 @@ private function fuckThisGiantYouDumbCunt():void {
 }
 
 //[If Urethra Fuck]
-private function urethraFuckDatGiantCock():void {
+private urethraFuckDatGiantCock():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You look at her with an inquisitive stare.  You’re interested in that big green cock of hers, but how can you use such a giant tool?");
@@ -447,7 +447,7 @@ private function urethraFuckDatGiantCock():void {
 }
 
 //[If Leave]
-private function leaveRepeatKaiju():void {
+private leaveRepeatKaiju():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You politely decline any options and bid the green girl goodbye as you row away.");
@@ -455,7 +455,7 @@ private function leaveRepeatKaiju():void {
 }
 
 //[If Talk] 
-private function talkToKaiju():void {
+private talkToKaiju():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_TALK_CYCLE]++;
@@ -499,7 +499,7 @@ private function talkToKaiju():void {
 }
 
 //[If Peek]
-private function peekAtSomePhatAssKaijuButt():void {
+private peekAtSomePhatAssKaijuButt():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -531,7 +531,7 @@ private function peekAtSomePhatAssKaijuButt():void {
 }
 
 //[If yes]
-private function yesKaijuGimmePeepShowsMoar():void {
+private yesKaijuGimmePeepShowsMoar():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -542,7 +542,7 @@ private function yesKaijuGimmePeepShowsMoar():void {
 }
 
 //[If no] (Skip corrupt/herm scene)
-private function noKaijuPeepShows():void {
+private noKaijuPeepShows():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("\"<i>My goodness, it's so much better with a captivated audience!</i>\" she says, breathing heavily.  You thank her for the show as she places you back into your boat and giving it a push.  You row away, considering perhaps coming back for another show.");
@@ -554,7 +554,7 @@ private function noKaijuPeepShows():void {
 //One off scenes
 //Scene for Newly Cocked Venus at Boat
 //[Triggered if the PC has already had sex with pure female Venus before finishing the Factory quest, and has since stopped the Factory and corrupted the lake and Marae]
-private function kaijuGrowsWangus():void {
+private kaijuGrowsWangus():void {
 	flags[FlagEnum.KAIJU_COCK] = 1;
 	clearOutput();
 	spriteSelect(103);
@@ -572,7 +572,7 @@ private function kaijuGrowsWangus():void {
 }
 
 //[If no]
-private function dontGetFutaTurtlesOffToday():void {
+private dontGetFutaTurtlesOffToday():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You shake your head no, politely responding that you do not want to get her off right now.  \"<i>Oh, okay. I understand,</i>\" the giantess states, looking somewhat crestfallen.  You row away, leaving her and her new addition to themselves for the time being.");
@@ -580,7 +580,7 @@ private function dontGetFutaTurtlesOffToday():void {
 }
 
 //[If Mock] 
-private function mockDatTurtleGirl():void {
+private mockDatTurtleGirl():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You laugh at the giant, asking her what kind of girl has a cock.  A rage overtakes her, her blue eyes suddenly glowing bright red as she grips you firmly in one massive hand, keeping your arms pinned to your sides so tightly you can't move.  \"<i>How dare you!</i>\" she tells you as two demonic horns creep up out of her red locks.  The factory's corruption has obviously given her more than a large male member.  \"<i>All you had to do was say no, you didn't have to be so rude about it! Maybe this will teach you a few manners,</i>\" she says, opening her hand to allow her new green cock to fall onto you before closing her hand again, firmly gripping you and her erect member.  All you can see is the green of her twitching cock flesh.  \"<i>I want to see if this thing is fully functional, so hang on tight!</i>\"");
@@ -611,7 +611,7 @@ private function mockDatTurtleGirl():void {
 }
 
 //[If yes]
-private function helpNewFutaKaijuGetOff():void {
+private helpNewFutaKaijuGetOff():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_BAD_END_COUNTER]++;
@@ -640,7 +640,7 @@ private function helpNewFutaKaijuGetOff():void {
 }
 
 //[If Incubi Drafts]
-private function incubiDraftsDatKaiju():void {
+private incubiDraftsDatKaiju():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("You ask the big green slut if she’d be open to growing a new toy between her legs to play with.\n\nHer eyes go wide in surprise at the suggestion, a deep red blush spreading across her cheeks. \"<i>I admit, I have thought about it. Something long and hard to stroke, but I really don’t know,</i>\" she says, obviously excited yet embarrassed by the idea. \"<i>Would you really be okay with it?</i>\"");
@@ -651,7 +651,7 @@ private function incubiDraftsDatKaiju():void {
 }
 
 //[If Yes]
-private function yesTurnKaijuFuta():void {
+private yesTurnKaijuFuta():void {
 	clearOutput();
 	spriteSelect(103);
 	flags[FlagEnum.KAIJU_BAD_END_COUNTER]+=2;
@@ -692,7 +692,7 @@ private function yesTurnKaijuFuta():void {
 //Improved Bad End
 //Venus' Sex Toy
 //[Triggers after doing something sexual with Venus a lot in a few days, but with a cooldown]
-private function kaijuBadEndToyBOOSH():void {
+private kaijuBadEndToyBOOSH():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("As you are rowing through the lake you once more stumble upon the jolly green giantess Venus, who seems to be in the throes of pleasure as she masturbates furiously in some shallow waters, rubbing her large ");
@@ -719,7 +719,7 @@ private function kaijuBadEndToyBOOSH():void {
 	}
 }
 
-private function flyAwayFromBadEnd():void {
+private flyAwayFromBadEnd():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("Flapping your wings at max speed you beat a hasty retreat!");
@@ -727,7 +727,7 @@ private function flyAwayFromBadEnd():void {
 }
 
 //[End wings]
-private function badEndPartTwo():void {
+private badEndPartTwo():void {
 	clearOutput();
 	spriteSelect(103);
 	Render.text("The horny giantess makes short work of your [armor] and soon the green gal has you mashed against her puckered lips, doing her best to give a passionate kiss despite the size barrier.  Pulling you up towards eye level, her voice growls with lust as she says, \"<i>By Marae you get me so hot and bothered.  We've just been fucking so much lately I can't get you out of my mind!  You naughty, wonderful, glorious, perverted " + player.mf("boy","girl") + "!  I just don't think I can stand it without you any longer!</i>\"  Without further comment she places you at the tip of one of her great big green milk machines, shoving your face into a pink colossal nipple.  \"<i>Drink up now.</i>\"  It's apparent she wants to feed you her corrupted milk, and there doesn't appear to be much of a choice in the matter now.  Her nipple is larger than even some of the more massive cocks you've seen in this land, yet you manage to get your mouth around the very tip of it and begin to suck mercilessly at the milky teat as you bring your hands up to stroke and pinch at the base of the overly sensitive large nub.  \"<i>Oh goddess!</i>\" the giant slut moans above you.");

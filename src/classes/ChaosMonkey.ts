@@ -42,7 +42,7 @@
 			  *                 properly synthesize fake key events
 		 * @param   debug       Emit debugging trace statements
 		 */
-		public function ChaosMonkey(mainClass:*, debug:boolean = false)
+		public ChaosMonkey(mainClass:*, debug:boolean = false)
 		{
 			this.debug = debug;
 			this._excludeMenuKeys = true;
@@ -54,12 +54,12 @@
 
 		}
 
-		private function randomChoice(inArr:Array):*
+		private randomChoice(inArr:Array):*
 		{
 			return inArr[ Math.floor( Math.random() * inArr.length ) ];
 		}
 
-		private function initAvailableKeysList():void
+		private initAvailableKeysList():void
 		{
 			/*
 			 * 83	-- s				-- Display stats if main menu button displayed
@@ -141,7 +141,7 @@
 
 		CONFIG::debug 
 		{
-			public function catchGlobalError(event:UncaughtErrorEvent):void
+			public catchGlobalError(event:UncaughtErrorEvent):void
 			{
 				this.stopMonkey();
 
@@ -181,7 +181,7 @@
 		
 		
 
-		private function attachGlobalErrorHandler():void
+		private attachGlobalErrorHandler():void
 		{
 			CONFIG::debug 
 			{
@@ -189,7 +189,7 @@
 			}
 		}
 
-		private function detatchGlobalErrorHandler():void
+		private detatchGlobalErrorHandler():void
 		{
 			CONFIG::debug 
 			{
@@ -203,7 +203,7 @@
 		
 		
 
-		private function setupExitKey():void
+		private setupExitKey():void
 		{
 			
 			// IIFE Hack: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
@@ -222,22 +222,22 @@
 		}
 
 
-		public function get excludeMenuKeys():boolean
+		public get excludeMenuKeys():boolean
 		{
 			return this._excludeMenuKeys;
 		}
 		
-		public function set excludeMenuKeys(flag:boolean):void
+		public set excludeMenuKeys(flag:boolean):void
 		{
 			this._excludeMenuKeys = flag;
 		}
 
-		public function get throwOnSyntaxError():boolean
+		public get throwOnSyntaxError():boolean
 		{
 			return this._catchOutputTextErrors;
 		}
 		
-		public function set throwOnSyntaxError(flag:boolean):void
+		public set throwOnSyntaxError(flag:boolean):void
 		{
 			this._catchOutputTextErrors = flag;
 		}
@@ -245,14 +245,14 @@
 		// This is called by the key-event bound to F12. It does not do any actual teardown
 		// it just sets the run flags to false
 		// Actual teardown is done on the next EXIT_FRAME event.
-		public function stopMonkey():void
+		public stopMonkey():void
 		{
 			this._mainClassPtr.testingBlockExiting = false;
 			CoC_Settings.haltOnErrors = false;
 		}
 
 		// Set up the run vars for the monkey, and attach the gloval error handler.
-		private function engageMonkey():void
+		private engageMonkey():void
 		{
 			
 			CoC_Settings.haltOnErrors = true;
@@ -262,7 +262,7 @@
 
 		// Actual tear-down function. 
 		// Called in the EVENT_EXIT handler if testingBlockExiting is set to false.
-		private function disengageMonkey():void
+		private disengageMonkey():void
 		{
 			this._mainClassPtr.inputManager.RemoveExistingKeyBind(this.exitKeyCode);
 			this._stage.removeEventListener(Event.EXIT_FRAME, this.throwAMonkeyAtIt);
@@ -270,7 +270,7 @@
 
 		}
 
-		public function createChaos(blockSaves:boolean = true):void
+		public createChaos(blockSaves:boolean = true):void
 		{
 
 			trace("Starting monkey");
@@ -289,7 +289,7 @@
 		}
 
 		private let oldTime:number = 0;
-		private function checkTime():void
+		private checkTime():void
 		{
 			if (this._mainClassPtr.time.totalTime - this.oldTime < 0)
 			{
@@ -300,7 +300,7 @@
 		}
 
 		// KeyHandler(e:KeyboardEvent)
-		public function throwAMonkeyAtIt(e:*):void
+		public throwAMonkeyAtIt(e:*):void
 		{
 
 			this.checkTime();

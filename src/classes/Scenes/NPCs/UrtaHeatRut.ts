@@ -4,10 +4,10 @@
 
 	public class UrtaHeatRut extends NPCAwareContent {
 
-		public function UrtaHeatRut()
+		public UrtaHeatRut()
 		{
 		}
-private function urtaQuestDone():boolean {
+private urtaQuestDone():boolean {
 	return (flags[FlagEnum.URTA_QUEST_STATUS] == 1);
 }
 
@@ -130,7 +130,7 @@ internal function approachDrunkenUrta():void {
 
 
 //[=Not interested=]
-private function notInterestedInUburDrunkUrtaRuts():void {
+private notInterestedInUburDrunkUrtaRuts():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You say it's her who seems to be different today, and gently push her away, before apologizing and making your leave.  ");
@@ -152,7 +152,7 @@ private function notInterestedInUburDrunkUrtaRuts():void {
 }
 
 //[=Interested=]
-private function interestedInUburDrunkurtaRuts():void {
+private interestedInUburDrunkurtaRuts():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You raise an eyebrow and ask Urta if she minds telling you the reason for such attention and what exactly it is that you smell like.");
@@ -185,7 +185,7 @@ private function interestedInUburDrunkurtaRuts():void {
 	}
 }
 //(If in heat OR rut, or did not pick Watch)
-private function drunkUrtaIntroPartDuex(chosenSex: number = 1, newl:boolean = true):void {
+private drunkUrtaIntroPartDuex(chosenSex: number = 1, newl:boolean = true):void {
 	if(newl) clearOutput();
 	else Render.text("\n\n");
 	urta.urtaSprite();
@@ -234,7 +234,7 @@ private function drunkUrtaIntroPartDuex(chosenSex: number = 1, newl:boolean = tr
 
 //[If player is in Heat AND Rut and chooses "Watch"]
 //[Watch Drunken Urta Jerk Off]
-private function watchDrunkRuturtaJerkoff():void {
+private watchDrunkRuturtaJerkoff():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You decide that you want to see the proud captain of Tel'adre's Watch reduced to a horny mess in the middle of the public, and so just take a few steps back and watch.");
@@ -257,7 +257,7 @@ private function watchDrunkRuturtaJerkoff():void {
 }
 
 //[=Stop Teasing=]
-private function stopTeasingDatHornyFox():void {
+private stopTeasingDatHornyFox():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You decide there's no point taking things too far - besides, Urta seems just about ready to pop now, especially with how she's frantically suckling at her own cockhead.");
@@ -270,7 +270,7 @@ private function stopTeasingDatHornyFox():void {
 }
 
 //[=Keep Teasing=]
-private function keepTeasingDatHornyFawkes():void {
+private keepTeasingDatHornyFawkes():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You smirk; things are just starting to get fun around here, why would you stop now?  You start to amp up your routine even more, flaunting your scents and your goods for all the bar's occupants, not just the drunken fox-herm feverishly jerking herself off in front of you.  You can't recall if you've ever danced before coming to Mareth, but you don't think you do too bad as you perform an amateur strip-dance for the audience around you, slowly peeling off your [armor] and sensuously discarding them, bending over to let Urta and any other cock-bearing character present in the bar get a good look at your [vagina], ");
@@ -298,7 +298,7 @@ private function keepTeasingDatHornyFawkes():void {
 
 //Sober Urta Variants 
 //Sober Urta has a 45% chance to end rut/heat, depending on which one she's sating, and a 5% chance to intensify it with no modifications to the PCs attributes.
-private function soberUrtaSatingPCHeat():void {
+private soberUrtaSatingPCHeat():void {
 	//If she's Lover Urta, her vaginal capacity increases to cock area 66 (or at least it's what we planned).
 	//Quote:[Sate Heat with Sober Urta]
 	clearOutput();
@@ -436,7 +436,7 @@ private function soberUrtaSatingPCHeat():void {
 }
 
 //Quote:[=Sate Rut with Sober Urta: Cock Too Big=]
-private function sateRutWithSoberUrtaButHuegDicked():void {
+private sateRutWithSoberUrtaButHuegDicked():void {
 	clearOutput();
 	urta.urtaSprite();
 	let x: number = player.biggestCockIndex();
@@ -482,7 +482,7 @@ private function sateRutWithSoberUrtaButHuegDicked():void {
 }
 
 //Quote:[=Sate Rut with Sober Urta=]
-private function sateRutWithSoberUrta():void {
+private sateRutWithSoberUrta():void {
 	let x: number = player.biggestCockIndex();
 	clearOutput();
 	urta.urtaSprite();
@@ -552,7 +552,7 @@ private function sateRutWithSoberUrta():void {
 
 //Quote:[Drunken Urta Fucks Vagina]
 //This scene only plays if the character is in heat, or is in both heat and rut and chose "Pussy"
-private function drunkenUrtaFucksPCInHeat():void {
+private drunkenUrtaFucksPCInHeat():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("You simply smile at her, inhaling deeply through your nose; you can swear you can smell her herm-musk, wafting off of her as strongly as your own pheromones must be wafting off of you.  That wonderful, earthy, primordial scent, the odor of a healthy breeder ready and willing to mate... there's nothing like it.");
@@ -630,7 +630,7 @@ private function drunkenUrtaFucksPCInHeat():void {
 }
 
 //[Sate Rut with Drunken Urta â Cock too big]
-private function sateRutWithDrunkUrtaWithHugeDick():void {
+private sateRutWithDrunkUrtaWithHugeDick():void {
 	clearOutput();
 	urta.urtaSprite();
 	Render.text("Urta climbs on top of you, pressing her wet slit against the head of your cock.  She does attempt to get it inside, but the pain of being stretched quickly makes her realize that even if she managed to, the fuck would be less than enjoyable and more than a little painful.  She groans and growls in frustration, pulling herself off you and pressing her apple-sized balls ");
@@ -679,7 +679,7 @@ private function sateRutWithDrunkUrtaWithHugeDick():void {
 }
 
 //Quote:[Drunken Urta Fucks Cock]
-private function drunkUrtaRidesARutPCsCock():void {
+private drunkUrtaRidesARutPCsCock():void {
 	clearOutput();
 	let x: number = player.biggestCockIndex();
 	urta.urtaSprite();

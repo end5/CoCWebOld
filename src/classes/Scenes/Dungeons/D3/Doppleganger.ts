@@ -14,7 +14,7 @@ package classes.Scenes.Dungeons.D3
 	{
 		private let _roundCount: number = 0;
 		
-		public function mirrorAttack(damage:number):void
+		public mirrorAttack(damage:number):void
 		{
 			this.statusAffects.add(new StatusAffect("MirroredAttack", 0, 0, 0, 0)));
 			
@@ -40,7 +40,7 @@ package classes.Scenes.Dungeons.D3
 			addTalkShit();
 		}
 		
-		public function mirrorTease(damage:number, successful:boolean):void
+		public mirrorTease(damage:number, successful:boolean):void
 		{
 			clearOutput();
 			Render.text("You move your hands seductively over your body, and - you stop. The doppelganger stops too, staring at you with wicked coyness, " + player.mf("his", "her") +" hands frozen on " + player.mf("his", "her") +" form exactly where yours are. Glaring back, you begin your slow, lustful motions again, as your reflection does the exact same thing. It’s a lust off!");
@@ -64,7 +64,7 @@ package classes.Scenes.Dungeons.D3
 			addTalkShit();
 		}
 		
-		private function addTalkShit():void
+		private addTalkShit():void
 		{
 			statScreenRefresh();
 			
@@ -151,7 +151,7 @@ package classes.Scenes.Dungeons.D3
 			game.d3.doppleganger.inSovietCoCSelfFucksYou();
 		}
 		
-		public function handleSpellResistance(spell:string):void
+		public handleSpellResistance(spell:string):void
 		{
 			Render.text("The mirror demon barely even flinches as your fierce, puissant fire washes over [him].");
 
@@ -169,7 +169,7 @@ package classes.Scenes.Dungeons.D3
 			addTalkShit();
 		}
 		
-		public function handlePlayerWait():void
+		public handlePlayerWait():void
 		{
 			Render.text("Your doppleganger similarly opts to take a momentary break from the ebb and flow of combat.");
 			addTalkShit();
@@ -181,7 +181,7 @@ package classes.Scenes.Dungeons.D3
 			addTalkShit();
 		}
 		
-		public function Doppleganger() 
+		public Doppleganger() 
 		{
 			this.a = "the ";
 			this.short = "doppleganger";

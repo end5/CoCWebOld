@@ -9,7 +9,7 @@ package classes.Scenes.Areas.Plains
 
 	public class GnollSpearThrowerScene extends BaseContent
 	{
-		public function GnollSpearThrowerScene()
+		public GnollSpearThrowerScene()
 		{
 		}
 
@@ -26,7 +26,7 @@ package classes.Scenes.Areas.Plains
 		 */
 
 //Female Gnoll.  First Page.
-		public function gnoll2Encounter():void
+		public gnoll2Encounter():void
 		{
 			spriteSelect(54);
 			Render.text("", true);
@@ -62,7 +62,7 @@ package classes.Scenes.Areas.Plains
 
 
 //<Hyena Victorious – Anal> 
-		public function hyenaSpearLossAnal():void
+		public hyenaSpearLossAnal():void
 		{
 			spriteSelect(54);
 			//Oh shit get anal raped.
@@ -153,7 +153,7 @@ package classes.Scenes.Areas.Plains
 			cleanupAfterCombat();
 		}
 
-		public function hyenaVictory():void
+		public hyenaVictory():void
 		{
 			spriteSelect(54);
 			Render.text("", true);
@@ -173,7 +173,7 @@ package classes.Scenes.Areas.Plains
 		}
 
 //<Hyena Defeat - Fellatio>
-		private function hyenaVictoryRapeFellatio():void
+		private hyenaVictoryRapeFellatio():void
 		{
 			spriteSelect(54);
 			let x:number = player.cockThatFits(40);
@@ -243,7 +243,7 @@ package classes.Scenes.Areas.Plains
 		}
 
 //<Hyena Defeat – Cunnilingus>
-		private function victoryRapeHyenaCunnilingus():void
+		private victoryRapeHyenaCunnilingus():void
 		{
 			spriteSelect(54);
 			Render.text("", true);

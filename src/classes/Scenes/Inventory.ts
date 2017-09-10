@@ -22,25 +22,25 @@ package classes.Scenes
 		private let callOnAbandon:Function;	//They simplify dealing with items that have a sub menu. Set in inventoryMenu and in takeItem
 		private let currentItemSlot:ItemSlotClass;	//The slot previously occupied by the current item - only needed for stashes and items with a sub menu.
 		
-		public function Inventory(saveSystem:Saves) {
+		public Inventory(saveSystem:Saves) {
 			itemStorage = [];
 			gearStorage = [];
 			saveSystem.linkToInventory(itemStorageDirectGet, gearStorageDirectGet);
 		}
 		
-		public function showStash():boolean {
+		public showStash():boolean {
 			return flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0 || flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0 || itemStorage.length > 0 || flags[FlagEnum.ANEMONE_KID] > 0;
 		}
 		
-		private function itemStorageDirectGet():Array { return itemStorage; }
+		private itemStorageDirectGet():Array { return itemStorage; }
 		
-		private function gearStorageDirectGet():Array { return gearStorage; }
+		private gearStorageDirectGet():Array { return gearStorage; }
 		
-//		public function currentCallNext():Function { return callNext; }
+//		public currentCallNext():Function { return callNext; }
 		
-		public function itemGoNext():void { if (callNext != null) doNext(callNext); }
+		public itemGoNext():void { if (callNext != null) doNext(callNext); }
 		
-		public function inventoryMenu():void {
+		public inventoryMenu():void {
 			let x: number;
 			let foundItem:boolean = false;
 			if (getGame().inCombat) {
@@ -104,7 +104,7 @@ package classes.Scenes
 //Gone			menuLoc = 1;
 		}
 		
-		public function stash():void {
+		public stash():void {
 			/*Hacked in cheat to enable shit
 			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
 			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;*/
@@ -138,7 +138,7 @@ package classes.Scenes
 			addButton(9, "Back", playerMenu);
 		}
 			
-		public function takeItem(itype:ItemType, nextAction:Function, overrideAbandon:Function = null, source:ItemSlotClass = null):void {
+		public takeItem(itype:ItemType, nextAction:Function, overrideAbandon:Function = null, source:ItemSlotClass = null):void {
 			if (itype == null) {
 				CoC_Settings.error("takeItem(null)");
 				return;
@@ -171,7 +171,7 @@ package classes.Scenes
 			takeItemFull(itype, true, source);
 		}
 		
-		public function returnItemToInventory(item:Useable, showNext:boolean = true):void { //Used only by items that have a sub menu if the player cancels
+		public returnItemToInventory(item:Useable, showNext:boolean = true):void { //Used only by items that have a sub menu if the player cancels
 			if (!debug) {
 				if (currentItemSlot == null) {
 					takeItem(item, callNext, callNext, null); //Give player another chance to put item in inventory
@@ -193,11 +193,11 @@ package classes.Scenes
 		}
 		
 		//Check to see if anything is stored
-		public function hasItemsInStorage():boolean { return itemAnyInStorage(itemStorage, 0, itemStorage.length); }
+		public hasItemsInStorage():boolean { return itemAnyInStorage(itemStorage, 0, itemStorage.length); }
 		
-		public function hasItemInStorage(itype:ItemType):boolean { return itemTypeInStorage(itemStorage, 0, itemStorage.length, itype); }
+		public hasItemInStorage(itype:ItemType):boolean { return itemTypeInStorage(itemStorage, 0, itemStorage.length, itype); }
 		
-		public function consumeItemInStorage(itype:ItemType):boolean {
+		public consumeItemInStorage(itype:ItemType):boolean {
 			temp = itemStorage.length;
 			while(temp > 0) {
 				temp--;
@@ -209,7 +209,7 @@ package classes.Scenes
 			return false;
 		}
 		
-		public function giveHumanizer():void {
+		public giveHumanizer():void {
 			if(flags[FlagEnum.TIMES_CHEATED_COUNTER] > 0) {
 				Render.text("<b>I was a cheater until I took an arrow to the knee...</b>", true);
 				getGame().gameOver();
@@ -221,7 +221,7 @@ package classes.Scenes
 		}
 		
 		//Create a storage slot
-		public function createStorage():boolean {
+		public createStorage():boolean {
 			if (itemStorage.length >= 16) return false;
 			let newSlot:ItemSlotClass = new ItemSlotClass();
 			itemStorage.push(newSlot);
@@ -229,7 +229,7 @@ package classes.Scenes
 		}
 		
 		//Clear storage slots
-		public function clearStorage():void {
+		public clearStorage():void {
 			//Various Errors preventing action
 			if (itemStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
 			else {
@@ -238,7 +238,7 @@ package classes.Scenes
 			}
 		}
 		
-		public function clearGearStorage():void {
+		public clearGearStorage():void {
 			//Various Errors preventing action
 			if (gearStorage == null) trace("ERROR: Cannot clear storage because storage does not exist.");
 			else {
@@ -247,7 +247,7 @@ package classes.Scenes
 			}
 		}
 		
-		public function initializeGearStorage():void {
+		public initializeGearStorage():void {
 			//Completely empty storage array
 			if (gearStorage == null) trace("ERROR: Cannot clear gearStorage because storage does not exist.");
 			else {
@@ -262,7 +262,7 @@ package classes.Scenes
 			}
 		}
 		
-		private function useItemInInventory(slotNum: number):void {
+		private useItemInInventory(slotNum: number):void {
 			clearOutput();
 			if (player.itemSlots[slotNum].itype is Useable) {
 				let item:Useable = player.itemSlots[slotNum].itype as Useable;
@@ -287,14 +287,14 @@ package classes.Scenes
 */
 		}
 		
-		private function inventoryCombatHandler():void {
+		private inventoryCombatHandler():void {
 			if (!combatRoundOver()) { //Check if the battle is over. If not then go to the enemy's action.
 				Render.text("\n\n");
 				enemyAI();
 			}
 		}
 		
-		private function useItem(item:Useable, fromSlot:ItemSlotClass):void {
+		private useItem(item:Useable, fromSlot:ItemSlotClass):void {
 			item.useText();
 			if (item is Armor) {
 				player.armor.removeText();
@@ -319,7 +319,7 @@ package classes.Scenes
 			}
 		}
 		
-		private function takeItemFull(itype:ItemType, showUseNow:boolean, source:ItemSlotClass):void {
+		private takeItemFull(itype:ItemType, showUseNow:boolean, source:ItemSlotClass):void {
 			Render.text("There is no room for " + itype.longName + " in your inventory.  You may replace the contents of a pouch with " + itype.longName + " or abandon it.");
 			menu();
 			for (let x: number = 0; x < 5; x++) {
@@ -334,7 +334,7 @@ package classes.Scenes
 			addButton(9, "Abandon", callOnAbandon); //Does not doNext - immediately executes the callOnAbandon function
 		}
 		
-		private function useItemNow(item:Useable, source:ItemSlotClass):void {
+		private useItemNow(item:Useable, source:ItemSlotClass):void {
 			clearOutput();
 			if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
 				useItem(item, source);
@@ -344,7 +344,7 @@ package classes.Scenes
 			}
 		}
 		
-		private function replaceItem(itype:ItemType, slotNum: number):void {
+		private replaceItem(itype:ItemType, slotNum: number):void {
 			clearOutput();
 			if (player.itemSlots[slotNum].itype == itype) //If it is the same as what's in the slot...just throw away the new item
 				Render.text("You discard " + itype.longName + " from the stack to make room for the new one.");
@@ -356,19 +356,19 @@ package classes.Scenes
 			itemGoNext();
 		}
 		
-		private function unequipWeapon():void {
+		private unequipWeapon():void {
 			clearOutput();
 			takeItem(player.setWeapon(WeaponLib.FISTS), inventoryMenu);
 		}
 		
 /* Never called
-		public function hasItemsInRacks(itype:ItemType, armor:boolean):boolean {
+		public hasItemsInRacks(itype:ItemType, armor:boolean):boolean {
 			if (armor) return itemTypeInStorage(gearStorage, 9, 18, itype);
 			return itemTypeInStorage(gearStorage, 0, 9, itype);
 		}
 */
 		
-		private function armorRackDescription():boolean {
+		private armorRackDescription():boolean {
 			if (itemAnyInStorage(gearStorage, 9, 18)) {
 				let itemList:Array = [];
 				for (let x: number = 9; x < 18; x++)
@@ -379,7 +379,7 @@ package classes.Scenes
 			return false;
 		}
 		
-		private function weaponRackDescription():boolean {
+		private weaponRackDescription():boolean {
 			if (itemAnyInStorage(gearStorage, 0, 9)) {
 				let itemList:Array = [];
 				for (let x: number = 0; x < 9; x++)
@@ -390,32 +390,32 @@ package classes.Scenes
 			return false;
 		}
 		
-		private function itemAnyInStorage(storage:Array, startSlot: number, endSlot: number):boolean {
+		private itemAnyInStorage(storage:Array, startSlot: number, endSlot: number):boolean {
 			for (let x: number = startSlot; x < endSlot; x++) if (storage[x].quantity > 0) return true;
 			return false;
 		}
 		
-		private function itemTypeInStorage(storage:Array, startSlot: number, endSlot: number, itype:ItemType):boolean {
+		private itemTypeInStorage(storage:Array, startSlot: number, endSlot: number, itype:ItemType):boolean {
 			for (let x: number = startSlot; x < endSlot; x++) if (storage[x].quantity > 0 && storage[x].itype == itype) return true;
 			return false;
 		}
 		
-		private function pickItemToTakeFromCampStorage():void {
+		private pickItemToTakeFromCampStorage():void {
 			callNext = pickItemToTakeFromCampStorage;
 			pickItemToTakeFromStorage(itemStorage, 0, itemStorage.length, "storage");
 		}
 		
-		private function pickItemToTakeFromArmorRack():void {
+		private pickItemToTakeFromArmorRack():void {
 			callNext = pickItemToTakeFromArmorRack;
 			pickItemToTakeFromStorage(gearStorage, 9, 18, "rack");
 		}
 		
-		private function pickItemToTakeFromWeaponRack():void {
+		private pickItemToTakeFromWeaponRack():void {
 			callNext = pickItemToTakeFromWeaponRack;
 			pickItemToTakeFromStorage(gearStorage, 0, 9, "rack");
 		}
 		
-		private function pickItemToTakeFromStorage(storage:Array, startSlot: number, endSlot: number, text:string):void {
+		private pickItemToTakeFromStorage(storage:Array, startSlot: number, endSlot: number, text:string):void {
 			clearOutput(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
 			hideUpDown();
 			if (!itemAnyInStorage(storage, startSlot, endSlot)) { //If no items are left then return to the camp menu. Can only happen if the player removes the last item.
@@ -431,26 +431,26 @@ package classes.Scenes
 			addButton(9, "Back", stash);
 		}
 		
-		private function pickFrom(storage:Array, slotNum: number):void {
+		private pickFrom(storage:Array, slotNum: number):void {
 			clearOutput();
 			let itype:ItemType = storage[slotNum].itype;
 			storage[slotNum].quantity--;
 			inventory.takeItem(itype, callNext, callNext, storage[slotNum]);
 		}
 		
-		private function pickItemToPlaceInCampStorage():void { pickItemToPlaceInStorage(placeInCampStorage, allAcceptable, "storage containers", false); }
+		private pickItemToPlaceInCampStorage():void { pickItemToPlaceInStorage(placeInCampStorage, allAcceptable, "storage containers", false); }
 		
-		private function pickItemToPlaceInArmorRack():void { pickItemToPlaceInStorage(placeInArmorRack, armorAcceptable, "armor rack", true); }
+		private pickItemToPlaceInArmorRack():void { pickItemToPlaceInStorage(placeInArmorRack, armorAcceptable, "armor rack", true); }
 		
-		private function pickItemToPlaceInWeaponRack():void { pickItemToPlaceInStorage(placeInWeaponRack, weaponAcceptable, "weapon rack", true); }
+		private pickItemToPlaceInWeaponRack():void { pickItemToPlaceInStorage(placeInWeaponRack, weaponAcceptable, "weapon rack", true); }
 		
-		private function allAcceptable(itype:ItemType):boolean { return true; }
+		private allAcceptable(itype:ItemType):boolean { return true; }
 		
-		private function armorAcceptable(itype:ItemType):boolean { return itype is Armor; }
+		private armorAcceptable(itype:ItemType):boolean { return itype is Armor; }
 		
-		private function weaponAcceptable(itype:ItemType):boolean { return itype is Weapon; }
+		private weaponAcceptable(itype:ItemType):boolean { return itype is Weapon; }
 		
-		private function pickItemToPlaceInStorage(placeInStorageFunction:Function, typeAcceptableFunction:Function, text:string, showEmptyWarning:boolean):void {
+		private pickItemToPlaceInStorage(placeInStorageFunction:Function, typeAcceptableFunction:Function, text:string, showEmptyWarning:boolean):void {
 			clearOutput(); //Selects an item to place in a gear slot. Rewritten so that it no longer needs to use numbered events
 			hideUpDown();
 			Render.text("What item slot do you wish to empty into your " + text + "?");
@@ -466,22 +466,22 @@ package classes.Scenes
 			addButton(9, "Back", stash);
 		}
 		
-		private function placeInCampStorage(slotNum: number):void {
+		private placeInCampStorage(slotNum: number):void {
 			placeIn(itemStorage, 0, itemStorage.length, slotNum);
 			doNext(pickItemToPlaceInCampStorage);
 		}
 		
-		private function placeInArmorRack(slotNum: number):void {
+		private placeInArmorRack(slotNum: number):void {
 			placeIn(gearStorage, 9, 18, slotNum);
 			doNext(pickItemToPlaceInArmorRack);
 		}
 		
-		private function placeInWeaponRack(slotNum: number):void {
+		private placeInWeaponRack(slotNum: number):void {
 			placeIn(gearStorage, 0, 9, slotNum);
 			doNext(pickItemToPlaceInWeaponRack);
 		}
 		
-		private function placeIn(storage:Array, startSlot: number, endSlot: number, slotNum: number):void {
+		private placeIn(storage:Array, startSlot: number, endSlot: number, slotNum: number):void {
 			clearOutput();
 			let x: number;
 			let temp: number;

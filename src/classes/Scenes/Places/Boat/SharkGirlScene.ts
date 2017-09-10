@@ -4,7 +4,7 @@
 
 	public class SharkGirlScene extends AbstractBoatContent{
 
-	public function SharkGirlScene()
+	public SharkGirlScene()
 	{
 	}
 
@@ -39,7 +39,7 @@ Sex Life: The shark girls treat sex like a game or a sport, constantly battling 
 ----------------------------------
 */
 //[Explore Lake]
-public function sharkGirlEncounter(exploreLoc:number = 0):void {
+public sharkGirlEncounter(exploreLoc:number = 0):void {
 	//Set 'PC met Sharkgirls' for Izma stuff
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] == 0) flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] = 1;
 	if(player.findStatusAffect(StatusAffects.SharkGirl) < 0) player.statusAffects.add(new StatusAffect("SharkGirl",0,0,0,0)));
@@ -98,7 +98,7 @@ internal function sharkWinChoices():void {
 }
 
 //Male and Herm: 
-private function sharkgirlDickFuck():void {
+private sharkgirlDickFuck():void {
 	player.addStatusValue(StatusAffects.SharkGirl,1,1);
 	Render.text("", true);
 	spriteSelect(70);
@@ -134,7 +134,7 @@ private function sharkgirlDickFuck():void {
 	if(player.stats.cor < 33) dynStats("cor", 1);
 }
 
-private function sharkgirlSixtyNine():void {
+private sharkgirlSixtyNine():void {
 	Render.text("", true);
 	spriteSelect(70);
 	//Nagas don't actually get to 69!
@@ -174,7 +174,7 @@ private function sharkgirlSixtyNine():void {
 //Shark girl Bad End.
 //Requirements: Have vaginal sex with 7 Shark girls in one day (Loss rape for males also counts toward this)
 //Scene triggers automatically after the seventh Shark girl
-private function sharkBadEnd():void {
+private sharkBadEnd():void {
 	Render.text("", true);
 	spriteSelect(70);
 	Render.text("Several weeks pass by and you once again find yourself at the lake, your loins aching for another shark girl to swim by. Just thinking of their incredible sexual organs and the sense of domination you get from them makes you feel aroused. Sadly though, there's no sign of one, so you instead decide to take a nap.\n\n", false);
@@ -186,7 +186,7 @@ private function sharkBadEnd():void {
 }
 
 //[Next]
-private function sharkBadEnd2():void {
+private sharkBadEnd2():void {
 	Render.text("", true);
 	spriteSelect(70);
 	Render.text("Several months and mutations later...\n\n", false);

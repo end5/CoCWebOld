@@ -11,7 +11,7 @@ package classes.Scenes.Areas.Swamp
 	{
 
 		//Drider kiss!
-		public function driderKiss():void {
+		public driderKiss():void {
 			let temp: number;
 			Render.text("The corrupted drider closes in on your web-bound form, cooing happily at you while you struggle with the sticky fibers.\n\n", false);
 			//Blind dodge change
@@ -95,7 +95,7 @@ package classes.Scenes.Areas.Swamp
 			combatRoundOver();
 		}
 		
-		public function driderMasturbate():void {
+		public driderMasturbate():void {
 			//-Masturbate - (Lowers lust by 50, raises PC lust)
 			lust -= 30;
 			game.dynStats("lus", (10+player.stats.lib/20));
@@ -108,7 +108,7 @@ package classes.Scenes.Areas.Swamp
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.spriteSelect(77);
 			if (lust > 70 && rand(4) == 0) driderMasturbate();
@@ -143,7 +143,7 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 
-		public function CorruptedDrider()
+		public CorruptedDrider()
 		{
 
 			let hairColor:string = randomChoice("red", "orange", "green");

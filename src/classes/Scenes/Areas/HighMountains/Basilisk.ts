@@ -26,7 +26,7 @@ package classes.Scenes.Areas.HighMountains
 		//special 1: basilisk mental compulsion attack
 		//(Check vs. Intelligence/Sensitivity, loss = recurrent speed loss each
 		//round, one time lust increase):
-		private function compulsion():void {
+		private compulsion():void {
 			Render.text("The basilisk opens its mouth and, staring at you, utters words in its strange, dry, sibilant tongue.  The sounds bore into your mind, working and buzzing at the edges of your resolve, suggesting, compelling, then demanding you look into the basilisk's eyes.  ", false);
 			//Success:
 			if(player.stats.int/5 + rand(20) < 24) {
@@ -46,7 +46,7 @@ package classes.Scenes.Areas.HighMountains
 
 
 		//Special 3: basilisk tail swipe (Small physical damage):
-		private function basiliskTailSwipe():void {
+		private basiliskTailSwipe():void {
 			let damage:number = int((str + 20) - Math.random()*(player.tou+player.armorDef));
 			damage = player.takeDamage(damage);
 			Render.text("The basilisk suddenly whips its tail at you, swiping your " + player.feet() + " from under you!  You quickly stagger upright, being sure to hold the creature's feet in your vision. (" + damage + ")", false);
@@ -57,7 +57,7 @@ package classes.Scenes.Areas.HighMountains
 		//basilisk physical attack: With lightning speed, the basilisk slashes you with its index claws!
 		//Noun: claw
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(player.findStatusAffect(StatusAffects.BasiliskCompulsion) < 0 && rand(3) == 0 && findStatusAffect(StatusAffects.Blind) < 0) compulsion();
 			else if(rand(3) == 0) basiliskTailSwipe();
@@ -79,7 +79,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 
-		public function Basilisk()
+		public Basilisk()
 		{
 			this.a = "the ";
 			this.short = "basilisk";

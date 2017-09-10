@@ -5,7 +5,7 @@
 
 	public class Library extends TelAdreAbstractContent{
 
-	public function Library()
+	public Library()
 	{
 	}
 
@@ -14,7 +14,7 @@
 //const MALI_TAKEN_BLADE: number = 862;
 
 //[Mage's Tower]
-public function visitZeMagesTower():void {
+public visitZeMagesTower():void {
 	
 	if(flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == 0) firstTowerVisit();
 	else towerFollowUpVisits();
@@ -31,7 +31,7 @@ public function visitZeMagesTower():void {
 
 
 //(first visit)
-private function firstTowerVisit():void {
+private firstTowerVisit():void {
 	clearOutput();
 	Render.text("You make your way to the largest fixture of the city, the impressive tower in the center.  The large spire could easily hold everyone you know ten times over and still have room to spare.  It is far too large for a city with Tel'adre's population – but then, you reflect, so is Tel'adre itself.");
 	
@@ -49,7 +49,7 @@ private function firstTowerVisit():void {
 	}
 }
 
-private function towerFollowUpVisits():void {
+private towerFollowUpVisits():void {
 	clearOutput();
 	if (flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == -1) { //Return visits before you meet Quinn. Either you meet him or you continue to go to the library at night like some bibliophile vampire
 		if(model.time.hours <= 17) {
@@ -79,7 +79,7 @@ private function towerFollowUpVisits():void {
 	}
 }
 
-private function commonQuinnTroduction():void {
+private commonQuinnTroduction():void {
 	Render.text(", though he does not seem to be reading it.  Stacks of books sit next to him.  As you close the door, he glances up at you.");
 	
 	Render.text("\n\n\"<i>I'm sorry,</i>\" he says with a voice so weary you're surprised he doesn't fall over face-first upon exerting himself by speaking, \"<i>The library is not presently open to visitors, due to defacement and...</i>\"  He pauses, looking at a book next to him covered in an off-white crust.  \"<i>Vandalism.</i>\"  His eyes look twice as tired as his voice sounds, darkened to the point they almost seem bruised.  Pale – no, pallid - and lean to the point where you think you can see his cheekbones.  You're not convinced that this man has all of his health.  \"<i>I'm afraid there is no present estimate as to when we will re-open, as unfortunately no other members of the Covenant are presently able to devote the time to inspect and record the extent of the damages.</i>\"");
@@ -95,7 +95,7 @@ private function commonQuinnTroduction():void {
 }
 
 //[Study]
-private function studyInTA():void {
+private studyInTA():void {
 	clearOutput();
 	//[Study, 6:00-17:00]
 	if(model.time.hours <= 17) {
@@ -160,7 +160,7 @@ private function studyInTA():void {
 }
 
 //[You OK?]
-private function youOkayBuddy():void {
+private youOkayBuddy():void {
 	clearOutput();
 	Render.text("A bit perturbed by Quinn's countenance and apparent exhaustion you can't help but inquire as to his well-being.");
 	
@@ -175,7 +175,7 @@ private function youOkayBuddy():void {
 }
 
 //[Mali]
-private function talkToMali():void {
+private talkToMali():void {
 	clearOutput();
 	if(flags[FlagEnum.TIMES_VISITED_MALI] == 0) {
 		Render.text("You mention to Quinn that you're looking to speak with Mali.  \"<i>Ah, Asa Mali, our very own Alissyn del Aliana.</i>\"  Quinn chuckles and rubs his chin.  You think you're talking about the same person.  \"<i>How mysterious that she of all people should have a visitor.  Am I setting up a forbidden tryst?  A secret rendezvous?  Or perhaps, given the nature of her work, something far more... ominous.</i>\"  He looms curiously, but you clear your throat and ask if she's in.  Disappointed, he sighs and gestures up the stairs.  \"<i>Yes, our sylvan sorceress is not that much of a socialite.</i>\"");

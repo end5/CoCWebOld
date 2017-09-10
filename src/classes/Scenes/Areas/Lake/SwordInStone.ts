@@ -4,11 +4,11 @@
 
 	public class SwordInStone extends AbstractLakeContent
 	{
-		public function SwordInStone()
+		public SwordInStone()
 		{
 		}
 
-		public function findSwordInStone():void 
+		public findSwordInStone():void 
 		{
 			if (player.findStatusAffect(StatusAffects.FactoryOverload) < 0)
 			{
@@ -32,7 +32,7 @@
 			}
 		}
 
-		private function tryToTakeSwordInStone():void 
+		private tryToTakeSwordInStone():void 
 		{
 			Render.text("", true);
 			//if corrupted...

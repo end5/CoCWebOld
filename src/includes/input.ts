@@ -1,4 +1,4 @@
-﻿public function executeButtonClick(button: number = 0):void {
+﻿public executeButtonClick(button: number = 0):void {
 	mainView.clickButton( button );
 }
 
@@ -11,14 +11,14 @@
 
 
  /*HOLY SHIT THIS HOW TO DO URL LINKS!
-public function changeHandler(event:Event):void { 
+public changeHandler(event:Event):void { 
     let request:URLRequest = new URLRequest(); 
     request.url = ComboBox(event.target).selectedItem.data; 
     navigateToURL(request); 
     mainView.aCb.selectedIndex = -1; 
 }*/
 
-public function displayControls():void
+public displayControls():void
 {
 	mainView.hideAllMenuButtons();
 	inputManager.DisplayBindingPane();
@@ -35,14 +35,14 @@ public function displayControls():void
 			"Back", hideControls);
 }
 
-public function hideControls():void
+public hideControls():void
 {
 	inputManager.HideBindingPane();
 	
 	settingsScreen();
 }
 
-public function resetControls():void
+public resetControls():void
 {
 	inputManager.HideBindingPane();
 	
@@ -51,7 +51,7 @@ public function resetControls():void
 	doYesNo(resetControlsYes, displayControls);
 }
 
-public function resetControlsYes():void
+public resetControlsYes():void
 {
 	inputManager.ResetToDefaults();
 	
@@ -60,7 +60,7 @@ public function resetControlsYes():void
 	doNext(displayControls);
 }
 
-public function clearControls():void
+public clearControls():void
 {
 	inputManager.HideBindingPane();
 	
@@ -69,7 +69,7 @@ public function clearControls():void
 	doYesNo(clearControlsYes, displayControls);
 }
 
-public function clearControlsYes():void
+public clearControlsYes():void
 {
 	inputManager.ClearAllBinds();
 	

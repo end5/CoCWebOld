@@ -7,7 +7,7 @@
 	{
 
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.impGangAI();
 		}
@@ -27,7 +27,7 @@
 			}
 		}
 
-		public function ImpHorde()
+		public ImpHorde()
 		{
 			trace("ImpHorde Constructor!");
 			this.a = "the ";

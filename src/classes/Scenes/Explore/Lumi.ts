@@ -4,11 +4,11 @@
 
 	public class Lumi extends BaseContent{
 
-	public function Lumi()
+	public Lumi()
 	{
 	}
 
-	public function lumiEncounter():void {
+	public lumiEncounter():void {
 	Render.text("", true);
 	//1st time lumi meeting
 	if(flags[FlagEnum.LUMI_MET] == 0) {
@@ -25,7 +25,7 @@
 //end of placeholder text
 }
 
-public function lumiLabChoices():void {
+public lumiLabChoices():void {
 	spriteSelect(37);
 	Render.text("", true);
 	//First time meeting
@@ -50,7 +50,7 @@ public function lumiLabChoices():void {
 	simpleChoices("Shop", lumiShop, "Enhance", enhance, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
 }
 
-public function lumiShop():void {
+public lumiShop():void {
 	spriteSelect(37);
 	//Set item handling to lumi shop
 	clearOutput();
@@ -65,7 +65,7 @@ public function lumiShop():void {
 }
 
 //Lust Draft
-private function lumiLustDraftPitch():void {
+private lumiLustDraftPitch():void {
 	spriteSelect(37);
 	clearOutput();
 	Render.text("You point at the bottle filled with bubble-gum pink fluid.\n\n\"<i>De lust dwaft? Always a favowite, with it you nevar have to worwy about not bein weady for sexy time; one of my fiwst creations. 15 gems each.</i>\"\n\n", false);
@@ -73,7 +73,7 @@ private function lumiLustDraftPitch():void {
 	doYesNo(curry(lumiPurchase,consumables.L_DRAFT),lumiShop);
 }
 //Goblin Ale
-private function lumiPitchGobboAle():void {
+private lumiPitchGobboAle():void {
 	spriteSelect(37);
 	clearOutput();
 	Render.text("You point at the flagon. \"<i>Oh? Oh thats Lumi's... actually no, dat tispsy stuff for 20 gems. You'll like if you want to be like Lumi. Do you like it?</i>\"\n\n", false);
@@ -81,7 +81,7 @@ private function lumiPitchGobboAle():void {
 	doYesNo(curry(lumiPurchase,consumables.GOB_ALE),lumiShop);
 }
 //Ovi Elixir
-private function lumiPitchOviElixer():void {
+private lumiPitchOviElixer():void {
 	spriteSelect(37);
 	clearOutput();
 	Render.text("You point at the curious hexagonal bottle. \"<i>De Oviposar Elixir? Made baithsed on da giant bee's special stuff dey give deir queen. It will help make de burfing go faster, an if you dwink it while you awen pweggy, iw will give you some eggs to burf later. More dwinks, eqwals more and biggar eggs. Lumi charges 45 gems for each dose.</i>\"\n\n", false);
@@ -90,7 +90,7 @@ private function lumiPitchOviElixer():void {
 }
 
 
-private function lumiPurchase(itype:ItemType):void {
+private lumiPurchase(itype:ItemType):void {
 	spriteSelect(37);
 	clearOutput();
 	//After choosing, and PC has enough gems
@@ -115,7 +115,7 @@ private function lumiPurchase(itype:ItemType):void {
 	}
 }
 
-public function lumiEnhance(justCheck:boolean = false):boolean {
+public lumiEnhance(justCheck:boolean = false):boolean {
 	spriteSelect(37);
 	let fox:Function =null;
 	if(player.hasItem(consumables.FOXBERY))
@@ -168,32 +168,32 @@ public function lumiEnhance(justCheck:boolean = false):boolean {
 		return true;
 	}
 }
-private function lumiEnhanceLaBova():void {
+private lumiEnhanceLaBova():void {
 	lumiEnhanceGo(consumables.LABOVA_);
 }
-private function lumiEnhanceSDelight():void {
+private lumiEnhanceSDelight():void {
 	lumiEnhanceGo(consumables.SDELITE);
 }
-private function lumiEnhanceOviElix():void {
+private lumiEnhanceOviElix():void {
 	lumiEnhanceGo(consumables.OVIELIX);
 }
-private function lumiEnhanceDraft():void {
+private lumiEnhanceDraft():void {
 	lumiEnhanceGo(consumables.L_DRAFT);
 }
-private function lumiEnhanceGoldenSeed():void {
+private lumiEnhanceGoldenSeed():void {
 	lumiEnhanceGo(consumables.GLDSEED);
 }
-private function lumiEnhanceKanga():void {
+private lumiEnhanceKanga():void {
 	lumiEnhanceGo(consumables.KANGAFT);
 }
-private function lumiEnhanceFox():void {
+private lumiEnhanceFox():void {
 	lumiEnhanceGo(consumables.FOXBERY);
 }
-private function lumiEnhanceFoxJewel():void {
+private lumiEnhanceFoxJewel():void {
 	lumiEnhanceGo(consumables.FOXJEWL);
 }
 
-private function lumiEnhanceGo(itype:ItemType):void
+private lumiEnhanceGo(itype:ItemType):void
 {
 	spriteSelect(37);
 	trace("LUMI ENHANCE");

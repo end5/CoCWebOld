@@ -24,7 +24,7 @@ package classes.Scenes.Quests.UrtaQuest
 			game.urtaQuest.urtaLosesToGoblin();
 		}
 
-		public function GoblinBroodmother()
+		public GoblinBroodmother()
 		{
 			super(true);
 			this.a = "the ";

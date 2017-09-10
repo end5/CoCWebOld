@@ -5,7 +5,7 @@ package classes.Scenes.Places.Owca
 	public class Farmers extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			statusAffects.add(new StatusAffect("Attacks",4,0,0,0)));
 			eAttack();
@@ -22,7 +22,7 @@ package classes.Scenes.Places.Owca
 			game.owca.loseToOwca();
 		}
 
-		public function Farmers()
+		public Farmers()
 		{
 			this.a = "the ";
 			this.short = "farmers";

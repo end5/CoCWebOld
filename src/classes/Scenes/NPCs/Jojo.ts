@@ -15,13 +15,13 @@
 			game.jojoScene.loseToJojo();
 		}
 		
-		override protected function performCombatAction():void {
+		override protected performCombatAction():void {
 			if (game.monk > 1 && rand(2) == 0)
 				selfCorruption(); //Shouldn't do any self corruption at monk one. Otherwise a 50/50 chance
 			else eAttack();
 		}
 		
-		private function selfCorruption():void {
+		private selfCorruption():void {
 			switch (game.monk) {
 				case 2:
 					Render.text("Jojo looks lost in thought for a moment, and fails to attack.  ");
@@ -55,7 +55,7 @@
 			doNext(game.playerMenu);
 		}
 		
-		public function Jojo()
+		public Jojo()
 		{
 			trace("Jojo Constructor!");
 			this.a = "";

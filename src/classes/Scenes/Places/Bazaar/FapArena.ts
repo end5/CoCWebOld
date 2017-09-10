@@ -5,11 +5,11 @@
 
 	public class FapArena extends BazaarAbstractContent{
 
-	public function FapArena()
+	public FapArena()
 	{
 	}
 
-	public function fapAppearance(display:boolean = true):void {
+	public fapAppearance(display:boolean = true):void {
 	if(display) {
 		//[Paragraph: Bazaar description, 1st time]
 		if(flags[FlagEnum.FAP_ARENA_RULES_EXPLAINED] == 0) Render.text("\n\nThere is a gigantic tent standing in the clearing, with a large crowd gathering around it.   Perhaps you could investigate and see what is going on inside.", false);
@@ -19,7 +19,7 @@
 	}
 }
 //Option labeled "Arena» is available.
-public function fapArenaGOOOO():void {
+public fapArenaGOOOO():void {
 	Render.text("", true);
 	//(set X = longest cock)
 	let x:number = player.longestCock();
@@ -88,7 +88,7 @@ public function fapArenaGOOOO():void {
 	//end of condition about PC's first time, display the following
 }
 	
-private function fapArenaPageII():void {
+private fapArenaPageII():void {
 	//Increment 'times fap-arena'ed
 	flags[FlagEnum.FAP_ARENA_SESSIONS]++;
 	Render.text("", true);
@@ -145,7 +145,7 @@ private function fapArenaPageII():void {
 	else doNext(createCallBackFunction(fapResults,1));
 }
 
-private function fapResults(place:number = 3):void {
+private fapResults(place:number = 3):void {
 	Render.text("", true);
 	let x:number = player.longestCock();
 	let num:number = rand(50) + 5;
@@ -426,7 +426,7 @@ private function fapResults(place:number = 3):void {
 }
 
 //[SPECIAL: if player has an extra tentacle dick more than 40 inches long OR if the player has lost and has a unique tentacle dick, add this paragraph before the PC cums]
-private function tentacleFapSpecial(place:number):void {
+private tentacleFapSpecial(place:number):void {
 	temp = player.lowerBody.cockSpot.count();
 	let x:number = player.longestCock();
 	while(temp > 0) {
@@ -454,7 +454,7 @@ private function tentacleFapSpecial(place:number):void {
 	}
 }
 //[in both cases, special paragraph for cumming with tentacle dick]
-private function tentacleFapCum():boolean {
+private tentacleFapCum():boolean {
 	temp = player.lowerBody.cockSpot.count();
 	let x:number = player.longestCock();
 	while(temp > 0) {

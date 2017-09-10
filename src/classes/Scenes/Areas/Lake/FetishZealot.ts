@@ -67,7 +67,7 @@
 
 //Special1: Tease
 	//See Costumes section for text
-	private function zealotSpecial1():void {
+	private zealotSpecial1():void {
 		//Costumes
 		//This foe periodically switches between outfits; this determines what text is displayed when they use tease.
 		
@@ -106,14 +106,14 @@
 	//Special2: Lust transfer spell, it becomes more and 
 	//more likely that he will use this power as his lust gets 
 	//higher, but he can use it at any time (like the cultist).
-	private function zealotSpecial2():void {
+	private zealotSpecial2():void {
 		Render.text("The zealot suddenly cries out and extends his arms towards you; your mind is suddenly overwhelmed with a massive wave of arousal as images of every kind of fetish you can imagine wash over you, all blended together.  After a moment you are able to recover, but you notice that the Zealot doesn't seem to be as aroused as before.", false);
 		game.dynStats("lus", lust/2);
 		lust /= 2;
 		combatRoundOver();
 	}
 
-		override protected function postAttack(damage: number):void
+		override protected postAttack(damage: number):void
 		{
 			if (damage > 0){
 				Render.text("\nYou notice that some kind of unnatural heat is flowing into your body from the wound", false);
@@ -140,7 +140,7 @@
 			}
 		}
 
-		public function FetishZealot()
+		public FetishZealot()
 		{
 			trace("FetishZealot Constructor!");
 		

@@ -8,7 +8,7 @@ package classes.Scenes.NPCs
 		//IZZY AI:
 
 		//Isabella Combat texttttttsss
-		public function isabellaAttack():void {
+		public isabellaAttack():void {
 			//[Standard attack]
 			Render.text("Isabella snorts and lowers a shield a moment before she begins to charge towards you. Her hooves tear huge divots out of the ground as she closes the distance with surprising speed!  ", false);
 
@@ -46,7 +46,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 
-		public function isabellaStun():void {
+		public isabellaStun():void {
 			//[Stunning Impact]
 			Render.text("Isabella spins her shield back at you in a potent, steel-assisted backhand.  ", false);
 
@@ -90,7 +90,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 
-		public function isabellaThroatPunch():void {
+		public isabellaThroatPunch():void {
 			Render.text("Isabella punches out from behind her shield in a punch aimed right at your throat!  ", false);
 
 			//Blind dodge change
@@ -132,7 +132,7 @@ package classes.Scenes.NPCs
 		}
 
 		//[Milk Self-Heal]
-		public function drankMalkYaCunt():void {
+		public drankMalkYaCunt():void {
 			Render.text("Isabella pulls one of her breasts out of her low-cut shirt and begins to suckle at one of the many-tipped nipples. Her cheeks fill and hollow a few times while you watch with spellbound intensity.  She finishes and tucks the weighty orb away, blushing furiously.  The quick drink seems to have reinvigorated her, and watching it has definitely aroused you.", false);
 			HP += 100;
 			lust += 5;
@@ -140,7 +140,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//-If below 70% HP, 50% chance of milk drinking
 			if (HPRatio() < .7 && rand(3) == 0) drankMalkYaCunt();
@@ -170,7 +170,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		public function Isabella()
+		public Isabella()
 		{
 			this.a = "";
 			this.short = "Isabella";

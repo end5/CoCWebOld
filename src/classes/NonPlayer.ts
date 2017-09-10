@@ -10,7 +10,7 @@ package classes.classes
 	public class NonPlayer extends Character
 	{
 		
-		public function NonPlayer(game:CoC)
+		public NonPlayer(game:CoC)
 		{
 			super(game);
 		}

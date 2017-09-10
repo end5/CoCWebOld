@@ -6,7 +6,7 @@ package classes.Scenes.Dungeons.HelDungeon
 	{
 
 		//Attack One: Hot Poker, Right Up Your Ass!
-		private function brigidPoke():void {
+		private brigidPoke():void {
 			Render.text("Brigid stalks forward with confidence, her shield absorbing your defensive blows until she's right on top of you. She bats your [weapon] aside and thrashes you with her hot poker, scalding your " + player.skin() + " and sending you reeling.");
 			//(Effect: Heavy Damage)
 			let damage:number = Math.round((str + weaponAttack) - rand(player.tou) - player.armorDef);
@@ -17,7 +17,7 @@ package classes.Scenes.Dungeons.HelDungeon
 		}
 
 		//Attack Two: SHIELD BOP! OOM BOP!
-		private function brigidBop():void {
+		private brigidBop():void {
 			Render.text("The harpy feints at you with her poker; you dodge the blow, but you leave yourself vulnerable as she spins around and slams her heavy shield into you, knocking you off balance.");
 			//(Effect: Stagger/Stun)
 			let damage:number = 5;
@@ -29,12 +29,12 @@ package classes.Scenes.Dungeons.HelDungeon
 		}
 
 		//Attack Three: Harpy Ass Grind GO!
-		private function BrigidAssGrind():void {
+		private BrigidAssGrind():void {
 			Render.text("Brigid grins as she approaches you.  She handily deflects a few defensive blows and grabs you by the shoulders.  She forces you onto your knees and before you can blink, has turned around and smashed your face into her ass!  \"<i>Mmm, you like that, don'tcha?</i>\" she growls, grinding her huge, soft ass across your face, giving you an up-close and personal feel of her egg-laying hips.");
 			game.dynStats("lus", 30);
 			game.combatRoundOver();
 		}
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(player.statusAffects.has("Stunned")) {
 				player.statusAffects.remove("Stunned");
@@ -58,7 +58,7 @@ package classes.Scenes.Dungeons.HelDungeon
 			game.brigidScene.pcDefeatedByBrigid();
 		}
 
-		public function Brigid()
+		public Brigid()
 		{
 			this.a = "";
 			this.short = "Brigid the Jailer";

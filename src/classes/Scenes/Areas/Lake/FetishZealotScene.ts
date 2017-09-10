@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Lake
 
 	public class FetishZealotScene extends AbstractLakeContent
 	{
-		public function FetishZealotScene()
+		public FetishZealotScene()
 		{
 		}
 
@@ -47,7 +47,7 @@ package classes.Scenes.Areas.Lake
 //Scenes
 //Boat encounter
 //After the cultists arrive at the Lake, a zealot will be found guarding the player's boat.  Once defeated, there is a 50% chance he will be guarding it the next time the PC goes to the boat, until the swamp is added.  When that happens, repeat encounters will not occur anymore.
-		public function zealotBoat():void
+		public zealotBoat():void
 		{
 			if (player.statusAffects.get("FetishOn").value1 == 1) {
 				zealotRepeat();
@@ -63,7 +63,7 @@ package classes.Scenes.Areas.Lake
 
 //Regular encounter
 //This is the regular pre combat text for wandering zealots (they'll be a regular mob at the swamp)
-		private function zealotRepeat():void
+		private zealotRepeat():void
 		{
 			Render.text("", true);
 			Render.text("While exploring, you hear someone cry out behind you \"<i>This is sacred land!  You WILL be punished for trespassing!</i>\"  It seems you've managed to stumble upon whatever land this zealot has been tasked to guard, and now you must fight him.", false);
@@ -72,7 +72,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 //Raping the player
-		public function zealotLossRape():void
+		public zealotLossRape():void
 		{
 			Render.text("", true);
 			let broseph:string = player.mf("dude", "chick");
@@ -241,7 +241,7 @@ package classes.Scenes.Areas.Lake
 			cleanupAfterCombat();
 		}
 
-		public function zealotDefeated():void
+		public zealotDefeated():void
 		{
 			//Defeated by health
 			if (monster.HP < 1) Render.text("The zealot collapses from his wounds, too hurt to continue controlling his powers.", false);
@@ -258,7 +258,7 @@ package classes.Scenes.Areas.Lake
 
 
 //Raped by the player
-		private function zealotWinRape():void
+		private zealotWinRape():void
 		{
 			Render.text("", true);
 			//Religious Costume Rape

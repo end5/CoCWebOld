@@ -45,7 +45,7 @@ package classes.display
 		 * @param	width			Fixed width of the containing ScrollPane
 		 * @param	height			Fixed height of the containing ScrollPane
 		 */
-		public function BindingPane(inputManager:InputManager, xPos: number, yPos: number, width: number, height: number, uiscrollwidth: number) 
+		public BindingPane(inputManager:InputManager, xPos: number, yPos: number, width: number, height: number, uiscrollwidth: number) 
 		{
 			_inputManager = inputManager;
 			
@@ -81,7 +81,7 @@ package classes.display
 		 * Cleanly get us a reference to the stage to add/remove other event listeners
 		 * @param	e
 		 */
-		private function AddedToStage(e:Event):void
+		private AddedToStage(e:Event):void
 		{
 			this.removeEventListener(Event.ADDED_TO_STAGE, AddedToStage);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, RemovedFromStage);
@@ -91,7 +91,7 @@ package classes.display
 			_stage.addEventListener(MouseEvent.MOUSE_WHEEL, MouseScrollEvent);
 		}
 		
-		private function RemovedFromStage(e:Event):void
+		private RemovedFromStage(e:Event):void
 		{
 			this.removeEventListener(Event.REMOVED_FROM_STAGE, RemovedFromStage);
 			this.addEventListener(Event.ADDED_TO_STAGE, AddedToStage);
@@ -99,12 +99,12 @@ package classes.display
 			_stage.removeEventListener(MouseEvent.MOUSE_WHEEL, MouseScrollEvent);
 		}
 		
-		private function MouseScrollEvent(e:MouseEvent):void
+		private MouseScrollEvent(e:MouseEvent):void
 		{
 			this.verticalScrollPosition += -( e.delta * 8 );
 		}
 		
-		public function ListBindingOptions():void
+		public ListBindingOptions():void
 		{
 			if (_contentChildren == 0)
 			{
@@ -126,7 +126,7 @@ package classes.display
 		 * to.
 		 * TODO: Shoot self in face.
 		 */
-		private function InitContentObjects():void
+		private InitContentObjects():void
 		{
 			// Add a nice little instructional field at the top of the display.
 			let _textFormatLabel:TextFormat = new TextFormat();
@@ -196,7 +196,7 @@ package classes.display
 		 * ie we will never see new controls in the incoming function list versus what it contained
 		 * when we initially created the display objects in the _content container.
 		 */
-		private function UpdateContentObjects():void
+		private UpdateContentObjects():void
 		{
 			for (let i: number = 0; i < _functions.length; i++)
 			{
@@ -213,7 +213,7 @@ package classes.display
 		 * character.
 		 * TODO: Probably work out a good way of shortening some possibly long key names.
 		 */
-		private function PopulateKeyboardDict():void
+		private PopulateKeyboardDict():void
 		{
 		
 			let keyDescriptions:XML = describeType(Keyboard);
@@ -229,12 +229,12 @@ package classes.display
 			_keyDict[ -1] = "Unbound";
 		}
 		
-		public function set functions(funcs:Array):void
+		public set functions(funcs:Array):void
 		{
 			_functions = funcs;
 		}
 		
-		public function get functions():Array
+		public get functions():Array
 		{
 			return _functions;
 		}

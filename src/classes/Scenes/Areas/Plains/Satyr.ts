@@ -6,7 +6,7 @@ package classes.Scenes.Areas.Plains
 	public class Satyr extends Monster
 	{
 		//Attacks (Z)
-		private function satyrAttack():void {
+		private satyrAttack():void {
 			Render.text("The satyr swings at you with one knuckled fist.  ");
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 1) {
@@ -27,7 +27,7 @@ package classes.Scenes.Areas.Plains
 			combatRoundOver();
 		}
 				
-		private function satyrBate():void {
+		private satyrBate():void {
 			Render.text("He glares at you, panting while his tongue hangs out and begins to masturbate.  You can nearly see his lewd thoughts reflected in his eyes, as beads of pre form on his massive cock and begin sliding down the erect shaft.");
 			//(small Libido based Lust increase, and increase lust)
 			game.dynStats("lus", (player.stats.lib/5)+4);
@@ -73,7 +73,7 @@ package classes.Scenes.Areas.Plains
 			combatRoundOver();
 		}
 			
-		private function bottleChug():void {
+		private bottleChug():void {
 			Render.text("He whips a bottle of wine seemingly from nowhere and begins chugging it down, then lets out a bellowing belch towards you.  The smell is so horrible you cover your nose in disgust, yet you feel hot as you inhale some of the fetid scent.");
 			//(damage PC lust very slightly and raise the satyr's lust.)
 			game.dynStats("lus", (player.stats.lib/5));
@@ -82,7 +82,7 @@ package classes.Scenes.Areas.Plains
 		}
 		
 		//5:(Only executed at high lust) 
-		private function highLustChugRape():void {
+		private highLustChugRape():void {
 			Render.text("Panting with barely-contained lust, the Satyr charges at you and tries to ram you into the ground.  ");
 			if(statusAffects.has("Blind") && rand(3) < 1) {
 				Render.text(capitalA + short + " completely misses you due to blindness!\n", false);
@@ -99,7 +99,7 @@ package classes.Scenes.Areas.Plains
 			combatRoundOver();
 		}
 		
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(lust >= 75 && rand(2) == 0) highLustChugRape();
 			else if(lust < 75 && rand(2) == 0) {
@@ -129,7 +129,7 @@ package classes.Scenes.Areas.Plains
 			}
 		}
 
-		public function Satyr()
+		public Satyr()
 		{
 			this.a = "a ";
 			this.short = "satyr";

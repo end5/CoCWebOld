@@ -11,7 +11,7 @@ package classes.Scenes.Areas.Forest
 		// Combat Abilities:
 		// the kitsune are an almost purely magical mob, relying mainly on tease attacks and spells that raise lust.
 		//Entwine:
-		private function kitsuneEntwine():void
+		private kitsuneEntwine():void
 		{
 			Render.text("The kitsune closes in on you with a mischievous glint in her eyes.  You raise your guard, keeping your eyes trained on her to ensure that she doesn't try to pull anything.  Suddenly, you feel something coiling around your " + player.leg() + ", and let out a yelp as you are suddenly lifted into the air, entangled in the kitsune's tails!");
 			Render.text("\n\nYour limbs are bound tightly while coils of delightfully soft fur caress you on all sides.  You can do little besides struggle against your furry bonds as the constant writhing of her tails sends shudders flying up and down your spine.");
@@ -21,7 +21,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Struggle - event 5077 in combat.as
-		public function kitsuneStruggle():void
+		public kitsuneStruggle():void
 		{
 			clearOutput();
 			//Struggle:
@@ -42,7 +42,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		public function kitsuneWait():void
+		public kitsuneWait():void
 		{
 			clearOutput();
 			Render.text("Happily, you slump deeper into the fluffy tails, eliciting an amused giggle from the kitsune.");
@@ -53,7 +53,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Fox Fire: - Low piercing damage, +10-15 LUST
-		private function foxFireAttack():void
+		private foxFireAttack():void
 		{
 			Render.text("The kitsune makes a small circle in the air with her fingers, conjuring up a pale blue flame into her palm with the sound of flint striking against steel.  Pursing her lips, she blows it toward you with a kiss.");
 			Render.text("\n\nThe flames burn furiously, but leave you with an incredibly pleasant tingling sensation all over your body.  Your skin flushes with excitement, and you can feel blood rushing to your extremities, making you shudder with pleasure.");
@@ -67,7 +67,7 @@ package classes.Scenes.Areas.Forest
 //Illusion: - Raises enemy evasion, but can be resisted.
 //Factors affecting resist: INT (1% per point, max 70%), "Whispered" perk (20% flat bonus), "Religious" background and < 20 corruption (20% bonus at 0, losing 1% per point of corruption.)
 //Success:
-		private function illusionKitsuneAttack():void
+		private illusionKitsuneAttack():void
 		{
 			Render.text("You struggle to keep your eyes on the kitsune, ghostly laughter echoing all around you as you turn to and fro, trying to track her movements.  It almost seems like the edges of reality are blurring around her, severely distorting your perceptions and making it hard to follow her.  It's going to be much harder to hit her if she keeps this up!");
 			//Resist: - successfully resisting deals small health & lust damage to kitsune
@@ -88,7 +88,7 @@ package classes.Scenes.Areas.Forest
 
 //Seal: - cancels and disables whatever command the player uses this round. Lasts 3 rounds, cannot seal more than one command at a time.
 //PCs with "Religious" background and < 20 corruption have up to 20% resistance to sealing at 0 corruption, losing 1% per corruption.
-		private function kitsuneSealAttack():void
+		private kitsuneSealAttack():void
 		{
 			let resist: number = 0;
 			if (player.stats.int < 30) resist = Math.round(player.stats.int);
@@ -146,7 +146,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Tease Texts:
-		private function kitSuneTeases():void
+		private kitSuneTeases():void
 		{
 			let select: number = rand(3);
 			if (hairColor == "red" && rand(2) == 0) select = 3;
@@ -159,7 +159,7 @@ package classes.Scenes.Areas.Forest
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let moves:Array = [foxFireAttack, foxFireAttack, kitSuneTeases, kitSuneTeases];
 			if (player.findStatusAffect(StatusAffects.Sealed) < 0) moves.push(kitsuneSealAttack);
@@ -185,7 +185,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		public function Kitsune(hairColor:string)
+		public Kitsune(hairColor:string)
 		{
 
 			if (rand(3) != 2) game.flags[FlagEnum.redheadIsFuta] = 1;

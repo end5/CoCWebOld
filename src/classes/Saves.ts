@@ -37,12 +37,12 @@ public class Saves extends BaseContent {
 	private let itemStorageGet:Function;
 	private let gearStorageGet:Function;
 	
-	public function Saves(gameStateDirectGet:Function, gameStateDirectSet:Function) {
+	public Saves(gameStateDirectGet:Function, gameStateDirectSet:Function) {
 		gameStateGet = gameStateDirectGet; //This is so that the save game functions (and nothing else) get direct access to the gameState variable
 		gameStateSet = gameStateDirectSet;
 	}
 
-	public function linkToInventory(itemStorageDirectGet:Function, gearStorageDirectGet:Function):void {
+	public linkToInventory(itemStorageDirectGet:Function, gearStorageDirectGet:Function):void {
 		itemStorageGet = itemStorageDirectGet;
 		gearStorageGet = gearStorageDirectGet;
 	}
@@ -57,7 +57,7 @@ public let saveFileNames:Array = ["CoC_1", "CoC_2", "CoC_3", "CoC_4", "CoC_5", "
 public let versionProperties:Object = { "legacy" : 100, "0.8.3f7" : 124, "0.8.3f8" : 125, "0.8.4.3":119, "latest" : 119 };
 public let savedGameDir:string = "data/com.fenoxo.coc";
 
-public function cloneObj(obj:Object):Object
+public cloneObj(obj:Object):Object
 {
 	let temp:ByteArray = new ByteArray();
 	temp.writeObject(obj);
@@ -65,14 +65,14 @@ public function cloneObj(obj:Object):Object
 	return temp.readObject();
 }
 
-public function getClass(obj:Object):Class
+public getClass(obj:Object):Class
 {
 	return Class(flash.utils.getDefinitionByName(flash.utils.getQualifiedClassName(obj)));
 }
 
 //ASSetPropFlags(Object.prototype, ["clone"], 1);
 
-public function loadSaveDisplay(saveFile:Object, slotName:string):string
+public loadSaveDisplay(saveFile:Object, slotName:string):string
 {
 	let holding:string = "";
 	if (saveFile.data.exists && saveFile.data.flags[2066] == undefined)
@@ -110,7 +110,7 @@ public function loadSaveDisplay(saveFile:Object, slotName:string):string
 CONFIG::AIR
 {
 
-public function loadScreenAIR():void
+public loadScreenAIR():void
 {
 	let airSaveDir:File = File.documentsDirectory.resolvePath(savedGameDir);
 	let fileList:Array = new Array();
@@ -180,7 +180,7 @@ public function loadScreenAIR():void
 	"Back", returnToSaveMenu);
 }
 
-public function getGameObjectFromFile(aFile:File):Object
+public getGameObjectFromFile(aFile:File):Object
 {
 	let stream:FileStream = new FileStream();
 	let bytes:ByteArray = new ByteArray();
@@ -200,7 +200,7 @@ public function getGameObjectFromFile(aFile:File):Object
 
 }
 
-public function loadScreen():void
+public loadScreen():void
 {
 	let slots:Array = new Array(saveFileNames.length);
 		
@@ -246,7 +246,7 @@ public function loadScreen():void
 	"Back", returnToSaveMenu);
 }
 
-public function saveScreen():void
+public saveScreen():void
 {
 	mainView.nameBox.x = 210;
 	mainView.nameBox.y = 620;
@@ -297,7 +297,7 @@ public function saveScreen():void
 	"Back", returnToSaveMenu);
 }
 
-public function saveLoad(e:MouseEvent = null):void
+public saveLoad(e:MouseEvent = null):void
 {
 	mainView.eventTestInput.x = -10207.5;
 	mainView.eventTestInput.y = -1055.1;
@@ -377,22 +377,22 @@ public function saveLoad(e:MouseEvent = null):void
 	}
 }
 
-private function saveToFile():void {
+private saveToFile():void {
 	saveGameObject(null, true);
 }
 
-private function loadFromFile():void {
+private loadFromFile():void {
 	openSave();
 	showStats();
 	statScreenRefresh();
 }
 
-private function autosaveToggle():void {
+private autosaveToggle():void {
 	player.autoSave = !player.autoSave;
 	saveLoad();
 }
 
-public function deleteScreen():void
+public deleteScreen():void
 {
 	Render.text("Slot,  Race,  Sex,  Game Days Played\n", true);
 	
@@ -435,13 +435,13 @@ public function deleteScreen():void
 			"Back", returnToSaveMenu);
 }
 
-public function confirmDelete():void
+public confirmDelete():void
 {
 	Render.text("You are about to delete the following save: <b>" + flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
 	simpleChoices("No", deleteScreen, "Yes", purgeTheMutant, "", null, "", null, "", null);
 }
 
-public function purgeTheMutant():void
+public purgeTheMutant():void
 {
 	let test:* = SharedObject.getLocal(flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION], "/");
 	trace("DELETING SLOT: " + flags[FlagEnum.TEMP_STORAGE_SAVE_DELETION]);
@@ -454,13 +454,13 @@ public function purgeTheMutant():void
 	doNext(deleteScreen);
 }
 
-public function saveGame(slot:string):void
+public saveGame(slot:string):void
 {
 	player.slotName = slot;
 	saveGameObject(slot, false);
 }
 
-public function loadGame(slot:string):void
+public loadGame(slot:string):void
 {
 	let saveFile:* = SharedObject.getLocal(slot, "/");
 	
@@ -539,7 +539,7 @@ OH GOD SOMEONE FIX THIS DISASTER!!!!111one1ONE!
 
 */
 //FURNITURE'S JUNK
-public function saveGameObject(slot:string, isFile:boolean):void
+public saveGameObject(slot:string, isFile:boolean):void
 {
 	//Autosave stuff
 	if (player.slotName != "VOID")
@@ -1014,7 +1014,7 @@ public function saveGameObject(slot:string, isFile:boolean):void
 	
 }
 
-public function restore(slotName:string):void
+public restore(slotName:string):void
 {
 	clearOutput();
 	// copy slot_backup.sol over slot.sol
@@ -1033,7 +1033,7 @@ public function restore(slotName:string):void
 	doNext(playerMenu);
 }
 
-public function openSave():void
+public openSave():void
 {
 
 	// Block when running the chaos monkey
@@ -1056,7 +1056,7 @@ public function openSave():void
 }
 
 
-public function onFileSelected(evt:Event):void
+public onFileSelected(evt:Event):void
 {
 	CONFIG::AIR
 	{
@@ -1072,7 +1072,7 @@ public function onFileSelected(evt:Event):void
 	}
 }
 
-public function onFileLoaded(evt:Event):void
+public onFileLoaded(evt:Event):void
 {
 	let tempFileRef:FileReference = FileReference(evt.target);
 	trace("File target = ", evt.target);
@@ -1091,18 +1091,18 @@ public function onFileLoaded(evt:Event):void
 	}
 }
 
-public function ioErrorHandler(e:IOErrorEvent):void
+public ioErrorHandler(e:IOErrorEvent):void
 {
 	Render.text("<b>!</b> Save file not found, check that it is in the same directory as the CoC_" + ver + ".swf file.\r\rLoad from file is not available when playing directly from a website like furaffinity or fenoxo.com.", true);
 	doNext(returnToSaveMenu);
 }
 
-private function returnToSaveMenu():void {
+private returnToSaveMenu():void {
 	let f:MouseEvent;
 	saveLoad(f);
 }
 
-public function onDataLoaded(evt:Event):void
+public onDataLoaded(evt:Event):void
 {
 	//let fileObj = readObjectFromStringBytes(loader.data);
 	try
@@ -1140,7 +1140,7 @@ public function onDataLoaded(evt:Event):void
 	//eventParser(1);
 }
 
-public function loadGameObject(saveData:Object, slot:string = "VOID"):void
+public loadGameObject(saveData:Object, slot:string = "VOID"):void
 {
 	let game:CoC = getGame();
 	game.dungeonLoc = 0;
@@ -1872,7 +1872,7 @@ public function loadGameObject(saveData:Object, slot:string = "VOID"):void
 	}
 }
 
-public function unFuckSave():void
+public unFuckSave():void
 {
 	//Fixing shit!
 
@@ -2100,7 +2100,7 @@ public static const encodeChars:Array = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
 public static const decodeChars:Array = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1];
 
 //ByteArray > String
-public function b64e(data:ByteArray):string
+public b64e(data:ByteArray):string
 {
 	let out:Array = [];
 	let i: number = 0;
@@ -2127,7 +2127,7 @@ public function b64e(data:ByteArray):string
 }
 
 //String > ByteArray
-public function b64d(str:string):ByteArray
+public b64d(str:string):ByteArray
 {
 	let c1: number;
 	let c2: number;
@@ -2199,7 +2199,7 @@ public function b64d(str:string):ByteArray
 }
 
 //This loads the game from the string
-public function loadText(saveText:string):void
+public loadText(saveText:string):void
 {
 	//Get the byte array from the string
 	let rawSave:ByteArray = b64d(saveText);

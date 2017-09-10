@@ -28,7 +28,7 @@ package classes.Scenes.Dungeons.DeepCave
 			}
 		}
 
-		public function Zetaz()
+		public Zetaz()
 		{
 			this.a = "";
 			this.short = "Zetaz";

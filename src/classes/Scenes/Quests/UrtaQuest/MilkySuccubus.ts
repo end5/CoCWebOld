@@ -10,7 +10,7 @@ package classes.Scenes.Quests.UrtaQuest
 	public class MilkySuccubus extends AbstractSuccubus
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (findStatusAffect(StatusAffects.MilkyUrta) < 0 && rand(3) == 0) cowCubiMilkSprayAttack();
 			else if (HP < 400) drinkMinoCum();
@@ -20,7 +20,7 @@ package classes.Scenes.Quests.UrtaQuest
 			else eAttack();
 		}
 
-		private function cowCubiMilkSprayAttack():void
+		private cowCubiMilkSprayAttack():void
 		{
 			//Lasts a couple turns like the goblin lust poison?
 			Render.text("\"<i>How about a taste?</i>\"  The succubus asks, pressing her tits together.  Before you can reply, a veritable jet of milk sprays in your direction!\n");
@@ -39,7 +39,7 @@ package classes.Scenes.Quests.UrtaQuest
 			combatRoundOver();
 		}
 
-		private function drinkMinoCum():void
+		private drinkMinoCum():void
 		{
 			Render.text("Smiling wryly and licking her lips, the succubus-cow procures a bottle of her pet's cum with her probing tail.");
 //Success:
@@ -57,7 +57,7 @@ package classes.Scenes.Quests.UrtaQuest
 			combatRoundOver();
 		}
 
-		private function succubusTease():void
+		private succubusTease():void
 		{
 			if (rand(4) == 0) Render.text("Turning around, the succubus begins to bounce her rather round derriere in your direction, the cheeks lewdly clapping together with each change in direction, exposing her dark anal star and juicy snatch, literally gushing forth a stream of lubricants.  Her eyes glow with faint, purple light as she whispers, \"<i>Don't you just want to... slide on in?</i>\"");
 			else if (rand(3) == 0) Render.text("The succubus squeezes her spotted, sweat-oiled breasts together, squirting out trickles of fresh, creamy, succubi milk.  Bending down, she laps at her own bounty, taking to meet your eyes, her own glowing violet.  You can feel her next words as much as hear them, reaching into your brain and stirring a familiar heat in your loins.  \"<i>Giving in would mean pleasure unending, my dear vixen.</i>\"");
@@ -86,7 +86,7 @@ package classes.Scenes.Quests.UrtaQuest
 			applyTease(lustDelta);
 		}
 
-		public function MilkySuccubus()
+		public MilkySuccubus()
 		{
 			this.a = "the ";
 			this.short = "milky succubus";

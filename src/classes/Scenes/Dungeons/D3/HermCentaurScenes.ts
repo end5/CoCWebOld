@@ -12,12 +12,12 @@
 	public class HermCentaurScenes extends BaseContent
 	{
 		
-		public function HermCentaurScenes() 
+		public HermCentaurScenes() 
 		{
 			
 		}
 		
-		public function encounterThePony():void
+		public encounterThePony():void
 		{
 			Render.text("\n\nA gigantic, demonic centaur is here!  She grins down at your sudden arrival and gestures at the mammoth dong between her thighs as she taunts, \"<i>You are not prepared.</i>\"");
 			
@@ -31,7 +31,7 @@
 		private const CENTAUR_RELEASED: number = 2;
 		private const CENTAUR_FUCKED: number = 3;
 
-		public function beatThePony(hpVictory:boolean):void
+		public beatThePony(hpVictory:boolean):void
 		{
 			clearOutput();
 			Render.text("With a heavy 'thud', the demonic red-head slumps onto her side in the grass.  Her tail flails fitfully")
@@ -54,7 +54,7 @@
 			addButton(6, "Kill", killHer);
 		}
 
-		private function killHer():void
+		private killHer():void
 		{
 			clearOutput();
 			Render.text("Sighing, you advance on the downed demon, trying to ignore the horrified look in her eyes as you end her.");
@@ -64,7 +64,7 @@
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 
-		private function letHerGo():void
+		private letHerGo():void
 		{
 			clearOutput();
 			Render.text("You dust off your [armor] and wave nonchalantly at the equine demoness.  She slowly staggers up, watching you warily.  Dismissively, you tell her to leave before she earns your ire - her queen will be dealt with soon enough.  She clops off in a huff towards the exit.");
@@ -74,7 +74,7 @@
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 
-		private function maleFuckHer():void
+		private maleFuckHer():void
 		{
 			flags[FlagEnum.D3_CENTAUR_DEFEATED] = CENTAUR_FUCKED;
 
@@ -126,7 +126,7 @@
 		private const DOGGECOCK: number = 1;
 		private const TENTACOCK: number = 2;
 
-		private function femFuckHer():void
+		private femFuckHer():void
 		{
 			flags[FlagEnum.D3_CENTAUR_DEFEATED] = CENTAUR_FUCKED;
 
@@ -144,7 +144,7 @@
 			addButton(2, "Tentacles", femFuckHerII, TENTACOCK);
 		}
 
-		private function femFuckHerII(cockType: number):void
+		private femFuckHerII(cockType: number):void
 		{
 			clearOutput();
 			//[Tentacle]
@@ -251,7 +251,7 @@
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 		
-		public function inSovietCoCPonyRidesYou(hpVictory:boolean, pcCameWorms:boolean):void
+		public inSovietCoCPonyRidesYou(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (player.lowerBody.cockSpot.hasCock() && player.lowerBody.vaginaSpot.hasVagina())
 			{
@@ -264,7 +264,7 @@
 			else if (!player.lowerBody.vaginaSpot.hasVagina() && !player.lowerBody.cockSpot.hasCock()) femLoss(hpVictory);
 		}
 		
-		private function femLoss(hpVictory:boolean):void
+		private femLoss(hpVictory:boolean):void
 		{
 			clearOutput();
 			Render.text("Dropping down, you");
@@ -343,7 +343,7 @@
 			addButton(0, "Next", femLossII);
 		}
 
-		private function femLossII():void
+		private femLossII():void
 		{
 			clearOutput();
 			Render.text("Later, you wake when something hard digs into your back, and as you crack your eyes open, the first thing you see is a set of equine hindquarters and prodigiously large testes.  Your next realization is that you're moving... not just moving, being dragged!  You glance downward and see that you're joined with the centauress once again, only this time, you can't see any distortion in your middle.  Your belly is stuffed so full of cum that you can't see the fleshy spear, but you can certainly feel it.  It's different now... narrower at the tip, but obscenely bloated at the base.  Even now, you can feel it stretching you to your limits to make a tight seal and slowly leaking a fresh river of jism to assault your ovaries.");
@@ -356,7 +356,7 @@
 			addButton(0, "Next", femLossIII);
 		}
 
-		private function femLossIII():void
+		private femLossIII():void
 		{
 			clearOutput();
 			Render.text("<b>Months later...</b>");
@@ -367,7 +367,7 @@
 			getGame().gameOver();
 		}
 		
-		private function maleLoss(hpVictory:boolean):void
+		private maleLoss(hpVictory:boolean):void
 		{
 			clearOutput();
 
@@ -453,7 +453,7 @@
 			addButton(0, "Next", maleLossII);
 		}
 
-		private function maleLossII():void
+		private maleLossII():void
 		{
 			clearOutput();
 			Render.text("As the years roll by, you see lots of pussy, and lots of injections.  They test all kinds of cocktails on you.  Ones that makes your balls swell, or your seed runny, or thick, or even black.  Eventually, one of your children comes out as something other than an imp.  The first proper demon infant.  Too fucked up to feel anything but pride, you can only marvel at your amazing virility as you seed the birth of a new species, knocking up every demon with a cunt in a month-long orgy.  Your jism fuels the ascendency of an entire race, dooming Mareth.");

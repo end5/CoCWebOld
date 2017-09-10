@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Bog
 
 	public class ChameleonGirlScene extends BaseContent
 	{
-		public function ChameleonGirlScene()
+		public ChameleonGirlScene()
 		{
 		}
 
@@ -36,7 +36,7 @@ package classes.Scenes.Areas.Bog
 
 // TIMES_MET_CHAMELEON: number = 561;
 
-		public function encounterChameleon():void
+		public encounterChameleon():void
 		{
 			clearOutput();
 			startCombat(new ChameleonGirl());
@@ -62,7 +62,7 @@ package classes.Scenes.Areas.Bog
 			flags[FlagEnum.TIMES_MET_CHAMELEON]++;
 			doNext(playerMenu);
 		}//LOSS SCENES (Intro) (Z edited)
-		public function loseToChameleonGirl():void
+		public loseToChameleonGirl():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -87,7 +87,7 @@ package classes.Scenes.Areas.Bog
 
 
 		//Herm Loss (Z edited)
-		private function loseToChameleonWithCockAnBallsAnCunt():void
+		private loseToChameleonWithCockAnBallsAnCunt():void
 		{
 			let x: number = player.biggestCockIndex();
 			spriteSelect(89);
@@ -119,7 +119,7 @@ package classes.Scenes.Areas.Bog
 
 
 		//-Male Loss (Z edited)
-		private function dudesLoseToChamChams():void
+		private dudesLoseToChamChams():void
 		{
 			let x: number = rand(player.totalCocks());
 			spriteSelect(89);
@@ -152,7 +152,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//-Female Loss (Z edited)
-		private function loseToChamChamWithPCCunt():void
+		private loseToChamChamWithPCCunt():void
 		{
 			spriteSelect(89);
 			Render.text("\n\n\"<i>Hah! You didn't think you could beat me in </i>my<i> bog, did you?</i>\"  She stalks toward you, swaying her wide hips in an exaggerated imitation of a dominatrix, shedding her clothes as she approaches.   Positioning her glistening sex right in front of your face, she looks down and makes the cruellest smile she can manage.  Too busy stifling laughter at the awkward display, you make no move to pleasure her.  Looking bewildered that you aren't following along, the chameleon girl opens and closes her mouth, trying to find words.  She finally stammers out, \"<i>W-well?  Get... to it?</i>\"  You resist the urge to ask her for a detailed explanation of what she wants and resolve yourself to play along.  You'd be too exhausted to resist if she really tried to force you, and this may lessen the severity of the experience.");
@@ -172,7 +172,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//VICTORY SCENES INTRO(Z edited)
-		public function defeatChameleonGirl():void
+		public defeatChameleonGirl():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -205,7 +205,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//-Herm Victory (Z edited)
-		private function fuckDatChameleonAsACoolGuyGirlHerm():void
+		private fuckDatChameleonAsACoolGuyGirlHerm():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -232,7 +232,7 @@ package classes.Scenes.Areas.Bog
 
 		//-Male (Z edited)
 		//(Savin's note: This only makes a lot of sense for biggus dickus characters; consider an alternative for traps/weany dick characters. We don't all have even footlongs) (yuh)
-		private function manFucksChameleonWithBiggishWang():void
+		private manFucksChameleonWithBiggishWang():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -260,7 +260,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//-Female (for herms without dicks) (Z edited)
-		private function femaleHasWinSexWithChamCham():void
+		private femaleHasWinSexWithChamCham():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -287,7 +287,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//Item Use Scenes Intro (Victory) (Z edited)
-		private function useAnItemOnTheChamcham():void
+		private useAnItemOnTheChamcham():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -307,7 +307,7 @@ package classes.Scenes.Areas.Bog
 
 		//-P. Succubi Milk or Succubi Milk (Z edited)
 		//Prerequisite: at least one dick
-		private function giveTheChameleonASuccubiMilk():void
+		private giveTheChameleonASuccubiMilk():void
 		{
 			clearOutput();
 			spriteSelect(89);
@@ -338,7 +338,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//-Lust and Sens Draft (you you you you you need to find more ways to start sentences without using pronouns, she?) (Z edited)
-		private function doseDatChameleonWithLustAndSensitivityDrafts():void
+		private doseDatChameleonWithLustAndSensitivityDrafts():void
 		{
 			clearOutput();
 			spriteSelect(89);

@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Lake
 
 	public class FetishCultistScene extends AbstractLakeContent
 	{
-		public function FetishCultistScene()
+		public FetishCultistScene()
 		{
 		}
 
@@ -22,7 +22,7 @@ package classes.Scenes.Areas.Lake
 		 Loot: Could drop a random set of clothing or a costume on death.
 		 */
 
-		public function fetishCultistEncounter():void
+		public fetishCultistEncounter():void
 		{
 			Render.text("You see a largely human-looking young woman in the distance in a strange, whorish outfit, seemingly lost in prayers that sound like nonsense to you.  Finally noticing your presence, she confronts you with a lewd smile on her face.\n\nShe has clearly lost her grasp on sanity, and filled the void with pure perversion.", true);
 			startCombat(new FetishCultist());
@@ -30,7 +30,7 @@ package classes.Scenes.Areas.Lake
 			doNext(playerMenu);
 		}
 
-		public function cultistRapesYou():void
+		public cultistRapesYou():void
 		{
 			monster.lust = 1;
 			monster.HP = 10;
@@ -383,7 +383,7 @@ package classes.Scenes.Areas.Lake
 			}
 		}
 
-		public function playerRapesCultist():void
+		public playerRapesCultist():void
 		{
 			clearOutput();
 			//(nun worship version, this one looks like it will be a little shorter than the other one was, only two variations again)
@@ -500,7 +500,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 		//PC goes for the vagina
-		private function plugSwimsuitVag():void
+		private plugSwimsuitVag():void
 		{
 			let x:number = player.biggestCockIndex();
 			Render.text("", true);
@@ -534,7 +534,7 @@ package classes.Scenes.Areas.Lake
 		}
 
 		//PC goes for the vagina vibrators
-		private function swimsuitVibrators():void
+		private swimsuitVibrators():void
 		{
 			Render.text("", true);
 			Render.text("You suggest that you're interested in trying the vaginal vibrators she offered.  The cultist nods, and turns to face you holding two surprisingly large toys in her hands.  They're shaped like a long tube, with a small arm on the side near the handle that points towards the end.  You aren't sure where they came from, but you'd guess she used the same magic that she uses to shift her clothing to get them.\n\n", false);
@@ -594,7 +594,7 @@ package classes.Scenes.Areas.Lake
 			}
 		}
 
-		private function cultistBadEnd():void
+		private cultistBadEnd():void
 		{
 			//This ending is caused from having too low of inte when losing to the cultist (say under 15) or it could be after losing too many times to them.  You chose which you would prefer.
 			//(after being raped, do not show regular recovery message, skip here)
@@ -618,7 +618,7 @@ package classes.Scenes.Areas.Lake
 			getGame().gameOver();
 		}
 
-		public function fetishCultistHasAMilkFetish():void
+		public fetishCultistHasAMilkFetish():void
 		{
 			Render.text("", true);
 			Render.text("You remove your " + player.armorName + ", standing naked in front of the beaten fetish-girl with your lactating " + breastDescript(0) + " dripping milk. You pick the cultist up and sit down on the ground with her resting on your lap, her soft warm ass up against your thighs. You hold the nipple up to her mouth; she suckles on it without the slightest sign of rebellion.\n\n", false);

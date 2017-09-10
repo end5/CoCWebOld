@@ -1,6 +1,6 @@
 ﻿//Dungeon events from 11000+
 /* Now called directly or replaced by dungeonEnterRoom in dungeonCore.as
-public function doDungeon(eventNo:number):void {
+public doDungeon(eventNo:number):void {
 	if(eventNo == 11000) dungeonLoc = 0;
 	if(eventNo == 11001) {
 		if(player.hasKeyItem("Iron Key") < 0) {

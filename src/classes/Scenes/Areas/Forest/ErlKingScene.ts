@@ -5,12 +5,12 @@ package classes.Scenes.Areas.Forest
 
 	public class ErlKingScene extends BaseContent
 	{
-		public function ErlKingScene()
+		public ErlKingScene()
 		{
 
 		}
 
-		public function encounterWildHunt():void
+		public encounterWildHunt():void
 		{
 			if (flags[FlagEnum.WILD_HUNT_ENCOUNTERS] == 0)
 			{
@@ -28,7 +28,7 @@ package classes.Scenes.Areas.Forest
 			flags[FlagEnum.WILD_HUNT_ENCOUNTERS]++;
 		}
 
-		public function playerHuntScore(): number
+		public playerHuntScore(): number
 		{
 			trace("Calculating Wild Hunt score.");
 			trace("Int + Spd = " + String(player.stats.int + player.stats.spe));
@@ -139,7 +139,7 @@ package classes.Scenes.Areas.Forest
 			return baseVal;
 		}
 
-		public function firstWildHuntEncounter():void
+		public firstWildHuntEncounter():void
 		{
 			clearOutput();
 			
@@ -159,7 +159,7 @@ package classes.Scenes.Areas.Forest
 			addButton(1, "Run", firstWildHuntChase, false);
 		}
 
-		protected function firstWildHuntChase(waited:boolean = false):void
+		protected firstWildHuntChase(waited:boolean = false):void
 		{
 			clearOutput();
 
@@ -233,7 +233,7 @@ package classes.Scenes.Areas.Forest
 			else inventory.takeItem(consumables.FOXBERY, camp.returnToCampUseOneHour);
 		}
 
-		public function repeatWildHuntEncounter():void
+		public repeatWildHuntEncounter():void
 		{
 			clearOutput();
 
@@ -250,7 +250,7 @@ package classes.Scenes.Areas.Forest
 			addButton(1, "Wait", repeatWildHuntWait);
 		}
 
-		protected function repeatWildHuntWait():void
+		protected repeatWildHuntWait():void
 		{
 			clearOutput();
 
@@ -270,7 +270,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function repeatWildHuntChase():void
+		protected repeatWildHuntChase():void
 		{
 			let pScore: number = playerHuntScore();
 			if (pScore > 150)
@@ -283,7 +283,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		protected function repeatWildHuntEscaped():void
+		protected repeatWildHuntEscaped():void
 		{
 			clearOutput();
 
@@ -316,7 +316,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function repeatWildHuntCaught(pScore: number):void
+		protected repeatWildHuntCaught(pScore: number):void
 		{
 			clearOutput();
 
@@ -340,7 +340,7 @@ package classes.Scenes.Areas.Forest
 			else repeatWildHuntGivenToTheHounds();
 		}
 
-		public function repeatWildHuntGivenToTheHounds():void
+		public repeatWildHuntGivenToTheHounds():void
 		{
 			Render.text("“<i>How disappointing,</i>” drips the refined voice of the Erlking.  His horse’s hooves thud softly on the ground as he walks below you.  The cane at his side clicks against the forest floor with every other step.  You have just enough wherewithal to understand his words as your fingers grip the net.\n\n");
 
@@ -404,7 +404,7 @@ package classes.Scenes.Areas.Forest
 			player.slimeFeed();
 		}
 
-		protected function repeatWildHuntAWinnerIsYou():void
+		protected repeatWildHuntAWinnerIsYou():void
 		{
 			Render.text("Spirited clapping fills the woods.  The Hounds fall silent, sitting obediently on their haunches as the Erlking walks into the clearing, dismounting and looking up at you.\n\n");
 
@@ -435,7 +435,7 @@ package classes.Scenes.Areas.Forest
 
 		}
 
-		protected function whatsMyPrize():void
+		protected whatsMyPrize():void
 		{
 			clearOutput();
 			
@@ -457,7 +457,7 @@ package classes.Scenes.Areas.Forest
 			if (selector == 2) inventory.takeItem(consumables.NPNKEGG, camp.returnToCampUseOneHour);
 		}
 
-		protected function stopTheMadness():void
+		protected stopTheMadness():void
 		{
 			flags[FlagEnum.ERLKING_DISABLED] = 1;
 			clearOutput();
@@ -480,7 +480,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function surrenderToTheHounds():void
+		protected surrenderToTheHounds():void
 		{
 			//[Bad End]
 			clearOutput();
@@ -580,7 +580,7 @@ package classes.Scenes.Areas.Forest
 //			doNext(5025); // Find out the gameover shits
 		}
 
-		protected function predatoryPrey():void
+		protected predatoryPrey():void
 		{
 			clearOutput();
 			
@@ -690,7 +690,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function howDareYou():void
+		protected howDareYou():void
 		{
 			clearOutput();
 			
@@ -772,7 +772,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function encounterPrincessGwynn():void
+		protected encounterPrincessGwynn():void
 		{
 			clearOutput();
 
@@ -825,7 +825,7 @@ package classes.Scenes.Areas.Forest
 			addButton(4, "Gifts", gwynnGibsGifts);
 		}
 
-		protected function gwynnSucksDicks():void
+		protected gwynnSucksDicks():void
 		{
 			clearOutput();
 			Render.text("“<i>Yes, of course, M’Lord!</i>” Gwynn burbles, happily, dropping down to her knees.  In an instant, your [cock] is in her wet mouth.  Her time in the woods has developed her skill as she moans around your [cock], slurping wetly at it.\n\n");
@@ -850,7 +850,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function gwynnGetsButtfuxed():void
+		protected gwynnGetsButtfuxed():void
 		{
 			clearOutput();
 
@@ -876,7 +876,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function gwynnNomsDaCunts():void
+		protected gwynnNomsDaCunts():void
 		{
 			clearOutput();
 
@@ -902,7 +902,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function gwynnGetsDickmilked():void
+		protected gwynnGetsDickmilked():void
 		{
 			clearOutput();
 
@@ -934,7 +934,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function gwynnGibsGifts():void
+		protected gwynnGibsGifts():void
 		{
 			clearOutput();
 

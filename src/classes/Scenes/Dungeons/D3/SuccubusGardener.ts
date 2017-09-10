@@ -13,7 +13,7 @@
 	public class SuccubusGardener extends Monster
 	{
 		
-		public function SuccubusGardener() 
+		public SuccubusGardener() 
 		{
 			this.a = "the ";
 			this.short = "succubus gardener";
@@ -51,7 +51,7 @@
 			statusAffects.add(new StatusAffect("TentagrappleCooldown", 10, 0, 0, 0)));
 		}
 		
-		private function cleanupEffects():void
+		private cleanupEffects():void
 		{
 			if (player.findStatusAffect(StatusAffects.Tentagrappled)) player.statusAffects.remove("Tentagrappled");
 			if (player.findStatusAffect(StatusAffects.ShowerDotEffect)) player.statusAffects.remove("ShowerDotEffect");
@@ -69,7 +69,7 @@
 			game.d3.succubusGardener.surrenderToTheGardener(hpVictory);
 		}
 		
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			// The succubus gardener is a multistage fight. She starts off all but immune to lust damage. She has enough HP not to be one-shot and a heal move that takes priority over any stun. Once she is reduced to 60% HP, she either drinks from her tentacles or is force-fed by them (if stunned). This fully heals her but makes her 15% more vulnerable to lust.
 			
@@ -119,7 +119,7 @@
 			combatRoundOver();
 		}
 		
-		override protected function handleStun():boolean
+		override protected handleStun():boolean
 		{
 			if (HPRatio() <= 0.6) return true;
 			else
@@ -128,7 +128,7 @@
 			}
 		}
 		
-		private function vineHeal():void
+		private vineHeal():void
 		{
 			if (findStatusAffect(StatusAffects.VineHealUsed) < 0)
 			{
@@ -178,7 +178,7 @@
 			this.lustVuln += 0.3;
 		}
 		
-		private function tentagrapple():void
+		private tentagrapple():void
 		{
 			statusAffects.add(new StatusAffect("TentagrappleCooldown", 10, 0, 0, 0)));
 			
@@ -198,7 +198,7 @@
 			}
 		}
 		
-		public function grappleStruggle():void
+		public grappleStruggle():void
 		{
 			clearOutput();
 			
@@ -233,14 +233,14 @@
 			}
 		}
 		
-		public function grappleWait():void
+		public grappleWait():void
 		{
 			clearOutput();
 			
 			squeeze();
 		}
 		
-		private function squeeze():void
+		private squeeze():void
 		{
 			if (rand(2) == 0)
 			{
@@ -257,7 +257,7 @@
 			combatRoundOver();
 		}
 		
-		private function sicem():void
+		private sicem():void
 		{
 			Render.text("Jiggling oh so pleasantly, the gardener twirls and points in your direction. <i>“Sic 'em, pets!”</i> There is no time for a retort, only a wave of unrelenting greenery lashing in your direction!");
 			//Ten very low damage attacks.
@@ -286,7 +286,7 @@
 			}
 		}
 		
-		private function corruptiveShower():void
+		private corruptiveShower():void
 		{
 			Render.text("The succubus lifts her hands up in the air, saying, <i>“Why not taste a sampling of the pleasures I offer?”</i> Above her, a canopy of corrupt, snarled greenery forms, oozing unmistakable sexual fluids - both male and female. Splatters of jism and pussy juice fall like curtains of corruptive rain, their scent lacing the air with their heady musk.");
 	
@@ -307,7 +307,7 @@
 			}
 		}
 		
-		private function showerDotEffect():void
+		private showerDotEffect():void
 		{
 			game.dynStats("lus+", 2 + rand(2));
 			
@@ -362,12 +362,12 @@
 			}
 		}
 		
-		private function taunt():void
+		private taunt():void
 		{
 			Render.text("<i>“How do you expect to defeat me, [name],”</i> the green-thumbed temptress asks with a quirk of her head. <i>“You are but one, and we are many. You have the frailties and weaknesses of a soul. I have power and experience beyond your comprehension. What is there for you to do but willingly submit?”</i> She purses her puffy lips, thinking. <i>“If you submit willingly, I'll allow you to lay your head between my breasts while my plants feed on you. It'll be quite the experience.”</i>");
 		}
 		
-		private function motorboat():void
+		private motorboat():void
 		{
 			Render.text("<i>“Oh fuck it,”</i> the demoness growls, stalking forward. <i>“We both need this, don't we, pet?”</i> She slips inside your guard, pressing her pendulous melons against your face");
 			
@@ -379,7 +379,7 @@
 			Render.text("\n\nYour foe giggles, favoring you with a blown kiss. Her nipples are obviously a little harder, but then again, so are yours.");
 		}
 		
-		private function sapSpeed():void
+		private sapSpeed():void
 		{
 			//Used once after first orgasm
 			// 9999 wot orgasm -- gonna assume it's used the heal at least once
@@ -395,7 +395,7 @@
 			kGAMECLASS.mainView.statsView.showStatDown( 'spe' );
 		}
 		
-		private function lustAuraCast():void
+		private lustAuraCast():void
 		{
 			Render.text("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.", false);
 			if (this.statusAffects.has("LustAura")) 
@@ -409,7 +409,7 @@
 			}
 		}
 		
-		private function tasteTheEcstasy():void
+		private tasteTheEcstasy():void
 		{
 			//Strength check based lust damage, used when aroused only.
 			Render.text("Three tentacles stab out at you like organic spears, but you easily evade them... directly into the succubus' arms! Too late, you realize that the offensive was a feint! Her tremendous tits are pressing into your back, and you feel a trickle of wetness leaking down your [leg] as she grinds against you. At the same time, she whispers into your ear, <i>“Just have a taste... sample the ecstasy. You'll see that indulging is the best thing you could possibly do.”</i>");

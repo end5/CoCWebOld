@@ -42,7 +42,7 @@
 		private static const XML_IMAGES:Class;
 		private let _imgListXML:XML;
 
-		public function ImageManager(stage:Stage)
+		public ImageManager(stage:Stage)
 		{
 
 			mStage = stage;
@@ -54,7 +54,7 @@
 			}
 		}
 
-		public function loadImageList():void
+		public loadImageList():void
 		{
 
 
@@ -79,7 +79,7 @@
 			//trace("Loading imagelist", imgLoader, req, _imgListXML)
 		}
 
-		private function loadImageAtPath(imPath:string):void
+		private loadImageAtPath(imPath:string):void
 		{
 			let imgLoader:Loader = new Loader();
 
@@ -98,7 +98,7 @@
 			imgLoader.load(req);
 		}
 
-		private function fileLoaded(e:Event, imPath:string):void
+		private fileLoaded(e:Event, imPath:string):void
 		{
 
 			if (_allImagePaths.hasOwnProperty(imPath))
@@ -156,12 +156,12 @@
 			//trace("Loaded file", e)
 		}
 
-		private function fileNotFound(e:IOErrorEvent):void
+		private fileNotFound(e:IOErrorEvent):void
 		{
 			//trace("File not Found: " + e);
 		}
 
-		public function getLoadedImageCount(): number
+		public getLoadedImageCount(): number
 		{
 			let cnt: number=0;
 			for (let s:string in _imageTable) cnt++;
@@ -169,7 +169,7 @@
 		}
 
 		// Find the image data for the given image URL and return the displayed height
-		public function getImageHeight(imageURL:string): number
+		public getImageHeight(imageURL:string): number
 		{
 			// Slice off the leading directories and extension to get the image name
 
@@ -198,7 +198,7 @@
 			}
 		}
 
-		public function showImage(imageID:string, align:string = "left"):string
+		public showImage(imageID:string, align:string = "left"):string
 		{
 			let imageString:string = "";
 
@@ -242,13 +242,13 @@
 		}
 
 		// Begin our image fixing code
-		private function fixupImage():void
+		private fixupImage():void
 		{
 			mStage.addEventListener(Event.ADDED, fixupListener);
 		}
 
 		// Event listener hooks into the stage to find objects added to the display list at any point in the heirarchy
-		private function fixupListener(e:Event):void
+		private fixupListener(e:Event):void
 		{
 			// We're looking for Loader objects -- there /could/ be other types of loaders in future, but right now,
 			// the only thing that will create loaders is the mainText field when it parses an <img> tag
@@ -285,7 +285,7 @@
 		 * In summary. ADOBE DURR. This kind of stupid, half-implemented interaction between base UI components is systematic.
 		 * @param	e
 		 */
-		private function doFixup(e:Event):void
+		private doFixup(e:Event):void
 		{
 			// Remove the Completion event listener
 			e.target.removeEventListener(Event.COMPLETE, doFixup);

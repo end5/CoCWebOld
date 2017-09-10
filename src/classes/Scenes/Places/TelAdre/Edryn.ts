@@ -13,14 +13,14 @@ package classes.Scenes.Places.TelAdre {
 
 		public let pregnancy:PregnancyType;
 
-		public function Edryn()
+		public Edryn()
 		{
 			pregnancy = new PregnancyType(FlagEnum.EDRYN_PREGNANCY_TYPE, FlagEnum.EDRYN_PREGNANCY_INCUBATION, 0, 0);
 			CoC.timeAwareClassAdd(this);
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			pregnancy.pregnancyAdvance();
 			trace("\nEdryn time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
@@ -30,7 +30,7 @@ package classes.Scenes.Places.TelAdre {
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			if (pregnancy.isPregnant && pregnancy.incubation == 0) {
 				if (pregnancy.type == PregnancyType.TAOTH) {
 					kGAMECLASS.urtaQuest.urtaAndEdrynGodChildEpilogue();
@@ -51,7 +51,7 @@ package classes.Scenes.Places.TelAdre {
 		}
 		//End of Interface Implementation
 
-public function edrynBarTalk():void {
+public edrynBarTalk():void {
 	spriteSelect(14);
 	if(player.findStatusAffect(StatusAffects.Edryn) < 0) player.statusAffects.add(new StatusAffect("Edryn",0,0,0,0)));
 	Render.text("", true);
@@ -233,7 +233,7 @@ public function edrynBarTalk():void {
 	}
 }
 
-private function edrynOffer():void {
+private edrynOffer():void {
 	spriteSelect(14);
 	let cost:number = 0;
 	switch(player.statusAffects.get("Edryn").value1) {
@@ -356,7 +356,7 @@ private function edrynOffer():void {
 	}
 }
 
-public function edrynSexSelecter():void {
+public edrynSexSelecter():void {
 	spriteSelect(14);
 	let cost:number = 0;
 	switch(player.statusAffects.get("Edryn").value1) {
@@ -393,7 +393,7 @@ public function edrynSexSelecter():void {
 	//Increment sex count
 	player.addStatusValue(StatusAffects.Edryn,1,1);
 }
-private function fuckEdrynTaur():void {
+private fuckEdrynTaur():void {
 	spriteSelect(14);
 	Render.text("", true);
 
@@ -440,7 +440,7 @@ private function fuckEdrynTaur():void {
 	if(player.lust < 30) player.lust = 30;
 	doNext(camp.returnToCampUseOneHour);
 }
-private function fuckEdrynNonTaur():void {
+private fuckEdrynNonTaur():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text(images.showImage("edryn-fuck-as-non-taur"));
@@ -498,7 +498,7 @@ private function fuckEdrynNonTaur():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-public function edrynBar():boolean {
+public edrynBar():boolean {
 	if(flags[FlagEnum.EDRYN_NEVER_SEE_AGAIN] == 0 && model.time.hours >= 14 && model.time.hours <= 19 && (model.time.hours < 17 || flags[FlagEnum.EDRYN_NUMBER_OF_KIDS] == 0))
 		return true;
 	return false;
@@ -519,7 +519,7 @@ Scene proc's the first time the PC visits the Wet Bitch after all requirements a
 
 private let edrynHeliaLastThreesomeCheck: number;
 
-public function edrynHeliaThreesomePossible():boolean {
+public edrynHeliaThreesomePossible():boolean {
 	if (model.time.totalTime == edrynHeliaLastThreesomeCheck || model.time.totalTime == -edrynHeliaLastThreesomeCheck) //Only choose action once per visit to the bar
 		return edrynHeliaLastThreesomeCheck > 0;
 	edrynHeliaLastThreesomeCheck = model.time.totalTime;
@@ -531,13 +531,13 @@ public function edrynHeliaThreesomePossible():boolean {
 	return true;
 }
 
-public function helAppearance():void {
+public helAppearance():void {
 	Render.text("\n\nTo your surprise, you see Hel the salamander sitting in a corner table, a pair of foxy fox-morph girls sitting on her lap.  When she sees you enter, the pretty reptile lifts her tankard and shouts, \"<i>Hey! " + player.short + "! Over here!</i>\" over the loud noises of the bar.", false);
 	//(\"<i>Hel</i>\" button added to the Wet Bitch menu)
 }
 
 //\"<i>Hel</i>\" in Wet Bitch Menu (First Time)
-public function approachHelAtZeBitch():void {
+public approachHelAtZeBitch():void {
 	Render.text("", true);
 	Render.text(images.showImage("hel-chat-at-bar"));
 	let edryn:Function = null;
@@ -574,7 +574,7 @@ public function approachHelAtZeBitch():void {
 }
 
 //First Time - Leave
-private function leaveHelInZeBitch():void {
+private leaveHelInZeBitch():void {
 	Render.text("", true);
 	if(flags[FlagEnum.HEL_EDRYN_OFFER] == 1) {
 		Render.text("You decide against trying to set something up between the girls -- you like your lovers separate for now.  You spend the rest of the hour quietly chatting with Helia before giving her a friendly kiss goodbye and stepping away.", false);
@@ -588,7 +588,7 @@ private function leaveHelInZeBitch():void {
 }
 
 //First Time -- Threesome
-public function helEdrynThreeSomeStartYerEngines():void {
+public helEdrynThreeSomeStartYerEngines():void {
 	Render.text("", true);
 	if(flags[FlagEnum.EDRYN_TIMES_HEL_THREESOMED] == 0) {
 		Render.text("Suddenly, an idea forms in your mind.  You ask Hel if she'd like to meet Edryn.\n\n", false);
@@ -615,7 +615,7 @@ public function helEdrynThreeSomeStartYerEngines():void {
 }
 
 //THREESOME SEX
-private function threesomeEdrynAndHel():void {
+private threesomeEdrynAndHel():void {
 	Render.text("", true);
 	Render.text(images.showImage("edryn-hel-threesome"));
 	let x:number = player.cockThatFits(300);
@@ -651,7 +651,7 @@ private function threesomeEdrynAndHel():void {
 }
 
 //Pregdryn:
-public function findOutEdrynIsPregnant():void {
+public findOutEdrynIsPregnant():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text("Edryn is lying down at her table, pensively circling a finger around a glass of water and poking listlessly at her plate of greens.  Her eyes keep glancing down or to the side every time you meet her gaze.  You've never seen the shameless centaur bothered like this, and you grab her by the shoulders to ask, \"<i>What's wrong?</i>\"\n\n", false);
@@ -668,7 +668,7 @@ public function findOutEdrynIsPregnant():void {
 }
 
 //Shocked
-private function shockedByEdrynsPregnancy():void {
+private shockedByEdrynsPregnancy():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text("You stammer for an answer, unsure of what to say in light of this startling revelation.  Edryn looks on the verge of tears and all you can do is struggle for words.  She grips the table, her knuckles turning white while her eyes flick from side to side in a panic.", false);
@@ -678,7 +678,7 @@ private function shockedByEdrynsPregnancy():void {
 	simpleChoices("Accept It", shockedByPregdrynThenAccept, "Reject It", beAnAssholeToPregdryn, "", null, "", null, "", null);
 }
 //Accept it
-private function shockedByPregdrynThenAccept():void {
+private shockedByPregdrynThenAccept():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text("Leaning forward, you grab hold of Edryn's hands and cradle them in your grip.  She looks back up at your eyes and reads your expression, breaking into a smile as she reads the feelings on your face.\n\n", false);
@@ -690,7 +690,7 @@ private function shockedByPregdrynThenAccept():void {
 }
 
 //Reject it
-private function beAnAssholeToPregdryn():void {
+private beAnAssholeToPregdryn():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text("You look the panicked centauress dead in the eye and explain that what she does with her body is her business, and you want nothing to do with it.  She stares dumbfounded for a split-second before her face colors red with rage.  Edryn screams, \"<i>GET THE FUCK AWAY FROM ME THEN!</i>\"\n\n", false);
@@ -703,7 +703,7 @@ private function beAnAssholeToPregdryn():void {
 	doNext(telAdre.barTelAdre);
 }
 //Pleased
-private function pleasedbyPregdryn():void {
+private pleasedbyPregdryn():void {
 	spriteSelect(14);
 	Render.text("",true);
 	Render.text("You crack into a smile and congratulate the lusty centaur.  She giggles with relief at your words and wipes a bead of sweat from her brow as you finish.  Edryn exclaims, \"<i>I'm so glad you're happy about this!  I don't expect you to drop your quest and move in with me or anything like that, but it'll be wonderful to hear the clipper-clopper of little hooves in this town.</i>\"\n\n", false);
@@ -715,7 +715,7 @@ private function pleasedbyPregdryn():void {
 }
 
 //Aroused
-public function arousedByPregdryn():void {
+public arousedByPregdryn():void {
 	spriteSelect(14);
 	Render.text("", true);
 	Render.text("You break into a grin bordering on lecherousness and congratulate the lusty centaur.  Her eyes widen for a moment, shocked from your expression, then narrow into a sultry expression.  Edryn teases, \"<i>I think someone has a bit of a pregnancy fetish, hrmm?  Is it the thought of my tits getting swollen with milk or the idea of me being jiggly and randy all the time that does it for you?</i>\"  She shivers, the outlines of her prominent nipples straining against her already-tightly-stretched tunic.  Edryn's eyes drop down and a rueful smile works its way across her face as she admits, \"<i>Great, now I'm turned on too!  Let me go use the little ponies' room. Then, MAYBE, we can help take care of each other.</i>\"\n\n", false);
@@ -726,7 +726,7 @@ public function arousedByPregdryn():void {
 
 
 //Pregger Offer
-private function pregdrynOffer(cs:boolean = true):void {
+private pregdrynOffer(cs:boolean = true):void {
 	spriteSelect(14);
 	if(cs) Render.text("", true);
 	//Used to call post birthing sexings.
@@ -843,7 +843,7 @@ private function pregdrynOffer(cs:boolean = true):void {
 
 
 //Fucking
-public function fuckPregEdryn():void {
+public fuckPregEdryn():void {
 	clearOutput();
 	spriteSelect(14);
 	Render.text(images.showImage("edryn-preggo-fuck"));
@@ -932,7 +932,7 @@ public function fuckPregEdryn():void {
 }
 
 //EAT THE BITCH'S CUNT OUT
-private function jizzFromEatingPregdrynOut():void {
+private jizzFromEatingPregdrynOut():void {
 	spriteSelect(14);
 	Render.text("", true);
 	let x:number = player.cockThatFits(300);
@@ -996,7 +996,7 @@ private function jizzFromEatingPregdrynOut():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function edrynPregChance():void {
+private edrynPregChance():void {
 	//Get out if already pregged.
 	if (pregnancy.isPregnant) return;
 
@@ -1036,7 +1036,7 @@ private function edrynPregChance():void {
 //Strong pussy that can squeeze tight enough to hold you still.
 //During orgasm contracts into cock-milking rings that happen so fast and so frequently you can't even track them
 //Intro:
-private function edrynFucktroduction():void {
+private edrynFucktroduction():void {
 	clearOutput();
 	spriteSelect(14);
 	Render.text("", true);
@@ -1087,7 +1087,7 @@ private function edrynFucktroduction():void {
 }
 
 //Eat Her Out Till Shit Goes Crazy
-public function eatEdrynPussyLikeABawss():void {
+public eatEdrynPussyLikeABawss():void {
 	clearOutput();
 	Render.text(images.showImage("edryn-eat-her-out"));
 	let x: number = player.cockThatFits(300);
@@ -1167,7 +1167,7 @@ public function eatEdrynPussyLikeABawss():void {
 	dynStats("lib", .25, "sen", -3);
 }
 
-private function postEdrynEatOutRut():void {
+private postEdrynEatOutRut():void {
 	clearOutput();
 	Render.text("When Edryn and you wake, your genitals are so sore and sensitive that getting cleaned up is almost painful.  The centauress even goes so far as to comment that she'll have to pay someone to mop up the mess, but there's a proud twinkle in her eye.  Somehow, your [armor] got splattered with vaginal juices during the sexcapade, and as you put them back on, [eachCock] regains its familiar hardness.  You chew on your lower lip as you slip out after saying goodbye, rock-hard and smelling totally of Edryn's lust.  A limited applause goes up at your departure, mixed with hooting and catcalls.  What a fuck!");
 	hideUpDown();

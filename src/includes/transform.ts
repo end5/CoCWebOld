@@ -1,5 +1,5 @@
 ﻿//Updates the player's gender
-public function genderCheck():void {
+public genderCheck():void {
 	if(player.lowerBody.cockSpot.count() > 0) {
 		if(player.lowerBody.vaginaSpot.count() > 0) player.gender = 3;
 		else player.gender = 1;

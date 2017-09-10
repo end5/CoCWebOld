@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Bog
 
 	public class Phouka extends Monster
 	{
-		protected function phoukaFightAttack():void
+		protected phoukaFightAttack():void
 		{ 
 			let damage: number;
 			//Only the bunny, goat and horse forms make physical attacks
@@ -52,7 +52,7 @@ package classes.Scenes.Areas.Bog
 			combatRoundOver();
 		}
 
-		protected function phoukaFightLustAttack():void
+		protected phoukaFightLustAttack():void
 		{ //Only the faerie, bunny and horse forms make lust attacks
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE)
 				Render.text("The " + this.short + " uses his wings to climb high up in the air above you.  Then he starts jerking his cock at you with one hand while fondling his balls with the other.  ");
@@ -76,7 +76,7 @@ package classes.Scenes.Areas.Bog
 			combatRoundOver();
 		}
 
-		protected function phoukaFightSilence():void
+		protected phoukaFightSilence():void
 		{ //Reuses the statusAffect Web-Silence from the spiders
 			Render.text(this.capitalA + this.short + " scoops up some muck from the ground and rams it down over his cock.  After a few strokes he forms the lump of mud and precum into a ball and whips it at your face.  ");
 			if (statusAffects.has("Blind") && rand(3) < 2)
@@ -96,7 +96,7 @@ package classes.Scenes.Areas.Bog
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let blinded:boolean = statusAffects.has("Blind");
 			if ((!blinded) && player.findStatusAffect(StatusAffects.WebSilence) < 0 && rand(4) == 0) {
@@ -160,7 +160,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		protected function phoukaTransformToBunny():void
+		protected phoukaTransformToBunny():void
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) return; //Already a bunny, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
@@ -178,7 +178,7 @@ package classes.Scenes.Areas.Bog
 			PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_BUNNY;
 		}
 
-		protected function phoukaTransformToGoat():void
+		protected phoukaTransformToGoat():void
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_GOAT) return; //Already a goat, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
@@ -196,7 +196,7 @@ package classes.Scenes.Areas.Bog
 			PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_GOAT;
 		}
 
-		protected function phoukaTransformToHorse():void
+		protected phoukaTransformToHorse():void
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_HORSE) return; //Already a horse, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
@@ -214,7 +214,7 @@ package classes.Scenes.Areas.Bog
 			PhoukaScene.phoukaForm = PhoukaScene.PHOUKA_FORM_HORSE;
 		}
 		
-		protected function phoukaTransformToPhouka():void
+		protected phoukaTransformToPhouka():void
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) return; //Already a faerie, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) {
@@ -254,7 +254,7 @@ package classes.Scenes.Areas.Bog
 			return 1; //Only use up one hour after combat loss
 		}
 		
-		public function Phouka(phoukaName:string)
+		public Phouka(phoukaName:string)
 		{
 			super();
 

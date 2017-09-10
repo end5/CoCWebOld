@@ -6,7 +6,7 @@ package classes.Scenes.Places.Farm
 	public class Kelt extends Monster
 	{
 		//Trample - once every five turns
-		private function keltTramplesJoo():void {
+		private keltTramplesJoo():void {
 			Render.text("Before you know what's what, Kelt is galloping toward you, kicking up a cloud of dust in his wake.  He's trying to trample you!  ");
 			//Miss:
 			if(combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
@@ -32,7 +32,7 @@ package classes.Scenes.Places.Farm
 		}
 
 		//Arrow Attack
-		private function keltShootBow():void {
+		private keltShootBow():void {
 			statusAffects.add(new StatusAffect("BowCooldown",3,0,0,0)));
 			Render.text("Kelt knocks and fires an arrow almost faster than you can track.  He's lost none of his talent with a bow, even after everything you've put him through.  ");
 
@@ -58,7 +58,7 @@ package classes.Scenes.Places.Farm
 		}
 
 		//Aura Arouse
-		private function KellyuraAttack():void {
+		private KellyuraAttack():void {
 			let select: number = rand(3);
 			//(1)
 			if(select == 0) Render.text("Kelt flashes his cockiest smile and gestures downward.  \"<i>Did you forget why you're here, slut?  Taking me by surprise once doesn't make you any less of a whore.</i>\"");
@@ -76,7 +76,7 @@ package classes.Scenes.Places.Farm
 
 		//Attacks as normal + daydream "attack"
 		//DayDream "Attack"
-		private function dayDreamKelly():void {
+		private dayDreamKelly():void {
 			if(rand(2) == 0) Render.text("Kelt pauses mid-draw, looking you up and down.  He licks his lips for a few moments before shaking his head to rouse himself from his lusty stupor.  He must miss the taste of your sperm.");
 			else Render.text("Flaring 'his' nostrils, Kelt inhales deeply, his eyelids fluttering closed as he gives a rather lady-like moan.   His hands roam over his stiff nipples, tweaking them slightly before he recovers.");
 			lust += 5;
@@ -85,7 +85,7 @@ package classes.Scenes.Places.Farm
 
 
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (statusAffects.get("BowCooldown").value1 > 0) {
 				statusAffects.get("BowCooldown").value1 = -1;
@@ -117,7 +117,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		public function Kelt()
+		public Kelt()
 		{
 			let breakLevel2:boolean = game.flags[FlagEnum.KELT_BREAK_LEVEL] == 2;
 			this.a = "";

@@ -9,7 +9,7 @@ package classes.Scenes.Dungeons.DeepCave
 		//Vala AI
 
 		//Blood magic?
-		public function valaSpecial1():void {
+		public valaSpecial1():void {
 			Render.text("Vala dabs at one of her wounds and swoons.  Is she actually getting off from the wounds?  Damn she's damaged!  Vala licks the blood from her fingers, winks, and blows pink mist from her mouth.", false);
 			//Lightly wounded.
 			if(HPRatio() > .7) {
@@ -27,7 +27,7 @@ package classes.Scenes.Dungeons.DeepCave
 			combatRoundOver();
 		}
 		//Milk magic
-		public function valaSpecial2():void {
+		public valaSpecial2():void {
 			Render.text("With a look of ecstasy on her face, Vala throws back her head and squeezes her pillowy chest with her hands, firing gouts of thick faerie milk from her over-sized bosom!  You try to dodge, but she's squirting so much it's impossible to dodge it all, and in no time you're drenched with a thick coating of Vala's milk.", false);
 			Render.text("  She releases her breasts, shaking them back and forth for your benefit, and flutters her wings, blowing shiny, glitter-like flakes at you.  They stick to the milk on your skin, leaving you coated in milk and faerie-dust.", false);
 			Render.text("\nVala says, \"<i>Now you can be sexy like Vala!</i>\"\n", false);
@@ -44,7 +44,7 @@ package classes.Scenes.Dungeons.DeepCave
 			combatRoundOver();
 		}
 		//Masturbation
-		public function valaMasturbate():void {
+		public valaMasturbate():void {
 			Render.text("The mind-fucked faerie spreads her alabaster thighs and dips a finger into the glistening slit between her legs, sliding in and out, only pausing to circle her clit.  She brazenly masturbates, putting on quite the show.  Vala slides another two fingers inside herself and finger-fucks herself hard, moaning and panting lewdly.  Then she pulls them out and asks, \"<i>Did you like that?  Will you fuck Vala now?</i>\"", false);
 			game.dynStats("lus", 4 + player.stats.cor/10);
 			combatRoundOver();
@@ -52,7 +52,7 @@ package classes.Scenes.Dungeons.DeepCave
 
 
 		//[Fight dialog]
-		public function valaCombatDialogue():void {
+		public valaCombatDialogue():void {
 			if(findStatusAffect(StatusAffects.Vala) < 0) {
 				Render.text("\"<i>Sluts needs to service the masters!</i>\" the fairy wails, flying high. \"<i>If they are not pleased, Bitch doesn't get any cum!</i>\"", false);
 				statusAffects.add(new StatusAffect("Vala",0,0,0,0)));
@@ -68,7 +68,7 @@ package classes.Scenes.Dungeons.DeepCave
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//VALA SPEAKS!
 			valaCombatDialogue();
@@ -97,7 +97,7 @@ package classes.Scenes.Dungeons.DeepCave
 			}
 		}
 
-		public function Vala()
+		public Vala()
 		{
 			this.a = "";
 			this.short = "Vala";

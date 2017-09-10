@@ -9,10 +9,10 @@ package classes.Scenes.Places.Boat
 
 	public class AbstractBoatContent extends BaseContent
 	{
-		protected function get boat():Boat {
+		protected get boat():Boat {
 			return kGAMECLASS.boat;
 		}
-		public function AbstractBoatContent()
+		public AbstractBoatContent()
 		{
 		}
 	}

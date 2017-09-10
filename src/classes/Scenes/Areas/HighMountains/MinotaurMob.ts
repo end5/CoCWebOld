@@ -9,7 +9,7 @@ package classes.Scenes.Areas.HighMountains
 	 */
 	public class MinotaurMob extends Monster 
 	{
-		private function precumTease():void {
+		private precumTease():void {
 			let teased:boolean = false;
 			let damage:number = 0;
 			let oldLust:number = player.lust;
@@ -93,7 +93,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		//Grope
-		private function minotaurGangGropeAttack():void {
+		private minotaurGangGropeAttack():void {
 			game.spriteSelect(94);
 			Render.text("Strong hands come from behind and slide under your equipment to squeeze your " + chestDesc() + ".  The brutish fingers immediately locate and pinch at your " + nippleDescript(0) + "s, the sensitive flesh on your chest lighting up with pain and pleasure.  You arch your back in surprise, utterly stunned by the violation of your body.  After a moment you regain your senses and twist away, but the damage is already done.  You're breathing a bit quicker now", false);
 			if(player.lust >= 80) Render.text(", and your pussy is absolutely soaking wet", false);
@@ -102,14 +102,14 @@ package classes.Scenes.Areas.HighMountains
 			combatRoundOver();
 		}
 		//Gang Grope
-		private function minotaurGangGangGropeAttack():void {
+		private minotaurGangGangGropeAttack():void {
 			game.spriteSelect(94);
 			Render.text("Before you can react, hands reach out from multiple angles and latch onto your body.  One pair squeezes at your " + game.buttDescript() + ", the strong grip massaging your cheeks with loving touches.  Another set of hands are sliding along your tummy, reaching down for, but not quite touching, the juicy delta below.  Palms encircle your " + player.chestDesc() + " and caress them, gently squeezing in spite of the brutish hands holding you.  You wriggle and squirm in the collective grip of the many minotaurs for a few moments, growing more and more turned on by the treatment.  At last, you shake out of their hold and stand free, panting hard from exertion and desire.", false);
 			game.dynStats("lus", (15 + player.stats.sens/10));
 			combatRoundOver();
 		}
 		//Waste  a turn
-		private function minotaurGangWaste():void {
+		private minotaurGangWaste():void {
 			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00329] = 1;
 			game.spriteSelect(94);
 			Render.text("\"<i>Oh man I can't wait to go hilt-deep in that pussy... I'm going to wreck her,</i>\" promises one bull to his brother.  The other laughs and snorts, telling him how he'll have to do the deed during sloppy seconds.  It quickly escalates, and soon, every single one of the beast-men is taunting the others, bickering over how and when they'll get to have you.  While they're wasting their time, it's your chance to act!", false);
@@ -143,7 +143,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 
-		public function MinotaurMob()
+		public MinotaurMob()
 		{
 			this.a = "the ";
 			if (game.flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] < 20)

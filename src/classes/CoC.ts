@@ -283,26 +283,26 @@ export default class CoC
 
 	public let kFLAGS_REF:*;
 		
-	public function get inCombat():boolean { return gameState == 1; }
+	public get inCombat():boolean { return gameState == 1; }
 		
-	public function set inCombat(value:boolean):void { gameState = (value ? 1 : 0); }
+	public set inCombat(value:boolean):void { gameState = (value ? 1 : 0); }
 		
-	private function gameStateDirectGet(): number { return gameState; }
+	private gameStateDirectGet(): number { return gameState; }
 		
-	private function gameStateDirectSet(value: number):void { gameState = value; }
+	private gameStateDirectSet(value: number):void { gameState = value; }
 		
-	public function rand(max: number): number
+	public rand(max: number): number
 	{
 		return Utils.rand(max);
 	}
 
 	// holidayz
-	public function isEaster():boolean
+	public isEaster():boolean
 	{
 		return plains.bunnyGirl.isItEaster();
 	}
 
-	public function CoC()
+	public CoC()
 	{
 		// Cheatmode.
 		kGAMECLASS = this;
@@ -561,7 +561,7 @@ export default class CoC
 		this.addFrameScript( 0, this.run );
 	}
 
-	public function run():void
+	public run():void
 	{
 		mainMenu();
 		this.stop();
@@ -576,13 +576,13 @@ export default class CoC
 		_updateHack.y = 799;
 	}
 
-	public function forceUpdate():void
+	public forceUpdate():void
 	{
 		_updateHack.x = 999;
 		_updateHack.addEventListener(Event.ENTER_FRAME, moveHackUpdate);
 	}
 
-	public function moveHackUpdate(e:Event):void
+	public moveHackUpdate(e:Event):void
 	{
 		_updateHack.x -= 84;
 			

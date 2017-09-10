@@ -7,12 +7,12 @@ package classes.Scenes.Dungeons.D3
 	 */
 	public class LivingStatueScenes extends BaseContent
 	{
-		public function LivingStatueScenes() 
+		public LivingStatueScenes() 
 		{
 			
 		}
 		
-		public function encounter():void
+		public encounter():void
 		{
 			clearOutput();
 			Render.text("The immense statue gives a mighty groan as you near and shudders, shaking loose years of dust and grime. A few ravens cry in distress as they're shaken loose from their roosts. Taking a step back, you watch as the mammoth figure pushes itself up to a standing position. It towers above, at least thirty feet tall, and easily lifts a hammer carved from the same marble as its gleaming muscles.")
@@ -24,7 +24,7 @@ package classes.Scenes.Dungeons.D3
 			startCombat(new LivingStatue());
 		}
 		
-		public function beatUpDaStatue(hpVictory:boolean):void
+		public beatUpDaStatue(hpVictory:boolean):void
 		{
 			clearOutput();
 			Render.text("Cracks spiderweb out from the point of your last strike, spreading like wildfire across the surface of the stone giant. It groans in pain as its face slowly freezes, locked in a grimace of inhuman suffering before the whole of it comes apart. Chunks of marble fall, kicking up a cloud of white dust and dirt. When it clears, there's nothing left but two marble feet, amputated at the ankle, standing amidst a field of rubble.");
@@ -34,7 +34,7 @@ package classes.Scenes.Dungeons.D3
 			addButton(0, "Take Stone", takeTheStone);
 		}
 		
-		private function takeTheStone():void
+		private takeTheStone():void
 		{
 			clearOutput();
 			
@@ -50,7 +50,7 @@ package classes.Scenes.Dungeons.D3
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 		
-		public function fuckinMarbleOP(hpVictory:boolean, pcCameWorms:boolean):void
+		public fuckinMarbleOP(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			clearOutput();
 			Render.text("You slump to your knees, overwhelmed and unable to see the shadow of the falling hammer. Your last thoughts are of regret.");

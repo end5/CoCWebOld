@@ -7,14 +7,14 @@
 Entry for the 2012 CoC Contest, \"<i>A Very Milky XMas</i>\".
 Starring Gatters Bee, Shamble Sworth and a caribou named Kirbu.
 */
-public function gatsSpectacularRouter():void {
+public gatsSpectacularRouter():void {
 	if(flags[FlagEnum.GATS_ANGEL_QUEST_BEGAN] == 0) christmasEncounterAngelJunk();
 	else if(player.hasKeyItem("North Star Key") < 0) findTheWindUpKey();
 	else giveThatBitchAKeyYo();
 }
 
 
-public function christmasEncounterAngelJunk():void {
+public christmasEncounterAngelJunk():void {
 	clearOutput();
 	menu();
 	//[Not Christmas]
@@ -36,7 +36,7 @@ public function christmasEncounterAngelJunk():void {
 	}
 }
 
-public function dontExploreGatsChristmasTale():void {
+public dontExploreGatsChristmasTale():void {
 	clearOutput();
 	//i. No
 	Render.text("In a place like the high mountains, there's no warning to be found if you happen to be confronted by danger.  Deciding not to take your chances, you continue to walk down the path you came, leaving the peaks to head straight back to camp.");
@@ -47,7 +47,7 @@ public function dontExploreGatsChristmasTale():void {
 }
 
 //ii. Yes
-public function encounterQuoteUnquoteAngel():void {
+public encounterQuoteUnquoteAngel():void {
 	clearOutput();
 	if(!isHolidays()) {
 		Render.text("You haven't found anything as of yet, so you figure you might as well keep going.  Following the quiet tune from above, you trace the spiralling side of the snow-capped behemoth, eventually reaching a small cliff hanging beneath the mountain's peak.  Upon the cliff, a small lake encompasses the area.  Though it remains frozen, a single soldier lies inside, hugged by an icy grave.");
@@ -97,7 +97,7 @@ public function encounterQuoteUnquoteAngel():void {
 }
 	
 //5. Solution
-public function findTheWindUpKey():void {
+public findTheWindUpKey():void {
 	clearOutput();
 	Render.text("Upon reaching the base of the mountain, you set off on your quest for the grief-stricken giantess.  A sunken grotto hidden around the mountain's base, you recall.  In all your treks over this bump in the land, you've never noticed anything even vaguely resembling the little shelter she described.  However, \"sunken\" gives you a vital hint to help begin your quest in the right direction.  You remember a steep valley, flooded and forgotten in its tiny alcove amidst the towering earth.  It takes little time at all until you've worked your way around to the unremarkable crater, pushing your way past the dense growth and through the humid mist surrounding it.");
 	Render.text("\n\nIn a surprisingly bold move, you strip free of your [armor], not wishing to waste thoughts worrying about wet or ruined articles of clothing.  The majority of your time in this land is spent in the nude as it is, so a skinny dip isn't so out of the ordinary.  A simple dive into the unusually clear waters marks the next branch of your search.  Sunlight sparkles as it draws rays through the crystal-clean pond, highlighting the darker recess underneath an outcropping of jagged rock.  You surface for another gasp of air before embarking on the next leg of your journey.");
@@ -117,7 +117,7 @@ public function findTheWindUpKey():void {
 
 //ii. Bringing the Key Back
 //Activates upon returning to the High Mountains after the previous scene, before X amount of hours or X amount of time past Dec 25th (presumably)
-public function giveThatBitchAKeyYo():void {
+public giveThatBitchAKeyYo():void {
 	clearOutput();
 	//if in time!
 	if(flags[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] < 150) {
@@ -154,7 +154,7 @@ public function giveThatBitchAKeyYo():void {
 }
 
 //6. Corrupt End #1
-public function theWorstEndingEverDotJPG():void {
+public theWorstEndingEverDotJPG():void {
 	clearOutput();
 	//Requirements: Choosing [Fuck the Soldier] at the prompt
 	Render.text("Still listlessly spinning the windup key around your pointer finger, you gaze back down at the pile of armor buried in the snow.  A strange amount of curiosity surrounds this peculiar set of protection, only mounting the longer you stare at it.  It isn't like you owe anything to the slumbering titan.  Just what could she see in something a mere fraction her size?  Maybe this is some sort of dominating fantasy of hers; you've been around the block enough times to know that not everything is at it appears.  There's no telling just what she has in store for her little creation.  You may actually get to be a hero!");
@@ -208,7 +208,7 @@ public function theWorstEndingEverDotJPG():void {
 
 //7. Corrupt End #2
 //Requirements: Choosing [Fuck the Angel] at the prompt
-public function fuckTheAngelBadEnd():void {
+public fuckTheAngelBadEnd():void {
 	clearOutput();
 	Render.text("The spirit lies comfortably upon the pillowy white ground, laying in wait for the moment she awakes to her mechanical lover.  Unfortunately, you're the one with the key.  The one with the fate of two lovers twirling around your finger.  They're both quite still, frozen upon your decision.  Well!  No need to wait any longer - there's fun to be had this winter, and the sight of that divine giantess is getting you antsy.");
 	Render.text("\n\nRunning towards the mocha-colored titan, you disturb the side of the mountain peak, causing lumps of snow to fall upon her head.  It's one way to wake her up for sure, as she slowly removes her head from the cliff's edge.");
@@ -260,7 +260,7 @@ public function fuckTheAngelBadEnd():void {
 	menu();
 	addButton(0,"Next",fuckTheAngelBadEndPartII);	
 }
-public function fuckTheAngelBadEndPartII():void {
+public fuckTheAngelBadEndPartII():void {
 	clearOutput();
 	Render.text("It shakes, and - wait, it's shaking?  You walk towards him, still naked from your recent session with his lover.  It appears to be vibrating with a sense of... sadness, you'd guess.  You look inside, but nothing can be found.  Was it really dead, or just unable to move?  It soons stops though, and both you and the giantess stare at the cold figure of the soldier.");
 	Render.text("\n\nOf course, you kick it over, while it thumps into the snow.  Whatever it was doing before, it's certainly gone now.  You turn back to your new lover, and - oh no.");
@@ -278,7 +278,7 @@ public function fuckTheAngelBadEndPartII():void {
 }
 
 //8. Good End
-public function goodEndForChristmasMiracleICant():void {
+public goodEndForChristmasMiracleICant():void {
 	clearOutput();
 	//Requirements: Choosing [Give the Key] at the prompt
 	//completely fucking tender let's get moe
@@ -310,7 +310,7 @@ public function goodEndForChristmasMiracleICant():void {
 	addButton(0,"Next",goodEndForChristmasMiracleICantII);
 }
 
-public function goodEndForChristmasMiracleICantII():void {
+public goodEndForChristmasMiracleICantII():void {
 	clearOutput();
 	Render.text("North throws his arms out wide, armor hardly protesting to the sudden movement.  The action gives the giantess pause for a moment, but she swiftly understands the motivation and raises her hand to the beckoning knight.  She crooks her little finger toward North, and he throws himself around it, expressing his feelings in a tight and passionate hug.  The giantess gazes down at her little knight with a loving smile, and they hold the pose for a remarkably long time.");
 	Render.text("\n\nThe seemingly divine titan worryingly crooks her eye over to you, and in an attempt to shoosh you away, she nods her head towards the mountain's exit, implying that they're going to spend some time to themselves. Of course, there's a chance you can probably stick around for some weird-ass action. Would you prefer to stay behind, or do you excuse them temporarily?");
@@ -320,7 +320,7 @@ public function goodEndForChristmasMiracleICantII():void {
 }
 
 //If Leave
-public function goodEndLeaveBeforeSexings():void {
+public goodEndLeaveBeforeSexings():void {
 	clearOutput();
 	Render.text("You get the message, feeling that letting them do their own thing might be for the best.  With a hasty pardon, you promptly turn around and walk a good twenty yards down the mountainside, idly playing in the snow while the two reunited lovebirds do their thing.");
 	Render.text("\n\nYou hear the sound of a gentle humming in the distance, and you figure that the two lovers might be quite done with their 'honeymoon'.");
@@ -329,7 +329,7 @@ public function goodEndLeaveBeforeSexings():void {
 	addButton(0,"Next",conclusionOfGiantessGoodEnd);
 }
 //If Stay
-public function stayForPretendNTRGoodWinjobSex():void {
+public stayForPretendNTRGoodWinjobSex():void {
 	clearOutput();
 	Render.text("You prefer to stay here, but the frosty giant has already gone back to her mechanical man, so you hold your explanation and continue to observe.");
 	Render.text("\n\nFinally, she draws away, North reluctantly releasing his hold on her pinky.  The giant woman unexpectedly groans, running her arms from her chest to what you could only assume to be her waist - you can't exactly see from your current perch, and as you wish to remain as impartial a bystander that you can in this situation, you don't bother inching to the edge of the cliff.");
@@ -366,7 +366,7 @@ public function stayForPretendNTRGoodWinjobSex():void {
 }
 
 //[Conclusion]
-public function conclusionOfGiantessGoodEnd():void {
+public conclusionOfGiantessGoodEnd():void {
 	clearOutput();
 	Render.text("The air is crisp, and the light powdering of snow floats through the air as if playing an invisible melody.  The warm couple are together.  Lifting her head, the giantess beams at you with a refreshing sense of spirit.");
 	Render.text("\n\n\"<i>I can't believe anything that has happened to me today... it's all thanks to you.  Thank you for bringing North back to me, and thank you for relighting a fire that had gone out so, so long ago.</i>\"");

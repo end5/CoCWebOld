@@ -58,7 +58,7 @@ package classes.Scenes.NPCs
 
 		public let pregnancy:PregnancyType;
 
-		public function EmberScene()
+		public EmberScene()
 		{
 			pregnancy = new PregnancyType(FlagEnum.EMBER_PREGNANCY_TYPE, FlagEnum.EMBER_INCUBATION, 0, 0);
 			pregnancy.addPregnancyEventSet(PregnancyType.PLAYER, 330, 270, 200, 180, 100, 75, 48, 15);
@@ -67,7 +67,7 @@ package classes.Scenes.NPCs
 		}
 		
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			let needNext:boolean = false;
 			pregnancy.pregnancyAdvance();
@@ -119,7 +119,7 @@ package classes.Scenes.NPCs
 			return needNext;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			if (player.findStatusAffect(StatusAffects.EmberNapping) < 0 && followerEmber() && player.findStatusAffect(StatusAffects.EmberFuckCooldown) < 0) {
 				//Ember get's a whiff of fuckscent and knocks up PC!
 				if (player.lowerBody.vaginaSpot.hasVagina() && player.inHeat && player.pregnancyIncubation == 0 && rand(10) == 0 && (flags[FlagEnum.EMBER_GENDER] == 1 || flags[FlagEnum.EMBER_GENDER] == 3)) {
@@ -135,7 +135,7 @@ package classes.Scenes.NPCs
 		}
 		//End of Interface Implementation
 		
-		public function emberAffection(changes:number = 0):number
+		public emberAffection(changes:number = 0):number
 		{
 			flags[FlagEnum.EMBER_AFFECTION] += changes;
 			if (flags[FlagEnum.EMBER_AFFECTION] > 100) flags[FlagEnum.EMBER_AFFECTION] = 100;
@@ -143,7 +143,7 @@ package classes.Scenes.NPCs
 			return flags[FlagEnum.EMBER_AFFECTION];
 		}
 
-		private function emberCorruption(changes:number = 0):number
+		private emberCorruption(changes:number = 0):number
 		{
 			flags[FlagEnum.EMBER_COR] += changes;
 			if (flags[FlagEnum.EMBER_COR] > 100) flags[FlagEnum.EMBER_COR] = 100;
@@ -163,33 +163,33 @@ package classes.Scenes.NPCs
 			else return woman;
 		}
 
-		private function emberVaginalCapacity(): number
+		private emberVaginalCapacity(): number
 		{
 			return 60;
 		}
 
-		private function emberAnalCapacity(): number
+		private emberAnalCapacity(): number
 		{
 			return 60;
 		}
 
-		private function emberHasCock():boolean
+		private emberHasCock():boolean
 		{
 			return (flags[FlagEnum.EMBER_GENDER] == 1 || flags[FlagEnum.EMBER_GENDER] == 3);
 		}
 
-		public function emberChildren(): number
+		public emberChildren(): number
 		{
 			return (flags[FlagEnum.EMBER_CHILDREN_MALES] + flags[FlagEnum.EMBER_CHILDREN_FEMALES] + flags[FlagEnum.EMBER_CHILDREN_HERMS]);
 		}
 
-		private function emberInternalDick():boolean
+		private emberInternalDick():boolean
 		{
 			return (flags[FlagEnum.EMBER_ROUNDFACE] == 0 || flags[FlagEnum.EMBER_INTERNAL_DICK] > 0);
 		}
 
 //Approaching Ember (Z)
-		public function emberCampMenu():void
+		public emberCampMenu():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-visit-at-camp"));
@@ -215,7 +215,7 @@ package classes.Scenes.NPCs
 		}
 
 //Approach for sex - initial output when selecting [Sex] menu (Z)
-		private function emberSexMenu(output:boolean = true):void
+		private emberSexMenu(output:boolean = true):void
 		{
 			if (output) {
 				clearOutput();
@@ -299,7 +299,7 @@ package classes.Scenes.NPCs
 
 //Finding the Egg (Z)
 //Triggers randomly on exploration in Swamp
-		public function findEmbersEgg():void
+		public findEmbersEgg():void
 		{
 			clearOutput();
 			if (flags[FlagEnum.TIMES_FOUND_EMBERS_EGG] == 0) {
@@ -324,7 +324,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Leave=] (Z)
-		private function leaveEmbersAssOutToDry():void
+		private leaveEmbersAssOutToDry():void
 		{
 			clearOutput();
 			Render.text("You can't decide what to do right now, so you leave the egg where it is and return to your camp.");
@@ -333,7 +333,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Destroy it=] (Z)
-		private function destroyBabyEmberYouMonster():void
+		private destroyBabyEmberYouMonster():void
 		{
 			clearOutput();
 			Render.text("Raising your [weapon], you rain down blow after blow upon the egg.  The shell is freakishly tough, taking a lot of punishment before it shatters apart to spill a wave of egg white onto your " + player.feet() + "; a great pulpy mass of weirdly bluish-red yolk remains in the broken shell.");
@@ -345,7 +345,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Eat=]
-		private function eatEmbersYolkLikeAnEvenBiggerDick():void
+		private eatEmbersYolkLikeAnEvenBiggerDick():void
 		{
 			clearOutput();
 			Render.text("Unsure of where the impulse comes from, but uncaring, you crouch over the ruined shell of your 'kill' and begin messily scooping handfuls of yolk into your mouth.");
@@ -364,7 +364,7 @@ package classes.Scenes.NPCs
 
 
 //[Yes]
-		public function getSomeStuff():void
+		public getSomeStuff():void
 		{
 			clearOutput();
 			Render.text("Your mouth tightens in consternation, and you pull out the shell of the so-called 'dragon egg', passing it over and asking if she can use it.");
@@ -386,7 +386,7 @@ package classes.Scenes.NPCs
 //You raise your shield and block the onrushing liquid.  The porous shell quickly absorbs the fluid, wicking it away to who-knows-where and rendering the attack completely useless.
 
 //[=Take=] (Z)
-		private function takeEmbersEggHomeInADoggieBag():void
+		private takeEmbersEggHomeInADoggieBag():void
 		{
 			clearOutput();
 			Render.text("You decide to take the egg, figuring that perhaps this dragon could aid you in your quest.");
@@ -425,7 +425,7 @@ package classes.Scenes.NPCs
 
 
 //Modified Camp Description (Z)
-		public function emberCampDesc():void
+		public emberCampDesc():void
 		{
 			//Iz Ember an egg?
 			if (flags[FlagEnum.EMBER_HATCHED] == 0) Render.text("\nThat mysterious egg that you brought back to the camp is sitting in the crude nest you made.\n");
@@ -439,7 +439,7 @@ package classes.Scenes.NPCs
 		}
 
 //Followers Descriptor (Z)
-		private function emberFollowerDesc():void
+		private emberFollowerDesc():void
 		{
 			Render.text("The mysterious egg you found in the cave sits in the grass nest you assembled for it; it is three feet tall and nearly two feet in circumference.  The nest itself isn't very pretty, but at least it's sturdy enough to keep the egg from rolling around.\n\n");
 		}
@@ -491,7 +491,7 @@ package classes.Scenes.NPCs
 //if EmberType has been altered, forget corruption. Hybrid forms have no corruption variants.
 
 //General Egg Interaction (Z)
-		public function emberEggInteraction():void
+		public emberEggInteraction():void
 		{
 			clearOutput();
 			Render.text("You approach the egg you found in that illusion-concealed cave. Though the light continues to pulse with its heartbeat overtones, it still just sits there, doing nothing.");
@@ -561,7 +561,7 @@ package classes.Scenes.NPCs
 		}
 
 //[= No =]
-		private function dontEggFap():void
+		private dontEggFap():void
 		{
 			clearOutput();
 			Render.text("Shaking your head, confused and startled by these strange impulses, you step away for a moment. Once away from the egg, its pattern of pulsations returns to normal and you feel the urges disappear.");
@@ -596,7 +596,7 @@ package classes.Scenes.NPCs
 		}
 
 //Leave Without Using Item (Z)
-		private function leaveWithoutUsingAnEmberItem():void
+		private leaveWithoutUsingAnEmberItem():void
 		{
 			clearOutput();
 			Render.text("You shake your head; it would probably be best not to tamper with it. Returning the items to your pockets, you leave the egg alone.  As you put them away, the egg's glow slows down dramatically, almost as if it were feeling... disappointment?");
@@ -604,7 +604,7 @@ package classes.Scenes.NPCs
 		}
 
 //Incubus Draft/Purified Incubus Draft (Z)
-		private function useIncubusDraftOnEmber(purified:boolean = false):void
+		private useIncubusDraftOnEmber(purified:boolean = false):void
 		{
 			clearOutput();
 			if (purified) {
@@ -631,7 +631,7 @@ package classes.Scenes.NPCs
 		}
 
 //Succubi Milk/Purified Succubi Milk (Z)
-		private function useSuccubiMilkOnEmber(purified:boolean = false):void
+		private useSuccubiMilkOnEmber(purified:boolean = false):void
 		{
 			clearOutput();
 			if (purified) {
@@ -660,7 +660,7 @@ package classes.Scenes.NPCs
 		}
 
 //Ovi Elixir (Z)
-		private function useOviElixerOnEmber():void
+		private useOviElixerOnEmber():void
 		{
 			clearOutput();
 			player.consumeItem(consumables.OVIELIX);
@@ -672,7 +672,7 @@ package classes.Scenes.NPCs
 		}
 
 //Lactaid (Z)
-		private function useLactaidOnEmber():void
+		private useLactaidOnEmber():void
 		{
 			clearOutput();
 			player.consumeItem(consumables.LACTAID);
@@ -684,7 +684,7 @@ package classes.Scenes.NPCs
 		}
 
 //Hair Extension Serum (Z)
-		private function hairExtensionSerum():void
+		private hairExtensionSerum():void
 		{
 			clearOutput();
 			player.consumeItem(consumables.EXTSERM);
@@ -704,7 +704,7 @@ package classes.Scenes.NPCs
 		}
 
 //Your Blood (Z)
-		private function giveEmberBludSausages():void
+		private giveEmberBludSausages():void
 		{
 			clearOutput();
 			//max uses 2
@@ -728,7 +728,7 @@ package classes.Scenes.NPCs
 
 //Masturbate Onto the Egg (Z)
 //Genderless Version (Z)
-		private function masturbateOntoAnEgg():void
+		private masturbateOntoAnEgg():void
 		{
 			clearOutput();
 			if (player.gender == 0) {
@@ -802,7 +802,7 @@ package classes.Scenes.NPCs
 		}
 
 //HATCH DAT BITCH
-		private function hatchZeMuzzles():void
+		private hatchZeMuzzles():void
 		{
 			clearOutput();
 			Render.text("Resting bonelessly on the ground and re-examining the motivations that led up to cumming on the strange egg, you are startled when it shines brilliantly.  Then just as suddenly, it goes dark.  Unnerved, you creep over to your erstwhile sextoy to examine it.  As you lean in, a very slight trembling manifests itself in the egg.  Cracking, breaking noises fill the air as tiny fractures begin to show across the egg's surface.  Warned just in time by them, you turn your face away and cover your head as the shell erupts into a cloud of tiny fragments!  As you huddle against the storm of eggshell shards, you hear a loud roar.");
@@ -891,7 +891,7 @@ package classes.Scenes.NPCs
 		}
 
 //Aftermath (Z)
-		private function meetEmberAftermath():void
+		private meetEmberAftermath():void
 		{
 			clearOutput();
 			Render.text("You can only stand there and stare at this strange creature, supposedly a dragon, for what feels like hours.");
@@ -906,7 +906,7 @@ package classes.Scenes.NPCs
 		}
 
 //Appearance (shows Ember's appearance, always available)
-		private function embersAppearance():void
+		private embersAppearance():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-examine-appearance"));
@@ -1030,7 +1030,7 @@ package classes.Scenes.NPCs
 		}
 
 //Talk
-		private function talkToEmber():void
+		private talkToEmber():void
 		{
 			//Checks for special scenes go here!
 			//If the PC fulfills one of the requirements for the Special Scenes, they occur the moment the player picks the talk option.
@@ -1065,7 +1065,7 @@ package classes.Scenes.NPCs
 		}
 
 //Talk about Dragons (Z)
-		private function talkToEmberAboutDragonzzz():void
+		private talkToEmberAboutDragonzzz():void
 		{
 			clearOutput();
 			Render.text("You ask Ember to tell you more about " + emberMF("his", "her") + " species.");
@@ -1110,7 +1110,7 @@ package classes.Scenes.NPCs
 		}
 
 //Exploration (Z)
-		private function discussExplorationWithEmber():void
+		private discussExplorationWithEmber():void
 		{
 			clearOutput();
 			let choice: number = rand(4);
@@ -1183,7 +1183,7 @@ package classes.Scenes.NPCs
 		}
 
 //Talk about Yourself (Z)
-		private function talkToEmberAboutYourself():void
+		private talkToEmberAboutYourself():void
 		{
 			clearOutput();
 			let points:number = 0;
@@ -1290,7 +1290,7 @@ package classes.Scenes.NPCs
 //PC must be pregnant with something besides Ember's child/egg to get this scene.
 //Occurs once per pregnancy.
 //To be implimented once preggers is set up.
-		private function manEmberBitchesAboutPCPregnancy():void
+		private manEmberBitchesAboutPCPregnancy():void
 		{
 			clearOutput();
 			flags[FlagEnum.EMBER_BITCHES_ABOUT_PREGNANT_PC] = 1;
@@ -1306,7 +1306,7 @@ package classes.Scenes.NPCs
 //This scene only appears if the PC is pregnant with Ember's child.
 //Occurs only once.
 //To be implimented once preggers is set up.
-		private function emberTalksToPCAboutPCDragoNPregnancy():void
+		private emberTalksToPCAboutPCDragoNPregnancy():void
 		{
 			clearOutput();
 			flags[FlagEnum.EMBER_TALKS_TO_PC_ABOUT_PC_MOTHERING_DRAGONS] = 1;
@@ -1325,7 +1325,7 @@ package classes.Scenes.NPCs
 //Scene appears when selecting [Talk]
 //This scene only appears if Ember is pregnant.
 //Occurs once during Ember's first pregnancy.
-		private function emberIsPregnantFirstTimeTalkScene():void
+		private emberIsPregnantFirstTimeTalkScene():void
 		{
 			clearOutput();
 			flags[FlagEnum.EMBER_PREGNANT_TALK] = 1;
@@ -1354,7 +1354,7 @@ package classes.Scenes.NPCs
 //This scene only appears if the PC is pregnant with eggs due to using Ovi Elixir/Oviposition.
 //It doesn't matter if Ember doesn't have the parts, imagination is there for a reason.
 //Yup, you guessed it, only once.
-		private function emberBitchesAboutPCBeingFullOfEggs():void
+		private emberBitchesAboutPCBeingFullOfEggs():void
 		{
 			clearOutput();
 			Render.text("As you try and think of a topic to talk about, you realize Ember is staring at your egg-swollen stomach - not with anger or disdain, but with interest.  With a smirk, you place one hand on your belly and ask if " + emberMF("he", "she") + " finds you interesting to look at like this.");
@@ -1367,7 +1367,7 @@ package classes.Scenes.NPCs
 
 //Occurs if PC spends too much time at 100 Lust.
 //counter triggered when PC starts an hour in camp at 100 Lust, output when reaching 10 counters
-		public function emberBitchesAtYouAboutLustiness():void
+		public emberBitchesAtYouAboutLustiness():void
 		{
 			Render.text("\nYou strive to keep your mind focused, but... your libido is screaming at you, ");
 			if (player.lowerBody.cockSpot.hasCock()) {
@@ -1390,7 +1390,7 @@ package classes.Scenes.NPCs
 //This scene only appears if the player is suffering from Minotaur Cum addiction, and only before PC develops addicted perk.
 //Output automatically when PC enters camp while conditions are met
 //This should reduce the chance of meeting minotaurs.
-		public function minotaurJizzFreakout():void
+		public minotaurJizzFreakout():void
 		{
 			Render.text("\nYou try to hold a conversation with Ember, but it's hard for you to concentrate; you keep thinking about the delicious, soul-burning taste of hot, salty minotaur cum, straight from the bull-man's cock.  Inevitably, Ember asks you what the matter is and, salivating, you paint the picture for her.");
 			Render.text("\n\nEmber suddenly throws back " + emberMF("his", "her") + " head with a terrible roar of fury that rattles the very rocks underfoot.  \"<i>I'll kill them!  I'll bash their brains out - I'll rip off their stinking hairy hides!  I'll gorge myself on their flesh and pick my teeth with their horns!  Nobody will poison you like that - nobody!</i>\"");
@@ -1403,7 +1403,7 @@ package classes.Scenes.NPCs
 //Scene
 //This plays automatically when the PC gets over " + emberMF("his","her") + " temporary addiction to minotaur cum
 //Normal note for PC getting over mino cum addiction plays first
-		public function emberGetOverFreakingOutAboutMinoJizz():void
+		public emberGetOverFreakingOutAboutMinoJizz():void
 		{
 			flags[FlagEnum.EMBER_CURRENTLY_FREAKING_ABOUT_MINOCUM] = 0;
 			Render.text("\nYou should probably let Ember know that you are no longer plagued by thoughts of minotaurs... if only to prevent ecological collapse.  Fortunately enough, you find " + emberMF("him", "her") + " landing in front of " + emberMF("his", "her") + " den just then.  " + emberMF("he", "she") + " throws another minotaur's skull on the smallest pile, then turns to face you.  \"<i>What's got you so cheerful?</i>\" " + emberMF("he", "she") + " asks.");
@@ -1447,7 +1447,7 @@ package classes.Scenes.NPCs
 //Drinking only a bit will boost 3 of the PC's status randomly (Strength, Toughness, Intelligence, Speed), a random amount between 1-5.
 //Drinking more blood, will in addition to the status boost, TF the player into a dragon, gaining the respective skills that come attached to each part.
 //PCs that are dragony enough might be bestowed with Tainted Ember's signature breath weapon.
-		private function bloodForTheBloodGod():void
+		private bloodForTheBloodGod():void
 		{
 			clearOutput();
 			Render.text("You ask Ember if " + emberMF("he", "she") + " would be willing to give you a taste of " + emberMF("his", "her") + " blood, desirous of the power that lies within it.");
@@ -1496,7 +1496,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Stop=]
-		private function noMoDagronBlud():void
+		private noMoDagronBlud():void
 		{
 			clearOutput();
 			if (emberAffection() < 75) {
@@ -1511,7 +1511,7 @@ package classes.Scenes.NPCs
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function drinkDeeplyOfDagronBlud():void
+		private drinkDeeplyOfDagronBlud():void
 		{
 			clearOutput();
 			if (emberAffection() < 75) {
@@ -1532,7 +1532,7 @@ package classes.Scenes.NPCs
 		}
 
 //TF messages (Z)
-		private function emberTFs():void
+		private emberTFs():void
 		{
 			let changes: number = 0;
 			let changeLimit: number = 2;
@@ -1763,7 +1763,7 @@ package classes.Scenes.NPCs
 //Get Egg (Ovilixer Ember) (Z)
 //Spying or watching Ember lay, increases lust by a small amount, while helping Ember lay, increases lust by a moderate amount.
 //Player always gets the egg.
-		private function emberIsAnEggFactory():void
+		private emberIsAnEggFactory():void
 		{
 			clearOutput();
 			Render.text("You ask Ember if she would be willing to lay an egg for you.");
@@ -1851,7 +1851,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Fob Off]
-		private function dontWatchEmberLayEgg():void
+		private dontWatchEmberLayEgg():void
 		{
 			clearOutput();
 			Render.text("You take her hand and tell her that you wouldn't dream of intruding on her privacy, but ask her to think of you if she needs the inspiration.  She looks away shyly, and the barest hint of a smile breaks on her face.  Seems like she's already following your instructions.");
@@ -1863,7 +1863,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Watch]
-		private function watchMediumAffectionEmberEggLay():void
+		private watchMediumAffectionEmberEggLay():void
 		{
 			clearOutput();
 			Render.text("Ember fails to hide her arousal when you accept.  \"<i>Okay, then follow me.</i>\"  The two of you move into a secluded spot.  Once she is certain nobody is around to spy, Ember turns to face you");
@@ -1911,7 +1911,7 @@ package classes.Scenes.NPCs
 		}
 
 //Get Milk
-		private function getMilkFromEmber():void
+		private getMilkFromEmber():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-drink-her-milk"));
@@ -2160,7 +2160,7 @@ package classes.Scenes.NPCs
 //Sparring text outputs (Z) (FENCODED TO HERE)
 //PC shouldn't get gems for this fight, XP shouldn't be a problem with the new level scaled encounter system.
 //Winning gets you affection.
-		private function decideToSparEmbra():void
+		private decideToSparEmbra():void
 		{
 			clearOutput();
 			Render.text("You feel like you could use some practice; just to be ready for whatever you stumble upon when adventuring, and ask Ember how " + emberMF("he", "she") + "'d feel about sparring with you.");
@@ -2184,7 +2184,7 @@ package classes.Scenes.NPCs
 			startCombat(new Ember());
 		}
 
-		public function beatEmberSpar():void
+		public beatEmberSpar():void
 		{
 			clearOutput();
 			if (emberAffection() <= 25) {
@@ -2220,7 +2220,7 @@ package classes.Scenes.NPCs
 			cleanupAfterCombat();
 		}
 
-		public function loseToEmberSpar():void
+		public loseToEmberSpar():void
 		{
 			clearOutput();
 			//Low affection
@@ -2254,7 +2254,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Catch Anal] - a dragon coq up the date (Z)
-		private function catchAnal():void
+		private catchAnal():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-fucks-your-ass"));
@@ -2399,7 +2399,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Blow Ember] - your shipment of dragon dildoes has arrived
-		private function suckEmberCock():void
+		private suckEmberCock():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-give-her-a-blowjob"));
@@ -2503,7 +2503,7 @@ package classes.Scenes.NPCs
 		}
 
 //Get Blown - put your dick in the knife drawer, it'll be fun! (Z, with reservation)
-		private function stickDickInKnifeDrawer():void
+		private stickDickInKnifeDrawer():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-gives-you-a-blowjob"));
@@ -2617,7 +2617,7 @@ package classes.Scenes.NPCs
 
 
 //Pitch Anal - horses are terrible people, so no centaurs unless rewritten (Z)
-		private function stickItInEmbersButt():void
+		private stickItInEmbersButt():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-fuck-her-in-her-buttz"));
@@ -2772,7 +2772,7 @@ package classes.Scenes.NPCs
 		}
 
 //Eat Ember Out - b-baka! (Z)
-		private function slurpDraggieCunnies():void
+		private slurpDraggieCunnies():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-eat-out-her-vagoo"));
@@ -2853,7 +2853,7 @@ package classes.Scenes.NPCs
 		}
 
 //Get Eaten Out - actually halfway likeable
-		private function getEatenOutByEmbra():void
+		private getEatenOutByEmbra():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-eats-your-vagoo-out"));
@@ -2921,7 +2921,7 @@ package classes.Scenes.NPCs
 		}
 
 //Penetrate Her - seems not to accommodate centaurs, more's the pity (Z)
-		private function penetrateEmbrah():void
+		private penetrateEmbrah():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-fuck-her-in-the-vagoo-with-your-penor"));
@@ -3113,7 +3113,7 @@ package classes.Scenes.NPCs
 		}
 
 //PART II!
-		private function penetrateEmbrahPartII():void
+		private penetrateEmbrahPartII():void
 		{
 			clearOutput();
 			Render.text("You wake up to find Ember's face hovering over you with a smile; once she realizes you're awake, she quickly averts her gaze.");
@@ -3141,7 +3141,7 @@ package classes.Scenes.NPCs
 		}
 
 //Get Penetrated - also horse-proof, sorry folks! (Z)
-		private function getPenetratedByEmberLastSexSceneWoooo():void
+		private getPenetratedByEmberLastSexSceneWoooo():void
 		{
 			clearOutput();
 			Render.text(images.showImage("ember-sticks-her-penor-in-your-vagoo"));
@@ -3250,7 +3250,7 @@ package classes.Scenes.NPCs
 		}
 
 //Part II
-		private function getPenetratedByEmberLastSexSceneWooooPartII():void
+		private getPenetratedByEmberLastSexSceneWooooPartII():void
 		{
 			clearOutput();
 			Render.text("You manage to wake up before your sleeping draconic lover; it seems at some point in " + emberMF("his", "her") + " sleep Ember saw it fit to wrap you tightly in " + emberMF("his", "her") + " arms, tail and even legs.  You snuggle deeper into the dragon's embrace and enjoy it; " + emberMF("he", "she") + "'s usually too emotionally cowardly to treat you like this.  Unfortunately the embrace doesn't last long... Ember soon wakes up, yawning groggily and slowly disentangling " + emberMF("him", "her") + "self in order to stretch.  The dragon's face lights in pain and " + emberMF("he", "she") + " quickly moves " + emberMF("his", "her") + " hand to hold " + emberMF("his", "her") + " crotch.");
@@ -3288,7 +3288,7 @@ package classes.Scenes.NPCs
 		 //PC not pregnant, Ember has dick, PC is in heat.
 		 //Male scene
 		 //PC has dick, ember not pregnant, PC is in rut*/
-		public function emberRapesYourHeatness():void
+		public emberRapesYourHeatness():void
 		{
 			Render.text("\nA pair of scaly, clawed hands suddenly grab your [hips] and you feel Ember take a big whiff of your scent. \"<i>So good... you smell so good, y'know [name]?</i>\"");
 
@@ -3310,7 +3310,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Deny=]
-		private function fuckOffEmberIWantANap():void
+		private fuckOffEmberIWantANap():void
 		{
 			clearOutput();
 			dynStats("lus", 10 + player.stats.lib / 10);
@@ -3335,7 +3335,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Accept=]
-		private function timeToPuffTheMagicDragon():void
+		private timeToPuffTheMagicDragon():void
 		{
 			clearOutput();
 			Render.text("Dazed and befuddled, you sniff Ember right back.  Mmm... " + emberMF("He", "She") + " smells delicious too, you tell " + emberMF("him", "her") + ".");
@@ -3369,7 +3369,7 @@ package classes.Scenes.NPCs
 //Only occurs if the PC has a pussy and is in heat; Ember must have a dick; both must not be pregnant.
 //In case Ember and the PC are herms, both being able to impregnate and be impregnated. One of the scenes will be randomly choosen.
 //Ember never fails to impregnate the PC or be impregnated - unless the player is on contraceptives.
-		private function getKnockedUpByEmbrahBroBaby():void
+		private getKnockedUpByEmbrahBroBaby():void
 		{
 			clearOutput();
 			Render.text("Ember grabs you and rolls you around, pinning you under " + emberMF("his", "her") + " weight, whilst kissing you.  You allow the dragon to press you into the ground, rubbing your hands across ");
@@ -3463,7 +3463,7 @@ package classes.Scenes.NPCs
 		}
 
 //Breeding Ember
-		private function breedEmberPregnantAsIfThereWasAnyOtherKindOfBreeding():void
+		private breedEmberPregnantAsIfThereWasAnyOtherKindOfBreeding():void
 		{
 			clearOutput();
 			//Silently steal her virginity.
@@ -3569,7 +3569,7 @@ package classes.Scenes.NPCs
 		}
 
 //Bred/Breeding Aftermath
-		private function emberBreedingAfterMathWatchOutForRadioactiveFallout(emberPregged:boolean = true):void
+		private emberBreedingAfterMathWatchOutForRadioactiveFallout(emberPregged:boolean = true):void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(emberVaginalCapacity());
@@ -3621,7 +3621,7 @@ package classes.Scenes.NPCs
 			doNext(playerMenu);
 		}
 
-		private function emberPregUpdate():boolean
+		private emberPregUpdate():boolean
 		{
 			//trace("EMBER PREG: " + flags[FlagEnum.EMBER_INCUBATION] + "EMBER AFF: " + emberAffection());
 			switch (pregnancy.eventTriggered()) {
@@ -3685,7 +3685,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		public function emberGivesBirth():void
+		public emberGivesBirth():void
 		{
 			//Ember Gives Live Birth
 			if (flags[FlagEnum.EMBER_OVIPOSITION] == 0) {
@@ -3808,7 +3808,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		public function giveBirthToEmberKids():void
+		public giveBirthToEmberKids():void
 		{
 			let roll: number = rand(100);
 			Render.text("\n");
@@ -3968,7 +3968,7 @@ package classes.Scenes.NPCs
 
 //Note: This scene is meant for Tainted Ember after you've been through the lost dragon city dungeon. While we do not have the dungeon and post-quest Ember, this scene may be accessed from regular Ember's pool of scenes if her affection is High.
 
-		private function highAffectionEmberLustFuck():void
+		private highAffectionEmberLustFuck():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(emberVaginalCapacity());
@@ -4266,7 +4266,7 @@ package classes.Scenes.NPCs
 //[=No=]
 //Less time used (Only 1 hour.)
 //Fatigue stays gained, whereupon it's lost if PC stays and rests? (Sure!)
-		private function noStayingForCuddlesPostLustFuck():void
+		private noStayingForCuddlesPostLustFuck():void
 		{
 			clearOutput();
 			Render.text("You tell Ember that you can't stay, you have to get going now.  " + emberMF("He", "She") + " looks a bit disappointed, but forces " + emberMF("him", "her") + "self to smile all the same.  \"<i>I understand, you have other things to do... just know that I'll always be here for you, for better or worse.</i>\"  You ");
@@ -4278,7 +4278,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Yes=]
-		private function stayWithEmberAfterLustFuck():void
+		private stayWithEmberAfterLustFuck():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(emberVaginalCapacity());
@@ -4325,7 +4325,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Frotting=]
-		private function frottingWithFrottingEmberHerm():void
+		private frottingWithFrottingEmberHerm():void
 		{
 			clearOutput();
 			Render.text("You think the matter over, and then slowly rub your [cock biggest] against Ember's to answer her question.  The dragon-herm gasps, then smiles lewdly at you.");
@@ -4333,7 +4333,7 @@ package classes.Scenes.NPCs
 		}
 
 //[=Penetrate=]
-		private function penetrateEmberHerm():void
+		private penetrateEmberHerm():void
 		{
 			clearOutput();
 			Render.text("You decide you'd rather use her once more, so you finger her pussy once more.  \"<i>Ooh... go ahead, I belong to you, my mate,</i>\" she says, opening her legs slightly to give you better access.  You slide yourself around to properly position yourself at her entrance, and then hold yourself there, ready to begin.");
@@ -4341,7 +4341,7 @@ package classes.Scenes.NPCs
 		}
 
 //Frotting:
-		private function frottingWithEmber(clear:boolean = true):void
+		private frottingWithEmber(clear:boolean = true):void
 		{
 			let x: number = player.biggestCockIndex();
 			if (clear) clearOutput();
@@ -4385,7 +4385,7 @@ package classes.Scenes.NPCs
 		}
 
 //Penetrate:
-		private function penetrateWithEmber(clear:boolean = true):void
+		private penetrateWithEmber(clear:boolean = true):void
 		{
 			if (clear) clearOutput();
 			else Render.text("\n\n");
@@ -4450,7 +4450,7 @@ package classes.Scenes.NPCs
 		}
 
 //Frotting and Penetrate connect here.
-		private function emberJizzbangbangEnding():void
+		private emberJizzbangbangEnding():void
 		{
 			clearOutput();
 			Render.text("You moan as consciousness returns, dimly aware of something wet and cool wrapped around your dick, something firm and muscular wrapped around and squeezing you in the most pleasant of ways.  You open your eyes and sit up, allowing you to see Ember kneeling before you, mouth wrapped eagerly around your cock.");

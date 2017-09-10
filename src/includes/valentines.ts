@@ -2,7 +2,7 @@
 
 //const VALENTINES_EVENT_YEAR: number = 736;
 
-public function isValentine():boolean {
+public isValentine():boolean {
 	if(date.date >= 13 && date.date <= 15 && date.month == 1) return true;
 	return false;
 }
@@ -36,7 +36,7 @@ THE EVENT ITSELF!*/
 
 
 
-public function crazyVDayShenanigansByVenithil():void {
+public crazyVDayShenanigansByVenithil():void {
 	clearOutput();
 	flags[FlagEnum.VALENTINES_EVENT_YEAR] = date.fullYear;
 	Render.text("Moving through the streets of Tel'Adre, you turn your steps towards the Wet Bitch, only to find that there's some odd event going on nearby.  Deciding the town is a safe enough place to let yourself be led astray by curiosity, you decide to investigate a bit closer.");
@@ -75,7 +75,7 @@ public function crazyVDayShenanigansByVenithil():void {
 }
 
 //[Help them] :
-public function helpValentinesDay():void {
+public helpValentinesDay():void {
 	clearOutput();
 	Render.text("Deciding to try and improve the overall appreciation of romance and love in possibly the last pure city of Mareth, you smile to Scylla and tell her she can count on you.  Her happy expression makes you forget any doubts you might've had before.");
 	menu();
@@ -83,14 +83,14 @@ public function helpValentinesDay():void {
 }
 
 //[Leave] :
-public function leaveValentinesDayForever():void {
+public leaveValentinesDayForever():void {
 	clearOutput();
 	Render.text("Ultimately, this is not worth your time.  You wish Scylla good luck, but tell her you won't help her make the holiday more popular in Tel'Adre, as you have other things to do.  Her expression turns sad and she nods in understanding as you turn away and go back into the streets of Tel'Adre.");
 	doNext(camp.returnToCampUseOneHour);
 }
 
 //[next]
-public function helpValentinesDayII():void {
+public helpValentinesDayII():void {
 	clearOutput();
 	Render.text("Deciding to help Scylla out, you take Abylon and head out.  Travelling around the city, splitting up occasionally to cover more ground, the two of you spread the word.  Even the little goblin, who is still wearing her displeasure with more enthusiasm than her lace, seems content with your companionship in this little quest.   You put a few posters around the city, but mostly tell people directly about the event, convincing them to come and participate.  You bustle about, dropping the good message into the gym first, and then, visiting the shopkeepers.");
 	
@@ -118,7 +118,7 @@ public function helpValentinesDayII():void {
 	addButton(0,"Next",helpValentinesDayIII);
 }
 
-public function helpValentinesDayIII():void {
+public helpValentinesDayIII():void {
 	clearOutput();
 	Render.text("You spend the rest of the evening participating in holiday games and showing people around the stall, listening to Scylla giving a talk or two about love and the celebration of it.  All in all, the little popularization of the holiday turned out to be a moderate success, but a success after all thanks to the joint effort of the four of you.");
 	
@@ -134,7 +134,7 @@ public function helpValentinesDayIII():void {
 }
 
 //([Go home])
-public function goHomeFromVDay():void {
+public goHomeFromVDay():void {
 	clearOutput();
 	Render.text("You decide your work here is done, and bid the three girls goodbye.  Scylla in particular seems grateful for your help, locking you in a smooshy hug for a few seconds before letting you go, and again expressing her gratitude for your help.  Well, that last gratitude almost made it worth it, though on the other hand, you find yourself a bit aroused by it...");
 	//With no other things to do, you go back to camp to rest.
@@ -144,7 +144,7 @@ public function goHomeFromVDay():void {
 }
 
 //([Scylla])
-public function goVisitScyllaVday():void {
+public goVisitScyllaVday():void {
 	clearOutput();
 	Render.text("You say your goodbyes to Abby and Pastie, before asking Scylla if she'd mind you accompanying her when she packs the remaining few things and maybe afterwards.  The nun blushes, playing with a lock of her hair as she answers.  \"<i>My dear [name], you are of course aware that the reason for me even trying to make this celebration more popular is so that people would spend it with ones they love.  As much as I'd appreciate your company, are you sure you'd want to be spending this day with a nun that is already so indebted to you?</i>\"");
 	
@@ -154,7 +154,7 @@ public function goVisitScyllaVday():void {
 }
 
 //SCYLLA EVENT
-public function goVisitScyllaVdayII():void {
+public goVisitScyllaVdayII():void {
 	clearOutput();
 	Render.text("Scylla takes you for a longer walk throught the now barely illuminated streets of Tel'Adre, clearly a bit giddy and in a good mood after today's events.  \"<i>Thank you, [name].  Once again, I think I am in your debt.  These are certainly hard times for this world, and many people certainly try to cope by indulging themselves while throwing away the emotional and spiritual sides of things... it's understandable, but it's wrong.  People shouldn't forget how much comfort and happiness one can find in another person, especially through strong emotions and attachments like romantic or familial love,</i>\" she says as you walk through the sunset-illuminated alleys, smiling at you gently, a small rosy blush at her cheeks.  \"<i>The way myself, and I'm sure a few lucky others, find in those like you,</i>\" she says in a whisper that's still easily heard in the near-empty streets of Tel'Adre.");
 	
@@ -164,7 +164,7 @@ public function goVisitScyllaVdayII():void {
 	addButton(0,"Next",goVisitScyllaVdayIII);
 }
 
-public function goVisitScyllaVdayIII():void {
+public goVisitScyllaVdayIII():void {
 	clearOutput();
 	Render.text("Indeed, once the guards recognize Scylla and one of them whispers something about you to the other, getting through the tower to the walls of the town isn't much of a challenge at all.  You two climb the stairs of the tower, Scylla's large breasts bouncing tantalizingly in her habit as she holds your hand moving up and up.");
 	
@@ -182,7 +182,7 @@ public function goVisitScyllaVdayIII():void {
 
 //Cuddle]
 //{This option doesn't require any sexual endowments whatsoever}
-public function cuddleWithScyllaVDay():void {
+public cuddleWithScyllaVDay():void {
 	clearOutput();
 	Render.text("Realizing this can be quite a special moment, you gently slide a hand through Scylla's hair, guiding her by the head and towards your own [face].  Slowly, you place a kiss on her soft, ruby lips, allowing your tongue to slip inside and touch hers, which thrashes in her mouth for a moment before wrapping around yours, with Scylla first somewhat whimpering, then almost purring at the contact as the two of you kiss one another.  Her hand also meets the back of your head, pulling you more strongly into the kiss, her lips gently puffing up and encompassing yours with their warmth as your tongues coil around one another, a trickle of mixed saliva escaping your mouths and marking Scylla's habit with wetness.  Rather than break the kiss, Scylla gently decreases the pressure and, very slowly, starts to pull away, her lips first still keeping in light, tantalizing touch with your own before parting.  You start inhaling deeper, the flower in Scylla's hair still giving her a gentle fragrance, her own feminine scent nicely blending with it.  You thank Scylla for the kiss, which causes her to blush, and she answers right back.  \"<i>Thank you too, my dear angel.  For everything.  Saving me, and showing me both the good, pleasant things and the things I needed for survival... a kiss is the least I can give you, I guess.</i>\"");
 	
@@ -205,7 +205,7 @@ public function cuddleWithScyllaVDay():void {
 }
 
 //[Make out]
-public function makeOutWithScyllaVDay():void {
+public makeOutWithScyllaVDay():void {
 	clearOutput();
 	//{This option requires a member of essentially any size}
 	Render.text("Before long, the silkiness, warmth, and absolutely astounding curves of Scylla's body, not to mention the sight of her beautiful, full ruby lips, reflecting the light of the setting sun a bit, become a bit too much for you to resist.  You raise a bit, placing one of your hands against Scylla's way-beyond-prominent breast, feeling her start a bit as she turns to you, before you push your own lips against hers.  You hear a small gasp escape her, though you could never guess which pair of lips let it out.  You slip a tongue inside her mouth and she quickly yields, half-sighing as she gently slumps against you, your hand sinking further into her flesh as you can swear the lipple on the breast you're fondling starts sucking on her habit, seeking your fingers.");
@@ -234,7 +234,7 @@ public function makeOutWithScyllaVDay():void {
 }
 
 
-public function makeOutWithScyllaVDayII():void {
+public makeOutWithScyllaVDayII():void {
 	clearOutput();
 	Render.text("Bending at her waist, Scylla kisses you on the forehead as she pulls your body upwards, into the squishy, half-liquid embrace of her mountainous cleavage, and you're at home, encompassed by the warmth and softness.  Her hands fiddle around your waist, disposing of the lower parts of your [armor] quickly as she handles your erection with care, but enthusiasm, stroking you as you drip your precum onto her palms.  It's impossible for either of you to resist anymore and you push forward through the near-literal valley of her cleavage, snuggling up to Scylla and kissing her on the lips.  Her hand, continuously stroking, directs your [cockHead] against the satin skin of her heaving boob, and you shudder at the sensation, being dragged across it, soon, you realize, about to end up wrapped in her breast again, sucked at until you cum.");
 	
@@ -264,7 +264,7 @@ public function makeOutWithScyllaVDayII():void {
 }
 
 //[Feed Her!]
-public function feedScyllaVDay():void {
+public feedScyllaVDay():void {
 	//{This option requires a member of Scylla's usual requirements}
 	clearOutput();
 	//{The PC titfucks Scylla again, and then gets her to suck them off, resulting in two quick orgasm and a big nice load of food for Scylla. How far can you fall to get off? On such a nice day, too!}
@@ -277,7 +277,7 @@ public function feedScyllaVDay():void {
 
 
 //([Abby] 
-public function goVisitAbbyVday():void {
+public goVisitAbbyVday():void {
 	clearOutput();
 	Render.text("You wave to Scylla and Pastie as you try to catch up with Abylon, who's already picking up the pace and, by the looks of it, trying to remove her dress.  \"<i>Well, sup.  I'll be going home and changing myself into my usual clothes, if you don't mind.  This entire celebration thingy just shows your people's issues,</i>\" she says, though she doesn't seem entirely untouched by the mood of it...");
 	Render.text("\n\nDeciding to risk it, you ask her if she'd like some company. Abylon turns to you, completely stunned.");
@@ -286,7 +286,7 @@ public function goVisitAbbyVday():void {
 }
 
 //ABYLON EVENT
-public function goVisitAbby():void {
+public goVisitAbby():void {
 	clearOutput();
 	Render.text("\"<i>You... you're kidding, right?  That fatty's words messing with yah head?  I always figured you were somewhat less... messed up in the head than Suck-a-Lot and Always-Drunk.  Was I wrong?</i>\"");
 	
@@ -334,7 +334,7 @@ public function goVisitAbby():void {
 }
 
 //{FUCK HER}
-public function fuckAbbyVDay():void {
+public fuckAbbyVDay():void {
 	clearOutput();
 	let x: number = player.cockThatFits(46);
 	if(x < 0) x = player.smallestCockIndex();
@@ -363,7 +363,7 @@ public function fuckAbbyVDay():void {
 
 //{PLEASURE HER}
 //{This option doesn't require any sexual endowments whatsoever}
-public function pleasureAbbyVDay():void {
+public pleasureAbbyVDay():void {
 	clearOutput();
 	Render.text("Quite willing to comply in her desires in ways probably no one else has before, you approach Abylon from behind, wrapping your arms around her waist as you run them along her body.  She's certainly sensitive, shuddering and sighing a bit as your fingers take a dip down her abdomen and towards her female hole.  It spreads eagerly for them, and Abby sighs again.  \"<i>What's wrong?  Well, it's nice that you're preparing me, but...</i>\" you start moving your fingers faster and playing with her clit, as you kiss her neck as well, and she mewls, melting in your arms.  Her vagina is getting increasingly wetter, and you pleasure her skillfully, the little goblin writhing in your arms.  \"<i>Hah... like this... could make me cum, you dumbass!  What, you're suddenly in suck-a-lot's camp?  Where's my... UGHHH!</i>\"  That last sound makes it seem that she's lying a bit, and you prove it by starting to plunge your way about her cunt, stroking both her clit and her insides with your fingers.  She seems to resist continuously but it's definitely not easy on her...  So, rather than continue teasing, you pull away a bit, and she sighs, \"<i>Finally, let's get started,</i>\" before she feels you breathe out onto her wet goblin pussy.  \"<i>Wh...whawhat? You've got issues, come on, you can't eat me out nooaaaghghhH!</i>\"");
 	
@@ -392,7 +392,7 @@ public function pleasureAbbyVDay():void {
 }
 
 //([Pastie])
-public function goVisitPastyVDay():void {
+public goVisitPastyVDay():void {
 	clearOutput();
 	Render.text("You lean over the table Pastie is no longer dancing, but rather laying, on, and, conspiratorially, ask her if she'd like to go and get something to drink.");
 	Render.text("\n\n\"<i>Well, I wouldn't mind it, but actually getting it probably won't happen... everything's more or less closed,</i>\" she responds, livening up a little at the mention of drinking.  \"<i>Although, if you do have something with you, I wouldn't mind...</i>\"");
@@ -412,7 +412,7 @@ public function goVisitPastyVDay():void {
 	}
 }
 
-public function pastieValentineIntro(choice:string = ""):void {
+public pastieValentineIntro(choice:string = ""):void {
 	clearOutput();
 	if(choice == "vag") {
 		Render.text("You tell Pastie that indeed, she could get her fix, as you have something you're sure every fairy likes to drink not far away... between your legs.  \"<i>T-that's an... unusual drink proposition...  Umm, and I'm more susceptible to girls than most fairies, so... Ohhh, who am I kidding, that sounds pretty good right now.</i>\"");
@@ -432,7 +432,7 @@ public function pastieValentineIntro(choice:string = ""):void {
 }
 
 //PASTIE EVENT
-public function valentineDrinkPastie(itype:ItemType):void {
+public valentineDrinkPastie(itype:ItemType):void {
 	clearOutput();
 	Render.text("One you're away from any prying eyes, Pastie turns to you and rubs her little fairy hands together, apparently barely able to hold her enthusiasm to finally get a bit drunk.  You're afraid it may not end at one drink, either, and for a moment, wonder about whether this is all right or not...");
 	//Corruption 0-20] 
@@ -449,7 +449,7 @@ public function valentineDrinkPastie(itype:ItemType):void {
 	valentineDayGetPastieDrink(itype);
 }
 
-public function valentineDayGetPastieDrink(itype:ItemType):void {
+public valentineDayGetPastieDrink(itype:ItemType):void {
 	//{Black Cat Beer}
 	if(itype == consumables.BC_BEER) {
 		Render.text("\n\nPastie suddenly starts running her hands along her body, licking her lips as she does so. \"<i>Odd... Imma bit of a horny drunk, yah know, but thish ish... overkill...</i>\"  The little fairy-drunkard complains as she reaches between her legs and starts fingering herself, while rubbing a nipple.  \"<i>Daaaamnnnn, I'm sooo horny! I need more... to, uhhh, to driiink!</i>\"");
@@ -483,7 +483,7 @@ public function valentineDayGetPastieDrink(itype:ItemType):void {
 
 
 //[Fuck]
-public function fuckPastieForVDay():void {
+public fuckPastieForVDay():void {
 	clearOutput();
 	let x: number =  player.smallestCockIndex();
 	Render.text("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + cockDescript(x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
@@ -521,7 +521,7 @@ public function fuckPastieForVDay():void {
 }
 
 //[RubDick]
-public function rubPastieOnYourWangDawg():void {
+public rubPastieOnYourWangDawg():void {
 	clearOutput();
 	//Pastie rubs her entire body against the PC's dick, allowing them to cum quicker and give her a cum bath. Too much cum causes her to go ahegao, scream \"<i>itsh a sheeeaaa of driiinkshhh!</i>\", and forces the PC to fish her out of the cum before she drowns.
 	//Pastie Valentine option
@@ -557,7 +557,7 @@ public function rubPastieOnYourWangDawg():void {
 }
 
 //[Pussy Dive]
-public function goForAPushayDivePasty():void {
+public goForAPushayDivePasty():void {
 	clearOutput();
 	Render.text("With a grin and a lick of your lips, you shed your [armor] and spread your legs for the happily drunk fairy, showing her prize: your [vagina] and the [clit] that accompanies it.  It doesn't take Pastie even a few moments to fly towards you and then aim for that [vagina] in a small slalom in the air.  The lips of your gash feel the touch of little hands and feet, and you shudder in anticipation.  Pastie takes long licks all over your vagina and rubs her entire little body around, before finally starting to slip one or another of her limbs experimentally into your [vagina].  It feels amazing to have such a pretty little thing moving around in there, and soon, your [clit] is shown some love as well as Pastie rubs herself all over it before stuffing her face into your wet pussy.");
 	

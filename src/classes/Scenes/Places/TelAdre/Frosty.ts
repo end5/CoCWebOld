@@ -5,7 +5,7 @@
 
 	public class Frosty extends TelAdreAbstractContent {
 
-public function Frosty(){
+public Frosty(){
 
 }
 
@@ -13,7 +13,7 @@ public function Frosty(){
 //You see a bubblegum-pink girl at the bakery, walking around and eagerly trying to hand out fliers to people. Her “uniform” is more like a yellow bikini with frills circling the waist of the bottom half. If this didn’t make her stand out from the crowd then her hair certainly would; it’s a big, poofy, curly, dark pink mess that reaches down to her ass with a huge cupcake hat sitting on top.
 
 //[Deciding to talk to her]
-public function approachFrosty():void {
+public approachFrosty():void {
 	clearOutput();
 	if(flags[FlagEnum.MET_FROSTY] == 0)
 	{
@@ -64,7 +64,7 @@ public function approachFrosty():void {
 	}
 }
 
-public function frostyMainMenu():void
+public frostyMainMenu():void
 {
 	menu();
 	if(player.stats.gems >= 15) addButton(0,"x1",cupcakeBuy,1);
@@ -77,7 +77,7 @@ public function frostyMainMenu():void
 	
 }
 
-public function frostySpecialsMenu(free:boolean = false):void 
+public frostySpecialsMenu(free:boolean = false):void 
 {
 	//1. Hand – 5. points
 	//2. Mouth-15. Points
@@ -90,7 +90,7 @@ public function frostySpecialsMenu(free:boolean = false):void
 	addButton(9,"Back",approachFrosty);
 }
 
-public function cupcakeBuy(arg: number = 1):void 
+public cupcakeBuy(arg: number = 1):void 
 {
 	clearOutput();
 	Render.text("You make your purchase and swiftly devour the results. They're surprisingly delicious!");
@@ -108,7 +108,7 @@ public function cupcakeBuy(arg: number = 1):void
 }
 
 //[Yes]
-public function yesFrostyLetsHaveSexForCupcakesWhoThoughtThisWasAGoodIdeaIMeanSeriously():void
+public yesFrostyLetsHaveSexForCupcakesWhoThoughtThisWasAGoodIdeaIMeanSeriously():void
 {
 	clearOutput();
 	flags[FlagEnum.SIGNED_FROSTYS_CONTRACT] = 1;
@@ -123,7 +123,7 @@ public function yesFrostyLetsHaveSexForCupcakesWhoThoughtThisWasAGoodIdeaIMeanSe
 }
 
 //[Yes]
-public function yesIWantYourFreeSampleYouFuckingDiseasedCupcakeSlut():void
+public yesIWantYourFreeSampleYouFuckingDiseasedCupcakeSlut():void
 {
 	clearOutput();
 	Render.text("You follow Frosty to her booth. She goes behind the counter and spins the menu with her fingertip and stops it with the palm of her hand. She goes back to her business while you look over the menu.  The lettering and style of it has changed into something more appealing and seductive.");
@@ -132,7 +132,7 @@ public function yesIWantYourFreeSampleYouFuckingDiseasedCupcakeSlut():void
 }
 
 //[No]
-public function noIDontWantAFreebieDiseaseYouSlut():void {
+public noIDontWantAFreebieDiseaseYouSlut():void {
 	clearOutput();
 	Render.text("You’re too busy right now, so you deny the free service. “<i>Okeydokey, see you around, [name]!</i>” Frosty does a twirl on one foot and runs back to her stand. Such a nice girl.");
 	menu();
@@ -140,7 +140,7 @@ public function noIDontWantAFreebieDiseaseYouSlut():void {
 }
 
 //[No](for the contract)
-public function noContractForMeSloot():void {
+public noContractForMeSloot():void {
 	clearOutput();
 	Render.text("Something about signing a contract doesn’t seem right to you, especially one for cupcakes. You shake your head no; she looks a bit sad about being rejected but quickly perks back up.");
 	Render.text("\n\n“<i>Well, you can still buy my tasty cupcakes. You just won’t get any perks for buying them, but eating them is a benefit in its own way. Join the BETA if you change your mind on the whole thing.</i>”");
@@ -163,7 +163,7 @@ public function noContractForMeSloot():void {
 
 
 //[Contract](If player hasn’t signed)
-public function getAFuckingFuckContractFromFucks():void
+public getAFuckingFuckContractFromFucks():void
 {
 	clearOutput();
 	Render.text("Frosty zooms around the counter, appearing next to you like a pink blur “<i>OH! You changed your mind!?</i>” she asks excitedly with her hands held up to her face like she’s praying.");
@@ -176,7 +176,7 @@ public function getAFuckingFuckContractFromFucks():void
 }
 
 //[No]
-public function noIDontWantToSignYourFuckingContractGoddamned():void
+public noIDontWantToSignYourFuckingContractGoddamned():void
 {
 	clearOutput();
 	Render.text("Frosty lets out a discouraged “<i>Oh</i>” and slowly walks back to her side of the counter.");
@@ -185,14 +185,14 @@ public function noIDontWantToSignYourFuckingContractGoddamned():void
 }
 
 //[Specials](If the player has signed the contract)
-public function frostysLimitedSpecialMenu():void
+public frostysLimitedSpecialMenu():void
 {
 	clearOutput();
 	Render.text("Frosty spins the menu with a fingertip and stops it with the palm of her hand. She goes back to her business while you look over the menu.  The lettering and style of it has changed into something more appealing and seductive:\n\n1. Hand – 5 points\n2. Mouth - 15 points\nSPECIAL: Eat Me Out - 1 point\n\n<b>Current points: " + frostyPoints() + "</b>");
 	frostySpecialsMenu();
 }
 
-private function frostyPoints(arg: number = 0): number {
+private frostyPoints(arg: number = 0): number {
 	if(arg == 0) return flags[FlagEnum.FROSTY_POINTS];
 	//If any change, add it in.
 	flags[FlagEnum.FROSTY_POINTS] += arg;
@@ -202,7 +202,7 @@ private function frostyPoints(arg: number = 0): number {
 }
 
 //[Hands]
-public function frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp():void
+public frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp():void
 {
 	clearOutput();
 	if(!player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina())
@@ -306,7 +306,7 @@ public function frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp():void
 }
 
 //[Mouth]
-public function useFrostysMouth():void
+public useFrostysMouth():void
 {
 	if(!player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina())
 	{
@@ -382,7 +382,7 @@ public function useFrostysMouth():void
 }
 
 //[Back to Frosty’s Special Menu.]
-public function genderlessCatchAllForFrosty():void
+public genderlessCatchAllForFrosty():void
 {
 	clearOutput();
 	if(flags[FlagEnum.SEEN_GENDERLESS_FROSTY_REJECTION] == 0)
@@ -462,7 +462,7 @@ Hitting the wall effect
 		Party - 500pt*/
 
 //Cunnilingus (For all genders) 
-public function cunnilingateFrosty():void 
+public cunnilingateFrosty():void 
 {
 	clearOutput();
 	Render.text("She looks at the service you selected and a wide smirk comes over her face. “<i>Ooooh, I love that one!</i>” she squeals in delight, putting away a good amout of her display in a blur, then vaulting over the counter. You jump back,  avoiding her legs as she takes a seat on the edge of your side of the counter with her legs crossed. You’re about to bend down to her crotch level and spread her two pink legs open when she suddenly holds up one finger to you and quickly blurts out: “<i>Oh wait, I forgot one more thing!</i>” She leans her back onto the counter, her hair draping on the other side as she it looks like she’s searching under the counter for something. You hear her let out an “A-HA!” as Frosty’s body shifts to grab what she was looking for; she gracefully pulls herself back with some strange lean metal cylinder with a thin nozzle on the top in her hand.");

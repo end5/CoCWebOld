@@ -3,13 +3,13 @@
 	import classes.GlobalFlags.kGAMECLASS;
 
 	public class NagaScene extends BaseContent{
-	public function NagaScene(){
+	public NagaScene(){
 
 	}
 //NAGA STATUS
 //v1 - players last fuck was as naga - 1 = true, 0 = false
 //v2 - player has ever fucked as a naga.  1 = true, 0 = false
-public function nagaEncounter():void {
+public nagaEncounter():void {
 	spriteSelect(45);
 	//Create status if needed
 	if(player.findStatusAffect(StatusAffects.Naga) < 0) player.statusAffects.add(new StatusAffect("Naga",0,0,0,0)));
@@ -145,7 +145,7 @@ public function nagaEncounter():void {
 	startCombat(new Naga());
 }
 
-private function gooNagaRape():void {
+private gooNagaRape():void {
 	Render.text("", true);
 	player.orgasm();
 	Render.text("You look over at the prone form of the naga lying in the sand, her ", false);
@@ -240,7 +240,7 @@ private function gooNagaRape():void {
 }
 
 //3) Victory male
-private function nagaVictoryMale():void {
+private nagaVictoryMale():void {
 	Render.text("", true);
 	player.orgasm();
 	//Male or 50% herms
@@ -327,7 +327,7 @@ private function nagaVictoryMale():void {
 	return;
 }
 
-private function nagaVictoryFemale():void {
+private nagaVictoryFemale():void {
 	Render.text("", true);
 	//4) Victory female
 	if(player.lowerBody.vaginaSpot.hasVagina()) {
@@ -385,7 +385,7 @@ private function nagaVictoryFemale():void {
 	return;
 }
 
-private function nagaVictoryGenderless():void {
+private nagaVictoryGenderless():void {
 	Render.text("", true);
 	//c)Centaur
 	if(player.lowerBody == LOWER_BODY.CENTAUR) {
@@ -705,7 +705,7 @@ internal function nagaRapeChoice():void {
 	cleanupAfterCombat();
 }
 
-public function nagaPlayerConstrict():void {
+public nagaPlayerConstrict():void {
 	Render.text("", true);
 	if(player.fatigue + kGAMECLASS.physicalCost(10) > 100) {
 		Render.text("You just don't have the energy to wrap yourself so tightly around someone right now...", true);
@@ -760,7 +760,7 @@ public function nagaPlayerConstrict():void {
 	kGAMECLASS.enemyAI();
 }
 
-public function naggaSqueeze():void {
+public naggaSqueeze():void {
 	Render.text("", true);
 	//Squeeze -
 	Render.text("Your coils wrap tighter around your prey, leaving " + monster.pronoun2 + " short of breath. You can feel it in your tail as " + monster.pronoun3 + " struggles are briefly intensified.", false);
@@ -778,7 +778,7 @@ public function naggaSqueeze():void {
 	kGAMECLASS.enemyAI();
 }
 //Tease
-public function naggaTease():void {
+public naggaTease():void {
 	Render.text("", true);
 	//(if poisoned)
 	if(monster.statusAffects.has("NagaVenom"))
@@ -902,7 +902,7 @@ public function naggaTease():void {
 	kGAMECLASS.enemyAI();
 }
 
-public function nagaLeggoMyEggo():void {
+public nagaLeggoMyEggo():void {
 	Render.text("", true);
 	Render.text("You release " + monster.a + monster.short + " from " + monster.pronoun3 + " bonds, and " + monster.pronoun1 + " drops to the ground, catching " + monster.pronoun3 + " breath before " + monster.pronoun1 + " stands back up, apparently prepared to fight some more.", false);
 	Render.text("\n\n", false);
@@ -911,7 +911,7 @@ public function nagaLeggoMyEggo():void {
 }
 
 
-private function eggUpANagaSpiderLike():void {
+private eggUpANagaSpiderLike():void {
 	clearOutput();
 	Render.text("As the shiny-scaled girl collapses against the sand, you scramble forward, panting not so much with the exertion of the fight as with lust and excitement.  Surely a creature as large as her has enough room to fit all your eggs?  You feel so full, and it's been so long since you last had release.");
 	
@@ -946,7 +946,7 @@ private function eggUpANagaSpiderLike():void {
 }
 
 //Bee Naga Scene: Finished (Fenoxo) (edited)
-private function beePositANagaPlease():void {
+private beePositANagaPlease():void {
 	clearOutput();
 	Render.text("You advance on the snake-woman before you with barely-concealed lust, a gradual trickle of your fluid drooling from the ovipositor slit behind you.  She recoils away in fear of your alien appearance, but in her current state she's unfit to put up more than a token resistance.  You round on her and help her up into a tender embrace, looking into her eyes as if to say, \"<i>It's okay, this won't hurt.</i>\"  She doesn't understand the words, but her searching, reptilian eyes slowly lose their fire at your reassuring gaze.");
 	Render.text("\n\nGingerly, you caress her sinuous, scaled body, exploring the curvy flow of muscle as scales down to the slight, almost imperceptible flare of her humanoid waist.  She squirms against you, her tail lashing in the sands to either side, thumping anxiously.  Soon, your curious fingers find her soft opening, hidden amongst the scales, and as you press inside, you find a second set of wet lips along with a harder, pill-shaped organ that can only be a clit.  The woman's fanged mouth parts in a wordless expression of pleasure, and as you have her distracted, you let your stinger slide through the scales on her underbelly.");

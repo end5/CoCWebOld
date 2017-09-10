@@ -6,7 +6,7 @@ package classes {
 	public class PlayerEvents extends BaseContent implements TimeAwareInterface {
 		//Handles all timeChange events for the player. Needed because player is not unique.
 		
-		public function PlayerEvents():void {
+		public PlayerEvents():void {
 			CoC.timeAwareClassAdd(this);
 		}
 		
@@ -14,7 +14,7 @@ package classes {
 		private let checkedDream: number;
 		
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean {
+		public timeChange():boolean {
 			let needNext:boolean = false;
 			checkedTurkey = 0;
 			checkedDream = 0;
@@ -740,7 +740,7 @@ package classes {
 			return needNext;
 		}
 		
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			if (rand(4) == 0 && getGame().isHolidays() && player.gender > 0 && getGame().model.time.hours == 6 && flags[FlagEnum.XMAS_CHICKEN_YEAR] < getGame().date.fullYear) {
 				getGame().getAChristmasChicken();
 				return true;

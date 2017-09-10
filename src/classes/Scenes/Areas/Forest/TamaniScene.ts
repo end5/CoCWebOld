@@ -30,7 +30,7 @@ Males:
 
 		public let pregnancy:PregnancyType;
 
-		public function TamaniScene()
+		public TamaniScene()
 		{
 			pregnancy = new PregnancyType(FlagEnum.TAMANI_PREGNANCY_TYPE, FlagEnum.TAMANI_PREGNANCY_INCUBATION, 0, 0);
 			pregnancy.addPregnancyEventSet(PregnancyType.PLAYER, 96, 48);
@@ -39,7 +39,7 @@ Males:
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			pregnancy.pregnancyAdvance();
 			trace("\nTamani time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
@@ -47,12 +47,12 @@ Males:
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 		
-private function tamaniGivesBirth():void {
+private tamaniGivesBirth():void {
 	if (pregnancy.type == PregnancyType.PLAYER) { //Don't want drider eggs to add to her daughers
 		flags[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] += flags[FlagEnum.TAMANI_PREGNANCY_COUNT];
 		flags[FlagEnum.TAMANI_PREGNANCY_COUNT] = 0;
@@ -93,7 +93,7 @@ internal function tamaniChest():string {
 }
 
 //[Encounter Tamani – female]
-private function tamaniFemaleEncounter():void {
+private tamaniFemaleEncounter():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("A goblin leaps out from behind a rock outcropping.  She keeps her arms folded across her " + tamaniChest() + " and glares at you.  The little thing is only about four feet tall, with pink and black dyed hair cut into a cute little 'do.  The greenish-gray skin of her breasts bulges out around her arms, supported by a few leather straps, amplifying her cleavage.  Her cunt lips are pierced multiple times, inflamed, and slightly parted.  There really isn't any clothing on her to hide them, just more of the ever-present straps wrapping around her thighs.\n\n", false);
@@ -103,7 +103,7 @@ private function tamaniFemaleEncounter():void {
 }
 
 //(Umm OK?)
-private function tamaniFemaleYes():void {
+private tamaniFemaleYes():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("\"<i>That's what I thought,</i>\" says the goblin as she fishes around in her pouches, \"<i>but I'm not cruel, I'll give you my best dildo so you can keep your hot little box stuffed all the time.</i>\"\n\n", false);
@@ -116,7 +116,7 @@ private function tamaniFemaleYes():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[No] 
-private function tamaniFemaleNo(): void {
+private tamaniFemaleNo(): void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("The goblin harrumphs, \"<i>We'll see about that slut.  I'll be knocked up from every monster and stud this side of the mountain.  Hell, just grow one dick, and see how fast Tamani's legs get wrapped around you!</i>\"\n\n", false);
@@ -128,7 +128,7 @@ private function tamaniFemaleNo(): void {
 }
 //[Encounter Tamani – HAZ COCK]
 //[First Time]
-private function tamaniMaleFirstEncounter():void {
+private tamaniMaleFirstEncounter():void {
 	spriteSelect(56);
 	flags[FlagEnum.TAMANI_MET] = 1; //Indicates you've met her as a male at least once
 	Render.text("", true);
@@ -138,7 +138,7 @@ private function tamaniMaleFirstEncounter():void {
 	simpleChoices("Fuck Her", tamaniFirstTimeConsentual, "Refuse", tamaniFirstTimeRefusal, "", null, "", null, "", null);
 }
 //[Fuck Her – Consentual First Time]
-private function tamaniFirstTimeConsentual():void {
+private tamaniFirstTimeConsentual():void {
 	spriteSelect(56);
 	tamaniKnockUp();
 	Render.text("", true);
@@ -195,7 +195,7 @@ private function tamaniFirstTimeConsentual():void {
 }
 
 //[Refuse – First Time Meeting]
-private function tamaniFirstTimeRefusal():void {
+private tamaniFirstTimeRefusal():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("Tamani's eyes widen in surprise, \"<i>Don't let the size fool you, big " + player.boyGirl() + ". I can take more than you think,</i>\" she says while her hands begins playing with her box, \"<i>Are you sure you don't want to just let off a little steam?</i>\"\n\n", false);
@@ -205,7 +205,7 @@ private function tamaniFirstTimeRefusal():void {
 	dynStats("lus", 5);
 }
 //[No Means No]
-private function tamaniSecondRefusal(): void {
+private tamaniSecondRefusal(): void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("The goblin pouts, anger clouding her cute little features.  She turns and storms off, clearly pissed at you, \"<i>Think about it.  Next time that dick better ache for me, or I'll MAKE you want it.</i>\"\n\n", false);
@@ -214,7 +214,7 @@ private function tamaniSecondRefusal(): void {
 }
 
 //[REPEAT MALE ENCOUNTER]
-private function tamaniMaleRepeatEncounter():void {
+private tamaniMaleRepeatEncounter():void {
 	spriteSelect(56);
 	Render.text("", true);
 	//(IF FUCKED - check to see if she's pregnant or has given birth) 
@@ -233,7 +233,7 @@ private function tamaniMaleRepeatEncounter():void {
 	simpleChoices("Take Her", tamaniSexWon, "Let Her", tamaniSexLetHer, "No", tamaniStartFight, "", null, "", null);
 }
 
-private function tamaniStartFight():void {
+private tamaniStartFight():void {
 	clearOutput();
 	Render.text("Tamani adopts a fighting pose and says, \"<i>If I have to I'll beat my children out of you!</b>\"");
 	startCombat(new Tamani());
@@ -571,7 +571,7 @@ internal function tamaniSexWon():void {
 }
 
 //[REPEAT MALE PREGNANT ENCOUNTER]
-private function tamaniPregnantEncounter():void {
+private tamaniPregnantEncounter():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("Tamani strolls out from behind a boulder, and wow is she ever pregnant.  It doesn't diminish the look of lust in her eyes when she meets your gaze, but her hands do keep rubbing the outside of her belly, only pausing to squeeze drops of milk from her nipples.  Her leather straps seem to fit her even better than before, accentuating her expanding curves and looking fantastic on her pregnant form.\n\n", false);
@@ -581,14 +581,14 @@ private function tamaniPregnantEncounter():void {
 }
 
 //[Refuse]
-private function tamaniPregnantRefusal():void {
+private tamaniPregnantRefusal():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("She bursts into tears and waddles away crying.  You aren't sure if you should feel bad or not.", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 //[FUCK HER PREGGERS – Consentual]
-private function tamaniPregnantFuck():void {
+private tamaniPregnantFuck():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("Tamani's eyes light up and she pounces you, somehow managing to jump up and latch onto your chest despite the weight of her burgeoning pregnancy.  The two of you overbalance as her weight carries you to the ground, flat on your back.   Your " + buttDescript() + " hurts a little from the impact but it's the last thing on your mind.  More important are the milk-dribbling twin mounds pressing tightly against your ", false);
@@ -637,7 +637,7 @@ private function tamaniPregnantFuck():void {
 }
 
 //[Birth Encounter]
-private function tamaniPoopsOutBabies():void {
+private tamaniPoopsOutBabies():void {
 	spriteSelect(56);
 	Render.text("", true);
 	Render.text("You hear orgiastic screams in the distance as you explore.  You turn to investigate, and as you go, they become even louder and higher pitched.  You crest a rise and find Tamani ", false);
@@ -686,7 +686,7 @@ internal function tamaniKnockUp():void {
 	if (cum >= 600 && rand(2) == 0) flags[FlagEnum.TAMANI_PREGNANCY_COUNT]++;
 }
 
-public function encounterTamani():void {
+public encounterTamani():void {
 	//Fems:
 	if (player.totalCocks() <= 0) {
 		tamaniFemaleEncounter();
@@ -896,7 +896,7 @@ internal function tamaniBeaten():void {
 }
 	
 //Butts McGee Facesitting Tamaniz
-private function preferTamaniFemdom():void {
+private preferTamaniFemdom():void {
 	clearOutput();
 	//Tamani Facesit
 	//===========Tamani============
@@ -908,7 +908,7 @@ private function preferTamaniFemdom():void {
 	addButton(1,"Refuse",declineZeFacesits);
 }
 //(("Refuse" choice))
-private function declineZeFacesits():void {
+private declineZeFacesits():void {
 	clearOutput();
 	Render.text("You tell her you're not interested.");
 	Render.text("\n\nThe curvy goblin kicks you with a snarl, making you instinctively grab at one [leg] and hop around on the other - until she kicks it too, knocking you down.  \"<i>Fine, bitch. Have it your way. But if I find you taking <b>my</b> cocks again, you're going to be in trouble!</i>\"  She darts off before you can get a word in edgewise, leaving you alone.");
@@ -917,7 +917,7 @@ private function declineZeFacesits():void {
 }
 
 //(("Accept" choice))
-private function acceptTamaniFacesits():void {
+private acceptTamaniFacesits():void {
 	clearOutput();
 	Render.text("You eye the goblin's wide hips again before you nod, anticipating the idea.");
 	Render.text("\n\nTamani's impish smirk blooms into a wide grin, and the little goblin gently shoves you.  \"<i>Lay down, then!</i>\" she tells you.  You decide to comply, reaching for your [armor] - but she stops your hand.  \"<i>No need to strip, skank. Just lay down,</i>\" she tells you, pushing again.  You shrug and comply with her request, finding a comfortable spot on the ground to lay on, and then look over at her.");

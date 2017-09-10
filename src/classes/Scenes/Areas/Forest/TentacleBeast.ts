@@ -5,7 +5,7 @@
 
 	public class TentacleBeast extends Monster
 	{
-		private function tentaclePhysicalAttack():void {
+		private tentaclePhysicalAttack():void {
 			Render.text("The shambling horror throws its tentacles at you with a murderous force.\n", false);
 			let temp: number = int((str + weaponAttack) - Math.random()*(player.tou) - player.armorDef);
 			if(temp < 0) temp = 0;
@@ -20,7 +20,7 @@
 			}
 			combatRoundOver();
 		}
-		private function tentacleEntwine():void {
+		private tentacleEntwine():void {
 			Render.text("The beast lunges its tentacles at you from all directions in an attempt to immobilize you.\n", false);
 			//Not Trapped yet
 			if(player.findStatusAffect(StatusAffects.TentacleBind) < 0) {
@@ -86,7 +86,7 @@
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//tentacle beasts have special AI
 			if (rand(2) == 0 || statusAffects.has("TentacleCoolDown"))
@@ -94,7 +94,7 @@
 			else special2();
 		}
 
-		public function TentacleBeast()
+		public TentacleBeast()
 		{
 			trace("TentacleBeast Constructor!");
 			this.a = "the ";

@@ -17,10 +17,10 @@ package classes.Scenes.Areas
 		public let gnollSpearThrowerScene:GnollSpearThrowerScene = new GnollSpearThrowerScene();
 		public let satyrScene:SatyrScene = new SatyrScene();
 
-		public function Plains()
+		public Plains()
 		{
 		}
-		public function explorePlains():void
+		public explorePlains():void
 		{
 			Render.text("", true);
 			flags[FlagEnum.TIMES_EXPLORED_PLAINS]++;
@@ -96,7 +96,7 @@ package classes.Scenes.Areas
 			choices[rand(choices.length)]();
 		}
 		
-		private function plainsLoot():void {
+		private plainsLoot():void {
 			if (rand(2) == 0) { //OVI
 				Render.text("While exploring the plains you nearly trip over a discarded, hexagonal bottle.  ");
 				inventory.takeItem(consumables.OVIELIX, camp.returnToCampUseOneHour);

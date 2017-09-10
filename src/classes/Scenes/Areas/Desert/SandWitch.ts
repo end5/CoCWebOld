@@ -31,7 +31,7 @@
 			}
 		}
 		
-		private function lustMagicAttack():void {
+		private lustMagicAttack():void {
 			Render.text("The sand witch points at you, drawing a circle in the air and mouthing strange words.\n\n");
 			if (player.statusAffects.has("StoneLust")) {
 				Render.text("The orb inside you grows warm, almost hot, suffusing your body with heat and arousal.  ");
@@ -47,7 +47,7 @@
 			doNext(game.playerMenu);
 		}
 		
-		public function SandWitch()
+		public SandWitch()
 		{
 			trace("SandWitch Constructor!");
 			this.a = "the ";

@@ -5,7 +5,7 @@
 
 	public class HellHound extends Monster
 	{
-		protected function hellhoundFire():void {
+		protected hellhoundFire():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind")) {
 				Render.text(capitalA + short + " completely misses you with a wave of dark fire! Thank the gods it's blind!", false);
@@ -46,7 +46,7 @@
 			}
 			doNext(game.playerMenu);
 		}
-		protected function hellhoundScent():void {
+		protected hellhoundScent():void {
 			if(player.statusAffects.has("NoFlee")) {
 				if(spe == 100) {
 					hellhoundFire();
@@ -130,7 +130,7 @@
 			}
 		}
 
-		public function HellHound(noInit:boolean=false)
+		public HellHound(noInit:boolean=false)
 		{
 			if (noInit) return;
 			trace("HellHound Constructor!");

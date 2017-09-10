@@ -26,24 +26,24 @@
 // 
 // model.maxHP = maxHP;
 
-public function maxHP():number {
+public maxHP():number {
 	return player.maxHP();
 }
 
-public function silly():boolean {
+public silly():boolean {
 	return flags[FlagEnum.SILLY_MODE_ENABLE_FLAG] == 1;
 
 }
 
 /* Replaced by Utils.formatStringArray, which does almost the same thing in one function
-public function clearList():void {
+public clearList():void {
 	list = [];
 }
 public let list:Array = [];
-public function addToList(arg:*):void {
+public addToList(arg:*):void {
 	list[list.length] = arg;
 }
-public function outputList():string {
+public outputList():string {
 	let stuff:string = "";
 	for(let x: number = 0; x < list.length; x++) {
 		stuff += list[x];
@@ -62,7 +62,7 @@ public function outputList():string {
 }
 */
 
-public function HPChange(changeNum:number, display:boolean):void
+public HPChange(changeNum:number, display:boolean):void
 {
 	if(changeNum == 0) return;
 	if(changeNum > 0) {
@@ -99,7 +99,7 @@ public function HPChange(changeNum:number, display:boolean):void
 	statScreenRefresh();
 }
 		
-public function clone(source:Object):* {
+public clone(source:Object):* {
 	let copier:ByteArray = new ByteArray();
 	copier.writeObject(source);
 	copier.position = 0;
@@ -107,14 +107,14 @@ public function clone(source:Object):* {
 }
 
 /* Was only used in two places at the start of the game
-public function speech(output:string, speaker:string):void {
+public speech(output:string, speaker:string):void {
 	let speech:string = "";
 	speech = speaker + " says, \"<i>" + output + "</i>\"\n";
 	Render.text(speech, false);
 }
 */
 	
-public function clearOutput():void {
+public clearOutput():void {
 	forceUpdate();
 	currentText = "";
 	mainView.clearOutputText();
@@ -125,7 +125,7 @@ public function clearOutput():void {
 	mainView.hideMenuButton( MainView.MENU_STATS );
 }
 
-public function rawOutputText(output:string, purgeText:boolean = false):void
+public rawOutputText(output:string, purgeText:boolean = false):void
 {
 	
 	//OUTPUT!
@@ -149,7 +149,7 @@ public function rawOutputText(output:string, purgeText:boolean = false):void
 
 }
 
-public function Render.text(output:string, 
+public Render.text(output:string, 
 						purgeText:boolean = false, 
 						parseAsMarkdown:boolean = false):void
 {
@@ -184,7 +184,7 @@ public function Render.text(output:string,
 
 }
 
-public function flushOutputTextToGUI():void
+public flushOutputTextToGUI():void
 {
 	let fmt:TextFormat;
 	if (flags[FlagEnum.CUSTOM_FONT_SIZE] != 0)
@@ -201,7 +201,7 @@ public function flushOutputTextToGUI():void
 	}
 }
 
-public function displayPerks(e:MouseEvent = null):void {
+public displayPerks(e:MouseEvent = null):void {
 	let temp: number = 0;
 	Render.text("", true);
 	while(temp < player.perks.length) {
@@ -222,7 +222,7 @@ public function displayPerks(e:MouseEvent = null):void {
 	addButton(0, "Next", playerMenu);
 }
 
-public function doubleAttackOptions():void {
+public doubleAttackOptions():void {
 	clearOutput();
 	menu();
 	if(flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
@@ -250,20 +250,20 @@ public function doubleAttackOptions():void {
 	addButton(4, "Back", displayPerks);
 }
 
-public function doubleAttackForce():void {
+public doubleAttackForce():void {
 	flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 0;
 	doubleAttackOptions();
 }
-public function doubleAttackDynamic():void {
+public doubleAttackDynamic():void {
 	flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 1;
 	doubleAttackOptions();
 }
-public function doubleAttackOff():void {
+public doubleAttackOff():void {
 	flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 2;
 	doubleAttackOptions();
 }
 
-public function levelUpGo(e:MouseEvent = null):void {
+public levelUpGo(e:MouseEvent = null):void {
 	clearOutput();
 	hideMenus();
 	mainView.hideMenuButton( MainView.MENU_NEW_MAIN );
@@ -289,14 +289,14 @@ public function levelUpGo(e:MouseEvent = null):void {
 	}
 }
 
-private function levelUpStatStrength():void {
+private levelUpStatStrength():void {
 	dynStats("str", 5); //Gain +5 Str due to level
 	clearOutput();
 	Render.text("Your muscles feel significantly stronger from your time adventuring.");
 	doNext(perkBuyMenu);
 }
 
-private function levelUpStatToughness():void {
+private levelUpStatToughness():void {
 	dynStats("tou", 5); //Gain +5 Toughness due to level
 	trace("HP: " + player.HP + " MAX HP: " + maxHP());
 	statScreenRefresh();
@@ -305,21 +305,21 @@ private function levelUpStatToughness():void {
 	doNext(perkBuyMenu);
 }
 
-private function levelUpStatSpeed():void {
+private levelUpStatSpeed():void {
 	dynStats("spe", 5); //Gain +5 speed due to level
 	clearOutput();
 	Render.text("Your time in combat has driven you to move faster.");
 	doNext(perkBuyMenu);
 }
 
-private function levelUpStatIntelligence():void {
+private levelUpStatIntelligence():void {
 	dynStats("int", 5); //Gain +5 Intelligence due to level
 	clearOutput();
 	Render.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
 	doNext(perkBuyMenu);
 }
 
-private function perkBuyMenu():void {
+private perkBuyMenu():void {
 	clearOutput();
 	let perkList:Array = buildPerkList();
 	
@@ -350,7 +350,7 @@ private function perkBuyMenu():void {
 	}
 }
 
-private function perkSelect(selected:PerkClass):void {
+private perkSelect(selected:PerkClass):void {
 	stage.focus = null;
 	if (mainView.aCb.parent != null) {
 		mainView.removeChild(mainView.aCb);
@@ -358,7 +358,7 @@ private function perkSelect(selected:PerkClass):void {
 	}
 }
 
-private function perkSkip():void {
+private perkSkip():void {
 	stage.focus = null;
 	if (mainView.aCb.parent != null) {
 		mainView.removeChild(mainView.aCb);
@@ -366,7 +366,7 @@ private function perkSkip():void {
 	}
 }
 
-private function changeHandler(event:Event):void {
+private changeHandler(event:Event):void {
  	//Store perk name for later addition
 	clearOutput();
  	let selected:PerkClass = ComboBox(event.target).selectedItem.perk;
@@ -378,7 +378,7 @@ private function changeHandler(event:Event):void {
 	addButton(1, "Skip", perkSkip);
 }
 
-public function buildPerkList():Array {
+public buildPerkList():Array {
 	let perkList:Array = [];
 	function _add(p:PerkClass):void{
 		perkList.push({label: p.perkName,perk:p});
@@ -558,7 +558,7 @@ public function buildPerkList():Array {
 	return perkList;
 }
 
-public function applyPerk(perk:PerkClass):void {
+public applyPerk(perk:PerkClass):void {
 	clearOutput();
 	player.perkPoints--;
 	//Apply perk here.
@@ -573,7 +573,7 @@ public function applyPerk(perk:PerkClass):void {
 	doNext(playerMenu);
 }
 
-public function buttonText(buttonName:string):string {
+public buttonText(buttonName:string):string {
 	let matches :*,
 		buttonIndex : number;
 
@@ -595,7 +595,7 @@ public function buttonText(buttonName:string):string {
 
 
 // Returns a string or undefined.
-public function getButtonToolTipText( buttonText :string ) :string
+public getButtonToolTipText( buttonText :string ) :string
 {
 	let toolTipText :string;
 
@@ -832,7 +832,7 @@ import flash.utils.Dictionary;
 private let funcLookups:Dictionary = null;
 
 
-private function buildFuncLookupDict(object:*=null,prefix:string=""):void
+private buildFuncLookupDict(object:*=null,prefix:string=""):void
 {
 	import flash.utils.*;
 	trace("Building function <-> function name mapping table for "+((object==null)?"CoC.":prefix));
@@ -862,7 +862,7 @@ private function buildFuncLookupDict(object:*=null,prefix:string=""):void
 	}
 }
 
-public function getFunctionName(f:Function):string
+public getFunctionName(f:Function):string
 {
 	// trace("Getting function name")
 	// get the object that contains the function (this of f)
@@ -884,7 +884,7 @@ public function getFunctionName(f:Function):string
 }
 
 
-private function logFunctionInfo(func:Function, arg:* = null):void
+private logFunctionInfo(func:Function, arg:* = null):void
 {
 	let logStr:string = "";
 	if (arg is Function)
@@ -901,7 +901,7 @@ private function logFunctionInfo(func:Function, arg:* = null):void
 
 
 // returns a function that takes no arguments, and executes function `func` with argument `arg`
-public function createCallBackFunction(func:Function, arg:*):Function
+public createCallBackFunction(func:Function, arg:*):Function
 {
 	if (func == null) {
 		CoC_Settings.error("createCallBackFunction(null," + arg + ")");
@@ -928,7 +928,7 @@ public function createCallBackFunction(func:Function, arg:*):Function
 		};
 	}
 }
-public function createCallBackFunction2(func:Function,...args):Function
+public createCallBackFunction2(func:Function,...args):Function
 {
 	if (func == null){
 		CoC_Settings.error("createCallBackFunction(null,"+args+")");
@@ -941,7 +941,7 @@ public function createCallBackFunction2(func:Function,...args):Function
 }
 
 
-public function addButton(pos: number, text:string = "", func1:Function = null, arg1:* = -9000):void {
+public addButton(pos: number, text:string = "", func1:Function = null, arg1:* = -9000):void {
 	if (func1 == null) return;
 	let callback: Function;
 	let toolTipText: String;
@@ -960,14 +960,14 @@ public function addButton(pos: number, text:string = "", func1:Function = null, 
 	flushOutputTextToGUI();
 }
 
-public function hasButton(arg:*):boolean {
+public hasButton(arg:*):boolean {
 	if( arg is String )
 		return mainView.hasButton( arg as String );
 	else
 		return false;
 }
 
-public function removeButton(arg:*):void {
+public removeButton(arg:*):void {
 	function _removeButtonAction( index : number ):void	// Uh... should this function be empty?
 	{
 		// funcs[ index ] = null;
@@ -987,7 +987,7 @@ public function removeButton(arg:*):void {
 	mainView.hideBottomButton( buttonToRemove );
 }
 
-public function menu():void { //The newer, simpler menu - blanks all buttons so addButton can be used
+public menu():void { //The newer, simpler menu - blanks all buttons so addButton can be used
 	mainView.hideBottomButton(0);
 	mainView.hideBottomButton(1);
 	mainView.hideBottomButton(2);
@@ -1004,7 +1004,7 @@ public function menu():void { //The newer, simpler menu - blanks all buttons so 
 /*
 // AFICT, menu() isn't called with arguments ANYWHERE in the codebase.
 // WHRYYYYYYY
-public function menu(text1:string = "", func1:Function = null, arg1:number = -9000, 
+public menu(text1:string = "", func1:Function = null, arg1:number = -9000, 
 					text2:string = null, func2:Function = null, arg2:number = -9000, 
 					text3:string = null, func3:Function = null, arg3:number = -9000, 
 					text4:string = null, func4:Function = null, arg4:number = -9000, 
@@ -1062,7 +1062,7 @@ public function menu(text1:string = "", func1:Function = null, arg1:number = -90
 }
 */
 
-public function choices(text1:string, butt1:Function,
+public choices(text1:string, butt1:Function,
 						text2:string, butt2:Function,
 						text3:string, butt3:Function,
 						text4:string, butt4:Function,
@@ -1194,7 +1194,7 @@ public function choices(text1:string, butt1:Function,
 			[ "Margle", gurgleFluidsInMouthEvent ] // no comma on last item.
 		]);
 ****/
-public function multipageChoices( cancelFunction :*, menuItems :Array ) :void {
+public multipageChoices( cancelFunction :*, menuItems :Array ) :void {
 	const itemsPerPage : number = 8;
 
 	let currentPageIndex : number;
@@ -1268,7 +1268,7 @@ public function multipageChoices( cancelFunction :*, menuItems :Array ) :void {
 }
 
 // simpleChoices and doYesNo are convenience functions. They shouldn't re-implement code from choices()
-public function simpleChoices(text1:string, butt1:Function, 
+public simpleChoices(text1:string, butt1:Function, 
 						text2:string, butt2:Function, 
 						text3:string, butt3:Function, 
 						text4:string, butt4:Function, 
@@ -1293,7 +1293,7 @@ public function simpleChoices(text1:string, butt1:Function,
 	addButton(4, text5, butt5);
 }
 
-public function doYesNo(eventYes:Function, eventNo:Function):void { //New typesafe version
+public doYesNo(eventYes:Function, eventNo:Function):void { //New typesafe version
 	menu();
 	addButton(0, "Yes", eventYes);
 	addButton(1, "No", eventNo);
@@ -1316,7 +1316,7 @@ public function doYesNo(eventYes:Function, eventNo:Function):void { //New typesa
 */
 }
 
-public function doNext(event:Function):void { //Now typesafe
+public doNext(event:Function):void { //Now typesafe
 	//Prevent new events in combat from automatically overwriting a game over. 
 	if (mainView.getButtonText(0).indexOf("Game Over") != -1) {
 		trace("Do next setup cancelled by game over");
@@ -1330,7 +1330,7 @@ public function doNext(event:Function):void { //Now typesafe
 }
 
 /* Was never called
-public function doNextClear(eventNo:*):void 
+public doNextClear(eventNo:*):void 
 {
 	Render.text("", true, true);
 	//trace("DoNext Clearing display");
@@ -1339,29 +1339,29 @@ public function doNextClear(eventNo:*):void
 }
 */
 
-public function invertGo():void{ 
+public invertGo():void{ 
 	mainView.invert();
 }
 
 //Used to update the display of statistics
-public function statScreenRefresh():void {
+public statScreenRefresh():void {
 	mainView.statsView.show(); // show() method refreshes.
 }
 
-public function showStats():void {
+public showStats():void {
 	mainView.statsView.show();
 }
 
-public function hideStats():void {
+public hideStats():void {
 	mainView.statsView.hide();
 }
 
-public function hideMenus():void {
+public hideMenus():void {
 	mainView.hideAllMenuButtons();
 }
 
 //Hide the up/down indicators
-public function hideUpDown():void {
+public hideUpDown():void {
 	mainView.statsView.hideUpDown();
 
 	//Clear storage values so up/down arrows can be properly displayed
@@ -1375,14 +1375,14 @@ public function hideUpDown():void {
 	oldStats.oldCor = 0;        
 }
 
-public function physicalCost(mod:number):number {
+public physicalCost(mod:number):number {
 	let costPercent:number = 100;
 	if(player.perks.has("IronMan")) costPercent -= 50;
 	mod *= costPercent/100;
 	return mod;
 }
 
-public function spellCost(mod:number):number {
+public spellCost(mod:number):number {
 	//Addiditive mods
 	let costPercent:number = 100;
 	if(player.perks.has("SpellcastingAffinity")) costPercent -= player.perkv1(PerkLib.SpellcastingAffinity);
@@ -1407,7 +1407,7 @@ public function spellCost(mod:number):number {
 //types:
 //        0 - normal
 //        1 - magic
-public function fatigue(mod:number,type:number  = 0):void {
+public fatigue(mod:number,type:number  = 0):void {
 	//Spell reductions
 	if(type == 1) {
 		mod = spellCost(mod);
@@ -1450,14 +1450,14 @@ public function fatigue(mod:number,type:number  = 0):void {
 	statScreenRefresh();
 }
 //function changeFatigue
-public function changeFatigue(changeF:number):void {
+public changeFatigue(changeF:number):void {
 	fatigue(changeF);
 }
-public function minLust():number {
+public minLust():number {
 	return player.minLust();
 }
 
-public function displayStats(e:MouseEvent = null):void
+public displayStats(e:MouseEvent = null):void
 {
 	spriteSelect(-1);
 	Render.text("", true);
@@ -1795,7 +1795,7 @@ public function displayStats(e:MouseEvent = null):void
 	doNext(playerMenu);
 }
 
-public function lustPercent():number {
+public lustPercent():number {
 	let lust:number = 100;
 	//2.5% lust resistance per level - max 75.
 	if(player.level < 21) lust -= (player.level - 1) * 3;
@@ -1854,7 +1854,7 @@ public function lustPercent():number {
 }
 
 // returns OLD OP VAL
-public function applyOperator(old:number, op:string, val:number):number {
+public applyOperator(old:number, op:string, val:number):number {
 	switch(op) {
 		case "=":
 			return val;
@@ -1872,7 +1872,7 @@ public function applyOperator(old:number, op:string, val:number):number {
 	}
 }
 
-public function testDynStatsEvent():void {
+public testDynStatsEvent():void {
 	Render.text("Old: "+player.str+" "+player.tou+" "+player.stats.spe+" "+player.stats.int+" "+player.stats.lib+" "+player.stats.sens+" "+player.lust+"\n",true);
 	dynStats("tou", 1, "spe+", 2, "int-", 3, "lib*", 2, "sen=", 25,"lust/",2);
 	Render.text("Mod: 0 1 +2 -3 *2 =25 /2\n");
@@ -1888,7 +1888,7 @@ public function testDynStatsEvent():void {
  * valid operators are "=" (set), "+", "-", "*", "/", add is default.<br/>
  * valid stat_names are "str", "tou", "spe", "int", "lib", "sen", "lus", "cor" or their full names; also "resisted"/"res" (apply lust resistance, default true) and "noBimbo"/"bim" (do not apply bimbo int gain reduction, default false)
  */
-public function dynStats(... args):void
+public dynStats(... args):void
 {
 	// Check num of args, we should have a multiple of 2
 	if ((args.length % 2) != 0)
@@ -1973,7 +1973,7 @@ public function dynStats(... args):void
 	
 }
 
-public function stats(stre:number, toug:number, spee:number, intel:number, libi:number, sens:number, lust2:number, corr:number, resisted:boolean = true, noBimbo:boolean = false):void
+public stats(stre:number, toug:number, spee:number, intel:number, libi:number, sens:number, lust2:number, corr:number, resisted:boolean = true, noBimbo:boolean = false):void
 {
 	//Easy mode cuts lust gains!
 	if (flags[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 && lust2 > 0 && resisted) lust2 /= 2;
@@ -2104,7 +2104,7 @@ public function stats(stre:number, toug:number, spee:number, intel:number, libi:
 	mainView.statsView.showUpDown();
 	statScreenRefresh();
 }
-public function range(min:number, max:number, round:boolean = false):number 
+public range(min:number, max:number, round:boolean = false):number 
 {
 	let num:number = (min + Math.random() * (max - min));
 
@@ -2112,7 +2112,7 @@ public function range(min:number, max:number, round:boolean = false):number
 	return num;
 }
 
-public function cuntChangeOld(cIndex:number, vIndex:number, display:boolean):void {
+public cuntChangeOld(cIndex:number, vIndex:number, display:boolean):void {
 	//Virginity check
 	if(player.vaginas[vIndex].virgin) {
 		if(display) Render.text("\nYour " + vaginaDescript(vIndex) + " loses its virginity!", false);
@@ -2148,7 +2148,7 @@ public function cuntChangeOld(cIndex:number, vIndex:number, display:boolean):voi
 	}
 }
 
-public function spriteSelect(choice:number = 0):void {
+public spriteSelect(choice:number = 0):void {
 	if (flags[FlagEnum.SHOW_SPRITES_FLAG] == 0)
 	{
 		mainView.selectSprite( choice );

@@ -12,7 +12,7 @@ package classes.Scenes.Areas.Swamp
 
 	public class CorruptedDriderScene extends BaseContent
 	{
-		public function CorruptedDriderScene()
+		public CorruptedDriderScene()
 		{
 		}
 
@@ -23,7 +23,7 @@ package classes.Scenes.Areas.Swamp
 //nipplesPierced > 0 indicates pierced!
 
 //*Encounter Intro (done)
-		public function driderEncounter():void
+		public driderEncounter():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -59,7 +59,7 @@ package classes.Scenes.Areas.Swamp
 
 
 		//*Victory Intro: (done)
-		public function defeatDriderIntro():void
+		public defeatDriderIntro():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -114,7 +114,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //Lose to drider
-		public function loseToDrider():void
+		public loseToDrider():void
 		{
 			spriteSelect(77);
 			//Build array of choices
@@ -136,7 +136,7 @@ package classes.Scenes.Areas.Swamp
 
 
 //*Victory Rape: PC Penis goes in Vagina (done)
-		private function winDriderPCDickInSpiderCunt():void
+		private winDriderPCDickInSpiderCunt():void
 		{
 			let x: number = player.cockThatFits(monster.vaginalCapacity());
 			spriteSelect(77);
@@ -276,7 +276,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //Part 2 of the above
-		private function winDriderPCDickInSpiderCunt2():void
+		private winDriderPCDickInSpiderCunt2():void
 		{
 			let x: number = player.cockThatFits(monster.vaginalCapacity());
 			spriteSelect(77);
@@ -305,7 +305,7 @@ package classes.Scenes.Areas.Swamp
 
 
 //*Victory Rape: Ride Spider-Cawk in Vagoo (done)
-		private function winVSDriderTakeItsCockInCunt():void
+		private winVSDriderTakeItsCockInCunt():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -341,7 +341,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Victory Rape: Ride Ovi Vaginal (done)
-		private function victoryVSDriderRideOviVaginal():void
+		private victoryVSDriderRideOviVaginal():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -413,7 +413,7 @@ package classes.Scenes.Areas.Swamp
 
 
 //*Victory Rape: Ride Ovi Anal sex-insenitive (done)
-		private function victoryVSDriderRideOviAnal():void
+		private victoryVSDriderRideOviAnal():void
 		{
 			spriteSelect(77);
 			//*Summary: Force the drider onto her back and then fish out her ovipositor, jerk it off, then climb on top for some egg-based buttlovin'
@@ -516,7 +516,7 @@ package classes.Scenes.Areas.Swamp
 
 //*Victory Spinneret Penetration - written by Sham (done)
 //(please view the spinneret as a spider-horsecock because for all intents and purposes that is really what it is) - shambadibs (1.5-inch width max because i'm racist against buur-bous american penis) (also probably a corruption minimum this is a pretty dick move) (I GET IT)
-		private function victoryVSDriderStickDickInSpinneret():void
+		private victoryVSDriderStickDickInSpinneret():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -568,7 +568,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Loss Ride Ovi Anal unsexed - gats (done)
-		private function loseVSDriderGetAnalledOvi():void
+		private loseVSDriderGetAnalledOvi():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -625,7 +625,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Loss Vaginal Impregnation and forced BJ - Symphonie (done)
-		private function loseVSDriderAndVaginallyImpreggleOvi():void
+		private loseVSDriderAndVaginallyImpreggleOvi():void
 		{
 			spriteSelect(77);
 			Render.text("", true);
@@ -719,7 +719,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Loss Ride & Impregnate Butt (done)
-		private function loseVSDriderAndGetFuckedANDAnalImpreggegity():void
+		private loseVSDriderAndGetFuckedANDAnalImpreggegity():void
 		{
 			let x: number = player.cockThatFits(monster.vaginalCapacity());
 			spriteSelect(77);
@@ -774,7 +774,7 @@ package classes.Scenes.Areas.Swamp
 
 //*Asspreg egg 'birth': (done)
 //Summary: what goes up must come down
-		public function birthSpiderEggsFromAnusITSBLEEDINGYAYYYYY():void
+		public birthSpiderEggsFromAnusITSBLEEDINGYAYYYYY():void
 		{
 			spriteSelect(77);
 			Render.text("\nYour gut rumbles dangerously.  As if by instinct, you drop down and bend over, supporting half your weight on your hands while you lower your " + buttDescript() + " to just above ground level.  You grunt suddenly, your pregnant asshole dilating wide as a heavy weight seems to settle atop it, just inside you.  Clenching and tingling, your pucker slowly opens, releasing a torrent of green goop, along with a spherical white egg.  It drops into the messy puddle, cushioned from the fall by the heavy slime still leaking from your slightly agape anus.\n\n", false);
@@ -801,7 +801,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 
-		public function driderPregVagBirth():void
+		public driderPregVagBirth():void
 		{
 			spriteSelect(77);
 			Render.text("\nYou shudder violently, your stomach growling fiercely at you.  It feels as if something is moving around in your womb, and you bend over on all fours, raising your ass into the air as if it is the most natural thing in the world.  A slimy green fluid starts leaking out of your cunt, making a small puddle on the ground.  The sensation is extremely pleasurable as you feel it running down your thighs.  Groaning, you start to push out a small, smooth green ball, and the action makes your pussy so much wetter.  Groaning, you push out another, and another, each ball rubbing against your inner walls before dropping into the slimy pool of goo.  After the sixth, you orgasm, spraying your cum all over the ground underneath you, each egg squeezing out and prolonging the intense feeling.", false);
@@ -841,7 +841,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //Win Drider Male Anal (OH BABY)
-		private function buttFuckADriderOhBaby():void
+		private buttFuckADriderOhBaby():void
 		{
 			let x: number = player.cockThatFits(monster.analCapacity());
 			spriteSelect(77);
@@ -876,7 +876,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 
-		private function driderVagSmartFuck():void
+		private driderVagSmartFuck():void
 		{
 			spriteSelect(77);
 			clearOutput();
@@ -908,7 +908,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //[No] 
-		private function dontSilkRapeDrider():void
+		private dontSilkRapeDrider():void
 		{
 			spriteSelect(77);
 			clearOutput();
@@ -917,7 +917,7 @@ package classes.Scenes.Areas.Swamp
 			doNext(defeatDriderIntro);
 		}
 
-		private function driderTiedUpPartTwo(useItem:boolean):void
+		private driderTiedUpPartTwo(useItem:boolean):void
 		{
 			spriteSelect(77);
 			let x:number = player.cockThatFits(monster.vaginalCapacity());
@@ -955,7 +955,7 @@ package classes.Scenes.Areas.Swamp
 			doNext(driderTiedUpPartThree);
 		}
 
-		private function driderTiedUpPartThree():void
+		private driderTiedUpPartThree():void
 		{
 			spriteSelect(77);
 			let x:number = player.cockThatFits(monster.vaginalCapacity());
@@ -1006,7 +1006,7 @@ package classes.Scenes.Areas.Swamp
 			doNext(driderTiedUpPartFour);
 		}
 
-		private function driderTiedUpPartFour():void
+		private driderTiedUpPartFour():void
 		{
 			spriteSelect(77);
 			let x:number = player.cockThatFits(monster.vaginalCapacity());

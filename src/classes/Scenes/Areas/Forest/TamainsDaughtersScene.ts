@@ -49,14 +49,14 @@
 
 		public let pregnancy:PregnancyType;
 
-		public function TamainsDaughtersScene()
+		public TamainsDaughtersScene()
 		{
 			pregnancy = new PregnancyType(FlagEnum.TAMANI_DAUGHTERS_PREGNANCY_TYPE, FlagEnum.TAMANI_DAUGHTER_PREGGO_COUNTDOWN, 0, 0);
 			CoC.timeAwareClassAdd(this);
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			pregnancy.pregnancyAdvance(); //Preg should be 7*24, ends at 0 to -48 --> 9*24, ends at 0
 			trace("\nTamani's Daughters time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
@@ -76,7 +76,7 @@
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
@@ -88,7 +88,7 @@
 //21- 40 DD
 //41 –60 E
 //30+ - F mother fucker!
-private function tdCup():string {
+private tdCup():string {
 	if (flags[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 20) return "C";
 	else if (flags[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 30) return "D";
 	else if (flags[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] < 40) return "DD";
@@ -99,7 +99,7 @@ private function tdCup():string {
 
 
 //ENCOUNTER:
-public function encounterTamanisDaughters():void {
+public encounterTamanisDaughters():void {
 	spriteSelect(57);
 	flags[FlagEnum.TIMES_ENCOUNTED_TAMANIS_DAUGHTERS]++;
 	Render.text("", true);
@@ -131,7 +131,7 @@ public function encounterTamanisDaughters():void {
 }
 
 //[Play Dumb]
-private function playDumbToTamanisDaughters():void {
+private playDumbToTamanisDaughters():void {
 	spriteSelect(57);
 	Render.text("", true);
 	Render.text("You shrug and ask, \"<i>What exactly is it you want again?  I'm not sure you have the right " + player.mf("guy","person") + ".</i>\"\n\n", false);
@@ -153,7 +153,7 @@ private function playDumbToTamanisDaughters():void {
 }
 
 //[Fight Them]
-private function fightTamanisDaughters():void {
+private fightTamanisDaughters():void {
 	Render.text("", true);
 	
 	Render.text("You whirl around threateningly, intent on putting Tamani's wayward brood back in their place.\n\n", false);
@@ -177,7 +177,7 @@ private function fightTamanisDaughters():void {
 //(Combat is 1 attack per 10 girls + 1x Tamani attack)
 
 //[Fuck them]
-private function fuckYoDaughtersHomie():void {
+private fuckYoDaughtersHomie():void {
 	spriteSelect(57);
 	flags[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
 	let cocks:number = player.totalCocks();
@@ -357,7 +357,7 @@ private function fuckYoDaughtersHomie():void {
 }
 
 //[Let them]
-private function legTamanisDaughtersRAEPYou():void {
+private legTamanisDaughtersRAEPYou():void {
 	spriteSelect(57);
 	flags[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
 	let cocks:number = player.totalCocks();
@@ -710,7 +710,7 @@ private function legTamanisDaughtersRAEPYou():void {
 }
 
 //[Lose Combat, Get Your Dick DRAINED]
-private function tamaniDaughtersCombatLossDrain():void {
+private tamaniDaughtersCombatLossDrain():void {
 	spriteSelect(57);
 	flags[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
 	Render.text("", true);
@@ -850,7 +850,7 @@ private function tamaniDaughtersCombatLossDrain():void {
 	dynStats("str", -.5,"int", -.5, "lib", 1, "cor", 1);
 }
 
-private function tamaniDaughtersBadEndChoice():void {
+private tamaniDaughtersBadEndChoice():void {
 	spriteSelect(57);
 	Render.text("The next morning your unfocused eyes blink open, and you find yourself in the same situation as before.  Thankfully your orgasm has been allowed to end, though you still feel dopey and unfocused from whatever is flowing into you.  You manage to twist your head around to get a better look at the situation and discover a pair of IV's lodged in your arms.  Twisting your body, you realize you can still feel the drug-enema tube lodged in your " + assholeDescript() + ".  Oddly, it's hard to feel worried or concerned about the situation.\n\n", false);
 	
@@ -863,7 +863,7 @@ private function tamaniDaughtersBadEndChoice():void {
 }
 
 //[Yes]
-private function tamaniDaughtersYesBadEndMePlease():void {
+private tamaniDaughtersYesBadEndMePlease():void {
 	spriteSelect(57);
 	Render.text("", true);
 	Render.text("\"<i>Wonderful!</i>\" cries the excited pregnant slut.   She gives you a quick peck on the cheek as she prances back over to the machine.  You brace yourself in anticipation, eager to lose yourself to an eternal orgasm.  A switch clicks, and a dial whirs as it's turned up to the maximum.  The fluids pumping into your backside and directly into your veins suddenly jump in pressure, stinging painfully for a moment before the pleasure returns.  Your eyes slowly roll back, your jaw goes slack, and your " + multiCockDescriptLight() + " spew", false);
@@ -876,7 +876,7 @@ private function tamaniDaughtersYesBadEndMePlease():void {
 }
 
 //[NO]
-private function tamaniDaughtersDeclineBadEnd():void {
+private tamaniDaughtersDeclineBadEnd():void {
 	spriteSelect(57);
 	Render.text("", true);
 	Render.text("\"<i>Seriously!?</i>\" exclaims the pregnant slut, \"<i>What kind of person wouldn't want to cum all the time?  Fuck, just the idea of it is making me drip!</i>\"\n\n", false);
@@ -889,7 +889,7 @@ private function tamaniDaughtersDeclineBadEnd():void {
 	cleanupAfterCombat();
 }
 //[Rather Fill Individually]
-private function tamanisDaughtersFillIndividuallyBADEND():void {
+private tamanisDaughtersFillIndividuallyBADEND():void {
 	spriteSelect(57);
 	Render.text("", true);
 	Render.text("\"<i>Really?</i>\" asks the pregnant goblin before she exclaims, \"<i>You do love us!  Oh Dad, once mom comes home will you fuck all of us?  I want to feel you make love to my drippy, pregnant pussy while she watches!</i>\"\n\n", false);
@@ -913,7 +913,7 @@ private function tamanisDaughtersFillIndividuallyBADEND():void {
 }
 
 //[Lose to Daughters With Tamani There]
-private function loseToDaughtersWithTamaniThere():void {
+private loseToDaughtersWithTamaniThere():void {
 	spriteSelect(57);
 	Render.text("", true);
 	flags[FlagEnum.TIMES_FUCKED_TAMANIS_DAUGHTERS]++;
@@ -1023,7 +1023,7 @@ private function loseToDaughtersWithTamaniThere():void {
 }
 
 
-private function knockUpDaughters():void {
+private knockUpDaughters():void {
 	if (pregnancy.isPregnant) return;
 	pregnancy.knockUpForce(PregnancyType.PLAYER, 216); //Nine day long pregnancy, just like mom
 	//Determine how many kids...

@@ -22,7 +22,7 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 
-		public function MaleSpiderMorph()
+		public MaleSpiderMorph()
 		{
 			this.a = "the ";
 			this.short = "male spider-morph";

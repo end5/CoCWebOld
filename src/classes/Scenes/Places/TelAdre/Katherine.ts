@@ -95,7 +95,7 @@
 
 		private let _breasts:BreastStore;
 
-		public function Katherine()
+		public Katherine()
 		{
 			_breasts = new BreastStore(FlagEnum.KATHERINE_BREAST_SIZE);
 			CoC.saveAwareClassAdd(_breasts);
@@ -103,7 +103,7 @@
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			if (breasts.lactationLevel <= breasts.preventLactationIncrease) {
 				switch (model.time.hours) { //Suckling by all NPCs handled here. The player doesn't see this, but they meet up with Kath at different times of the day.
@@ -191,12 +191,12 @@
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 
-		public function initFlags():void
+		public initFlags():void
 		{	//These are all the flags related to Kath that have a non-zero default value
 //			flags[FlagEnum.KATHERINE_BREAST_SIZE]		= BREAST_CUP.B;
 			breasts.cupSize							= CoC.BREAST_CUP.B;
@@ -210,76 +210,76 @@
 			player.removeKeyItem("Silver Kitty-Bell"); //Silver Bell key item removed so any partial recruitment down the Scylla route is cancelled
 		}
 
-		public function get breasts():BreastStore { return _breasts; }
+		public get breasts():BreastStore { return _breasts; }
 
-		public function get ballSize(): number { return flags[FlagEnum.KATHERINE_BALL_SIZE]; }
+		public get ballSize(): number { return flags[FlagEnum.KATHERINE_BALL_SIZE]; }
 
-		public function set ballSize(value: number):void { flags[FlagEnum.KATHERINE_BALL_SIZE] = value; }
+		public set ballSize(value: number):void { flags[FlagEnum.KATHERINE_BALL_SIZE] = value; }
 
-//		public function get cupSize(): number { return flags[FlagEnum.KATHERINE_BREAST_SIZE]; }
+//		public get cupSize(): number { return flags[FlagEnum.KATHERINE_BREAST_SIZE]; }
 
-//		public function set cupSize(value: number):void { flags[FlagEnum.KATHERINE_BREAST_SIZE] = value; }
+//		public set cupSize(value: number):void { flags[FlagEnum.KATHERINE_BREAST_SIZE] = value; }
 
-		public function get cockLength():number { return flags[FlagEnum.KATHERINE_DICK_LENGTH]; }
+		public get cockLength():number { return flags[FlagEnum.KATHERINE_DICK_LENGTH]; }
 
-		public function set cockLength(value:number):void { flags[FlagEnum.KATHERINE_DICK_LENGTH] = value; }
+		public set cockLength(value:number):void { flags[FlagEnum.KATHERINE_DICK_LENGTH] = value; }
 
-		public function get cockNumber(): number { return flags[FlagEnum.KATHERINE_DICK_COUNT]; }
+		public get cockNumber(): number { return flags[FlagEnum.KATHERINE_DICK_COUNT]; }
 
-		public function set cockNumber(value: number):void { flags[FlagEnum.KATHERINE_DICK_COUNT] = value; }
+		public set cockNumber(value: number):void { flags[FlagEnum.KATHERINE_DICK_COUNT] = value; }
 
-		public function get knotSize(): number { return flags[FlagEnum.KATHERINE_KNOT_THICKNESS]; }
+		public get knotSize(): number { return flags[FlagEnum.KATHERINE_KNOT_THICKNESS]; }
 
-		public function set knotSize(value: number):void { flags[FlagEnum.KATHERINE_KNOT_THICKNESS] = value; }
+		public set knotSize(value: number):void { flags[FlagEnum.KATHERINE_KNOT_THICKNESS] = value; }
 
-		public function get fertile():boolean { return false; }
+		public get fertile():boolean { return false; }
 
-		public function set fertile(value:boolean):void {}
+		public set fertile(value:boolean):void {}
 
-		public function get furry():boolean { return flags[FlagEnum.KATHERINE_IS_CAT_GIRL] == 0; } //furry == true means she's a cat morph, furry == false means she's a cat girl
+		public get furry():boolean { return flags[FlagEnum.KATHERINE_IS_CAT_GIRL] == 0; } //furry == true means she's a cat morph, furry == false means she's a cat girl
 
-		public function set furry(value:boolean):void { flags[FlagEnum.KATHERINE_IS_CAT_GIRL] = (value ? 0 : 1); }
+		public set furry(value:boolean):void { flags[FlagEnum.KATHERINE_IS_CAT_GIRL] = (value ? 0 : 1); }
 
-		public function get hairColor():string { return flags[FlagEnum.KATHERINE_HAIR.COLOR]; }
+		public get hairColor():string { return flags[FlagEnum.KATHERINE_HAIR.COLOR]; }
 
-		public function set hairColor(value:string):void { flags[FlagEnum.KATHERINE_HAIR.COLOR] = value; }
+		public set hairColor(value:string):void { flags[FlagEnum.KATHERINE_HAIR.COLOR] = value; }
 
-		public function cockWidth():number { return (hasDogCock() ? 1.5 : 1); }
+		public cockWidth():number { return (hasDogCock() ? 1.5 : 1); }
 
-		public function cockArea():number { return cockWidth() * cockLength; }
+		public cockArea():number { return cockWidth() * cockLength; }
 
-		public function hasBalls():boolean { return flags[FlagEnum.KATHERINE_BALL_SIZE] > 0; }
+		public hasBalls():boolean { return flags[FlagEnum.KATHERINE_BALL_SIZE] > 0; }
 
-		public function hasCock():boolean { return flags[FlagEnum.KATHERINE_DICK_COUNT] > 0; }
+		public hasCock():boolean { return flags[FlagEnum.KATHERINE_DICK_COUNT] > 0; }
 
-		public function isAt(location: number):boolean { return flags[FlagEnum.KATHERINE_LOCATION] == location; }
+		public isAt(location: number):boolean { return flags[FlagEnum.KATHERINE_LOCATION] == location; }
 
-		public function hasClothing(clothing: number):boolean { return (flags[FlagEnum.KATHERINE_CLOTHES] & clothing) > 0; }
+		public hasClothing(clothing: number):boolean { return (flags[FlagEnum.KATHERINE_CLOTHES] & clothing) > 0; }
 
-		public function giveClothing(clothing: number):void {
+		public giveClothing(clothing: number):void {
 			flags[FlagEnum.KATHERINE_CLOTHES] |= clothing;
 			flags[FlagEnum.KATHERINE_CLOTHES_WORN] = clothing; //She always puts on her new outfit
 		}
 
-		public function cockMultiple(single:string, double:string):string { return (flags[FlagEnum.KATHERINE_DICK_COUNT] <= 1 ? single : double); }
+		public cockMultiple(single:string, double:string):string { return (flags[FlagEnum.KATHERINE_DICK_COUNT] <= 1 ? single : double); }
 
-		public function hasDogCock():boolean { return flags[FlagEnum.KATHERINE_DICK_FORM] == 0; }
+		public hasDogCock():boolean { return flags[FlagEnum.KATHERINE_DICK_FORM] == 0; }
 
-		public function cockType(dogText:string = "canine", catText:string = "feline"):string { return (flags[FlagEnum.KATHERINE_DICK_FORM] == 0 ? dogText : catText); }
+		public cockType(dogText:string = "canine", catText:string = "feline"):string { return (flags[FlagEnum.KATHERINE_DICK_FORM] == 0 ? dogText : catText); }
 
-		public function catGirl(isCatGirl:string, isCatMorph:string):string { return (flags[FlagEnum.KATHERINE_IS_CAT_GIRL] == 0 ? isCatMorph : isCatGirl); }
+		public catGirl(isCatGirl:string, isCatMorph:string):string { return (flags[FlagEnum.KATHERINE_IS_CAT_GIRL] == 0 ? isCatMorph : isCatGirl); }
 
-		public function hasAlready(sex: number):boolean { return (flags[FlagEnum.KATHERINE_SEXUAL_EXPERIENCE] & sex) > 0; } //If false then it's her first time doing this
+		public hasAlready(sex: number):boolean { return (flags[FlagEnum.KATHERINE_SEXUAL_EXPERIENCE] & sex) > 0; } //If false then it's her first time doing this
 
-		public function experience(sex: number):void { flags[FlagEnum.KATHERINE_SEXUAL_EXPERIENCE] |= sex; } //Learned a new way to fuck
+		public experience(sex: number):void { flags[FlagEnum.KATHERINE_SEXUAL_EXPERIENCE] |= sex; } //Learned a new way to fuck
 
-		public function milkOption(value: number):boolean { return (flags[FlagEnum.KATHERINE_MILK_OPTIONS] & value) > 0; } //Check the status of one of Kath's milk options
+		public milkOption(value: number):boolean { return (flags[FlagEnum.KATHERINE_MILK_OPTIONS] & value) > 0; } //Check the status of one of Kath's milk options
 
-		public function milkOptionClear(value: number):void { flags[FlagEnum.KATHERINE_MILK_OPTIONS] &= ~value; } //Set a single bit to zero
+		public milkOptionClear(value: number):void { flags[FlagEnum.KATHERINE_MILK_OPTIONS] &= ~value; } //Set a single bit to zero
 
-		public function milkOptionSet(value: number):void { flags[FlagEnum.KATHERINE_MILK_OPTIONS] |= value; } //Set a single bit to one
+		public milkOptionSet(value: number):void { flags[FlagEnum.KATHERINE_MILK_OPTIONS] |= value; } //Set a single bit to one
 
-		public function cumQ():number
+		public cumQ():number
 		{	//Uses roughly the same calculations as for the player's cum production with cumMultiplier == 10, bonusCum == 300
 			//For no balls: Min = 312, Average =  411, Max =  510 //Without any prostate boosting
 			//For 1" balls: Min = 317, Average =  448, Max =  580
@@ -298,13 +298,13 @@
 			return quantity + 300;
 		}
 
-		public function orgasm():void { flags[FlagEnum.KATHERINE_HOURS_SINCE_CUM] = 0; }
+		public orgasm():void { flags[FlagEnum.KATHERINE_HOURS_SINCE_CUM] = 0; }
 
-		public function fertileText(fertileText:string, infertileText:string):string { return (fertile ? fertileText : infertileText); }
+		public fertileText(fertileText:string, infertileText:string):string { return (fertile ? fertileText : infertileText); }
 
-		public function pregSize(): number { return 0; }
+		public pregSize(): number { return 0; }
 
-		public function ballAdj():string
+		public ballAdj():string
 		{
 			switch (flags[FlagEnum.KATHERINE_BALL_SIZE]) {
 				case 0:
@@ -320,7 +320,7 @@
 		}
 
 /*
-		public function breastAdj():string {
+		public breastAdj():string {
 			switch (cupSize) {
 				case BREAST_CUP.FLAT:		return "non-existent ";
 				case BREAST_CUP.A:			return "small ";
@@ -338,7 +338,7 @@
 		}
 */
 
-		public function cockAdj():string
+		public cockAdj():string
 		{
 			switch (flags[FlagEnum.KATHERINE_DICK_LENGTH]) {
 				case  0:
@@ -364,7 +364,7 @@
 			}
 		}
 
-		public function knotAdj():string {
+		public knotAdj():string {
 			switch (flags[FlagEnum.KATHERINE_KNOT_THICKNESS]) {
 				case 0:
 				case 1:
@@ -376,11 +376,11 @@
 			}
 		}
 
-		public function isMilky():boolean { //Quick check to decide if we should mention her lactation in descriptions
+		public isMilky():boolean { //Quick check to decide if we should mention her lactation in descriptions
 			return (breasts.milkIsOverflowing() && breasts.lactationLevel >= BreastStore.LACTATION_MODERATE) || (breasts.milkIsFull() && breasts.lactationLevel >= BreastStore.LACTATION_HEAVY);
 		}
 
-		private function tightTopDescption():void {
+		private tightTopDescption():void {
 			switch (breasts.cupSize) {
 				case CoC.BREAST_CUP.FLAT:
 				case CoC.BREAST_CUP.A:
@@ -393,9 +393,9 @@
 			Render.text("overflowing with her bountiful titflesh");
 		}
 
-		public function canWearMiniSkirt():boolean { return cockLength <= 8 && ballSize < 3; }
+		public canWearMiniSkirt():boolean { return cockLength <= 8 && ballSize < 3; }
 
-		private function skirtDescription():string {
+		private skirtDescription():string {
 			if (canWearMiniSkirt())
 				return "  It’s more than long enough to successfully conceal her masculine additions.";
 			else if (cockLength < 18)
@@ -403,7 +403,7 @@
 			else return "  It barely conceals the enormous bulge that tents the front.";
 		}
 
-		public function clothes():void { //Produces a few sentences which describe what Katherine is currently wearing
+		public clothes():void { //Produces a few sentences which describe what Katherine is currently wearing
 			let milky:boolean = isMilky();
 			switch (flags[FlagEnum.KATHERINE_CLOTHES_WORN]) {
 				case KBIT_CLOTHES_UNIFORM: //Guard Uniform
@@ -453,7 +453,7 @@
 
 		/*  This function will return whichever output is appropriate right now based on clothes worn. Saves using a switch statement every time we want to refer to her clothing.
 			Note that any scenes which appear while Kath is on duty or which are available before she gets a home have to check if she's wearing a uniform or tattered clothes. */
-		public function clothesChoice(comfortableClothesText:string, bodysuitText:string, dressText:string, robeText:string, tubeTopText:string, nurseClothesText:string):string
+		public clothesChoice(comfortableClothesText:string, bodysuitText:string, dressText:string, robeText:string, tubeTopText:string, nurseClothesText:string):string
 		{
 			switch (flags[FlagEnum.KATHERINE_CLOTHES_WORN]) {
 				case KBIT_CLOTHES_BODYSUIT: return bodysuitText;
@@ -468,7 +468,7 @@
 
 		/*  Because of Kath’s clothing choices there are now five different types of clothes she could be wearing on her lower body. That can be a pain to work with so this function
 			will return whichever output is appropriate right now based on clothes worn. Saves using a switch statement every time we want to refer to her pants/skirt/robe/etc. */
-		public function clothesLowerChoice(pantsText:string, skirtText:string, bodysuitText:string, dressText:string, robeText:string):string
+		public clothesLowerChoice(pantsText:string, skirtText:string, bodysuitText:string, dressText:string, robeText:string):string
 		{
 			switch (flags[FlagEnum.KATHERINE_CLOTHES_WORN]) {
 				case KBIT_CLOTHES_C_CLOTH: return skirtText;
@@ -486,7 +486,7 @@
 
 		/*  New function to calculate how submissive Katherine is, based on what kinds of things the PC has talked her into doing (or forced her into doing) already.
 			Anything that Kath does against her own better judgement to make the PC happy should count towards this. */
-		public function submissiveness(): number {
+		public submissiveness(): number {
 			let subFlags: number = flags[FlagEnum.KATHERINE_SUB_FLAGS];
 			let subCount: number = 0;
 			if ((subFlags & KBIT_SUB_HIGH_CUM) > 0) subCount++;
@@ -507,19 +507,19 @@
 			return subCount;
 		}
 
-		public function addSubmissive(behaviour: number):void { flags[FlagEnum.KATHERINE_SUB_FLAGS] |= behaviour; }
+		public addSubmissive(behaviour: number):void { flags[FlagEnum.KATHERINE_SUB_FLAGS] |= behaviour; }
 
-		public function doneSubmissive(behaviour: number):boolean { return ((flags[FlagEnum.KATHERINE_SUB_FLAGS] & behaviour) > 0); }
+		public doneSubmissive(behaviour: number):boolean { return ((flags[FlagEnum.KATHERINE_SUB_FLAGS] & behaviour) > 0); }
 
-		public function playerMaster():boolean { return (flags[FlagEnum.KATHERINE_SUB_FLAGS] & KBIT_SUB_CALL_MASTER) > 0; }
+		public playerMaster():boolean { return (flags[FlagEnum.KATHERINE_SUB_FLAGS] & KBIT_SUB_CALL_MASTER) > 0; }
 
-		public function playerText():string
+		public playerText():string
 		{	//For the simplest case. Will not work properly at the start of sentences.
 			if ((flags[FlagEnum.KATHERINE_SUB_FLAGS] & KBIT_SUB_CALL_MASTER) > 0) return("[master]");
 			return player.short;
 		}
 
-		public function katherineAndUrtaHadSex(drunkSex: Boolean):void {
+		public katherineAndUrtaHadSex(drunkSex: Boolean):void {
 			//Every time they have sex they get a little closer, but this is limited to a max of 30
 			//while still in training. Once Kath has a job they can tell you they love each other.
 			//Only the two of them having sex sober can cause them to gain the last point.
@@ -532,23 +532,23 @@
 			flags[FlagEnum.KATHERINE_URTA_AFFECTION]++;
 		}
 
-		public function katherineAndValaHadSex():void {
+		public katherineAndValaHadSex():void {
 			//Every time they have sex they get a little closer, but this is limited to a max of 11.
 			flags[FlagEnum.KATHERINE_VALA_TIMES_SEX]++;
 			if (flags[FlagEnum.KATHERINE_VALA_AFFECTION] > 11) return;
 			flags[FlagEnum.KATHERINE_VALA_AFFECTION]++;
 		}
 
-		public function needIntroductionFromScylla():boolean {
+		public needIntroductionFromScylla():boolean {
 			return model.time.hours > 8 && model.time.hours < 18 && player.hasKeyItem("Silver Kitty-Bell") >= 0;
 		}
 		
 //If player has Silver Bell key item and is at Wet Bitch when Scylla is not busy with her Addicts Anonymous group
-public function catMorphIntr():void {
+public catMorphIntr():void {
 	Render.text("\n\nThe cum-drinking nun Scylla is here, apparently resting up between one of her missions.  Recalling the last 'mission' you went on, your hand unthinkingly touches the silver bell you received from that strange herm cat-morph.  Scylla could probably help you find her again.");
 }
 
-public function katherineGreeting():void {
+public katherineGreeting():void {
 	Render.text("", true);
 	//[If Player chooses 'Scylla' button]
 	Render.text("Scylla smiles when she sees you approaching, and politely greets you.  “<i>Why, hello, " + player.short + "; it's good to see you.  Do you need something?</i>”\n\n", false);
@@ -591,7 +591,7 @@ public function katherineGreeting():void {
 }
 
 //Seeing Katherine
-public function visitKatherine():void {
+public visitKatherine():void {
 	clearOutput();
 	Render.text(images.showImage("katherine-visit-alley"));
 	if (flags[FlagEnum.KATHERINE_UNLOCKED] == 1) {
@@ -602,7 +602,7 @@ public function visitKatherine():void {
 	katherineVisitNormal();
 }
 
-public function katherineVisitNormal(checkTraining:boolean = true):void
+public katherineVisitNormal(checkTraining:boolean = true):void
 {
 	Render.text("Katherine the cat is currently ");
 	switch (rand(5)) {
@@ -632,7 +632,7 @@ public function katherineVisitNormal(checkTraining:boolean = true):void
     }	
 }
 
-public function visitAtHome():void { //You go to Kath's place alone - she may or may not be home
+public visitAtHome():void { //You go to Kath's place alone - she may or may not be home
 	clearOutput();
 	if (isAt(KLOC_KATHS_APT)) {
 		if (flags[FlagEnum.KATHERINE_URTA_AFFECTION] == 31) { //Special event that happens only once
@@ -671,7 +671,7 @@ public function visitAtHome():void { //You go to Kath's place alone - she may or
 	}
 }
 
-private function katherineApartmentLeave():void {
+private katherineApartmentLeave():void {
 	clearOutput();
 	Render.text("You sigh and tell Kath that you just stopped by to see her.  Unfortunately you have to get going.  She gives you a sad look but nods and says “<i>");
 	if (playerMaster())
@@ -680,12 +680,12 @@ private function katherineApartmentLeave():void {
 	doNext(telAdre.telAdreMenu);
 }
 
-private function katherineApartmentEmptyLeave():void {
+private katherineApartmentEmptyLeave():void {
 	Render.text("You lock up and walk back toward the market, looking for something else to do while you wait for Katherine to finish her shift.");
 	doNext(telAdre.telAdreMenu);
 }
 
-public function katherineAtUrtas():void {
+public katherineAtUrtas():void {
 	Render.text("You lock up and walk over to Urta's ");
 	if (isAt(KLOC_URTAS_APT)) { //This option happens if you and Urta have no children
 		Render.text("apartment.  A few knocks on the door and " + (hasCock() ? "a sheepish looking pair of herms" : "your sheepish lovers") + " answer the door.\n\n");
@@ -738,7 +738,7 @@ public function katherineAtUrtas():void {
 	}
 }
 
-private function urtaPlusKathCuddle():void {
+private urtaPlusKathCuddle():void {
 	if (player.stats.spe > 75) {
 		Render.text("\n\nYou creep over to the bed and stroke Kath's tail.  She and Urta both nearly jump out of their skin.  Urta gives you a good smack in the shoulder as soon as she realizes who you are and what you just did.  “<i>" + player.short + "!  Are you a frigging ghost or something?  Ow, gods, you just made Kath ");
 		if (hasCock())
@@ -762,7 +762,7 @@ private function urtaPlusKathCuddle():void {
 	simpleChoices("Back to Kath's", dateGotoKaths, "To the Lake", dateKathBath, "Back to the Bar", dateGotoBar, "", null, "Leave", telAdre.telAdreMenu);
 }
 
-public function katherineOnDuty():void {
+public katherineOnDuty():void {
 	clearOutput();
 	Render.text("As you walk through the streets of Tel’Adre you notice a small group of Watch officers out on patrol.  One of them looks your way and you see a familiar face.  Kath says something to one of the other officers.  Soon enough Kath is headed your way while the others walk to a nearby cafe.\n\n");
 	if (flags[FlagEnum.KATHERINE_UNLOCKED] == 4) { //First encounter since training
@@ -788,7 +788,7 @@ public function katherineOnDuty():void {
 	simpleChoices("Give Oral", giveKatOralPenisWingWang,"Kath Laps", getOral,"Fuck Her", penetratePussy, "Anal", penetrateAss, "Leave", katherineOnDutyLeave);
 }
 
-private function katherineOnDutyLeave():void {
+private katherineOnDutyLeave():void {
     Render.text("It’s probably best that you don’t get Kath in trouble.  You bid her farewell, promising that you’ll come and see her once she’s off duty.\n\n");
 	doNext(telAdre.telAdreMenu);
 }
@@ -812,18 +812,18 @@ private function katherineOnDutyLeave():void {
 	In the bar Katherine will get her own table because she doesn’t like to get as drunk as Urta and also because Urta usually ends up meeting lots of people who come in with information, problems, etc.
 
 	If Kath and Urta reach 31 affection (they are lovers), then there should be a chance each day that Kath hangs out at Urta’s table instead. If so it can be assumed that Kath will be as drunk as Urta is when the player walks in.*/
-public function barDescription():void {
+public barDescription():void {
 	Render.text("\n\nYou see Katherine sitting alone in her usual booth, nursing something that " + (pregSize() == 0 ? "looks like a cream liqueur" : "is probably a milkshake") + ".  She’s wearing " + clothesChoice("a matching blouse and skirt", "her sheer bodysuit", "the elegant long dress", "her spider silk robe", "that revealing tube top", "the sexy nurse’s outfit") + (flags[FlagEnum.KATHERINE_CLOTHES_PREF] < 0 ? ", just like you told her to." : "."));
 }
 
-public function barApproach():void {
+public barApproach():void {
 	clearOutput(); 
 	Render.text("Kath sits up as you approach, preening herself and " + clothesChoice("adjusting her blouse", "stretching to show off the bodysuit", "adjusting her dress", "adjusting the spider silk robe", "smothing out the tube top", "adjusting her cute nurse’s hat") + " as you navigate your way to her table." + (isMilky() ? "  Her hands subconsciously move to her breasts and you note the damp spots over her nipples." : "") + "\n\n");
 	Render.text("When you sit down Kath asks you what you want to do and takes a sip of her drink.");
 	katherineMenu();
 }
 
-public function barFirstEncounter():void {
+public barFirstEncounter():void {
 	Render.text("\n\nYou see a familiar feline lounging at one of the tables.  When she sees you Kath leaps up, nearly spilling her drink, and tackles you with a hug and a flurry of kisses.\n\n");
 	Render.text("She finally regains some composure and says, “<i>I’ve been waiting for you to turn up!  It feels like so much has happened these last few days.  Oh, I’m such a screwup - I told you I had an apartment but I didn’t say where.</i>”\n\n");
 	Render.text("She pulls a key and a scrap of paper out and hands them to you.  “<i>There we go.  A key to my place and directions.  Please come over and see me " + playerText() + ", I’ll be lonely if you don’t.</i>”\n\n");
@@ -833,7 +833,7 @@ public function barFirstEncounter():void {
 	katherineMenu();
 }
 
-public function barKathUrtaLoveAnnounce():void {
+public barKathUrtaLoveAnnounce():void {
 	//Special event that happens on entering the bar when KATHERINE_URTA_AFFECTION == 31
 	//and both Kath and (sober) Urta should be present in the bar at this time normally
 	clearOutput();
@@ -853,7 +853,7 @@ public function barKathUrtaLoveAnnounce():void {
 }
 
 //Main menu for Kath while she lives in the alley behind Oswald's
-private function katherineMenu():void {
+private katherineMenu():void {
 	//One menu to rule them all (so the code never gets confused about what it should go back to
 	if (flags[FlagEnum.KATHERINE_UNLOCKED] < 4) { //Behind Oswald's pawn shop
 		//[Sex] [Talk] [Appearance] [Give Item]
@@ -870,7 +870,7 @@ private function katherineMenu():void {
 }
 
 //Talk
-private function talkToKatherine():void {
+private talkToKatherine():void {
 	clearOutput();
 	Render.text("You tell Katherine that you'd like to talk.  ");
 	if (isAt(KLOC_STREETS)) {
@@ -897,7 +897,7 @@ private function talkToKatherine():void {
 
 //Talk Scenes
 //Racial Tension
-private function katherineDefur():void {
+private katherineDefur():void {
 	clearOutput();
 	Render.text("You comment to Katherine that you can't help but notice that she and all of her... ah, 'friends' are cats, and the city seems to be mainly populated by dogs.  Does that have anything to do with her basically being a vagrant?\n\n");
 
@@ -913,7 +913,7 @@ private function katherineDefur():void {
 }
 
 //Her History
-private function katherinesHistory():void {
+private katherinesHistory():void {
 	clearOutput();
 	Render.text("You tell Katherine you're curious about her.  How did she end up on the streets?  Was she born there - or did she simply lose her family?\n\n");
 
@@ -933,7 +933,7 @@ private function katherinesHistory():void {
 }
 
 //Gang
-private function askKatherineAboutGang():void {
+private askKatherineAboutGang():void {
 	clearOutput();
 	Render.text("You ask Katherine if she can tell you anything about the gang of cats you found her running with.\n\n");
 
@@ -981,7 +981,7 @@ private function askKatherineAboutGang():void {
 }
 
 //Dog Cock
-private function askKatherineAboutDogCock():void {
+private askKatherineAboutDogCock():void {
 	clearOutput();
 	Render.text("You confess to Katherine that you're curious about her dog cock.  How did a cat end up with a canine penis?\n\n");
 
@@ -1003,7 +1003,7 @@ private function askKatherineAboutDogCock():void {
 }
 
 //Vagrancy
-private function askKatherineAboutVagrancy():void {
+private askKatherineAboutVagrancy():void {
 	clearOutput();
 	Render.text("You ask Katherine to explain to you how exactly she and her friends can be vagrants; with all the empty houses left in the city, you'd think it would be easy for them to find a house in.\n\n");
 
@@ -1016,7 +1016,7 @@ private function askKatherineAboutVagrancy():void {
 }
 
 //Love & Lust
-private function askKatherineAboutLoveAndLust():void {
+private askKatherineAboutLoveAndLust():void {
 	clearOutput();
 	Render.text("Trying to phrase your question politely, you ask why it was that Katherine wanted to see you again, particularly given the circumstances under which you met.\n\n");
 
@@ -1031,7 +1031,7 @@ private function askKatherineAboutLoveAndLust():void {
 	doNext(telAdre.telAdreMenu);
 }
 
-private function talkGangs():void {
+private talkGangs():void {
 	clearOutput();
 	Render.text("You ask Kath what she thinks of the city’s gangs now that she’s on the other side of the law.\n\n");
 	Render.text("She shakes her head and says, “<i>It can be really weird sometimes.  I know why the different gangs are doing what they do and I know why the watch does what it does.  I mean the law about not living in any of the abandoned houses - that makes no sense to anyone living on the street.  But it makes a lot of sense to someone working in the Watch.  Years ago some gangs fortified buildings and kept the watch out.  The leaders got drunk on power, some became corrupt - or maybe they were a little corrupt to begin with.  Anyway, they had to bring in some of the mages to clear them out and lots of innocent people got hurt.</i>”\n\n");
@@ -1042,7 +1042,7 @@ private function talkGangs():void {
 	katSexMenu();
 }
 
-private function talkWatch():void {
+private talkWatch():void {
 	clearOutput();
 	Render.text("You ask Kath how things are going for her in the Watch.\n\n");
 	Render.text("She seems to give it some thought, then says, “<i>It’s been hard getting used to the early morning shift, but my sleep schedule was messed up before I joined.  It’s really strange walking around in uniform, seeing all the eyes out there trying not to look like they’re looking at me.  It’s kinda like getting checked out, except they’re worried about what I might see or what I’m about to do.</i>”\n\n");
@@ -1060,7 +1060,7 @@ private function talkWatch():void {
 	katSexMenu();
 }
 
-private function talkHome():void {
+private talkHome():void {
 	clearOutput();
 	Render.text("You ask Kath about her home and she just beams.\n\n");
 	Render.text("“<i>It’s wonderful.  It’s everything I didn’t have out on the street.  I have a bed - my own bed!  I have a table where I can put together a meal, a wardrobe for my clothes, a big washbasin I can use to bathe whenever I want.  But the best thing of all is my door.  I can sleep without worrying if someone is going to try to steal my things or worse.\n\n");
@@ -1071,7 +1071,7 @@ private function talkHome():void {
 	katSexMenu();
 }
 
-private function talkClothes():void {
+private talkClothes():void {
 	clearOutput();
 	let optionBodysuit:Function		= (hasClothing(KBIT_CLOTHES_BODYSUIT) ? talkClothesBodysuit : null);
 	let optionDress:Function 		= (hasClothing(KBIT_CLOTHES_B_DRESS) ? talkClothesDress : null);
@@ -1093,14 +1093,14 @@ private function talkClothes():void {
 		"Silk Robe", optionSSRobe, "Tube Top", optionTubeTop, "Nurse Outfit", optionNurseOutfit, "", null, "Back", katherineMenu);
 }
 
-private function talkClothesNoPreference():void {
+private talkClothesNoPreference():void {
 	Render.text("\n\nYou walk over to Kath and start playing with her tail.  She laughs and jumps into your arms, frisky and ready for fun.  You tell her that the next time she gets dressed she" + (submissiveness() > 1 ? "'s allowed to choose" : " should pick out") + " whatever she likes.  As far as you’re concerned, everything in her wardrobe looks great on her.  You, of course, prefer her completely naked.\n\n");
 	Render.text("Kath wiggles against your body and says, “<i>When you’re around I prefer naked too.  What a funny coincidence.  Oh, and since you bring it up...</i>”");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = 0;
 	katSexMenu();
 }
 
-private function talkClothesBlouse():void {
+private talkClothesBlouse():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_C_CLOTH)
 		Render.text("\n\nYou complement Kath on the blouse she’s wearing.");
 	else {
@@ -1112,7 +1112,7 @@ private function talkClothesBlouse():void {
 	simpleChoices("Compliment", talkClothesBlouseCompliment, "Suggest", talkClothesBlouseSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesBlouseCompliment():void {
+private talkClothesBlouseCompliment():void {
 	Render.text("\n\nYou close the distance and give her a hug, stroking her ears until you see her tail swishing from side to side under the skirt.  You tell her she ought to give her own tastes a little more credit, she looks like a nice, innocent girl wearing that blouse.");
 	Render.text("Kath giggles and says, “<i>I guess it's good camouflage then.</i>”  ");
 	if (hasCock())
@@ -1121,7 +1121,7 @@ private function talkClothesBlouseCompliment():void {
 	katSexMenu();
 }
 
-private function talkClothesBlouseSuggest():void {
+private talkClothesBlouseSuggest():void {
 	Render.text("\n\nYou close the distance and give her a hug, stroking her ears until you see her tail swishing from side to side under the skirt.  You tell her she ought to give her own tastes a little more credit, she looks like a nice, innocent girl wearing that blouse.\n\n");
 	Render.text("Kath giggles and says, “<i>I guess it's good camouflage then.</i>”  ");
 	if (hasCock())
@@ -1133,7 +1133,7 @@ private function talkClothesBlouseSuggest():void {
 	katSexMenu();
 }
 
-private function talkClothesBlouseInsist():void {
+private talkClothesBlouseInsist():void {
 	Render.text("\n\nYou close the distance and give her a hug, stroking her ears until you see her tail swishing from side to side under the skirt.  You tell her she ought to give her own tastes a little more credit, she looks like a nice, innocent girl wearing that blouse.\n\n");
 	Render.text("Kath giggles and says, “<i>I guess it's good camouflage then.</i>”  ");
 	if (hasCock())
@@ -1145,7 +1145,7 @@ private function talkClothesBlouseInsist():void {
 	katSexMenu();
 }
 
-private function talkClothesBodysuit():void {
+private talkClothesBodysuit():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_BODYSUIT)
 		Render.text("\n\nYou complement Kath on the bodysuit she’s currently wearing.  She stands up and models it for you, getting your pulse racing.");
 	else {
@@ -1156,13 +1156,13 @@ private function talkClothesBodysuit():void {
 	simpleChoices("Compliment", talkClothesBodysuitCompliment, "Suggest", talkClothesBodysuitSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesBodysuitCompliment():void {
+private talkClothesBodysuitCompliment():void {
 	Render.text("\n\nYou wrap your arms around her and tell her the bodysuit looks amazing on her.  It’s always a good day when you find her wearing it.\n\n");
 	Render.text("Kath snuggles up next to you with a happy little purr.  The " + (hasCock() ? "bulge in the" : "heat emanating") + " crotch of the bodysuit suggests how much she appreciates your compliments.");
 	katSexMenu();
 }
 
-private function talkClothesBodysuitSuggest():void {
+private talkClothesBodysuitSuggest():void {
 	Render.text("\n\nYou wrap your arms around her and tell her the bodysuit looks amazing on her.  It’s always a good day when you find her wearing it.\n\n");
 	Render.text("As you stroke her ear you say that she should wear it more often - it’s a shame to leave it hanging in her wardrobe when she could be parading around town with it.  The bodysuit was built to show off her tight ass and perky breasts.  The sight of her bending over to inspect some produce in the market will make people’s days.  For a lovely girl like her wearing a nearly transparent bodysuit is a public service.\n\n");
 	Render.text("She hugs you close and purrs.  “<i>" + (playerMaster() ? "Yes [master]" : "Alright [name]") + ", if that’s what you like then you’ll be seeing a lot more of my sexy ass stuffed into this tight little number.</i>”");
@@ -1170,7 +1170,7 @@ private function talkClothesBodysuitSuggest():void {
 	katSexMenu();
 }
 
-private function talkClothesBodysuitInsist():void {
+private talkClothesBodysuitInsist():void {
 	Render.text("\n\nYou wrap your arms around her and tell her the bodysuit looks amazing on her.  It’s always a good day when you find her wearing it.\n\n");
 	Render.text("You run a hand through her hair and add that you expect to see her wearing it every chance she gets.  Kath’s eyes go wide, but she says nothing.  You smile and tell her that naughty kitties like her want to wear bodysuits that hug every curve they’ve got.  Whenever she’s not on duty you want her proudly strutting her stuff wherever she goes.\n\n");
 	Render.text("Kath looks a little unsure and a little turned on.  The second emotion quickly wins out and she looks at you hungrily.");
@@ -1178,7 +1178,7 @@ private function talkClothesBodysuitInsist():void {
 	katSexMenu();
 }
 
-private function talkClothesDress():void {
+private talkClothesDress():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_B_DRESS)
 		Render.text("\n\nYou complement Kath on the elegant ballroom dress she’s currently wearing.  She twirls around the room, dancing to music you cannot hear and showing off her flexibility.  Every once in a while she looks your way to make sure you approve.");
 	else {
@@ -1189,7 +1189,7 @@ private function talkClothesDress():void {
 	simpleChoices("Compliment", talkClothesDressCompliment, "Suggest", talkClothesDressSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesDressCompliment():void {
+private talkClothesDressCompliment():void {
 	Render.text("\n\nYou take her hand and ask if the lady would allow you this dance.  Kath looks embarrassed and mumbles that she’s no lady, but you can tell she loves it when you say things like that.  She pulls you into a hug and ");
 	if (hasCock())
 		Render.text("the rigid protrusion" + cockMultiple(" under her dress tells", "s under her dress tell") + " you she’d be willing to try some dancing as long as it’s the horizontal kind.");
@@ -1197,20 +1197,20 @@ private function talkClothesDressCompliment():void {
 	katSexMenu();
 }
 
-private function talkClothesDressSuggest():void {
+private talkClothesDressSuggest():void {
 	Render.text("\n\nYou wrap your arms around her and tell her the dress looks amazing on her.  She should wear it more often - it’s a shame to leave it sitting in the wardrobe when she could be parading around town with it.  A cat " + catGirl("girl", "morph") + " lady like her is exactly what the people of Tel’Adre need to see to remind them how beautiful and elegant cats can be.\n\n");
 	Render.text("She hugs you close and purrs.  You know she’s going to wear her long dress wherever she goes, adding a little touch of class to the city.");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = KBIT_CLOTHES_B_DRESS;
 	katherineMenu();
 }
 
-private function talkClothesDressInsist():void {
+private talkClothesDressInsist():void {
 	Render.text("\n\nYou wrap your arms around her and tell her the dress looks amazing on her.  Kath sighs and you place your hand against her exposed back, telling that you expect to see her wearing it every chance she gets.  Kath grins and nods enthusiastically.  You know she enjoys wearing this dress as much as you enjoy seeing her in it.");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = -KBIT_CLOTHES_B_DRESS;
 	katherineMenu();
 }
 
-private function talkClothesSSRobe():void {
+private talkClothesSSRobe():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_SS_ROBE)
 		Render.text("\n\nYou tell Kath that the spider silk robe she’s wearing suits her - even if she can’t cast any kind of magic.  She pulls at the edges of the silk robe, straightening some creases and smoothing the fabric over her chest.");
 	else {
@@ -1221,20 +1221,20 @@ private function talkClothesSSRobe():void {
 	simpleChoices("Compliment", talkClothesSSRobeCompliment, "Suggest", talkClothesSSRobeSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesSSRobeCompliment():void {
+private talkClothesSSRobeCompliment():void {
 	Render.text("\n\nYou brush your hands over the fine silk and Katherine purrs appreciatively at your attention.  You slip a hand inside the robe and ask if she’s ever thought of ditching her underwear and walking the streets with nothing more than this thin silk between her and the world.\n\n");
 	Render.text("Kath gives you a kiss and says “<i>You’re such a bad influence on me " + playerText() + ".</i>”");
 	katSexMenu();
 }
 
-private function talkClothesSSRobeSuggest():void {
+private talkClothesSSRobeSuggest():void {
 	Render.text("\n\nYou brush your hands over the fine silk and tell her the robe looks wonderful, like it was built to hug her body.  You give her a kiss and ask if she could wear it a little more often.  You do love seeing her in silk.\n\n");
 	Render.text("Kath gives you a hug and says, “<i>I’m always willing to do things that make you happy " + playerText() + ".</i>”");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = KBIT_CLOTHES_SS_ROBE;
 	katherineMenu();
 }
 
-private function talkClothesSSRobeInsist():void {
+private talkClothesSSRobeInsist():void {
 	Render.text("\n\nYou put your fingers under Kath’s chin so that she’s looking into your eyes.  You ask her “<i>What’s the best thing about robes?</i>”\n\n");
 	Render.text("While she tries to think of something to say you tug on the belt, undoing it and letting the front of the robe fall open.  “<i>Easy access,</i>” you say, answering your own question.  You let your hand roam around between her skin and the robe and Kath’s pupils start to dilate.  You tell her that you want her to wear this robe all the time so that whenever and wherever you find her it takes only one tug to expose her.\n\n");
 	Render.text("Kath shivers and you feel the heat rising from " + (hasCock() ? "the large bulge in " : "") + "her panties.  It seems your sex kitten may have an exhibitionist streak.");
@@ -1242,7 +1242,7 @@ private function talkClothesSSRobeInsist():void {
 	katSexMenu();
 }
 
-private function talkClothesTubeTop():void {
+private talkClothesTubeTop():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_TUBETOP)
 		Render.text("\n\nYou tell Kath that the tube top she’s wearing really shows off her figure.  A bare midriff suits her.  " + (pregSize() > 0 ? "Katherine puts a hand to her belly, acting a little self-conscious.  Then she shakes it off," : "She") + " takes a few poses for you and does a little twirl.");
 	else {
@@ -1253,26 +1253,26 @@ private function talkClothesTubeTop():void {
 	simpleChoices("Compliment", talkClothesTubeTopCompliment, "Suggest", talkClothesTubeTopSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesTubeTopCompliment():void {
+private talkClothesTubeTopCompliment():void {
 	Render.text("\n\nYou take up position behind her and just hold her" + (pregSize() > 0 ? ", lacing your fingers over her belly and kissing" : " and kiss") + " the nape of her neck.  Kath breaks the silence first: “<i>I think this outfit makes me look a little slutty, but I like looking a little slutty for you.</i>”");
 	katSexMenu();
 }
 
-private function talkClothesTubeTopSuggest():void {
+private talkClothesTubeTopSuggest():void {
 	Render.text("\n\nYou take up position behind her" + (pregSize() > 0 ? " and just hold her, lacing your fingers over her belly and kissing" : ", just hold her and kiss") + " the nape of her neck.  You ask if she could wear this outfit a little more often, she looks so young and sensual wearing clothes that bare so much " + catGirl("skin", "fur") + ".\n\n");
 	Render.text("Kath just purrs and says, “<i>I’d love to.</i>”");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = KBIT_CLOTHES_TUBETOP;
 	katherineMenu();
 }
 
-private function talkClothesTubeTopInsist():void {
+private talkClothesTubeTopInsist():void {
 	Render.text("\n\nYou take up position behind her" + (pregSize() > 0 ? " and just hold her, lacing your fingers over her belly and kissing" : ", just hold her and kiss") + " the nape of her neck.  You tell her you expect to see her wearing this all the time.  It shows off her body and lets everyone know what a sex fiend she is" + (pregSize() > 0 ? ", particularly now with her swollen belly" : "") + ".\n\n");
 	Render.text("Kath grinds her ass against you and says, “<i>" + (playerMaster() ? "Yes [master]" : "Sure thing lover") + ".  But right now I’d like a good reason to take these clothes off again.</i>”");
 	flags[FlagEnum.KATHERINE_CLOTHES_PREF] = -KBIT_CLOTHES_TUBETOP;
 	katSexMenu();
 }
 
-private function talkClothesNurseOutfit():void {
+private talkClothesNurseOutfit():void {
 	if (flags[FlagEnum.KATHERINE_CLOTHES_WORN] == KBIT_CLOTHES_NURSECL)
 		Render.text("\n\nYou tell Kath that the sexy nurse’s outfit she’s wearing really shows off her figure.  She puts her hands on her hips, spins and takes a few steps away from you, truly strutting her stuff.");
 	else {
@@ -1285,14 +1285,14 @@ private function talkClothesNurseOutfit():void {
 	simpleChoices("Compliment", talkClothesNurseOutfitCompliment, "Suggest", talkClothesNurseOutfitSuggest, "Insist", insist, "", null, "", null);
 }
 
-private function talkClothesNurseOutfitCompliment():void {
+private talkClothesNurseOutfitCompliment():void {
 	Render.text("\n\nYou tickle her belly button and tell her no one could wear that outfit better.\n\n");
 	Render.text("She giggles at the tickling and then hugs you tight.");
 	if (player.lowerBody.vaginaSpot.hasVagina()) Render.text("  “<i>I can think of at least one other person I’d love to see in a nurse’s outfit</i>” she replies, tracing a finger down your back.");
 	katSexMenu();
 }
 
-private function talkClothesNurseOutfitSuggest():void {
+private talkClothesNurseOutfitSuggest():void {
 	Render.text("\n\nYou take up position behind her and whisper in her ear that you like the sound of that.\n\n");
 	Render.text("She purrs and asks in a sultry tone, “<i>You like it when I show off my body in the streets?</i>”\n\n");
 	Render.text("You squeeze her breasts and tell her that you love knowing that she’s doing just that.\n\n");
@@ -1301,7 +1301,7 @@ private function talkClothesNurseOutfitSuggest():void {
 	katherineMenu();
 }
 
-private function talkClothesNurseOutfitInsist():void {
+private talkClothesNurseOutfitInsist():void {
 	Render.text("\n\nYou take up position behind her and whisper in her ear that you like the sound of that.\n\n");
 	Render.text("She purrs and asks in a sultry tone, “<i>You like it when I show off my body in the streets?</i>”\n\n");
 	Render.text("You squeeze her breasts and tell her that from now on you expect it.  Why fight it?  She was built to wear this slutty outfit everywhere.  Even to church, if she ever goes.  Even to visit her parents.\n\n");
@@ -1312,7 +1312,7 @@ private function talkClothesNurseOutfitInsist():void {
 	katSexMenu();
 }
 
-private function talkLovers():void {
+private talkLovers():void {
 	clearOutput();
     //More can be added later
 	let loverSet: number			= playerLovers();
@@ -1366,7 +1366,7 @@ private function talkLovers():void {
 		"Helia", optionHelia, "Urta", optionUrta, "Vala", optionVala, "", null, "Back", katherineMenu);
 }
 
-private function playerLovers(): number {
+private playerLovers(): number {
 	//This function exists so that both talkLovers and talkToKatherine can use the same code to determine who else the player is fucking.
 	let loverSet: number = 0;
 	if (flags[FlagEnum.AMILY_FOLLOWER] == 1) loverSet |= KBIT_LOVER_AMILY; //Not > 0; probably don’t want to admit having corrupt Amily follower to Katherine
@@ -1378,7 +1378,7 @@ private function playerLovers(): number {
 	return loverSet;
 }
 
-private function knownLovers(): number {
+private knownLovers(): number {
 	return (flags[FlagEnum.KATHERINE_AMILY_AFFECTION] > 0 ? 1 : 0)
 		+ (flags[FlagEnum.KATHERINE_COTTON_AFFECTION] > 0 ? 1 : 0)
 		+ (flags[FlagEnum.KATHERINE_EDRYN_AFFECTION] > 0 ? 1 : 0)
@@ -1387,7 +1387,7 @@ private function knownLovers(): number {
 		+ (flags[FlagEnum.KATHERINE_VALA_AFFECTION] > 0 ? 1 : 0);
 }
 
-private function talkLoversAmily():void {
+private talkLoversAmily():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_AMILY_AFFECTION] == 0) {
 		let numLovers: number = knownLovers();
@@ -1406,7 +1406,7 @@ private function talkLoversAmily():void {
 	katherineMenu();
 }
 
-private function talkLoversCotton():void {
+private talkLoversCotton():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_COTTON_AFFECTION] == 0) {
 		let numLovers: number = knownLovers();
@@ -1429,7 +1429,7 @@ private function talkLoversCotton():void {
 	katherineMenu();
 }
 
-private function talkLoversEdryn():void {
+private talkLoversEdryn():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_EDRYN_AFFECTION] == 0) {
 		let numLovers: number = knownLovers();
@@ -1451,7 +1451,7 @@ private function talkLoversEdryn():void {
 	katherineMenu();
 }
 
-private function talkLoversHelia():void {
+private talkLoversHelia():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_HELIA_AFFECTION] == 0) {
 		let numLovers: number = knownLovers();
@@ -1475,7 +1475,7 @@ private function talkLoversHelia():void {
 	katherineMenu();
 }
 
-private function talkLoversUrta():void {
+private talkLoversUrta():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_URTA_AFFECTION] == 0) { //She doesn’t know about you and Urta
 		let urtaKids: number = getGame().urtaPregs.urtaKids();
@@ -1502,21 +1502,21 @@ private function talkLoversUrta():void {
 	katherineMenu();
 }
 
-private function talkLoversUrtaDont():void {
+private talkLoversUrtaDont():void {
 	Render.text("\n\nYou scratch Kath behind the ears and tell her that while you’re happy for her you’d really prefer if she waited for you to be around before banging Urta.  You feel a little left out.\n\n");
 	Render.text("Kath gives you a hug and tells you, “<i>I’ll be good, I promise.  But we do see each other all the time, so I hope you’re planning a lot of threesomes to release all our pent up energy.</i>”");
 	flags[FlagEnum.KATHERINE_URTA_DATE] = KDATE_LITTLE;
 	katherineMenu();
 }
 
-private function talkLoversUrtaWhenever():void {
+private talkLoversUrtaWhenever():void {
 	Render.text("\n\nYou stroke Kath’s tail and tell her that you don’t mind if your favorite herms need to blow off a little steam together.  As long as they don’t wear each other out that is.\n\n");
 	Render.text("Kath giggles and says, “<i>That’s good - oh and you don’t have anything to worry about " + playerText() + ", we’re both so horny that we’re almost always up for some fun.</i>”");
 	flags[FlagEnum.KATHERINE_URTA_DATE] = KDATE_WHENEVER;
 	katherineMenu();
 }
 
-private function talkLoversUrtaEncourage():void {
+private talkLoversUrtaEncourage():void {
 	Render.text("\n\nYou start rubbing the inside of Kath’s thighs.  Once she starts to moan and you start to feel some heat radiating from her crotch you tell her that you think it’s really hot that your lovers are ‘getting along’ so well.\n\n");
 	Render.text("“<i>You mean you want us to uh, spend more time together?</i>”\n\n");
 	Render.text("You let your fingers move a little closer to Kath’s ");
@@ -1529,7 +1529,7 @@ private function talkLoversUrtaEncourage():void {
 	katherineMenu();
 }
 
-private function talkLoversVala():void {
+private talkLoversVala():void {
 	clearOutput();
 	if (flags[FlagEnum.KATHERINE_VALA_AFFECTION] == 0) {
 		Render.text("You tell Katherine the story of how you saved Vala from the imps.  You leave out a lot of the details but Kath still shivers.  When you finish she says, “<i>Wow.  You really are a champion, saving girls left and right.  Strange that she ended up in Tel’Adre as a waitress, isn’t it?  I would have expected her to end up somewhere in the forests.</i>”\n\nKath ");
@@ -1557,21 +1557,21 @@ private function talkLoversVala():void {
 	katherineMenu();
 }
 
-private function talkLoversValaDont():void {
+private talkLoversValaDont():void {
 	Render.text("\n\nYou give Kath a kiss and tell her that while you’re happy that she and Vala get along so well you’d really prefer if she waited for you to be around before doing anything with the faerie waitress.  You feel a little left out.\n\n");
 	Render.text("Kath gives you a hug and tells you, “<i>I’ll be good, I promise.  But we do see each other almost every day at the bar, so I hope you’re planning a lot of threesomes to release all our pent up energy.</i>”");
 	flags[FlagEnum.KATHERINE_VALA_DATE] = KDATE_LITTLE;
 	katherineMenu();
 }
 
-private function talkLoversValaWhenever():void {
+private talkLoversValaWhenever():void {
 	Render.text("\n\nYou stroke Kath’s tail and tell her that you don’t mind if she wants to blow off a little steam with Vala.  They’re both horny and they both need it.  As long as they don’t wear each other out that is.  You want to be sure they’ve got enough energy for threesomes with you.\n\n");
 	Render.text("Kath giggles and says, “<i>I’m glad you feel that way " + playerText() + ".  Some people get really possessive, but you know both of us are hooked on you.</i>”");
 	flags[FlagEnum.KATHERINE_VALA_DATE] = KDATE_WHENEVER;
 	katherineMenu();
 }
 
-private function talkLoversValaEncourage():void {
+private talkLoversValaEncourage():void {
 	Render.text("\n\nYou start playing with Kath’s tail.  Once she starts to moan and grind her thighs together you tell her that you think it’s really nice that she wants to take care of Vala.\n\n");
 	Render.text("“<i>You mean you want us to uh, spend more time together?</i>”\n\n");
 	Render.text("You tell her the two of them need to be there, each for the other.  It's so much healthier for them to release all that tension that builds up.\n\n");
@@ -1580,7 +1580,7 @@ private function talkLoversValaEncourage():void {
 	katherineMenu();
 }
 
-private function talkWetBitch():void {
+private talkWetBitch():void {
 	clearOutput();
 	Render.text("You ask Katherine why she hangs out at the Wet Bitch after work.\n\n");
 	Render.text("She smiles and replies that they make a mean plate of fries.  Then more seriously she says, “<i>There are a few other bars in Tel’Adre, but since Urta " + (isAt(KLOC_KATHS_APT) ? "goes there it's" : "comes here this is") + " sort of the unofficial watch bar.  For average people it means starting fights or robbing drunks is a bad idea but for Watch officers it means " + (isAt(KLOC_KATHS_APT) ? "it's" : "this is") + " a good place for gossip and stories or for just hanging out after work.</i>”\n\n");
@@ -1588,7 +1588,7 @@ private function talkWetBitch():void {
 	katherineMenu();
 }
 
-private function talkCatGirl():void {
+private talkCatGirl():void {
 	clearOutput();
 	if (furry) {
 		Render.text("You ask Kath how she feels now that she's back to being a cat morph.\n\n");
@@ -1607,7 +1607,7 @@ private function talkCatGirl():void {
 	katherineMenu();
 }
 
-private function talkMaster():void {
+private talkMaster():void {
 	clearOutput();
 	if ((flags[FlagEnum.KATHERINE_SUB_FLAGS] & KBIT_SUB_CALL_MASTER) > 0) {
 		Render.text("You tell Kath that while you appereciate her submissiveness and her loyalty you don't want her to call you [master] anymore.\n\n");
@@ -1626,7 +1626,7 @@ private function talkMaster():void {
 	katherineMenu();
 }
 
-private function talkMilk():void {
+private talkMilk():void {
 	clearOutput();
 	Render.text("You ask Kath about her breasts; does she enjoy making milk the way nature intended?\n\n");
 	if (breasts.lactationLevel <= BreastStore.LACTATION_MODERATE) {
@@ -1641,7 +1641,7 @@ private function talkMilk():void {
 	talkMilkMenu();
 }
 
-private function talkMilkMenu():void {
+private talkMilkMenu():void {
 	Render.text("\n\nYou would say that Kath's brests produce ");
 	switch (breasts.lactationLevel) {
 		case BreastStore.LACTATION_LIGHT:		Render.text("only a small amount of cream.");
@@ -1685,7 +1685,7 @@ private function talkMilkMenu():void {
 	addButton(9, "Back", katherineMenu);
 }
 
-private function talkMilkShareWithHelena():void {
+private talkMilkShareWithHelena():void {
 	clearOutput();
 	if (milkOption(KBIT_MILK_SHARE_WITH_HELENA)) {
 		Render.text("You ask Kath if she could stop sharing her milky bounty with Helena.\n\n");
@@ -1702,7 +1702,7 @@ private function talkMilkShareWithHelena():void {
 	}
 }
 
-private function talkMilkShareWithHelenaAnswer(reallyStop:boolean):void {
+private talkMilkShareWithHelenaAnswer(reallyStop:boolean):void {
 	if (reallyStop) {
 		Render.text("\n\nKath looks relieved.  “<i>Thank" + (playerMaster() ? " you [master]" : "s " + player.short) + ", you're the best.</i>”");
 		milkOptionClear(KBIT_MILK_SHARE_WITH_HELENA);
@@ -1713,7 +1713,7 @@ private function talkMilkShareWithHelenaAnswer(reallyStop:boolean):void {
 	talkMilkMenu();
 }
 
-private function talkMilkShareWithUrta():void {
+private talkMilkShareWithUrta():void {
 	clearOutput();
 	if (milkOption(KBIT_MILK_SHARE_WITH_URTA)) {
 		Render.text("You ask Kath to stop sharing her milk with Urta.  You want more for yourself.\n\n");
@@ -1728,7 +1728,7 @@ private function talkMilkShareWithUrta():void {
 	talkMilkMenu();
 }
 
-private function talkMilkShareWithVala():void {
+private talkMilkShareWithVala():void {
 	clearOutput();
 	if (milkOption(KBIT_MILK_SHARE_WITH_VALA)) {
 		Render.text("You ask Kath to stop sharing her milk with Vala.  You want more for yourself.\n\n");
@@ -1743,7 +1743,7 @@ private function talkMilkShareWithVala():void {
 	talkMilkMenu();
 }
 
-private function talkMilkShareWithOldGang():void {
+private talkMilkShareWithOldGang():void {
 	clearOutput();
 	if (milkOption(KBIT_MILK_SHARE_WITH_OLD_GANG)) {
 		Render.text("You tell Kath it's time she stopped feeding her old street gang.  You'd like more of her cream for yourself.\n\n");
@@ -1761,7 +1761,7 @@ private function talkMilkShareWithOldGang():void {
 	}
 }
 
-private function talkMilkShareWithFriends():void {
+private talkMilkShareWithFriends():void {
 	clearOutput();
 	if (milkOption(KBIT_MILK_SHARE_WITH_FRIENDS)) {
 		Render.text("You tell Kath it's time she stopped sharing with all her friends.  You'd like a little more cream for yourself.\n\n");
@@ -1782,7 +1782,7 @@ private function talkMilkShareWithFriends():void {
 	}
 }
 
-private function talkMilkLimitation():void {
+private talkMilkLimitation():void {
 	let doneHighLactation:boolean = doneSubmissive(KBIT_SUB_HIGH_LACTATION);
 	Render.text("\n\n<b>At the moment Kath's been told ");
 	switch (breasts.preventLactationIncrease) {
@@ -1809,7 +1809,7 @@ private function talkMilkLimitation():void {
 	addButton(9, "No Change", talkMilkMenu);
 }
 
-private function talkMilkLimitationChange(newLimit: number):void {
+private talkMilkLimitationChange(newLimit: number):void {
 	clearOutput();
 	if (newLimit == 0 && !doneSubmissive(KBIT_SUB_HIGH_LACTATION)) {
 		breasts.preventLactationIncrease = BreastStore.LACTATION_MODERATE; //Kath can't go beyond moderate without more lactaid
@@ -1838,7 +1838,7 @@ private function talkMilkLimitationChange(newLimit: number):void {
 	talkMilkMenu();
 }
 
-private function katherineDate():void {
+private katherineDate():void {
 	clearOutput(); //Urta's Place and Camp are not available in this expansion
 	Render.text("You decide that it might be an idea to lead Katherine somewhere.  Who knows what kind of fun you could get up to?");
 	if (isAt(KLOC_KATHS_APT))
@@ -1847,7 +1847,7 @@ private function katherineDate():void {
 		simpleChoices("Kath's Place", dateGotoKaths, "Urta's Place", null, "Bath", dateKathBath, "Camp", null, "Back", katherineMenu);
 }
 
-private function dateGotoKaths():void {
+private dateGotoKaths():void {
 	if (isAt(KLOC_URTAS_APT)) {
 		Render.text("\n\nYou offer to walk her home.  Kath smiles at you, but before she steps out the door Urta grabs her from behind, giving the cat " + catGirl("girl", "morph") + " a big hug.  Then Urta steps out and gives you a hug too.\n\n");
 		Render.text("As she goes back inside Urta says, “<i>You take care of each other - and don't do anything I wouldn't do.</i>”");
@@ -1863,7 +1863,7 @@ private function dateGotoKaths():void {
 	doNext(takeKathHome);
 }
 
-private function takeKathHome():void { //You are bringing her home for sexy times
+private takeKathHome():void { //You are bringing her home for sexy times
 	Render.text("\n\nThe two of you race through the streets heading for Kath's apartment.  You let her stay ahead of you most of the way so you get a nice view of her tight little ass.\n\n");
 	Render.text("Kath just about attacks the lock with her key.  As soon as the door opens she pulls you through eagerly, locking it behind you and leading you to the bedroom.\n\n");
 	clothes();
@@ -1872,7 +1872,7 @@ private function takeKathHome():void { //You are bringing her home for sexy time
 	katherineMenu();
 }
 
-private function dateGotoBar():void {
+private dateGotoBar():void {
 	if (isAt(KLOC_URTAS_APT)) {
 		Render.text("\n\nYou offer to take Kath back to the Wet Bitch.  Kath smiles at you, but before she steps out the door Urta grabs her from behind, giving the cat " + catGirl("girl", "morph") + " a big hug.  Then Urta steps out and gives you a hug too.\n\n");
 		Render.text("As she goes back inside Urta says, “<i>You take care of each other - and don't do anything I wouldn't do.</i>”");
@@ -1888,7 +1888,7 @@ private function dateGotoBar():void {
 	doNext(takeKathToTheBar);
 }
 
-private function takeKathToTheBar():void { //You are bringing her to the Wet Bitch
+private takeKathToTheBar():void { //You are bringing her to the Wet Bitch
 	Render.text("\n\nThe two of you walk through the streets of Tel'Adre arm in arm.  Kath enjoys the walk while you think about what you'd like to do with her once you reach the bar.\n\n");
 	Render.text("When you walk through the doors of the Wet Bitch Kath stops at the bar and buys a " + (pregSize() > 0 ? "milkshake" : "brown, creamy looking drink with ice cubes in it") + ", which she starts sipping luxuriously.\n\n");
 	Render.text("Since it happens to be free you both take a seat at her usual booth and you feel Kath's leg rub against " + (player.isNaga() ? "yours." : "your tail."));
@@ -1896,7 +1896,7 @@ private function takeKathToTheBar():void { //You are bringing her to the Wet Bit
 	katherineMenu();
 }
 
-public function dateKathBath():void {
+public dateKathBath():void {
 	Render.text("\n\nYou ask Kath what she thinks of taking a trip out to the lake.\n\n");
 	Render.text("“<i>Oh, but I have nothing to wear,</i>” she says in a playful, seductive tone.  ");
 	if (isAt(KLOC_STREETS))
@@ -1909,7 +1909,7 @@ public function dateKathBath():void {
 	doNext(bathTime);
 }
 
-private function katherineDrinkUp():void {
+private katherineDrinkUp():void {
 	clearOutput();
 	Render.text("You sit across from Kath and ask her what she’s drinking.\n\n");
 	Render.text("She shows you a tumbler with some opaque light brown liquid in it.  “<i>They have this cream liqueur called Venusia.  It’s like drinking milk and booze at the same time.  It’s pretty strong but also girly - kinda like me.  I guess that’s why I like it a lot.</i>”\n\n");
@@ -1923,7 +1923,7 @@ private function katherineDrinkUp():void {
 }
 
 //Katherine Appearance:
-private function katherinesAppearance(clear:boolean = true):void {
+private katherinesAppearance(clear:boolean = true):void {
     if (clear) clearOutput();
     Render.text(images.showImage("katherine-examine-her-appearance"));
     if (flags[FlagEnum.KATHERINE_UNLOCKED] < 4) { //Still unemployed
@@ -1991,7 +1991,7 @@ private function katherinesAppearance(clear:boolean = true):void {
 }
 	
 //Give Item:
-private function giveKatherineAnItem():void {
+private giveKatherineAnItem():void {
 	clearOutput();
 	Render.text("You tell Katherine that you have a present for her.\n\n");
 	Render.text("The cat-morph's face lights up, but then she guiltily lowers her eyes.  “<i>I can't - you're too good to me already...</i>”  You cut her off, insisting that you want to give it to her.  “<i>Okay, if you're sure... what is it?</i>”\n\n");
@@ -2034,7 +2034,7 @@ private function giveKatherineAnItem():void {
 }
 
 //Reducto
-private function useReductoOnKat():void {
+private useReductoOnKat():void {
 	clearOutput();
 	let dickMin: number = (flags[FlagEnum.KATHERINE_UNLOCKED] >= 4 ? 6 : 8); //If she's employed she'll go as low as 6 inches
 	if (cockLength <= dickMin && ballSize <= 1 && knotSize <= 2 && breasts.cupSize == BREAST_CUP.A) {
@@ -2066,7 +2066,7 @@ private function useReductoOnKat():void {
     }
 }
 
-private function useRedoctoOnKatsKnot():void {
+private useRedoctoOnKatsKnot():void {
 	clearOutput();
 	Render.text("You gently reach out and start to stroke her sheath up and down, feeling the long bone of ");
 	if (cockNumber > 1)
@@ -2097,7 +2097,7 @@ private function useRedoctoOnKatsKnot():void {
 }
 
 //[Cock Length] (unavailable unless Kat cocklength is >8, or >6 if she's employed)
-private function useReductoOnKatsKock():void {
+private useReductoOnKatsKock():void {
 	clearOutput();
 	Render.text("With a gesture, you indicate for her to expose herself.  In obedience, she begins to stroke her sheath and expose its contents, bashfully at first but with increasing vigor as her erection takes hold.  Soon she's masturbating happily with her eyes closed and her head rolled back on her neck, having nearly forgotten what she was doing in the first place.  You ");
 	if (player.stats.lib > 50) Render.text("allow her to continue until " + (ballSize > 0 ? "her scrotum tightens up and " : "") + "it looks like she'll blow her load with one more touch, and then ");
@@ -2131,7 +2131,7 @@ private function useReductoOnKatsKock():void {
 }
 
 //[Ball Size](unavailable until Kat balls > 1")
-private function reductoBallSize():void {
+private reductoBallSize():void {
 	clearOutput();
 	if (isAt(KLOC_STREETS)) Render.text("With a little help from you, she " + clothesLowerChoice("wriggles out of her shorts", "strips off her panties and raises her skirt", "strips off her bodysuit", "strips off her panties and raises her skirt", "unties her robe") + ", exposing her swollen testes.  ");
 	Render.text("You wonder for a moment if the " + catGirl("hair", "fur") + " on her " + (ballSize > 3 ? "distended" : "") + " sack will interfere with the process, then decide it can't hurt to try.  Uncertainly, you open the jar and begin smearing your fingers with the salve, which you then start painting across Katherine's balls.  The hermaphrodite " + catGirl("cat girl", "feline") + " shivers at your touch, but bites her lip and says nothing as you massage the shrinking cream into her semen-factories, rolling the globular orbs around in the palm of your hand to ensure a thorough, even coating.\n\n");
@@ -2145,7 +2145,7 @@ private function reductoBallSize():void {
 	katSexMenu();
 }
 
-private function useRreductoOnKatsBreasts():void {
+private useRreductoOnKatsBreasts():void {
 	clearOutput();
 	Render.text("You get on the bed next to Kath and place the jar on her belly.  As you coat your hands with the cool cream Kath closes her eyes and begins to purr.  There seems to be no change as you rub the ointment into her " + breasts.adj() + " " + breasts.cup() + " breasts.  Only when the jar is nearly exhausted do they start to firm up and contract.");
 	if (breasts.lactating()) {
@@ -2174,7 +2174,7 @@ private function useRreductoOnKatsBreasts():void {
 }
 
 //Bulbous Pepper
-private function giveKatABulbousPepper():void {
+private giveKatABulbousPepper():void {
 	clearOutput();
 	Render.text("You hold out your bulbous canine pepper and ask if she'd like to eat it.\n\n");
 	if (!hasCock()) {
@@ -2251,7 +2251,7 @@ private function giveKatABulbousPepper():void {
 	}
 }
 
-private function giveKatACaninePepper():void {
+private giveKatACaninePepper():void {
 	clearOutput();
 	Render.text("You offer Katherine a canine pepper and ask if she'd like to have one for old times sake.\n\n");
 	if (hasDogCock()) {
@@ -2269,7 +2269,7 @@ private function giveKatACaninePepper():void {
 }
 
 //Double Pepper
-private function giveKatADoublePepper():void {
+private giveKatADoublePepper():void {
 	clearOutput();
 	if (!hasCock()) {
 		Render.text("You hold out your double canine pepper and ask if she'd like to eat it.\n\n");
@@ -2310,7 +2310,7 @@ private function giveKatADoublePepper():void {
 }
 
 //Overly Large Pepper
-private function giveKatAOverlyLargePepper():void {
+private giveKatAOverlyLargePepper():void {
 	clearOutput();
 	let kathSubEnough:boolean = submissiveness() >= 4 || (submissiveness() >= 2 && flags[FlagEnum.KATHERINE_URTA_TIMES_SEX] > 0); //May as well test this just once
 	if (!hasCock()) {
@@ -2385,7 +2385,7 @@ private function giveKatAOverlyLargePepper():void {
     }
 }
 
-private function giveKatDefurFormula():void {
+private giveKatDefurFormula():void {
 	clearOutput();
 	Render.text("You pull out the ingredients and lay them one by one on Katherine’s bed.  The succubus’ milk, the little golden seed and the deep black egg.  Kath watches with interest, finally asking, “<i>What’s all that for?</i>”\n\n");
 	Render.text("You explain that taken together these substances should alter her physique, making her look more human.\n\n");
@@ -2441,7 +2441,7 @@ private function giveKatDefurFormula():void {
 	katSexMenu();
 }
 
-private function giveKatAKnottyPepper():void {
+private giveKatAKnottyPepper():void {
 	//Kath can now regrow her knot. At first she’s willing to regrow it to 4", at submissiveness 1 she //will regrow it to its original 6" size.
 	clearOutput();
 	Render.text("You show Kath the knotted canine pepper and ask if it brings back any memories.\n\n");
@@ -2514,7 +2514,7 @@ private function giveKatAKnottyPepper():void {
 	katSexMenu();
 }
 
-private function usePinkEggOnKath():void {
+private usePinkEggOnKath():void {
 	clearOutput();
 	if (cockNumber == 1) {
 		Render.text("You show Katherine the pink egg and tell her that eating it would make her all woman.\n\n");
@@ -2556,7 +2556,7 @@ private function usePinkEggOnKath():void {
 	katSexMenu();
 }
 
-private function useIncubiDraftOnKath():void {
+private useIncubiDraftOnKath():void {
 	clearOutput();
 	if (!hasCock()) {
 		Render.text("You show Kath the bottle of Incubi Draft and tell her that it’s been purified.  Kath takes it eagerly and examines the cloudy liquid.\n\n");
@@ -2630,7 +2630,7 @@ private function useIncubiDraftOnKath():void {
 	katSexMenu();
 }
 
-private function giveKatPureSuccubusDelight():void {
+private giveKatPureSuccubusDelight():void {
 	clearOutput();
 	Render.text("You show Kath the bottle of Succubi's Delight and tell her that it’s been purified.  Kath takes it and tips the bottle from side to side, examining the cloudy liquid inside.  ");
 	if (!hasBalls()) {
@@ -2682,7 +2682,7 @@ private function giveKatPureSuccubusDelight():void {
 	katSexMenu();
 }
 
-private function giveKatPureSuccubusMilk():void {
+private giveKatPureSuccubusMilk():void {
 	clearOutput();
 	let kathSubEnough:boolean = submissiveness() >= 2;
 	if (breasts.cupSize < CoC.BREAST_CUP.DD_BIG) { //She’s willing to go up to big DD-Cup normally
@@ -2747,7 +2747,7 @@ private function giveKatPureSuccubusMilk():void {
 	katSexMenu();
 }
 
-private function giveKatTheGiftOFMilk():void {
+private giveKatTheGiftOFMilk():void {
 	clearOutput();
 	Render.text("You pull out the small pink bottle of Lactaid and show it to Kath.  ");
 	if (!doneSubmissive(KBIT_SUB_START_LACTATION)) {
@@ -2828,14 +2828,14 @@ private function giveKatTheGiftOFMilk():void {
 	katSexMenu();
 }
 
-private function giveKatRefuzzFormula():void {
+private giveKatRefuzzFormula():void {
 	clearOutput();
 	Render.text("It’s time to make your cat girl back into a cat morph.  You pull out the ingredients and lay them one by one on Katherine’s bed.  The whisker fruit, the vial of hair extension serum and the honey from the bees of the forest.  Kath watches with interest, until you finally tell her this should regrow her fur and turn her back into a cat morph.\n\n");
 	Render.text("Kath fetches a drinking cup for you to mix the ingredients.  “<i>By the way " + playerText() + ", I’ve really enjoyed not having fur.  I didn’t expect it but it didn’t feel strange after a while.</i>”  She makes a show of undressing and runs her hands over her supple skin.  “<i>Are you sure you want to change me back?</i>”\n\n");
 	simpleChoices("Change Her", giveKatRefuzzFormulaChange, "Don't Change", giveKatRefuzzFormulaDontChange, "", null, "", null, "", null);
 }
 
-private function giveKatRefuzzFormulaChange():void {
+private giveKatRefuzzFormulaChange():void {
 	clearOutput();
 	Render.text("You dump the honey and the hair serum into the cup and start squeezing the juice out of the whisker fruit.  As it dribbles into the cup Kath continues.  “<i>If you ever want me to be a cat girl - <b>your cat girl</b> - again, just ask.  I love the feeling of all those eyes on me, wondering what I am and what I’m like in bed.</i>”\n\n");
 	Render.text("The mixture in the cup begins to foam up and for a moment you worry it’s going to overflow.  The reaction dies down, but what’s left is a thick, clear paste.  Kath dips a finger in and says, “<i>It’s cool to the touch.</i>”  A few tiny hairs sprout from her fingertip.  “<i>I guess this is more of an ointment,</i>” she says, taking the cup.\n\n");
@@ -2860,7 +2860,7 @@ private function giveKatRefuzzFormulaChange():void {
 	katSexMenu();
 }
 
-private function giveKatRefuzzFormulaDontChange():void {
+private giveKatRefuzzFormulaDontChange():void {
 	clearOutput();
 	Render.text("You ask if she’s sure.\n\n");
 	Render.text("“<i>Yes. I like the feel of soft fabrics so much more now.  I can deal with the desert heat so much better I’ve even thought of telling other cats how good it feels.</i>”\n\n");
@@ -2868,7 +2868,7 @@ private function giveKatRefuzzFormulaDontChange():void {
 	katSexMenu();
 }
 
-private function useReductoAndPinkEgg():void {
+private useReductoAndPinkEgg():void {
 	clearOutput();
 	Render.text("You show Katherine the pink egg and the jar of reducto.  “<i>What’s that for?</i>” she asks.  You tell her that you’ve met herms that have no balls.  You’re pretty sure that together the egg and the salve can make her like that.\n\n");
 	if (!doneSubmissive(KBIT_SUB_REM_BALLS)) //First time doing this
@@ -2907,7 +2907,7 @@ private function useReductoAndPinkEgg():void {
 	}
 }
 
-private function giveKatWhiskerFruit():void {
+private giveKatWhiskerFruit():void {
 	clearOutput();
 	Render.text("You offer Katherine the small, fuzzy fruit with a smile.  Kath’s pupils begin to dilate and you notice ");
 	if (hasCock())
@@ -2958,7 +2958,7 @@ private function giveKatWhiskerFruit():void {
 	katSexMenu();
 }
 
-private function giveKatClothesBodysuit():void {
+private giveKatClothesBodysuit():void {
 	clearOutput();
 	Render.text("You get Kath to stand in front of the mirror and tell her to close her eyes.  When she does you pull out the bodysuit and press it against her.\n\n");
 	Render.text("Kath’s eyes fly open and she feels the thin, sheer fabric with her fingers.  “<i>Oh " + playerText() + " it’s so nice.</i>”  She bites her lip as she studies herself in mirror.  Still totally flustered she speaks again.  “<i>I already know how much you love me " + playerText() + ", you don’t have to shower me with such lovely gifts to keep me - I’m already yours.  This must have been so expensive!</i>”\n\n");
@@ -2980,7 +2980,7 @@ private function giveKatClothesBodysuit():void {
 	simpleChoices("Yes", giveKatClothesBodysuitYes, "No", giveKatClothesBodysuitNo, "Always", (submissiveness() >= 2 ? giveKatClothesBodysuitAlways : null), "", null, "", null);
 }
 
-private function giveKatClothesBodysuitYes():void {
+private giveKatClothesBodysuitYes():void {
 	clearOutput();
 	Render.text("You tell her that’s exactly what you want.  She has an incredible body and she should learn to show off a little.  The sight of her bending over to inspect some produce in the market will make people’s days.  For a lovely girl like her wearing a transparent bodysuit is a public service.\n\n");
 	Render.text("Kath sighs contentedly and says, “<i>" + (playerMaster() ? "Yes [master]" : "Alright " + player.short) + ", if that’s what you like then expect to see me wearing this a lot.  Now, if you don’t mind I think I should get undressed again because I think things are about to get messy.  After all I still need to thank you for this wonderful gift.</i>”");
@@ -2988,14 +2988,14 @@ private function giveKatClothesBodysuitYes():void {
 	katSexMenu();
 }
 
-private function giveKatClothesBodysuitNo():void {
+private giveKatClothesBodysuitNo():void {
 	clearOutput();
 	Render.text("You consider it but tell Kath that at least for now you want to keep the bodysuit as something that she might wear on special occasions, an outfit she only puts on once in a while when she wants to feel different.  Kath nods and you get the feeling she’s more comfortable with the idea of wearing the bodysuit in private.\n\n");
 	Render.text("“<i>Now,</i>” she says, like it’s time to get to work, “<i>I haven’t properly thanked you for this wonderful gift yet.</i>”");
 	katSexMenu();
 }
 
-private function giveKatClothesBodysuitAlways():void {
+private giveKatClothesBodysuitAlways():void {
 	clearOutput();
 	Render.text("You nibble Kath’s ear, causing her to wriggle in your arms.  You tell her that she looks amazing in the bodysuit.  In fact you would say that it ‘suits’ her.  She moans, but you’re not sure if that’s due to your pun or the fact you’ve started to rub her nipples through the fabric.\n\n");
 	Render.text("You tell her that she has an incredible body and she should learn to show off a little.  The sight of her bending over to inspect some produce in the market will make people’s days.  For a lovely girl like her wearing a transparent bodysuit is a public service.\n\n");
@@ -3009,7 +3009,7 @@ private function giveKatClothesBodysuitAlways():void {
 	katSexMenu();
 }
 
-private function giveKatClothesLongDress():void {
+private giveKatClothesLongDress():void {
 	clearOutput();
 	Render.text("You get Kath to stand in front of the mirror and tell her to close her eyes.  When she does you pull out the elegant ballroom dress and press it against her.\n\n");
 	Render.text("It takes Kath quite a while to find her voice.  When she does she hugs you tightly and says, “<i>It’s beautiful!</i>”  There are tears in her eyes and she’s starting to sniffle.  “<i>I’ll look like a princess in this dress,</i>” she says, slowly stroking the floor length skirt.  “<i>Oh, you can’t spend so much on me " + playerText() + " - you’ve already given me a whole new life!  I should be the one giving you presents.</i>”\n\n");
@@ -3021,7 +3021,7 @@ private function giveKatClothesLongDress():void {
 	simpleChoices("Wear It", giveKatClothesDressWearIt, "Agree", giveKatClothesDressAgree, "Always Wear", (submissiveness() >= 2 ? giveKatClothesDressAlways : null), "", null, "", null);
 }
 
-private function giveKatClothesDressWearIt():void {
+private giveKatClothesDressWearIt():void {
 	clearOutput();
 	Render.text("You put your hands on Kath’s shoulders and tell her you bought this dress so she could enjoy it, not so that it could hang in her wardrobe all day.  She thinks it makes her look great and you couldn’t agree more.  She should wear it whenever she wants and show the people of Tel’Adre what a cat with class looks like.\n\n");
 	Render.text("Kath beams at your compliments and says, “<i>If you’re going to put it like that I’m not going to argue.  Now it’s time for me to start thanking you.  It’s going to take months before I feel I’ve showed you how much this means to me, but here’s how it’s going to start.  I’m going to sit on the bed and you can pick any way you want to open your present.</i>”\n\n");
@@ -3029,14 +3029,14 @@ private function giveKatClothesDressWearIt():void {
 	katSexMenu();
 }
 
-private function giveKatClothesDressAgree():void {
+private giveKatClothesDressAgree():void {
 	clearOutput();
 	Render.text("Kath is probably right.  It’s a shame, since it looks great on her.  You tell her if she’s too worried to take it out now then that’s okay, but you hope every once in a while she decides to wear it and show off to the neighbours.\n\n");
 	Render.text("Kath snuggles against your chest and says, “<i>Sounds good to me.  Now it’s time for me to start thanking you.  It’s going to take months before I feel I’ve showed you how much this means to me, but here’s how it’s going to start.  I’m going to sit on the bed and you can pick any way you want to open your present.</i>”\n\n");
 	katSexMenu();
 }
 
-private function giveKatClothesDressAlways():void {
+private giveKatClothesDressAlways():void {
 	clearOutput();
 	Render.text("You put your hands on Kath’s shoulders and tell her you bought this dress so you could both enjoy it, not so that it could hang in her wardrobe all day.  She thinks it makes her look great and you couldn’t agree more.  In fact she should wear it all the time and show the people of Tel’Adre what a cat with class looks like.\n\n");
 	Render.text("Kath smiles and asks, “<i>Do you insist?</i>”  You reach a little higher and play with her ears.  " + (hasCock() ? "You can’t see it, but you know that under the gown her shaft is hardening.  " : "") + "“<i>Oh yes,</i>” she says, falling into your arms, “<i>if you’re going to put it like that I’m not going to argue.  I promise I’ll wear it every day.  Now it’s time for me to start thanking you.  It’s going to take months before I feel I’ve showed you how much this means to me, but here’s how it’s going to start.  I’m going to sit on the bed and you can pick any way you want to open your present.</i>”\n\n");
@@ -3044,7 +3044,7 @@ private function giveKatClothesDressAlways():void {
 	katSexMenu();
 }
 
-private function giveKatClothesNurseOutfit():void {
+private giveKatClothesNurseOutfit():void {
 	clearOutput();
 	Render.text("You get Kath to stand in front of the mirror and tell her to close her eyes.  When she does you pull out the three pieces of the skimpy nurse outfit and press them against her.\n\n");
 	Render.text("Katherine takes each of the three pieces in turn and studies them.  “<i>This is really, really racy.  Oh sure, it covers everything; I won’t get in any trouble... but wow.</i>”  She holds the tiny white top against her " + breasts.cup() + "s and gives you a toothy smile.  “<i>");
@@ -3073,7 +3073,7 @@ private function giveKatClothesNurseOutfit():void {
 	katSexMenu();
 }
 
-private function giveKatClothesSilkRobe():void {
+private giveKatClothesSilkRobe():void {
 	clearOutput();
 	Render.text("You get Kath to stand in front of the mirror and tell her to close her eyes.  When she does you pull out the spider silk robe and hold it against her.  It’s so soft and airy that you finally have to tell her to open her eyes.\n\n");
 	Render.text("She gawks at the robes, taking them gently and running her fingers over the fine silk and the embroidered runes.  She whispers, “<i>Where did you get this?  I’ve never seen anything like it.</i>”\n\n");
@@ -3086,7 +3086,7 @@ private function giveKatClothesSilkRobe():void {
 	simpleChoices("Wear It", giveKatClothesRobeWear, "Don’t Wear", giveKatClothesRobeDontWear, "Always Wear", (submissiveness() >= 2 ? giveKatClothesRobeAlways : null), "", null, "", null);
 }
 
-private function giveKatClothesRobeWear():void {
+private giveKatClothesRobeWear():void {
 	clearOutput();
 	Render.text("You tell Katherine that she’s special too.  These robes make her look a little exotic, but without her shapely body inside they’d be no more than a soft lump on the floor.  Knowing that she can feel everything you do right through the robe you hold her close and start to slide your hands down her spine.\n\n");
 	Render.text("Kath lets out a very pleased purr as you reach her ass.  You work the root of her tail between your hands and ");
@@ -3099,7 +3099,7 @@ private function giveKatClothesRobeWear():void {
 	katSexMenu();
 }
 
-private function giveKatClothesRobeDontWear():void {
+private giveKatClothesRobeDontWear():void {
 	clearOutput();
 	Render.text("Since the robes are a bit exotic perhaps she should only wear them sparingly.  Kath seems happy to leave things there and moves closer to you before you can add any provisos or conditions.\n\n");
 	Render.text("Without warning she hops up and wraps her legs around you at waist level.  Her hands hold your head against her breasts.  Knowing that she can feel everything you do right through the robe you start to slide your hands down her spine.  Kath lets out a very pleased purr as you reach her ass.  You work the root of her tail between your hands and ");
@@ -3110,7 +3110,7 @@ private function giveKatClothesRobeDontWear():void {
 	katSexMenu();
 }
 
-private function giveKatClothesRobeAlways():void {
+private giveKatClothesRobeAlways():void {
 	clearOutput();
 	Render.text("You tell Katherine that she’s special too.  These robes make her look a little exotic, but without her shapely body inside they’d be no more than a soft lump on the floor.  Knowing that she can feel everything you do right through the robe you hold her close and start to slide your hands down her spine.\n\n");
 	Render.text("Kath lets out a very pleased purr as you reach her ass.  You work the root of her tail between your hands and ");
@@ -3124,7 +3124,7 @@ private function giveKatClothesRobeAlways():void {
 	katSexMenu();
 }
 
-private function giveKatClothesTubeTop():void {
+private giveKatClothesTubeTop():void {
 	clearOutput();
 	Render.text("You get Kath to stand in front of the mirror and tell her to close her eyes.  When she does you pull out the tube top and accompanying tight shorts and press them against her.\n\n");
 	Render.text("Kath takes the snug top and stretches it across her " + breasts.adj() + " breasts.  “<i>I’ve seen outfits like this in some of the shops around here.  Thank you " + playerText() + ", I’m sure it will look good on me.</i>”\n\n");
@@ -3145,7 +3145,7 @@ private function giveKatClothesTubeTop():void {
 	katSexMenu();
 }
 
-private function giveKatDyeBegin(dyeColor:string):void {
+private giveKatDyeBegin(dyeColor:string):void {
 	clearOutput();
 	Render.text("You pull out the vial of hair dye and offer it to Katherine.\n\n");
 	Render.text("“<i>For me?</i>” she asks, surprised.  Kath takes the small bottle from your hand and examines it closely.  “<i>Well - only one way to see how it looks.</i>”\n\n");
@@ -3153,20 +3153,20 @@ private function giveKatDyeBegin(dyeColor:string):void {
 	hairColor = dyeColor; 
 }
 
-private function giveKatDyeEnd():void {
+private giveKatDyeEnd():void {
 	Render.text("She spins round and hugs you.  “<i>Thank you " + playerText() + ".  Does it look as good as you hoped?</i>”\n\n");
 	Render.text("You assure her it does but you get the feeling Kath would prefer it if you showed your approval more physically.");
 	katSexMenu();
 }
 
-private function giveKatDyeAuburn():void {
+private giveKatDyeAuburn():void {
 	giveKatDyeBegin("rich auburn");
 	player.consumeItem(consumables.AUBURND);
 	Render.text(".\n\nKath takes a look in the mirror and tries combing her hair several different ways.  “<i>It’s not that flashy, but it looks good on me.  There’s a nice contrast with my " + catGirl("skin", "fur") + ".</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyeBlack():void {
+private giveKatDyeBlack():void {
 	giveKatDyeBegin("jet black");
 	player.consumeItem(consumables.BLACK_D);
 	Render.text(", matching the fur ");
@@ -3188,49 +3188,49 @@ private function giveKatDyeBlack():void {
 	}
 }
 
-private function giveKatDyeBlonde():void {
+private giveKatDyeBlonde():void {
 	giveKatDyeBegin("light blonde");
 	player.consumeItem(consumables.BLOND_D);
 	Render.text(".\n\nKath takes a look in the mirror and tries combing her hair several different ways.  “<i>When I was a little kitty I was always jealous of felines with lighter colored fur.  " + catGirl("Now I’ve got blonde hair and no fur, except on my ears and tail.  They’re the ones who ought to be jealous now", "I think it looks good on me, especially since there’s such a contrast with my fur")  + ".</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyeBlue():void {
+private giveKatDyeBlue():void {
 	giveKatDyeBegin("bright blue");
 	player.consumeItem(consumables.BLUEDYE);
 	Render.text(".\n\nKath takes a look in the mirror and runs her fingers through her hair.  “<i>Wow.  Nice and bright.  Really appropriate for an officer who’s part of the thin blue line.</i>”  She giggles a bit and says, “<i>This is a color I always wanted to try and I think it looks great!</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyeOrange():void {
+private giveKatDyeOrange():void {
 	giveKatDyeBegin("vibrant orange");
 	player.consumeItem(consumables.ORANGDY);
 	Render.text(".\n\nKath takes a look in the mirror and runs her fingers through her hair.  “<i>Wow.  Nice and bright.  No one is going to miss me now.  This is almost the same color the Watch paints on doors to mark dangerously unstable houses.</i>”  She giggles a bit and says, “<i>I always wanted to try orange and I think it looks great on me!</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyePink():void {
+private giveKatDyePink():void {
 	giveKatDyeBegin("neon pink");
 	player.consumeItem(consumables.PINKDYE);
 	Render.text(".\n\nKath takes a look in the mirror and runs her fingers through her hair.  “<i>Back to the old classic.  Nothing wrong with hot pink.  I always used to wear it so people thought I was a girl, or at least a really girly herm.</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyePurple():void {
+private giveKatDyePurple():void {
 	giveKatDyeBegin("deep purple");
 	player.consumeItem(consumables.PURPDYE);
 	Render.text(".\n\nKath takes a look in the mirror and tries combing her hair several different ways.  “<i>It’s not as bright as the colors I would have picked, but it looks does look good.  " + catGirl("I guess it’s the opposite of the black fur and bright pink hair I used to have.  Now I’ve got dark purple hair and light skin", "My fur is so dark the purple still stands out.  Not many girls could say that") + ".</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyeRed():void {
+private giveKatDyeRed():void {
 	giveKatDyeBegin("flaming red");
 	player.consumeItem(consumables.RED_DYE);
 	Render.text(".\n\nKath looks in the mirror and starts to pose.  “<i>I don’t know about you, but I’m getting turned on.  Everyone says redheads have more fun.  Maybe it’s attitude, maybe it’s something in this dye.  But who cares why?  I just plan to prove them right.</i>”\n\n");
 	giveKatDyeEnd();
 }
 
-private function giveKatDyeWhite():void {
+private giveKatDyeWhite():void {
 	giveKatDyeBegin("snow white");
 	player.consumeItem(consumables.WHITEDY);
 	Render.text(".\n\nKath takes a look in the mirror and tries combing her hair several different ways.  “<i>When I was a little kitty I was always jealous of felines with lighter colored fur.  " + catGirl("Now I’ve got snow white hair and only a little bit of black fur on my ears and tail.  They’re the ones who ought to be jealous now.  In this desert heat I win!", "I think it looks good on me but the contrast is something else.  It almost hurts my eyes looking at my shoulders and it’s going to be even worse in sunlight.  No one is going to walk into me now.") + "</i>”\n\n");
@@ -3238,7 +3238,7 @@ private function giveKatDyeWhite():void {
 }
 
 //Sex
-public function katherineSex():void {
+public katherineSex():void {
 	clearOutput();
 	if (getGame().urta.drainedByKath) {
 			Render.text("There are certainly a few things you can think to do with your horny kitten, especially after that display, so you lead her toward the rear exit.  Katherine paws at your belt, but you keep her under control until you're both out of sight of the other patrons.  You give Kath a quick kiss and realize you have only a moment to decide what you want to do with her before she takes matters into her own hands.");
@@ -3255,7 +3255,7 @@ public function katherineSex():void {
 	katSexMenu();
 }
 
-private function katSexMenu():void {
+private katSexMenu():void {
 	let penetrate:Function = null;
 	let getPen:Function = null;
 	let helix:Function = null;
@@ -3304,7 +3304,7 @@ private function katSexMenu():void {
 	}
 }
 
-private function katherineDrunkSeeUrta():void {
+private katherineDrunkSeeUrta():void {
 	clearOutput();
 	Render.text("Now that you’ve lowered Kath’s inhibitions you suggest the two of you should go and talk to Urta.\n\n");
 	Render.text("“<i>Yeah, the captain looks like she could use some company.</i>”\n\n");
@@ -3346,7 +3346,7 @@ private function katherineDrunkSeeUrta():void {
 	}
 }
 
-private function katherineSeeUrta():void {
+private katherineSeeUrta():void {
 	clearOutput();
 	if (getGame().urta.urtaDrunk()) {
 		Render.text("Katherine looks over at Urta’s table and sees that the captain is obviously sloshed.  She finishes off her drink and whispers, “<i>Now " + playerText() + ", I think we both know that if I go over there Urta is going to pound me into the floor.</i>”\n\n");
@@ -3376,7 +3376,7 @@ private function katherineSeeUrta():void {
 	}
 }
 
-private function katherineSeeVala():void {
+private katherineSeeVala():void {
 	clearOutput();
 	Render.text("Kath looks like she’s ready for some fun but before you get started something else catches your eye.  You note that Vala is sitting at one end of the bar, her tray propped up beside her.  It looks like a slow night and Vala seems bored.  " + (flags[FlagEnum.KATHERINE_VALA_AFFECTION] < 5 ? "You decide it’s time to expand their horizons and" : "You know they enjoy each other’s company so you") + " motion for her to come over.\n\n");
 	Render.text("Vala flies over quickly.  When she arrives you pat the seat next to you. You’re sitting between your submissive cat " + catGirl("girl", "morph") + " on one side and your supersized faerie on the other.  You certainly walked a strange path to wind up here.");
@@ -3389,7 +3389,7 @@ private function katherineSeeVala():void {
 }
 
 //Penetrate
-private function katPenetrate():void {
+private katPenetrate():void {
 	clearOutput();
 	if (isAt(KLOC_BAR) || isAt(KLOC_BAR_DRUNK) || isAt(KLOC_BAR_URTA_REFUSED)) { //At the bar
 		Render.text("Kath's tail twitches excitedly and she polishes off her drink, eager to see what you have in mind.\n\n");
@@ -3408,7 +3408,7 @@ private function katPenetrate():void {
 }
 
 //PC Penetrates Kath: Vaginal (doin' a cat doggy-style)
-public function penetrateKatsVag():void {
+public penetrateKatsVag():void {
 	//Scene can happen in the streets, at Kath's apartment or at the lake
 	let x:number = player.cockThatFits(70);
 	clearOutput();
@@ -3465,7 +3465,7 @@ public function penetrateKatsVag():void {
 }
 
 //PC Penetrates Kath: Anal
-public function pcPenetratesKatAnally():void {
+public pcPenetratesKatAnally():void {
 	//Scene can happen in the streets, at Kath's apartment or at the lake
 	let x:number = player.cockThatFits(70);
 	clearOutput();
@@ -3543,7 +3543,7 @@ public function pcPenetratesKatAnally():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-public function pcPenetratesKatDoubly():void {
+public pcPenetratesKatDoubly():void {
 	//Scene can happen in the streets, at Kath's apartment or at the lake
 	clearOutput();
 	let x:number = player.cockThatFits(70);
@@ -3673,7 +3673,7 @@ public function pcPenetratesKatDoubly():void {
 	doNext(pcPenetratesKatDoublyNormalEnd); //If, for any reason, you don't qualify for the high cum corrupt ending then jump to this ending automatically
 }
 
-private function pcPenetratesKatDoublyNormalEnd():void {
+private pcPenetratesKatDoublyNormalEnd():void {
 	clearOutput();
 	Render.text("You’re not done with Kath yet.  With some effort you pull her up until she’s sitting on your lap" + (player.cumQ() >= 1500 ? ", her belly wobbling obscenely in front of you both" : "") + ". When you " + (hasCock() ? "take hold of " + cockMultiple("her flaccid cock", "both her flaccid cocks") : "firmly grip her clit") + " it snaps her out of her reverie.\n\n");
 
@@ -3700,7 +3700,7 @@ private function pcPenetratesKatDoublyNormalEnd():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function pcPenetratesKatDoublyHighCumCorrupt():void {
+private pcPenetratesKatDoublyHighCumCorrupt():void {
 	clearOutput();
 	let firstTime:boolean = !doneSubmissive(KBIT_SUB_HIGH_CUM);
 	if (firstTime) {
@@ -3758,7 +3758,7 @@ private function pcPenetratesKatDoublyHighCumCorrupt():void {
 }
 
 //Suck 'n' Fuck (unavailable if knot > 4")
-public function suckNFuck():void {
+public suckNFuck():void {
 	//Scene can happen in the streets or at Kath's apartment
 	let x:number = player.cockThatFits(70);
 	clearOutput();
@@ -3840,7 +3840,7 @@ public function suckNFuck():void {
 }
 
 //Get Penetrated
-private function letKatKnotYou():void {
+private letKatKnotYou():void {
 	let x:number;
 	clearOutput();
 	if (isAt(KLOC_BAR) || isAt(KLOC_BAR_DRUNK) || isAt(KLOC_BAR_URTA_REFUSED)) { //At the bar
@@ -3860,7 +3860,7 @@ private function letKatKnotYou():void {
 	choices("Vagina", vag, "Anus", getPenetrated, "DblPenetr", dubs, "SuckNFuckd", sukn, "Backroom", backroomFuck, "", null, "", null, "", null, "", null, "Back", katSexMenu);
 }
 
-private function letKatKnotYouCommonDialogue(inAlleyBehindBar:boolean):void {
+private letKatKnotYouCommonDialogue(inAlleyBehindBar:boolean):void {
 	if (inAlleyBehindBar) {
 		Render.text("Kath glups down the last of her drink, grabs your hand and drags you toward the alley.\n\n");
 		Render.text("Once outside she gives you a big hug, her whole body flushed with excitement.  “<i>Now what was it you were saying back in the bar?  I was a little distracted.</i>”\n\n");
@@ -3879,7 +3879,7 @@ private function letKatKnotYouCommonDialogue(inAlleyBehindBar:boolean):void {
 }
 
 //Get Penetrated (Vaginal)
-public function letKatKnotYourCuntPussyFuck():void {
+public letKatKnotYourCuntPussyFuck():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	Render.text(images.showImage("katherine-fucks-you-knottily-in-the-vagoo"));
@@ -3975,7 +3975,7 @@ public function letKatKnotYourCuntPussyFuck():void {
 }
 
 //Get Penetrated (Anal)
-public function getPenetrated():void {
+public getPenetrated():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	Render.text(images.showImage("katherine-fucks-you-knottily-in-the-bungholio"));
@@ -4061,7 +4061,7 @@ public function getPenetrated():void {
 }
 
 //Get Penetrated (Double)
-public function getDoublePennedByKat():void {
+public getDoublePennedByKat():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	let doneBefore:boolean = hasAlready(KBIT_TRIED_GIVE_DOUBLE_PEN);
@@ -4134,7 +4134,7 @@ public function getDoublePennedByKat():void {
 
 //Sucked 'n' Fucked
 //This scene requires the PC has a penis and has fucked Kat at least once since moving her
-public function suckedNFuckedByKat():void {
+public suckedNFuckedByKat():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	let doneBefore:boolean	= hasAlready(KBIT_TRIED_GIVE_SUCK_N_FUCK);
@@ -4217,7 +4217,7 @@ public function suckedNFuckedByKat():void {
 }
 
 //Oral
-private function oralKatherineChoices():void {
+private oralKatherineChoices():void {
 	clearOutput();
 	if (isAt(KLOC_BAR) || isAt(KLOC_BAR_DRUNK) || isAt(KLOC_BAR_URTA_REFUSED)) { //At the bar
 		Render.text("Kath's tail twitches excitedly and she polishes off her drink, eager to see what you have in mind.\n\n");
@@ -4235,7 +4235,7 @@ private function oralKatherineChoices():void {
 }
 
 //Give Katherine Oral scene, single cock
-public function giveKatOralPenisWingWang():void {
+public giveKatOralPenisWingWang():void {
 	//Scene can happen in the streets, at Kath's apartment or in the Desert
 	clearOutput();
 	let doneBefore:boolean = hasAlready(KBIT_TRIED_RECEIVE_ORAL);
@@ -4427,7 +4427,7 @@ public function giveKatOralPenisWingWang():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-public function giveKatOralPussyLicking():void { //This version assumes Kath has no cock
+public giveKatOralPussyLicking():void { //This version assumes Kath has no cock
 	//Scene can happen in the streets, at Kath's apartment or in the Desert
 	clearOutput();
 	Render.text("With a small grin, you tell Katherine that you wouldn't mind satisfying her orally.\n\n");
@@ -4491,7 +4491,7 @@ public function giveKatOralPussyLicking():void { //This version assumes Kath has
 }
 
 //Katherine performs Oral on PC:
-private function katherineGivesPCOralAllDayLongDotJPG():void {
+private katherineGivesPCOralAllDayLongDotJPG():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	Render.text("You tell Katherine you'd like to see what she can do with her tongue.  The black cat blinks in surprise, then grins widely.  “<i>Well, that can be arranged...</i>”  She purrs, taking you by the arm and " + (isAt(KLOC_KATHS_APT) ? "guiding you to her bed" : "leading you around to a specific crate") + ".  Once you are seated and both of you are naked, she kneels in front of you.  “<i>Now, let's see what you have, my dear...</i>” she says, tail waving in the way that only a happy cat's does.\n\n");
@@ -4500,7 +4500,7 @@ private function katherineGivesPCOralAllDayLongDotJPG():void {
 }
 
 //[Female]
-private function katherineGoesDownOnTheGirlsOhYahBabyLesbo():void {
+private katherineGoesDownOnTheGirlsOhYahBabyLesbo():void {
 	clearOutput();
 	Render.text(images.showImage("katherine-eats-out-your-vagoo"));
 	Render.text("She gently strokes the lips of your " + vaginaDescript() + ", then leans in and gives it a deep, wet lick.  You can't restrain a shiver at the sensation; Katherine's tongue is unlike anything you've seen in this world so far, broad and bristly, but not so hard that it hurts.  It's like lots of little tongues all licking you at the same time.\n\n");
@@ -4521,7 +4521,7 @@ private function katherineGoesDownOnTheGirlsOhYahBabyLesbo():void {
 }
 
 //[Male/Herm]
-private function katherineLicksAllTheBoyPenises():void {
+private katherineLicksAllTheBoyPenises():void {
 	let x:number = player.biggestCockIndex();
 	clearOutput();
 	Render.text(images.showImage("katherine-gives-you-blowjobs/"));
@@ -4560,7 +4560,7 @@ private function katherineLicksAllTheBoyPenises():void {
 }
 
 //Double Helix
-private function katDoubleHelixCraziness():void {
+private katDoubleHelixCraziness():void {
 	//Scene can happen in the streets or at Kath's apartment
 	let x:number = player.cockThatFits(70);
 	if (x < 0) x = 0;
@@ -4696,11 +4696,11 @@ private function katDoubleHelixCraziness():void {
 }
 
 //Suckle
-private function suckleMenu():void {
+private suckleMenu():void {
 	simpleChoices("She Suckles", suckleTacularKats, "You Suckle", suckleFromKath, "", null, "", null, "Back", katSexMenu);
 }
 
-private function suckleFromKath():void {
+private suckleFromKath():void {
 	//Scene can happen in the streets, in a backroom at the bar or at Kath's apartment
 	clearOutput();
 	Render.text("You give Kath a smile and ask if there's anything she'd like to 'get off her chest'.\n\n");
@@ -4861,7 +4861,7 @@ private function suckleFromKath():void {
 }
 
 //PC must lactate to have this option
-private function suckleTacularKats():void {
+private suckleTacularKats():void {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
 	Render.text(images.showImage("katherine-suckles-you"));
@@ -4926,7 +4926,7 @@ private function suckleTacularKats():void {
 //Also requires lactation, apparently!
 
 //Ambush by Vagrant Cats
-public function ambushByVagrantKittyKats():void
+public ambushByVagrantKittyKats():void
 {
 	clearOutput();
 	Render.text("As you walk through Tel’Adre, taking in the sights, you catch a glimpse of some cat morphs part way down an alley.  It looks like three cat morph men have a younger cat morph woman backed into a corner.  None of the men look to be armed.  The girl is wearing a tattered dress that could once have been white and she looks worried.");
@@ -4940,7 +4940,7 @@ public function ambushByVagrantKittyKats():void
 }
 
 //Get Help:
-private function getHelpVsKittyKats():void
+private getHelpVsKittyKats():void
 {
 	clearOutput();
 	Render.text("Fighting three people at once is a lot harder than dealing with one opponent.  Still, from the look of them you could probably mop the floor with these three.  Out there in the wastes that would be the right thing to do, but Tel’Adre has its own laws and its own watch.  Since you’re an outsider you decide you’d be better off finding a patrol.");
@@ -4951,7 +4951,7 @@ private function getHelpVsKittyKats():void
 }
 
 //Intervene:
-private function interveneWithKittyKats():void
+private interveneWithKittyKats():void
 {
 	clearOutput();
 	Render.text("Fighting three people at once is a lot harder than dealing with one opponent.  Still, from the look of them you could probably mop the floor with these three.  You square your shoulders and march down the alley.  If you look intimidating enough maybe they’ll just scatter.");
@@ -4963,7 +4963,7 @@ private function interveneWithKittyKats():void
 }
 
 //Intervene (Part 2):
-private function interveneWithKittyKats2():void
+private interveneWithKittyKats2():void
 {
 	clearOutput();
 	Render.text("You blink your eyes.  Ugh - even that hurts!  You can’t see anyone in front of you, but then you hear someone take a step towards you.  A male cat morph, perhaps even one of the ones who was threatening the younger woman, stands over you with a wooden plank in one hand.");
@@ -4981,7 +4981,7 @@ private function interveneWithKittyKats2():void
 }
 
 //Intervene (Part 3):
-private function interveneWithKittyKats3():void
+private interveneWithKittyKats3():void
 {
 	clearOutput();
 	Render.text("You ask her why she’s worried about the milk.  She looks down at you, seems to decide you aren’t much of a threat right now and sits down on the edge of a crate.");
@@ -4998,7 +4998,7 @@ private function interveneWithKittyKats3():void
 }
 
 //Intervene (Part 4):
-private function interveneWithKittyKats4():void
+private interveneWithKittyKats4():void
 {
 	clearOutput();
 	Render.text("For a while you lie still and she stares off into space.  She’s obviously distracted by her hunger, but how can you use that?  A plan forms and you ask her why, if cats love milk, did they just leave you here?");
@@ -5022,7 +5022,7 @@ private function interveneWithKittyKats4():void
 }
 
 //Intervene (Part 5):
-private function interveneWithKittyKats5():void
+private interveneWithKittyKats5():void
 {
 	clearOutput();
 	Render.text("“<i>Kath - Katherine,</i>”  she blurts out.  That’s when you feel something growing between you.  A hot bump seems to have developed.  It dawns on you that this very feminine kitty is actually a herm, and from the size and pressure of that bump you’re guessing she’s packing a real monster down there.");
@@ -5034,7 +5034,7 @@ private function interveneWithKittyKats5():void
 	addButton(1,"Leave",leaveKathYouDontWantThatNastyHermCock);
 }
 
-private function leaveKathYouDontWantThatNastyHermCock():void
+private leaveKathYouDontWantThatNastyHermCock():void
 {
 	clearOutput();
 	Render.text("You decide you’re better off not getting involved with some weird sort of hermaphroditic chimera.  She's obviously more trouble than she's worth and best avoided.");
@@ -5043,7 +5043,7 @@ private function leaveKathYouDontWantThatNastyHermCock():void
 	doNext(telAdre.telAdreMenu);
 }
 
-private function helpKathAfterInterruptu():void
+private helpKathAfterInterruptu():void
 {
 	clearOutput();
 	//(corruption <25)
@@ -5064,7 +5064,7 @@ private function helpKathAfterInterruptu():void
 }
 
 //Leave:
-private function leaveKittyKatsLikeANeeeeeerrrrd():void
+private leaveKittyKatsLikeANeeeeeerrrrd():void
 {
 	clearOutput();
 	Render.text("You decide you’re better off not getting involved.  After all, who knows what she’s done?  She’s obviously a stray and could have stolen something from one of the others.  Heck, with all the perverts you’ve seen in this land she could have a rape fetish.  Surely she would scream to attract the guard if she were in real trouble.");
@@ -5075,7 +5075,7 @@ private function leaveKittyKatsLikeANeeeeeerrrrd():void
 //Second Ambush - First time with Katherine
 //This only happens if you intervened the first time (KATHERINE_UNLOCKED == -1)
 //Otherwise you would just run into the first ambush once again. As with the first ambush this one should not trigger if the PC has less than 35 gems.
-public function repeatAmbushKatherineRecruitMent():void
+public repeatAmbushKatherineRecruitMent():void
 {
 	clearOutput();
 	Render.text("As you walk the streets of Tel’Adre, a familiar sight catches your eye.  In a nearby alley, a young looking cat-morph is being backed into a corner by three larger cat-morph men.  Though you still don’t know the girl’s name you remember the setup.");
@@ -5103,7 +5103,7 @@ public function repeatAmbushKatherineRecruitMent():void
 }
 
 //Bargain:
-private function bargainForKittahKatPussah():void
+private bargainForKittahKatPussah():void
 {
 	clearOutput();
 	Render.text("Since sex is so prevalent in this land, you decide to try something that would have got you in a load of trouble back in Ingnam.  You tell Evelyn that you’d be willing to give the rest of them some gems in exchange for a little time with one of her friends.");
@@ -5118,7 +5118,7 @@ private function bargainForKittahKatPussah():void
 }
 
 //Bargain (Part 2):
-private function bargainForKittahKataPussah2():void
+private bargainForKittahKataPussah2():void
 {
 	clearOutput();
 	Render.text("Kath’s shoulders sag, and she sits down heavily on a crate.  She looks up at you and says, “<i>I joined the vagrant cats so I wouldn’t have to sell myself.  Not that most people want me.  And now my ‘friends’ just sold my ass for a drink of milk.</i>”  She sniffs a little and adds, “<i>I won’t fight, there’s no point.  Just do whatever you want.</i>”");
@@ -5136,7 +5136,7 @@ private function bargainForKittahKataPussah2():void
 }
 
 //Donate:
-private function donateToCatSlutsYouCatSlut():void
+private donateToCatSlutsYouCatSlut():void
 {
 	clearOutput();
 	Render.text("You tell the cat morphs that you know they’re just doing this because they’re hungry.  You say that last time they needed 25 gems and you stick your hand into your coinpurse, pulling out a handful of stones.");
@@ -5153,7 +5153,7 @@ private function donateToCatSlutsYouCatSlut():void
 }
 
 //Donate (Part 2):
-private function donateToCatSlutsYouCatSlutPt2():void
+private donateToCatSlutsYouCatSlutPt2():void
 {
 	clearOutput();
 	Render.text("Kath leans against the wall and tries to flick some grime off her shirt.  Once the other cat morphs are out of the alley she quietly asks where you’re going.  You say that on the way here you saw a restaurant just down the street.  Would she like to accompany you?");
@@ -5172,7 +5172,7 @@ private function donateToCatSlutsYouCatSlutPt2():void
 }
 
 //Threaten:
-private function threatenCatSluts():void
+private threatenCatSluts():void
 {
 	clearOutput();
 	Render.text("You cross your arms and tell Evelyn that her little ambush isn’t going to work a second time.  They can either scram, now, and set up in some other alley, or they can try and take you.");
@@ -5192,7 +5192,7 @@ private function threatenCatSluts():void
 }
 
 //Second Talk with Katherine:
-private function secondTalkWithKatherine():void
+private secondTalkWithKatherine():void
 {
 	clearOutput();
 	Render.text("A short walk takes you to the restaurant where you grab a table and ask Katherine what she’d like.  Without hesitation she says, “<i>A milkshake!  Oh, it’s been soooo long since I had one.</i>”");
@@ -5207,7 +5207,7 @@ private function secondTalkWithKatherine():void
 }
 
 //First Time with Katherine:
-private function firstTimeWithKatherineUTerribleScrub():void
+private firstTimeWithKatherineUTerribleScrub():void
 {
 	clearOutput();
 	Render.text("You ask Katherine what’s wrong.  She looks at her feet and asks, “<i>Why are you being so nice to me?  I like you, but I don’t know why you like me and - and I don’t want to screw up.</i>”");
@@ -5249,7 +5249,7 @@ private function firstTimeWithKatherineUTerribleScrub():void
 //This is used in the new recruitment path and is also available as a repeatable scene once
 //Katherine is accessible in the alley behind the pawn shop. At the pawn shop I think this scene //should be available even if lust < 33, since you’re doing this for and to her.
 //Makes use of katKnot(), a new helper function which is listed under implementation details.
-public function handjobbiesFurrDemCatFurries():void
+public handjobbiesFurrDemCatFurries():void
 {
 	//Scene can happen in the streets or at Kath's apartment
 	clearOutput();
@@ -5323,7 +5323,7 @@ public function handjobbiesFurrDemCatFurries():void
 }
 
 //First Time with Katherine (Part 2):
-private function firstTimeWithKatherinePartTwoUltraChampionshipEditionHyperTurbo():void
+private firstTimeWithKatherinePartTwoUltraChampionshipEditionHyperTurbo():void
 {
 	clearOutput();
 	Render.text("You help Kath get to her feet and she gives you a big hug.  A few sniffles lead to some sobs before she pulls herself together enough to say, “<i>I didn’t believe anyone cared about me.</i>”");
@@ -5357,7 +5357,7 @@ private function firstTimeWithKatherinePartTwoUltraChampionshipEditionHyperTurbo
 	doNext(camp.returnToCampUseOneHour);
 }
 
-public function bathTime():void {
+public bathTime():void {
 	clearOutput();
 	Render.text("You don’t want to dive into the lust polluted lake but you do feel that Kath needs a little swim.  You just smile at Katherine and " + (player.isNaga() ? "slither" : player.mf("walk", "strut")) + " towards the nearest stream of clean mountain water.  On the way you peel off each piece of equipment and clothing in turn.  You can sense Kath’s eyes staring at you the whole way.\n\n");
 
@@ -5388,7 +5388,7 @@ public function bathTime():void {
 	}
 }
 
-private function bathTimeCentaurRide():void {
+private bathTimeCentaurRide():void {
 	Render.text("\n\nKath holds you for a while, just grinding against you slowly and laying kiss after kiss on your lips and neck.  Finally she lets go and walks along your flank.  She stops beside you, pets your side and jumps onto your back.  She reaches around your torso and " + (player.hasBreasts() ? "starts to play with your breasts" : "runs her hands over your manly chest") + ".  Not satisfied with just that Kath begins grinding against you, " + (hasCock() ? "the " + cockMultiple("tip of her cock", "tips of her cocks") : "her pussy") + " grinding against what would be your ass if you were a human.  As a centaur it’s the sensitive spot where your spine curves.  Her " + (hasCock() ? "cockhead" + cockMultiple(" keeps", "s keep") : "groin keeps") + " rubbing against the small depression there, creating lovely sensations that travel in both directions.  At one end of your body your cock" + (player.lowerBody.cockSpot.count() > 1 ? "s grow" : " grows") + " even harder, at the other your throw your head back and start to moan.\n\n");
 
 	Render.text("Katherine puts a hand on your cheek and draws your head back for a deep kiss.  The angle is a bit difficult for both of you, so she releases you, her hands going back to tweaking your nipples.  Kath leans forward and her rough tongue begins to lick the nape of your neck, driving you wild.\n\n");
@@ -5425,7 +5425,7 @@ private function bathTimeCentaurRide():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bathTimeCentaurPenetrated():void {
+private bathTimeCentaurPenetrated():void {
 	Render.text("\n\nKath holds you for a while, just grinding slowly and laying kiss after kiss on your lips and neck.  Finally she lets go and walks along your flank, stroking your flesh with her fingers.  The water resists your movements, giving Katherine the edge.  For now she is the one controlling the pace.  She gets to your rear and strokes your tail.  It rises into the air all on its own, letting Kath know just how much your body wants this.\n\n");
 
 	if (hasCock())
@@ -5492,7 +5492,7 @@ private function bathTimeCentaurPenetrated():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bathTimeFuckKath():void {
+private bathTimeFuckKath():void {
 	Render.text("\n\nThe sensation causes your " + (hasCock() ? "own " : "") + "cock" + (player.lowerBody.cockSpot.count() > 1 ? "" : "s") + " to prod Kath’s belly" + (hasCock() && player.lowerBody.vaginaSpot.hasVagina() ? " and you roll your hips so that Kath’s cock sinks into your folds" : "") + ".  " + (hasCock() ? "She purrs and tries to drive her shaft deeper but you have other plans.\n\n" : ""));
 
 	Render.text("You turn Kath around and slip your cock between her legs, nestling it between her steaming inner thighs.  She tries to turn back around, but you seize her hips and ");
@@ -5575,7 +5575,7 @@ private function bathTimeFuckKath():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bathTimeFrustrated():void { //You took away her cock. This is your fault
+private bathTimeFrustrated():void { //You took away her cock. This is your fault
 	clearOutput();
 	Render.text("Kath hugs you tight and you feel her fingers sliding across your " + (player.lowerBody.vaginaSpot.hasVagina() ? "clit" : "nipples") + ".  You return the favor, eager to please your lusty cat " + catGirl("girl", "morph") + ".\n\n");
 	Render.text("The two of you grind your breasts together and your fingers race to see who will jill the other off first.\n\n");
@@ -5587,7 +5587,7 @@ private function bathTimeFrustrated():void { //You took away her cock. This is y
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bathTimePenetrated():void {
+private bathTimePenetrated():void {
 	if (!player.lowerBody.vaginaSpot.hasVagina()) { //Genderless or Male - get this out of the way since it will be a little different
 		if (player.lowerBody.cockSpot.hasCock()) {
 			Render.text("\n\nKath's " + cockMultiple("staff slides", "staves slide") + (player.isNaga() ? " against your scaly behind" : " between your legs") + ", leaving little streaks of precum" + (player.isNaga() ? "." : " on your inner thighs."));
@@ -5691,7 +5691,7 @@ private function bathTimePenetrated():void {
 	}
 }
 
-private function bathTimePenetratedNormalEnd():void {
+private bathTimePenetratedNormalEnd():void {
 	clearOutput();
 	Render.text("You’ve got Kath right on the edge of orgasm.  She can’t move, her legs are locked up and she needs you to help her finish.  You play with her a bit longer, keen to give her more of the wonderful sensations that must be coming from the cock she’s buried in your pussy.\n\n");
 
@@ -5727,7 +5727,7 @@ private function bathTimePenetratedNormalEnd():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bathTimePenetratedDenial():void {
+private bathTimePenetratedDenial():void {
 	clearOutput();
 	Render.text("With your fingers you slowly and carefully squeeze the cock inside you just beyond its knot.  You can feel her " + (hasBalls() ? "balls twitching, but they don’t fire" : "prostate twitching, but it doesn’t fire") + ".\n\n");
 
@@ -5762,7 +5762,7 @@ private function bathTimePenetratedDenial():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function bedroomBondage():void {
+private bedroomBondage():void {
 	//If this is the first time then the player needs to have at least 40 gems to buy stuff (10g per scarf)
 	clearOutput();
 	if (doneSubmissive(KBIT_SUB_BED_BOND)) {
@@ -5943,7 +5943,7 @@ private function bedroomBondage():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function drunkFuck():void {
+private drunkFuck():void {
 	Render.text("The waitress brings over one last drink and Kath slams it back in one shot.  She’s got an obvious " + clothesLowerChoice("tent in her pants", "bulge under her skirt", "bulge in the crotch of her bodysuit", "bulge under her dress", "bulge inside her robe") + " and she gives you a crooked smile as she gets up.\n\n");
 
 	Render.text("You take her hand, but instead of heading for the alley as you expected Kath pulls you toward one of the empty backrooms.  She’s so excited she's practically skipping.  You get inside, lock the door and Kath pounces you.  She uses the very techniques you " + (flags[FlagEnum.KATHERINE_TRAINING] == 1 ? "and Urta " : "") + "taught her to pin your arm behind your back while she relieves you of your clothes, all the while giggling to herself.\n\n");

@@ -2,7 +2,7 @@
 //Event No's 2000 4999 use this function
 
 /*
-public function doEvent(eventNo:number):void
+public doEvent(eventNo:number):void
 {
 	let temp2:number = 0;
 	//New game gooooooo!

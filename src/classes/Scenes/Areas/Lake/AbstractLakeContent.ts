@@ -9,10 +9,10 @@ package classes.Scenes.Areas.Lake
 
 	public class AbstractLakeContent extends BaseContent
 	{
-		protected function get lake():Lake{
+		protected get lake():Lake{
 			return kGAMECLASS.lake;
 		}
-		public function AbstractLakeContent()
+		public AbstractLakeContent()
 		{
 		}
 	}

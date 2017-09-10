@@ -7,11 +7,11 @@ package classes.Scenes.Places.TelAdre {
 //265 - Talk Nancy
 //266 - Times boned
 public class AuntNancy extends TelAdreAbstractContent{
-	public function AuntNancy(){
+	public AuntNancy(){
 	}
 //[Introduction Blurb:
 //(appears in the Wet Bitch between 6:00 and 14:00)]
-public function auntNancy(display:boolean = true):boolean {
+public auntNancy(display:boolean = true):boolean {
 	if(model.time.hours >= 6 && model.time.hours <= 14) {
 		if(display) {
 			Render.text("\n\nYou see a rather buxom woman with short, white hair in a neck- and sleeve-less black dress cleaning glasses with her bar towel.  She makes the task look simple, moreso because she has two pairs of arms, wrapped in what look like shiny black gloves.", false);
@@ -28,7 +28,7 @@ public function auntNancy(display:boolean = true):boolean {
 	else return false;
 }
 
-public function interactWithAuntNancy():void {
+public interactWithAuntNancy():void {
 	Render.text("", true);
 	//[Interaction 2]
 	//[If Time = 1400, Relationship with Aunt Nancy >= 30, and PillowTalk= 0]
@@ -64,7 +64,7 @@ public function interactWithAuntNancy():void {
 }
 
 //[Strong:]
-private function strongStuff():void {
+private strongStuff():void {
 	Render.text("", true);
 	//[Lose 5 Gems.]
 	if(player.stats.gems < 5) {
@@ -97,7 +97,7 @@ private function strongStuff():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Light:]
-private function lightStuff():void {
+private lightStuff():void {
 	Render.text("", true);
 	//[Lose 5 Gems.]
 	if(player.stats.gems < 5) {
@@ -166,7 +166,7 @@ private function lightStuff():void {
 }
 
 //[If Decline]
-private function declineAuntNancyMassage():void {
+private declineAuntNancyMassage():void {
 	Render.text("", true);
 	Render.text("Aunt Nancy listens as you politely turn her down, and nods her head, the hungry look fading from her eyes.  \"<i>I understand completely.  Sorry to have bothered you.</i>\"  She starts to walk out of the bar, stops, and turns back to size you up again.  \"<i>Of course,</i>\" she says, \"<i>if you ever change your mind... just come by whenever my shift's over.</i>\"\n\n", false);
 
@@ -176,7 +176,7 @@ private function declineAuntNancyMassage():void {
 }
 
 //[If Agree]
-private function timeForAuntNancySpiderCooch():void {
+private timeForAuntNancySpiderCooch():void {
 	Render.text("", true);
 	Render.text("You look the still-beautiful spider-lady in the eye, and, half-mesmerized, nod in agreement.  She smiles broadly (and, you can't help but notice, quite lewdly) and puts one of her lower arms through one of yours, while putting the upper one on your shoulder.  \"<i>Well then,</i>\" Aunt Nancy says, \"<i>I suppose we should be off.</i>\"\n\n", false);
 
@@ -192,7 +192,7 @@ private function timeForAuntNancySpiderCooch():void {
 	dynStats("lus", 1);
 	doNext(auntNancyPoonPartII);
 }
-private function auntNancyPoonPartII():void {
+private auntNancyPoonPartII():void {
 	Render.text("", true);
 	Render.text("Slowly, you follow Aunt Nancy into her home. Inside, the building is fairly dark and gloomy, even in the middle of the day, with thick curtains of unidentifiable white matter keeping most of the sun outside. Blinded, your vision still attuned to the bright desert, you can discern little of the house's insides before you hear a sudden skittering sound behind you and, as you turn to face it, are pushed further into the gloom. Your heel is caught by a thick strand of what feels like rope, and you fall flat onto your back, arms and legs splayed out to either side of you, as you land on some sort of taut net.\n\n", false);
 
@@ -347,7 +347,7 @@ private function auntNancyPoonPartII():void {
 	doNext(auntNancyPoonPartIII);
 }
 
-private function auntNancyPoonPartIII():void {
+private auntNancyPoonPartIII():void {
 	Render.text("", true);
 	//[If PC has a cock]
 	if(player.lowerBody.cockSpot.hasCock()) {
@@ -442,7 +442,7 @@ private function auntNancyPoonPartIII():void {
 	//[Next Page, Time += 200]
 	doNext(auntNancyPoonPartIV);
 }
-private function auntNancyPoonPartIV():void {
+private auntNancyPoonPartIV():void {
 	Render.text("", true);
 	Render.text("<b>Two passionate, sticky hours pass...</b>\n\n", false);
 	

@@ -35,7 +35,7 @@
             }
 		}
 		
-		private function leaveAfterDefeating():void {
+		private leaveAfterDefeating():void {
 			if (HP < 1) {
 				flags[FlagEnum.BEE_GIRL_COMBAT_WINS_WITHOUT_RAPE]++; //This only happens if you beat her up and then don't rape her
 			}
@@ -56,7 +56,7 @@
 			}
 		}
 		
-		private function beeStingAttack():void {
+		private beeStingAttack():void {
 			//Blind dodge change
 			if (statusAffects.has("Blind")) {
 				Render.text(capitalA + short + " completely misses you with a blind sting!!");
@@ -116,7 +116,7 @@
 			else doNext(game.playerMenu);
 		}
 
-		public function BeeGirl()
+		public BeeGirl()
 		{
 			super();
 			this.a = "a ";

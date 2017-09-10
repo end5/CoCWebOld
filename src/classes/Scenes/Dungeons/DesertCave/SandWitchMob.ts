@@ -5,7 +5,7 @@ package classes.Scenes.Dungeons.DesertCave
 	public class SandWitchMob extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.sandWitchMobAI();
 		}
@@ -20,7 +20,7 @@ package classes.Scenes.Dungeons.DesertCave
 			game.loseToSammitchMob();
 		}
 
-		public function SandWitchMob()
+		public SandWitchMob()
 		{
 			this.a = "the ";
 			this.short = "sand witches";

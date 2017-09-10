@@ -9,10 +9,10 @@ package classes.Scenes.Places.Farm
 
 	public class AbstractFarmContent extends BaseContent
 	{
-		public function AbstractFarmContent()
+		public AbstractFarmContent()
 		{
 		}
-		protected function get farm():Farm {
+		protected get farm():Farm {
 			return kGAMECLASS.farm;
 		}
 

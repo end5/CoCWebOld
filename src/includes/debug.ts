@@ -6,7 +6,7 @@ Debug pane and related functions
 Author: Fake-Name
 
 */
-public function monkeyStartConfirm():void
+public monkeyStartConfirm():void
 {
 	Render.text(<![CDATA[
 
@@ -35,21 +35,21 @@ probably do not intend.
 }
 
 
-public function syntaxMonkey():void
+public syntaxMonkey():void
 {
 	this.monkey.throwOnSyntaxError = true;
 	this.monkey.excludeMenuKeys = true;			// Syntax checking monkey should ignore the menu keys (they're irrelevant to it's functions)
 	monkeyStartReallyConfirm()
 }
 
-public function noSaveMonkey():void
+public noSaveMonkey():void
 {
 	this.monkey.excludeMenuKeys = true;
 	monkeyStartReallyConfirm()
 }
 
 
-public function monkeyStartReallyConfirm():void
+public monkeyStartReallyConfirm():void
 {
 	Render.text(<![CDATA[
 
@@ -63,7 +63,7 @@ public function monkeyStartReallyConfirm():void
 }
 
 
-public function initiateTheMonkey():void
+public initiateTheMonkey():void
 {
 	// I swear, half the fun of this is just the function names I can write.
 	Render.text(<![CDATA[
@@ -80,7 +80,7 @@ INITIATING MONKEY
 
 
 
-public function debugPane():void
+public debugPane():void
 {
 	Render.text("<b>Debug information!</b>\n", true);
 
@@ -121,7 +121,7 @@ public function debugPane():void
 	addButton(9, "Back", mainMenu);
 }
 
-public function toggleHaltSettings():void
+public toggleHaltSettings():void
 {
 	//toggle debug
 	if(CoC_Settings.haltOnErrors)
@@ -138,7 +138,7 @@ public function toggleHaltSettings():void
 import flash.system.SecurityDomain;
 import flash.system.Security;
 
-public function doThatTestingThang():void
+public doThatTestingThang():void
 {
 
 	// Excercise the parser. This should catch parser regressions, I think.

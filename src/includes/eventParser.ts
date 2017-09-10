@@ -7,7 +7,7 @@ import classes.Scenes.Areas.Lake;
 //const EVENT_PARSER_ESCAPE: number = 800;
 //const PHYLLA_GEMS_HUNTED_TODAY: number = 893;
 
-public function playerMenu():void {
+public playerMenu():void {
 	if (!inCombat) spriteSelect(-1);
 	mainView.setMenuButton(MainView.MENU_NEW_MAIN, "New Game", charCreation.newGameGo);
 	mainView.nameBox.visible = false;
@@ -30,7 +30,7 @@ public function playerMenu():void {
 }
 
 /* All calls replaced by calls to playerMenu
-public function eventParser(eventNo:Function):void {
+public eventParser(eventNo:Function):void {
 	//Clear banked buttons
 
 	//trace("EVENT CODE: " + eventNo);
@@ -85,7 +85,7 @@ public function eventParser(eventNo:Function):void {
 }
 */
 
-public function gameOver(clear:boolean = false):void { //Leaves text on screen unless clear is set to true
+public gameOver(clear:boolean = false):void { //Leaves text on screen unless clear is set to true
 	if (testingBlockExiting) {
 		doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
 	}
@@ -103,7 +103,7 @@ public function gameOver(clear:boolean = false):void { //Leaves text on screen u
 	dungeonLoc = 0; //Replaces inDungeon = false;
 }
 
-private function gameOverMenuOverride():void { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
+private gameOverMenuOverride():void { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
 	mainView.showMenuButton(MainView.MENU_NEW_MAIN);
 	mainView.showMenuButton(MainView.MENU_DATA);
 	mainView.hideMenuButton(MainView.MENU_APPEARANCE);
@@ -112,7 +112,7 @@ private function gameOverMenuOverride():void { //Game over event; override whate
 }
 
 /*
-public function doSystem(eventNo:number):void {
+public doSystem(eventNo:number):void {
 	//@ camp
 	//(clear data/appearance buttons if not at camp
 	//trace("System Event", eventNo)
@@ -446,14 +446,14 @@ public function doSystem(eventNo:number):void {
 }
 */
 
-public function getCurrentStackTrace():string		// Fuck, stack-traces only work in the debug player.
+public getCurrentStackTrace():string		// Fuck, stack-traces only work in the debug player.
 {
 	let tempError:Error = new Error();
 	let stackTrace:string = tempError.getStackTrace();
 	return stackTrace;
 }
 
-public function errorPrint(details:* = null):void
+public errorPrint(details:* = null):void
 {
 	rawOutputText("<b>Congratulations, you've found a bug!</b>", true);
 	rawOutputText("\nError: Unknown event!");
@@ -477,7 +477,7 @@ public function errorPrint(details:* = null):void
 
 //Argument is time passed.  Pass to event parser if nothing happens.
 // The time argument is never actually used atm, everything is done with timeQ instead...
-public function goNext(time:number, needNext:boolean):boolean  {
+public goNext(time:number, needNext:boolean):boolean  {
 	//Update system time
 	//date = new Date();
 	//trace ("MONTH: " + date.month + " DATE: " + date.date + " MINUTES: " + date.minutes);
@@ -788,7 +788,7 @@ public function goNext(time:number, needNext:boolean):boolean  {
 	return false;
 }
 
-public function cheatTime(time:number):void {
+public cheatTime(time:number):void {
 	while(time > 0) {
 		time--;
 		model.time.hours++;
@@ -800,7 +800,7 @@ public function cheatTime(time:number):void {
 	statScreenRefresh();
 }
 
-public function growHair(amount:number = .1):boolean {
+public growHair(amount:number = .1):boolean {
 	//Grow hair!
 	temp = player.hairLength;
 	player.hairLength += amount;

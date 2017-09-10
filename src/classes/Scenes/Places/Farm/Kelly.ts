@@ -39,7 +39,7 @@ Every encounter raises corruption by 5, except the last one that raises corrupti
 
 		public let pregnancy:PregnancyType;
 
-		public function Kelly()
+		public Kelly()
 		{
 			pregnancy = new PregnancyType(FlagEnum.KELLY_PREGNANCY_TYPE, FlagEnum.KELLY_INCUBATION, 0, 0);
 			pregnancy.addPregnancyEventSet(PregnancyType.PLAYER, 280, 200, 100);
@@ -48,7 +48,7 @@ Every encounter raises corruption by 5, except the last one that raises corrupti
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			pregnancy.pregnancyAdvance();
 			trace("\nKelly time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
@@ -64,18 +64,18 @@ Every encounter raises corruption by 5, except the last one that raises corrupti
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 		
-private function hasPinkEgg():boolean {
+private hasPinkEgg():boolean {
 	return (player.hasItem(consumables.PINKEGG) || player.hasItem(consumables.L_PNKEG));
 }
 
 //Encounters
 //First encounter
-public function breakingKeltOptions():void {
+public breakingKeltOptions():void {
 	clearOutput();
 	spriteSelect(35);
 	if((!player.lowerBody.cockSpot.hasCock() && flags[FlagEnum.KELT_BREAK_LEVEL] == 0) ||flags[FlagEnum.NEVER_RESIST_KELT] == 1 || player.statusAffects.get("Kelt").value2 >= 40 || player.findStatusAffect(StatusAffects.Kelt) < 0) {
@@ -100,7 +100,7 @@ public function breakingKeltOptions():void {
 }
 
 //Resist
-private function resistKeltsBSBreakHimIntro():void {
+private resistKeltsBSBreakHimIntro():void {
 	clearOutput();
 	spriteSelect(35);
 	if(flags[FlagEnum.KELT_BREAK_LEVEL] == 0) {
@@ -165,7 +165,7 @@ private function resistKeltsBSBreakHimIntro():void {
 //Not Now: Nothing happens. The PC may carry on lessons like normal and they can still begin the mind-breaking process whenever they wish as long as they meet the above requirements.
 //Yes: Carry on the mindbreak
 
-private function neverBreakKeltIntoKelly():void {
+private neverBreakKeltIntoKelly():void {
 	clearOutput();
 	spriteSelect(35);
 	flags[FlagEnum.NEVER_RESIST_KELT] = 1;
@@ -176,7 +176,7 @@ private function neverBreakKeltIntoKelly():void {
 }
 
 
-private function breakKeltGo():void {
+private breakKeltGo():void {
 	clearOutput();
 	spriteSelect(35);
 	Render.text("You approach the uppity centaur with glinting eyes, determined to take him down.  Kelt mistakes your anger for desire and sneers.");
@@ -308,7 +308,7 @@ private function breakKeltGo():void {
 
 //Second encounter
 /*10 succubi milk (or 1 pink egg - large or small - and 5 succubi milk) */
-private function secondKeltBreaking():void {
+private secondKeltBreaking():void {
 	clearOutput();
 	spriteSelect(35);
 	Render.text("You stroll up to Kelt, not afraid to tame the beastman a second time.  As soon as he spots you, he snorts and tramples the floor furiously.  At the same time, he turns his head back as if he was ready to gallop at any moment.  Torn between his fear of you and his desire for revenge, he doesn't dare charge you, but he doesn't move away either.  You profit from his indecision to walk straight up to him until you are face to face.  But his masculine visage doesn't appeal to you, for your main focus is the tool hanging between his hind legs.");
@@ -524,7 +524,7 @@ Render.text("\n\nKelly remains quiet for a couple of seconds before slowly mutte
 
 //Fourth encounter
 /*This one requires you not to have lost any corruption since the last encounter you had with her (so if you did, just get back to your former corruption level).*/
-private function finalKeltBreaking():void {
+private finalKeltBreaking():void {
 	clearOutput();
 	Render.text("You resolutely walk up to the centaur slut for her final lesson.  This time you don't even need to find her: she rushes to you on her own, her eyes glinting with need.");
 	Render.text("\n\n\"<i>[Master], [Master]!  You're finally here.  I-I haven't been sleeping well since you left.  I've been dreaming about you... about your cock.  I haven't been able to eat properly, it's like I'm in a state of constant hunger that can't be satisfied... except by you.</i>\"");
@@ -610,7 +610,7 @@ internal function keltFucksShitUp():void {
 	addButton(0,"Next",keltFucksShitUpII);
 	
 }
-private function keltFucksShitUpII():void {
+private keltFucksShitUpII():void {
 	clearOutput();
 	Render.text("You awaken at the periphery of the farm, thankful to be alive.  Kelt is nowhere to be seen.  You have to wonder if Whitney saved you or the dumb beast was too stupid to finish you off.  Whatever the case, you head back to camp to lick your wounds.  <b>The worst indignity of all is that he broke a lot of your succubi milks.</b>  He'll likely have regained some more of his maleness by the time you're ready to attempt teaching him another lesson.");
 	player.consumeItem(consumables.SUCMILK,5);
@@ -623,7 +623,7 @@ private function keltFucksShitUpII():void {
 
 
 //Appearance
-private function kellyAppearance():void {
+private kellyAppearance():void {
 	clearOutput();
 	Render.text("Kelly is a 6 foot 3 inch tall centauress with a svelte body and generous curves.  Her feminine face is pretty human in appearance, and her lovely traits would be adorably innocent if it weren't for her emerald eyes shining with lusty need whenever she looks at you.  Plump lips that seem to have been made for cock-sucking adorn her hungry mouth.  A long, single " + flags[FlagEnum.KELLY_HAIR.COLOR]);
 	//[chestnut brown/sable black/garish purple/bright pink/slutty blonde) 
@@ -691,7 +691,7 @@ private function kellyAppearance():void {
 	menu();
 	addButton(0,"Next",approachKelly);
 }
-private function approachKelly():void {
+private approachKelly():void {
 	clearOutput();
 	//Fix hair color!
 	if(flags[FlagEnum.KELLY_HAIR.COLOR] == 0) flags[FlagEnum.KELLY_HAIR.COLOR] = "chestnut brown";
@@ -766,7 +766,7 @@ private function approachKelly():void {
 	else addButton(9, "Back", farm.farmCorruption.rootScene);
 }
 
-private function kellySexMenu():void {
+private kellySexMenu():void {
 	menu();
 	if (player.lowerBody.cockSpot.hasCock() && player.lust >= 33) {
 		if (player.cockThatFits(300) >= 0 || flags[FlagEnum.KELLY_CUNT_TYPE] == 1) {
@@ -791,7 +791,7 @@ private function kellySexMenu():void {
 //Vaginal
 //Virginity paragraph
 //[Not Virginal]
-private function fuckKellysCunt():void {
+private fuckKellysCunt():void {
 	clearOutput();
 	flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
 	let x: number = player.cockThatFits(300);
@@ -859,7 +859,7 @@ private function fuckKellysCunt():void {
 
 //Centaur on Centaur Sex
 /*Requires a centaur lower body.*/
-private function taurOnTaurSexKelly():void {
+private taurOnTaurSexKelly():void {
 	clearOutput();
 	flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
 	let x: number = player.cockThatFits(300);
@@ -911,7 +911,7 @@ private function taurOnTaurSexKelly():void {
 //Tentacle
 //Requires two or more tentacle dicks.
 
-private function tentaFuckKelly():void {
+private tentaFuckKelly():void {
 	clearOutput();
 	Render.text("With a mischievous grin, you remove your [armor], fully revealing your " + multiCockDescriptLight() + ".  The plant-like appendages wriggle around the horny centauress, inspecting her body from every angle.  You feel your own lust rising as the tentacle peckers grow harder, their green heads turning pink in arousal.  Kelly stammers, confused: \"<i>W-what are you-</i>\"");
 	
@@ -974,7 +974,7 @@ private function tentaFuckKelly():void {
 }
 
 //Makes her cunt become horse-like.
-private function giveKellyEquinum():void {
+private giveKellyEquinum():void {
 	clearOutput();
 	Render.text("Taking the long, flared vial in your hand, you get a wicked idea - what if you gave your personal mare-slave a cunt that was better suited to her depraved, animalistic shape?  What if you turned that pretty, pink pussy into a slobbering, black mare-cunt?");
 	
@@ -994,7 +994,7 @@ private function giveKellyEquinum():void {
 	addButton(0,"Next",approachKelly);
 }
 //Succubi Milk - Rehumanizes Her Pussy
-private function giveKellySuccubiMilk():void {
+private giveKellySuccubiMilk():void {
 	clearOutput();
 	Render.text("You produce a vial of succubi milk and dangle it before Kelly, the ivory demon-juice sloshing audibly inside.  Kelly licks her lips immediately, running her hands across her perky nipples without meaning to.  She asks, \"<i>[Master], is that what I think it is?</i>\"");
 	
@@ -1013,7 +1013,7 @@ private function giveKellySuccubiMilk():void {
 }
 
 //Punish(C)
-private function punishKelly():void {
+private punishKelly():void {
 	clearOutput();
 	flags[FlagEnum.TIMES_PUNISHED_KELLY]++;
 	//First time: 
@@ -1058,7 +1058,7 @@ private function punishKelly():void {
 
 //Rimjob/Ride/Riding crop
 //Rimjob(C)
-private function getARimjobFromKelly():void {
+private getARimjobFromKelly():void {
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	clearOutput();
@@ -1130,7 +1130,7 @@ private function getARimjobFromKelly():void {
 
 //Ride(C)
 //(Assumes Kelly is at camp; minor revisions required otherwise)
-private function rideKellyForPunishment():void {
+private rideKellyForPunishment():void {
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	clearOutput();
@@ -1364,7 +1364,7 @@ private function rideKellyForPunishment():void {
 }
 
 
-private function takeKellysVirginity():void {
+private takeKellysVirginity():void {
 	clearOutput();
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
@@ -1445,7 +1445,7 @@ private function takeKellysVirginity():void {
 
 //TFs
 //Canine Pepper
-private function giveKellyAPepper():void {
+private giveKellyAPepper():void {
 	clearOutput();
 	//First: 
 	if(flags[FlagEnum.KELLY_TIMES_PEPPERED] == 0) {
@@ -1487,7 +1487,7 @@ private function giveKellyAPepper():void {
 //Titjob
 //[Requires: Not a centaur]
 //[If [dick0] larger than 18 inches: Requires Kelly have 4 breasts]
-private function kellyTitJob():void {
+private kellyTitJob():void {
 	clearOutput();
 	
 	let x: number;
@@ -1540,7 +1540,7 @@ private function kellyTitJob():void {
 
 //Preggers
 /*Chance for Kelta to be pregnant is 1% for every 20 mL, capping at 80%.*/
-private function kellyPreggers():void {
+private kellyPreggers():void {
 	if (pregnancy.isPregnant) return;
 	let x: number = Math.round(player.cumQ() / 20);
 	if (x > 80) x = 80;
@@ -1553,7 +1553,7 @@ private function kellyPreggers():void {
 	
 //Sex scene
 //notice this could be adapted into a normal scene minus the paragraph referring to her pregnancy
-private function kellyPregSex():void {
+private kellyPregSex():void {
 	clearOutput();
 	let x: number;
 	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) x = player.biggestCockIndex();
@@ -1577,7 +1577,7 @@ private function kellyPregSex():void {
 }
  
 //Giving birth
-public function kellyPopsOutARunt():void {
+public kellyPopsOutARunt():void {
 	Render.text("\n<b><u>As you visit the barn where your centaur slave usually resides, you see something unusual...</u></b>");
 	Render.text("\nKelly is laying on a haystack, her face red and slick with sweat but radiating tired happiness.  Curled into one of her milk-engorged breasts, hanging and suckling voraciously, is a tiny little creature that looks exactly like her mother.");
 	
@@ -1603,7 +1603,7 @@ public function kellyPopsOutARunt():void {
 }
 
 //Talk n Hand
-private function talkNHandToKelly():void {
+private talkNHandToKelly():void {
 	clearOutput();
 	//First: You tell her you'd just like to talk.
 	if(flags[FlagEnum.KELLY_TALK_N_HAND_TIMES] == 0) {
@@ -1753,7 +1753,7 @@ private function talkNHandToKelly():void {
 }
 //Reward
 //Requirements: PC used “punish” at least once, 3+ days have gone by and “punish” has not proced*
-private function rewardKelly():void {
+private rewardKelly():void {
 	flags[FlagEnum.KELLY_REWARD_COOLDOWN] = 1;
 	clearOutput();
 	//First time: 
@@ -1785,7 +1785,7 @@ private function rewardKelly():void {
 
 //Hair Dye
 //Requires: Black dye, purple dye, blonde dye, pink dye, brown dye in inventory.  Dye can't be given if her hair is that color already, e.g. brown can't be given straight away
-private function dyeKellysBitchAssHair(color:ItemType):void {
+private dyeKellysBitchAssHair(color:ItemType):void {
 	clearOutput();
 	Render.text("You tell her you've brought her a gift as you rummage around in your pockets.  Kelly looks apprehensive but pleasant surprise forms on her face when she catches the small vial of dye you throw at her.");
 	Render.text("\n\n\"<i>Oh wow, thanks [Master]! It's been ages since I did my hair.");
@@ -1839,7 +1839,7 @@ private function dyeKellysBitchAssHair(color:ItemType):void {
  
 //Apple Sauce
 //Req Dick that fits.
-private function giveKellyAppleSauce():void {
+private giveKellyAppleSauce():void {
 	clearOutput();
 	//First time:
 	if(flags[FlagEnum.KELLY_TIMES_APPLESAUCED] == 0) {
@@ -1977,7 +1977,7 @@ private function giveKellyAppleSauce():void {
 }
 
 //Blowjob
-private function kellyBJsAhoy():void {
+private kellyBJsAhoy():void {
 	clearOutput();
 	Render.text("You step into Kelly, a question fading on her lips as you put your arms around her waist and answer it by drawing her face into yours.  You kiss her hungrily, pushing your tongue into her hot mouth.  It's almost an instinctive reaction - it's difficult to look at her face and not be drawn to her plump, pert lips, to not want to touch them, to use them.  And godsdamn, does she know how to use them.  She responds to your kiss in kind, humming blissfully as she eagerly accepts your tongue, rolling and curling it with her own, entwined like two lovers, drawing it further into her warm wetness as her pillowy boobs push into your [chest], her sweet, horny smell invading your nostrils as her overfull lips mash into your own, rubbing at your philtrum gently.");
 	Render.text("\n\nYou are already ragingly hard, [eachCock] throbbing to the idea of those warm, expert folds of flesh sliding over ");

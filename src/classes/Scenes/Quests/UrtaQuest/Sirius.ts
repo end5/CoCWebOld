@@ -15,7 +15,7 @@ package classes.Scenes.Quests.UrtaQuest
 		}
 
 
-		override protected function outputPlayerDodged(dodge: number):void
+		override protected outputPlayerDodged(dodge: number):void
 		{
 			Render.text("With your trained eyes, you see through his feints and effectively block his first swipe, then quickly twist your body to kick him away.  He clutches his belly where you kicked him, but recovers quickly, eyes fixated on yours.\n");
 		}
@@ -29,7 +29,7 @@ package classes.Scenes.Quests.UrtaQuest
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let attack: number = rand(4);
 			if (player.statusAffects.has("Blind")) attack = rand(3);
@@ -39,7 +39,7 @@ package classes.Scenes.Quests.UrtaQuest
 			if (attack == 3) nagaSpitAttack();
 		}
 
-		private function manNagaTease():void
+		private manNagaTease():void
 		{
 			Render.text("The snake-man stares deeply into your eyes, seemingly looking past them, and for a moment your body goes numb.");
 //Miss:
@@ -60,7 +60,7 @@ package classes.Scenes.Quests.UrtaQuest
 			combatRoundOver();
 		}
 
-		private function nagaSpitAttack():void
+		private nagaSpitAttack():void
 		{
 			Render.text("Hissing loudly, Sirius suddenly curls his lips and spits at your eyes!  ");
 //{Hit:
@@ -73,7 +73,7 @@ package classes.Scenes.Quests.UrtaQuest
 			combatRoundOver();
 		}
 
-		private function poisonBite():void
+		private poisonBite():void
 		{
 			Render.text("With a loud and vicious hiss, Sirius suddenly lunges at you, mouth distended impossibly wide and revealing four needle-like fangs dripping with venom!  ");
 //Miss:
@@ -99,7 +99,7 @@ package classes.Scenes.Quests.UrtaQuest
 			game.urtaQuest.urtaLosesToSirriusSnakeRadio();
 		}
 
-		public function Sirius()
+		public Sirius()
 		{
 			super(true);
 			this.a = "";

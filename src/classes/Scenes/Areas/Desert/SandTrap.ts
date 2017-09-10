@@ -6,7 +6,7 @@
 	public class SandTrap extends Monster
 	{
 		//Wait:
-		public function sandTrapWait():void {
+		public sandTrapWait():void {
 			clearOutput();
 			game.spriteSelect(97);
 			if(findStatusAffect(StatusAffects.Climbed) < 0) statusAffects.add(new StatusAffect("Climbed",0,0,0,0)));
@@ -31,7 +31,7 @@
 			//combatRoundOver();
 		}
 
-		public function trapLevel(adjustment:number = 0):number {
+		public trapLevel(adjustment:number = 0):number {
 			if(findStatusAffect(StatusAffects.Level) < 0) statusAffects.add(new StatusAffect("Level",4,0,0,0)));
 			if(adjustment != 0) {
 				addStatusValue(StatusAffects.Level,1,adjustment);
@@ -44,7 +44,7 @@
 
 
 		//sandtrap pheromone attack:
-		private function sandTrapPheremones():void {
+		private sandTrapPheremones():void {
 			game.spriteSelect(97);
 			Render.text("The sandtrap puckers its lips.  For one crazed moment you think it's going to blow you a kiss... but instead it spits clear fluid at you!   You desperately try to avoid it, even as your lower half is mired in sand.");
 			if(player.stats.spe/10 + rand(20) > 10 || combatEvade() || combatFlexibility()) {
@@ -60,7 +60,7 @@
 		}
 
 		//sandtrap quicksand attack:
-		private function nestleQuikSandAttack():void {
+		private nestleQuikSandAttack():void {
 			game.spriteSelect(97);
 			Render.text("The sandtrap smiles at you winningly as it thrusts its hands into the sifting granules.  The sand beneath you suddenly seems to lose even more of its density; you're sinking up to your thighs!");
 			//Quicksand attack fail:
@@ -76,7 +76,7 @@
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (statusAffects.has("Level")) {
 				if (trapLevel() == 4 && findStatusAffect(StatusAffects.Climbed) < 0) nestleQuikSandAttack();
@@ -106,7 +106,7 @@
 			}
 		}
 
-		public function SandTrap()
+		public SandTrap()
 		{
 			//1/3 have fertilized eggs!
 			if(rand(3) == 0) this.statusAffects.add(new StatusAffect("Fertilized",0,0,0,0)));

@@ -53,13 +53,13 @@ package classes.Scenes.NPCs
 		//  KID_SITTER: number = 757; //0 = no sitter, 1 = possible, 2 = doing dat shit
 		//  HAD_KID_A_DREAM: number = 758;
 
-		public function AnemoneScene()
+		public AnemoneScene()
 		{
 			CoC.timeAwareClassAdd(this);
 		}
 		
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			let needNext:boolean = false;
 			if (flags[FlagEnum.ANEMONE_KID] > 0) {
@@ -87,17 +87,17 @@ package classes.Scenes.NPCs
 			return needNext;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 
-		private function anemonePreg():void
+		private anemonePreg():void
 		{
 			player.knockUp(PregnancyType.ANEMONE, PregnancyType.INCUBATION_ANEMONE, 101);
 		}
 
-		public function kidAXP(diff:number = 0):number
+		public kidAXP(diff:number = 0):number
 		{
 			if (diff == 0) return flags[FlagEnum.KID_A_XP];
 			flags[FlagEnum.KID_A_XP] += diff;
@@ -107,7 +107,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		public function mortalAnemoneeeeee():void
+		public mortalAnemoneeeeee():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -139,7 +139,7 @@ package classes.Scenes.NPCs
 
 
 		//victory:
-		public function defeatAnemone():void
+		public defeatAnemone():void
 		{
 			Render.text("", true);
 			//Win by HP:
@@ -169,7 +169,7 @@ package classes.Scenes.NPCs
 		}
 
 //anal: -requires butthole
-		private function victoryButtholeRape():void
+		private victoryButtholeRape():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -215,7 +215,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		private function rapeAnemoneWithDick():void
+		private rapeAnemoneWithDick():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -320,7 +320,7 @@ package classes.Scenes.NPCs
 
 
 //using pussy:
-		private function rapeAnemoneWithPussy():void
+		private rapeAnemoneWithPussy():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -390,7 +390,7 @@ package classes.Scenes.NPCs
 		}
 
 //loss rapes:
-		public function loseToAnemone():void
+		public loseToAnemone():void
 		{
 			spriteSelect(4);
 			let x:number = player.cockThatFits(36);
@@ -605,7 +605,7 @@ package classes.Scenes.NPCs
 
 //Minotaur Cum combat circumvention:
 //(if PC has 1 or more Mino Cum, replaces last paragraph of initial encounter)
-		private function minoCumForAnemonieeeeez():void
+		private minoCumForAnemonieeeeez():void
 		{
 			spriteSelect(4);
 			Render.text("The initial surprise subsides to wooly-headedness and a feeling of mild arousal as the stingers in her tentacles find exposed flesh.  In panic of drowning you pull free of the ropy mass and backpaddle away from the girl until your " + player.feet() + " reassuringly touch the shallows of the lakebed.  As you shake your head to clear the haze, you notice a few of your items have fallen out of your pouches and are floating in the water.  The anemone has picked one in particular up and is examining it; a bottle of minotaur cum.  Her eyes light up in recognition as the fluid sloshes back and forth and she looks beseechingly at you, cradling it next to her cheek.  \"<i>Gimme?</i>\" she asks, trying to look as sweet as possible.\n\n", false);
@@ -633,7 +633,7 @@ package classes.Scenes.NPCs
 		}
 
 //'Don't Give':
-		private function dontGiveMino():void
+		private dontGiveMino():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -647,7 +647,7 @@ package classes.Scenes.NPCs
 		}
 
 //'Give':
-		private function giveMino():void
+		private giveMino():void
 		{
 			spriteSelect(4);
 			Render.text("", true);
@@ -677,7 +677,7 @@ package classes.Scenes.NPCs
 		}
 
 //anal
-		private function anemoneButtPlugginz():void
+		private anemoneButtPlugginz():void
 		{
 			clearOutput();
 			//victory sex choice for males with cock fit 48 or females with clit >7": "her anus"
@@ -737,7 +737,7 @@ package classes.Scenes.NPCs
 		}
 
 //[FUCK IT] (if cock fit 48, use cock; else use clit scenes)
-		private function anemoneQuoteUnquoteAnal():void
+		private anemoneQuoteUnquoteAnal():void
 		{
 			clearOutput();
 			let dick:boolean = (player.cockThatFits(48) >= 0 && player.lowerBody.cockSpot.hasCock());
@@ -820,7 +820,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Hotdog!]
-		private function hotdogTheAnemone():void
+		private hotdogTheAnemone():void
 		{
 			clearOutput();
 			Render.text(images.showImage("anemone-doggy"), false);
@@ -874,7 +874,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Fuck Off]
-		private function fuckingAssholelessAnemoneeeez():void
+		private fuckingAssholelessAnemoneeeez():void
 		{
 			clearOutput();
 			Render.text("Dammit all.  Your fun is completely ruined and you're limp as toast in milk now.  You abruptly pull yourself upright, tucking away your goodies.");
@@ -891,7 +891,7 @@ package classes.Scenes.NPCs
 //Bee on Anemone: Finished (Zeik)
 //madzeikfried@gmail.com
 //[Ovipositor] option in rape menu
-		private function anemoneGetsLayedByBeePositor():void
+		private anemoneGetsLayedByBeePositor():void
 		{
 			if (player.canOvipositSpider()) {
 				spiderOvipositAnAnemone();
@@ -969,7 +969,7 @@ package classes.Scenes.NPCs
 
 //Drider on Anemone: Finished (Zeik)
 //[Ovipositor] option with spiderbutts
-		private function spiderOvipositAnAnemone():void
+		private spiderOvipositAnAnemone():void
 		{
 			clearOutput();
 			Render.text(images.showImage("anemone-egg"), false);
@@ -1046,7 +1046,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		public function anemoneKidBirthPtII():void
+		public anemoneKidBirthPtII():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1067,7 +1067,7 @@ package classes.Scenes.NPCs
 		}
 
 //[yes, i am allergic to fun. sweep the leg, johnny! get 'em a body bag!]
-		private function getRidOfAnemone():void
+		private getRidOfAnemone():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1079,7 +1079,7 @@ package classes.Scenes.NPCs
 		}
 
 //[no, bonsai anemone is awesome and fuck the haters]
-		private function keepAnemoneKid():void
+		private keepAnemoneKid():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1099,7 +1099,7 @@ package classes.Scenes.NPCs
 
 
 //KID A FOLLOWER STUFF
-		public function anemoneBarrelDescription():void {
+		public anemoneBarrelDescription():void {
 			if (model.time.hours < 6) //(morning)
 				Render.text("Kid A is sleeping in her barrel right now.");
 			else if (model.time.hours <= 10)
@@ -1114,7 +1114,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Barrel] button in [Stash] menu (appears whenever Kidswag flag >= 1)
-		public function approachAnemoneBarrel():void
+		public approachAnemoneBarrel():void
 		{
 			let item:Function =null;
 			let weaponT:string = "Give Weapon";
@@ -1173,7 +1173,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Item](only appears if hourssinceKiditem flag >= 16)
-		private function getAnemoneItem():void
+		private getAnemoneItem():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1233,7 +1233,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Give Weapon]
-		private function giveAnemoneWeapon():void {
+		private giveAnemoneWeapon():void {
 			clearOutput();
 			spriteSelect(71);
 			Render.text("What do you want to give her?");
@@ -1253,7 +1253,7 @@ package classes.Scenes.NPCs
 			addButton(9, "Back", inventory.stash);
 		}
 
-		private function placeInAnemone(slot: number):void {
+		private placeInAnemone(slot: number):void {
 			clearOutput();
 			Render.text("You leave the item by her barrel.");
 			spriteSelect(71);
@@ -1264,7 +1264,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Take Weapon]
-		private function takeOutOfAnemone():void
+		private takeOutOfAnemone():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1280,7 +1280,7 @@ package classes.Scenes.NPCs
 		}
 
 //[N.Watch]
-		private function anemoneWatchToggle():void
+		private anemoneWatchToggle():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1303,7 +1303,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Tutor](only appears if Kid A is armed and present)
-		private function tutorAnemoneKid():void
+		private tutorAnemoneKid():void
 		{
 			clearOutput();
 			//(if lust > 99, output)
@@ -1497,7 +1497,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		private function kidASex(cont:boolean = true):boolean
+		private kidASex(cont:boolean = true):boolean
 		{
 			if (!cont) {
 				clearOutput();
@@ -1653,7 +1653,7 @@ package classes.Scenes.NPCs
 		}
 
 //[Evict]
-		private function evictANemone():void
+		private evictANemone():void
 		{
 			clearOutput();
 			Render.text("Really evict the anemone?");
@@ -1663,7 +1663,7 @@ package classes.Scenes.NPCs
 		}
 
 //Yes]
-		private function reallyEvictDaAnemone():void
+		private reallyEvictDaAnemone():void
 		{
 			clearOutput();
 			spriteSelect(71);
@@ -1680,7 +1680,7 @@ package classes.Scenes.NPCs
 
 //dreams: possible once KidXP >= 40; function as visible notice of sex-readiness
 //if KidXP drops below threshold for sex due to bad training, no more dreams and no more sex
-		public function kidADreams():void
+		public kidADreams():void
 		{
 			Render.text("\n<b><u>In the middle of the night...</u></b>");
 			//if male:
@@ -1724,7 +1724,7 @@ package classes.Scenes.NPCs
 //Kid-and-kid interaction scenes:
 //Cows one-time scene(plays the first time Kidswag > 0, Kidweapon is populated, and PC has 5+ delicious well-Marbled steak children)
 //set Kidsitter flag = 1; 'unlocks' repeat babysitting, making Kid A unavailable with a 25% chance during daylight hours
-		public function kidABabysitsCows():void
+		public kidABabysitsCows():void
 		{
 			Render.text("\n<b>\"<i>Come on, get out of your little hole and help!</i>\"</b>");
 			Render.text("\n\nThe sound of a voice being raised in frustration turns your head.  Marble is standing in front of your occupied water barrel with several of your rambunctious children in tow, berating the anemone cornered inside.  You advance a few feet and the blue girl turns toward you beseechingly, but Marble starts talking again before you're close enough to say anything.");
@@ -1747,7 +1747,7 @@ package classes.Scenes.NPCs
 
 //Cow repeat
 //triggered when PC selects the Kids option in Marble menu while Kid A is babysitting
-		public function repeatCowSitting():void
+		public repeatCowSitting():void
 		{
 			Render.text("Marble looks up from her work and regards you warmly.  \"<i>I appreciate the offer, [name].  I've already got someone on it, but if you want to go help, I'm sure there's something you could do.</i>\"  She gestures in a direction over your shoulder.");
 
@@ -1765,7 +1765,7 @@ package classes.Scenes.NPCs
 
 //Sharks (get the fuck in the boat)
 //repeatable, trigger possible when visiting 2+ Izma kids
-		public function kidAWatchesSharks():void
+		public kidAWatchesSharks():void
 		{
 			clearOutput();
 			Render.text("As you look over your shark family playing in the shallow stream, a soft, wet footstep sounds behind you.  Kid A is there when you turn around, holding empty waterskins and looking desperately at the running water.");
@@ -1792,7 +1792,7 @@ package classes.Scenes.NPCs
 //goblins at night:
 //req PC cocks > 0, Kid A watch on, and Tamani daughters encounter unlocked
 //repeatable for now, but semi-rare
-		public function goblinNightAnemone():void
+		public goblinNightAnemone():void
 		{
 			Render.text("\n<b>That night...</b>");
 			Render.text("\nA noisy clump of gabbling green in the distance awakens you and attracts your attention.  As it draws closer to your camp, you can make out tufts of shockingly-colored hair atop it, and then distinct shapes.  The blot on the landscape resolves into a glob of goblins, clearly intent on reaching your camp's perimeter.  Your anemone notices as well, and, attempting to fulfill the terms of her lease, picks up her " + ItemType.lookupItem(flags[FlagEnum.ANEMONE_WEAPON_ID]).longName + " and moves to intercept them.  You follow at a good distance and tuck yourself behind some cover, already suspecting the identities of the invaders.");

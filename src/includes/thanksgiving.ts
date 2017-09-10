@@ -22,12 +22,12 @@ Note on progression:
    
 //const TURKEY_FUCK_YEAR_DONE: number = 566;
 
-public function isThanksgiving():boolean {
+public isThanksgiving():boolean {
 	return ((date.date >= 21 && date.month == 10) && (date.date < 30 && date.month == 10));
 }
    
 //Introduction: -McGirt
-public function datTurkeyRumpMeeting():void {
+public datTurkeyRumpMeeting():void {
 	if(flags[FlagEnum.TURKEY_FUCK_YEAR_DONE] > 0) {
 		turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt();
 		flags[FlagEnum.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
@@ -46,7 +46,7 @@ public function datTurkeyRumpMeeting():void {
 }
 
 //Shoo her Off -McGirt
-public function shooTurkeyAway():void {
+public shooTurkeyAway():void {
 	clearOutput();
 	Render.text("You scowl and wave your arm at the strange turkey-girl, telling her to get lost.");
 	
@@ -59,7 +59,7 @@ public function shooTurkeyAway():void {
 }
 
 //Let her Approach
-public function letZeTurkeyApproach():void {
+public letZeTurkeyApproach():void {
 	if(player.gender == 2 || (player.gender == 3 && rand(2) == 0)) {
 		femaleLetZeTurkeyGalApproach();
 		return;
@@ -75,13 +75,13 @@ public function letZeTurkeyApproach():void {
 	simpleChoices("Baste Her", basteThatTurkeyBooty, "No Thanks", noThanksTurkeyGal, "", null, "", null, "", null);
 }
 
-public function noThanksTurkeyGal():void {
+public noThanksTurkeyGal():void {
 	clearOutput();
 	Render.text("You reluctantly push her away.  You've no need to ram your dick down some new monstrosity's gullet.  The girl forlornly gobbles one last time, then prances off into the fading evening light, globular ass jiggling.");
 	doNext(camp.returnToCampUseTwoHours);
 }
 //Baste Her -McGirt, reluctantly
-public function basteThatTurkeyBooty():void {
+public basteThatTurkeyBooty():void {
 	clearOutput();
 	Render.text("You let your cock slip free of your [armor], and immediately the turkey-girl takes it in hand, wrapping her fingers around your thick shaft and giving it a few long, languid strokes.  \"<i>Gobble?</i>\"  she asks, and this time you nod as she leans down toward your cock, her long tongue flicking out to run across the [cockHead], tickling the slit of your urethra as she continues to pump your prick.");
 	
@@ -106,7 +106,7 @@ public function basteThatTurkeyBooty():void {
 }
 
 //Stuff Her -McGirt, this is awful by the way.
-public function stuffDatTurkeyWithSpoo():void {
+public stuffDatTurkeyWithSpoo():void {
 	clearOutput();
 	Render.text("Even though you just came, the sight of such an inviting pussy causes your cock to begin to stiffen again.  You move between the turkey legs, tossing them over your shoulders to give you the best angle on her slick snatch.  You give her an experimental lick, running your tongue across her outer folds.  The girl shivers slightly, a tiny gasp passing her lips as you flick your tongue across her tiny bud.  Spurred on by her cute reactions, you bury yourself between her thighs, lapping at her cunt and clit.  Soon, she's nice and ready, her slit practically leaking her lubricants as you orally assault her, preparing her passage for your stuffing.");
 	
@@ -144,7 +144,7 @@ public function stuffDatTurkeyWithSpoo():void {
 
 //SPITROAST HER! GangHel Style 
 //(Needs friendly/lover Hel)
-public function spitRoastThatTurkey():void {
+public spitRoastThatTurkey():void {
 	clearOutput();
 	Render.text("As you contemplate what to do with the insatiable turkey-girl, you hear another rustling at the edge of camp.  For a moment both worried and aroused by the thought of a whole flock of these sluts, you glance up in time to see a certain salamander poking her way through your bevy of traps.");
 	
@@ -174,7 +174,7 @@ public function spitRoastThatTurkey():void {
 	doNext(thatllDoTurkey);
 }
 
-public function thatllDoTurkey():void {
+public thatllDoTurkey():void {
 	clearOutput();
 	Render.text("Running your hand through the turkey-girl's hair, you whisper what a good little cockgobbler she is. However, you soon find that the poor thing's passed out, your rut finally over with.  You give her a gentle push over her back, giving you a nice soft tit-pillow to lay your head down upon as you pick up the lunch you'd been preparing to eat before the eager slut arrived.");
 	
@@ -187,7 +187,7 @@ public function thatllDoTurkey():void {
 }
 
 //Let her Approach:
-public function femaleLetZeTurkeyGalApproach():void {
+public femaleLetZeTurkeyGalApproach():void {
 	clearOutput();
 	Render.text("Considering her ponderous form, the girl obviously poses no threat.  You wave her over, trying to welcome her to the camp.  With a huge grin the turkey-girl wobbles over, her gigantic breasts heaving beneath her poncho until she plops down beside you.  You try saying hello and introducing yourself, but the girl simply cocks her head to the side.");
 	
@@ -203,7 +203,7 @@ public function femaleLetZeTurkeyGalApproach():void {
 }
 
 //Appetiser:
-public function turkeyAppetizer():void {
+public turkeyAppetizer():void {
 	clearOutput();
 	Render.text("Biting back a moan as the girl continues to tease you, your own hands reach out to her wrists, reluctantly pulling her hands away and placing them on her own thighs.  She seems disappointed as you shift in your seat, but before she can voice her displeasure you slide up to her, snaking an arm around her back as you start to play with her oversized rack.  She gasps slightly as you heft her plush breasts, kneading and squeezing them as your fingers circle around her hardening nipples.");
 	
@@ -231,7 +231,7 @@ public function turkeyAppetizer():void {
 
 
 //Main Course:
-public function femaleAndTurkeyMainCourse():void {
+public femaleAndTurkeyMainCourse():void {
 	clearOutput();
 	Render.text("Fully disrobed, the girl runs her hands down her chest, fingers clamping around her dribbling nipples once again.  With another squeeze, gravy is rolling down her chest once more, slathering her fingers with her own mouthwatering juices.  Unable to hold yourself back, your mouth clamps onto her breast, hands shooting to her soft, plush rear as you pull her bodily into your lap.  Her eyes almost light up in her new position, her hands running through your [hair] as you suck for all you're worth.  Her thick, rich gravy fills your mouth with its delicious mix of flavours.  There's so many different, wonderful tastes mixing together that you could almost believe you were back in Ingnam, gorging yourself on the gigantic spread that the village always strives to put on, regardless of how well the harvest went.");
 	
@@ -257,7 +257,7 @@ public function femaleAndTurkeyMainCourse():void {
 }
 	
 //DESERT
-public function haveTurkeyGirlDesertInYourCunt():void {
+public haveTurkeyGirlDesertInYourCunt():void {
 	clearOutput();
 	Render.text("Barely able to contain yourself, you nearly tear your [armor] from your burning body, desperate to feel the girl with your bare flesh.  She reclines lazily on the ground, legs spreading wide as a hand moves from her dribbling tits, sliding its way down her toned stomach to her swollen lips.  She continues to tease herself whilst you struggle with your clothes, little moans and grunts of pleasure leaving you weak at the knees as she dreamily circles her reddening snatch with a finger.  Her other hand busies itself with her chest, pinching and squeezing just hard enough to release another spurt of gravy that rolls its way down the curve of her breast, dripping onto her belly in a thick glob.");
 	
@@ -304,7 +304,7 @@ public function haveTurkeyGirlDesertInYourCunt():void {
 
 //Turkey Girl II: Return of the Cockgobbler (Cockwielders)
 //{Thanksgiving Day event, nat. Cockmeisters only.}
-public function turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt():void {
+public turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt():void {
 	clearOutput();
 	Render.text("As you're wandering through camp, your mind wanders back to the old harvest festival your village would hold about this time of year.  The days have come slowly since your arrival in this corrupted demon realm, but you can't help but think back to your family, to the friends you left behind.  Right about now they're probably sitting around the table, saying a prayer to the gods in thanks for the bountiful harvest.  Maybe they're saying one for you.");
 	Render.text("\n\nYou start to scrounge together a meal together for yourself.  Not much you can do here, with what little you have, but it feels...  right...  to be making something special for today.");
@@ -331,7 +331,7 @@ public function turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt():void {
 	addButton(1,"Let Her Come",letZeTurkeyApproach);
 }
 
-public function helloAgain():void {
+public helloAgain():void {
 	clearOutput();
 	Render.text("\"<i>Oh, hey, you,</i>\" you say as the seasonal little near-harpy waddles up.  You pat your thigh invitingly, letting Gobbles approach.");
 	
@@ -349,7 +349,7 @@ public function helloAgain():void {
 }
 
 //Gravy Boat
-public function gravyBoatDatTurkturk():void {
+public gravyBoatDatTurkturk():void {
 	clearOutput();
 	Render.text("You cup the turkey's chin, pulling her up off your cock enough to get her looking up at you with her big, questioning eyes.  \"<i>Gobble?</i>\" she ventures nervously, straining against your hand to get back at your shaft.");
 	
@@ -389,7 +389,7 @@ public function gravyBoatDatTurkturk():void {
 }
 
 //Season Her
-public function seasonHerDatTurkeyBitch():void {
+public seasonHerDatTurkeyBitch():void {
 	clearOutput();
 	Render.text("You plant your hands on the busty bird's broad, breeder's hips, spreading her cheeks to get a good look at her slit.  Still agape after taking your cock earlier, she's liberally leaking fem-slime onto your face, eagerly awaiting your lusty touch.  You venture your tongue out to taste her, and instantly draw back even as she flutters excitedly - does she...  of course she tastes like turkey.  What else? But it's a damn fine turkey, oh so sweet and juicy; you don't hesitate to dig in, tongue probing deep into the giddy fowel's slit.  She wiggles her tremendous tush happily as you spread her nethers wide, her vibrant brown plumage standing straight up, as erect as your own [cock] as Gobbles' tits bounce and jiggle around it.  Tongueing your tasty turkey, you slip a few fingers up between her luscious thighs, brushing the tender flesh just enough to make her arch her back, dragging her tits right along the length of your shaft to bury the crown in the jiggly bottom of her rack.  You trace your fingers higher, brushing the silky lips of her sodden box and circling up to the prominent little bud of her clit.");
 	
@@ -415,7 +415,7 @@ public function seasonHerDatTurkeyBitch():void {
 }
 
 //Dessert
-public function turkeyDesertBitches():void {
+public turkeyDesertBitches():void {
 	clearOutput();
 	Render.text("\"<i>G-gobble!?</i>\" Gobbles whines at your moment of hesitation, wiggling her upraised botty at you enticingly, hot flesh jiggling just close enough to brush your " + player.multiCockDescriptLight() + " with her lust-coated cheeks.");
 	
@@ -487,7 +487,7 @@ public function turkeyDesertBitches():void {
 //{Yeah what Savin said up there}
 //Desc: Hamroast will be the thanksgiving special at The Wet Bitch. PC will be prompted when they enter to try one. PC can repeat this scene as many times as they want during the Thanksgiving window.
 
-public function pigSlutRoastingGreet():void {
+public pigSlutRoastingGreet():void {
 	clearOutput();
 	Render.text("As you enter The Wet Bitch you’re accosted by an incredibly busty waitress. You can’t really discern what exactly she is as your eyes are solely focused on the massive melons jutting out from her chest and jiggling proudly with mile deep cleavage to boot.");
 	Render.text("\n\n\"<i>Hey there " + player.mf("handsome","cutie") + "! We've got quite a unique special going on right now!</i>\" she exclaims in a cheery voice.");
@@ -508,7 +508,7 @@ public function pigSlutRoastingGreet():void {
 
 //{Return to The Wet Bitch menu}
 //Ham Roast -> In For A Gem
-public function getARoastPiggueOinkOinkOinkMotherfucker():void {
+public getARoastPiggueOinkOinkOinkMotherfucker():void {
 	clearOutput();
 	player.stats.gems -= 1;
 	Render.text("You quickly approach the gooey bucket and toss a single, shiny gem inside. Another waitress winks at you, almost equally as busty, nodding her head in the direction of the back rooms.");
@@ -543,7 +543,7 @@ public function getARoastPiggueOinkOinkOinkMotherfucker():void {
 	addButton(0,"Next",morePigRoast);
 }
 
-public function morePigRoast():void {
+public morePigRoast():void {
 	clearOutput();
 	Render.text("You climb on top of the bed with her, letting your [armor] slip off in the process. She oinks playfully, letting you know that she approves of the action. You smile at her, your hand reaching down to explore her dribbling nethers, slipping a finger into her love-tunnel with ease. You let a dumb grin spread across your features as you feel her searing folds, so hot and slippery with sticky, liquid lust.");
 	
@@ -553,7 +553,7 @@ public function morePigRoast():void {
 
 //[ Tenderize Her ]
 //Ham Roast -> Tenderize Her (Female and Genderless versions)
-public function tenderizeDatPigSloot():void {
+public tenderizeDatPigSloot():void {
 	clearOutput();
 	Render.text("\"<i>Turn over.</i>\" you say rather plainly, eager to see that jiggling booty of hers.");
 	Render.text("\n\nShe does as you command, rolling over onto her stomach and letting you see the massive mounds of fleshy orbs she calls her ass. You maneuver your way onto her legs, pinning them down with yours as you lick your lips in anticipation. You bring your hand down in a tentative spank, your hand smacking against one of the enormous butt cheeks, sending it jiggling and wobbling as it ripples away from the point of impact.");
@@ -578,7 +578,7 @@ public function tenderizeDatPigSloot():void {
 }
 
 //Ham Roast -> Tenderize Her -> Hardcore
-public function tenderizeHerHardcore():void {
+public tenderizeHerHardcore():void {
 	clearOutput();
 	Render.text("You can't help but maliciously smirk, your eyes resting on a fetish whip and some bondage equipment. You give the piggy one last double-handed spank on her ample ass, leaving her a pitifully moaning and quivering wreck. You quickly snatch up the whip, some rope, and a kinky ballgag.");
 	Render.text("\n\nYou return to the trembling whore, petting her curly brown hair reassuringly as the tears from her eyes slow down, the heat and pain from her raw rump still fresh. You gingerly place the ballgag onto her snout, making her appear as though she was a ham roast with an apple in her mouth. She looks into your eyes with a mixture of pain, arousal, mercy, and pleading. You softly kiss her on the forehead, stroking her hair, admiring its luscious fullness.");
@@ -601,7 +601,7 @@ public function tenderizeHerHardcore():void {
 }
 
 //Ham Roast -> Tenderize Her -> Softcore
-public function hamRoastTenderizeHerSoftcore():void {
+public hamRoastTenderizeHerSoftcore():void {
 	clearOutput();
 	Render.text("You can't help but let a salacious smile grace your lips, your eyes resting on a paddle in the corner. You give the piggy one last double-handed spank on her ample ass, leaving her a pitifully moaning and quivering wreck. You quickly snatch the somewhat heavy paddle, feeling its heft and grinning like a madman.");
 	
@@ -627,7 +627,7 @@ public function hamRoastTenderizeHerSoftcore():void {
 	//[ Next ]
 }
 
-public function spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl():void {
+public spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl():void {
 	clearOutput();
 	Render.text("Eventually you stop your ceaseless romping of her rear, the piggy whore blubbering into the now thoroughly torn pillow from her biting and tearing. Several strips of flesh from her reddened ass look practically raw from your activities. You lay an experimental finger on the tortured flesh, the blazing heat radiating from it telling you all you need to know.");
 	
@@ -641,7 +641,7 @@ public function spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl():v
 	//[ Next ]
 }
 
-public function spankEpilogueForRizzles():void {
+public spankEpilogueForRizzles():void {
 	clearOutput();
 	Render.text("You look around the room once again, searching for more toys you could use on the masochistic piggy slut. Your eyes rest on a jumbo-sized, horsecock dildo sticking up like a sore thumb out of the rest of the stuff. Someone even had the audacity to put a hat on it! You grab the monstrous thing, mottled black and pink all over with an artificial sheath near the base. You reason it's over two feet long and incredibly thick, its huge weight making it so that you have to carry it with both hands!");
 	
@@ -674,7 +674,7 @@ public function spankEpilogueForRizzles():void {
 	addButton(0,"Next",getDoneEatingOutPigSlut);
 }
 
-public function getDoneEatingOutPigSlut():void {
+public getDoneEatingOutPigSlut():void {
 	clearOutput();
 	Render.text("Finally you remove yourself from the still slightly dribbling juicebox, giving the whore one last spank as she seems to have passed out from the bliss. The bed is entirely a mess, covered with her sticky juices and torn from the spanking.");
 	

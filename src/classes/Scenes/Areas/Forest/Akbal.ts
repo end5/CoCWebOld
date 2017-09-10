@@ -80,7 +80,7 @@
 			game.cleanupAfterCombat();
 		}
 		
-		public function akbalLustAttack():void
+		public akbalLustAttack():void
 		{
 			//*Lust Attack - 
 			if (player.findStatusAffect(StatusAffects.Whispered) < 0)
@@ -100,7 +100,7 @@
 			game.combatRoundOver();
 		}
 		
-		public function akbalSpecial():void
+		public akbalSpecial():void
 		{
 			//*Special Attack A - 
 			if (rand(2) == 0 && player.stats.spe > 20)
@@ -152,7 +152,7 @@
 		}
 		
 		//*Support ability - 
-		public function akbalHeal():void
+		public akbalHeal():void
 		{
 			if (HPRatio() >= 1)
 				Render.text("Akbal licks himself, ignoring you for now.", false);
@@ -163,7 +163,7 @@
 			game.combatRoundOver();
 		}
 
-		public function Akbal()
+		public Akbal()
 		{
 			trace("Akbal Constructor!");
 			this.a = "";

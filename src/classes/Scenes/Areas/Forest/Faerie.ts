@@ -3,12 +3,12 @@
 
 	public class Faerie extends BaseContent{
 
-	public function Faerie()
+	public Faerie()
 	{
 	}
 
 //faerie Encounter
-public function encounterFaerie():void {
+public encounterFaerie():void {
 	spriteSelect(17);
 	Render.text("A faerie slightly taller and thicker than your middle finger flits about the air. Her flat chest and girlish bob of hair make her look quite cute, but the solid black stockings and leather straps covering her chest show her slutty nature. Her wings are a light red, the color of aroused genitals.\n\n", true);
 	if(player.lowerBody.cockSpot.count() > 0 && (!player.lowerBody.vaginaSpot.hasVagina() || rand(2) == 0)) {
@@ -48,7 +48,7 @@ public function encounterFaerie():void {
 	else simpleChoices("Shoo Away", faerieShooAway, "Nothing", faerieDoNothing, "", null, "", null, "", null);
 }
 
-private function faerieRAEP():void {
+private faerieRAEP():void {
 	spriteSelect(17);
 	//Count secksins
 	if(player.findStatusAffect(StatusAffects.FaerieFemFuck) < 0) player.statusAffects.add(new StatusAffect("FaerieFemFuck",1,0,0,0)));
@@ -142,13 +142,13 @@ private function faerieRAEP():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function faerieShooAway():void {
+private faerieShooAway():void {
 	spriteSelect(17);
 	Render.text("You shake your hands, shooing away the tiny faerie.  She's clearly been touched by the magics of this land and you want nothing to do with her. With a pouting look, she turns and buzzes away.", true);
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function faerieDoNothing():void {
+private faerieDoNothing():void {
 	spriteSelect(17);
 	Render.text("", true);
 	if(player.upperBody.chest.BreastRatingLargest[0].nippleLength >= 1) {
@@ -194,14 +194,14 @@ private function faerieDoNothing():void {
 }
 
 //[No] *(let her go)
-private function letFaerieGo():void {
+private letFaerieGo():void {
 	spriteSelect(17);
 	Render.text("", true);
 	Render.text("You apologize and release her, letting her fly away on gossamer wings.  She thanks you, buzzing up to your lips and planting a chaste kiss on your mouth.  She zips away into the woods without a glance back...", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 //[YES] *make her pleasure you
-private function faerieCaptureHJ():void {
+private faerieCaptureHJ():void {
 	spriteSelect(17);
 	if(player.statusAffects.has("FaerieFucked")) player.addStatusValue(StatusAffects.FaerieFucked,1,2);
 	else player.statusAffects.add(new StatusAffect("FaerieFucked",2,0,0,0)));

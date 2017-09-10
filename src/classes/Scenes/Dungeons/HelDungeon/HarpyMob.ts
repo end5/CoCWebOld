@@ -5,7 +5,7 @@ package classes.Scenes.Dungeons.HelDungeon
 	public class HarpyMob extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.harpyHordeAI();
 		}
@@ -20,7 +20,7 @@ package classes.Scenes.Dungeons.HelDungeon
 			game.pcLosesToHarpyHorde();
 		}
 
-		public function HarpyMob()
+		public HarpyMob()
 		{
 			this.a = "the ";
 			this.short = "harpy horde";

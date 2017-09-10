@@ -5,7 +5,7 @@
 
 	public class SatyrScene extends BaseContent{
 
-	public function SatyrScene()
+	public SatyrScene()
 	{
 	}
 
@@ -21,7 +21,7 @@ Note: Satyrs actively increase their own lust in order to use their lust charge,
 
 
 
-public function satyrEncounter(location: number = 0):void {
+public satyrEncounter(location: number = 0):void {
 	clearOutput();
 	spriteSelect(98);
 	if(rand(2) == 0 || player.pregnancyIncubation > 0 || player.buttPregnancyIncubation > 0 || player.gender == 0) {
@@ -46,7 +46,7 @@ public function satyrEncounter(location: number = 0):void {
 }
 
 //[=Yes=]
-private function consensualSatyrFuck(loc: number = 0):void {
+private consensualSatyrFuck(loc: number = 0):void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You decide to search for the source of the music.");
@@ -90,7 +90,7 @@ private function consensualSatyrFuck(loc: number = 0):void {
 }
 
 //[=Keep Drinking=]
-private function keepDrinking():void {
+private keepDrinking():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You grin at the satyr's encouragement and continue drinking, setting on a slower pace so you won't spill any more; shortly you pass him the empty skin and ask for more.");
@@ -115,7 +115,7 @@ private function keepDrinking():void {
 }
 
 //[=Leave=]
-private function leavePartySatyr():void {
+private leavePartySatyr():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You thank the satyr for his generosity, but you don't think you can handle this kind of booze, so you get up and start on your way back to your camp.");
@@ -129,7 +129,7 @@ private function leavePartySatyr():void {
 	//(Initiate combat with frenzied satyr, on the first round PC suffers the effects of a satyr charge (some HP lost and stunned))
 }
 //[=Trick Him=]
-private function trickZeSatyr():void {
+private trickZeSatyr():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You come up with a plan and pretend to start drinking again; once you notice the satyr is distracted, you quickly spill most of your drink on the floor and return an empty skin to him.");
@@ -151,7 +151,7 @@ private function trickZeSatyr():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[=Skip Foreplay=]
-private function skipForeplay():void {
+private skipForeplay():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You smirk and crawl towards the satyr, discarding the skin of alcohol and knocking over several dishes and bottle in your way.  Once you're close enough, you roughly grab at his massive shaft and begin stroking it.  \"<i>We both know where this is headed...</i>\" you whisper, \"<i>so why not skip the foreplay?</i>\"");
@@ -244,7 +244,7 @@ internal function defeatASatyr():void {
 	simpleChoices("FuckHisButt", butt, "Ride Face", faces, "B.Titfuck", bikiniTits, "", null, "Leave", cleanupAfterCombat);
 }
 //Female (Z)
-private function femaleTakesAdvantageOfSatyr():void {
+private femaleTakesAdvantageOfSatyr():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("You eye his massive shaft speculatively, then decide against it.  Why should he receive the true pleasures of your cunt when he attacked you so rudely?  No, if there will be anyone taking pleasure from this, it will be you alone.  With that in mind, you cast aside your [armor] in the most imperious manner you can muster, until you are standing stark naked.");
@@ -278,7 +278,7 @@ private function femaleTakesAdvantageOfSatyr():void {
 }
 	
 //Male (Z)
-private function malesTakeAdvantageOfSatyrs():void {
+private malesTakeAdvantageOfSatyrs():void {
 	clearOutput();
 	spriteSelect(98);
 	let x: number = player.cockThatFits(monster.analCapacity());
@@ -317,7 +317,7 @@ private function malesTakeAdvantageOfSatyrs():void {
 //Willing Sex (Z)
 //from skip foreplay
 //always impregnates PC
-private function willinglyBoneSatyr():void {
+private willinglyBoneSatyr():void {
 	clearOutput();
 	spriteSelect(98);
 	Render.text("The satyr eyes you up and down hungrily; his hands move to grope your [chest], gently tweaking your [nipples], then he moves down towards your ");
@@ -394,7 +394,7 @@ private function willinglyBoneSatyr():void {
 
 
 //Pregnancy Stuff (Z)
-private function satyrPreggo():void {
+private satyrPreggo():void {
 	if (player.lowerBody.vaginaSpot.hasVagina()) {
 		player.knockUp(PregnancyType.SATYR, PregnancyType.INCUBATION_SATYR); //Satyrs can now fertilize eggs for ovipositing players
 	}
@@ -405,7 +405,7 @@ private function satyrPreggo():void {
 
 //Birthing (Z)
 //Baby is always male.
-public function satyrBirth(vag:boolean):void {
+public satyrBirth(vag:boolean):void {
 	spriteSelect(98);
 	Render.text("\nSudden sharp, intense pangs rip through your gut, seeming to emanate from your ");
 	if(vag && !player.lowerBody.vaginaSpot.hasVagina()) {

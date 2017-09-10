@@ -11,7 +11,7 @@ package classes.Scenes.Areas.Plains
 	{
 
 		//Gnoll Description
-		private function gnollAttackText():void {
+		private gnollAttackText():void {
 			let damage:number = 0;
 			let attack:number = rand(6);
 			//return to combat menu when finished
@@ -90,7 +90,7 @@ package classes.Scenes.Areas.Plains
 			}
 		}
 		
-		private function gnollTease():void {
+		private gnollTease():void {
 			let tease:number = rand(6);
 			let bonus:number = 0;
 			//Gnoll Tease #1
@@ -203,7 +203,7 @@ package classes.Scenes.Areas.Plains
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (statusAffects.has("Stunned")) {
 				if (plural) Render.text("Your foes are too dazed from your last hit to strike back!", false);
@@ -369,7 +369,7 @@ package classes.Scenes.Areas.Plains
 			}
 		}
 
-		public function Gnoll()
+		public Gnoll()
 		{
 			this.a = "the ";
 			this.short = "gnoll";

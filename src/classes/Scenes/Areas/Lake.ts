@@ -18,11 +18,11 @@ package classes.Scenes.Areas
 		public let greenSlimeScene:GreenSlimeScene = new GreenSlimeScene();
 		public let kaiju:Kaiju = new Kaiju();
 		public let swordInStone:SwordInStone = new SwordInStone();
-		public function Lake()
+		public Lake()
 		{
 		}
 		//Explore Lake
-		public function exploreLake():void
+		public exploreLake():void
 		{
 			//Increment exploration count
 			player.exploredLake++;
@@ -255,7 +255,7 @@ package classes.Scenes.Areas
 			}
 		}
 		
-		private function findLakeLoot():void {
+		private findLakeLoot():void {
 			clearOutput();
 			if (rand(2) == 0) {
 				Render.text("You find a long and oddly flared vial half-buried in the sand.  Written across the middle band of the vial is a single word: 'Equinum'.\n");
@@ -267,7 +267,7 @@ package classes.Scenes.Areas
 			}
 		}
 		
-		private function eggChoose(eggType: number):void {
+		private eggChoose(eggType: number):void {
 			clearOutput();
 			Render.text("You reach out and touch the ");
 			switch (eggType) {
@@ -283,14 +283,14 @@ package classes.Scenes.Areas
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		private function eggChooseEscape():void {
+		private eggChooseEscape():void {
 			clearOutput();
 			Render.text("You throw yourself into a roll and take off, leaving the ring of lights hovering in the distance behind you.");
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
 		//Just want to do a quick Ottergirl event submission after you mentioned it!
-		private function ottahGirl():void
+		private ottahGirl():void
 		{
 			clearOutput();
 			flags[FlagEnum.MET_OTTERGIRL]++;
@@ -347,7 +347,7 @@ package classes.Scenes.Areas
 		}
 
 		//For Dicks
-		private function ottergirlLikesDongs():void
+		private ottergirlLikesDongs():void
 		{
 			clearOutput();
 			Render.text("The moment you agree, a sly smile spreads across her face.  She jams the end of her fishing pole into the sand like a post, to prevent it from going anywhere, and stands up.  There's no tease, no ceremony as she strips out of her bikini bottoms and tosses them aside.  Her newly revealed mound has only the barest tuft of pubic hair, a little wisp of blonde hair amongst the sparse brown fur.");
@@ -457,7 +457,7 @@ package classes.Scenes.Areas
 		}
 
 		//For Chicks
-		private function ottersForGals():void
+		private ottersForGals():void
 		{
 			clearOutput();
 			Render.text("The moment you agree, a sly smile spreads across her face.  She jams the end of her fishing pole into the sand like a post, to prevent it from going anywhere, and stands up.  There's no tease, no ceremony as she strips out of her bikini bottoms and tosses them aside.  Her newly revealed mound has only the barest tuft of pubic hair, a little wisp of blonde hair amongst the sparse brown fur.");
@@ -516,7 +516,7 @@ package classes.Scenes.Areas
 		}
 
 		//For Pansies
-		private function avoidZeOtterPussy():void
+		private avoidZeOtterPussy():void
 		{
 			clearOutput();
 			Render.text("You shake your head and explain you can't.  She simply shrugs, \"<i>Ain't no skin off my back.</i>\"");
@@ -526,7 +526,7 @@ package classes.Scenes.Areas
 		}
 
 		//For Fatties
-		private function getSomeFishYaFatty():void
+		private getSomeFishYaFatty():void
 		{
 			clearOutput();
 			Render.text("You tell Callu you're a little more interested in the fish than the fuck, at least for today.  She shrugs once before jamming the end of her fishing pole into the sand like a post and turning towards her pack.");

@@ -15,13 +15,13 @@ package classes.Scenes.Areas.Bog
 		internal static const PHOUKA_FORM_GOAT: number = 2;
 		internal static const PHOUKA_FORM_HORSE: number = 3;
 
-		public function PhoukaScene() 
+		public PhoukaScene() 
 		{
 			CoC.timeAwareClassAdd(this);
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			if (player.statusAffects.get("PhoukaWhiskeyAffect").value1 > 0) {
 				player.statusAffects.get("PhoukaWhiskeyAffect").value1 = -1; //Count down hours until player is not drunk
@@ -33,22 +33,22 @@ package classes.Scenes.Areas.Bog
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 		
-		public function phoukaNameText(known:string, unknown:string):string
+		public phoukaNameText(known:string, unknown:string):string
 		{ //Helper function, For any text that depends on whether or not the player knows what to call a phouka
 			return (flags[FlagEnum.PHOUKA_LORE] == 0 ? unknown : known);
 		}
 
-		public function phoukaName():string
+		public phoukaName():string
 		{ //Helper function, Handles the most use of phoukaNameText
 			return phoukaNameText("phouka", "faerie creature");
 		}
 
-		public function phoukaEncounter():void
+		public phoukaEncounter():void
 		{ //General entry point for everything except halloween special encounter
 			phoukaForm = PHOUKA_FORM_FAERIE; //Reset to faerie form at the start of any encounter
 			let choiceChance: number = 0;
@@ -67,7 +67,7 @@ package classes.Scenes.Areas.Bog
 			else phoukaMasturbating();
 		}
 
-		protected function phoukaFaerieFire():void
+		protected phoukaFaerieFire():void
 		{ //In old Irish legends the Phouka are responsible for Will-o’-the-wisps. In the deep woods it’s Kitsune, but in the bog it’s a Phouka
 			clearOutput();
 			Render.text("As you’re wading through the bog a flickering light off in the distance catches your eye.  ");
@@ -85,7 +85,7 @@ package classes.Scenes.Areas.Bog
 			addButton(0, "Follow", phoukaStuck);
 		}
 
-		protected function phoukaFaerieFireLeave():void
+		protected phoukaFaerieFireLeave():void
 		{
 			if (flags[FlagEnum.PHOUKA_ENCOUNTER_STATUS] == 0)
 			Render.text("\n\nYou decide it's best not to mess with weird floating lights out in the bog and return to your camp.")
@@ -93,7 +93,7 @@ package classes.Scenes.Areas.Bog
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaStuck():void
+		protected phoukaStuck():void
 		{
 			clearOutput();
 			let hasAlcohol:boolean = player.hasItem(consumables.P_WHSKY, 1);
@@ -110,7 +110,7 @@ package classes.Scenes.Areas.Bog
 			addButton(2, "Fight", phoukaStartFight);
 		}
 
-		protected function phoukaStuckOfferWhiskey():void
+		protected phoukaStuckOfferWhiskey():void
 		{
 			clearOutput();
 			Render.text("You pull out the bottle and ask the " + phoukaName() + " if he might be interested in a drink.  He looks at the bottle and says <i>“Well we both know where ya picked that up, hmmm?”</i>  Then he smiles and adds <i>“Course that’s some other phouka’s problem if he let ye beat him.”</i>");
@@ -126,26 +126,26 @@ package classes.Scenes.Areas.Bog
 			else phoukaDrinkWhilePregnant(true);
 		}
 
-		protected function phoukaMasturbating():void
+		protected phoukaMasturbating():void
 		{ //Old Irish folklore again - Phoukas were supposed to be responsible for the berries rotting away at the end of the year
 			clearOutput();
 			Render.text("You are wandering through the bog when you hear the unmistakable sound of someone fapping like there's no tomorrow.  You sneak up on the small group of shrubs expecting to find an imp who has finally been overcome by his own lust.  Instead it's a " + phoukaNameText("phouka", "small black faerie") + " you see madly jerking off.  He grunts and strains but seems unable to finish.  With an annoyed look he dives for the bush, grabbing some small ripe berries from a branch.  The " + phoukaName() + " rubs the berries on his cock until it drips with blue and black fruit juices.  He tosses the remains of the fruits to the ground and goes back to wanking.\n\nAfter another minute or so he finally thrusts his hips forward in mid-air and begins squirting streams of thick grey cum all over the bushes.  He produces far more cum than he should be able to for a creature his size.  He aims the last several streams directly onto the berries for some reason.  By the time he's done the bush looks like it's covered in a layer of off-white frosting.\n\nThe " + phoukaName() + " gives a satisfied <i>“Ha!”</i> and flies off.  Glancing at the bush you decide you won't be making any preserves from the fruits in the bog and turn back toward camp.");
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaStartFight():void
+		protected phoukaStartFight():void
 		{
 			Render.text("\n\nYou can’t move your lower half, but you roll your shoulders and stare the little monster down.  He’s not taking you without a fight.");
 			startCombat(new Phouka(phoukaName()));
 		}
 
-		protected function phoukaStartFightSilenced():void
+		protected phoukaStartFightSilenced():void
 		{
 			startCombat(new Phouka(phoukaName()));
 			player.statusAffects.add(new StatusAffect("WebSilence", 0, 0, 0, 0)));
 		}
 
-		protected function phoukaTalk():void
+		protected phoukaTalk():void
 		{
 			clearOutput();
 			Render.text("You ask the " + phoukaName());
@@ -210,7 +210,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		protected function phoukaDrinkWhilePregnant(playerOfferedTheBooze:boolean):void
+		protected phoukaDrinkWhilePregnant(playerOfferedTheBooze:boolean):void
 		{
 			if ((player.pregnancyIncubation <= 100) || (player.buttPregnancyIncubation <= 100)) { //Pregnancy is obvious to the phouka
 				Render.text("\n\n<i>“Here”</i> he says, offering you a full cup of whiskey, <i>“give that baby what it needs.  You want 'em to grow up strong don't ya?”</i>");
@@ -234,7 +234,7 @@ package classes.Scenes.Areas.Bog
 			if (acceptable) addButton(1, "Drink", phoukaDrinkAccept);
 		}
 
-		protected function phoukaDrinkAccept():void
+		protected phoukaDrinkAccept():void
 		{ //In every path that leads here the character learns the creature is called a phouka, so no phoukaName() calls needed
 			clearOutput();
 			Render.text("You accept the cup and give it a careful sniff.  Who knows what the phouka put in this stuff?  The smell reminds you of some scents from the old general store back home.  You try some and find it remarkably smooth for something supposedly cooked up from bog water and peat.  The black bunny gives you a crooked smile and settles down next to you, pouring out some more of the powerful spirits.\n\nBy the time you and the phouka have drunk half the bottle, both of you are feeling a lot better.");
@@ -270,7 +270,7 @@ package classes.Scenes.Areas.Bog
 			phoukaDrinkTalk(false);
 		}
 
-		protected function phoukaDrinkRefuse():void
+		protected phoukaDrinkRefuse():void
 		{ //In every path that leads here the character learns the creature is called a phouka, so no phoukaName() calls needed
 			clearOutput();
 			if ((player.pregnancyIncubation == 0) && (player.buttPregnancyIncubation == 0) && (player.pregnancyIncubation <= 100)) { //Pregnancy is obvious to the phouka
@@ -291,28 +291,28 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		protected function phoukaDrinkRefuseLeave():void
+		protected phoukaDrinkRefuseLeave():void
 		{ //In every path that leads here the character learns the creature is called a phouka, so no phoukaName() calls needed
 			clearOutput();
 			Render.text("You extract yourself from the mud and get out of the bog before the phouka changes its mind.");
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaDrinkRefusePregnantLeave():void
+		protected phoukaDrinkRefusePregnantLeave():void
 		{ //In every path that leads here the character learns the creature is called a phouka, so no phoukaName() calls needed
 			clearOutput();
 			Render.text("<i>“Ah fuck.  You're a killjoy.  Don't you know the best time to get porked is when you've already got a bun in the oven?”</i>\n\nThe black bunny waves you away dismissively. <i>“Fine, yeah, go home.  I hope the little bastard hurts when it pops out.  I would have stretched you out but good.”</i>");
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaDrinkRefuseAfterOffer():void
+		protected phoukaDrinkRefuseAfterOffer():void
 		{
 			clearOutput();
 			Render.text("The phouka looks disappointed but downs one of the cups and says <i>“How come chicks that’re knocked up are always such stick in the muds?”</i> He starts to sip the second cup, looks over at you and chuckles. <i>“I guess in yer case you’ve got a good excuse - ye are stuck in the mud!”</i> The phouka keeps drinking and it isn’t long before he starts to reminisce.");
 			phoukaDrinkTalk(true);
 		}
 
-		protected function phoukaDrinkTalk(playerNotDrinking:boolean):void
+		protected phoukaDrinkTalk(playerNotDrinking:boolean):void
 		{
 			if (flags[FlagEnum.PHOUKA_LORE] == 1) {
 				flags[FlagEnum.PHOUKA_LORE]++;
@@ -362,7 +362,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		protected function phoukaDrinkLeave():void
+		protected phoukaDrinkLeave():void
 		{
 			if (player.lust < 33)
 				Render.text("\n\nIf you were a bit hornier");
@@ -372,7 +372,7 @@ package classes.Scenes.Areas.Bog
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		public function phoukaHalloween():void
+		public phoukaHalloween():void
 		{
 			flags[FlagEnum.TREACLE_MINE_YEAR_DONE] = date.fullYear;
 			clearOutput();
@@ -400,20 +400,20 @@ package classes.Scenes.Areas.Bog
 			if (player.stats.int > 80) addButton(4, "Leave", phoukaHalloweenLeave);
 		}
 
-		protected function phoukaHalloweenLeave():void
+		protected phoukaHalloweenLeave():void
 		{
 			Render.text("\n\nFeeling you're better off not finding out you excuse yourself, telling them they can enjoy the treacle amongst themselves.  As you walk away you just catch the boss telling the others <i>“Watch out fer that one, " + player.mf("He","She") + "'s a smart one.”</i>");
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaHalloweenTreacleEater():void
+		protected phoukaHalloweenTreacleEater():void
 		{
 			clearOutput();
 			Render.text("You take the cup and squeeze the bellows.  Then you tip a bit of the fluid into your mouth and are rewarded with a thick and sweet substance that is also mildly sticky.  After rolling it around your mouth you swallow. <i>“Well, looks like [he] likes it.”</i> says the boss.  You drink a little more.  As you do you notice a subtle aftertaste that you have difficulty placing.  It's hard to make out through all that sugar. \n\n<i>“You want some more?”</i> asks the boss. <i>“After all, it's always a pleasure to share our treacle with a newcomer.”</i> You try another cup, hoping to work out what that other taste is.  You feel like you should be able to place it.  After you swallow this batch you notice the grins of the phouka around you.  It finally hits you - that other taste is phouka spunk.  The phouka see the look on your face and start rolling on the ground laughing.\n\n<i>“Treacle Mining!  And [he] bought it!“</i>\n\n<i>“Oh, ho, 'Pumping treacle can be exhausting'.  Oh, boss yer a killer!“</i>\n\n<i>“Boss, you've done it again, yer the master o' the long con, no one can argue that.”</i>\n\nYes, indeed, you've been pranked but good by the little winged bastards.  Only a bit of smeared mud hid the fact that the words 'wank tank' were carved into the small barrels.  As you storm off towards your camp you hear the leader call out <i>“If ye ever want to taste treacle again I've got some for ye.  Just ask and I'll put it in yer mouth, instead of yer [if (hasVagina = true)cunt][if (hasVagina = false)ass].  Or if you want we can bury it in another barrel and cover it with tarpaper for ya.”</i> Their laughter rings in your ears until after you leave the bog.");
 			doNext(camp.returnToCampUseOneHour);  //Return to camp, 1 hour used
 		}
 
-		protected function phoukaLeaveOnLustWin(newScreen:boolean = true):void
+		protected phoukaLeaveOnLustWin(newScreen:boolean = true):void
 		{
 			if(newScreen) clearOutput();
 			else Render.text("\n\n");
@@ -462,7 +462,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}  
 
-		public function phoukaPregBirth():void
+		public phoukaPregBirth():void
 		{
 			Render.text("\n<b>You feel something give way inside your belly...</b>\n\n");
 			if (player.lowerBody.vaginaSpot.count() == 0) {
@@ -492,7 +492,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		public function phoukaPregUpdate():boolean
+		public phoukaPregUpdate():boolean
 		{ //Belly size doesn't change, instead you get updates on what's going on
 			if (player.pregnancyIncubation == 170) { //Stage 1:
 				if (flags[FlagEnum.PREGNANCY_CORRUPTION] > 0)
@@ -534,7 +534,7 @@ package classes.Scenes.Areas.Bog
 			return false;
 		}
 
-		protected function phoukaSexAddStandardMenuChoices():void
+		protected phoukaSexAddStandardMenuChoices():void
 		{ //This happens several times so it's broken out here in case additional options get added later
 			if (player.lowerBody.vaginaSpot.hasVagina()) {
 				addButton(1, "Bunny", phoukaSexBunnyChoice);
@@ -587,7 +587,7 @@ package classes.Scenes.Areas.Bog
 			phoukaSexPregnate(postCombat);
 		}
 
-		protected function phoukaSexBunnyChoice():void
+		protected phoukaSexBunnyChoice():void
 		{
 			phoukaSexBunny(false, false);
 		}
@@ -643,7 +643,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		protected function phoukaSexGoatChoice():void
+		protected phoukaSexGoatChoice():void
 		{
 			phoukaSexGoat(false, false);
 		}
@@ -702,12 +702,12 @@ package classes.Scenes.Areas.Bog
 			phoukaSexPregnate(postCombat);
 		}
 
-		protected function phoukaSexHorseChoice():void
+		protected phoukaSexHorseChoice():void
 		{
 			phoukaSexHorse(false, false);
 		}
 
-		protected function phoukaSexFaerie(postCombat:boolean):void
+		protected phoukaSexFaerie(postCombat:boolean):void
 		{
 			clearOutput();
 			Render.text("The faerie doesn't look like he's in any condition to refuse your orders.  You grab him by his tiny pointed ears to get his attention.  The " + phoukaName() + " looks startled.  A firm, commanding voice should be all you need to get what you want.  You let him know that you're in charge right now and you've decided you want to feel his cock inside your [vagOrAss].  The " + phoukaName() + " looks both surprised and worried. <i>“I... I don't know if I have the control right now,”</i> he sputters.  He concentrates for a moment, his form goes fuzzy, but then he snaps back.  You rub his cock and ask if he can manage just one change. <i>“Errr - maybe?”</i> As you stroke his inch long pecker, he furrows his brow and sure enough you see it begin to grow.  Then it deflates like a balloon.\n\nHe brushes your hand away. <i>“Just gimme a sec,”</i> he says, now determined to grow his cock.  You're beginning to wonder if that vein on his forehead is going to pop when suddenly his cock expands to be over a foot long.  Just as suddenly, it shrinks again and his balls expand.  Then, they shrink but his hips expands.  It's painful to look at.\n\nAfter another few moments all his parts stabilize and you're left looking at a much larger " + phoukaName() + ", about four and a half feet tall, with cock and balls both only slightly larger than those of a normal human. <i>“Huh”</i> he says, looking himself over, <i>“well that's new.  Didn't know I could do that.”</i> He tugs on his cock and fondles his balls, then declares, <i>“Yup, everything's workin,”</i> and smiles at you.\n\n");
@@ -740,17 +740,17 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 		
-		protected function phoukaSexFaerieNonCombat():void
+		protected phoukaSexFaerieNonCombat():void
 		{
 			phoukaSexFaerie(false);
 		}
 
-		protected function phoukaSexFaeriePostCombat():void
+		protected phoukaSexFaeriePostCombat():void
 		{
 			phoukaSexFaerie(true);
 		}
 
-		protected function phoukaSexFaerieFemale(postCombat:boolean):void
+		protected phoukaSexFaerieFemale(postCombat:boolean):void
 		{
 			Render.text("\n\nThe faerie doesn't look like he's in any condition to refuse your orders.  You grab him by his tiny pointed ears to get his attention.  The " + phoukaName() + " looks startled.  A firm, commanding voice should be all you need to get what you want.  You let him know that you're in charge right now and you're going to do unto others.  He looks confused, then realizes you intend to fuck him.  You ask if he can change shape into a woman, like the faeries in the forest.\n\n<i>“Yeah, I guess.  None of us phouka like doin’ that 'cause round here somebody always tries to fuck ya if ya got a cunt.”</i>");
 			if (flags[FlagEnum.PHOUKA_LORE] == 0) flags[FlagEnum.PHOUKA_LORE] = 1; //Now you know what to call them
@@ -787,17 +787,17 @@ package classes.Scenes.Areas.Bog
 			else doNext(camp.returnToCampUseOneHour); //Return to camp, 1 hour used
 		}
 
-		protected function phoukaSexFaerieFemaleNonCombat():void
+		protected phoukaSexFaerieFemaleNonCombat():void
 		{
 			phoukaSexFaerieFemale(false);
 		}
 
-		protected function phoukaSexFaerieFemalePostCombat():void
+		protected phoukaSexFaerieFemalePostCombat():void
 		{
 			phoukaSexFaerieFemale(true);
 		}
 		
-		protected function phoukaSexPregnate(postCombat:boolean):void
+		protected phoukaSexPregnate(postCombat:boolean):void
 		{ //Whether by horse, bunny or (male) faerie sex it all ends up here if the PC has a vagina
 			if (player.isPregnant()) {
 				if (phoukaForm == PHOUKA_FORM_HORSE)
@@ -862,7 +862,7 @@ package classes.Scenes.Areas.Bog
 			phoukaSexPregnateEnd(postCombat);
 		}
 		
-		protected function phoukaSexPregnateEnd(postCombat:boolean):void
+		protected phoukaSexPregnateEnd(postCombat:boolean):void
 		{ //Everything after the sex. Handles awards, gem loss and text for player leaving the bog
 			player.orgasm();
 			dynStats("cor", rand(1) + (postCombat && (phoukaForm != PHOUKA_FORM_FAERIE) ? 1 : 3)); //Extra two corruption for being enough of a pervert to want to fuck the phouka

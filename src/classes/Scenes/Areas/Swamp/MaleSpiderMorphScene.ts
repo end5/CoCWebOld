@@ -9,12 +9,12 @@ package classes.Scenes.Areas.Swamp
 
 	public class MaleSpiderMorphScene extends BaseContent
 	{
-		public function MaleSpiderMorphScene()
+		public MaleSpiderMorphScene()
 		{
 		}
 
 		//Greeting
-		public function greetMaleSpiderMorph():void
+		public greetMaleSpiderMorph():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -33,14 +33,14 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 		
-		private function fightSpiderBoy():void {
+		private fightSpiderBoy():void {
 			startCombat(new MaleSpiderMorph());
 			spriteSelect(74);
 			playerMenu();
 		}
 
 //Talk
-		private function talkToSpiderBoy():void
+		private talkToSpiderBoy():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -52,7 +52,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Victory Pretext:rr
-		public function defeatSpiderBoy():void
+		public defeatSpiderBoy():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -78,7 +78,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //Loss selector
-		public function loseToMaleSpiderMorph():void
+		public loseToMaleSpiderMorph():void
 		{
 			let choices:Array = [];
 			if (player.lowerBody.cockSpot.hasCock()) choices[choices.length] = 0;
@@ -96,7 +96,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Victory Buttfucko
-		private function victoryButtFuck():void
+		private victoryButtFuck():void
 		{
 			let x: number = player.cockThatFits(monster.analCapacity());
 			Render.text("", true);
@@ -157,7 +157,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Victory Frotting? (too biggo)
-		private function victoryFrotTheSpoidah():void
+		private victoryFrotTheSpoidah():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -196,7 +196,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 //*Victory Cowgirl
-		private function victoryCowgirlRidingOnSpiderBoi():void
+		private victoryCowgirlRidingOnSpiderBoi():void
 		{
 			//*Summary: Throw him on his back and mount up on that throbbing, ebon piece of uncut spidercock as he looks to you meekly, panting, needing something to tend to his foreskinned dick so badly...
 			Render.text("", true);
@@ -247,7 +247,7 @@ package classes.Scenes.Areas.Swamp
 
 //*Loss: Get butt-fucked
 //*Summary: Male only scene for maximum prostate pounding - possible random choice between two positions, plain doggy style or the 'lucky' one, where he will curl you over yourself and fuck you so you can watch his foreskinned spiderboy cock slam your asshole -while- you drip all over your face.
-		private function spiderBoyLossMaleButtfuck():void
+		private spiderBoyLossMaleButtfuck():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -325,7 +325,7 @@ package classes.Scenes.Areas.Swamp
 
 //*Loss: Impregnation?
 //*Summary: Vagoozles only!
-		private function loseToSpiderBoyVagFucked():void
+		private loseToSpiderBoyVagFucked():void
 		{
 			Render.text("", true);
 			spriteSelect(74);
@@ -389,7 +389,7 @@ package classes.Scenes.Areas.Swamp
 			cleanupAfterCombat();
 		}
 
-		public function spiderPregVagBirth():void
+		public spiderPregVagBirth():void
 		{
 			Render.text("\n", false);
 			spriteSelect(74);

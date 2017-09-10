@@ -36,7 +36,7 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 
-		public function SecretarialSuccubus() {
+		public SecretarialSuccubus() {
 			this.a = "the ";
 			this.short = "secretarial succubus";
 			this.imageName = "secretarialsuccubus";

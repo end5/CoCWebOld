@@ -7,7 +7,7 @@ package classes.Scenes.Areas.Forest
 
 	public class TamanisDaughters extends Goblin
 	{
-		private function midRoundMadness():void {
+		private midRoundMadness():void {
 			let selector:number = rand(4);
 			if(selector == 0) {
 				Render.text("A slender hand reaches inside your " + player.armorName + " and gives your ", false);
@@ -29,7 +29,7 @@ package classes.Scenes.Areas.Forest
 			game.dynStats("lus", 1 + player.stats.lib/15+rand(player.stats.cor/30));
 		}
 
-		private function tamaniShowsUp():void {
+		private tamaniShowsUp():void {
 			if (TamainsDaughtersScene.tamaniPresent) {
 				if (rand(4) == 0) goblinDrugAttack(); //Tamani already there - chance of potion
 			}
@@ -49,7 +49,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let select: number = 1;
 			//mid-round madness!
@@ -92,7 +92,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		public function TamanisDaughters()
+		public TamanisDaughters()
 		{
 			super(true);
 			this.a = "the group of ";

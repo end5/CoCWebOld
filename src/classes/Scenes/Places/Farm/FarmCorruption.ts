@@ -15,17 +15,17 @@ package classes.Scenes.Places.Farm
 	public class FarmCorruption extends AbstractFarmContent
 	{
 		
-		public function whitneySprite():void
+		public whitneySprite():void
 		{
 			farm.whitneySprite();
 		}
 		
-		public function FarmCorruption() 
+		public FarmCorruption() 
 		{
 			
 		}
 		
-		public function corruptFollowers(): number
+		public corruptFollowers(): number
 		{
 			let count: number = 0;
 			
@@ -40,7 +40,7 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function whitneyCorruption(mod:number = 0): number
+		public whitneyCorruption(mod:number = 0): number
 		{
 			if (mod != 0)
 			{
@@ -85,25 +85,25 @@ package classes.Scenes.Places.Farm
 			return flags[FlagEnum.WHITNEY_CORRUPTION];
 		}
 
-		public function whitneyCorrupt():boolean
+		public whitneyCorrupt():boolean
 		{
 			if (flags[FlagEnum.WHITNEY_CORRUPTION_COMPLETE] > 0) return true;
 			return false;
 		}
 
-		public function whitneyDom():boolean
+		public whitneyDom():boolean
 		{
 			if (flags[FlagEnum.WHITNEY_DOM] == 1) return true;
 			return false;
 		}
 
-		public function whitneyDefurred():boolean
+		public whitneyDefurred():boolean
 		{
 			if (flags[FlagEnum.WHITNEY_DEFURRED] == 1) return true;
 			return false;
 		}
 
-		public function whitneyHasTattoo():boolean
+		public whitneyHasTattoo():boolean
 		{
 			if (flags[FlagEnum.WHITNEY_TATTOO_COLLARBONE] != 0) return true;
 			if (flags[FlagEnum.WHITNEY_TATTOO_SHOULDERS] != 0) return true;
@@ -112,19 +112,19 @@ package classes.Scenes.Places.Farm
 			return false;
 		}
 
-		public function whitneyCockArea():number
+		public whitneyCockArea():number
 		{
 			trace("Update cock area with values from Vapulas dildo.");
 			return 10 * 2;
 		}
 
-		public function whitneyVagCapacity():number
+		public whitneyVagCapacity():number
 		{
 			// Stolen from Sheila. Whitney wasn't chaste prior to corruption, so it stands to reason she'd be able to take /something/ reasonably sized given CoC standards.
 			return 44;
 		}
 
-		public function whitneyMaxedOralTraining():boolean
+		public whitneyMaxedOralTraining():boolean
 		{
 			if (flags[FlagEnum.WHITNEY_ORAL_TRAINING] == 100) return true;
 			return false;
@@ -132,7 +132,7 @@ package classes.Scenes.Places.Farm
 
 		// Called once per day, check all the followers that have been set to the farm and change whitneys corruption as appropriate
 		// Also going to use this to handle Gem value updates and shit.
-		public function updateFarmCorruption(): number
+		public updateFarmCorruption(): number
 		{
 			// Early exit if we've not actually started the corruption process
 			if (flags[FlagEnum.FARM_CORRUPTION_STARTED] <= 0) return flags[FlagEnum.WHITNEY_CORRUPTION];
@@ -330,7 +330,7 @@ package classes.Scenes.Places.Farm
 			return modValue;
 		}
 		
-		public function collectTheGoodies():void
+		public collectTheGoodies():void
 		{
 			clearOutput();
 			
@@ -390,7 +390,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", rootScene);
 		}
 		
-		private function getItemObj(flag: number):SimpleConsumable
+		private getItemObj(flag: number):SimpleConsumable
 		{
 			if (flag == FlagEnum.FARM_SUCCUMILK_STORED) return consumables.SUCMILK;
 			if (flag == FlagEnum.FARM_INCUDRAFT_STORED) return consumables.INCUBID;
@@ -401,7 +401,7 @@ package classes.Scenes.Places.Farm
 			return null;
 		}
 		
-		private function takeItems(flag: number):void
+		private takeItems(flag: number):void
 		{
 			let item:SimpleConsumable = getItemObj(flag);
 			
@@ -410,13 +410,13 @@ package classes.Scenes.Places.Farm
 			inventory.takeItem(item, afterTakeItems);
 		}
 		
-		private function afterTakeItems():void {
+		private afterTakeItems():void {
 			if (collectionAvailable())
 				collectTheGoodies();
 			else rootScene();
 		}
 
-		public function farmProtection(): number
+		public farmProtection(): number
 		{
 			let protection: number = 0;
 
@@ -462,7 +462,7 @@ package classes.Scenes.Places.Farm
 			return protection;
 		}
 
-		public function farmValue(): number
+		public farmValue(): number
 		{
 			let fValue: number = 0;
 
@@ -500,7 +500,7 @@ package classes.Scenes.Places.Farm
 			return fValue;
 		}
 		
-		public function takeoverPrompt():boolean
+		public takeoverPrompt():boolean
 		{
 			if (flags[FlagEnum.FARM_CORRUPTION_DISABLED] == 1) return false;
 			if (flags[FlagEnum.FARM_CORRUPTION_STARTED] == 1)
@@ -547,7 +547,7 @@ package classes.Scenes.Places.Farm
 			return false;
 		}
 		
-		protected function takeoverPromptKelly():void
+		protected takeoverPromptKelly():void
 		{
 			Render.text("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in. You remember the relief you felt when you found this place, a pocket of peace in this disturbed land, how grateful you were to its owner to grub in the dirt with her and work for a pittance.");
 			
@@ -566,7 +566,7 @@ package classes.Scenes.Places.Farm
 			Render.text("?");
 		}
 		
-		protected function takeoverPromptMarbleRape():void
+		protected takeoverPromptMarbleRape():void
 		{
 			Render.text("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in. You remember the relief you felt when you found this place, a pocket of peace in this disturbed land, how grateful you were to its owner to grub in the dirt with her and work for a pittance.");
 			
@@ -585,7 +585,7 @@ package classes.Scenes.Places.Farm
 			Render.text("?");
 		}
 		
-		protected function takeoverPromptGeneric():void
+		protected takeoverPromptGeneric():void
 		{
 			Render.text("You stand at the top of a small rise overlooking the farm. From here you can just about pick out a beige-furred figure in the pepper field, hard at work. You shake your head almost in disbelief at the pastoral tableau. You remember when you found the farm when you were taking your first faltering steps in this land, with barely anything but the clothes you stood up in.");
 			
@@ -594,7 +594,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nNow you feel nothing but contempt. Who chooses to live their life out here in staid idleness? What kind of sexless nothing nods her head at passing champions and then goes back to her book, not giving a flying fuck about anyone or anything as long as it doesn’t directly affect them? Does she have any idea how lucky she is, how merciful you are that you let her live her useless life in peace, with you just over the hill with a pile of sex slaves gathering? What you would give, what you would do to make her eyes open wide in dismay, to make her see a [man] she ignored passing through her yard with bigger ideas, coming back to completely destroy her.");
 		}
 		
-		protected function takeoverPromptMerge(firstTime:boolean = false):void
+		protected takeoverPromptMerge(firstTime:boolean = false):void
 		{
 			flags[FlagEnum.FARM_CORRUPT_PROMPT_DISPLAY] = 1;
 			
@@ -614,7 +614,7 @@ package classes.Scenes.Places.Farm
 			addButton(2, "Never", takeoverPromptNever);
 		}
 		
-		public function takeoverPromptNow():void
+		public takeoverPromptNow():void
 		{
 			clearOutput();
 			
@@ -704,7 +704,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		protected function takeoverPromptLater():void
+		protected takeoverPromptLater():void
 		{
 			clearOutput();
 			
@@ -713,7 +713,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		protected function takeoverPromptNever():void
+		protected takeoverPromptNever():void
 		{
 			clearOutput();
 			flags[FlagEnum.FARM_CORRUPTION_DISABLED] = 1;
@@ -725,7 +725,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		public function rootScene():void
+		public rootScene():void
 		{
 			clearOutput();
 			spriteSelect(62);
@@ -846,7 +846,7 @@ package classes.Scenes.Places.Farm
 			farmMenu();
 		}
 		
-		public function farmMenu():void
+		public farmMenu():void
 		{
 			menu();
 			
@@ -889,7 +889,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Leave", camp.returnToCampUseOneHour);
 		}
 		
-		private function corruptingTheFarmExplore():void
+		private corruptingTheFarmExplore():void
 		{
 			menu();
 			
@@ -901,7 +901,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", farmMenu);
 		}
 		
-		public function collectionAvailable():boolean
+		public collectionAvailable():boolean
 		{
 			if (flags[FlagEnum.FARM_CORRUPTION_DAYS_SINCE_LAST_PAYOUT] >= 7) return true;
 			if (flags[FlagEnum.FARM_SUCCUMILK_STORED] > 0) return true;
@@ -911,7 +911,7 @@ package classes.Scenes.Places.Farm
 			return false;
 		}
 		
-		private function keltAChangeInManagement():void
+		private keltAChangeInManagement():void
 		{
 			clearOutput();
 			
@@ -933,7 +933,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		private function numSlavesAtFarm(): number
+		private numSlavesAtFarm(): number
 		{
 			let count: number = 0;
 
@@ -947,13 +947,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function slavesAtFarm():boolean
+		private slavesAtFarm():boolean
 		{
 			if (numSlavesAtFarm() > 0) return true;
 			return false;
 		}
 
-		private function slavesAtFarmMenu():void
+		private slavesAtFarmMenu():void
 		{
 			menu();
 			
@@ -972,7 +972,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", farmMenu);
 		}
 		
-		private function numFollowersAtFarm(): number
+		private numFollowersAtFarm(): number
 		{
 			let count: number = 0;
 
@@ -981,13 +981,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function followersAtFarm():boolean
+		private followersAtFarm():boolean
 		{
 			if (numFollowersAtFarm() > 0) return true;
 			return false;
 		}
 
-		private function followersAtFarmMenu():void
+		private followersAtFarmMenu():void
 		{
 			menu();
 			
@@ -996,7 +996,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", farmMenu);
 		}
 		
-		private function numLoversAtFarm(): number
+		private numLoversAtFarm(): number
 		{
 			let count: number = 0;
 
@@ -1006,13 +1006,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function loversAtFarm():boolean
+		private loversAtFarm():boolean
 		{
 			if (numLoversAtFarm() > 0) return true;
 			return false;
 		}
 
-		private function loversAtFarmMenu():void
+		private loversAtFarmMenu():void
 		{
 			menu();
 			
@@ -1024,7 +1024,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", farmMenu);
 		}
 
-		private function dogeNotCorruptYet():void
+		private dogeNotCorruptYet():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1171,7 +1171,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function dogeNotCorruptLeaveFirstTime():void
+		private dogeNotCorruptLeaveFirstTime():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1186,7 +1186,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function dogeNotCorruptLeave6190():void
+		private dogeNotCorruptLeave6190():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1201,7 +1201,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function dogeNotCorruptYetMenu():void
+		private dogeNotCorruptYetMenu():void
 		{
 			menu();
 
@@ -1216,7 +1216,7 @@ package classes.Scenes.Places.Farm
 			else if (whitneyCorruption() <= 90 && flags[FlagEnum.WHITNEY_LEAVE_61_90] == 0) addButton(9, "Back", dogeNotCorruptLeave6190);
 		}
 		
-		public function availableInvestments():boolean
+		public availableInvestments():boolean
 		{
 			if (player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") < 0 && flags[FlagEnum.QUEUE_BREASTMILKER_UPGRADE] == 0) return true;
 			if (player.hasKeyItem("Cock Milker - Installed At Whitney's Farm") < 0 && flags[FlagEnum.QUEUE_COCKMILKER_UPGRADE] == 0) return true;
@@ -1226,7 +1226,7 @@ package classes.Scenes.Places.Farm
 			return false;
 		}
 
-		private function whitneyAppearanceNotCorrupt():void
+		private whitneyAppearanceNotCorrupt():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1237,7 +1237,7 @@ package classes.Scenes.Places.Farm
 			dogeNotCorruptYetMenu();
 		}
 		
-		private function whitneyAppearanceCorrupt():void
+		private whitneyAppearanceCorrupt():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1267,7 +1267,7 @@ package classes.Scenes.Places.Farm
 			dogeCorruptedMissionComplete(false);
 		}
 
-		private function prosperityGoNotCorrupt():void
+		private prosperityGoNotCorrupt():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1298,7 +1298,7 @@ package classes.Scenes.Places.Farm
 			dogeNotCorruptYetMenu();
 		}
 
-		private function investmentMenu():void
+		private investmentMenu():void
 		{
 			menu();
 			if (player.hasKeyItem("Breast Milker - Installed At Whitney's Farm") < 0 && flags[FlagEnum.QUEUE_BREASTMILKER_UPGRADE] == 0) addButton(0, "Breast Milker", investmentBreastMilker);
@@ -1311,7 +1311,7 @@ package classes.Scenes.Places.Farm
 			else addButton(9, "Back", dogeCorruptedMissionComplete);
 		}
 
-		private function investmentBreastMilker():void
+		private investmentBreastMilker():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1336,7 +1336,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", turnDownInvestment);
 		}
 
-		private function doBreastMilkerInvestment():void
+		private doBreastMilkerInvestment():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1353,7 +1353,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function investmentCockMilker():void
+		private investmentCockMilker():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1377,7 +1377,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", turnDownInvestment);
 		}
 
-		private function doCockMilkerInvestment():void
+		private doCockMilkerInvestment():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1403,7 +1403,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function investmentRefinery():void
+		private investmentRefinery():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1427,7 +1427,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", turnDownInvestment);
 		}
 
-		private function doRefineryInvestment():void
+		private doRefineryInvestment():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1444,7 +1444,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function investmentContraceptive():void
+		private investmentContraceptive():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1474,7 +1474,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", turnDownInvestment);
 		}
 
-		private function doContraceptiveInvestment():void
+		private doContraceptiveInvestment():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1500,7 +1500,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function investmentMilktank():void
+		private investmentMilktank():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1546,7 +1546,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", turnDownInvestment);
 		}
 
-		private function doMilktankInvestment():void
+		private doMilktankInvestment():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1561,7 +1561,7 @@ package classes.Scenes.Places.Farm
 			doNext(rootScene);
 		}
 
-		private function turnDownInvestment(money:boolean = false):void
+		private turnDownInvestment(money:boolean = false):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1584,7 +1584,7 @@ package classes.Scenes.Places.Farm
 			investmentMenu();
 		}
 
-		private function deFurDoge():void
+		private deFurDoge():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1604,7 +1604,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function dontDeFurDoge():void
+		private dontDeFurDoge():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1644,7 +1644,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "Make Dom", makeDogeDommy);
 		}
 
-		private function makeDogeSubby():void
+		private makeDogeSubby():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1676,7 +1676,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function makeDogeDommy():void
+		private makeDogeDommy():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1719,7 +1719,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function dogeCorruptedMissionComplete(output:boolean = true):void
+		private dogeCorruptedMissionComplete(output:boolean = true):void
 		{
 			if (flags[FlagEnum.QUEUE_BRANDING_AVAILABLE_TALK] == 1 && output)
 			{
@@ -1763,7 +1763,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", rootScene);
 		}
 
-		private function whitneySubPleasure():void
+		private whitneySubPleasure():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1797,7 +1797,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function cockOralTraining():Function
+		private cockOralTraining():Function
 		{
 			if (flags[FlagEnum.WHITNEY_ORAL_TRAINING] == 0)
 			{
@@ -1829,7 +1829,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function vaginaOralTraining():Function
+		private vaginaOralTraining():Function
 		{
 			if (flags[FlagEnum.WHITNEY_ORAL_TRAINING] == 0)
 			{
@@ -1861,7 +1861,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function firstOralTraining():void
+		private firstOralTraining():void
 		{
 			Render.text("You grin down at your newly acquired slave. It’s certainly a fitting position for a literal bitch, and whether she’s adopted it knowingly or not she’s got the stance down perfectly - the yearning eyes, the slowly wagging tail, back and neck straight. A tempting image of a biscuit balanced on a nose surfaces in your mind... but it is swiftly banished by more pressing thoughts, carnal impulses sinking down to your groin at the sight of your kneeling dog girl. She watches avidly as you slowly peel off your [armor], exposing");
 			if (player.lowerBody.cockSpot.hasCock()) Render.text(" [eachCock]");
@@ -1890,7 +1890,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>First,</i>” you say, settling yourself down, “<i>Put one hand in your knickers. Find that nice, wet pussy of yours.</i>” You watch her, a smile twitching the corners of your mouth as, blushing furiously, she shifts around in front of you. “<i>You know how to do that, right? All those lonely nights on the farm... good. Nice and easy. Eyes down.</i>” You say the last part adamantly, opening your [hips] wider as you do. Whitney swallows a bit as she strokes at her tiny button whilst staring at your " + ((player.lowerBody.cockSpot.hasCock()) ? "[eachCock]" : "[vagina]") + ", already " + ((player.lowerBody.cockSpot.hasCock()) ? "semi-turgid" : "moist") + " from the display put on by your fresh, nervous slave. “<i>Good,</i>” you murmur. “<i>Now... reach forward, and begin to lick.</i>”");
 		}
 
-		private function firstCockOralTraining():void
+		private firstCockOralTraining():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1932,7 +1932,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function cockOralTrainingStageOne():void
+		private cockOralTrainingStageOne():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -1970,7 +1970,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function firstCockOralTrainingStageTwo():void
+		private firstCockOralTrainingStageTwo():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2127,7 +2127,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function cockOralTrainingStageTwo():void
+		private cockOralTrainingStageTwo():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2187,7 +2187,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function firstCockOralTrainingStageThree():void
+		private firstCockOralTrainingStageThree():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2332,7 +2332,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function cockOralTrainingStageThree():void
+		private cockOralTrainingStageThree():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2483,7 +2483,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function cockOralTrainingMaxed():void
+		private cockOralTrainingMaxed():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2609,7 +2609,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function firstVaginaOralTraining():void
+		private firstVaginaOralTraining():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2645,7 +2645,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vaginaOralTrainingStageOne():void
+		private vaginaOralTrainingStageOne():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2675,7 +2675,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function firstVaginaOralTrainingStageTwo():void
+		private firstVaginaOralTrainingStageTwo():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2742,7 +2742,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vaginaOralTrainingStageTwo():void
+		private vaginaOralTrainingStageTwo():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2780,7 +2780,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function firstVaginaOralTrainingStageThree():void
+		private firstVaginaOralTrainingStageThree():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2831,7 +2831,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vaginaOralTrainingStageThree():void
+		private vaginaOralTrainingStageThree():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2900,7 +2900,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vaginaOralTrainingMaxed():void
+		private vaginaOralTrainingMaxed():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2961,7 +2961,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function whitneyDomPleasure():void
+		private whitneyDomPleasure():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -2985,7 +2985,7 @@ package classes.Scenes.Places.Farm
 			doNext(scenes[rand(scenes.length)]);
 		}
 
-		private function firstWhitneyDomPleasure():void
+		private firstWhitneyDomPleasure():void
 		{
 			Render.text("You are slightly apprehensive about this, but you’ve gone to the trouble of crafting Whitney into a fairly unique slave, and it seems churlish not to test just how deep the dominating streak you’ve brought out in her goes. You tell her you could do with a bit of relaxation.");
 
@@ -3002,7 +3002,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>Undress,</i>” she directs curtly, and you do so meekly whilst watching her do the same. She rips off her plain work clothes quickly as if she were irritated by them, not driven by any need to put on a show for you, simply overwhelmingly eager to begin. You suddenly feel both very warm and slightly shaky.");
 		}
 
-		private function repeatWhitneyDomPleasure():void
+		private repeatWhitneyDomPleasure():void
 		{
 			Render.text("You say you could do with some relaxation.");
 
@@ -3012,7 +3012,7 @@ package classes.Scenes.Places.Farm
 		}
 
 		// TODO : Split this up
-		private function whitneyDomBondageOral():void
+		private whitneyDomBondageOral():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3134,7 +3134,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function whitneyDomStraponDoggy():void
+		private whitneyDomStraponDoggy():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3259,7 +3259,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		public function whitneyDomRide():void
+		public whitneyDomRide():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3394,7 +3394,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function brandingMenu():void
+		private brandingMenu():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3436,7 +3436,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function hasFreeTattooSlot(name:string):boolean
+		private hasFreeTattooSlot(name:string):boolean
 		{
 			if (name == "whitney")
 			{
@@ -3500,7 +3500,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		public function hasTattoo(name:string):boolean
+		public hasTattoo(name:string):boolean
 		{
 			if (name == "whitney")
 			{
@@ -3564,7 +3564,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		public function numTattoos(name:string): number
+		public numTattoos(name:string): number
 		{
 			let count: number = 0;
 
@@ -3624,7 +3624,7 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function brandWhitney():void
+		private brandWhitney():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3637,7 +3637,7 @@ package classes.Scenes.Places.Farm
 			brandSlotSelect();
 		}
 
-		public function brandAmily():void
+		public brandAmily():void
 		{
 			clearOutput();
 
@@ -3655,7 +3655,7 @@ package classes.Scenes.Places.Farm
 			amilyBrandSlotSelect();
 		}
 
-		private function brandJojo():void
+		private brandJojo():void
 		{
 			clearOutput();
 
@@ -3667,7 +3667,7 @@ package classes.Scenes.Places.Farm
 			jojoBrandSlotSelect();
 		}
 
-		private function brandBimboSophie():void
+		private brandBimboSophie():void
 		{
 			clearOutput();
 
@@ -3692,7 +3692,7 @@ package classes.Scenes.Places.Farm
 			bimboSophieSlotSelect();
 		}
 
-		private function brandVapula():void
+		private brandVapula():void
 		{
 			Render.text("You retrieve the pots of ink and paper from the barn and, smiling, tell your succubus you’re going to give her a treat.");
 
@@ -3708,7 +3708,7 @@ package classes.Scenes.Places.Farm
 			vapulaSlotSelect();
 		}
 
-		private function brandKelly():void
+		private brandKelly():void
 		{
 			Render.text("You retrieve the pots of ink and paper from the barn and smilingly tell your centaur cumslut you’re going to give her a treat.");
 
@@ -3720,7 +3720,7 @@ package classes.Scenes.Places.Farm
 			kellySlotSelect();
 		}
 
-		private function brandSmallMilky():void
+		private brandSmallMilky():void
 		{
 			Render.text("You retrieve the pots of ink and paper from the barn and, smiling kindly, tell your ex Sand Witch slave you’re going to give her a treat. ");
 
@@ -3734,7 +3734,7 @@ package classes.Scenes.Places.Farm
 			smallMilkySlotSelect();
 		}
 
-		private function brandBigMilky():void
+		private brandBigMilky():void
 		{
 			Render.text("You retrieve the pots of ink and paper from the barn and, smiling kindly, tell your ex Sand Witch slave you’re going to give her a treat. ");
 
@@ -3748,7 +3748,7 @@ package classes.Scenes.Places.Farm
 			bigMilkySlotSelect();
 		}
 
-		private function getBrandingStuff():void
+		private getBrandingStuff():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3765,7 +3765,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function dontGetBrandingStuff():void
+		private dontGetBrandingStuff():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3779,7 +3779,7 @@ package classes.Scenes.Places.Farm
 			dogeCorruptedMissionComplete();
 		}
 
-		private function brandingAvailableTalk():void
+		private brandingAvailableTalk():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3802,7 +3802,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, "No", dontTestBranding);
 		}
 
-		private function testBranding():void
+		private testBranding():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3822,7 +3822,7 @@ package classes.Scenes.Places.Farm
 		"lower back",
 		"butt" ];
 
-		public function brandSlotSelect():void
+		public brandSlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.WHITNEY_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", brandSelect, 0)
@@ -3831,7 +3831,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.WHITNEY_TATTOO_BUTT] == 0) addButton(3, "Butt", brandSelect, 3);
 		}
 
-		public function amilyBrandSlotSelect():void
+		public amilyBrandSlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.AMILY_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", amilyBrandSelect, 0)
@@ -3840,7 +3840,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.AMILY_TATTOO_BUTT] == 0) addButton(3, "Butt", amilyBrandSelect, 3);
 		}
 
-		public function jojoBrandSlotSelect():void
+		public jojoBrandSlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.JOJO_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", jojoBrandSelect, 0)
@@ -3849,7 +3849,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.JOJO_TATTOO_BUTT] == 0) addButton(3, "Butt", jojoBrandSelect, 3);
 		}
 
-		public function bimboSophieSlotSelect():void
+		public bimboSophieSlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.SOPHIE_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", bimboSophieBrandSelect, 0)
@@ -3858,7 +3858,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.SOPHIE_TATTOO_BUTT] == 0) addButton(3, "Butt", bimboSophieBrandSelect, 3);
 		}
 
-		public function vapulaSlotSelect():void
+		public vapulaSlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.VAPULA_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", vapulaBrandSelect, 0)
@@ -3867,7 +3867,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.VAPULA_TATTOO_BUTT] == 0) addButton(3, "Butt", vapulaBrandSelect, 3);
 		}
 
-		public function kellySlotSelect():void
+		public kellySlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.KELLY_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", kellyBrandSelect, 0)
@@ -3876,7 +3876,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.KELLY_TATTOO_BUTT] == 0) addButton(3, "Butt", kellyBrandSelect, 3);
 		}
 
-		public function smallMilkySlotSelect():void
+		public smallMilkySlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.MILKY_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", smallMilkyBrandSelect, 0)
@@ -3885,7 +3885,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.MILKY_TATTOO_BUTT] == 0) addButton(3, "Butt", smallMilkyBrandSelect, 3);
 		}
 
-		public function bigMilkySlotSelect():void
+		public bigMilkySlotSelect():void
 		{
 			menu();
 			if (flags[FlagEnum.MILKY_TATTOO_COLLARBONE] == 0) addButton(0, "Collarbone", bigMilkyBrandSelect, 0)
@@ -3894,7 +3894,7 @@ package classes.Scenes.Places.Farm
 			if (flags[FlagEnum.MILKY_TATTOO_BUTT] == 0) addButton(3, "Butt", bigMilkyBrandSelect, 3);
 		}
 
-		public function brandSelect(slot: number):void
+		public brandSelect(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -3912,7 +3912,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", brandSlotSelect);
 		}
 
-		public function amilyBrandSelect(slot: number):void
+		public amilyBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -3929,7 +3929,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", amilyBrandSlotSelect);
 		}
 
-		public function jojoBrandSelect(slot: number):void
+		public jojoBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -3946,7 +3946,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", jojoBrandSlotSelect);
 		}
 
-		public function bimboSophieBrandSelect(slot: number):void
+		public bimboSophieBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -3964,7 +3964,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", bimboSophieSlotSelect);
 		}
 
-		public function vapulaBrandSelect(slot: number):void
+		public vapulaBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -3981,7 +3981,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", vapulaSlotSelect);
 		}
 
-		public function kellyBrandSelect(slot: number):void
+		public kellyBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -3998,7 +3998,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", kellySlotSelect);
 		}
 
-		public function smallMilkyBrandSelect(slot: number):void
+		public smallMilkyBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -4016,7 +4016,7 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", smallMilkySlotSelect);
 		}
 
-		public function bigMilkyBrandSelect(slot: number):void
+		public bigMilkyBrandSelect(slot: number):void
 		{
 			clearOutput();
 
@@ -4033,44 +4033,44 @@ package classes.Scenes.Places.Farm
 			addButton(9, "Back", bigMilkySlotSelect);
 		}
 
-		private function collarboneIntro():void
+		private collarboneIntro():void
 		{
 			Render.text("You command her to kneel in front of you and be still. Your lithe, naked dog girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper.");
 		}
 
-		private function amilyCollarboneIntro():void
+		private amilyCollarboneIntro():void
 		{
 			Render.text("You command her to kneel in front of you and be still. The succubus mouse does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 		}
 
-		private function jojoCollarboneIntro():void
+		private jojoCollarboneIntro():void
 		{
 			Render.text("You command him to kneel in front of you and be still. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him, and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>Th-thanks, [master],</i>” he says, when he looks down and sees what you’ve permanently inscribed on his chest. You tussle his adorable ears and tell him he’s quite welcome.");
 		}
 
-		private function bimboSophieCollarboneIntro():void
+		private bimboSophieCollarboneIntro():void
 		{
 			Render.text("You command her to kneel in front of you and be still. It’s difficult to get her to stay still, but she goes into a trance-like state when you finally lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
 		}
 
-		private function vapulaCollarboneIntro():void
+		private vapulaCollarboneIntro():void
 		{
 			Render.text("You command her to kneel in front of you and be still. The succubus does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 		}
 
-		private function kellyCollarboneIntro():void
+		private kellyCollarboneIntro():void
 		{
 			Render.text("You command her to kneel in front of you and be still. The centaur does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 		}
 
-		private function smallMilkyCollarboneIntro():void
+		private smallMilkyCollarboneIntro():void
 		{
 			Render.text("You command her to take her clothes off, kneel in front of you and be still. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her and then seal it on with the paper.");
 		}
 
-		private function bigMilkyCollarboneIntro():void
+		private bigMilkyCollarboneIntro():void
 		{
 			Render.text("\n\nIt’s difficult getting at this area of [bathgirlName]’s anatomy, but you manage to crane yourself around her vast tits and get to work. Dipping your finger into the ink, you carefully draw your design on her skin and then seal it on with the paper. The former sand witch slave gazes down at what you’ve drawn mistily, trailing her fingers over it.");
 
@@ -4079,28 +4079,28 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
 		}
 
-		private function shouldersIntro():void
+		private shouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. Your lithe, naked dog girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. “<i>What did you draw, [master]?</i>” she says eagerly.");
 
 			Render.text("\n\nLaughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at.</i>”");
 		}
 
-		private function jojoShouldersIntro():void
+		private jojoShouldersIntro():void
 		{
 			Render.text("You command him to kneel facing away from you and be still. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him, and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You tussle his adorable ears and tell him of course not.");
 		}
 
-		private function amilyShouldersIntro():void
+		private amilyShouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. Your succubus mouse does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me!</i>”");
 		}
 
-		private function bimboSophieShouldersIntro():void
+		private bimboSophieShouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. It’s difficult to get her to stay still, but she goes into a trance-like state when you finally lay your ink-soaked finger between her blonde wings, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
 
@@ -4109,26 +4109,26 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nYou leave her to it.");
 		}
 
-		private function vapulaShouldersIntro():void
+		private vapulaShouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. Your succubus does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>Let’s have a look then,</i>” she sighs, sparks flying off her fingers as she magically forms a mirror trained on her back in her hands. “<i>Ah. Very nice, [name]. I look forward to the next time you mutilate my perfect body with your incredibly crude ideas and instruments.</i>” You intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
 		}
 
-		private function kellyShouldersIntro():void
+		private kellyShouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. The centaur does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her shoulder blades, and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she asks tentatively when you’re done. Trying to keep a straight face, you say a giant spunky horse cock. “<i>That’s funny, [master]. Ha ha. Y-you didn’t really do that, did you?</i>”");
 		}
 
-		private function smallMilkyShouldersIntro():void
+		private smallMilkyShouldersIntro():void
 		{
 			Render.text("You command her to kneel facing away from you and be still. The dusky girl does so, keeping her back straight and still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper. ");
 		}
 
-		private function bigMilkyShouldersIntro():void
+		private bigMilkyShouldersIntro():void
 		{
 			Render.text("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her, and then seal it on with the paper. She barely seems to notice.");
 
@@ -4137,28 +4137,28 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
 		}
 
-		private function lowerbackIntro():void
+		private lowerbackIntro():void
 		{
 			Render.text("You command her to set herself down on your [legs], as if she were about to receive a spanking. Your lithe, naked dog girl does so, her laughter at her own compromising permission turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. “<i>What did you draw, [master]?</i>” she says eagerly.");
 
 			Render.text("\n\nLaughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at...</i>”");
 		}
 
-		private function jojoLowerbackIntro():void
+		private jojoLowerbackIntro():void
 		{
 			Render.text("You command him to set himself face down across your [legs], as if he were about to receive a spanking. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on him and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You tussle his adorable ears and tell him of course not.");
 		}
 
-		private function amilyLowerBackIntro():void
+		private amilyLowerBackIntro():void
 		{
 			Render.text("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus mouse does so, her giggles at her own compromising position turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. ");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me!</i>”");
 		}
 
-		private function bimboSophieLowerBackIntro():void
+		private bimboSophieLowerBackIntro():void
 		{
 			Render.text("You command her to set herself face down across your [legs], as if she were about to receive a spanking. It’s difficult to get her to stay still, cooing and shaking with giggles at her compromising position. She finally falls into a trance-like state when you lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink.");
 
@@ -4167,7 +4167,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nYou leave her to it.");
 		}
 
-		private function vapulaLowerBackIntro():void
+		private vapulaLowerBackIntro():void
 		{
 			Render.text("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus does so, her put-upon sigh turning to a sharp coo as you dip your finger into the ink and carefully draw your design on her, before sealing it on with the paper. ");
 
@@ -4176,19 +4176,19 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nYou intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
 		}
 
-		private function kellyLowerBackIntro():void
+		private kellyLowerBackIntro():void
 		{
 			Render.text("You command her to stand perfectly still.  She can’t quite stop clopping her hooves fretfully as you dip your finger into the ink and carefully draw your design on her human lower back before sealing it on with the paper. ");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she asks tentatively when you’re done. Trying to keep a straight face, you say a giant spunky horse cock. “<i>That’s funny, [master]. Ha ha. Y-you didn’t really do that, did you?</i>”");
 		}
 
-		private function smallMilkyLowerBackIntro():void
+		private smallMilkyLowerBackIntro():void
 		{
 			Render.text("You command her to set herself down across your [legs]. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her, and then seal it on with the paper.");
 		}
 
-		private function bigMilkyLowerBackIntro():void
+		private bigMilkyLowerBackIntro():void
 		{
 			Render.text("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her, and then seal it on with the paper. She barely seems to notice.");
 
@@ -4197,28 +4197,28 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
 		}
 
-		private function buttIntro():void
+		private buttIntro():void
 		{
 			Render.text("You command her to set herself down on your [legs], as if she were about to receive a spanking. Your lithe, naked dog girl does so, her laughter at her own compromising permission turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper.");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw no, come on, tell me what it is! It’s a rude word, isn’t it? [Master], it better not be somethin’ the slaves are gonna laugh at. Ooh!</i>” You give her new tattoo a playful slap.");
 		}
 
-		private function amilyButtIntro():void
+		private amilyButtIntro():void
 		{
 			Render.text("You command her to set herself face down across your [legs], as if she were about to receive a spanking. Your succubus mouse does so, her laughter at her own compromising position turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper. ");
 
 			Render.text("\n\n“<i>What did you draw, [master]?</i>” she says eagerly. Laughing, you admire it for yourself and then say she’ll have to ask one of your other slaves... and hope they tell the truth. “<i>Aw [master], you know they’ll just lie and say it’s something like ‘breeding bitch’. C’mon, please tell me! Ooh!</i>” That tattoo is going to be pretty irresistible, you think, as you admire your red handprint over it.");
 		}
 
-		private function jojoButtIntro():void
+		private jojoButtIntro():void
 		{
 			Render.text("You command him to set himself face down across your [legs], as if he were about to receive a spanking. The mouse-demon does so, staying perfectly still as you dip your finger into the ink, carefully draw your design onto the softest part of his body and then seal it on with the paper. ");
 
 			Render.text("\n\n“<i>Th-thanks, [master],</i>” he says. He pauses. “<i>I don’t suppose I could know what it-?</i>” You give his new tattoo a playful slap and tell him of course not.");
 		}
 
-		private function bimboSophieButtIntro():void
+		private bimboSophieButtIntro():void
 		{
 			Render.text("You command her to set herself face down across your [legs], as if she were about to receive a spanking. It’s difficult to get her to stay still, cooing and shaking with giggles at her compromising position. She finally falls into a trance-like state when you lay your ink-soaked finger on her, mesmerized by its movement until you lay the paper over the design you’ve drawn and seal the ink. You’ve certainly given yourself a vast if decidedly wobbly canvas to work on.");
 
@@ -4227,7 +4227,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nYou leave her to it.");
 		}
 
-		private function vapulaButtIntro():void
+		private vapulaButtIntro():void
 		{
 			Render.text("You command her to set herself down across your [legs], as if she were about to receive a spanking. Your succubus does so, her put-upon sigh turning to a sharp coo as you dip your finger into the ink and carefully draw your design on the softest part of her anatomy, before sealing it on with the paper. ");
 
@@ -4236,7 +4236,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nYou intimate that next time you’ll simply draw a giant cock on her face, which does get a laugh from her.");
 		}
 
-		private function kellyButtIntro():void
+		private kellyButtIntro():void
 		{
 			Render.text("You command her to stand perfectly still.  She can’t quite stop clopping her hooves fretfully as you dip your finger into the ink and carefully draw your design on her smooth, brawny horse ass before sealing it on with the paper. ");
 
@@ -4245,12 +4245,12 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\nThinking about it now, as you draw your reddened hand away from what is now tattooed on her irresistibly broad, chestnut behind, that was an opportunity lost. ");
 		}
 
-		private function smallMilkyButtIntro():void
+		private smallMilkyButtIntro():void
 		{
 			Render.text("You command her to set herself down across your [legs]. The dusky girl does so, staying perfectly still as you dip your finger into the ink, carefully draw your design on her fine, round ass, and then seal it on with the paper.");
 		}
 
-		private function bigMilkyButtIntro():void
+		private bigMilkyButtIntro():void
 		{
 			Render.text("You set yourself down behind [bathgirlName] before dipping your finger into the ink, carefully draw your design on her fine, round ass, and then seal it on with the paper. She barely seems to notice.");
 
@@ -4259,7 +4259,7 @@ package classes.Scenes.Places.Farm
 			Render.text("\n\n“<i>Soon,</i>” you reply soothingly, as you turn to go put your branding equipment back.");
 		}
 
-		private function tattooMerge():void
+		private tattooMerge():void
 		{
 			Render.text("\n\nAfter you’re done horsing around, Whitney redresses, unable to stop her hand drifting to the new, indelible inscription on her body as she does.");
 
@@ -4270,7 +4270,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function tribalTattoo(slot: number):void
+		private tribalTattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -4306,7 +4306,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function amilyTribalTattoo(slot: number):void
+		private amilyTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4341,7 +4341,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function jojoTribalTattoo(slot: number):void
+		private jojoTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4375,7 +4375,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieTribalTattoo(slot: number):void
+		private bimboSophieTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4412,7 +4412,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaTribalTattoo(slot: number):void
+		private vapulaTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4447,7 +4447,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyTribalTattoo(slot: number):void
+		private kellyTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4482,7 +4482,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyTribalTattoo(slot: number):void
+		private smallMilkyTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4526,7 +4526,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyTribalTattoo(slot: number):void
+		private bigMilkyTribalTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4560,7 +4560,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyHeartTattoo(slot: number):void
+		private bigMilkyHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4594,7 +4594,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyPropertyOfTattoo(slot: number):void
+		private bigMilkyPropertyOfTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4628,7 +4628,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyBathToyTattoo(slot: number):void
+		private bigMilkyBathToyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4662,7 +4662,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyMegaMilkTattoo(slot: number):void
+		private bigMilkyMegaMilkTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4674,7 +4674,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bigMilkyCockCozyTattoo(slot: number):void
+		private bigMilkyCockCozyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4686,7 +4686,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function heartTattoo(slot: number):void
+		private heartTattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -4722,7 +4722,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function amilyHeartTattoo(slot: number):void
+		private amilyHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4757,7 +4757,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function jojoHeartTattoo(slot: number):void
+		private jojoHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4791,7 +4791,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieHeartTattoo(slot: number):void
+		private bimboSophieHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4828,7 +4828,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaHeartTattoo(slot: number):void
+		private vapulaHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4863,7 +4863,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyHeartTattoo(slot: number):void
+		private kellyHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4898,7 +4898,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyHeartTattoo(slot: number):void
+		private smallMilkyHeartTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4942,7 +4942,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyPropertyOfTattoo(slot: number):void
+		private smallMilkyPropertyOfTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -4986,7 +4986,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyBathToyTattoo(slot: number):void
+		private smallMilkyBathToyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5030,7 +5030,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyMegaMilkTattoo(slot: number):void
+		private smallMilkyMegaMilkTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5043,7 +5043,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function smallMilkyCockCozyTattoo():void
+		private smallMilkyCockCozyTattoo():void
 		{
 			clearOutput();
 
@@ -5056,7 +5056,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		public function numMilkyButterflyTats(): number
+		public numMilkyButterflyTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.MILKY_TATTOO_COLLARBONE] is String)
@@ -5078,7 +5078,7 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function smallMilkyButterflyTattoo(slot: number):void
+		private smallMilkyButterflyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5168,7 +5168,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyHorseshoeTattoo(slot: number):void
+		private kellyHorseshoeTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5180,7 +5180,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyPropertyOfTattoo(slot: number):void
+		private kellyPropertyOfTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5215,7 +5215,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyNo1FillyTattoo(slot: number):void
+		private kellyNo1FillyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5250,7 +5250,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function kellyDickWonTattoo(slot: number):void
+		private kellyDickWonTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5285,7 +5285,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function propertyTattoo(slot: number):void
+		private propertyTattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -5321,7 +5321,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function amilyPropertyTattoo(slot: number):void
+		private amilyPropertyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5356,7 +5356,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function jojoPropertyTattoo(slot: number):void
+		private jojoPropertyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5390,7 +5390,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		private function jojoSissySlutTattoo(slot: number):void
+		private jojoSissySlutTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5424,7 +5424,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophiePropertyOfTattoo(slot: number):void
+		private bimboSophiePropertyOfTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5461,7 +5461,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaPropertyOfTattoo(slot: number):void
+		private vapulaPropertyOfTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5496,7 +5496,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaCumAddictTattoo(slot: number):void
+		private vapulaCumAddictTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5531,7 +5531,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaButtslutTattoo(slot: number):void
+		private vapulaButtslutTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5543,7 +5543,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function vapulaDildoPolisherTattoo(slot: number):void
+		private vapulaDildoPolisherTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5578,7 +5578,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieSwallowTattoo(slot: number):void
+		private bimboSophieSwallowTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5615,7 +5615,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieBreedingBitchTattoo(slot: number):void
+		private bimboSophieBreedingBitchTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5652,7 +5652,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieCockGoesHereTattoo(slot: number):void
+		private bimboSophieCockGoesHereTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5664,7 +5664,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function bimboSophieWideLoadTattoo(slot: number):void
+		private bimboSophieWideLoadTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5676,7 +5676,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function no1Tattoo(slot: number):void
+		private no1Tattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -5712,7 +5712,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function amilyBreedingBitchTattoo(slot: number):void
+		private amilyBreedingBitchTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5747,7 +5747,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function champCocksuckerTattoo(slot: number):void
+		private champCocksuckerTattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -5783,7 +5783,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function amilyCockGoesHereTattoo(slot: number):void
+		private amilyCockGoesHereTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5818,7 +5818,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function jojoCockGoesHereTattoo(slot: number):void
+		private jojoCockGoesHereTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5852,7 +5852,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function amilyMommysGirlTattoo(slot: number):void
+		private amilyMommysGirlTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5887,7 +5887,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function jojoMommysBoyTattoo(slot: number):void
+		private jojoMommysBoyTattoo(slot: number):void
 		{
 			clearOutput();
 
@@ -5921,7 +5921,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function champPussylickerTattoo(slot: number):void
+		private champPussylickerTattoo(slot: number):void
 		{
 			clearOutput();
 			whitneySprite();
@@ -5957,7 +5957,7 @@ package classes.Scenes.Places.Farm
 			tattooMerge();
 		}
 
-		private function dontTestBranding():void
+		private dontTestBranding():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -5971,7 +5971,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function numAmilyTribalTats(): number
+		private numAmilyTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.AMILY_TATTOO_COLLARBONE] is String)
@@ -5993,7 +5993,7 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		private function numWhitneyTribalTats(): number
+		private numWhitneyTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.WHITNEY_TATTOO_COLLARBONE] is String)
@@ -6015,19 +6015,19 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function whitneyFullTribalTats():boolean
+		public whitneyFullTribalTats():boolean
 		{
 			if (numWhitneyTribalTats() == 4) return true;
 			return false;
 		}
 
-		public function amilyFullTribalTats():boolean
+		public amilyFullTribalTats():boolean
 		{
 			if (numAmilyTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function numJojoTribalTats(): number
+		private numJojoTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.JOJO_TATTOO_COLLARBONE] is String)
@@ -6049,13 +6049,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function jojoFullTribalTats():boolean
+		public jojoFullTribalTats():boolean
 		{
 			if (numJojoTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function numSophieTribalTats(): number
+		private numSophieTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.SOPHIE_TATTOO_COLLARBONE] is String)
@@ -6077,13 +6077,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function sophieFullTribalTats():boolean
+		public sophieFullTribalTats():boolean
 		{
 			if (numSophieTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function numVapulaTribalTats(): number
+		private numVapulaTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.VAPULA_TATTOO_COLLARBONE] is String)
@@ -6105,13 +6105,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function vapulaFullTribalTats():boolean
+		public vapulaFullTribalTats():boolean
 		{
 			if (numVapulaTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function numKellyTribalTats(): number
+		private numKellyTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.KELLY_TATTOO_COLLARBONE] is String)
@@ -6133,13 +6133,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function kellyFullTribalTats():boolean
+		public kellyFullTribalTats():boolean
 		{
 			if (numKellyTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function numMilkyTribalTats(): number
+		private numMilkyTribalTats(): number
 		{
 			let count: number = 0;
 			if (flags[FlagEnum.MILKY_TATTOO_COLLARBONE] is String)
@@ -6161,13 +6161,13 @@ package classes.Scenes.Places.Farm
 			return count;
 		}
 
-		public function milkyFullTribalTats():boolean
+		public milkyFullTribalTats():boolean
 		{
 			if (numMilkyTribalTats() == 4) return true;
 			return false;
 		}
 
-		private function orgyRoomRouter():void
+		private orgyRoomRouter():void
 		{
 			let doFunctor:Function = null;
 
@@ -6191,7 +6191,7 @@ package classes.Scenes.Places.Farm
 			if (doFunctor != null) addButton(4, "Massage", doFunctor);
 		}
 
-		private function wantOrgyRoom():void
+		private wantOrgyRoom():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6223,7 +6223,7 @@ package classes.Scenes.Places.Farm
 			addButton(1, noT, noOrgyRoomPlz);
 		}
 
-		private function getOrgyRoom():void
+		private getOrgyRoom():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6240,7 +6240,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function noOrgyRoomPlz():void
+		private noOrgyRoomPlz():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6254,7 +6254,7 @@ package classes.Scenes.Places.Farm
 			// Orgy Room added to Investments menu
 		}
 
-		private function orgyRoomTalk():void
+		private orgyRoomTalk():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6292,7 +6292,7 @@ package classes.Scenes.Places.Farm
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function orgyRoomSubMassage():void
+		private orgyRoomSubMassage():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6399,7 +6399,7 @@ package classes.Scenes.Places.Farm
 			}
 		}
 
-		private function orgyRoomSubMassageHappyEnding():void
+		private orgyRoomSubMassageHappyEnding():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6433,7 +6433,7 @@ package classes.Scenes.Places.Farm
 			if (player.lowerBody.vaginaSpot.hasVagina()) addButton(1, "Female", subHappyEndingFemale);
 		}
 
-		private function subHappyEndingMale():void
+		private subHappyEndingMale():void
 		{
 			clearOutput();
 			let cockThatFits: number = player.cockThatFits(whitneyVagCapacity() * 1.33) + 1;
@@ -6483,7 +6483,7 @@ package classes.Scenes.Places.Farm
 
 		}
 
-		private function subHappyEndingFemale():void
+		private subHappyEndingFemale():void
 		{
 			clearOutput();
 			whitneySprite();
@@ -6526,7 +6526,7 @@ package classes.Scenes.Places.Farm
 			happyEndingMerge();
 		}
 
-		private function happyEndingMerge():void
+		private happyEndingMerge():void
 		{
 			Render.text("\n\nOnce you have thrashed the last of it out you disentangle yourself and sink off down to one side, gasping for air, your heart thudding. It certainly pays not to get too vigorous too fast in the sweltering heat of this thing - as it is sweat beads your forehead and your vision swims for a few seconds as you stare up at the ceiling, waiting for the pulse beating in your brow to calm. In a beatific haze you listen to Whitney’s own breathing return to normal, feel her slide her arms back around your frame beneath the foam.");
 

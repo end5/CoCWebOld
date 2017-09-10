@@ -9,11 +9,11 @@ package classes.Scenes.Areas.Swamp
 
 	public class AbstractSpiderMorph extends Monster
 	{
-		public function AbstractSpiderMorph()
+		public AbstractSpiderMorph()
 		{
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(player.stats.spe >= 2 && rand(2) == 0) {
 				spiderMorphWebAttack();
@@ -31,7 +31,7 @@ package classes.Scenes.Areas.Swamp
 		/**
 		 * -Web - lowers speed by 25 each application and disables
 		 * flight once hit.*/
-		public function spiderMorphWebAttack():void
+		public spiderMorphWebAttack():void
 		{
 			Render.text("Turning to the side, " + a + short + " raises " + mf("his", "her") + " abdomen and unleashes a spray of webbing in your direction!  ", false);
 			//Blind dodge change
@@ -82,7 +82,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		/**-Bite - Raises arousal by 30*/
-		public function getBitten():void
+		public getBitten():void
 		{
 			//-Languid Bite - Inflicted on PC's who have been reduced to 1 speed by webbing, raises arousal by 60.
 			if (player.stats.spe < 2 && player.statusAffects.has("Web")) {
@@ -141,7 +141,7 @@ package classes.Scenes.Areas.Swamp
 
 		/**-Disarm - hits the PC's weapon with web and sticks it to a
 		 nearby tree, reducing PC's attack to 0 for the rest of the fight.*/
-		public function spiderDisarm():void
+		public spiderDisarm():void
 		{
 			Render.text(capitalA + short + " shifts and sprays webbing, aiming a tight strand of it at your " + player.weaponName + ".  ", false);
 			//Blind dodge change
@@ -181,7 +181,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		/**-Silence - sprays webs on the PC's mouth, silencing them for 1 to 3 turns.*/
-		public function spiderSilence():void
+		public spiderSilence():void
 		{
 			Render.text(capitalA + short + " squirts a concentrated spray of " + mf("his", "her") + " webs directly at your face!  ", false);
 			//Blind dodge change

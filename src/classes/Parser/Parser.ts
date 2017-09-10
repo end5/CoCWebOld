@@ -21,7 +21,7 @@ package classes.Parser
 		public let logErrors:boolean = true;
 
 
-		public function Parser(ownerClass:*, settingsClass:*)
+		public Parser(ownerClass:*, settingsClass:*)
 		{
 			this._ownerClass = ownerClass;
 			this._settingsClass = settingsClass;
@@ -83,7 +83,7 @@ package classes.Parser
 		// If the arg is not present in the singleArgConverters object, an error message is
 		// returned.
 		// ALWAYS returns a string
-		private function convertSingleArg(arg:string):string
+		private convertSingleArg(arg:string):string
 		{
 			let argResult:string = null;
 			let capitalize:boolean = isUpperCase(arg.charAt(0));
@@ -158,7 +158,7 @@ package classes.Parser
 
 
 
-		private function convertDoubleArg(inputArg:string):string
+		private convertDoubleArg(inputArg:string):string
 		{
 			let argResult:string = null;
 
@@ -310,7 +310,7 @@ package classes.Parser
 		// through lookup in the above conditionalOptions oject, and then calling the
 		// relevant function
 		// Realistally, should only return either boolean or numbers.
-		private function convertConditionalArgumentFromStr(arg:string):*
+		private convertConditionalArgumentFromStr(arg:string):*
 		{
 			// convert the string contents of a conditional argument into a meaningful variable.
 			let argLower:* = arg.toLowerCase()
@@ -369,7 +369,7 @@ package classes.Parser
 		// Evaluates the conditional section of an if-statement.
 		// Does the proper parsing and look-up of any of the special nouns
 		// which can be present in the conditional
-		private function evalConditionalStatementStr(textCond:string):boolean
+		private evalConditionalStatementStr(textCond:string):boolean
 		{
 			// Evaluates a conditional statement:
 			// (varArg1 [conditional] varArg2)
@@ -443,7 +443,7 @@ package classes.Parser
 		// Splits the result from an if-statement.
 		// ALWAYS returns an array with two strings.
 		// if there is no else, the second string is empty.
-		private function splitConditionalResult(textCtnt:string): Array
+		private splitConditionalResult(textCtnt:string): Array
 		{
 			// Splits the conditional section of an if-statemnt in to two results:
 			// [if (condition) OUTPUT_IF_TRUE]
@@ -515,7 +515,7 @@ package classes.Parser
 		// Called to evaluate a if statment string, and return the evaluated result.
 		// Returns an empty string ("") if the conditional rvaluates to false, and there is no else
 		// option.
-		private function parseConditional(textCtnt:string, depth: number):string
+		private parseConditional(textCtnt:string, depth: number):string
 		{
 			// NOTE: enclosing brackets are *not* included in the actual textCtnt string passed into this function
 			// they're shown in the below examples simply for clarity's sake.
@@ -618,7 +618,7 @@ package classes.Parser
 		// Properly handles nested classes/objects, e.g. localThis.herp.derp
 		// is returned by getFuncFromString(localThis, "herp.derp");
 		// returns the relevant function if it exists, null if it does not.
-		private function getObjectFromString(localThis:Object, inStr:string):*
+		private getObjectFromString(localThis:Object, inStr:string):*
 		{
 			if (inStr in localThis)
 			{
@@ -662,7 +662,7 @@ package classes.Parser
 
 
 
-		private function getSceneSectionToInsert(inputArg:string):string
+		private getSceneSectionToInsert(inputArg:string):string
 		{
 			let argResult:string = null;
 
@@ -728,7 +728,7 @@ package classes.Parser
 		// if the function name is not found in either context, an error *should* be thrown, but at the moment,
 		// it just returns to the debugPane
 		//
-		public function enterParserScene(sceneName:string):string
+		public enterParserScene(sceneName:string):string
 		{
 
 			/*
@@ -795,7 +795,7 @@ package classes.Parser
 		// This gets placed in this.parserState so this.parserState["sceneName"] == "scene contents blaugh"
 		//
 		// Note that parsing of the actual scene contents is deferred untill it's actually called for display.
-		private function parseSceneTag(textCtnt:string):void
+		private parseSceneTag(textCtnt:string):void
 		{
 			let sceneName:string;
 			let sceneCont:string;
@@ -823,7 +823,7 @@ package classes.Parser
 		// and "Button Name" is the text that will be shown on the button.
 		// Note that the function name cannot contain spaces (actionscript requires this), and is case-sensitive
 		// "Button name" can contain arbitrary spaces or characters, excepting "]", "[" and "|"
-		private function parseButtonTag(textCtnt:string):void
+		private parseButtonTag(textCtnt:string):void
 		{
 			// TODO: Allow button positioning!
 
@@ -844,7 +844,7 @@ package classes.Parser
 		// pushes the contents of the passed string into the scene list object if it's a scene, or instantiates the named button if it's a button
 		// command and returns an empty string.
 		// if the contents are not a button or scene contents, returns the contents.
-		private function evalForSceneControls(textCtnt:string):string
+		private evalForSceneControls(textCtnt:string):string
 		{
 
 
@@ -865,7 +865,7 @@ package classes.Parser
 		}
 
 
-		private function isIfStatement(textCtnt:string):boolean
+		private isIfStatement(textCtnt:string):boolean
 		{
 			if (textCtnt.toLowerCase().indexOf("if") == 0)
 				return true;
@@ -876,7 +876,7 @@ package classes.Parser
 		// Called to determine if the contents of a bracket are a parseable statement or not
 		// If the contents *are* a parseable, it calls the relevant function to evaluate it
 		// if not, it simply returns the contents as passed
-		private function parseNonIfStatement(textCtnt:string, depth: number):string
+		private parseNonIfStatement(textCtnt:string, depth: number):string
 		{
 
 			let retStr:string = "";
@@ -920,7 +920,7 @@ package classes.Parser
 		// Actual internal parser function.
 		// textCtnt is the text you want parsed, depth is a number that reflects the current recursion depth
 		// You pass in the string you want parsed, and the parsed result is returned as a string.
-		private function recParser(textCtnt:string, depth:number):string
+		private recParser(textCtnt:string, depth:number):string
 		{
 			if (mainParserDebug) trace("WARNING: Recursion call", depth, "---------------------------------------------+++++++++++++++++++++")
 			if (printIntermediateParseStateDebug) trace("WARNING: Parsing contents = ", textCtnt)
@@ -1060,7 +1060,7 @@ package classes.Parser
 		// textCtnt is the text you want parsed, depth is a number, which should be 0
 		// or not passed at all.
 		// You pass in the string you want parsed, and the parsed result is returned as a string.
-		public function recursiveParser(contents:string, parseAsMarkdown:boolean = false, prettyQuotes:boolean=true):string
+		public recursiveParser(contents:string, parseAsMarkdown:boolean = false, prettyQuotes:boolean=true):string
 		{
 			if (mainParserDebug) trace("WARNING: ------------------ Parser called on string -----------------------");
 			// Eventually, when this goes properly class-based, we'll add a period, and have this.parserState.
@@ -1139,7 +1139,7 @@ package classes.Parser
 
 		// Make shit look nice
 
-		private function makeQuotesPrettah(inStr:string):string
+		private makeQuotesPrettah(inStr:string):string
 		{
 
 			inStr = inStr.replace(/(\w)'(\w)/g,										"$1\u2019$2")	// Apostrophes
@@ -1156,18 +1156,18 @@ package classes.Parser
 
 		// Stupid string utility functions, because actionscript doesn't have them (WTF?)
 
-		public function stripStr(str:string):string
+		public stripStr(str:string):string
 		{
 			return trimStrBack(trimStrFront(str, " "), " ");
 			return trimStrBack(trimStrFront(str, "	"), "	");
 		}
 
-		public function trimStr(str:string, char:string = " "):string
+		public trimStr(str:string, char:string = " "):string
 		{
 			return trimStrBack(trimStrFront(str, char), char);
 		}
 
-		public function trimStrFront(str:string, char:string = " "):string
+		public trimStrFront(str:string, char:string = " "):string
 		{
 			char = stringToCharacter(char);
 			if (str.charAt(0) == char) {
@@ -1176,7 +1176,7 @@ package classes.Parser
 			return str;
 		}
 
-		public function trimStrBack(str:string, char:string = " "):string
+		public trimStrBack(str:string, char:string = " "):string
 		{
 			char = stringToCharacter(char);
 			if (str.charAt(str.length - 1) == char) {
@@ -1184,7 +1184,7 @@ package classes.Parser
 			}
 			return str;
 		}
-		public function stringToCharacter(str:string):string
+		public stringToCharacter(str:string):string
 		{
 			if (str.length == 1)
 			{
@@ -1194,7 +1194,7 @@ package classes.Parser
 		}
 
 
-		public function isUpperCase(char:string):boolean
+		public isUpperCase(char:string):boolean
 		{
 			if (!isNaN(Number(char)))
 			{
@@ -1207,7 +1207,7 @@ package classes.Parser
 			return false;
 		}
 
-		public function capitalizeFirstWord(str:string):string
+		public capitalizeFirstWord(str:string):string
 		{
 
 			str = str.charAt(0).toUpperCase()+str.slice(1);

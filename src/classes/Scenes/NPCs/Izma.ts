@@ -10,7 +10,7 @@ package classes.Scenes.NPCs
 	{
 
 		//[Special Attacks]
-		private function IzmaSpecials1():void {
+		private IzmaSpecials1():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 2) {
 				Render.text("Izma attempts to close the distance with you, but misses completely because of her blindness.\n", false);
@@ -41,7 +41,7 @@ package classes.Scenes.NPCs
 			game.fatigue(20+rand(20));
 		}
 
-		private function IzmaSpecials2():void {
+		private IzmaSpecials2():void {
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 2) {
 				Render.text("Izma blindly tries to clinch you, but misses completely.\n", false);
@@ -80,13 +80,13 @@ package classes.Scenes.NPCs
 			else Render.text("laugh as her blades scape uselessly at your armor-clad back", false);
 			Render.text(" before breaking her embrace and leaping away. (" + damage + ")", false);
 		}
-		private function IzmaSpecials3():void {
+		private IzmaSpecials3():void {
 			Render.text("Rather than move to attack you, Izma grins at you and grabs her breasts, massaging them as she caresses her long penis with one knee. Her tail thrashes and thumps the sand heavily behind her as she simulates an orgasm, moaning loudly into the air. The whole display leaves you more aroused than before.", false);
 			//(lust gain)
 			game.dynStats("lus", (20 + player.stats.lib/5));
 		}
 
-		private function IzmaAI():void {
+		private IzmaAI():void {
 			let choice:number = rand(5);
 			if(choice <= 1) eAttack();
 			if(choice == 2) {
@@ -107,7 +107,7 @@ package classes.Scenes.NPCs
 			super.eAttack();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let choice:number = rand(5);
 			if (choice <= 1) eAttack();
@@ -138,7 +138,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		public function Izma()
+		public Izma()
 		{
 			this.a = "";
 			this.short = "Izma";

@@ -4,7 +4,7 @@ package classes.Scenes.NPCs
 
 	public class Kiha extends Monster
 	{
-		private function kihaTimeWaster():void {
+		private kihaTimeWaster():void {
 			game.spriteSelect(72);
 			Render.text("She supports the axe on a shoulder, cracking her neck and arching her back to stretch herself, giving you an unintended show.  ", false);
 			game.dynStats("lus", 5);
@@ -12,7 +12,7 @@ package classes.Scenes.NPCs
 		}
 
 		//This could be silly mode worthy! Should Expand? oh ok
-		private function sillyModeKihaAttack():void {
+		private sillyModeKihaAttack():void {
 			game.spriteSelect(72);
 			Render.text("Before you can stop to think, the dragon-woman steps back - throwing her axe into the air before she starts sprinting towards you. In seconds she's reached a hair's distance between her lithe form and your own, her fist recoiling and time seemingly stopping to allow you to note the powerful energy seeping from her arms.  ", false);
 			//Miss:
@@ -35,7 +35,7 @@ package classes.Scenes.NPCs
 			combatRoundOver();
 		}
 
-		private function kihaFirePunch():void {
+		private kihaFirePunch():void {
 			game.spriteSelect(72);
 			Render.text("The draconic girl throws her trusty weapon into the sodden ground, using the distraction to build up balls of flame around her fists.  She runs towards you, launching herself in your direction with a flurry of punches.\n", false);
 
@@ -66,7 +66,7 @@ package classes.Scenes.NPCs
 
 
 		//Fire breath
-		private function kihaFireBreath():void {
+		private kihaFireBreath():void {
 			game.spriteSelect(72);
 			Render.text("Kiha throws her arms back and roars, exhaling a swirling tornado of fire directly at you!\n", false);
 			//Miss:
@@ -98,20 +98,20 @@ package classes.Scenes.NPCs
 		Hit: Like a runaway boulder, the dragoness slams into you, brutally propelling you to the ground, jarring bone and leaving you dazed. //Stun effect applies for 2 rounds//
 		Miss: You nimbly turn aside and roll her off your shoulder at the last moment, leaving her ploughing on uncontrollably until she (catches her foot in a sinkhole and twists her ankle painfully, faceplanting in the bog)/(slams headfirst into a half-rotten tree with a shower of mouldering splinters). She quickly rights herself and turns to face you, but it clearly took its toll on her. //Kiha takes damage//
 		*/
-		override protected function handleFear():boolean
+		override protected handleFear():boolean
 		{
 			statusAffects.remove("Fear");
 			Render.text("Kiha shudders for a moment, then looks your way with a clear head.  \"<i>Fear was the first thing the demons taught us to overcome.  Do you think it would stay my blade?</i>\"\n", false);
 			return true;
 		}
 
-		override protected function handleBlind():boolean
+		override protected handleBlind():boolean
 		{
 			return true;
 		}
 
 
-		override protected function postAttack(damage: number):void
+		override protected postAttack(damage: number):void
 		{
 			super.postAttack(damage);
 			let flame: number = 15 + rand(6);
@@ -119,7 +119,7 @@ package classes.Scenes.NPCs
 			Render.text("\nAn afterwash of flames trails behind her blow, immolating you! (" + flame + ")", false);
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let select:number = rand(5);
 			if (select <= 1) eAttack();
@@ -159,7 +159,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		public function Kiha()
+		public Kiha()
 		{
 			this.a = "";
 			this.short = "Kiha";

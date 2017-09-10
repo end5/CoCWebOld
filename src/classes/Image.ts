@@ -11,7 +11,7 @@ package classes
 		private let _width: number;
 		private let _height: number;		
 		
-		public function Image(id:string, url:string, w: number, h: number) 
+		public Image(id:string, url:string, w: number, h: number) 
 		{
 			_id = id;
 			_url = url;
@@ -19,22 +19,22 @@ package classes
 			_height = h;
 		}
 		
-		public function get id():string 
+		public get id():string 
 		{
 			return _id;
 		}
 		
-		public function get url():string 
+		public get url():string 
 		{
 			return _url;
 		}
 		
-		public function get width(): number 
+		public get width(): number 
 		{
 			return _width;
 		}
 		
-		public function get height(): number 
+		public get height(): number 
 		{
 			return _height;
 		}

@@ -12,7 +12,7 @@ package classes.Scenes.Areas.HighMountains
 	 */
 	public class IzumiScene extends BaseContent
 	{
-		public function IzumiScene() 
+		public IzumiScene() 
 		{
 		}
 		
@@ -21,7 +21,7 @@ package classes.Scenes.Areas.HighMountains
 		 */
 
 		// Return a height-based nickname for the player
-		public function heightDesc(doName:boolean = true):string
+		public heightDesc(doName:boolean = true):string
 		{
 			if (rand(4) != 0) return "kid";
 			else
@@ -38,14 +38,14 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 		
-		public function HeightDesc():string
+		public HeightDesc():string
 		{
 			let str:string = this.heightDesc();
 			return str.charAt(0).toUpperCase() + str.substr(1);
 		}
 
 		// Bundle of logic to determine if a player might "act" like a minotaur, based off of a couple of related statusAffects
-		public function actsLikeACow():boolean
+		public actsLikeACow():boolean
 		{
 			if (player.inHeat) return true;
 			if (player.inRut) return true;
@@ -58,7 +58,7 @@ package classes.Scenes.Areas.HighMountains
 		 */
 		// Entry point from HighMountain explores
 		// Tested
-		public function encounter():void
+		public encounter():void
 		{
 			clearOutput();
 			
@@ -87,7 +87,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 		
 		// Repeat encounters with Izumi after having met in the past
-		public function enterAfterMet():void
+		public enterAfterMet():void
 		{
 			clearOutput();
 
@@ -123,7 +123,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 		
 		// Leave the cave, no meeting
-		protected function abortabortleavethefukkencave():void
+		protected abortabortleavethefukkencave():void
 		{
 			clearOutput();
 
@@ -134,7 +134,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Already met, dun wanna get oniraepd again plz
-		protected function nopeLeavePlz():void
+		protected nopeLeavePlz():void
 		{
 			clearOutput();
 
@@ -145,7 +145,7 @@ package classes.Scenes.Areas.HighMountains
 		// Introduce the fuckhuge oni
 		// Long: Untested
 		// Short: Tested
-		protected function enterFirstTime():void
+		protected enterFirstTime():void
 		{
 			clearOutput();
 			flags[FlagEnum.IZUMI_MET] = 1;
@@ -275,7 +275,7 @@ package classes.Scenes.Areas.HighMountains
 			addButton(0, "Next", enterFirstTimePartII);
 		}
 	
-		protected function enterFirstTimePartII():void
+		protected enterFirstTimePartII():void
 		{
 			clearOutput();
 			
@@ -334,7 +334,7 @@ package classes.Scenes.Areas.HighMountains
 		private const SMOKE_DURATION: number = 24;
 
 		// Applies the smokeeffect to a player, based on if they used the pipe directly or not
-		protected function smokeEffect(smokedPipe:boolean):void
+		protected smokeEffect(smokedPipe:boolean):void
 		{
 			let deltaSpd: number = player.stats.spe - (player.stats.spe * SMOKE_SPEED_REDUCE);
 			let deltaSns: number = (player.stats.sens * SMOKE_SENS_BOOST) - player.stats.sens;
@@ -369,7 +369,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Update the duration of the pipe smoke effect
-		public function updateSmokeDuration(hours: number):void
+		public updateSmokeDuration(hours: number):void
 		{
 			let affectIndex: number = player.findStatusAffect(StatusAffects.IzumisPipeSmoke);
 
@@ -385,7 +385,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Method to contain removal mechanics + scene text to spit out
-		protected function smokeEffectWearsOff():void
+		protected smokeEffectWearsOff():void
 		{
 			let affectIndex: number = player.findStatusAffect(StatusAffects.IzumisPipeSmoke);
 
@@ -410,7 +410,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Actual introduction scene content for pipesmokin
-		protected function smokeThePipe():void
+		protected smokeThePipe():void
 		{
 			clearOutput();
 
@@ -428,7 +428,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Turn down the pipe -- still recieve SOME effect from the smoke in the cave
-		protected function dontSmokeThePipe():void
+		protected dontSmokeThePipe():void
 		{
 			clearOutput();
 
@@ -439,7 +439,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Continue after the pipe smoke split
-		protected function smokeJoins():void
+		protected smokeJoins():void
 		{
 			Render.text("Finally, the two of you seem to run out of things to speak about and the conversation dies down.  Izumi puffs on her pipe and lets out a long column of smoke, still gazing at you speculatively.  “<i>Hmm.  You’ve been pretty interesting, I didn’t expect to meet anyone who might be </i>fun<i> out here.</i>”  She mutters.  “<i>If you </i>are<i> going to keep going with this whole heroic deeds thing, try not to die, okay?  You’re the only halfway entertaining person I’ve met on this rock, and I’d hate to imagine you winding up as some imp’s body pillow, or whatever....</i>”\n\n");
 
@@ -470,7 +470,7 @@ package classes.Scenes.Areas.HighMountains
 
 		// Player opts to leave rather than do anything
 		// TODO: Bulk this up some, its way short.
-		protected function fuckinChegIt():void
+		protected fuckinChegIt():void
 		{
 			hideUpDown();
 			
@@ -485,7 +485,7 @@ package classes.Scenes.Areas.HighMountains
 		/**
 		 * FIGHT SHIT
 		 */
-		protected function fightTheFuckhugeOni():void
+		protected fightTheFuckhugeOni():void
 		{
 			hideUpDown();
 			
@@ -540,7 +540,7 @@ package classes.Scenes.Areas.HighMountains
 		/**
 		 * SURRENDER SCENES
 		 */
-		protected function fuckhugeOniGetsWhatSheWants():void
+		protected fuckhugeOniGetsWhatSheWants():void
 		{
 			hideUpDown();
 			
@@ -579,7 +579,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Male/Herm scene for cocks <= 4"
-		protected function surrenderSmallCock():void
+		protected surrenderSmallCock():void
 		{
 			Render.text("“<i>Ohhh!</i>”  She positively purrs as her eyes fall upon your naked [cock biggest] for the first time.  “<i>What’s this?</i>”  She leans forwards to stare at your genitals with undisguised interest.  “<i>Well, now... I figured you [race]s would be pretty");
 			if (player.isTaur()) Render.text(" big");
@@ -672,7 +672,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Male/Herm scene for cocks <= 10"
-		protected function surrenderMediumCock():void
+		protected surrenderMediumCock():void
 		{
 			Render.text("“<i>Huh.  Not bad, " + this.heightDesc() +"; I gotta say, I thought you people’d be");
 			if (player.isTaur()) Render.text(" bigger");
@@ -714,7 +714,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Male/Herm play along scene split
-		protected function surrenderMediumCockObey():void
+		protected surrenderMediumCockObey():void
 		{
 			Render.text("Taking a deep breath, you grit your teeth and force yourself to calm down.");
 			if(player.isTaur()) Render.text("  Y");
@@ -742,7 +742,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Male/Herm be a jerk about it split
-		protected function surrenderMediumCockRefuse():void
+		protected surrenderMediumCockRefuse():void
 		{
 			Render.text("Sick of Izumi and the strange, uncomfortable feelings the Oni keeps forcing you to experience, you defy her command.  Instead, you thrust more vigorously into the air, turning this way and that, trying to force some form of stimulation from the hand mercilessly gripping your member.\n\n");
 
@@ -776,7 +776,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Urtadicks itt
-		protected function surrenderLargeCock():void
+		protected surrenderLargeCock():void
 		{
 			Render.text("Izumi grunts in surprise as your [cock biggest] flops free of its confinement.  “<i>Damn.  This is pretty impressive, you know?</i>”  She frowns, running an exploratory hand across the length of your flesh.  “<i>Let me guess, you got a bit too frisky with one of the natives?  Maybe didn’t think to boil the water before you drank it?  Look, no offence, but there is no way this thing is legit, "+ this.heightDesc() +".</i>”\n\n");
  
@@ -827,7 +827,7 @@ package classes.Scenes.Areas.HighMountains
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		protected function surrenderOhGodTheFemaleSurrenderContentIsFuckingHugeSendHelp():void
+		protected surrenderOhGodTheFemaleSurrenderContentIsFuckingHugeSendHelp():void
 		{
 			Render.text("You resign yourself to letting Izumi do as she wills with you, and hesitantly reach to start undressing.");
 
@@ -961,7 +961,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Female surrender, "regular" path
-		protected function surrenderFemaleNonExhibitionVariant():void
+		protected surrenderFemaleNonExhibitionVariant():void
 		{
 			clearOutput();
 
@@ -1070,7 +1070,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Female surrender, ask player if which variant they want
-		protected function surrenderFemaleExhibitionVariant():void
+		protected surrenderFemaleExhibitionVariant():void
 		{
 			clearOutput();
 
@@ -1087,7 +1087,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Female surrender, Exhibitionist variant scene body
-		protected function surrenderFemaleLookitYouTheCenterOfAttentionYouSlut():void
+		protected surrenderFemaleLookitYouTheCenterOfAttentionYouSlut():void
 		{
 			Render.text("You nod your head vigorously at the idea of getting some of your beloved audience actually involved.  Izumi chuckles again.\n\n");
 
@@ -1134,7 +1134,7 @@ package classes.Scenes.Areas.HighMountains
 		/**
 		 * LOSS SCENES
 		 */
-		public function fuckedUpByAFuckhugeOni(titLoss:boolean = false):void
+		public fuckedUpByAFuckhugeOni(titLoss:boolean = false):void
 		{
 			flags[FlagEnum.IZUMI_LAST_ENCOUNTER] = 1;
 			flags[FlagEnum.IZUMI_SEEN_PC_GENDER] = player.gender;
@@ -1203,7 +1203,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Nah, fuck this crazy bitch
-		protected function lossSceneLeave():void
+		protected lossSceneLeave():void
 		{
 			clearOutput();
 
@@ -1216,7 +1216,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Call this shit at the top of any "Stay" scene for shared initial content
-		protected function lossSceneStay():void
+		protected lossSceneStay():void
 		{
 			clearOutput();
 
@@ -1228,7 +1228,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Special loss scene if the player loses whilst being titsmothered by izumi
-		public function deathBySnuSnuIMeanGiantOniTits():void
+		public deathBySnuSnuIMeanGiantOniTits():void
 		{
 			flags[FlagEnum.IZUMI_LAST_ENCOUNTER] = 1;
 			
@@ -1305,7 +1305,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Loss scene for buttstuffins
-		protected function cowedIntoPuttingItInIntoHerGiantOniButt():void
+		protected cowedIntoPuttingItInIntoHerGiantOniButt():void
 		{
 			lossSceneStay();
 
@@ -1372,7 +1372,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Super Ordinary Regular Missionary Sexy Time, honest
-		protected function fuckhugeOniWantsYourBabiesOrSomeShit():void
+		protected fuckhugeOniWantsYourBabiesOrSomeShit():void
 		{
 			lossSceneStay();
 
@@ -1411,7 +1411,7 @@ package classes.Scenes.Areas.HighMountains
 		// This is one of the ones where I think something new has to be written. Get it coded, get it working, then considering doing it.
 		// TODO: Actual genderless scene potentials
 		// Eatin the oni; might as well put your mouf to work rite?
-		protected function noDickNoVagNoService():void
+		protected noDickNoVagNoService():void
 		{
 			lossSceneStay();
 			flags[FlagEnum.IZUMI_SEEN_PC_GENDER] = player.gender;
@@ -1435,7 +1435,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Big bad oni gonna eatcha
-		protected function littleChampLittleChampFuckhugeOniIsCominTaEatcha():void
+		protected littleChampLittleChampFuckhugeOniIsCominTaEatcha():void
 		{
 			lossSceneStay();
 
@@ -1486,7 +1486,7 @@ package classes.Scenes.Areas.HighMountains
 
 		 // touch the horn. TOUCH IT
 		 // Entry to VICTORRRYYYY scenes
-		public function touchThatFluffyHorn():void
+		public touchThatFluffyHorn():void
 		{
 			flags[FlagEnum.IZUMI_LAST_ENCOUNTER] = 3;
 			flags[FlagEnum.IZUMI_TIMES_GRABBED_THE_HORN]++;
@@ -1621,7 +1621,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Pfft, nofux
-		protected function letGoAndLeaveYouSillyFuck():void
+		protected letGoAndLeaveYouSillyFuck():void
 		{
 			clearOutput();
 
@@ -1639,7 +1639,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Kinda friendly fux
-		protected function letGoAndFuck():void
+		protected letGoAndFuck():void
 		{
 			clearOutput();
 
@@ -1720,7 +1720,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Fuck dat giant oni butt
-		protected function gonnaGetMeSomeRevengeButtsexin():void
+		protected gonnaGetMeSomeRevengeButtsexin():void
 		{
 			clearOutput();
 
@@ -1903,7 +1903,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Huehue, Tentacruel!
-		protected function tentacruelRevengeFux():void
+		protected tentacruelRevengeFux():void
 		{
 			clearOutput();
 
@@ -1947,7 +1947,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Facefuck
-		protected function sayThatsAPrettyFaceBeAShameIfSomebodyJizzedAllOverIt():void
+		protected sayThatsAPrettyFaceBeAShameIfSomebodyJizzedAllOverIt():void
 		{
 			clearOutput();
 
@@ -2014,7 +2014,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 		// Nice horn, be a shame if somebody got it all sticky, huh?
-		protected function tribThatRockyHornGirl():void
+		protected tribThatRockyHornGirl():void
 		{
 			clearOutput();
 

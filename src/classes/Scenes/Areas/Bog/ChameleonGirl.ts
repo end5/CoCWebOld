@@ -5,7 +5,7 @@ package classes.Scenes.Areas.Bog
 	public class ChameleonGirl extends Monster
 	{
 
-		public function chameleonTongueAttack():void
+		public chameleonTongueAttack():void
 		{
 			this.weaponName = "tongue";
 			this.weaponVerb = "tongue-slap";
@@ -19,7 +19,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//Ignores armor
-		public function chameleonClaws():void
+		public chameleonClaws():void
 		{
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(3) < 1) {
@@ -40,7 +40,7 @@ package classes.Scenes.Areas.Bog
 		}
 
 		//Attack 3:
-		public function rollKickClawWhatTheFuckComboIsThisShit():void
+		public rollKickClawWhatTheFuckComboIsThisShit():void
 		{
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(3) < 1) {
@@ -65,7 +65,7 @@ package classes.Scenes.Areas.Bog
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.spriteSelect(89);
 			let select: number = rand(3);
@@ -91,7 +91,7 @@ package classes.Scenes.Areas.Bog
 			}
 		}
 
-		override protected function outputPlayerDodged(dodge: number):void
+		override protected outputPlayerDodged(dodge: number):void
 		{
 			Render.text("The chameleon girl whips her head and sends her tongue flying at you, but you hop to the side and manage to avoid it.  The pink blur flies back into her mouth as quickly as it came at you, and she looks more than a bit angry that she didn't find her target.\n");
 		}
@@ -117,7 +117,7 @@ package classes.Scenes.Areas.Bog
 			["tan", "white"]
 		];
 
-		public function ChameleonGirl()
+		public ChameleonGirl()
 		{
 			let skinToneAdj:Array = randomChoice(SKIN.VARIATIONS);
 			this.a = "the ";

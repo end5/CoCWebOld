@@ -7,7 +7,7 @@
 	{
 
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			//Demon pack has different AI
 			if (rand(2) == 0)
@@ -33,7 +33,7 @@
 			}
 		}
 
-		private function rapeDemons():void{
+		private rapeDemons():void{
 			Render.text("You open your arms and step into the throng of eager demons. They jump eagerly to touch you, becoming more and more lust-frenzied every second. You take the nearest demon and throw it to the ground and without a moment's thought the rest of the group leap to join you in a thoughtless madness of lust...", true);
 			doNext(game.desert.oasis.oasisSexing);
 		}
@@ -81,7 +81,7 @@
 			applyTease(lustDelta);
 		}
 
-		public function DemonPack()
+		public DemonPack()
 		{
 			trace("DemonPack Constructor!");
 			this.a = "the ";

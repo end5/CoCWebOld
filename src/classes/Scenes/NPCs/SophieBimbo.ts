@@ -7,11 +7,11 @@
 	public class SophieBimbo extends NPCAwareContent
 	{
 
-		public function SophieBimbo()
+		public SophieBimbo()
 		{
 		}
 		
-		private function get pregnancy():PregnancyType { return kGAMECLASS.sophieScene.pregnancy; } //Quick way to access sophie's pregnancyStore
+		private get pregnancy():PregnancyType { return kGAMECLASS.sophieScene.pregnancy; } //Quick way to access sophie's pregnancyStore
 
 
 //VARS
@@ -52,7 +52,7 @@ public bimboSophie():boolean {
 	return (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00282] > 0 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00283] == 0 && flags[FlagEnum.SOPHIE_DEBIMBOED] == 0);
 }
 
-public function sophieIsInSeason():boolean {
+public sophieIsInSeason():boolean {
 	return (flags[FlagEnum.SOPHIE_HEAT_COUNTER] > 551 && !pregnancy.isPregnant);
 }
 
@@ -64,7 +64,7 @@ internal function sophiePregChance():void {
 		pregnancy.knockUpForce(PregnancyType.PLAYER, PregnancyType.INCUBATION_HARPY);
 	}
 }
-public function sophieCapacity():number {
+public sophieCapacity():number {
 	return 179;
 }
 
@@ -115,7 +115,7 @@ internal function bimbotizeMeCaptainSophie():void {
 	doYesNo(acceptBimboSophie,declineBimboSophie);
 }
 	
-private function declineBimboSophie():void {
+private declineBimboSophie():void {
 	sophieSprite();
 	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00283] = 1;
 	Render.text("", true);
@@ -123,7 +123,7 @@ private function declineBimboSophie():void {
 	cleanupAfterCombat();
 }
 
-private function acceptBimboSophie():void {
+private acceptBimboSophie():void {
 	sophieSprite();
 	Render.text("", true);
 	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00282] = 1;
@@ -175,7 +175,7 @@ private function acceptBimboSophie():void {
 	cleanupAfterCombat();
 }
 //Follower In Camp Text:
-public function sophieCampLines():void {
+public sophieCampLines():void {
 	let choice:number = rand(4);
 	if(choice == 0)  Render.text("Sophie is sitting by herself, applying yet another layer of glittering lip gloss to her puffy bimbo lips.", false);
 	else if(choice == 1) Render.text("Sophie is sitting by herself, idly diddling her twat and noisily moaning.  She keeps looking your way, hoping you'll approach.", false);
@@ -184,7 +184,7 @@ public function sophieCampLines():void {
 	Render.text("\n\n", false);
 }
 //Approach Texts
-public function approachBimboSophieInCamp(output:boolean = true):void {
+public approachBimboSophieInCamp(output:boolean = true):void {
 	sophieSprite();
 	if (flags[FlagEnum.FOLLOWER_AT_FARM_SOPHIE] == 0)
 	{
@@ -297,7 +297,7 @@ public function approachBimboSophieInCamp(output:boolean = true):void {
 }
 
 //Appearance:
-private function sophieBimboAppearance():void {
+private sophieBimboAppearance():void {
 	clearOutput();
 	Render.text("Sophie is a big, buxom harpy, no two ways about her.  She has ");
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00282] > 0) Render.text("very ");
@@ -339,7 +339,7 @@ private function sophieBimboAppearance():void {
 	addButton(0,"Back",approachBimboSophieInCamp, false);
 }
 
-private function harvestEggs():void
+private harvestEggs():void
 {
 	clearOutput();
 	sophieSprite();
@@ -351,7 +351,7 @@ private function harvestEggs():void
 	eggSelector();
 }
 
-private function changeEggs():void
+private changeEggs():void
 {
 	clearOutput();
 	sophieSprite();
@@ -374,7 +374,7 @@ public let eggColors:Array = [
 
 private let _eggTypes:Array;
 
-public function get eggTypes():Array
+public get eggTypes():Array
 {
 	if (_eggTypes == null)
 	{
@@ -390,7 +390,7 @@ public function get eggTypes():Array
 	return _eggTypes;
 }
 
-private function eggSelector():void
+private eggSelector():void
 {
 	for (let i: number = 0; i < eggColors.length; i++)
 	{
@@ -398,7 +398,7 @@ private function eggSelector():void
 	}
 }
 
-private function postEggSelector(selected:string):void
+private postEggSelector(selected:string):void
 {
 	clearOutput();
 	sophieSprite();
@@ -416,7 +416,7 @@ private function postEggSelector(selected:string):void
 	doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function stopHarvest():void
+private stopHarvest():void
 {
 	clearOutput();
 	sophieSprite();
@@ -431,7 +431,7 @@ private function stopHarvest():void
 	doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function sendToFarm():void
+private sendToFarm():void
 {
 	clearOutput();
 	sophieSprite();
@@ -449,7 +449,7 @@ private function sendToFarm():void
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function backToCamp():void
+private backToCamp():void
 {
 	clearOutput();
 	sophieSprite();
@@ -463,7 +463,7 @@ private function backToCamp():void
 	doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function bimboSophieSexMenu():void {
+private bimboSophieSexMenu():void {
 	clearOutput();
 	Render.text("How will you have sex with your feather-brained slut?");
 	menu();
@@ -509,7 +509,7 @@ private function bimboSophieSexMenu():void {
 	addButton(9,"Leave",approachBimboSophieInCamp);
 }
 
-private function tellSophieToVisitIzma():void {
+private tellSophieToVisitIzma():void {
 	clearOutput();
 	Render.text("You suggest she visit Izma again.  Maybe this time she won't get tied up again?");
 	Render.text("\n\nSophie squeals, \"<i>REAAALLY?</i>\" before taking off towards the other side of camp.  This should be good.");
@@ -519,7 +519,7 @@ private function tellSophieToVisitIzma():void {
 
 
 //Lipstick Resistance Building
-public function bimboSophieLustStickSurprise():void {
+public bimboSophieLustStickSurprise():void {
 	Render.text("\n", false);
 	//*The PC is repeatedly afflicted with harpy lipstick by Sophie in one of five ways.  Additional exposure from the mountain harpies will speed the process.  After 40(or 20-30?)  applications of lust-stick, the PC becomes resistant to it, raising the PC's lust by 20%, but also reducing lust gain by 20%.
 	let select:number = rand(4);
@@ -601,7 +601,7 @@ internal function daughterCheckup():void {
 }
 
 //Unlock resistance:
-public function unlockResistance():void {
+public unlockResistance():void {
 	if(player.lowerBody.cockSpot.hasCock()) {
 		Render.text("\nBy now, the effects of the harpy lipstick should be kicking in, yet you don't feel that different.  Sure, you feel hard and ready to fuck an egg into the nearest harpy, but at the same time, you've gotten quite used to that feeling.  It's almost like your body has adapted to being under the effects of the drugged lipstick after so many repeated applications.  Hell, you could probably let a pack of the bitches cover your body in it and it wouldn't bother you!  Maybe you could even wear it around to use on male enemies?\n\n", false);
 	}
@@ -610,7 +610,7 @@ public function unlockResistance():void {
 	player.createPerk(PerkLib.LuststickAdapted,0,0,0,0);
 }
 //Get oral as female.  
-private function bimboSophieLicksRugs():void {
+private bimboSophieLicksRugs():void {
 	sophieSprite();
 	Render.text("", true);
 	//*Summary - lean back on a rock and spread your legs.  She licks you off with chance of compelling you to sixtynine her. 
@@ -682,7 +682,7 @@ private function bimboSophieLicksRugs():void {
 	}
 }
 //SixtyNine Continuation - GOILS you're a wreckin' machine
-private function bimboSophieSixtyNineAfterCunnilingus():void {
+private bimboSophieSixtyNineAfterCunnilingus():void {
 	sophieSprite();
 	Render.text("", true);
 	//NON WANG
@@ -759,7 +759,7 @@ private function bimboSophieSixtyNineAfterCunnilingus():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function buttFuckBimboSophie():void {
+private buttFuckBimboSophie():void {
 	sophieSprite();
 	Render.text("", true);
 	let x:number = player.cockThatFits(sophieCapacity());
@@ -814,7 +814,7 @@ private function buttFuckBimboSophie():void {
 }
 	
 //TitFuck
-private function fuckBimboSophiesTits():void {
+private fuckBimboSophiesTits():void {
 	sophieSprite();
 	Render.text("", true);
 	let x:number = player.cockThatFits(sophieCapacity());
@@ -858,7 +858,7 @@ private function fuckBimboSophiesTits():void {
 
 //Bimbo Sophie Camp Event – (If the player has an Ovi Elixir)
 //1 in 700 proc chance (roughly once a month? or flat 30 days)
-public function sophieEggApocalypse():void {
+public sophieEggApocalypse():void {
 	sophieSprite();
 	Render.text("", true);
 	//First time
@@ -879,7 +879,7 @@ public function sophieEggApocalypse():void {
 }
 	
 //[Daddy]
-private function beBimboSophiesSugarDaddy():void {
+private beBimboSophiesSugarDaddy():void {
 	sophieSprite();
 	Render.text("", true);
 	let x:number = player.cockThatFits(sophieCapacity());
@@ -908,7 +908,7 @@ private function beBimboSophiesSugarDaddy():void {
 }
  
 //[Mommy]
-private function beBimboSophiesSugarMommy():void {
+private beBimboSophiesSugarMommy():void {
 	sophieSprite();
 	Render.text("", true);
 	if(player.hasItem(consumables.OVIELIX)) player.consumeItem(consumables.OVIELIX);
@@ -934,7 +934,7 @@ private function beBimboSophiesSugarMommy():void {
 
 //Butts McGee
 //=====================================================
-private function rideDatSophieVag(nice:boolean = false):void {
+private rideDatSophieVag(nice:boolean = false):void {
 	clearOutput();
 	sophieSprite();
 	let x: number = player.cockThatFits(sophieCapacity());
@@ -1097,26 +1097,26 @@ private function rideDatSophieVag(nice:boolean = false):void {
 
 //Getting Sophie Pregnant*
 //Sophie Fertile Text Alert (Only if PC has penis)*
-public function sophieGoesIntoSeason():void {
+public sophieGoesIntoSeason():void {
 	sophieSprite();
 	Render.text("\nSophie seems to be focusing on preening herself a little more often than usual.  She keeps finding excuses to be around you, close enough that you can smell the sweet, peach-like scent of lust that hangs around her.  Her lower lips are more puffy and engorged than normal, and you note she's even applied some of her lip gloss to them.  The bimbo harpy continually bends over rocks, stools, and the fire pit, always with her big, jiggly ass wobbling enticingly in your direction, gold-lipped sex peeking out below.  <b>She's clearly in season - ready to be bred and wanting you to do it!</b>\n");
 }
 
 //Sophie Fertility Done (Expired or PC lost cock):*
-public function sophieSeasonExpiration():void {
+public sophieSeasonExpiration():void {
 	sophieSprite();
 	Render.text("\nSophie has stopped behaving so oddly around you, and though her mannerisms continue to seethe with lust, she no longer seems so focused on getting a cock in her pussy.  <b>Her heat, or whatever the equivalent bird-brained harpies have, is over.</b>\n");
 }
 
 //Sophie Fertility Knocked Up*
-public function sophieGotKnockedUp():void {
+public sophieGotKnockedUp():void {
 	sophieSprite();
 	Render.text("\nSophie seems to have a bigger, dopier smile plastered across her face than usual.  The golden gloss she had applied to her mound is now nothing more than a smeared mess, stained with white drippings in places.  She preens her ruffled hair-feathers, occasionally rubbing her tummy as she cleans herself up.  The feathery bimbo seems to be over her heat, thanks to your 'virile' intervention.\n");
 }
 
 //Impregnation Sex*
 //Lots of Sophie Compulsion Foreplay coupled with just jamming it in.  She loses all control and you ride her like a bucking bronco, cumming in her pussy a few times, then in her ass, in her tits/mouth, and then back in her pussy again.  Then snuggles? 
-private function sophieImpregnationSex():void {
+private sophieImpregnationSex():void {
 	let x: number = player.cockThatFits(sophieCapacity());
 	let y: number = player.cockThatFits2(sophieCapacity());
 	if(x < 0) x = player.smallestCockIndex();
@@ -1277,7 +1277,7 @@ private function sophieImpregnationSex():void {
 	addButton(0,"Next",postSophieImpreg);
 }
 
-private function postSophieImpreg():void {
+private postSophieImpreg():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("When you wake, Sophie is snuggled up next to you, her arms and legs wrapped around you affectionately.  A cup full of water, along with several strips of dried meat sit nearby... apparently she got them while you were out, knowing how thirsty and hungry you'd be.  You run your fingers through her platinum, down-soft hair.  Having a live-in bimbo isn't really all that bad.");
@@ -1285,7 +1285,7 @@ private function postSophieImpreg():void {
 }
 //Too Big Impregnation Sex*
 //Sophie starts grinding on top, hypno-compelling you to get hornier and hornier until you flip her over and full-body titfuck her.  After the first jizz, you get a little winded and lay back, she remounts you and gets you to cum against her entrance, then she snuggles with you and slowly teases and orgasm denials you until you fucking explode and pass out cuddling with her.
-private function giantCocksImpregnateSophie():void {
+private giantCocksImpregnateSophie():void {
 	clearOutput();
 	let x: number = player.biggestCockIndex();
 	sophieSprite();
@@ -1323,7 +1323,7 @@ private function giantCocksImpregnateSophie():void {
 	addButton(0,"Next",postSophieTooBigImpreg);
 }
 
-private function postSophieTooBigImpreg():void {
+private postSophieTooBigImpreg():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Sophie milks you through three more orgasms before she finally tires, and by that point, you're equally exhausted.  You snuggle up next to her and pass out, barely rousing when she begins kissing your manhood during the nap for a fourth helping of your spillable seed.  When you awaken nearly eight hours later, she's snoring soundly, with a skin of water and strips of dried meat left nearby for you to restore yourself.  Life with a bimbo isn't so bad!");
@@ -1331,7 +1331,7 @@ private function postSophieTooBigImpreg():void {
 }
 
 //Sophie Move In Request Scene*
-public function sophieMoveInAttempt():void {
+public sophieMoveInAttempt():void {
 	clearOutput();
 	sophieSprite();
 	flags[FlagEnum.SOPHIE_BROACHED_SLEEP_WITH] = 1;
@@ -1346,7 +1346,7 @@ public function sophieMoveInAttempt():void {
 }
 
 //Yes*
-private function yesSophieSleepWith():void {
+private yesSophieSleepWith():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Sophie claps her hands excitedly when you give your assent, immediately launching into a hug that presses her ");
@@ -1363,7 +1363,7 @@ private function yesSophieSleepWith():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //No (Also Used To Kick Her Out Of Bed)*
-private function noSophieSleepWith():void {
+private noSophieSleepWith():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Sophie casts her eyes down and says, \"<i>I get it...  I'll just... sleep over in my nest then.  Alone...</i>\"  She shambles away, her tail feathers limp against her big, bouncing butt as she goes, clearly unhappy with the decision.  You can hear her sniffling even after she vanishes around a rock, trying not to cry.");
@@ -1372,7 +1372,7 @@ private function noSophieSleepWith():void {
 }
 
 //Option To Move Her In Any Time If Initially Declined*
-private function moveSophieInRepeat():void {
+private moveSophieInRepeat():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("You go up to the feathery bimbo and idly question if she still wants to share your bed with you");
@@ -1387,7 +1387,7 @@ private function moveSophieInRepeat():void {
 
 //Sophie Morning Sex*
 //Alternate Intro/Outro for consensual fucking when it isn't morning?
-public function sophieFenCraftedSex(morning:boolean = false):void {
+public sophieFenCraftedSex(morning:boolean = false):void {
 	let x: number = player.cockThatFits(sophieCapacity());
 	if(x < 0) x = player.smallestCockIndex();
 	sophieSprite();
@@ -1444,7 +1444,7 @@ public function sophieFenCraftedSex(morning:boolean = false):void {
 
 //Pregnant Sophie Morning Sex*
 //Alternate Intro/Outro for consensual fucking when it isn't morning?
-public function fuckYoPregnantHarpyWaifu(morning:boolean = false):void {
+public fuckYoPregnantHarpyWaifu(morning:boolean = false):void {
 	let x: number = player.cockThatFits(sophieCapacity());
 	//{Morning Fuck}
 	if(morning) {
@@ -1513,7 +1513,7 @@ public function fuckYoPregnantHarpyWaifu(morning:boolean = false):void {
 
 //Very Pregnant Sophie Tit Jobs*
 //Alternate Intro/Outro for consensual fucking when it isn't morning?
-private function sophiePreggoTitJobs():void {
+private sophiePreggoTitJobs():void {
 	let x: number = player.biggestCockIndex();
 	clearOutput();
 	sophieSprite();
@@ -1554,7 +1554,7 @@ private function sophiePreggoTitJobs():void {
 }
 
 //Hog Wild*
-private function goHogWildOnSophieBewbs():void {
+private goHogWildOnSophieBewbs():void {
 	clearOutput();
 	sophieSprite();
 	let x: number = player.biggestCockIndex();
@@ -1596,7 +1596,7 @@ private function goHogWildOnSophieBewbs():void {
 }
 
 //Let Her*
-private function letSophieMilkYoDick():void {
+private letSophieMilkYoDick():void {
 	clearOutput();
 	sophieSprite();
 	let x: number = player.biggestCockIndex();
@@ -1662,7 +1662,7 @@ private function letSophieMilkYoDick():void {
 }
 
 //Sophie Births Egg*
-public function sophieBirthsEgg():void {
+public sophieBirthsEgg():void {
 	sophieSprite();
 	Render.text("\nA high pitched cry of pleasure rings out through your camp.  You rush towards it, knowing from that high-pitched tone that it can only be the harpy, Sophie.  She's leaning against a rock, her legs splayed wide.  Underneath her supple thighs, there's a well-made bed of straw, cloth, and leaves that vaguely resembles a nest.  She's been busy!");
 	
@@ -1692,7 +1692,7 @@ public function sophieBirthsEgg():void {
 }
 	
 //Egg Hatched Notification
-public function sophiesEggHatches():void {
+public sophiesEggHatches():void {
 	flags[FlagEnum.SOPHIE_CAMP_EGG_COUNTDOWN] = 0;
 	sophieSprite();
 	Render.text("\nThe quiet of your camp is suddenly broken by loud bird-like cries and squawks.  What on earth could have gotten Sophie so worked up?  Letting out a sigh, you head over to where your feathery ");
@@ -1784,7 +1784,7 @@ public function sophiesEggHatches():void {
 }
 	
 //Mature alert
-public function sophieKidMaturation():void {
+public sophieKidMaturation():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Checking up on your growing daughter, you find her once again with her mother Sophie.  The two harpies are just gabbing away about this and that when suddenly your teen-looking daughter groans as if in pain.  Worried about the state of your offspring, you approach the nest and look over your daughter.  Next to her, Sophie flutters her wings, fussing over her daughter's health.  Before your very eyes, your daughter changes - her once plain body growing out, feminine curves ballooning exquisitely.");
@@ -1861,7 +1861,7 @@ public function sophieKidMaturation():void {
 	flags[FlagEnum.SOPHIE_ADULT_KID_COUNT]++;
 }
 //[yes incest plz]
-private function yesToSophieIncest():void {
+private yesToSophieIncest():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Grinning at your eager girl, you lean in and kiss her lips, reaching around to grab her spankable ass.  Gripping that sumptuous rump, you yank her forward and spank her jiggling cheeks.  Your rough manhandling evokes a horny, needy squawk from the freshly matured harpy.  Smirking at your curvaceous daughter, you tell her that just like her mother, she is a beautiful, voluptuous example of her kind.  Pulling her into another kiss, you slide your tongue inside her warm mouth.  She slips a thick, fertile leg around you and kisses back, pressing her body tighter against yours.");
@@ -1875,7 +1875,7 @@ private function yesToSophieIncest():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[nono]
-private function noToSophieIncest():void {
+private noToSophieIncest():void {
 	clearOutput();
 	sophieSprite();
 	Render.text("Sliding your hand up to your daughter's cheek, you stroke her softly before running your fingers through her feathery hair.  Your soft touch draws a gentle, bird-like coo from your daughter.  You guide her down and tell her she should rest after such a transformation.  She should seek mates outside her family.  You don't want to encourage such blatantly sexual behavior so soon, and you sit her down in Sophie's nest to rest.  Instantly, her mother is at her side, fluttering excitedly and drawing her daughter into a conversation about you and all the fun she can have once she finds a mate of her own.");
@@ -1885,7 +1885,7 @@ private function noToSophieIncest():void {
 //Izma dominating Sophie bondage.
 //have izma get irritated with Sophies constant advances.
 //First time happens randomly
-public function sophieAndIzmaPlay():void {
+public sophieAndIzmaPlay():void {
 	Render.text("\n");
 	flags[FlagEnum.TIMES_SOPHIE_AND_IZMA_FUCKED]++;
 	Render.text("<b>Something odd happens that ");
@@ -1930,7 +1930,7 @@ public function sophieAndIzmaPlay():void {
 }
 
 //(LEGGO MY EGGO)
-private function interruptSophieIzma():void {
+private interruptSophieIzma():void {
 	clearOutput();
 	Render.text("You steel yourself.  As tempting as it is to watch these two vixens go at it, you've got to let them know they're part of <b>your</b> harem.  And of course, any fun that occurs without you is no fun at all.  You step out from behind the rock, calling out to the tigershark and bound harpy, demanding to know what's going on.");
 	Render.text("\n\nIzma jumps away from the Harpy in surprise.  \"<i>Oh, Alpha!</i>\" she sputters, turning to face you.  She thinks for a moment, a bead of sweat forming on her already moist forehead.  \"<i>I was, uh, just getting your slave ready for you,</i>\" she lies.");
@@ -1942,7 +1942,7 @@ private function interruptSophieIzma():void {
 }
 
 //(Watch like the voyeur you are)
-private function watchIzmaSophie():void {
+private watchIzmaSophie():void {
 	clearOutput();
 	Render.text("\"<i>Now, we do this my way,</i>\" Izma says.  \"<i>If you wanted to do things your way, you should've fought back better.</i>\"  She gleefully gropes the harpy's bottom, setting Sophie to swaying back and forth once more.  An orange fingertip probes the juicy, honeyed tunnel with slow exploratory penetrations, triggering a cacophony of lewd moans from the air-headed, bound slut.  \"<i>Yeah... you like that don't you, you greedy little slut?  Gods, I bet all you do is lie around all day, trying to think of new ways to get something hard in here, huh?  Well, you should've thought harder, because this pussy belongs to me until your drugs wear off.  And then?  Then, I'm going to leave you hanging a while to think on your mistakes.</i>\"");
 	

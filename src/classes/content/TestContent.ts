@@ -8,12 +8,12 @@ package classes.content
 	public class TestContent extends BaseContent
 	{
 		
-		public function TestContent() 
+		public TestContent() 
 		{
 			
 		}
 		
-		public function cheatSheet():void
+		public cheatSheet():void
 		{
 			clearOutput();
 			

@@ -6,7 +6,7 @@ import flash.text.TextFormat;
 
 
 //MainMenu - kicks player out to the main menu
-public function mainMenu(e:MouseEvent = undefined):void 
+public mainMenu(e:MouseEvent = undefined):void 
 {
 	stage.focus = (mainView as MainView).mainText;
 	
@@ -76,7 +76,7 @@ public function mainMenu(e:MouseEvent = undefined):void
 	}
 }
 
-public function startupScreenBody():void
+public startupScreenBody():void
 {
 
 	// NO FUCKING DECENT MULTI-LINE STRING LITERALS BECAUSE FUCKING STUPID
@@ -127,7 +127,7 @@ Also go play <u><a href='http://www.furaffinity.net/view/9830293/'>Nimin</a></u>
 
 }
 
-public function settingsScreen():void
+public settingsScreen():void
 {
 	mainView.showMenuButton( MainView.MENU_NEW_MAIN );
 	mainView.showMenuButton( MainView.MENU_DATA );
@@ -196,7 +196,7 @@ public function settingsScreen():void
 			"Back", mainMenu);
 }
 
-public function incFontSize():void
+public incFontSize():void
 {
 	let fmt:TextFormat = mainView.mainText.getTextFormat();
 	
@@ -211,7 +211,7 @@ public function incFontSize():void
 	flags[FlagEnum.CUSTOM_FONT_SIZE] = fmt.size;
 }
 
-public function decFontSize():void
+public decFontSize():void
 {
 	let fmt:TextFormat = mainView.mainText.getTextFormat();
 	
@@ -226,7 +226,7 @@ public function decFontSize():void
 	flags[FlagEnum.CUSTOM_FONT_SIZE] = fmt.size;
 }
 
-public function toggleStandards():void
+public toggleStandards():void
 {
 	//toggle debug
 	if(flags[FlagEnum.LOW_STANDARDS_FOR_ALL])
@@ -237,7 +237,7 @@ public function toggleStandards():void
 	return;
 }
 
-public function toggleHyperHappy():void
+public toggleHyperHappy():void
 {
 	//toggle debug
 	if(flags[FlagEnum.HYPER_HAPPY])
@@ -248,7 +248,7 @@ public function toggleHyperHappy():void
 	return;
 }
 
-public function toggleDebug():void
+public toggleDebug():void
 {
 	//toggle debug
 	if(debug)
@@ -261,7 +261,7 @@ public function toggleDebug():void
 	return;
 }
 
-public function toggleEasyModeFlag():void
+public toggleEasyModeFlag():void
 {
 	if(flags[FlagEnum.EASY_MODE_ENABLE_FLAG] == 0)
 		flags[FlagEnum.EASY_MODE_ENABLE_FLAG] = 1;
@@ -273,7 +273,7 @@ public function toggleEasyModeFlag():void
 	return;
 }
 
-public function toggleSpritesFlag():void
+public toggleSpritesFlag():void
 {
 	if(flags[FlagEnum.SHOW_SPRITES_FLAG])
 		flags[FlagEnum.SHOW_SPRITES_FLAG] = false;
@@ -283,7 +283,7 @@ public function toggleSpritesFlag():void
 	return;
 }
 
-public function toggleSillyFlag():void
+public toggleSillyFlag():void
 {
 
 	if(flags[FlagEnum.SILLY_MODE_ENABLE_FLAG])
@@ -296,7 +296,7 @@ public function toggleSillyFlag():void
 }
 
 
-public function creditsScreen():void {
+public creditsScreen():void {
 	Render.text("<b>Coding and Main Events:</b>\n", true);
 	Render.text("<ul>");
 	Render.text("<li> Fenoxo</li>\n");
@@ -427,7 +427,7 @@ public function creditsScreen():void {
 	doNext(mainMenu);
 }
 
-public function imageCreditsScreen():void
+public imageCreditsScreen():void
 {
 
 	if (images.getLoadedImageCount() > 0)
@@ -452,7 +452,7 @@ public function imageCreditsScreen():void
 	doNext(mainMenu);
 }
 
-public function howToPlay():void {
+public howToPlay():void {
 	Render.text("", true);
 	Render.text("<b><u>How To Play:</u></b>\nClick the buttons corresponding to the actions you want to take.  Your 'goal' is to obviously put an end to the demonic corruption around you, but do whatever the hell you want.  There is a story but sometimes it's fun to ignore it.\n\n", false);
 	Render.text("<b>Exploration:</b>\nThe lake is a safe zone when you start the game.  It's a good place to explore, and Whitney's farm can offer some nice stat boosts to help get you on your feet. Once you feel comfortable, the forest is probably the next safest area, but beware of tentacle monsters.  The desert is the next toughest area, and the mountains offer further challenges.  There are more areas beyond that, but that's a good way to get started.  You'll uncover plenty of new 'places' exploring, which can be accessed from the <b>Places</b> menu.  You'll also find some interesting characters when you try to discover new explorable locations by choosing <b>Explore</b> twice.\n\n", false);

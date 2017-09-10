@@ -24,7 +24,7 @@ package classes.Scenes.Dungeons.D3
 			game.d3.livingStatue.fuckinMarbleOP(hpVictory, pcCameWorms);
 		}
 		
-		public function LivingStatue() 
+		public LivingStatue() 
 		{
 			this.a = "the ";
 			this.short = "living statue";
@@ -55,24 +55,24 @@ package classes.Scenes.Dungeons.D3
 			checkMonster();
 		}
 		
-		override protected function handleStun():boolean
+		override protected handleStun():boolean
 		{
 			Render.text("The stone giant's unforgiving flesh seems incapable of being stunned.");
 			return true;
 		}
 		
-		override protected function handleFear():boolean
+		override protected handleFear():boolean
 		{
 			Render.text("The stone giant cares little for your attempted intimidation.");
 			return true;
 		}
 		
-		override protected function handleBlind():boolean
+		override protected handleBlind():boolean
 		{
 			return true;
 		}
 		
-		private function concussiveBlow():void
+		private concussiveBlow():void
 		{
 			//Maybe replace this with passive stun? TERRIBLE IDEA
 			Render.text("The giant raises his hammer for an obvious downward strike. His marble muscles flex as he swings it downward. You're able to hop out of the way of the clearly telegraphed attack, but nothing could prepare you for the shockwave it emits as it craters the ground.");
@@ -96,7 +96,7 @@ package classes.Scenes.Dungeons.D3
 			Render.text(" (" + damage + ")");
 		}
 		
-		private function dirtKick():void
+		private dirtKick():void
 		{
 			Render.text("The animated sculpture brings its right foot around, dragging it through the gardens at a high enough speed to tear a half score of bushes out by the root. A cloud of shrubbery and dirt washes over you!");
 			
@@ -113,7 +113,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function backhand():void
+		private backhand():void
 		{
 			//Knocks you away and forces you to spend a turn running back to do melee attacks.
 			Render.text("The marble golem's visage twists into a grimace of irritation, and it swings its hand at you in a vicious backhand.");
@@ -134,7 +134,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function overhandSmash():void
+		private overhandSmash():void
 		{
 			//High damage, lowish accuracy.
 			Render.text("Raising its hammer high overhead, the giant swiftly brings its hammer down in a punishing strike!");
@@ -150,7 +150,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function disarm():void
+		private disarm():void
 		{
 			Render.text("The animated statue spins its hammer around, striking at your [weapon] with its haft.");
 	
@@ -169,7 +169,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function cycloneStrike():void
+		private cycloneStrike():void
 		{
 			//Difficult to avoid, moderate damage.
 			Render.text("Twisting back, the giant abruptly launches into a circular spin. Its hammer stays low enough to the ground that its circular path is tearing a swath of destruction through the once pristine garden, and it's coming in your direction!");
@@ -186,7 +186,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (this.HPRatio() < 0.7 && this.findStatusAffect(StatusAffects.KnockedBack) < 0)
 			{

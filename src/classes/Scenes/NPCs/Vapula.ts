@@ -6,13 +6,13 @@ package classes.Scenes.NPCs
 
 	public class Vapula extends NPCAwareContent implements TimeAwareInterface
 	{
-		public function Vapula()
+		public Vapula()
 		{
 			CoC.timeAwareClassAdd(this);
 		}
 		
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			if (model.time.hours > 23) {
 				if (vapulaSlave() && flags[FlagEnum.FOLLOWER_AT_FARM_VAPULA] == 0) {
@@ -29,7 +29,7 @@ package classes.Scenes.NPCs
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			if (flags[FlagEnum.VAPULA_FOLLOWER] >= 2.5 && model.time.hours == 6 && flags[FlagEnum.FOLLOWER_AT_FARM_VAPULA] == 0) {
 				femaleVapulaRecruitmentPartII();
 				return true;
@@ -48,7 +48,7 @@ package classes.Scenes.NPCs
 		}
 
 //Two nights after "vagina enslave", if PC still meets initial requirements (else defer until she does)(Z)
-		public function femaleVapulaRecruitmentPartII():void
+		public femaleVapulaRecruitmentPartII():void
 		{
 			Render.text("\nYou are awoken by long fingers inching up your inner thighs, testing and caressing your soft flesh. You sigh, open your eyes, and are confronted by an excited, purple face looming over you.");
 			Render.text("\n\n\"<i>I have found you, mistress,</i>\" Vapula whispers.  \"<i>And I have done what I promised!  Look.</i>\"  She proudly produces an obscene-looking device, replete with rounded nodules and hanging straps.");
@@ -64,7 +64,7 @@ package classes.Scenes.NPCs
 			doNext(playerMenu);
 		}
 
-		public function vapulaGivesPCAPresent():void
+		public vapulaGivesPCAPresent():void
 		{
 			Render.text("\nVapula walks up to you and frowns, clearly disappointed.  \"<i>Since you got rid of the only way you could properly feed me, I got you this.</i>\"\n\nShe drops a strap-on into your hand as she explains, \"<i>It can convert the lust of a woman into something that will be palatable to my... appetites.  You're welcome.</i>\"");
 			Render.text("\n\nShe walks away without another word.  It might be time for some discipline.");
@@ -75,7 +75,7 @@ package classes.Scenes.NPCs
 
 //Slave Vapula
 //Camp lines
-		public function vapulaSlaveFlavorText():void
+		public vapulaSlaveFlavorText():void
 		{
 			let choice: number = rand(11);
 			if (choice == 0) Render.text("Vapula is currently resting on a very rough bed of leaves she's gathered herself.  She sleeps quietly, her hand absent-mindedly laid on her vagina and the other one resting on her breasts.  A thin trickle of her juice is leaking out of her crotch.");
@@ -125,7 +125,7 @@ package classes.Scenes.NPCs
 
 //Vapula-Followers interaction: Puru Puru Mouse (Z)
 //switch follower names depending on conditions
-		public function mouseWaifuFreakout(amily:boolean = false, jojo:boolean = false):void
+		public mouseWaifuFreakout(amily:boolean = false, jojo:boolean = false):void
 		{
 			clearOutput();
 			if (amily) {
@@ -182,7 +182,7 @@ package classes.Scenes.NPCs
 
 //tion camp
 //Follower Summoning text (Z)
-		public function callSlaveVapula(output:boolean = true):void
+		public callSlaveVapula(output:boolean = true):void
 		{
 			if (output) {
 				clearOutput();
@@ -242,7 +242,7 @@ package classes.Scenes.NPCs
 			if (flags[FlagEnum.FOLLOWER_AT_FARM_VAPULA] == 1) addButton(9, "Back", kGAMECLASS.farm.farmCorruption.rootScene);
 		}
 		
-		private function sendToFarm():void
+		private sendToFarm():void
 		{
 			clearOutput();
 			
@@ -259,7 +259,7 @@ package classes.Scenes.NPCs
 			doNext(camp.returnToCampUseOneHour);
 		}
 		
-		private function backToCamp():void
+		private backToCamp():void
 		{
 			clearOutput();
 			
@@ -272,7 +272,7 @@ package classes.Scenes.NPCs
 			doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 		}
 		
-		private function harvestMilk():void
+		private harvestMilk():void
 		{
 			clearOutput();
 			
@@ -288,7 +288,7 @@ package classes.Scenes.NPCs
 			doNext(kGAMECLASS.farm.farmCorruption.rootScene);
 		}
 		
-		private function stopHarvest():void
+		private stopHarvest():void
 		{
 			clearOutput();
 			
@@ -302,7 +302,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula Appearance - this bitch is purpler than a Nigerian (Z)
-		private function fapulaFapfapfapAppearance():void
+		private fapulaFapfapfapAppearance():void
 		{
 			clearOutput();
 			Render.text("Vapula is a 6 foot 1 inch-tall succubus with a voluptuously curvy build.  Her entire skin is purple, only growing darker whenever she's aroused.  She has a fairly human face with a surprising lack of horns; were it not for her skin, the only sign betraying her demonic origins would be her pair of fangs that are revealed whenever she smiles.  Her eyes are purple as well, often glinting with lust.  Her dark-purple hair grows luxuriously around her head, giving her a fierce, almost lion-like aspect, but it's offset by her majestic aquiline wings, leaving you wondering about her origins.  Two normal, well-formed legs grow down from her squeezable hips, swaying hypnotically as she walks.  She is wearing rags that cover only a tiny fraction of her body, concealing just her naughty bits to make the whole display more erotic.");
@@ -334,7 +334,7 @@ package classes.Scenes.NPCs
 		}
 
 //Talk (Z)
-		private function talkToVapulaForSomeReason():void
+		private talkToVapulaForSomeReason():void
 		{
 			clearOutput();
 			Render.text("\"<i>You want to talk?  Well it's quite rare to see " + player.mf("studs", "girls") + " looking for conversation with the likes of me, but go ahead.  What do you want to talk about?</i>\"");
@@ -367,7 +367,7 @@ package classes.Scenes.NPCs
 			simpleChoices(haremT, haremB, threesomeT, threesomeB, "", null, "", null, "Back", callSlaveVapula);
 		}
 
-		private function toggleCeruleanVapulaAssist():void
+		private toggleCeruleanVapulaAssist():void
 		{
 			clearOutput();
 			//Cerulean Threesome On (Z)
@@ -385,7 +385,7 @@ package classes.Scenes.NPCs
 			doNext(talkToVapulaForSomeReason);
 		}
 
-		private function toggleVapulaHaremFucks():void
+		private toggleVapulaHaremFucks():void
 		{
 			clearOutput();
 			//Stop Fucking Harem
@@ -407,7 +407,7 @@ package classes.Scenes.NPCs
 		}
 
 //Feed
-		private function feedVapulaACupOfJizz():void
+		private feedVapulaACupOfJizz():void
 		{
 			clearOutput();
 			Render.text("You tell Vapula you're going to reward her for being such a good slut; idly stroking [oneCock] into erection, you command her to get on her knees so she can receive her meal.  The demoness eagerly complies and grabs hold of [oneCock].  She then proceeds to lick it, coating the entirety of your junk with her warm, sweet saliva. With an expert precision, she massages all your most sensitive points, pumping pre-cum up your urethra with ruthless efficiency.  As drops of your juices dribble from the tip of your " + cockDescript(0) + " she voraciously slurps them with a gourmand's smile.");
@@ -430,7 +430,7 @@ package classes.Scenes.NPCs
 		}
 
 //Threesome
-		private function vapulaThreesomeMenu():void
+		private vapulaThreesomeMenu():void
 		{
 			clearOutput();
 			Render.text("Who do you invite?");
@@ -455,7 +455,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula-Ceraph threesome
-		private function vapulaCeraphThreesome():void
+		private vapulaCeraphThreesome():void
 		{
 			clearOutput();
 			Render.text("Using your magical talisman you summon Ceraph, your omnibus slut; she seems to appear out of nowhere and gleefully strides toward you as you are lasciviously holding Vapula in your arms and caressing her. The naked omnibus watches your unholy embrace, bemused: \"<i>I see you're quite busy, " + player.mf("Master", "Mistress") + ". I won't disturb you further.</i>\"  You point a finger at Ceraph while your other hand keeps stroking Vapula's tender ass and tell her to come immediately, your voice sounding almost breathless in your lust.  Startled by the imperiousness of your tone, the omnibus comes closer, not sure what to do as you keep toying with your purple wanton bitch.  You impatiently yank Ceraph's arm and pull her closer to Vapula in such a way that both hell-girls are now practically pressing their lush bodies against each other.  You tell your sluts that you will have your way with both of them; you feel your ");
@@ -469,7 +469,7 @@ package classes.Scenes.NPCs
 		}
 
 //Option: Please both.
-		private function vapulaCeraphThreesomePleaseBoth():void
+		private vapulaCeraphThreesomePleaseBoth():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -535,7 +535,7 @@ package classes.Scenes.NPCs
 
 //Option: Butt-fuck train. Requires Ceraph to be herm.
 //Ceraph-Vapula Buttfuck train
-		private function vapulaAndCeraphButtfuckTrainYeehaw():void
+		private vapulaAndCeraphButtfuckTrainYeehaw():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -567,13 +567,13 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula-Sophie threesome
-		private function vapulaSophieThreesomeSelect():void
+		private vapulaSophieThreesomeSelect():void
 		{
 			if (player.lowerBody.cockSpot.hasCock()) vapulaSophieThreeSome();
 			else vapulaSophieThreesomeCunts();
 		}
 
-		private function vapulaSophieThreeSome():void
+		private vapulaSophieThreeSome():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -617,7 +617,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula-Sophie threesome (as female)
-		private function vapulaSophieThreesomeCunts():void
+		private vapulaSophieThreesomeCunts():void
 		{
 			clearOutput();
 			Render.text("You call Sophie insistently, panting in anticipation as you slide into your strap-on's harness.  The blond-feathered bimbo doesn't show at first - perhaps the dumb slut forgot her name again - but as you grow more impatient you finally notice the platinum-headed woman, her enormous boobs bouncing hypnotically and her luscious thighs swaying lustfully as she walks.  She grins beatifically and coos, \"<i>Yes? Is there anything I can, like, do for... ooooh, but who's this?  She's sooooooo beautiful!  She's got, like, big boobs and stuff!</i>\"  She claps her hands with even greater excitement as she turns her attention to you, or rather your crotch.  \"<i>And you've grown a cock!  I've made a new friend and I've, like, got a nice big cock to play with!  This is the best day of my life!</i>\" You think she genuinely means it.");
@@ -641,7 +641,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula-Amily threesome
-		private function vapulaAndAmilyThreesome():void
+		private vapulaAndAmilyThreesome():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -678,7 +678,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula/Night Succubus
-		public function vapulaAssistsCeruleanSuccubus():void
+		public vapulaAssistsCeruleanSuccubus():void
 		{
 			let x: number = player.cockThatFits(100);
 			if (x < 0) x = player.smallestCockIndex();
@@ -723,7 +723,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula/Jojo threesome
-		private function vapulaJojoThreesomes():void
+		private vapulaJojoThreesomes():void
 		{
 			clearOutput();
 			Render.text("You call out in the jungle, \"<i>Slut!</i>\"  Vapula snickers, \"<i>I'm here, you know.</i>\"  You slap her ass to shut her up and quickly explain that you don't call her slut because she doesn't care, being a succubus.  There is only one fucktoy you call by that name, because he's in denial.  By Lethice you intend to have your way with him, and Vapula will get to participate too.  As she eagerly listens to you, her tongue inadvertently licking her lips, you hear soft steps behind you.  You look back and see Jojo walking hesitantly, intimidated by your unholy presence and the towering ex-dominatrix.  \"<i>You were right, he's such a cute shy slut.  I bet he secretly wants some nice cock to ram his every hole.  Don't you, little pet?</i>\"  The mousy monk huddles up little by little, bowing his head uncomfortably.");
@@ -749,7 +749,7 @@ package classes.Scenes.NPCs
 //Netorare
 //Butt-fuck train
 //Vapula/Jojo Netorare
-		private function NTRSomeJojos():void
+		private NTRSomeJojos():void
 		{
 			clearOutput();
 			if (player.lowerBody.cockSpot.hasCock()) {
@@ -829,7 +829,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula/Jojo Butt-fuck train
-		private function jojoButtFuckTrain():void
+		private jojoButtFuckTrain():void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -894,7 +894,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		private function vapulaAndIzmaThreeSome():void
+		private vapulaAndIzmaThreeSome():void
 		{
 			clearOutput();
 			if (player.lowerBody.cockSpot.hasCock()) vapulaAndIzma(false);
@@ -902,7 +902,7 @@ package classes.Scenes.NPCs
 		}
 
 //Vapula/Izma threesome(F)
-		private function vapulaAndIzma(girls:boolean = true):void
+		private vapulaAndIzma(girls:boolean = true):void
 		{
 			clearOutput();
 			let x: number = player.cockThatFits(100);
@@ -950,7 +950,7 @@ package classes.Scenes.NPCs
 		}
 
 //Feed (as female)
-		private function chixFeedVapulaBlehblehIVantToZuckYourSpooo():void
+		private chixFeedVapulaBlehblehIVantToZuckYourSpooo():void
 		{
 			clearOutput();
 			Render.text("You produce the demonic dildo and hold it by the hilt of its giant purple end, wagging it lazily by your side with a playful grin.  Vapula knows what that means; she is on her knees in an instant, staring at you with wolfish anticipation.");
@@ -961,7 +961,7 @@ package classes.Scenes.NPCs
 		}
 
 //Tease
-		private function teaseVapula():void
+		private teaseVapula():void
 		{
 			clearOutput();
 			//Requires: Vapula not fucking harem
@@ -1039,7 +1039,7 @@ package classes.Scenes.NPCs
 		}
 
 //Feed (as female)
-		private function chicksFeedVapula():void
+		private chicksFeedVapula():void
 		{
 			clearOutput();
 			//[Teased once or twice:
@@ -1061,7 +1061,7 @@ package classes.Scenes.NPCs
 		}
 
 //Forcefeed
-		public function vapulaForceFeeds():void
+		public vapulaForceFeeds():void
 		{
 			if (player.lowerBody.vaginaSpot.hasVagina() && player.hasKeyItem("Demonic Strap-On") >= 0 && !player.lowerBody.cockSpot.hasCock()) {
 				Render.text("\n<b>In the night...</b>\nArousal blooms in your dreams, and you are relentlessly pushed into increasingly juicier and filthier fantasies; feeling hopelessly wet, you half awaken and hazily slide a hand down towards your crotch, to try and find release and rest.  Your fingers touch leather and latex where your vagina should be; bewildered, you rise to see Vapula working around your crotch, tightening the final harnesses of your strap-on, locking you into the pink dildo throbbing in your " + vaginaDescript(0) + " whilst she licks hungrily at the tip of the opposite end.  You try to sit up but the ferocious succubus pins you down ruthlessly, her strength increased by her state of hunger.  She smirks at you wickedly and whispers, \"<i>So you don't want me to use any dick but the one I gave you, yet you won't feed me?  That's very bad of you, " + player.short + "... really, really bad...  Do you want to starve me?  Do you want me to beg you for cum?  You naughty slut, you better be ready because I'm going to get what is rightfully mine.  I'm HUNGRY!</i>\"");
@@ -1108,7 +1108,7 @@ package classes.Scenes.NPCs
 //Requires Vapula force herself on you for food.
 //Requires dick or vapula dildo!
 //Requires bipedal-ness
-		private function spankVapulaLikeABoss():void
+		private spankVapulaLikeABoss():void
 		{
 			clearOutput();
 			Render.text("Without any warning, you grab the lusty succubus by the wrists and pull her into you, easily manhandling her surprised form until she's bent over your [leg], vulnerable and squealing like the gutter-slut she is.  Her wings batter at your face and chest, but after a little wrangling, you pin them flat against her back.  The best she can manage now is a few weak twitches at her wing-tips.  Her large, well-formed breasts jiggle and shake as she struggles, but all the trembling purple mountains accomplish is bringing a ready flush to your " + player.skin());

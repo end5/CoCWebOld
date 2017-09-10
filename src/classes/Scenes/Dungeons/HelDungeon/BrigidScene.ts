@@ -8,13 +8,13 @@ package classes.Scenes.Dungeons.HelDungeon
 
 	public class BrigidScene extends BaseContent
 	{
-		public function BrigidScene()
+		public BrigidScene()
 		{
 		}
 
 
 		//Brigid the Jailer -- PC Victorious
-		public function pcDefeatsBrigid():void {
+		public pcDefeatsBrigid():void {
 			clearOutput();
 			Render.text("The harpy jailer collapses, ");
 			if(monster.lust > 99) Render.text("too turned on");
@@ -27,7 +27,7 @@ package classes.Scenes.Dungeons.HelDungeon
 		}
 
 		//Brigid the Jailer -- PC Defeated
-		public function pcDefeatedByBrigid():void {
+		public pcDefeatedByBrigid():void {
 			clearOutput();
 			if(flags[FlagEnum.HEL_HARPY_QUEEN_DEFEATED] == 0) {
 				Render.text("\"<i>Tsk tsk tsk,</i>\" the harpy jailer croons, looming over you as you slump to the ground. \"<i>You shouldn't have messed with me, bitch!</i>\" she snaps, giving you a rough kick to the side. \"<i>Now, let's see what Mother has to say about this...</i>\"");
@@ -51,7 +51,7 @@ package classes.Scenes.Dungeons.HelDungeon
 		}
 
 		//--Next--
-		private function brigitPostQueenDeathBadEndII():void {
+		private brigitPostQueenDeathBadEndII():void {
 			clearOutput();
 			//[(if M, U, or visibly pregnant F/H)
 			if(player.gender <= 1 || player.pregnancyIncubation > 0) {

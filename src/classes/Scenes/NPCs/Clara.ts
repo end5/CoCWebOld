@@ -5,7 +5,7 @@
 
 	public class Clara extends Monster
 	{
-		private function notMurbleEnjoysTheLacticAcid():void
+		private notMurbleEnjoysTheLacticAcid():void
 		{
 			//Clara drinks her own milk to recover health and give a minor lust gain to the PC
 			Render.text("Clara suddenly starts roughly manhandling her tit, noisily stuffing it into her mouth and starting to suck and slobber. Frothy milk quickly stains her mouth and she releases her breast, letting it fall back down. She belches and takes a stance to defend herself again; you can see the injuries you’ve inflicted actually fading as the healing power of her milk fills her.");
@@ -16,7 +16,7 @@
 		}
 		//Clara throws a goblin potion, she has the web potion, the lust potion, and the weakening potion
 		//should she try to drug them instead?
-		protected function claraDrugAttack():void {
+		protected claraDrugAttack():void {
 			let temp2:number = rand(2);
 			let color:string = "";
 			if(temp2 == 0) color = "red";
@@ -45,7 +45,7 @@
 			return;
 		}
 		//Clara teases the PC, and tries to get them to give up
-		protected function claraTeaseAttack():void
+		protected claraTeaseAttack():void
 		{
 			//[cocked PCs only] 
 			if(rand(3) == 0) Render.text("Clara hesitates, then lifts up her dress and shows you her womanhood.  Then she slowly utters, \"<i>You know, I’m still a virgin.  You’d be the first thing to ever enter inside this hole, something that Marble never could have offered you.</i>\"  What would it be like, you wonder for a moment, before catching yourself and trying to focus back on the fight.");
@@ -57,7 +57,7 @@
 		}
 
 		//Once Clara is at half health or lower, she'll cast blind.
-		public function claraCastsBlind():void
+		public claraCastsBlind():void
 		{
 			Render.text("Clara glares at you, clearly being worn down.  Then strange lights start dancing around her hand and she points it in your direction.");
 			//Successful: 
@@ -69,7 +69,7 @@
 			else Render.text("\nYou manage to close your eyes just in time to avoid being blinded by the bright flash of light that erupts in your face!  Clara curses when she see's you're unaffected by her magic.");
 			combatRoundOver();
 		}
-		public function claraGropesBlindPCs():void
+		public claraGropesBlindPCs():void
 		{
 			//Clara gropes the PC while they're blinded.  Damage is based on corruption + sensitivity.
 			if(player.lowerBody.cockSpot.hasCock() && (!player.lowerBody.vaginaSpot.hasVagina() || rand(2) == 0)) Render.text("Suddenly Clara wraps an arm around you, and sticks a hand into your " + player.armorName + "!  She is able to give your " + multiCockDescriptLight + " a good fondle before you can push her away.  \"<i>Admit it - I make you soo hard, don't I?</i>\" she taunts you behind your dazzled vision.");
@@ -81,13 +81,13 @@
 			combatRoundOver();
 		}
 		//Every round if you're in Clara’s base; the PC’s lust is raised slightly.
-		protected function claraBonusBaseLustDamage():void
+		protected claraBonusBaseLustDamage():void
 		{
 			Render.text("\nThe early effects of your addiction are making it harder and harder to continue the fight.  You need to end it soon or you’ll give in to those urges.");
 			game.dynStats("lus",2+player.stats.lib/20);
 			combatRoundOver();
 		}
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(player.statusAffects.has("ClaraFoughtInCamp") && player.statusAffects.get("ClaraCombatRounds").value1 >= 10) 
 			{
@@ -132,7 +132,7 @@
 			game.marblePurification.loseToClara();
 		}
 
-		public function Clara()
+		public Clara()
 		{
 			trace("Clara Constructor!");
 			this.a = "";

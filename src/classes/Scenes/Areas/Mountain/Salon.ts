@@ -4,13 +4,13 @@
 
 	public class Salon extends BaseContent implements TimeAwareInterface {
 
-		public function Salon()
+		public Salon()
 		{
 			CoC.timeAwareClassAdd(this);
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			flags[FlagEnum.SALON_PAID] = 0;
 			if (model.time.hours > 23) {
@@ -25,17 +25,17 @@
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 
 //const SALON_PAID: number = 441;
-public function hairDresser():void {
+public hairDresser():void {
 	Render.text("While exploring the mountain, you find a cleverly concealed doorway.  From inside you can hear the sound of blades being sharpened.  Do you enter the doorway?", true);
 	doYesNo(salonGreeting,camp.returnToCampUseOneHour);
 }
-public function salonGreeting():void{
+public salonGreeting():void{
 	if (player.statusAffects.has("HairdresserMeeting"))
 	{
 		hairDresserRepeatGreeting();
@@ -46,12 +46,12 @@ public function salonGreeting():void{
 		hairDresserGreeting();
 	}
 }
-private function favoriteSalonMenu():void {
+private favoriteSalonMenu():void {
 	salonPurchaseMenu();
 	addButton(6,"Payments",salonFavoritesPaymentMenu);
 }
 
-private function salonFavoritesPaymentMenu():void {
+private salonFavoritesPaymentMenu():void {
 	let blow:Function = null;
 	if(player.lowerBody.cockSpot.hasCock()) blow = goblinHairDresserFacefuck;
 	let minoCum:Function = null;
@@ -68,7 +68,7 @@ private function salonFavoritesPaymentMenu():void {
 }
 
 
-private function salonPaymentMenu():void {
+private salonPaymentMenu():void {
 	let blow:Function = null;
 	if(player.lowerBody.cockSpot.hasCock()) blow = goblinHairDresserFacefuck;
 	let minoCum:Function = null;
@@ -84,7 +84,7 @@ private function salonPaymentMenu():void {
 	addButton(9,"Leave",camp.returnToCampUseOneHour);
 	//choices("Goblin Blow",blow,"Canine",gloryholeDoggie,"Imp",gloryholeImp,"Minotaur",gloryholeMinotaur,"Incubus",gloryholeIncubus,"",0,"",0,"",0,"Buy MinoCum",minoCum,"Leave",13);
 }
-		private function buyMinoCum():void{
+		private buyMinoCum():void{
 			if (player.stats.gems < 60)
 			{
 				Render.text("You can't afford any minotaur cum right now!", true);
@@ -101,7 +101,7 @@ private function salonPaymentMenu():void {
 				inventory.takeItem(consumables.MINOCUM, camp.returnToCampUseOneHour);
 			}
 		}
-public function salonPurchaseMenu():void {
+public salonPurchaseMenu():void {
 	flags[FlagEnum.SALON_PAID] = 1;
 	spriteSelect(38);
 	let cutShort2:Function = null;
@@ -137,7 +137,7 @@ public function salonPurchaseMenu():void {
 	addButton(9,"Leave",camp.returnToCampUseOneHour);
 }
 
-private function hairDresserGreeting():void {
+private hairDresserGreeting():void {
 	spriteSelect(38);
 	Render.text("You step inside the cave, and are greeted by a sight you did not expect.  The cave's floor is covered with smooth wood panelling and the walls are nearly entirely covered with hanging mirrors.  The few stalactites have hooks drilled into them, from which hang hundreds of scissors, shears, razors, combs, and other hairstyling impliments.  It reminds you of the hair-cutter's shop in your hometown.", true);
 	Render.text("\n\nThere are a few chairs along the wall and goblins with latex dresses and gloves looking bored.  At the sight of you they perk up and clamor around you excitedly, until one with a gravity-defying chest pushes them apart and greets you.", false);
@@ -152,7 +152,7 @@ private function hairDresserGreeting():void {
 	salonPaymentMenu();
 	Render.text("\n\n<b>(Salon unlocked in 'places' menu from camp)</b>", false);
 }
-private function hairDresserRepeatGreeting():void {
+private hairDresserRepeatGreeting():void {
 	clearOutput();
 	spriteSelect(38);
 	let minoCum:number = 0;
@@ -249,7 +249,7 @@ private function hairDresserRepeatGreeting():void {
 	}
 	salonPaymentMenu();
 }
-private function gloryholeImp():void {
+private gloryholeImp():void {
 	player.slimeFeed();
 	Render.text("", true);
 	Render.text("You walk over to the hole in the wall, looking at the erect demon-member you'll have to service.  Judging by the height and constant bobbing up and down it does, the imp must be hovering on the other side, trying pretty damn hard to stay in the hole.\n\n", true);
@@ -271,7 +271,7 @@ private function gloryholeImp():void {
 
 
 
-private function gloryholeDoggie():void {
+private gloryholeDoggie():void {
 	player.slimeFeed();
 	Render.text("", true);
 	Render.text("You sigh and kneel down to bring yourself level with the dog-dick hanging out of the wall.  It's pointed at the tip with a swollen circular bulb at the base.  As a matter of fact, the dog-dick's owner must be pretty excited to be here - it's dripping cum and the knot has swollen so large that it can't fit back through the hole.\n\n", true);
@@ -290,7 +290,7 @@ private function gloryholeDoggie():void {
 	Render.text("A young goblin comes by with a bowl for you to make your payment into.  You spit out the gunk and wipe your mouth, as the goblin carries the seed away.  You notice a trail of clear drops on the ground behind her.  She must be anticipating something...", false);
 	doNext(hairDressingMainMenu);
 }
-private function gloryholeIncubus():void {
+private gloryholeIncubus():void {
 	player.slimeFeed();
 	Render.text("", true);
 	Render.text("You kneel down in front of the throbbing demonic dick, ready to earn your pay.\n\n", false);
@@ -309,7 +309,7 @@ private function gloryholeIncubus():void {
 	doNext(hairDressingMainMenu);
 }
 
-private function gloryholeMinotaur(): void {
+private gloryholeMinotaur(): void {
 	player.slimeFeed();
 	Render.text("Your eyes are drawn to the huge minotaur cock, and you instinctively kneel down in front of it.\n\n", true );
 	Render.text("It's the largest available member in the room by a considerable margin, and from your position on your knees, it looks even more massive; it's over two feet long, and has three rings of prepuce spaced around its length. You can just barely span your entire hand around its thickness. You open your mouth wide and lean forward, taking the thick, spongy head into your mouth. The taste is incredibly strong, and its musk is as thick as the minotaur's dick itself. You moan in pleasure, and start bobbing your head back and forth, taking more and more of the dick into your mouth. You stroke the rest of the cock in time with your sucking. You can hear muffled grunting and snorting coming from the other side of the wall, obvious sounds of approval from your partner.\n\n", false);
@@ -323,7 +323,7 @@ private function gloryholeMinotaur(): void {
 	doNext(hairDressingMainMenu);
 }
 
-private function goblinHairDresserFacefuck():void {
+private goblinHairDresserFacefuck():void {
 	spriteSelect(38);
 	Render.text("Lynnette licks her lips and practically tears her way into your " + player.armorName + ", having your crotch exposed in seconds.  Your " + cockDescript(0) + " flops out immediately, slapping her on the nose as it grows hard.  She wraps both hands around you and begins pumping with practiced ease, flicking her tongue over your crown and wrapping her lips ", true);
 	if(player.lowerBody.cockSpot.list[0].cockThickness >= 4) Render.text("around as much of you as she can", false);
@@ -336,7 +336,7 @@ private function goblinHairDresserFacefuck():void {
 	player.orgasm();
 	hairDressingMainMenu();
 }
-private function hairDressingMainMenu():void {
+private hairDressingMainMenu():void {
 	spriteSelect(38);
 	Render.text("Lynnette offers and explains their options, \"<i>So what'll it be hun?  We could cut it down or give you a lengthening treatment. Or you can get a hair-dye to use on your own.  Just remember to come back in a few days for a touchup.</i>\"", false);
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] > 0) {
@@ -345,7 +345,7 @@ private function hairDressingMainMenu():void {
 	salonPurchaseMenu();
 }
 
-private function cutShort():void {
+private cutShort():void {
 	spriteSelect(38);
 	//-trying to get a goblin to cut tentacle hair:
 	if(player.upperBody.head.hairType == 4) {
@@ -358,7 +358,7 @@ private function cutShort():void {
 	Render.text(hairDescript() + ".", false);
 	doNext(camp.returnToCampUseOneHour);
 }
-private function cutMedium():void {
+private cutMedium():void {
 	spriteSelect(38);
 	//-trying to get a goblin to cut tentacle hair:
 	if(player.upperBody.head.hairType == 4) {
@@ -371,7 +371,7 @@ private function cutMedium():void {
 	Render.text(hairDescript() + ".", false);
 	doNext(camp.returnToCampUseOneHour);
 }
-private function cutLong():void {
+private cutLong():void {
 	spriteSelect(38);
 	//-trying to get a goblin to cut tentacle hair:
 	if(player.upperBody.head.hairType == 4) {
@@ -384,7 +384,7 @@ private function cutLong():void {
 	Render.text(hairDescript() + ".", false);
 	doNext(camp.returnToCampUseOneHour);
 }
-private function hairGrow():void {
+private hairGrow():void {
 	spriteSelect(38);
 	//-asking for a lengthening treatment with tentacle hair:
 	if(player.upperBody.head.hairType == 4) {
@@ -399,12 +399,12 @@ private function hairGrow():void {
 	Render.text(num2Text(temp) + " more inches of " + player.hairColor + " hair.", false);
 	doNext(camp.returnToCampUseOneHour);
 }
-		private function buyDye(itype:ItemType):void{
+		private buyDye(itype:ItemType):void{
 			Render.text("", true);
 			inventory.takeItem(itype, camp.returnToCampUseOneHour);
 		}
 		
-private function dyeMenu():void {
+private dyeMenu():void {
 	spriteSelect(38);
 	Render.text("", true);
 	Render.text("Lynnette pulls open a cabinet in the corner, displaying a wide array of exotic hair-dyes.  Which kind do you want?", false);
@@ -420,7 +420,7 @@ private function dyeMenu():void {
 
 
 
-private function minotaurCumBukkakeInSalon():void {
+private minotaurCumBukkakeInSalon():void {
 	Render.text("", true);
 	player.minoCumAddiction(10);
 	player.slimeFeed();
@@ -504,7 +504,7 @@ private function minotaurCumBukkakeInSalon():void {
 	dynStats("lib", 2, "sen", 2, "cor", 2);
 	doNext(minotaurSalonFollowUp);
 }
-private function minotaurSalonFollowUp():void {
+private minotaurSalonFollowUp():void {
 	spriteSelect(38);
 	Render.text("", true);
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00142] == 0) {
@@ -521,7 +521,7 @@ private function minotaurSalonFollowUp():void {
 	salonPurchaseMenu();
 }
 
-private function mudFacial():void {
+private mudFacial():void {
 	spriteSelect(38);
 	Render.text("", true);
 	Render.text("You sit back in a comfortable chair and pull on a lever to recline it.  The goblins buzz around you, gathering up 'special mud'.  You close your eyes, letting them plaster your " + player.face() + " with the stuff in hopes that it will improve your complexion as much as you've been promised.  A pair of cucumber slices are laid out on your eyes, obscuring your view.\n\n", false);
@@ -531,7 +531,7 @@ private function mudFacial():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function sandFacial():void {
+private sandFacial():void {
 	spriteSelect(38);
 	Render.text("", true);
 	Render.text("You sit back in a comfortable chair and pull on a lever to recline it.  The goblins buzz around you, gathering up 'special sand'.  You close your eyes, letting them splatter your " + player.face() + " with the rough, textured goop.  It doesn't feel very good, but that won't matter if it makes you as handsome as it's supposed to.\n\n", false);
@@ -548,7 +548,7 @@ public static const LYNNETTE_CARRYING_COUNT: number                             
 */
 
 //Impregnate
-private function fuckLynnette():void {
+private fuckLynnette():void {
 	clearOutput();
 	//Checks to see if you've cum withint hte past 24 hours.
 	if(flags[FlagEnum.LYNNETTE_FUCK_COUNTER] == 0) {
@@ -715,7 +715,7 @@ private function fuckLynnette():void {
 	flags[FlagEnum.LYNNETTE_PREGNANCY_CYCLE] = 0;
 	salonPurchaseMenu();
 }
-public function lynnetteApproval(arg: number = 0):number {
+public lynnetteApproval(arg: number = 0):number {
 	if(arg != 0) flags[FlagEnum.LYNNETTE_APPROVAL] += arg;
 	if(flags[FlagEnum.LYNNETTE_APPROVAL] < -100) flags[FlagEnum.LYNNETTE_APPROVAL] = -100;
 	else if(flags[FlagEnum.LYNNETTE_APPROVAL] > 100) flags[FlagEnum.LYNNETTE_APPROVAL] = 100;

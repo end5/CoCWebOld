@@ -2,12 +2,12 @@ package classes.Scenes.Places.TelAdre {
 	import classes.GlobalFlags.FlagEnum;
 
 	public class Ifris extends TelAdreAbstractContent {
-public function Ifris(){
+public Ifris(){
 
 }
 //Hours - 15+
 
-public function ifrisIntro():boolean {
+public ifrisIntro():boolean {
 	if(model.time.hours >= 15) {
 		if(flags[FlagEnum.MET_IFRIS] > 0) Render.text("\n\nIfris is standing in the corner of the room, wearing her usual black bikini and eyeing you as soon as you walk in.", false);
 		else Render.text("\n\nIn the corner of the room stands a lone figure, her bright cherry-red skin making her stand out.  A long, spaded tail swishes behind her slowly, the length much thicker than most demon tails you've seen.  She couldn't be more than five feet tall, her slender, lithe form looking more athletic than muscular.  A black bikini covers just enough to be modest, her supple C-cup breasts more perky than they have a right to be.  She slowly rolls a lock of springy, curly hair around one index finger, her glowing crimson gaze set on a nearby weight-lifting machine incredulously.  Feeling your eyes on her glistening, oiled skin, she slowly turns them to you instead.", false);
@@ -18,7 +18,7 @@ public function ifrisIntro():boolean {
 }
 
 //2-Approach and Greeting-
-public function approachIfris():void {
+public approachIfris():void {
 	spriteSelect(28);
 	Render.text("", true);
 	if(flags[FlagEnum.MET_IFRIS] == 0) {
@@ -53,7 +53,7 @@ public function approachIfris():void {
 	simpleChoices("Work Out", workOutForIfris, "Join Me?", askIfrisToJoinYou, "", null, "", null, "Leave", telAdre.gymDesc);
 }
 //3a-PC responds they want to work out-
-private function workOutForIfris():void {
+private workOutForIfris():void {
 	spriteSelect(28);
 	Render.text("", true);
 	if(player.fatigue > 70) {
@@ -70,7 +70,7 @@ private function workOutForIfris():void {
 	simpleChoices("Work Out", liftWhileIfrisWatches, "Show Off", showOffForIfris, "", null, "", null, "", null);
 }
 //3b-PC asks if she'd like to join them-
-private function askIfrisToJoinYou():void {
+private askIfrisToJoinYou():void {
 	spriteSelect(28);
 	Render.text("", true);
 	if(player.fatigue > 70) {
@@ -88,7 +88,7 @@ private function askIfrisToJoinYou():void {
 }
 
 //4a-PC does a modest work out-
-private function liftWhileIfrisWatches():void {
+private liftWhileIfrisWatches():void {
 	spriteSelect(28);
 	flags[FlagEnum.IFRIS_SHOWED_OFF]++;
 	Render.text("", true);
@@ -113,7 +113,7 @@ private function liftWhileIfrisWatches():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //4b-PC decides to show off, possible strength requirement?-
-private function showOffForIfris():void {
+private showOffForIfris():void {
 	spriteSelect(28);
 	flags[FlagEnum.IFRIS_SHOWED_OFF]++;
 	fatigue(30);
@@ -260,7 +260,7 @@ private function showOffForIfris():void {
 }
 
 //Ifrs double-penetrates herself on you while you work out.
-private function ifrisDP():void {
+private ifrisDP():void {
 	Render.text("You set the machine to an impressive weight that you're sure you can handle and set to work, your muscles rippling and tightening as they repeatedly raise and lower the weight for the demonic-looking woman's amusement.  Feeling Ifris' glowing, crimson visage devouring in your workout, you push yourself harder, working up a sheen of sweat that drips from your body.  Your arms haven't yet begun to burn, but deep inside your chest, your heart is beating faster, either from the oiled gym-junky's gaze or the constant, heavy lifting - perhaps both.\n\n", false);
 	Render.text("With the first set finished, you lower the bar until the weight is released from your well-developed musculature.  The demonic beauty is leaning down, over your " + chestDesc() + ", drinking in every sweat-slicked part of you.  With her breasts wobbling dangerously, her glossy, dark lips slowly part to blow you a kiss.  Then, the onyx pillows open to purr, \"<i>Mmmm... marvelous work darling.</i>\"  She leans a little lower, letting her slick breasts rub over the crotch of your " + player.armorName + " as she asks, \"<i>Do you think... you could lift more?  Enough to truly handle anything the world might throw at you?</i>\"  Ifris trails her fingers over your " + player.armorName + ", slowly undoing the equipment with each enunciated syllable.\n\n", false);
 	

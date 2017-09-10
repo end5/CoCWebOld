@@ -21,7 +21,7 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 		
-		private function lustAura():void {
+		private lustAura():void {
 			Render.text("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.");
 			if (statusAffects.has("LustAura")) {
 				Render.text("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
@@ -33,7 +33,7 @@ package classes.Scenes.Dungeons.Factory
 			game.combatRoundOver();
 		}
 		
-		private function milkAttack():void {
+		private milkAttack():void {
 			if (rand(2) == 0)
 				Render.text("The demoness grips her sizable breasts and squeezes, spraying milk at you.\n");
 			else Render.text("Your foe curls up to pinch her nipples, tugging hard and squirting milk towards you.\n");
@@ -62,7 +62,7 @@ package classes.Scenes.Dungeons.Factory
 			game.combatRoundOver();
 		}
 		
-		public function OmnibusOverseer()
+		public OmnibusOverseer()
 		{
 			this.a = "the ";
 			this.short = "Omnibus Overseer";

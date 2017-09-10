@@ -5,7 +5,7 @@
 
 	public class MilkWaifu extends NPCAwareContent{
 
-	public function MilkWaifu()
+	public MilkWaifu()
 	{
 	}
 //New Variables
@@ -22,7 +22,7 @@ public milkSlave():boolean {
 
 
 //Arriving at Camp
-public function arriveWithLacticWaifuAtCamp():void {
+public arriveWithLacticWaifuAtCamp():void {
 	clearOutput();
 	Render.text("It's slow going, having to support your milky friend all the way back to camp, but after a few hours, you manage to make it home.  By the time you arrive, you see that the Sand Mother has kept her word, and a small part of the camp's perimeter has been cleared away, your belongings moved aside to make room for a large pool, its radius easily ten feet, buried in the hard-packed dirt of the wasteland.  A metallic brim surrounds the pool, just wide enough to sit or lie on with your [legs] dangling into the milky waters that will soon be filling it.");
 	
@@ -37,7 +37,7 @@ public function arriveWithLacticWaifuAtCamp():void {
 }
 
 
-private function nameZeMilkBath():void 
+private nameZeMilkBath():void 
 {
 	if (kGAMECLASS.testingBlockExiting)
 	{
@@ -103,7 +103,7 @@ private function nameZeMilkBath():void
 	doNext(camp.returnToCampUseOneHour);
 }
 
-public function ratducto():void {
+public ratducto():void {
 	clearOutput();
 	Render.text("Looking up, you see the old rat alchemist Rathazul approaching, nose buried in an ancient-looking tome.  \"<i>Good news, [name]!</i>\" he calls, just before tripping over the prone milkmaid, going sprawling across the ground.");
 	
@@ -129,7 +129,7 @@ public function ratducto():void {
 
 
 //Milky's Menu (Accessed from the FOLLOWERS tab)
-public function milkyMenu():void {
+public milkyMenu():void {
 	clearOutput();
 	if (flags[FlagEnum.FOLLOWER_AT_FARM_BATH_GIRL] == 0)
 	{
@@ -187,7 +187,7 @@ public function milkyMenu():void {
 	if (flags[FlagEnum.FOLLOWER_AT_FARM_BATH_GIRL] == 1) addButton(9, "Back", kGAMECLASS.farm.farmCorruption.rootScene);
 }
 
-private function sendToFarm():void
+private sendToFarm():void
 {
 	clearOutput();
 	
@@ -205,7 +205,7 @@ private function sendToFarm():void
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function backToCamp():void
+private backToCamp():void
 {
 	clearOutput();
 	
@@ -220,7 +220,7 @@ private function backToCamp():void
 }
 
 //Appearance
-private function milkWriteFuAppearance():void {
+private milkWriteFuAppearance():void {
 	clearOutput();
 	Render.text("" + flags[FlagEnum.MILK_NAME] + " is a five-foot-five human female, with darkly tanned skin and ebony hair.  ");
 	if(flags[FlagEnum.MILK_SIZE] >= 2) Render.text("Over her supple body, she wears a simple cloth shirt which cuts off just above her knees, hiding her newly-gained modesty, with a pair of silk painties and a simple bra beneath it.  ");
@@ -265,7 +265,7 @@ private function milkWriteFuAppearance():void {
 }
 
 //Reducto
-private function superReductoUsage():void {
+private superReductoUsage():void {
 	clearOutput();
 	Render.text("You tell " + flags[FlagEnum.MILK_NAME] + " that it's about time she got rid of those massive tits of hers.  She cocks her head to the side, looking at you without comprehension.  You fish the giant vial of Reducto Rath gave you from your pack and hold it up for her to examine.  She hesitantly takes it from your hand and rolls it around, sniffing at the foul-smelling stuff.  She turns up her nose at it.");
 	
@@ -318,7 +318,7 @@ private function superReductoUsage():void {
 }
 	
 //Milk Bath (HHH or Giant boobs only)
-private function milkBathTime():void {
+private milkBathTime():void {
 	clearOutput();
 	Render.text("Tussling " + flags[FlagEnum.MILK_NAME] + "'s hair, you tell her her breasts look a bit full.  She smiles up at you eagerly as you disrobe.  Once nude, you hop down inside and say, \"<i>Bath Time.</i>\"");
 	Render.text("\n\nWith trembling anticipation, " + flags[FlagEnum.MILK_NAME] + " reaches down for her ");
@@ -371,7 +371,7 @@ private function milkBathTime():void {
 }
 
 //[Next] (Relax)
-private function relaxWithMilkWaifu():void {
+private relaxWithMilkWaifu():void {
 	clearOutput();
 	Render.text("You sit in the tub for a while, letting the fragrant fluids soak into your " + player.skinFurScales() + ".  You spend the better part of an hour lounging, letting your cares float away in " + flags[FlagEnum.MILK_NAME] + "'s endless white bounty.  Finally though, you pull out the tub's plug and climb out, finding a towel nearby.  Thankfully, the milk doesn't seem to leave behind any residue, and you feel clean and refreshed, if a bit horny.");
 	//(+Lust, -Fatigue)
@@ -381,7 +381,7 @@ private function relaxWithMilkWaifu():void {
 }
 
 //[Communal Bath] (PC must have 3+ of the following followers)
-private function communalBath():void {
+private communalBath():void {
 	clearOutput();
 	Render.text("As you relax in the tub, you decide it's hardly fair to have all this milk and just hog it to yourself.  You sit up and give a sharp whistle, getting the attention of the rest of camp.  \"<i>Jump on in, everyone!</i>\" you shout, quickly grabbing " + flags[FlagEnum.MILK_NAME] + " by the waist and dragging her in.  She tumbles into her own lactation with a sharp cry of surprise, breaching a moment later with a splutter.");
 	//If PC has Isabella: 
@@ -431,7 +431,7 @@ private function communalBath():void {
 }
 
 //[Milk Girl]
-private function pullInZeMilkGirl():void {
+private pullInZeMilkGirl():void {
 	clearOutput();
 	Render.text("You call out to " + flags[FlagEnum.MILK_NAME] + " before she can wander away, and wade over to the side of the tub, leaving your face a few scant inches from her hefty milkers.  She smiles as you reach up, nuzzling her cheek into your hand, purring your name happily.");
 	
@@ -474,7 +474,7 @@ private function pullInZeMilkGirl():void {
 }
 	
 //	[Don't]
-private function dontFuckTheMilkWaifu():void {
+private dontFuckTheMilkWaifu():void {
 	clearOutput();
 	Render.text("You allow the girl to continue for a long, long while until your entire body feels deeply refreshed, her milk having soaked thoroughly into your body and making you feel fresh and revitalized.  You start to thank the milk girl for the pleasurable company, but when you open your mouth, she slips into your arms and presses her lips to yours.  Chuckling to yourself, you hold the girl as tight against yourself as her udders will allow, turning her to the side to let her nuzzle her cheek into your [chest], kissing the top of her head before the two of you climb from the pool.  You have to help her out, her massive extra weight nearly dragging her back in except for your quick reflexes.  You gather your [armor] and ruffle the milk slave's hair before grabbing a towel and wandering back to the heart of camp.");
 	//[+Lust, +HP, -Fatigue]
@@ -485,7 +485,7 @@ private function dontFuckTheMilkWaifu():void {
 }
 
 //[Fuck Her] (PC has a Dick)
-private function fuckTheMilkWaifu():void {
+private fuckTheMilkWaifu():void {
 	clearOutput();
 	Render.text("You turn around and pull the milk-slut against you, her massive teats pressing hard against your [chest] until they spurt.  You stroke her cheeks, bringing her lips up to yours.  Her hand finds your [cock] again, stroking you with mounting speed as your tongue finds its way into her mouth, your hands wandering down to grope her sizable ass and flared, breeder's hips.  Your lover sighs heavily, breath filled with lust as you push her up against the rim of the tub, her legs spreading wide for easy access to her milk-lubed cunt.  She locks her arms around your shoulders, moaning happily as you press into her, your [cock] slipping easily into her sodden box.");
 	
@@ -508,7 +508,7 @@ private function fuckTheMilkWaifu():void {
 }
 
 //[Fuck Her] (PC has Cooch & C+cups)
-private function beARugMunchingMilkDyke():void {
+private beARugMunchingMilkDyke():void {
 	clearOutput();
 	Render.text("You turn around in the milky pool, pulling the cute little milkmaid tight against you.  She gasps with surprise, but settles as soon as you press your lips to hers, your hands wandering across her huge teats and supple, milky body.  She nuzzles up against you, head resting on your [chest] as you hold her against yourself, stroking her dark hair.  After a few moments of such a simple pleasure, " + flags[FlagEnum.MILK_NAME] + " shifts her cheek along your breast, wrapping her full, dusky lips around your [nipple].  You let out a long moan as she suckles gently, ");
 	if(player.lactationQ() >= 200) Render.text("drawing out a trickle of milk from your motherly reserves.  She gulps deeply, smiling up at you as a trickle of your milk runs down her chin, dripping into the pool of her own");
@@ -530,7 +530,7 @@ private function beARugMunchingMilkDyke():void {
 }
 	
 //[Drink & Masturbate]
-private function drinkAndFapturbate():void {
+private drinkAndFapturbate():void {
 	clearOutput();
 	Render.text("\"<i>Wait,</i>\" you call out to the ebony woman, letting the milk obscure your hands as you begin to masturbate, \"I want a drink.</i>\"  Sheepishly, " + flags[FlagEnum.MILK_NAME] + " obligingly shifts back toward you, presenting her huge teats.");
 	Render.text("\n\n\"<i>Sorry, [name],</i>\" she whines, still meek as ever, \"<i>Drink more.</i>\"");
@@ -583,7 +583,7 @@ private function drinkAndFapturbate():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function nyanCatMilkTime():void {
+private nyanCatMilkTime():void {
 	clearOutput();
 	//Milk Time!  (HHH Boobs ver.)
 	if(flags[FlagEnum.MILK_SIZE] == 1)
@@ -640,7 +640,7 @@ private function nyanCatMilkTime():void {
 }
 
 //[Finish Normally]
-private function finishMilkNormall():void {
+private finishMilkNormall():void {
 	clearOutput();
 	Render.text("You whisper a few soothing words into " + flags[FlagEnum.MILK_NAME] + "'s ear, but are unrelenting in your task.  With squeezing and kneading fingers, you continue to coax the milk from her tits until she's practically white with flowing cream.  A few minutes later though, you can physically feel her explode over the edge of bliss: the stream of milk from her stiff nipples doubles, blasting an arc several feet long as her voice breaks, a shrill cry to the heavens; " + flags[FlagEnum.MILK_NAME] + "'s entire body shudders, her legs nearly giving out as the boobgasm rocks her slender frame.");
 	
@@ -651,7 +651,7 @@ private function finishMilkNormall():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Suckle]
-private function suckleDatMilk():void {
+private suckleDatMilk():void {
 	clearOutput();
 	Render.text("You release " + flags[FlagEnum.MILK_NAME] + "'s breasts, giving her a moment to catch her breath as you pull her up onto your lap, turning her to face you.  She looks at you with lust-marred eyes, breath hot and heavy on your " + player.skinFurScales() + " as you gently caress her heaving bosom.  You wrap your fingers around her left teat, coaxing out the slightest of trickles before bringing it to your waiting lips.  You kiss her reddened peak, tongue rolling across the peak of her teat, rewarded with a strong gush of sweet cream that bulges your cheeks before you can swallow.  It's as if she never runs dry; an ever-flowing stream of milk pours from her breast, forcing you to swallow again and again, barely able to keep up until cream trickles down your cheeks.");
 	
@@ -667,7 +667,7 @@ private function suckleDatMilk():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Fuck Her] (Needs a dick what fits)
-private function fuckDatMilkSlat():void {
+private fuckDatMilkSlat():void {
 	clearOutput();
 	let x: number = player.cockThatFits(50);
 	Render.text("Sitting behind the milky girl, chest pressed to her back tight enough to feel her every breath, you can't help but feel " + flags[FlagEnum.MILK_NAME] + "'s full, round ass brushing against your " + cockDescript(x) + ".  Responding to her touch, your prick begins to stiffen, filling out through your [armor] and into the valley of " + flags[FlagEnum.MILK_NAME] + "'s ass.  She gasps ever so slightly when she feels your prick pushing against her silky undergarments, but you can feel her heart race, her flesh heating as she starts to move her ass more deliberately, rubbing you from stem to head.");
@@ -687,7 +687,7 @@ private function fuckDatMilkSlat():void {
 }
 
 //Titfuck (ie, an Excuse for Savin to use "Lactic Lust" because Fen just taught him that and he has fallen in love) (Requires DD or HHH tittehs & a dick)
-private function titFuckDatMilkSlut():void {
+private titFuckDatMilkSlut():void {
 	clearOutput();
 	Render.text("You sit down beside " + flags[FlagEnum.MILK_NAME] + " and give her a little push onto her back.  A tiny gasp escapes her lips, but is silenced as you move over top her and giver her a long, tongue-filled kiss.  Her surprise turns into a lusty moan as you ");
 	if(flags[FlagEnum.MILK_SIZE] == 2) Render.text("pull off her shirt and bra");

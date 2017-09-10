@@ -7,7 +7,7 @@ package classes.Scenes.Areas.Swamp
 		//==============================
 		// SPOIDAH HORDE COMBAT SHIZZLE HERE!
 		//==============================
-		private function spiderStandardAttack():void {
+		private spiderStandardAttack():void {
 			//SPIDER HORDE ATTACK - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 			if(statusAffects.has("MissFirstRound") || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 				statusAffects.remove("MissFirstRound");
@@ -44,7 +44,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//SPIDER HORDE WEB - Hit
-		private function spoidahHordeWebLaunchahs():void {
+		private spoidahHordeWebLaunchahs():void {
 			//SPIDER HORDE WEB - Miss (guaranteed if turns 1-3 and PC lost to Kiha)
 			if(statusAffects.has("MissFirstRound") || combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 				Render.text("One of the driders launches a huge glob of webbing right at you!  Luckily, Kiha manages to burn it out of the air with a well-timed gout of flame!", false);
@@ -59,7 +59,7 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 
-		private function kihaSPOIDAHAI():void {
+		private kihaSPOIDAHAI():void {
 			Render.text("[pg]", false);
 			game.spriteSelect(72);
 			Render.text("While they're tangled up with you, however, Kiha takes the opportunity to get in a few shallow swings with her axe, to the accompaniment of crunching chitin.", false);
@@ -68,7 +68,7 @@ package classes.Scenes.Areas.Swamp
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.spriteSelect(72);
 			if(rand(2) == 0 || player.statusAffects.has("UBERWEB")) spiderStandardAttack();
@@ -91,7 +91,7 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 
-		public function SpiderMorphMob()
+		public SpiderMorphMob()
 		{
 			this.a = "the ";
 			this.short = "mob of spiders-morphs";

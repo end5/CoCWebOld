@@ -7,7 +7,7 @@
 	{
 
 		//2a)  Ability -  Poison Bite - poisons player
-		protected function nagaPoisonBiteAttack():void {
+		protected nagaPoisonBiteAttack():void {
 			//(Deals damage over 4-5 turns, invariably reducing 
 			//your speed. It wears off once combat is over.)
 			Render.text("The naga strikes with the speed of a cobra, sinking her fangs into your flesh!  ", false);
@@ -45,7 +45,7 @@
 		
 		//2b)  Ability - Constrict - entangles player, raises lust 
 		//every turn until you break free
-		protected function nagaConstrict():void {
+		protected nagaConstrict():void {
 			Render.text("The naga draws close and suddenly wraps herself around you, binding you in place! You can't help but feel strangely aroused by the sensation of her scales rubbing against your body. All you can do is struggle as she begins to squeeze tighter!", false);
 			player.statusAffects.add(new StatusAffect("NagaBind",0,0,0,0))); 
 			player.takeDamage(2+rand(4));
@@ -54,7 +54,7 @@
 		
 		//2c) Abiliy - Tail Whip - minus ??? HP 
 		//(base it on toughness?)
-		protected function nagaTailWhip():void {
+		protected nagaTailWhip():void {
 			Render.text("The naga tenses and twists herself forcefully.  ", false);
 			//[if evaded]
 			if((player.findPerk(PerkLib.Evade) && rand(6) == 0)) {
@@ -93,7 +93,7 @@
 			}
 		}
 
-		public function Naga(noInit:boolean = false)
+		public Naga(noInit:boolean = false)
 		{
 			if (noInit) return;
 			trace("Naga Constructor!");

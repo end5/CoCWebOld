@@ -19,7 +19,7 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 		
-		private function defeatedInDungeon1(hpVictory:boolean):void {
+		private defeatedInDungeon1(hpVictory:boolean):void {
 			clearOutput();
 			if (hpVictory)
 				Render.text("You smile in satisfaction as the " + short + " collapses, unable to continue fighting.");
@@ -45,7 +45,7 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 		
-		private function defeatedInDungeon3(hpVictory:boolean):void
+		private defeatedInDungeon3(hpVictory:boolean):void
 		{
 			game.d3.incubusMechanic.beatDaMechanic(hpVictory);
 		}
@@ -62,7 +62,7 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 		
-		private function wonInDungeon1(hpVictory:boolean, pcCameWorms:boolean):void
+		private wonInDungeon1(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
 				Render.text("\n\nYour foe doesn't seem to care...");
@@ -72,12 +72,12 @@ package classes.Scenes.Dungeons.Factory
 			}
 		}
 		
-		private function wonInDungeon3(hpVictory:boolean, pcCameWorms:boolean):void
+		private wonInDungeon3(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			game.d3.incubusMechanic.mechanicFuckedYouUp(hpVictory, pcCameWorms);
 		}
 		
-		private function cockTripAttack():void {
+		private cockTripAttack():void {
 			if (statusAffects.has("Blind")) { //Blind dodge change
 				Render.text(capitalA + short + " suddenly grows it's dick to obscene lengths and tries to trip you with it.  Thankfully he's so blind he wasn't aiming anywhere near you!");
 				game.combatRoundOver();
@@ -107,7 +107,7 @@ package classes.Scenes.Dungeons.Factory
 			game.combatRoundOver();
 		}
 		
-		private function spoogeAttack():void {
+		private spoogeAttack():void {
 			if (statusAffects.has("Blind")) { //Blind dodge change
 				Render.text(capitalA + short + " pumps and thrusts his hips lewdly before cumming with intense force in your direction!  Thankfully his aim was off due to the blindness currently affect him.");
 				game.combatRoundOver();
@@ -151,7 +151,7 @@ package classes.Scenes.Dungeons.Factory
 			if (lust < 0) lust = 10;
 		}
 		
-		public function IncubusMechanic() {
+		public IncubusMechanic() {
 			this.a = "the ";
 			this.short = "incubus mechanic";
 			this.imageName = "incubusmechanic";

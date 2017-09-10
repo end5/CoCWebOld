@@ -9,7 +9,7 @@ package classes.Scenes.Areas.HighMountains
 
 	public class HarpyScene extends BaseContent
 	{
-		public function HarpyScene()
+		public HarpyScene()
 		{
 		}
 
@@ -17,7 +17,7 @@ package classes.Scenes.Areas.HighMountains
 //*If female, rape options are Finger Her, Forced Cunnilingus, 69*
 //*If hermaphrodite, rape options are Pussy, Ass, Breasts, Forced Cunnilingus, 69*
 //*If genderless, rape options are Finger Her*
-		public function harpyVictoryuuuuu():void
+		public harpyVictoryuuuuu():void
 		{
 			Render.text("", true);
 			//(Enemy defeated by damage) 
@@ -55,7 +55,7 @@ package classes.Scenes.Areas.HighMountains
 			else cleanupAfterCombat();
 		}
 
-		public function harpyLossU():void
+		public harpyLossU():void
 		{
 			//NO MALE RAPE IF DICK TOO BIG
 			let x:number = -1;
@@ -78,7 +78,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 
-		private function harpyGooGenderlessLoss():void
+		private harpyGooGenderlessLoss():void
 		{
 			Render.text("", true);
 			Render.text("The triumphant harpy looks down at your goopy form, ready to take you.  She seems a little confused though, and begins poking at your gelatinous body.\n\n", false);
@@ -101,7 +101,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 //Requires pussy or cock small enough for harpy!
-		private function harpyLossLust():void
+		private harpyLossLust():void
 		{
 			Render.text("", true);
 			//Merauder wroted.
@@ -161,7 +161,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 //No genderless folks.
-		private function harpyDamageLoss():void
+		private harpyDamageLoss():void
 		{
 			Render.text("", true);
 
@@ -285,7 +285,7 @@ package classes.Scenes.Areas.HighMountains
 			dynStats("str", -1, "tou", -1, "lib", 1, "sen", 2);
 		}
 
-		private function victoryHarpyGetsHerPussyRaped():void
+		private victoryHarpyGetsHerPussyRaped():void
 		{
 			let x:number = -1;
 			if (player.lowerBody.cockSpot.hasCock()) x = player.cockThatFits(monster.vaginalCapacity());
@@ -361,7 +361,7 @@ package classes.Scenes.Areas.HighMountains
 			player.orgasm();
 		}
 
-		private function winAndRapeHarpyAnally():void
+		private winAndRapeHarpyAnally():void
 		{
 			Render.text("", true);
 			let x:number = -1;
@@ -419,7 +419,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 
-		private function WinOnHarpyAndOralRape():void
+		private WinOnHarpyAndOralRape():void
 		{
 			Render.text("", true);
 			let x:number = -1;
@@ -523,7 +523,7 @@ package classes.Scenes.Areas.HighMountains
 			dynStats("lib", 1);
 		}
 
-		private function harpyScissorSurprise():void
+		private harpyScissorSurprise():void
 		{
 			clearOutput();
 			Render.text("You stare down at the defeated harpy, watching as ");
@@ -557,7 +557,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 //{New page}
-		private function harpyScissorSurprisePtII():void
+		private harpyScissorSurprisePtII():void
 		{
 			clearOutput();
 			Render.text("Planting your [foot] squarely on her chest you push her onto her back, her tongue still vainly lapping at the air in a lust-filled daze on the way down.  Before she has time to recover you remove the remainder of your [armor] and grab her wrists, coming down on top of her and pinning her arms above her head as you straddle her [if (isHerm = true) your cock resting on her toned stomach].  Her tits heave gently as she squirms, desperately trying to stimulate her soaked pussy.  She starts to rub her legs together but you stop her almost immediately, grabbing a leg just above the talon with your free hand and yanking it away, revealing her obscenely puffy sex and drenched thighs.  She whimpers pathetically at you, virtually begging for release, the desperation and desire in her eyes clear to see.");
@@ -585,7 +585,7 @@ package classes.Scenes.Areas.HighMountains
 			cleanupAfterCombat();
 		}
 
-		private function spoidahsLegEggsInHarpeis():void
+		private spoidahsLegEggsInHarpeis():void
 		{
 			clearOutput();
 			//requires spiderbite or naga bite
@@ -649,7 +649,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 
 //Fuck a harpy with the players throbbing clit.
-		private function clitFuckAHarpy():void
+		private clitFuckAHarpy():void
 		{
 			clearOutput();
 			Render.text("Eyeing the hapless bird-woman up and down, you feel your lusts kindling.  Moisture seeps from your [vagina] as you watch the harpy ");

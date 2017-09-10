@@ -39,19 +39,19 @@
 			doNext(game.lake.greenSlimeScene.slimeLoss);
 		}
 		
-		private function lustAttack():void {
+		private lustAttack():void {
 			Render.text("The creature surges forward slowly with a swing that you easily manage to avoid.  You notice traces of green liquid spurt from the creature as it does, forming a thin mist that makes your skin tingle with excitement when you inhale it.");
 			game.dynStats("lus", player.stats.lib / 10 + 8);
 			doNext(game.playerMenu);
 		}
 		
-		private function lustReduction():void {
+		private lustReduction():void {
 			Render.text("The creature collapses backwards as its cohesion begins to give out, and the faint outline of eyes and a mouth form on its face.  Its chest heaves as if it were gasping, and the bolt upright erection it sports visibly quivers and pulses before relaxing slightly.");
 			lust -= 13;
 			doNext(game.playerMenu);
 		}
 		
-		public function GreenSlime()
+		public GreenSlime()
 		{
 			trace("GreenSlime Constructor!");
 			this.a = "a ";

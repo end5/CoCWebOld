@@ -26,7 +26,7 @@ package classes.Scenes.Areas.Swamp
 			}
 		}
 
-		public function FemaleSpiderMorph()
+		public FemaleSpiderMorph()
 		{
 			this.a = "the ";
 			this.short = "female spider-morph";

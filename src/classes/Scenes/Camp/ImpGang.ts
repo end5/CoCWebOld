@@ -7,7 +7,7 @@ package classes.Scenes.Camp
 		public get capitalA():string {
 			return "gang of imps";
 		}
-		public function ImpGang()
+		public ImpGang()
 		{
 			this.removeStatuses();
 			this.removePerks();

@@ -11,10 +11,10 @@ package classes.Scenes.Places.TelAdre
 
 	internal class TelAdreAbstractContent extends BaseContent
 	{
-		protected function get telAdre():TelAdre {
+		protected get telAdre():TelAdre {
 			return kGAMECLASS.telAdre;
 		}
-		public function TelAdreAbstractContent()
+		public TelAdreAbstractContent()
 		{
 		}
 	}

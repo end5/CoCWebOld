@@ -8,7 +8,7 @@ package classes.Scenes.NPCs
 	public class GooArmor extends GooGirl
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.gooArmorAI();
 		}
@@ -30,7 +30,7 @@ package classes.Scenes.NPCs
 			}
 		}
 
-		public function GooArmor()
+		public GooArmor()
 		{
 			super(true);
 			this.a = "a ";

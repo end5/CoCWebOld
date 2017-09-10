@@ -29,7 +29,7 @@ package classes
 		 * @param 	primaryKey		The primary bound key code
 		 * @param	secondarykey 	The secondary bound key code
 		 */
-		public function BoundControlMethod(func:Function, name:string, desc:string, index: number, primaryKey: number = -1, secondaryKey: number = -1) 
+		public BoundControlMethod(func:Function, name:string, desc:string, index: number, primaryKey: number = -1, secondaryKey: number = -1) 
 		{
 			_funcToCall = func;
 			_shortName = name;
@@ -45,47 +45,47 @@ package classes
 		 * can be passed to the wrapped function.
 		 * @param	... args	Args to pass to the wrapped function.
 		 */
-		public function ExecFunc(... args):void
+		public ExecFunc(... args):void
 		{
 			_funcToCall.apply(null, args);
 		}
 		
-		public function get Name():string
+		public get Name():string
 		{
 			return _shortName;
 		}
 		
-		public function get Description():string
+		public get Description():string
 		{
 			return _descript;
 		}
 		
-		public function get Func():Function
+		public get Func():Function
 		{
 			return _funcToCall;
 		}
 		
-		public function get PrimaryKey(): number
+		public get PrimaryKey(): number
 		{
 			return _primaryKey;
 		}
 		
-		public function set PrimaryKey(keyCode: number):void
+		public set PrimaryKey(keyCode: number):void
 		{
 			_primaryKey = keyCode;
 		}
 		
-		public function get SecondaryKey(): number
+		public get SecondaryKey(): number
 		{
 			return _secondaryKey;
 		}
 		
-		public function set SecondaryKey(keyCode: number):void
+		public set SecondaryKey(keyCode: number):void
 		{
 			_secondaryKey = keyCode;
 		}
 		
-		public function get Index(): number
+		public get Index(): number
 		{
 			return _index;
 		}

@@ -28,7 +28,7 @@ package classes.Scenes.NPCs
 
 //Basic Attack - Twin Strike
 // Two light attacks
-private function helspawnTwinStrikes():void {
+private helspawnTwinStrikes():void {
 	//if Bowmander
 	if(flags[FlagEnum.HELSPAWN_WEAPON] == "bow") Render.text(flags[FlagEnum.HELSPAWN_NAME] + " leaps back out of your reach and nocks a pair of blunted arrows, drawing them back together and loosing them at once!\n");
 	else Render.text(flags[FlagEnum.HELSPAWN_NAME] + " lunges at you, scimitar cleaving through the air toward your throat!\n");
@@ -38,7 +38,7 @@ private function helspawnTwinStrikes():void {
 
 //Called Shot (Bowmander Only)
 // Super-high chance of hitting. On hit, speed debuff
-private function calledShot():void {
+private calledShot():void {
 	Render.text(flags[FlagEnum.HELSPAWN_NAME] + " draws back her bowstring, spending an extra second aiming before letting fly!");
 	let damage:number = int((str + weaponAttack) - rand(player.tou) - player.armorDef);
 	//standard dodge/miss text
@@ -74,14 +74,14 @@ private function calledShot():void {
 
 		//Berzerkergang (Berzerkermander Only)
 		//Gives Helspawn the benefit of the Berzerk special ability
-		private function helSpawnBerserk():void {
+		private helSpawnBerserk():void {
 			Render.text(flags[FlagEnum.HELSPAWN_NAME] + " lets out a savage warcry, throwing her head back in primal exaltation before charging back into the fray with utter bloodlust in her wild eyes!");
 			this.weaponAttack = weaponAttack + 30;
 			armorDef = 0;
 		}
 
 		//Shield Bash (Shieldmander Only)
-		private function helSpawnShieldBash():void {
+		private helSpawnShieldBash():void {
 			clearOutput();
 			let damage:number = int((str) - rand(player.tou) - player.armorDef);
 			// Stuns a bitch
@@ -100,7 +100,7 @@ private function calledShot():void {
 		}
 
 		//Tail Whip
-		private function tailWhipShitYo():void {
+		private tailWhipShitYo():void {
 			// Light physical, armor piercing (fire, bitch). Random chance to get this on top of any other attack
 			let damage:number = int((str) - rand(player.tou));
 			Render.text("\n" + flags[FlagEnum.HELSPAWN_NAME] + " whips at you with her tail, trying to sear you with her brilliant flames!");
@@ -114,7 +114,7 @@ private function calledShot():void {
 		}
 
 		//Tease (Sluttymander Only)
-		private function sluttyMander():void {
+		private sluttyMander():void {
 			// Medium Lust damage
 			Render.text(flags[FlagEnum.HELSPAWN_NAME] + " jumps just out of reach before spinning around, planting her weapon in the ground as she turns her backside to you and gives her sizable ass a rhythmic shake, swaying her full hips hypnotically.");
 			//if no effect:
@@ -133,7 +133,7 @@ private function calledShot():void {
 
 		//Focus (Chastemander Only)
 		//Self-healing & lust restoration
-		private function helSpawnFocus():void {
+		private helSpawnFocus():void {
 			Render.text("Seeing a momentary lull in the melee, " + flags[FlagEnum.HELSPAWN_NAME] + " slips out of reach, stumbling back and clutching at the bruises forming all over her body.  \"<i>Come on, " + flags[FlagEnum.HELSPAWN_NAME] + ", you can do this. Focus, focus,</i>\" she mutters, trying to catch her breath.  A moment later and she seems to have taken a second wind as she readies her weapon with a renewed vigor.");
 			lust -= 30;
 			if(lust < 0) lust = 0;
@@ -151,7 +151,7 @@ private function calledShot():void {
 			game.helSpawnScene.loseSparringToDaughter();
 		}
 
-		public function Helspawn()
+		public Helspawn()
 		{
 			let weapon:string = game.flags[FlagEnum.HELSPAWN_WEAPON];
 			this.a = "";

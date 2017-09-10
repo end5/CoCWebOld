@@ -12,7 +12,7 @@ package classes.Scenes.Areas.Swamp
 
 		public let pregnancy:PregnancyType;
 
-		public function FemaleSpiderMorphScene()
+		public FemaleSpiderMorphScene()
 		{
 			pregnancy = new PregnancyType(FlagEnum.FEMALE_SPIDERMORPH_PREGNANCY_TYPE, FlagEnum.FEMALE_SPIDERMORPH_PREGNANCY_INCUBATION, 0, 0);
 			pregnancy.addPregnancyEventSet(PregnancyType.PLAYER, 100);
@@ -21,7 +21,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//Implementation of TimeAwareInterface
-		public function timeChange():boolean
+		public timeChange():boolean
 		{
 			pregnancy.pregnancyAdvance();
 			if (pregnancy.isPregnant && pregnancy.incubation == 0) pregnancy.knockUpForce(); //Silently clear the spider morph's pregnancy if the player doesn't see the egg sac in time
@@ -29,12 +29,12 @@ package classes.Scenes.Areas.Swamp
 			return false;
 		}
 	
-		public function timeChangeLarge():boolean {
+		public timeChangeLarge():boolean {
 			return false;
 		}
 		//End of Interface Implementation
 
-		public function fSpiderMorphGreeting():void
+		public fSpiderMorphGreeting():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -59,7 +59,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//Selecting fight starts combat and eventParsers to 1 to display the combat menu and enemy description.
-		private function fightFSpiderMorph():void
+		private fightFSpiderMorph():void
 		{
 			startCombat(new FemaleSpiderMorph());
 			spriteSelect(73);
@@ -67,7 +67,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//Run
-		private function runFromFSpiderMorph():void
+		private runFromFSpiderMorph():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -84,7 +84,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*Try to Talk
-		private function talkToFSpiderMorph():void
+		private talkToFSpiderMorph():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -120,7 +120,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*OPTION 1 Yes - Let Her Fuck You
-		private function voluntaryFemaleSpiderMorphRapesYou():void
+		private voluntaryFemaleSpiderMorphRapesYou():void
 		{
 			startCombat(new FemaleSpiderMorph());
 			spriteSelect(73);
@@ -129,7 +129,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*OPTION 1 No (Declined sex)
-		private function declinedCrazyFemaleSpiderMorphSexFunTimes():void
+		private declinedCrazyFemaleSpiderMorphSexFunTimes():void
 		{
 			Render.text("", true);
 			Render.text("You tell the lusty spider-morph that you're not interested in having sex with her now, and though she looks crestfallen, she nods understandingly and zips up a line of webbing into the trees before the situation can become any more awkward.", false);
@@ -139,7 +139,7 @@ package classes.Scenes.Areas.Swamp
 
 		//*Defeat Female
 		//*Summary: Webs PC down, suckles nipple and injects aphrodisiac into each breast, then sixty-nine's, ending with webbing bukkake?
-		private function defeatFemale():void
+		private defeatFemale():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -267,7 +267,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*Defeat Male
-		private function spiderMorphFemaleRidesACawk():void
+		private spiderMorphFemaleRidesACawk():void
 		{
 			//*SUMMARY:  PC is tied down and has a web-condom sprayed around their dick, then a webbing cock-ring.  The PC is then ridden hard, bit numerous times, and never able to cum until pain lances through his (balls/cock) from the lack of release.  Finally, she bites PC's neck and the PC cums, inflating web-condom of various size.
 			Render.text("", true);
@@ -373,7 +373,7 @@ package classes.Scenes.Areas.Swamp
 
 		//*Defeat Male - Too Big
 		//Summary: web-spooling around dick, then webjob.  
-		private function femaleSpiderMorphTooBigWebRape():void
+		private femaleSpiderMorphTooBigWebRape():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -447,7 +447,7 @@ package classes.Scenes.Areas.Swamp
 			else cleanupAfterCombat();
 		}
 
-		public function loseToFemaleSpiderMorph():void
+		public loseToFemaleSpiderMorph():void
 		{
 			if (player.lowerBody.cockSpot.hasCock()) {
 				if (player.cockThatFits(monster.vaginalCapacity()) == -1) femaleSpiderMorphTooBigWebRape();
@@ -461,7 +461,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*Victory Intro
-		public function defeatASpiderBitch():void
+		public defeatASpiderBitch():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -487,7 +487,7 @@ package classes.Scenes.Areas.Swamp
 
 		//*Victory Female
 		//*Summary: Make her bite herself in the tit and inject aphrodisiac venom, then scissor (or brief clit-fuck)
-		private function fSpiderMorphRape():void
+		private fSpiderMorphRape():void
 		{
 			Render.text("", true);
 			spriteSelect(73);
@@ -547,7 +547,7 @@ package classes.Scenes.Areas.Swamp
 
 		//*Victory Male
 		//Summary:  Bind her hands with vines and fuck the immobilized spider-girl. BORING
-		private function fSpiderMorphRapeDude():void
+		private fSpiderMorphRapeDude():void
 		{
 			let x:number = player.cockThatFits(monster.vaginalCapacity());
 			if (x < 0) x = 0;
@@ -614,7 +614,7 @@ package classes.Scenes.Areas.Swamp
 
 		//*Victory Anal:
 		//Summary: Fuck her ass until she loses control of her spinnerets and starts spraying webs willy-nilly. 
-		private function evilSpiderGirlVictoryAnal():void
+		private evilSpiderGirlVictoryAnal():void
 		{
 			let x:number = player.cockThatFits(monster.analCapacity());
 			if (x == -1) x = 0;
@@ -682,7 +682,7 @@ package classes.Scenes.Areas.Swamp
 		}
 
 		//*Egg Sack Find
-		private function findASpiderMorphEggSack():void
+		private findASpiderMorphEggSack():void
 		{
 			Render.text("", true);
 			spriteSelect(73);

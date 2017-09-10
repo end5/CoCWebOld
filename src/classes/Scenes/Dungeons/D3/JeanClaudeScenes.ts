@@ -12,12 +12,12 @@
 	public class JeanClaudeScenes extends BaseContent
 	{
 		
-		public function JeanClaudeScenes() 
+		public JeanClaudeScenes() 
 		{
 			
 		}
 		
-		public function gogoFuckTheseBasilisksNorth():void
+		public gogoFuckTheseBasilisksNorth():void
 		{
 			clearOutput();
 			Render.text("You put your Laybans back on, carefully unlock the door and then, as quietly as you can, creep back out onto the wire gantry. The throng of greyish green below seems oblivious. It’s only when you get halfway across that you realize that you’ve been had. As soon as you are as far away from one exit as the other, two big groups of the lizards near the stairs immediately jump up and climb upwards determinedly. You speed as fast as you can to the door ahead, but the team of basilisks are ready and plough into you, grabbing your body as they reach for your shades. You desperately push and elbow them away from you but you cannot stop one from deftly hooking your Laybans off with his sickle claw.");
@@ -27,7 +27,7 @@
 			addButton(0, "Next", capturedByBasilisks);
 		}
 		
-		public function gogoFuckTheseBasilisks():void
+		public gogoFuckTheseBasilisks():void
 		{
 			clearOutput();
 			
@@ -88,7 +88,7 @@
 			}
 		}
 		
-		public function capturedByBasilisks():void
+		public capturedByBasilisks():void
 		{
 			clearOutput();
 			Render.text("Down. You’re staring up at the ceiling of the magpie hall, from your position upon your back. Your limbs are seized up, are not responding to any of your brain’s frantic demands, and you can only see what is in the corner of your frozen gaze, which is lots and lots of basilisks standing over you staring back.");
@@ -127,7 +127,7 @@
 			}
 		}
 		
-		private function capturedByBasilisksRun():void
+		private capturedByBasilisksRun():void
 		{
 			clearOutput();
 			Render.text("With all your willpower you tear away from the monster’s lidless gaze. His sharp claws graze your cheeks as you throw yourself backwards, turn and charge with a defiant cry into the ranks of reptiles which surround you. You have your [weapon] loose, and you swing it this way and that, adrenaline and desperation lending you strength as you send basilisks flying... but there are hundreds of them, and one of you, and too many places not to look. You strike, you punch, you scratch, you bite, but eventually your limbs tire; they seize up as you tear yourself away from one grey gaze only to find another, and the basilisks simply have to surround you, pack you tight with their bodies while one of them stares deep into your eyes, flooding your mind with a blaring, hypnotic wash. There’s a sound coming from somewhere: a strange, staccato bark. It’s only when the lizards return you frozen to the feet of their king that you realize what it is. The Rude King is laughing, sat on a table and doubled up with gulping mirth.");
@@ -139,7 +139,7 @@
 			addButton(0, "Next", basiliskBadEnds);
 		}
 		
-		private function capturedbyBasilisksTaunt():void
+		private capturedbyBasilisksTaunt():void
 		{
 			clearOutput();
 			Render.text("You stare into the yellow, hypnotic eyes and for a moment see beyond them, see them as part of this being rather than the whole, see the arrogance that sits behind them, see, perhaps, a way out of this. With all your willpower you force your mouth to open, work your vocal chords- and make a 'pfft' noise.");
@@ -159,7 +159,7 @@
 			startCombat(new JeanClaude());
 		}
 		
-		public function beatDaFuckhugeBasilisk(hpVictory:boolean):void
+		public beatDaFuckhugeBasilisk(hpVictory:boolean):void
 		{
 			clearOutput();
 			flags[FlagEnum.D3_JEAN_CLAUDE_DEFEATED] = 1;
@@ -202,7 +202,7 @@
 			addButton(0, "Go Away", goAway);
 		}
 		
-		private function goAway():void
+		private goAway():void
 		{
 			clearOutput();
 			Render.text("You draw yourself up to your full height, calm your slightly giddy emotions and make your voice as cold and commanding as possible. You say you aren’t anyone’s new king, but since they ask, your orders are that any basilisk still within half a mile of this place in five minutes time is going to get twice the ass-whupping you just handed out to this one. You indicate with an airy wave what was, until recently, Jean-Claude. There’s a pause, followed by a minor earthquake, as the horde of reptiles pours towards the exit. You climb onto the table and watch them go, assuring that they all do indeed vamoose. If they display any emotion at all during their mass exodus, it’s one of distinct relief.");
@@ -215,7 +215,7 @@
 			
 		}
 		
-		public function fuckhugeBasiliskFuckedYouUp(hpVictory:boolean):void
+		public fuckhugeBasiliskFuckedYouUp(hpVictory:boolean):void
 		{
 			clearOutput();
 			
@@ -236,13 +236,13 @@
 			addButton(0, "Next", basiliskBadEnds);
 		}
 		
-		public function basiliskBadEnds():void
+		public basiliskBadEnds():void
 		{
 			if (player.perks.has("BasiliskWomb")) bwombBadEnd();
 			else regularBadEnd();
 		}
 		
-		private function regularBadEnd():void
+		private regularBadEnd():void
 		{
 			clearOutput();
 			
@@ -318,7 +318,7 @@
 			getGame().gameOver();
 		}
 		
-		private function bwombBadEnd():void
+		private bwombBadEnd():void
 		{
 			clearOutput();
 			

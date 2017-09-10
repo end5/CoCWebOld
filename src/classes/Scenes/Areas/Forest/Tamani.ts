@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Forest
 	public class Tamani extends Goblin
 	{
 
-		override protected function goblinTeaseAttack():void
+		override protected goblinTeaseAttack():void
 		{
 			if(flags[FlagEnum.TAMANI_TIMES_HYPNOTISED] > 0) {
 				tamaniHypnoTease();
@@ -18,7 +18,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //New Tease option:
-		public function tamaniHypnoTease():void {
+		public tamaniHypnoTease():void {
 			let selector:number = rand(3);
 			//Choose 1 of 3 variations
 			if(selector == 0) Render.text("Tamani smiles and shifts her leather straps, pulling one into the puffy gash that is her vagina.  She groans out loud, sliding the studded leather band into her outer lips and sawing it along her clit.  Her whole body blushes as she pulls it free, running a fingertip up the now wet strip of leather, \"<i>Mmm, can't you see how much my pussy needs a man inside it?  Be a good husband and fuck Tamani full!  You know you want to.</i>\"\n\n", false);
@@ -123,7 +123,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		public function Tamani()
+		public Tamani()
 		{
 			super(false);
 			this.a = "";

@@ -58,26 +58,26 @@
 		protected final function combatMisdirect():boolean {
 			return game.combatMisdirect();
 		}
-		protected function get consumables():ConsumableLib{
+		protected get consumables():ConsumableLib{
 			return game.consumables;
 		}
-		protected function get useables():UseableLib{
+		protected get useables():UseableLib{
 			return game.useables;
 		}
-		protected function get weapons():WeaponLib{
+		protected get weapons():WeaponLib{
 			return game.weapons;
 		}
-		protected function get armors():ArmorLib{
+		protected get armors():ArmorLib{
 			return game.armors;
 		}
 		//For enemies
 		public let bonusHP:number = 0;
 		private let _long:string = "<b>You have encountered an unitialized  Please report this as a bug</b>.";
-		public function get long():string
+		public get long():string
 		{
 			return _long;
 		}
-		public function set long(value:string):void
+		public set long(value:string):void
 		{
 			initsCalled.long = true;
 			_long = value;
@@ -111,37 +111,37 @@
 
 		//he
 		public let pronoun1:string = "";
-		public function get Pronoun1():string{
+		public get Pronoun1():string{
 			if (pronoun1=="") return "";
 			return pronoun1.substr(0,1).toUpperCase()+pronoun1.substr(1);
 		}
 		//him
 		public let pronoun2:string = "";
-		public function get Pronoun2():string{
+		public get Pronoun2():string{
 			if (pronoun2=="") return "";
 			return pronoun2.substr(0,1).toUpperCase()+pronoun2.substr(1);
 		}
 		//3: Possessive his
 		public let pronoun3:string = "";
-		public function get Pronoun3():string{
+		public get Pronoun3():string{
 			if (pronoun3=="") return "";
 			return pronoun3.substr(0,1).toUpperCase()+pronoun3.substr(1);
 		}
 
 		private let _drop:RandomDrop = new ChainedDrop();
-		public function get drop():RandomDrop { return _drop; }
-		public function set drop(value:RandomDrop):void
+		public get drop():RandomDrop { return _drop; }
+		public set drop(value:RandomDrop):void
 		{
 			_drop = value;
 			initedDrop = true;
 		}
 
-		public function eMaxHP():number
+		public eMaxHP():number
 		{
 			return this.tou * 2 + 50 + this.bonusHP;
 		}
 
-		public function addHP(hp:number):void{
+		public addHP(hp:number):void{
 			this.HP += hp;
 			if (this.HP<0) this.HP = 0;
 			else if (this.HP>eMaxHP()) this.HP = eMaxHP();
@@ -150,25 +150,25 @@
 		/**
 		 * @return HP/eMaxHP()
 		 */
-		public function HPRatio():number{
+		public HPRatio():number{
 			return HP/eMaxHP();
 		}
 
 		/**
 		 * @return damage not reduced by player stats
 		 */
-		public function eBaseDamage():number {
+		public eBaseDamage():number {
 			return str + weaponAttack;
 		}
 
 		/**
 		 * @return randomized damage reduced by player stats
 		 */
-		public function calcDamage(): number{
+		public calcDamage(): number{
 			return player.reduceDamage(eBaseDamage());
 		}
 
-		protected function totalXP(playerLevel:number=-1):number
+		protected totalXP(playerLevel:number=-1):number
 		{
 			if (playerLevel == -1) playerLevel = player.level;
 			//
@@ -183,20 +183,20 @@
 			if(playerLevel - this.level > 10) return 1;
 			return Math.round(this.additionalXP + (this.baseXP() + this.bonusXP()) * difference);
 		}
-		protected function baseXP():number
+		protected baseXP():number
 		{
 			return[200, 10, 20, 30, 40, 50, 55, 60, 66, 75,//0-9
 				83, 85, 92, 100, 107, 115, 118, 121, 128, 135,//10-19
 				145][Math.round(level)] || 200;
 		}
-		protected function bonusXP():number
+		protected bonusXP():number
 		{
 			return rand([200,10,20,30,40,50,55,58,66,75,
 					83,85,85,86,92,94,96,98,99,101,
 					107][Math.round(this.level)] || 130);
 		}
 
-		public function Monster()
+		public Monster()
 		{
 			// trace("Generic Monster Constructor!");
 			this.gender = GENDER.NONE;
@@ -376,7 +376,7 @@
 		}
 
 		private let _checkCalled:boolean = false;
-		public function get checkCalled():boolean { return _checkCalled; }
+		public get checkCalled():boolean { return _checkCalled; }
 		public let checkError:string = "";
 		public let initsCalled:Object = {
 			a:false,
@@ -390,30 +390,30 @@
 			drop:false
 		};
 		// MONSTER INITIALIZATION HELPER FUNCTIONS
-		protected function set initedGenitals(value:boolean):void{
+		protected set initedGenitals(value:boolean):void{
 			initsCalled.genitals = value;
 		}
-		protected function set initedBreasts(value:boolean):void{
+		protected set initedBreasts(value:boolean):void{
 			initsCalled.breasts = value;
 		}
-		protected function set initedDrop(value:boolean):void{
+		protected set initedDrop(value:boolean):void{
 			initsCalled.drop = value;
 		}
-		protected function set initedStrTouSpeInte(value:boolean):void{
+		protected set initedStrTouSpeInte(value:boolean):void{
 			initsCalled.str_tou_spe_inte = value;
 		}
-		protected function set initedLibSensCor(value:boolean):void{
+		protected set initedLibSensCor(value:boolean):void{
 			initsCalled.lib_sens_cor = value;
 		}
 		protected const NO_DROP:WeightedDrop = new WeightedDrop();
 
-		public function isFullyInit():boolean {
+		public isFullyInit():boolean {
 			for each (let phase:Object in initsCalled) {
 				if (phase is Boolean && phase == false) return false;
 			}
 			return true;
 		}
-		public function missingInits():string{
+		public missingInits():string{
 			let result:string = "";
 			for (let phase:string in initsCalled){
 				if (initsCalled[phase] is Boolean && initsCalled[phase] == false){
@@ -472,7 +472,7 @@
 			return result;
 		}
 
-		protected function initGenderless():void
+		protected initGenderless():void
 		{
 			this.cocks = [];
 			this.vaginas = [];
@@ -507,7 +507,7 @@
 			super.skinType = value;
 		}
 
-		protected function initStrTouSpeInte(str:number, tou:number, spe:number, inte:number):void
+		protected initStrTouSpeInte(str:number, tou:number, spe:number, inte:number):void
 		{
 			this.str = str;
 			this.tou = tou;
@@ -516,7 +516,7 @@
 			initedStrTouSpeInte = true;
 		}
 
-		protected function initLibSensCor(lib:number, sens:number, cor:number):void
+		protected initLibSensCor(lib:number, sens:number, cor:number):void
 		{
 			this.lib = lib;
 			this.sens = sens;
@@ -547,7 +547,7 @@
 			return error;
 		}
 
-		public function checkMonster():boolean
+		public checkMonster():boolean
 		{
 			_checkCalled = true;
 			checkError = validate();
@@ -559,7 +559,7 @@
 		 * try to hit, apply damage
 		 * @return damage
 		 */
-		public function eOneAttack(): number
+		public eOneAttack(): number
 		{
 			//Determine damage - str modified by enemy toughness!
 			let damage: number = calcDamage();
@@ -570,7 +570,7 @@
 		/**
 		 * return true if we land a hit
 		 */
-		protected function attackSucceeded():boolean
+		protected attackSucceeded():boolean
 		{
 			let attack:boolean = true;
 			//Blind dodge change
@@ -581,7 +581,7 @@
 			return attack;
 		}
 
-		public function eAttack():void {
+		public eAttack():void {
 			let attacks: number = statusAffects.get("Attacks").value1;
 			if (attacks == 0) attacks = 1;
 			while (attacks>0){
@@ -606,7 +606,7 @@
 		 * Called no matter of success of the attack
 		 * @param damage damage received by player
 		 */
-		protected function postAttack(damage: number):void
+		protected postAttack(damage: number):void
 		{
 			if (damage > 0) {
 				if (lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
@@ -617,7 +617,7 @@
 			}
 		}
 
-		public function outputAttack(damage: number):void
+		public outputAttack(damage: number):void
 		{
 			if (damage <= 0) {
 				//Due to toughness or amor...
@@ -648,7 +648,7 @@
 		/**
 		 * @return true if continue with attack
 		 */
-		protected function handleBlind():boolean
+		protected handleBlind():boolean
 		{
 			if (rand(3) < 2) {
 				if (weaponVerb == "tongue-slap") Render.text(capitalA + short + " completely misses you with a thrust from "+pronoun3+" tongue!\n", false);
@@ -661,7 +661,7 @@
 		/**
 		 * print something about how we miss the player
 		 */
-		protected function outputPlayerDodged(dodge: number):void
+		protected outputPlayerDodged(dodge: number):void
 		{
 			if (dodge==1) Render.text("You narrowly avoid " + a + short + "'s " + weaponVerb + "!\n", false);
 			else if (dodge==2) Render.text("You dodge " + a + short + "'s " + weaponVerb + " with superior quickness!\n", false);
@@ -673,7 +673,7 @@
 			}
 		}
 
-		private function playerDodged():boolean
+		private playerDodged():boolean
 		{
 			//Determine if dodged!
 			let dodge: number = player.stats.speedDodge(this);
@@ -703,7 +703,7 @@
 			return false;
 		}
 
-		public function doAI():void
+		public doAI():void
 		{
 			if (statusAffects.has("Stunned")) {
 				if (!handleStun()) return;
@@ -743,7 +743,7 @@
 		/**
 		 * Called if monster is constricted. Should return true if constriction is ignored and need to proceed with ai
 		 */
-		protected function handleConstricted():boolean
+		protected handleConstricted():boolean
 		{
 			//Enemy struggles -
 			Render.text("Your prey pushes at your tail, twisting and writhing in an effort to escape from your tail's tight bonds.", false);
@@ -759,7 +759,7 @@
 		/**
 		 * Called if monster is under fear. Should return true if fear ignored and need to proceed with ai
 		 */
-		protected function handleFear():boolean
+		protected handleFear():boolean
 		{
 			if (statusAffects.get("Fear").value1 == 0) {
 				if (plural) {
@@ -783,7 +783,7 @@
 		/**
 		 * Called if monster is stunned. Should return true if stun is ignored and need to proceed with ai.
 		 */
-		protected function handleStun():boolean
+		protected handleStun():boolean
 		{
 			if (plural) Render.text("Your foes are too dazed from your last hit to strike back!", false);
 			else Render.text("Your foe is too dazed from your last hit to strike back!", false);
@@ -797,7 +797,7 @@
 		 * This method is called after all stun/fear/constricted checks.
 		 * Default: Equal chance to do physical or special (if any) attack
 		 */
-		protected function performCombatAction():void
+		protected performCombatAction():void
 		{
 			let actions:Array = [eAttack,special1,special2,special3].filter(
 					function(special:Function, idx: number, array:Array):boolean {
@@ -814,7 +814,7 @@
          * 'cleanupAfterCombat', 'awardPlayer' or 'finishCombat'. The latter also displays
 		 * default message like "you defeat %s" or "%s falls and starts masturbating"
 		 */
-		public function defeated(hpVictory:boolean):void
+		public defeated(hpVictory:boolean):void
 		{
 			game.finishCombat();
 		}
@@ -823,7 +823,7 @@
 		 * All branches of this method and all subsequent scenes should end with
          * 'cleanupAfterCombat'.
 		 */
-		public function won(hpVictory:boolean,pcCameWorms:boolean):void
+		public won(hpVictory:boolean,pcCameWorms:boolean):void
 		{
 			if (hpVictory){
 				player.HP = 1;
@@ -876,7 +876,7 @@
 		 * Display tease reaction message. Then call applyTease() to increase lust.
 		 * @param lustDelta value to be added to lust (already modified by lustVuln etc)
 		 */
-		public function teased(lustDelta:number):void
+		public teased(lustDelta:number):void
 		{
 			outputDefaultTeaseReaction(lustDelta);
 			if(lustDelta > 0) {
@@ -893,7 +893,7 @@
 			applyTease(lustDelta);
 		}
 
-		protected function outputDefaultTeaseReaction(lustDelta:number):void
+		protected outputDefaultTeaseReaction(lustDelta:number):void
 		{
 			if (plural) {
 				if (lustDelta == 0) Render.text("\n\n" + capitalA + short + " seem unimpressed.", false);
@@ -925,13 +925,13 @@
 			}
 		}
 
-		protected function applyTease(lustDelta:number):void{
+		protected applyTease(lustDelta:number):void{
 			lust += lustDelta;
 			lustDelta = Math.round(lustDelta * 10)/10;
 			Render.text(" (" + lustDelta + ")", false);
 		}
 
-		public function generateDebugDescription():string{
+		public generateDebugDescription():string{
 			let result:string;
 			let be:string =plural?"are":"is";
 			let have:string = plural ? "have" : "has";
@@ -1028,17 +1028,17 @@
 			return result;
 		}
 
-		protected function clearOutput():void
+		protected clearOutput():void
 		{
 			game.clearOutput();
 		}
 
-		public function dropLoot():ItemType
+		public dropLoot():ItemType
 		{
 			return _drop.roll() as ItemType;
 		}
 
-		public function combatRoundUpdate():void
+		public combatRoundUpdate():void
 		{
 			if(statusAffects.has("MilkyUrta")) {
 				game.urtaQuest.milkyUrtaTic();
@@ -1196,12 +1196,12 @@
 			}
 		}
 		
-		public function handleAwardItemText(itype:ItemType):void
+		public handleAwardItemText(itype:ItemType):void
 		{ //New Function, override this function in child classes if you want a monster to output special item drop text
 			if (itype != null) Render.text("\nThere is " + itype.longName + " on your defeated opponent.  ");
 		}
 
-		public function handleAwardText():void
+		public handleAwardText():void
 		{ //New Function, override this function in child classes if you want a monster to output special gem and XP text
 			//This function doesn’t add the gems or XP to the player, it just provides the output text
 			if (this.gems == 1) Render.text("\n\nYou snag a single gem and " + this.XP + " XP as you walk away from your victory.");
@@ -1209,7 +1209,7 @@
 			else if (this.gems == 0) Render.text("\n\nYou gain " + this.XP + " XP from the battle.");
 		}
 		
-		public function handleCombatLossText(inDungeon:boolean, gemsLost: number): number
+		public handleCombatLossText(inDungeon:boolean, gemsLost: number): number
 		{ //New Function, override this function in child classes if you want a monster to output special text after the player loses in combat
 			//This function doesn’t take the gems away from the player, it just provides the output text
 			if (!inDungeon) {

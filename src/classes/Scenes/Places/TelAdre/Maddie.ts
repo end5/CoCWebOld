@@ -3,7 +3,7 @@
 	import classes.GlobalFlags.FlagEnum;
 
 	public class Maddie extends TelAdreAbstractContent {
-public function Maddie(){
+public Maddie(){
 
 }
 //VARS
@@ -29,7 +29,7 @@ internal function procMaddieOneIntro():void {
 	doYesNo(followMinotaurIntoBackroom,telAdre.bakeryScene.bakeryuuuuuu);
 }
 //[Follow] 
-private function followMinotaurIntoBackroom():void {
+private followMinotaurIntoBackroom():void {
 	Render.text("", true);
 	//	(Not yet explained) 
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] == 0) {
@@ -54,7 +54,7 @@ private function followMinotaurIntoBackroom():void {
 }
 
 //[Not Yet/No]
-public function nopeAintGotNoneODemSpeculIngredimathings():void {
+public nopeAintGotNoneODemSpeculIngredimathings():void {
 	Render.text("", true);
 	Render.text("The chef sighs and slams a fist into the counter hard enough to dent the metal and throw the bowls full of dough inches into the air.  A number of empty éclairs bounce and roll everywhere.  The minotaur looks back at you and snorts, \"<i>Best you go.  Don't come without ingredients.</i>\"\n\n", false);
 	
@@ -65,7 +65,7 @@ public function nopeAintGotNoneODemSpeculIngredimathings():void {
 	doNext(telAdre.bakeryScene.bakeryuuuuuu);
 }
 //[Yes – baking]
-public function handOverIngredientsItBeBakingTimeYo():void {
+public handOverIngredientsItBeBakingTimeYo():void {
 	Render.text("", true);
 	player.consumeItem(consumables.BEEHONY);
 	player.consumeItem(consumables.L_DRAFT);
@@ -85,7 +85,7 @@ public function handOverIngredientsItBeBakingTimeYo():void {
 }
 	
 //[Sneak Out]
-private function sneakAwayFromMaddie():void {
+private sneakAwayFromMaddie():void {
 	Render.text("", true);
 	Render.text("You get out before he can find you again.  Whatever he's making is nothing you ever want to taste.", false);
 	//(No more mino chef)
@@ -93,7 +93,7 @@ private function sneakAwayFromMaddie():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Wait/Next]
-private function waitForSlutCake():void {
+private waitForSlutCake():void {
 	spriteSelect(39);
 	Render.text("", true);
 	Render.text("You walk back into the bakery proper, feeling more than a little ", false);
@@ -118,7 +118,7 @@ private function waitForSlutCake():void {
 	simpleChoices("Run Away", runAwayFromMaddiiiieee, "TryToTalk", talkToMaddie, "", null, "", null, "", null);
 }
 //[RUN DAFUQ AWAY]
-private function runAwayFromMaddiiiieee():void {
+private runAwayFromMaddiiiieee():void {
 	spriteSelect(39);
 	Render.text("", true);
 	Render.text("You turn tail to run, evacuating the room before that culinary catastrophe can have her way with you.  A high-pitched whine chases you away as the cupcake-girl cries, \"<i>Nooooo... come back!  I'm making so much filling for you!</i>\"  Her words lend you even greater speed, and you vacate the city in record time.\n\n", false);
@@ -126,7 +126,7 @@ private function runAwayFromMaddiiiieee():void {
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Followup to run away]
-public function runAwayMaddieFollowup():void {
+public runAwayMaddieFollowup():void {
 	spriteSelect(39);
 	Render.text("", true);
 	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
@@ -135,7 +135,7 @@ public function runAwayMaddieFollowup():void {
 }
 	
 //[TRY TO TALK]
-private function talkToMaddie():void {
+private talkToMaddie():void {
 	spriteSelect(39);
 	Render.text("",true);
 	Render.text("You try to speak as calmly as you can in the face of a giant, jiggling sex-pastry, but she ignores your demands to 'wait', 'listen', or 'stop'.  Sponge-cake-soft fists envelop your arms, lifting you from the ground to pin you against some flour sacks.   The cherries covering the cupcake-girl's whipped-cream bra drop off, pushed away by two candy-pink nipples the size of water bottles.  As one, they discharge thick splorts of thick, gooey icing to splatter over the length of your exposed arms.  It hardens nigh-instantaneously in the comparatively cool air, and you're helpless to do anything but squirm as she applies the same treatment to your " + player.legs() + ", immobilizing you completely.\n\n", false);

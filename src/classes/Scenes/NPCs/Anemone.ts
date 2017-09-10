@@ -20,7 +20,7 @@ package classes.Scenes.NPCs
 		}
 
 		//Apply the effects of AnemoneVenom()
-		public function applyVenom(str:number = 1):void
+		public applyVenom(str:number = 1):void
 		{
 			//First application
 			if (player.findStatusAffect(StatusAffects.AnemoneVenom) < 0) player.statusAffects.add(new StatusAffect("AnemoneVenom", 0, 0, 0, 0)));
@@ -75,7 +75,7 @@ package classes.Scenes.NPCs
 			Render.text("You jink and dodge valiantly but the tentacles are too numerous and coming from too many directions.  A few get past your guard and caress your skin, leaving a tingling, warm sensation that arouses you further.", false);
 		}
 
-		public function Anemone()
+		public Anemone()
 		{
 			this.a = "the ";
 			this.short = "anemone";

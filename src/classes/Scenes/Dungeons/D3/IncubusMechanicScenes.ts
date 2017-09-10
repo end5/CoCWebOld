@@ -15,14 +15,14 @@ package classes.Scenes.Dungeons.D3
 	public class IncubusMechanicScenes extends BaseContent
 	{
 		
-		public function IncubusMechanicScenes() 
+		public IncubusMechanicScenes() 
 		{
 			
 		}
 		
 		// There's nothing to track if you just enter the Incubus' room in D1 and didn't approach him.
 		// IF you approach him, then we can track that (either you fight, or you talk and give him an item)
-		private function metIncubusMechanicInD1():boolean
+		private metIncubusMechanicInD1():boolean
 		{
 			if (player.statusAffects.has("FactoryIncubusDefeated")) return true;
 			if (player.statusAffects.has("IncubusBribed")) return true;
@@ -39,7 +39,7 @@ package classes.Scenes.Dungeons.D3
 		private const MECHANIC_FUCKED: number = 3;
 		private const MECHANIC_FUCKED_YOU: number = 4;
 		
-		public function meetAtElevator():void
+		public meetAtElevator():void
 		{
 			if (flags[FlagEnum.D3_MECHANIC_LAST_GREET] == MECHNIC_NO_SELECTION)
 			{
@@ -118,7 +118,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function payDaToll():void
+		private payDaToll():void
 		{
 			flags[FlagEnum.D3_MECHANIC_LAST_GREET] = MECHANIC_PAID;
 
@@ -140,7 +140,7 @@ package classes.Scenes.Dungeons.D3
 			addButton(0, "Next", getGame().d3.exitD3);
 		}
 		
-		private function useLiftPostDefeat():void
+		private useLiftPostDefeat():void
 		{
 			clearOutput();
 			Render.text("You spend a minute or two fiddling with the lift controls, trying to understand how, exactly, to control the contraption. When you think you've got a handle on the system, you tug on a lever with authority and hastily step onto the platform.");
@@ -151,7 +151,7 @@ package classes.Scenes.Dungeons.D3
 			addButton(0, "Next", getGame().d3.exitD3);
 		}
 		
-		public function suckIncubusDick():void
+		public suckIncubusDick():void
 		{
 			flags[FlagEnum.D3_MECHANIC_LAST_GREET] = MECHANIC_SUCKED;
 
@@ -207,7 +207,7 @@ package classes.Scenes.Dungeons.D3
 			addButton(0, "Next", getGame().d3.exitD3);
 		}
 		
-		public function beatDaMechanic(hpVictory:boolean):void
+		public beatDaMechanic(hpVictory:boolean):void
 		{
 			flags[FlagEnum.D3_MECHANIC_LAST_GREET] = MECHANIC_FOUGHT;
 
@@ -224,7 +224,7 @@ package classes.Scenes.Dungeons.D3
 			if (player.lowerBody.vaginaSpot.hasVagina()) addButton(3, "Ride Cock", rideMechanicsCock);
 		}
 
-		private function killMechanic():void
+		private killMechanic():void
 		{
 			flags[FlagEnum.D3_MECHANIC_FIGHT_RESULT] = MECHANIC_KILLED;
 			clearOutput();
@@ -232,7 +232,7 @@ package classes.Scenes.Dungeons.D3
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 
-		private function letMechanicGo(hpVictory:boolean):void
+		private letMechanicGo(hpVictory:boolean):void
 		{
 			flags[FlagEnum.D3_MECHANIC_FIGHT_RESULT] = MECHANIC_RELEASED;
 			clearOutput();
@@ -248,7 +248,7 @@ package classes.Scenes.Dungeons.D3
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 		
-		private function buttfuckTheMechanic(hpVictory:boolean):void
+		private buttfuckTheMechanic(hpVictory:boolean):void
 		{
 			flags[FlagEnum.D3_MECHANIC_FIGHT_RESULT] = MECHANIC_FUCKED;
 
@@ -348,7 +348,7 @@ package classes.Scenes.Dungeons.D3
 		private const MECHANIC_HORZ_GOG: number = 1;
 		private const MECHANIC_DOG_COCK: number = 2;
 		
-		private function rideMechanicsCock():void
+		private rideMechanicsCock():void
 		{
 			flags[FlagEnum.D3_MECHANIC_FIGHT_RESULT] = MECHANIC_FUCKED_YOU;
 
@@ -379,7 +379,7 @@ package classes.Scenes.Dungeons.D3
 			addButton(2, "Dog", rideMechanicsCockII, MECHANIC_DOG_COCK);
 		}
 		
-		private function rideMechanicsCockII(cType: number):void
+		private rideMechanicsCockII(cType: number):void
 		{
 			flags[FlagEnum.D3_MECHANIC_COCK_TYPE_SELECTION] = cType;
 
@@ -528,7 +528,7 @@ package classes.Scenes.Dungeons.D3
 			cleanupAfterCombat(getGame().d3.resumeFromFight);
 		}
 		
-		public function mechanicFuckedYouUp(hpVictory:boolean, pcCameWorms:boolean):void
+		public mechanicFuckedYouUp(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina())
 			{
@@ -540,7 +540,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		private function maleLossToMechanic(hpVictory:boolean):void
+		private maleLossToMechanic(hpVictory:boolean):void
 		{
 			clearOutput();
 			
@@ -668,7 +668,7 @@ package classes.Scenes.Dungeons.D3
 			doNext(maleLossToMechanicII);
 		}
 		
-		private function maleLossToMechanicII():void
+		private maleLossToMechanicII():void
 		{
 			clearOutput();
 			Render.text("An agonizingly perfect pussy is suddenly pressing down on your cock, subsuming it in slick, hot depths that cling and squeeze with undulations so skillful you'd be cumming already if it weren't for the magic ring.");
@@ -691,7 +691,7 @@ package classes.Scenes.Dungeons.D3
 			doNext(maleLossToMechanicIII);
 		}
 		
-		private function maleLossToMechanicIII():void
+		private maleLossToMechanicIII():void
 		{
 			clearOutput();
 			Render.text("The champion finally got to cum once Lethice had her turn, but by that point, pussy was all " + player.mf("he","she") + " could think about. Release came more frequently with the demon queen's permission. It didn't really matter, though. The champion was addicted to riding on the edge of climax, broken into nothing more than a demonic vibrator.");
@@ -699,7 +699,7 @@ package classes.Scenes.Dungeons.D3
 		}
 		
 		
-		private function errybodyelseLossToMechanic(hpVictory:boolean):void
+		private errybodyelseLossToMechanic(hpVictory:boolean):void
 		{
 			clearOutput();
 

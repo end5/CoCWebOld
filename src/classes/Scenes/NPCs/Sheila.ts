@@ -14,7 +14,7 @@ package classes.Scenes.NPCs
 		-overall, weaker but faster than other shit on the plains*/
 
 		//special 1: frog punch (med-high damage, slightly lower accuracy than reg attack, deals minor concussion which adds 5-10 pts fatigue, may stun pc and prevent attack, misses while blinded or misfires on pcs under 3'6")
-		private function sheilaFrogPunch():void {
+		private sheilaFrogPunch():void {
 			let damage:number = 0;
 			spe -= 30;
 			//Midget misfire (if PC < 3'6"):
@@ -55,7 +55,7 @@ package classes.Scenes.NPCs
 		}
 
 		//special 2: flying kick rabbit punch (high damage, much lower accuracy than reg attack, deals concussion which adds 10-15 pts fatigue, may stun pc and prevent attack)
-		private function sheilaFlyingKick():void {
+		private sheilaFlyingKick():void {
 			let damage:number = 0;
 			spe -= 60;
 			//Miss:
@@ -100,7 +100,7 @@ package classes.Scenes.NPCs
 
 		//Demon Sheila Combat - Special Attacks
 		//1: Suspicious Glint (int-based hit chance)
-		private function suspiciousGlint():void {
+		private suspiciousGlint():void {
 			if(statusAffects.has("Blind") && rand(2) == 0) {
 				Render.text("Sheila's blind eyes glint suspiciously as she focuses her power, trying to send her fantasy to anything caught in their stare.  It seems to work - the rock next to you vibrates a little.");
 			}
@@ -135,7 +135,7 @@ package classes.Scenes.NPCs
 		}
 
 		//2: Tittymonster
-		private function tittyMonsterAttack():void {
+		private tittyMonsterAttack():void {
 			Render.text("Sheila giggles and strokes her " + game.sheilaScene.sheilaCup() + " breasts, trying to entice you.");
 			//results, no new pg
 			//[(sheila corruption < 20; 'miss')
@@ -154,7 +154,7 @@ package classes.Scenes.NPCs
 		}
 
 		//3: Splash (spd-based hit chance)
-		private function splashAttackLookOutShellEvolveIntoGyrados():void {
+		private splashAttackLookOutShellEvolveIntoGyrados():void {
 			Render.text("Sheila waits patiently, staring at you and stroking her dark, spaded tail with its opposite.  A line of the always-oozing oil falls from the slit, pooling in the smooth brown coil; she unwinds it rapidly, flinging the liquid at your face playfully.  ");
 			//results, no new PG
 			//Hit:
@@ -170,7 +170,7 @@ package classes.Scenes.NPCs
 		}
 		//4: Sit 'n Pout
 		//should only be used after turn 4 or 5
-		private function sitAndPout():void {
+		private sitAndPout():void {
 			Render.text("Sheila frowns at you, then plops down on the grass, staring at her feet.  \"<i>Fine.  You win, mate.  I don't feel like arguing anymore, so... just please yourself, I guess.  The best part about a lovers' quarrel is the make-up sex anyway...</i>\" she says, spreading her legs hopefully.  The pout turns to a very faint smile under her bangs.");
 			gems = 0;
 			XP = 0;
@@ -188,7 +188,7 @@ package classes.Scenes.NPCs
 
 		//5: Lick 'Em and Stick 'Em (int-based hit chance)
 		//replaces any calls for Suspicious Glint if PC is blinded by Splash
-		private function lickEmAndStickEm():void {
+		private lickEmAndStickEm():void {
 			Render.text("Sheila's voice gets closer, becoming disarmingly apologetic as you scrub furiously at your face in darkness.  \"<i>Oh, my.  I didn't mean to get that in your eyes... let me help clean you up, love.</i>\"  Your face is gently gripped between her hands and pulled down, then the demon begins passing her tongue over you affectionately, wiping the fluid away with long, ticklish licks as you wait for the other shoe to fall.");
 			Render.text("\"<i>All better,</i>\" Sheila announces.  With her thumb, she gingerly pushes one eyelid up before you can pull away, proving her claim - and causing you to look right into her own glowing, purple iris.  A fantasy invades your mind, one where ");
 			if(player.lowerBody.cockSpot.hasCock()) Render.text("[oneCock] fucks Sheila to the base while her tail snakes around and penetrates your [vagOrAss]");
@@ -213,7 +213,7 @@ package classes.Scenes.NPCs
 
 		//6: "Pressure Points"
 		//replaces any calls for Tittymonster if PC is blinded by Splash
-		private function pressurePointsAttack():void {
+		private pressurePointsAttack():void {
 			Render.text("For a moment, all goes quiet, save for a soft rustle.\n\n");
 			//results, no new pg
 			//[(sheila corruption < 100; hit, 'light damage')]
@@ -233,7 +233,7 @@ package classes.Scenes.NPCs
 		}
 
 
-		private function demonSheilaAI():void {
+		private demonSheilaAI():void {
 			//Count up till give up!
 			if(findStatusAffect(StatusAffects.Counter) < 0) statusAffects.add(new StatusAffect("Counter",0,0,0,0)));
 			addStatusValue(StatusAffects.Counter,1,1);
@@ -255,7 +255,7 @@ package classes.Scenes.NPCs
 			choices[rand(choices.length)]();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if (game.flags[FlagEnum.SHEILA_DEMON] == 1) {
 				demonSheilaAI();
@@ -278,7 +278,7 @@ package classes.Scenes.NPCs
 			else game.sheilaScene.getBeatUpBySheila();
 		}
 
-		public function Sheila()
+		public Sheila()
 		{
 			let sheilaDemon:boolean = game.flags[FlagEnum.SHEILA_DEMON] == 1;
 			this.a = "";

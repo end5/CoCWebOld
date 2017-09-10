@@ -9,7 +9,7 @@
 
 //[IN COMBAT SPECIALS]
 //[SPECIAL 1] – Ubercharge!
-		private function ceraphSpecial1():void
+		private ceraphSpecial1():void
 		{
 			game.spriteSelect(7);
 			if (findStatusAffect(StatusAffects.Uber) < 0) {
@@ -49,7 +49,7 @@
 			combatRoundOver();
 		}
 //[SPECIAL] – Whip Binding
-		private function ceraphSpecial2():void
+		private ceraphSpecial2():void
 		{
 			if (player.findStatusAffect(StatusAffects.Bound) < 0) {
 				Render.text("Ceraph snaps her whip at you, lightning fast.  Unable to avoid the blinding speed of her attack, you find yourself wrapped from head to toe in the strong leather of her whip.  Remarkably, the fire dies out everywhere the whip touches you, leaving you bound but unharmed.", false);
@@ -80,7 +80,7 @@
 		}
 
 		//(Struggle)
-		public function ceraphBindingStruggle():void
+		public ceraphBindingStruggle():void
 		{
 			Render.text("", true);
 			Render.text("You wriggle in the tight binding, trying your best to escape.  ", false);
@@ -111,7 +111,7 @@
 		}
 
 //(Wait)
-		public function ceraphBoundWait():void
+		public ceraphBoundWait():void
 		{
 			Render.text("", true);
 			Render.text("Why bother resisting?  The feeling of the leather wrapped tightly around you, digging into your " + player.skinDesc + ", is intoxicating.", false);
@@ -126,7 +126,7 @@
 
 
 //[Double-Attack]
-		private function ceraphSpecial3():void
+		private ceraphSpecial3():void
 		{
 			//[Mini-cum] – takes place of double-attack if very horny
 			if (lust >= 75) {
@@ -241,7 +241,7 @@
 			combatRoundOver();
 		}
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			let choice:number = rand(4);
 			if (player.statusAffects.has("Bound")) {
@@ -284,7 +284,7 @@
 			}
 		}
 
-		public function Ceraph()
+		public Ceraph()
 		{
 			trace("Ceraph Constructor!");
 			this.a = "";

@@ -9,7 +9,7 @@ package classes.Scenes.Areas.Plains
 	 */
 	public class GnollSpearThrower extends Monster 
 	{
-		private function hyenaPhysicalAttack():void {
+		private hyenaPhysicalAttack():void {
 			let damage:number = 0;
 			//return to combat menu when finished
 			doNext(game.playerMenu);
@@ -100,7 +100,7 @@ package classes.Scenes.Areas.Plains
 		}
 		
 		//<Writers note: I recommend that the javelin have a chance to greatly decrease speed for the remaining battle.  I am writing the flavor text for this event if you choose to include it>
-		private function hyenaJavelinAttack():void {
+		private hyenaJavelinAttack():void {
 			let damage:number = 0;
 			let slow:number = 0;
 			//<Hyena Attack 2 – Javelin – Unsuccessful – Dodged>
@@ -155,7 +155,7 @@ package classes.Scenes.Areas.Plains
 		}
 		
 		//<Writer's Note: With the third attack, I intend that the damage be increased based on the breast size of the player.  Thus, the text will vary if the player is flat-chested as indicated by colored text.>
-		private function hyenaSnapKicku():void {
+		private hyenaSnapKicku():void {
 			let damage:number = 0;
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 2) {
@@ -198,7 +198,7 @@ package classes.Scenes.Areas.Plains
 			combatRoundOver();
 		}
 		
-		private function hyenaArousalAttack():void {
+		private hyenaArousalAttack():void {
 			//Success = cor+lib > rand(150)
 			let chance:number = rand(150);
 			//<Hyena Attack 4 – Arousal Attack – Highly Successful>
@@ -330,7 +330,7 @@ package classes.Scenes.Areas.Plains
 			}
 		}
 
-		public function GnollSpearThrower()
+		public GnollSpearThrower()
 		{
 			this.a = "the ";
 			this.short = "gnoll spear-thrower";

@@ -6,7 +6,7 @@
 
 	public class Marble extends Monster
 	{
-		private function marbleSpecialAttackOne():void {
+		private marbleSpecialAttackOne():void {
 			//Special1: Heavy overhead swing, high chance of being avoided with evasion, does heavy damage if it hits.
 			let damage:number = 0;
 			//Blind dodge change
@@ -39,7 +39,7 @@
 			statScreenRefresh();
 			combatRoundOver();
 		}
-		private function marbleSpecialAttackTwo():void {
+		private marbleSpecialAttackTwo():void {
 			//Special2: Wide sweep; very high hit chance, does low damage.
 			let damage:number = 0;
 			//Blind dodge change
@@ -76,7 +76,7 @@
 			game.marbleScene.marbleFightLose();
 		}
 
-		public function Marble()
+		public Marble()
 		{
 			trace("Marble Constructor!");
 			this.a = "";

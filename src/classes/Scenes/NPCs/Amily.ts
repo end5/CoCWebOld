@@ -9,7 +9,7 @@
 	public class Amily extends Monster 
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			if(findStatusAffect(StatusAffects.Concentration) < 0 && rand(4) == 0) amilyConcentration();
 			else if(rand(3) == 0) amilyDartGo();
@@ -19,7 +19,7 @@
 
 		//COMBAT AMILY STUFF
 		//(Has regular attack)
-		public function amilyAttack():void {
+		public amilyAttack():void {
 			let dodged:number = 0;
 			let damage:number;
 			//return to combat menu when finished
@@ -97,7 +97,7 @@
 
 		//(Special Attacks)
 		//-Double Attack: Same as a normal attack, but hits twice.
-		public function amilyDoubleAttack():void {
+		public amilyDoubleAttack():void {
 			let dodged:number = 0;
 			let damage:number = 0;
 			//return to combat menu when finished
@@ -147,7 +147,7 @@
 		}
 
 		//-Poison Dart: Deals speed and str damage to the PC. (Not constant)
-		private function amilyDartGo():void
+		private amilyDartGo():void
 		{
 			let dodged:number = 0;
 			//Blind dodge change
@@ -228,7 +228,7 @@
 		}
 
 		//Concentrate: always avoids the next attack. Can be disrupted by tease/seduce.
-		private function amilyConcentration():void {
+		private amilyConcentration():void {
 			Render.text("Amily takes a deep breath and attempts to concentrate on your movements.", false);
 			statusAffects.add(new StatusAffect("Concentration",0,0,0,0)));
 			game.combatRoundOver();
@@ -253,7 +253,7 @@
 			game.amilyScene.conquerThatMouseBitch();
 		}
 
-		public function Amily()
+		public Amily()
 		{
 			this.a = "";
 			this.short = "Amily";

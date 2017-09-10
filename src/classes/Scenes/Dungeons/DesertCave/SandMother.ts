@@ -15,7 +15,7 @@ package classes.Scenes.Dungeons.DesertCave
 			game.loseToTheSandMother();
 		}
 
-		public function SandMother()
+		public SandMother()
 		{
 			this.a = "the ";
 			this.short = "Sand Mother";

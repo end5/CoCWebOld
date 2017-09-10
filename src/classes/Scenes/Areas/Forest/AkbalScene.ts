@@ -10,11 +10,11 @@ package classes.Scenes.Areas.Forest
 
 	public class AkbalScene extends BaseContent
 	{
-		public function AkbalScene()
+		public AkbalScene()
 		{
 		}
 
-		public function akbalDefeated(hpVictory:boolean):void{
+		public akbalDefeated(hpVictory:boolean):void{
 			flags[FlagEnum.AKBAL_SUBMISSION_STATE] = 1;
 			if (hpVictory) //[General Victory]
 			{
@@ -54,7 +54,7 @@ package classes.Scenes.Areas.Forest
 			cleanupAfterCombat();
 		}
 
-		public function akbalWon(hpVictory:boolean,pcCameWorms:boolean):void{
+		public akbalWon(hpVictory:boolean,pcCameWorms:boolean):void{
 			flags[FlagEnum.AKBAL_SUBMISSION_STATE] = -1;
 			flags[FlagEnum.AKBAL_BITCH_Q] = 0;
 			Render.text("", true);
@@ -69,7 +69,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Victory/Defeat Scenes
-		private function rapeAkbalForcedFemaleOral():void
+		private rapeAkbalForcedFemaleOral():void
 		{
 			flags[FlagEnum.AKBAL_BITCH_Q]++;
 			Render.text("", true);
@@ -133,7 +133,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Standard rapes - buttfucks and oral
-		private function rapeAkbal():void
+		private rapeAkbal():void
 		{
 			flags[FlagEnum.AKBAL_BITCH_Q]++;
 			let primary:number = player.cockThatFits(50);
@@ -361,7 +361,7 @@ package classes.Scenes.Areas.Forest
 			cleanupAfterCombat();
 		}
 
-		private function girlsRapeAkbal():void
+		private girlsRapeAkbal():void
 		{
 			flags[FlagEnum.AKBAL_BITCH_Q]++;
 			Render.text("", true);
@@ -447,7 +447,7 @@ package classes.Scenes.Areas.Forest
 			doNext(girlsRapeAkbalPart2);
 		}
 
-		private function girlsRapeAkbalPart2():void
+		private girlsRapeAkbalPart2():void
 		{
 			Render.text("", true);
 			kGAMECLASS.hideUpDown();
@@ -590,7 +590,7 @@ package classes.Scenes.Areas.Forest
 			cleanupAfterCombat();
 		}
 
-		private function loseToAckballllllz():void
+		private loseToAckballllllz():void
 		{
 			//[Defeat via Lust]
 			if (player.lowerBody != LOWER_BODY.CENTAUR)
@@ -677,7 +677,7 @@ package classes.Scenes.Areas.Forest
 		//2. AKBAL'S MY BITCH
 
 		//[First Encounter]
-		public function supahAkabalEdition():void
+		public supahAkabalEdition():void
 		{
 			spriteSelect(2);
 			//Make sure that the buttchange is set correctly
@@ -723,7 +723,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Talk]
-		private function superAkbalioTalk():void
+		private superAkbalioTalk():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -734,7 +734,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Encounter if previously submitted]
-		private function repeatAkbalPostSubmission():void
+		private repeatAkbalPostSubmission():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -745,7 +745,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Deny]
-		private function akbalDeny():void
+		private akbalDeny():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -755,7 +755,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Encounter if previously fought and won/raped him]
-		private function ackbalRepeatAfterWin():void
+		private ackbalRepeatAfterWin():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -769,7 +769,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Encounter if previously fought and lost]
-		private function ackbalRepeatAfterLoss():void
+		private ackbalRepeatAfterLoss():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -780,7 +780,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Fight]
-		private function startuAkabalFightomon():void
+		private startuAkabalFightomon():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -791,7 +791,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//[Submit]
-		private function akbalSubmit():void
+		private akbalSubmit():void
 		{
 			spriteSelect(2);
 			player.slimeFeed();
@@ -1028,7 +1028,7 @@ package classes.Scenes.Areas.Forest
 		//[General End]
 		//Set flag after submitting, then clear it and run
 		//this before going to camp?
-		public function akbalSubmissionFollowup():void
+		public akbalSubmissionFollowup():void
 		{
 			spriteSelect(2);
 			Render.text("", true);
@@ -1085,7 +1085,7 @@ package classes.Scenes.Areas.Forest
 		   Evasion+5
 		 */
 
-		private function akbalBigButtSubmit():void
+		private akbalBigButtSubmit():void
 		{
 			clearOutput();
 			Render.text(images.showImage("akbal-deepwoods-bigbuttanaled"));
@@ -1168,7 +1168,7 @@ package classes.Scenes.Areas.Forest
 		//By Foxxling
 		//Akbal’s My Bitch Expansion
 		//Auto Rape Intro Scene
-		private function akbitchEncounter():void
+		private akbitchEncounter():void
 		{
 			clearOutput();
 			Render.text("As you explore the deep woods you begin to hear a soft slurping sound. In this world you know that any strange sound, especially the wet ones, most likely means something dangerous is up ahead... or something dangerous is fucking something a little less dangerous.  As you cautiously advance you spy the pelt of the jaguar demon, Akbal.  The demon jaguar sits in the middle of the clearing with one leg extended as he repeatedly swipes his wide tongue against his hole, probably cleaning up imp spunk thanks to you.  He is so utterly focused on the task that he doesn’t notice your approach.");
@@ -1186,7 +1186,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		private function akbitchNoThnx(clear:boolean = true):void
+		private akbitchNoThnx(clear:boolean = true):void
 		{
 			if (clear)
 				clearOutput();
@@ -1199,7 +1199,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//{Choose Rape}
-		public function takeAdvantageOfAkbitch():void
+		public takeAdvantageOfAkbitch():void
 		{
 			clearOutput();
 			Render.text("You creep behind the many woods trees surrounding Akbal’s clearing until your eyes chance upon a vine.  It’s spongy, long, and hard to rip apart - in other words: perfect.");
@@ -1255,7 +1255,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Basic AMB Scene (no +70 stats)
-		private function basicAkbitchScene():void
+		private basicAkbitchScene():void
 		{
 			clearOutput();
 			Render.text("With a grin, you tug on Akbal’s collar, and he lets out a barely suppressed purr.  ");
@@ -1273,7 +1273,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//Butt Fuck - Vaginal - Anal
-		private function buttFuckbuttFuckbuttFuckAkbal():void
+		private buttFuckbuttFuckbuttFuckAkbal():void
 		{
 			clearOutput();
 			Render.text(images.showImage("akbal-deepwoods-male-buttfuck"));
@@ -1301,7 +1301,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 		//- page turn -
-		private function fuckAkbitchsButt():void
+		private fuckAkbitchsButt():void
 		{
 			clearOutput();
 			let x: number = player.biggestCockIndex();
@@ -1337,7 +1337,7 @@ package classes.Scenes.Areas.Forest
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function topAkbitchFromDaBottom():void
+		private topAkbitchFromDaBottom():void
 		{
 			clearOutput();
 			Render.text(images.showImage("akbal-deepwoods-male-akbalonback"));
@@ -1360,7 +1360,7 @@ package classes.Scenes.Areas.Forest
 			addButton(0, "Next", topAkbitchFromBottomDuex);
 		}
 
-		private function topAkbitchFromBottomDuex():void
+		private topAkbitchFromBottomDuex():void
 		{
 			clearOutput();
 			Render.text(images.showImage("akbal-deepwoods-male-akbalonback2"));
@@ -1406,7 +1406,7 @@ package classes.Scenes.Areas.Forest
 
 		//AMB Strength Scene
 		//70+
-		private function akbitchHighStrengthVariant():void
+		private akbitchHighStrengthVariant():void
 		{
 			clearOutput();
 			Render.text("With a wicked grin, you rip off your [armor] and grab the bound demon by the scruff on his neck.  He does this sexy little wiggle as you hoist him until he reaches eye level, easily manipulating his light weight as you inspect his slim, toned body.  His chest heaves, his nipples stand at attention, and his erect demon-cat dick drools a heavy river of thick cream, darkening the fur on his sack and inner thighs.  This is going to be fun.");
@@ -1530,7 +1530,7 @@ package classes.Scenes.Areas.Forest
 
 		//AMB Speed Scene
 		//70
-		private function akbalBitchSpeed():void
+		private akbalBitchSpeed():void
 		{
 			clearOutput();
 			Render.text("Akbal groans as he lies face first in the dirt.  His body has already morphed into a more humanoid form.  You smile as you watch him hump the grass, two hollows forming in his ass cheeks as they clench and unclench.  The sight of him futilely trying to stimulate himself gets you so hot you practically rip off your [armor] and grab the tied up demon with a grin.");
@@ -1629,7 +1629,7 @@ package classes.Scenes.Areas.Forest
 
 		//AMB Toughness Scene
 		//70
-		private function akbitchToughness():void
+		private akbitchToughness():void
 		{
 			clearOutput();
 			//[if (toughness > 70)]

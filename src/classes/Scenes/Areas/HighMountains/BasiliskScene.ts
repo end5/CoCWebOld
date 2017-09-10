@@ -9,7 +9,7 @@ package classes.Scenes.Areas.HighMountains
 
 	public class BasiliskScene extends BaseContent
 	{
-		public function BasiliskScene()
+		public BasiliskScene()
 		{
 		}
 		
@@ -25,7 +25,7 @@ package classes.Scenes.Areas.HighMountains
 		//*followup creatures taking advantage have their usual effects
 		
 		//Intros and Fight Texts. 
-		public function basiliskGreeting():void {
+		public basiliskGreeting():void {
 			spriteSelect(75);
 			Render.text("", true);
 			//First encounter: 
@@ -58,7 +58,7 @@ package classes.Scenes.Areas.HighMountains
 
 		
 		//wins
-		public function defeatBasilisk():void {
+		public defeatBasilisk():void {
 			spriteSelect(75);
 			Render.text("", true);
 			let evil:Function =null;
@@ -82,7 +82,7 @@ package classes.Scenes.Areas.HighMountains
 		
 		//Player Victory sex:
 		// "<i>Tongue"<i>
-		private function tongueBasiliskSmex():void {
+		private tongueBasiliskSmex():void {
 			spriteSelect(75);
 			Render.text("", true);
 			Render.text("You tap your jaw as you stare down at the defeated reptile, smiling at its oddly formal gesture of surrender.  You'd very much like to take some satisfaction from the basilisk, extract a bit of pleasurable payment for what it tried to do to you: but the more you get to look at it properly, the more difficult doing that seems. The tall, thin creature is all angles, tough scales and pointed edges. You don't like the thought of putting your genitals anywhere near its sickle claws or curved fangs.\n\n", false);
@@ -127,7 +127,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 		
 		//basilisk Defeat: Anal 
-		private function defeatBasiliskAndAnal():void {
+		private defeatBasiliskAndAnal():void {
 			spriteSelect(75);
 			Render.text("", true);
 			//Requires: Corruption 70 or more, cock (for now) 
@@ -172,7 +172,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 		
 		//Player Defeated:
-		public function loseToBasilisk():void {
+		public loseToBasilisk():void {
 			spriteSelect(75);
 			Render.text("", true);
 			//Speed 0 loss: 
@@ -207,7 +207,7 @@ package classes.Scenes.Areas.HighMountains
 			else defaultBasiliskRape();
 		}
 		//Loss, vag rape conditions not met:
-		private function defaultBasiliskRape():void {
+		private defaultBasiliskRape():void {
 			Render.text("Working briskly, the basilisk tears off your " + player.armorName + " until you are entirely naked.  It then rummages through your pockets; it carelessly discards everything it finds without apparent interest.  It grabs a handful of gems from your purse and then prowls back to you.\n\n", false);
 		
 			//Male/Herm: 
@@ -237,7 +237,7 @@ package classes.Scenes.Areas.HighMountains
 		}
 		//basilisk vag rape
 		//Requires: Player has vag and is in heat, currently has egg pregnancy, or has oviposition perk
-		private function basiliskHasVagEggStuff():void {
+		private basiliskHasVagEggStuff():void {
 			spriteSelect(75);
 			player.slimeFeed();
 			Render.text("The basilisk is breathing heavily as it tears your " + player.armorName + " from your body, its warm exhalations rolling over your naked flesh.  It seems to be having difficulty controlling itself; from your frozen gaze you can see it constantly shifting its dreadful slit eyes back to your frame as it searches through your pockets with claws that tremble.  Eventually it throws down your attire and stares back into your eyes.  There is something else in there now; a pulsing lust, hints of red at the edges of that great, grey sea, a rapacious tide gathering.  You wish you could look away but there is more chance of you moving mountains.", false);
@@ -284,7 +284,7 @@ package classes.Scenes.Areas.HighMountains
 			cleanupAfterCombat();
 		}
 		
-		public function basiliskBirth():void {
+		public basiliskBirth():void {
 			spriteSelect(75);
 			Render.text("\n");
 			if(player.lowerBody.vaginaSpot.count() == 0) {
@@ -365,7 +365,7 @@ package classes.Scenes.Areas.HighMountains
 		
 		//basilisk Bad End
 		//Requires: Lose to basilisk when Speed is less than 5 (changed from 15 to prevent level 1 gameover -Z)
-		private function basiliskBadEnd():void {
+		private basiliskBadEnd():void {
 			spriteSelect(75);
 			Render.text("", true);
 			Render.text("Moving has become intensely difficult.  You cannot explain why something that came naturally to you ten minutes ago is now like wading neck deep through quicksand, but that is what moving your limbs now feels like.  With a huge, straining amount of effort, you desperately raise your arms and crane your neck away from the basilisk as it now approaches you, but with a pathetic amount of ease the creature slides through your guard, grabs you by the chin and looks directly into your eyes.  Your reactions are so slow your mind's screaming order for your eyelids to close takes several seconds for your nerves to compute, by which time it is far too late.\n\n", false);
@@ -386,14 +386,14 @@ package classes.Scenes.Areas.HighMountains
 			getGame().gameOver();
 		}
 		//Defeated, Taken Advantage of: nobody
-		private function basiliskAdvantageNobody():void {
+		private basiliskAdvantageNobody():void {
 			spriteSelect(75);
 			Render.text("Time stretches by at an agonizingly slow pace as you stand there, a bizarre, motionless flesh statue.  You have no way of measuring how much time is passing; the sun is not in your direct line of vision.   You try to move any and every part of yourself in turn, but it is hopeless.  Your body is a cage, and you begin to hate the basilisk less because it paralyzed you and more because it left your mind entirely aware of it.  Every so often another unbidden backwash of erotic memories overwhelms your senses, keeping you helplessly aroused and reminded of who did this to you.  Coupled with the unscratchable itches and the aching in your limbs the experience is one of sensational hell.\n\n", false);
 		
 			Render.text("Eventually, and with gushing, overwhelming joy, you find you can with effort move one of your little fingers again.  Concentrating hard, you move backwards from there until you can move your hand, your other fingers, your arm, and then, with a creaking finality, you break entirely free of the paralyzing spell.  You spend the next few minutes scratching and touching yourself all over with cries of deepest relief, before putting your garments back on and staggering slowly towards camp.  You suppose you should count yourself lucky that nothing found you whilst you were in your incredibly vulnerable state, but you struggle to think of yourself as lucky as you reflect soberly on the last couple of hours.", false);
 		}
 		//Defeated, Taken Advantage of: Imp
-		private function basiliskAdvantageImp():void {
+		private basiliskAdvantageImp():void {
 			Render.text("Time stretches by at an agonizingly slow pace as you stand there, a bizarre, motionless flesh statue.  You have no way of measuring how much time is passing; the sun is not in your direct line of vision.   You try to move any and every part of yourself in turn, but it is hopeless.  Your body is a cage, and you begin to hate the basilisk less because it paralyzed you and more because it left your mind entirely aware of it.  Every so often another unbidden backwash of erotic memories overwhelms your senses, keeping you helplessly aroused and reminded of who did this to you.\n\n", false);
 			
 			Render.text("You hear a whirring of small wings behind you and something lands on your shoulder.  You feel a weary despondency as you guess what it is, right before a reedy, sneering voice speaks into your ear.  \"<i>Well, well, well... ain't I the luckiest imp in Mareth?</i>\"\n\n", false);
@@ -410,7 +410,7 @@ package classes.Scenes.Areas.HighMountains
 			player.slimeFeed();
 		}
 		//Defeated, Taken Advantage of: harpy
-		private function basiliskAdvantageHarpy():void {
+		private basiliskAdvantageHarpy():void {
 			spriteSelect(75);
 			Render.text("Time stretches by at an agonizingly slow pace as you stand there, a bizarre, motionless flesh statue.  You have no way of measuring how much time is passing; the sun is not in your direct line of vision.   You try to move any and every part of yourself in turn, but it is hopeless.  Your body is a cage, and you begin to hate the basilisk less because it paralyzed you and more because it left your mind entirely aware of it.  Every so often another unbidden backwash of erotic memories overwhelms your senses, keeping you helplessly aroused and reminded of who did this to you.  Coupled with the unscratchable itches and the aching in your limbs the experience is one of sensational hell.\n\n", false);
 			Render.text("You hear a shrill cry from above you, half eagle scream and half mocking, female laughter.  With a fluttering flap of feathers, a harpy lands at your side before proceeding to stalk around you, taking in your helpless, frozen form with stiff, jerky movements.  You reflect bitterly that if the big bottomed bird woman had turned up fifteen minutes ago she would probably have scared the basilisk off.  As it is, you are going to have to take whatever she can throw at you... with a stiff upper lip, as it were.\n\n", false);
@@ -477,7 +477,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 		//Defeated, Taken Advantage of: goblin
-		private function basiliskAdvantageGoblin():void {
+		private basiliskAdvantageGoblin():void {
 			spriteSelect(75);
 			Render.text("Time stretches by at an agonizingly slow pace as you stand there, a bizarre, motionless flesh statue.  You have no way of measuring how much time is passing; the sun is not in your direct line of vision.   You try to move any and every part of yourself in turn, but it is hopeless.  Your body is a cage, and you begin to hate the basilisk less because it paralyzed you and more because it left your mind entirely aware of it.  Every so often another unbidden backwash of erotic memories overwhelms your senses, keeping you helplessly aroused and reminded of who did this to you.\n\n", false);
 		
@@ -555,7 +555,7 @@ package classes.Scenes.Areas.HighMountains
 			}
 		}
 		//Defeated, Taken Advantage of: minotaur
-		private function basiliskAdvantageMinotaur():void {
+		private basiliskAdvantageMinotaur():void {
 			spriteSelect(75);
 			Render.text("Time stretches by at an agonizingly slow pace as you stand there, a bizarre, motionless flesh statue.  You have no way of measuring how much time is passing; the sun is not in your direct line of vision.   You try to move any and every part of yourself in turn, but it is hopeless.  Your body is a cage, and you begin to hate the basilisk less because it paralyzed you and more because it left your mind entirely aware of it.  Every so often another unbidden backwash of erotic memories overwhelms your senses, keeping you helplessly aroused and reminded of who did this to you.\n\n", false);
 		
@@ -588,7 +588,7 @@ package classes.Scenes.Areas.HighMountains
 			player.slimeFeed();
 		}
 		
-		private function driderPCEggLaysBasilisk():void {
+		private driderPCEggLaysBasilisk():void {
 			spriteSelect(75);
 			clearOutput();
 			Render.text("Leaning back on your carapace-clad abdomen, you try and look over your defeated opponent.  Even slumped over in ");
@@ -638,7 +638,7 @@ package classes.Scenes.Areas.HighMountains
 			cleanupAfterCombat();
 		}
 		
-		private function layBeeEggsInABasilisk():void {
+		private layBeeEggsInABasilisk():void {
 			spriteSelect(75);
 			clearOutput();
 			Render.text("Completely destroyed, the basilisk lays face down on the ground, struggling pathetically to get up.  You giggle at the attempt as you ");

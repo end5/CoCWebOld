@@ -12,7 +12,7 @@
 	public class InfestedHellhound extends HellHound
 	{
 		//[Extra special attack]
-		private function hellHoundWormCannon():void
+		private hellHoundWormCannon():void
 		{
 			Render.text("The thing rears up onto its hind legs, revealing its more humanoid stature, and allowing it to use its flexible paws to caress its twinned-penises.  It lurches forwards powerfully, its thickness twitching and flaring as it launches a wave of worm-filled canine cum at you.", false);
 			Render.text("\n", false);
@@ -92,7 +92,7 @@
 			}
 		}
 
-		public function InfestedHellhound()
+		public InfestedHellhound()
 		{
 			super(true);
 			trace("InfestedHellhound Constructor!");

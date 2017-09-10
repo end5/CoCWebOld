@@ -8,13 +8,13 @@ package classes.Scenes.Areas.Mountain
 
 	public class InfestedHellhoundScene extends BaseContent
 	{
-		public function InfestedHellhoundScene()
+		public InfestedHellhoundScene()
 		{
 		}
 
 		//[INTRO – 50% chance split with regular hellhound if worms
 		//turned on and over level 2]
-		public function infestedHellhoundEncounter():void
+		public infestedHellhoundEncounter():void
 		{
 			Render.text("", true);
 			Render.text("A low snarl vibrates through your body, ", false);
@@ -27,7 +27,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 
-		public function infestedHellhoundLossRape():void
+		public infestedHellhoundLossRape():void
 		{
 			Render.text("", true);
 			//[BOTH INFESTED]

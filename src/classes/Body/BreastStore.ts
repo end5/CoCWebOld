@@ -31,13 +31,13 @@ package classes
 		public let preventLactationIncrease: number				= 0; //Control the points at which the lactation stops increasing or decreasing
 		public let preventLactationDecrease: number				= 0;
 
-		public function BreastStore(breastFlag: number) {
+		public BreastStore(breastFlag: number) {
 			_breastFlag = breastFlag;
 			if (_breastFlag < 1 || _breastFlag > MAX_FLAG_VALUE) trace("Error: BreastStore created with invalid flag value. BreastStore(" + breastFlag + ")");
 		}
 
 		//Implementation of SaveAwareInterface
-		public function updateAfterLoad(game:CoC):void {
+		public updateAfterLoad(game:CoC):void {
 			if (_breastFlag < 1 || _breastFlag > MAX_FLAG_VALUE) return;
 			let flagData:Array = String(game.flags[_breastFlag]).split("^");
 			if (flagData.length < 9) {
@@ -56,7 +56,7 @@ package classes
 			preventLactationDecrease	= int(flagData[8]);
 		}
 
-		public function updateBeforeSave(game:CoC):void {
+		public updateBeforeSave(game:CoC):void {
 			if (_breastFlag < 1 || _breastFlag > MAX_FLAG_VALUE) return;
 			game.flags[_breastFlag] = BREAST_STORE_VERSION_1 + "^" + rows + "^" + cupSize + "^" + lactationLevel + "^" + nippleLength + "^" + _fullness + "^" + _timesMilked
 				+ "^" + preventLactationIncrease + "^" + preventLactationDecrease;
@@ -92,17 +92,17 @@ package classes
 			return descript + "breasts";
 		}
 
-		public function get cupSize(): number { return _cupSize; }
+		public get cupSize(): number { return _cupSize; }
 
-		public function set cupSize(value: number):void {
+		public set cupSize(value: number):void {
 			if (value < CoC.BREAST_CUP.FLAT) value = CoC.BREAST_CUP.FLAT;
 			if (value > CoC.BREAST_CUP.ZZZ_LARGE) value = CoC.BREAST_CUP.ZZZ_LARGE;
 			_cupSize = value;
 		}
 
-		public function get lactationLevel(): number { return _lactation; }
+		public get lactationLevel(): number { return _lactation; }
 
-		public function set lactationLevel(value: number):void {
+		public set lactationLevel(value: number):void {
 			if (value < LACTATION_DISABLED) value = LACTATION_DISABLED;
 			if (value > LACTATION_EPIC) value = LACTATION_EPIC;
 			if (_lactation <= LACTATION_NONE && value >= LACTATION_LIGHT) { //Lactation is just starting - zero the other vars involved
@@ -112,7 +112,7 @@ package classes
 			_lactation = value;
 		}
 
-		public function advanceTime():void {
+		public advanceTime():void {
 			if (_lactation <= LACTATION_NONE) return;
 			//Add to breastFullness and possibly adjust lactationLevel. Even when lactationLevel == LACTATION_NONE this is still doing something useful, adjusting _breastTimesMilked
 			_fullness += LACTATION_BOOST[_lactation]; //Higher lactation means faster refill
@@ -127,7 +127,7 @@ package classes
 			}
 		}
 
-		public function adj():string {
+		public adj():string {
 			switch (_cupSize) {
 				case CoC.BREAST_CUP.FLAT:		return "non-existent";
 				case CoC.BREAST_CUP.A:			return "small";
@@ -179,24 +179,24 @@ package classes
 			return("titanic");
 		}
 
-		public function canTitFuck():boolean { return _cupSize >= CoC.BREAST_CUP.C; }
+		public canTitFuck():boolean { return _cupSize >= CoC.BREAST_CUP.C; }
 
-		public function cup():string { return Appearance.breastCup(_cupSize); } //The cup size alone
+		public cup():string { return Appearance.breastCup(_cupSize); } //The cup size alone
 
-		public function description(useAdj:boolean = false, isMale:boolean = false):string {
+		public description(useAdj:boolean = false, isMale:boolean = false):string {
 			if (_cupSize == CoC.BREAST_CUP.FLAT) return "flat" + (isMale ? " manly," : "") + " chest";
 			return (useAdj ? adj() + " " : "") + cup() + " breasts";
 		}
 
-		public function breastDesc():string {
+		public breastDesc():string {
 			return breastDescript(cupSize, 0.5 * lactationLevel);
 		}
 
-		public function hasBreasts():boolean { return _cupSize != CoC.BREAST_CUP.FLAT; }
+		public hasBreasts():boolean { return _cupSize != CoC.BREAST_CUP.FLAT; }
 
-		public function lactating():boolean { return _lactation >= LACTATION_LIGHT; }
+		public lactating():boolean { return _lactation >= LACTATION_LIGHT; }
 
-		public function milked():boolean { //Returns true if this milking increased the NPC's lactationLevel
+		public milked():boolean { //Returns true if this milking increased the NPC's lactationLevel
 			_fullness = 0;
 			_timesMilked++;
 			if (preventLactationIncrease == _lactation) return false;
@@ -225,21 +225,21 @@ package classes
 			return true;
 		}
 
-		public function milkIsFull():boolean { return (_lactation <= LACTATION_NONE ? 0 : _fullness >= 50); }
+		public milkIsFull():boolean { return (_lactation <= LACTATION_NONE ? 0 : _fullness >= 50); }
 
-		public function milkIsOverflowing():boolean {
+		public milkIsOverflowing():boolean {
 			return (_lactation <= LACTATION_NONE ? 0 : _fullness >= 60 + 5 * LACTATION_BOOST[_lactation]); //Probably pretty desperate to be milked by this point
 		}
 
 		//At fullness == 50 the maximum amount of milk is produced. When overfull, lactation level is reduced and fullness drops to 50.
 		//So a higher lactationLevel means more milk is produced and the breasts can stay full without drying up for longer. Will always return 0 if not lactating
-		public function milkQuantity():number
+		public milkQuantity():number
 		{
 			if (_lactation <= LACTATION_NONE) return 0;
 			return 0.01 * Math.max(100, 2 * _fullness) * Number(20 * _rows * _cupSize * (_lactation - 1));
 		}
 
-		public function nippleDescript(tiny:string = "tiny", small:string = "prominent", large:string = "large", huge:string = "elongated", massive:string = "massive"):string
+		public nippleDescript(tiny:string = "tiny", small:string = "prominent", large:string = "large", huge:string = "elongated", massive:string = "massive"):string
 		{
 			if (_nippleLength < 3) return tiny;
 			if (_nippleLength < 10) return small;
@@ -248,16 +248,16 @@ package classes
 			return massive;
 		}
 
-		public function get nippleLength():number { return _nippleLength; }
+		public get nippleLength():number { return _nippleLength; }
 
-		public function set nippleLength(value:number):void {
+		public set nippleLength(value:number):void {
 			if (value < 0) value = 0;
 			_nippleLength = 0.1 * Math.round(10 * value); //Ensure nipple length only goes to one decimal place
 		}
 
-		public function get rows(): number { return _rows; }
+		public get rows(): number { return _rows; }
 
-		public function set rows(value: number):void {
+		public set rows(value: number):void {
 			if (value < 1) value = 1;
 			_rows = value;
 		}

@@ -8,46 +8,46 @@
 
 	public class Camp extends NPCAwareContent{
 
-		protected function set timeQ(value:number):void
+		protected set timeQ(value:number):void
 		{
 			kGAMECLASS.timeQ = value;
 		}
 
-		private function get campQ():boolean
+		private get campQ():boolean
 		{
 			return kGAMECLASS.campQ;
 		}
-		private function set campQ(value:boolean):void
+		private set campQ(value:boolean):void
 		{
 			kGAMECLASS.campQ = value;
 		}
 
-		protected function hasItemInStorage(itype:ItemType):boolean
+		protected hasItemInStorage(itype:ItemType):boolean
 		{
 			return kGAMECLASS.inventory.hasItemInStorage(itype);
 		}
 /*
-		protected function hasItemsInStorage():boolean
+		protected hasItemsInStorage():boolean
 		{
 			return kGAMECLASS.inventory.hasItemsInStorage();
 		}
-		protected function hasItemsInRacks(armor:boolean = false):boolean
+		protected hasItemsInRacks(armor:boolean = false):boolean
 		{
 			return kGAMECLASS.inventory.hasItemsInRacks(armor);
 		}
 */
 
-		public function Camp(campInitialize:Function) {
+		public Camp(campInitialize:Function) {
 			campInitialize(doCamp); //Pass the doCamp function up to CoC. This way doCamp is private but the CoC class itself can call it.
 		}
 		
 /* Replaced with calls to playerMenu
-		public function campMenu():void {
+		public campMenu():void {
 			kGAMECLASS.eventParser(1);
 		}
 */
 		
-		public function returnToCamp(timeUsed: number):void {
+		public returnToCamp(timeUsed: number):void {
 			clearOutput();
 			if (timeUsed == 1)
 				Render.text("An hour passes...\n");
@@ -58,17 +58,17 @@
 			goNext(timeUsed, false);
 		}
 		
-		public function returnToCampUseOneHour():void { returnToCamp(1); } //Replacement for event number 13;
+		public returnToCampUseOneHour():void { returnToCamp(1); } //Replacement for event number 13;
 		
-		public function returnToCampUseTwoHours():void { returnToCamp(2); } //Replacement for event number 14;
+		public returnToCampUseTwoHours():void { returnToCamp(2); } //Replacement for event number 14;
 		
-		public function returnToCampUseFourHours():void { returnToCamp(4); } //Replacement for event number 15;
+		public returnToCampUseFourHours():void { returnToCamp(4); } //Replacement for event number 15;
 		
-		public function returnToCampUseEightHours():void { returnToCamp(8); } //Replacement for event number 16;
+		public returnToCampUseEightHours():void { returnToCamp(8); } //Replacement for event number 16;
 		
 //  SLEEP_WITH: number = 701;
 
-private function doCamp():void { //Only called by playerMenu
+private doCamp():void { //Only called by playerMenu
 	//trace("Current fertility: " + player.totalFertility());
 	mainView.showMenuButton( MainView.MENU_NEW_MAIN );
 	if(player.statusAffects.has("PostAkbalSubmission")) {
@@ -730,15 +730,15 @@ private function doCamp():void { //Only called by playerMenu
 	//Slaves
 }
 
-public function hasCompanions():boolean {
+public hasCompanions():boolean {
 	return companionsCount() > 0;
 }
 
-public function companionsCount():number {
+public companionsCount():number {
 	return followersCount() + slavesCount() + loversCount();
 }
 
-public function followersCount():number {
+public followersCount():number {
 	let counter:number = 0;
 	if(emberScene.followerEmber()) counter++;
 	if(flags[FlagEnum.VALARIA_AT_CAMP] == 1) counter++;
@@ -750,7 +750,7 @@ public function followersCount():number {
 	return counter;
 }
 
-public function slavesCount():number {
+public slavesCount():number {
 	let counter:number = 0;
 	if(latexGooFollower() && flags[FlagEnum.FOLLOWER_AT_FARM_LATEXY] == 0) counter++;
 	if(vapulaSlave() && flags[FlagEnum.FOLLOWER_AT_FARM_VAPULA] == 0) counter++;
@@ -763,7 +763,7 @@ public function slavesCount():number {
 	return counter;
 }
 
-public function loversCount():number {
+public loversCount():number {
 	let counter:number = 0;
 	if(arianScene.arianFollower()) counter++;
 	if(followerHel()) counter++;
@@ -778,7 +778,7 @@ public function loversCount():number {
 	return counter;
 }
 
-public function campLoversMenu():void {
+public campLoversMenu():void {
 	let isabellaButt:Function = null;
 	let marbleEvent:Function = null;
 	let izmaEvent:Function = null;
@@ -937,7 +937,7 @@ public function campLoversMenu():void {
 	addButton(9, "Back", playerMenu);
 }
 
-public function campSlavesMenu():void {
+public campSlavesMenu():void {
 	clearOutput();
 	let vapula2:Function = null;
 	let amilyEvent:Function = null;
@@ -986,7 +986,7 @@ public function campSlavesMenu():void {
 	addButton(9, "Back", playerMenu);
 }
 
-public function campFollowers():void {
+public campFollowers():void {
 	let rathazulEvent:Function = null;
 	let jojoEvent:Function = null;
 	let valeria2:Function = null;
@@ -1052,7 +1052,7 @@ public function campFollowers():void {
 	addButton(9, "Back", playerMenu);
 }
 
-private function rest():void {
+private rest():void {
 	campQ = true;
 	if(timeQ == 0) {
 		Render.text("You lie down to rest for four hours.\n", true);
@@ -1081,7 +1081,7 @@ private function rest():void {
 	goNext(timeQ,true);
 }
 
-private function doWait():void {
+private doWait():void {
 	campQ = true;
 	Render.text("", true);
 	if(timeQ == 0) {
@@ -1108,7 +1108,7 @@ private function doWait():void {
 	goNext(timeQ,true);
 }
 
-public function doSleep(clrScreen:boolean = true):void {
+public doSleep(clrScreen:boolean = true):void {
 	if (kGAMECLASS.urta.pregnancy.incubation == 0 && kGAMECLASS.urta.pregnancy.type == PregnancyType.PLAYER && model.time.hours >= 20 && model.time.hours < 2) {
 		urtaPregs.preggoUrtaGivingBirth();
 		return;
@@ -1220,7 +1220,7 @@ public function doSleep(clrScreen:boolean = true):void {
 	goNext(timeQ, true);
 }
 //For shit that breaks normal sleep processing.
-public function sleepWrapper():void {
+public sleepWrapper():void {
 	if(model.time.hours == 16) timeQ = 14;
 	if(model.time.hours == 17) timeQ = 13;
 	if(model.time.hours == 18) timeQ = 12;
@@ -1242,7 +1242,7 @@ public function sleepWrapper():void {
 	goNext(timeQ, true);
 }
 
-public function sleepRecovery(display:boolean = false):void {
+public sleepRecovery(display:boolean = false):void {
 	//Marble withdrawl
 	if(player.statusAffects.has("MarbleWithdrawl")) {
 		if(display) Render.text("\nYour sleep is very troubled, and you aren't able to settle down.  You get up feeling tired and unsatisfied, always thinking of Marble's milk.\n", false);
@@ -1267,7 +1267,7 @@ public function sleepRecovery(display:boolean = false):void {
 	}
 }
 
-private function dungeonFound():boolean { //Returns true as soon as any known dungeon is found
+private dungeonFound():boolean { //Returns true as soon as any known dungeon is found
 	if (flags[FlagEnum.DISCOVERED_DUNGEON_2_ZETAZ] > 0) return true;
 	if (player.statusAffects.has("FoundFactory")) return true;
 	if (flags[FlagEnum.DISCOVERED_WITCH_DUNGEON] > 0) return true;
@@ -1275,7 +1275,7 @@ private function dungeonFound():boolean { //Returns true as soon as any known du
 	return false;
 }
 
-private function farmFound():boolean { //Returns true as soon as any known dungeon is found
+private farmFound():boolean { //Returns true as soon as any known dungeon is found
 	if (player.statusAffects.has("MetWhitney") && player.statusAffects.get("MetWhitney").value1 > 1) {
 		if (flags[FlagEnum.FARM_DISABLED] == 0) return true;
 		if (player.stats.cor >= 70 && player.level >= 12 && getGame().farm.farmCorruption.corruptFollowers() >= 2 && flags[FlagEnum.FARM_CORRUPTION_DISABLED] == 0) return true;
@@ -1284,7 +1284,7 @@ private function farmFound():boolean { //Returns true as soon as any known dunge
 	return false;
 }
 
-private function placesKnown():boolean { //Returns true as soon as any known place is found
+private placesKnown():boolean { //Returns true as soon as any known place is found
 	if (flags[FlagEnum.BAZAAR_ENTERED] > 0) return true;
 	if (player.statusAffects.has("BoatDiscovery")) return true;
 	if (flags[FlagEnum.FOUND_CATHEDRAL] == 1) return true;
@@ -1299,7 +1299,7 @@ private function placesKnown():boolean { //Returns true as soon as any known pla
 }
 
 //Places menu
-private function places():void { //Displays a menu for all known places
+private places():void { //Displays a menu for all known places
 	if (flags[FlagEnum.PLACES_PAGE] != 0) {
 		placesPage2();
 		return;
@@ -1321,7 +1321,7 @@ private function places():void { //Displays a menu for all known places
 	addButton(9, "Back", playerMenu);
 }
 
-private function placesPage2():void {
+private placesPage2():void {
 	menu();
 	flags[FlagEnum.PLACES_PAGE] = 1;
 	//turn on ruins
@@ -1331,12 +1331,12 @@ private function placesPage2():void {
 	addButton(9, "Back", playerMenu);
 }
 
-private function placesToPage1():void {
+private placesToPage1():void {
 	flags[FlagEnum.PLACES_PAGE] = 0;
 	places();
 }
 
-private function dungeons():void {
+private dungeons():void {
 	menu();
 	//Turn on dungeons
 	if (flags[FlagEnum.DISCOVERED_DUNGEON_2_ZETAZ] > 0) addButton(0, "Deep Cave", kGAMECLASS.enterZetazsLair);
@@ -1346,7 +1346,7 @@ private function dungeons():void {
 	addButton(9, "Back", places);
 }
 
-private function exgartuanCampUpdate():void {
+private exgartuanCampUpdate():void {
 	//Update Exgartuan stuff
 	if(player.statusAffects.has("Exgartuan"))
 	{
@@ -1372,7 +1372,7 @@ private function exgartuanCampUpdate():void {
 }
 
 /*
-private function fixHistory():void {
+private fixHistory():void {
 	Render.text("<b>New history perks are available during creation.  Since this character was created before they were available, you may choose one now!</b>", true);
 	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00418] = 2;
 	menu();

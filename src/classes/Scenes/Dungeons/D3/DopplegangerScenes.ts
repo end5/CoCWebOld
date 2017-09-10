@@ -12,12 +12,12 @@
 	public class DopplegangerScenes extends BaseContent
 	{
 		
-		public function DopplegangerScenes() 
+		public DopplegangerScenes() 
 		{
 			
 		}
 		
-		public function getDemGlasses():void
+		public getDemGlasses():void
 		{
 			clearOutput();
 			Render.text("You step into the room and move across to the optician stand. The metal door clicks shut behind you. A feeling of unease grows in your gut as you walk further into the room; the place seems gloomier and larger than it did from the door. You almost jump out of your skin as somebody suddenly emerges to your right- but of course it’s just you, reflected in the intricately decorated, oval-shaped mirror which centers the room. You smile at your own silliness, before watching your expression change to a frown. You seem very sharply focused in it; the room behind you barely seems there at all. Some kind of enchantment to refine a demon’s appearance, you guess.");
@@ -39,7 +39,7 @@
 			startCombat(new Doppleganger());
 		}
 		
-		public function punchYourselfInTheBalls():void
+		public punchYourselfInTheBalls():void
 		{
 			flags[FlagEnum.D3_DOPPLEGANGER_DEFEATED] = 1;
 			player.createKeyItem("Laybans", 0, 0, 0, 0);
@@ -54,7 +54,7 @@
 			addButton(1, "End It", killYourself)
 		}
 		
-		public function fuckYourself():void
+		public fuckYourself():void
 		{
 			clearOutput();
 			Render.text("This, you feel, is an opportunity which is not likely to arise again.");
@@ -190,7 +190,7 @@
 			cleanupAfterCombat(d3.resumeFromFight);
 		}
 		
-		public function killYourself():void
+		public killYourself():void
 		{
 			clearOutput();
 			Render.text("\n\nYou hold its gaze for a moment more, and then with a single, fluid movement turn and smash your [weapon] into the engraved mirror. A shrill scream mingles with the sound of breaking glass, but by the time the shards begin to tinkle and chime to the floor it’s keened away, and when you turn back the doppelganger is gone. The shrill sound could have been the sound of the mirror itself when you hit it, you suppose. This could all have been a very strange fugue. Certainly, standing here now in this dishevelled storage room, it’s difficult to believe what just happened. Shaking your head, you make sure the protective glasses you came here for are still in your pocket before heading to the door and leaving.");
@@ -200,7 +200,7 @@
 			addButton(0, "Next", d3.resumeFromFight);
 		}
 		
-		public function inSovietCoCSelfFucksYou():void
+		public inSovietCoCSelfFucksYou():void
 		{
 			clearOutput();
 			

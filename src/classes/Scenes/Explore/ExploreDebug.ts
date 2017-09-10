@@ -27,7 +27,7 @@ package classes.Scenes.Explore
 	public class ExploreDebug extends BaseContent
 	{
 
-		public function doExploreDebug():void
+		public doExploreDebug():void
 		{
 			clearOutput();
 			menu();
@@ -124,7 +124,7 @@ package classes.Scenes.Explore
 			function ():Monster {return new Ember();}
 		];
 
-		private function exploreDebugMonsters(monsterIdx: number = 0):void
+		private exploreDebugMonsters(monsterIdx: number = 0):void
 		{
 			clearOutput();
 			menu();
@@ -178,7 +178,7 @@ package classes.Scenes.Explore
 			addButton(9, "Enough", playerMenu);
 		}
 
-		public function ExploreDebug()
+		public ExploreDebug()
 		{
 		}
 	}

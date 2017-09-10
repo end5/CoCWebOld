@@ -10,7 +10,7 @@ package classes.Scenes.Areas.Forest
 
 	public class KitsuneScene extends BaseContent
 	{
-		public function KitsuneScene()
+		public KitsuneScene()
 		{
 		}
 
@@ -21,7 +21,7 @@ package classes.Scenes.Areas.Forest
 //const TOOK_KITSUNE_STATUE: number = 709;
 
 
-		private function kitsuneSprite():void
+		private kitsuneSprite():void
 		{
 			if (monster.hairColor == "blonde") spriteSelect(105);
 			else if (monster.hairColor == "black") spriteSelect(104);
@@ -29,7 +29,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Enter the Trickster] (Coded)
-		public function enterTheTrickster():void
+		public enterTheTrickster():void
 		{
 			if (flags[FlagEnum.MET_KITSUNES] > 0) {
 				willOWisp();
@@ -48,7 +48,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Lose:
-		public function loseKitsuneImpFight():void
+		public loseKitsuneImpFight():void
 		{
 			clearOutput();
 			//randomly assign hair color
@@ -66,7 +66,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Win:
-		public function winKitsuneImpFight():void
+		public winKitsuneImpFight():void
 		{
 			clearOutput();
 			//randomly assign hair color
@@ -113,7 +113,7 @@ package classes.Scenes.Areas.Forest
 
 
 //[Will 'O Wisp](C)
-		private function willOWisp():void
+		private willOWisp():void
 		{
 			clearOutput();
 			//randomly assign hair color
@@ -135,7 +135,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Turn Back] (C)
-		private function turnBackFromWillOWisp():void
+		private turnBackFromWillOWisp():void
 		{
 			clearOutput();
 			Render.text("There's no way you're going to go gallivanting off into the woods after some flame.  You shake your head to clear your thoughts, and warily turn away to head back toward camp.  You could almost swear for a moment the flame looked disappointed, and you chuckle lightly at such a silly thought.");
@@ -145,7 +145,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Follow] (C)
-		private function followTheWillOWisp(firstTime:boolean = false):void
+		private followTheWillOWisp(firstTime:boolean = false):void
 		{
 			clearOutput();
 			if (!firstTime) {
@@ -181,7 +181,7 @@ package classes.Scenes.Areas.Forest
 
 
 //[Talk] (C)
-		private function talkAfterResistingKitsunellusion():void
+		private talkAfterResistingKitsunellusion():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -212,7 +212,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Leave] (C)
-		private function leaveKitsune(talked:boolean = false):void
+		private leaveKitsune(talked:boolean = false):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -237,7 +237,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Illusory Mansion (C)
-		private function mansion(willing:boolean, firstTime:boolean = false):void
+		private mansion(willing:boolean, firstTime:boolean = false):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -278,7 +278,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //NON-TENTACLE PC SCENES:
-		private function nonTentaclePCMansion(willing:boolean):void
+		private nonTentaclePCMansion(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -294,7 +294,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Formerly maleOrHerm()
-		private function kitsuneMaleOrHermMansion(willing:boolean):void
+		private kitsuneMaleOrHermMansion(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -320,7 +320,7 @@ package classes.Scenes.Areas.Forest
 
 // end function
 //fomerly letHer()
-		private function kitSuneLetHerMansion(willing:boolean = true):void
+		private kitSuneLetHerMansion(willing:boolean = true):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -383,7 +383,7 @@ package classes.Scenes.Areas.Forest
 		} //End letHer() 	
 
 //Formerly shoveHer()
-		private function kitsuneShoveHerMansion(willing:boolean = true):void
+		private kitsuneShoveHerMansion(willing:boolean = true):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -453,7 +453,7 @@ package classes.Scenes.Areas.Forest
 		} // End shoveHer()
 
 //formerly
-		private function kitsuneStillHungryMansion():void
+		private kitsuneStillHungryMansion():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -486,7 +486,7 @@ package classes.Scenes.Areas.Forest
 
 
 //formerly femaleOrGenderless()
-		private function kitsuneFemaleOrGenderless(willing:boolean):void
+		private kitsuneFemaleOrGenderless(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -506,7 +506,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		private function kitsunesGenderlessLetHer(willing:boolean):void
+		private kitsunesGenderlessLetHer(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -529,7 +529,7 @@ package classes.Scenes.Areas.Forest
 		} // end letHer()
 
 //fomerly shoveHer()
-		private function kitsunesGenderlessShoverHer(willing:boolean):void
+		private kitsunesGenderlessShoverHer(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -561,7 +561,7 @@ package classes.Scenes.Areas.Forest
 		} // end shoveHer()
 
 //formerly stillHungry()
-		private function genderlessKitsuneStillHungry(willing:boolean):void
+		private genderlessKitsuneStillHungry(willing:boolean):void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -590,7 +590,7 @@ package classes.Scenes.Areas.Forest
 
 
 //3+ Tentacle cocks of 30" or longer
-		private function tentacleKitsuneWingWangs():void
+		private tentacleKitsuneWingWangs():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -629,7 +629,7 @@ package classes.Scenes.Areas.Forest
 			player.orgasm();
 		}
 
-		private function outro(tentacles:boolean = false):void
+		private outro(tentacles:boolean = false):void
 		{
 			fatigue(15);
 			kitsuneSprite();
@@ -669,7 +669,7 @@ package classes.Scenes.Areas.Forest
 			}
 		}
 
-		private function mansionBadEnd():void
+		private mansionBadEnd():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -691,7 +691,7 @@ package classes.Scenes.Areas.Forest
 			doNext(kitSuneMansionBadEndII);
 		}
 
-		private function kitSuneMansionBadEndII():void
+		private kitSuneMansionBadEndII():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -712,7 +712,7 @@ package classes.Scenes.Areas.Forest
 
 
 //[Fight]
-		private function fightSomeKitsunes():void
+		private fightSomeKitsunes():void
 		{
 			clearOutput();
 			Render.text("Something just doesn't sit right with you about this woman, and you cautiously raise your " + player.weaponName + ", watching her carefully.\n\n");
@@ -737,7 +737,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 
-		public function loseToKitsunes():void
+		public loseToKitsunes():void
 		{
 			let scene:Array = [];
 			//[LOSE FIGHT]
@@ -774,7 +774,7 @@ package classes.Scenes.Areas.Forest
 //[LOSE FIGHT]
 //Shared Scenes
 // For Males and Herms
-		private function loseFightToHerms():void
+		private loseFightToHerms():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -824,7 +824,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 // For Females and Genderless
-		private function femalesAndNuetersLoseToKitsunes():void
+		private femalesAndNuetersLoseToKitsunes():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -861,7 +861,7 @@ package classes.Scenes.Areas.Forest
 
 //Blonde-exclusive
 //Single cock < 9 inches long
-		private function blondeKitsuneRapesSmallWangs():void
+		private blondeKitsuneRapesSmallWangs():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -917,7 +917,7 @@ package classes.Scenes.Areas.Forest
 
 //Black-hair-exclusive
 //Lose while lactating
-		private function loseToBlackHairLatexWhileMilky():void
+		private loseToBlackHairLatexWhileMilky():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -950,7 +950,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 // lose, requires balls and cumQ() > 1000
-		private function loseToKitsunesWithBallsAndHighCumQ():void
+		private loseToKitsunesWithBallsAndHighCumQ():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -994,7 +994,7 @@ package classes.Scenes.Areas.Forest
 
 //Redhead-exclusive
 //Futa rape - chance increases as redhead's lust increases
-		private function getRapedByRedHeadFutaKitsune():void
+		private getRapedByRedHeadFutaKitsune():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1047,7 +1047,7 @@ package classes.Scenes.Areas.Forest
 
 //[WIN FIGHT]
 //Damage victory
-		public function defeatTheKitsunes(display:boolean = true):void
+		public defeatTheKitsunes(display:boolean = true):void
 		{
 			if (display) {
 				clearOutput();
@@ -1141,7 +1141,7 @@ package classes.Scenes.Areas.Forest
 			addButton(9, "Leave", leaveKitsune);
 		}
 
-		private function kitsuneButton(button: number, nam:string, func:Function): number
+		private kitsuneButton(button: number, nam:string, func:Function): number
 		{
 			if (button > 8) return 9;
 			addButton(button, nam, func);
@@ -1152,7 +1152,7 @@ package classes.Scenes.Areas.Forest
 
 //Shared Scenes
 //[Vaginal] - requires cock
-		private function fuckAKitsuneVaginally():void
+		private fuckAKitsuneVaginally():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1220,7 +1220,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Anal] - requires cock area 144 or less
-		private function putItInAKitsunesAssWin():void
+		private putItInAKitsunesAssWin():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1289,7 +1289,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Tribbing] - requires vagina
-		private function tribbingWithAKitsune():void
+		private tribbingWithAKitsune():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1331,7 +1331,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Tail Job] - requires cock
-		private function tailJobKitsuneWin():void
+		private tailJobKitsuneWin():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1373,7 +1373,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Tentacles] - requires 3+ tentacles of 30" or longer
-		private function kitsunesGetBonedBy3PlusTentacles():void
+		private kitsunesGetBonedBy3PlusTentacles():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1448,7 +1448,7 @@ package classes.Scenes.Areas.Forest
 //Blonde-exclusive
 //[Fuck Draft]
 //{all " + cockDescript(0) + " calls for this scene should prioritize dog cocks; if PC is in Rut, prioritize other animal dicks second, otherwise use the biggest cock.}
-		private function fuckDraftBlond():void
+		private fuckDraftBlond():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1553,7 +1553,7 @@ package classes.Scenes.Areas.Forest
 
 
 //[Ovi Elixir]
-		private function doseAKitsuneWithOviElixirs():void
+		private doseAKitsuneWithOviElixirs():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1628,7 +1628,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Lactaid]
-		private function lactaidDoseAKitSune():void
+		private lactaidDoseAKitSune():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1691,7 +1691,7 @@ package classes.Scenes.Areas.Forest
 
 //Black-hair-exclusive
 //[Hotdog Anal] - replaces regular Anal option only for the black-haired girl.
-		private function hotdogAnalInKitsuneButtDontLetTailTickleYourNose():void
+		private hotdogAnalInKitsuneButtDontLetTailTickleYourNose():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1761,7 +1761,7 @@ package classes.Scenes.Areas.Forest
 
 
 //[Feeder]
-		private function feederTheKitsunes():void
+		private feederTheKitsunes():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1819,7 +1819,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[GetBJ] - requires cock 108 area or less
-		private function getABJFromAFoxGirl():void
+		private getABJFromAFoxGirl():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1909,7 +1909,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[GetLicked] - requires a vagina
-		private function getLickedByKitsunes():void
+		private getLickedByKitsunes():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1943,7 +1943,7 @@ package classes.Scenes.Areas.Forest
 
 //Redhead-exclusive
 //[Ride] - requires vagina
-		private function rideDatRedheadKitsuneCockIntoTheSkyDiamonds():void
+		private rideDatRedheadKitsuneCockIntoTheSkyDiamonds():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -1987,7 +1987,7 @@ package classes.Scenes.Areas.Forest
 
 //[Helix] - requires herm
 //REDHEAD KITSUNE
-		private function helixZeKitsunes():void
+		private helixZeKitsunes():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -2056,7 +2056,7 @@ package classes.Scenes.Areas.Forest
 
 //[Remove Dick]
 //AKA Lose the dick, schweethaat AKA put that thing away
-		private function redheadsDontDeserveToHavePenisesBecauseTheyreTooGayForPenisOrSomethingIDontReallyKnowHowThisWorksOrWhyThisFunctionNameIsSoFuckingLong():void
+		private redheadsDontDeserveToHavePenisesBecauseTheyreTooGayForPenisOrSomethingIDontReallyKnowHowThisWorksOrWhyThisFunctionNameIsSoFuckingLong():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -2081,7 +2081,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Bring Back Dick] // AKA you don't know dick about dick AKA the dickening
-		private function bringBackDick():void
+		private bringBackDick():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -2099,7 +2099,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Non-Futa Redhead: [Some sort of lapsitting handjob thing, I don't know]
-		private function nonFutaRedHeadIsWorstRedheadLapsittingHandjobThingIDontKnow():void
+		private nonFutaRedHeadIsWorstRedheadLapsittingHandjobThingIDontKnow():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -2153,7 +2153,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Non-futa Redhead: [Bondage] - requires a cock with area <= 144 due to some anal
-		private function nonFutaRedHeadBondageIGuessYouTieHerUpWithYourPenisThenHuh():void
+		private nonFutaRedHeadBondageIGuessYouTieHerUpWithYourPenisThenHuh():void
 		{
 			clearOutput();
 			kitsuneSprite();
@@ -2238,7 +2238,7 @@ package classes.Scenes.Areas.Forest
 
 //[The Shrine of the Ninetails]
 //Discovery
-		public function kitsuneShrine():void
+		public kitsuneShrine():void
 		{
 			clearOutput();
 			if (flags[FlagEnum.KITSUNE_SHRINE_VISIT] == 0) {
@@ -2267,7 +2267,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Read Books]
-		private function readKitsuneBooks():void
+		private readKitsuneBooks():void
 		{
 			clearOutput();
 			Render.text("You decide to peruse the selection of old tomes on the bookshelf.  To your dismay, many of them seem to be written in a strange script that you can't understand.  After a bit of searching, though, you find a couple that you can read, carefully thumbing through the old, dusty pages.\n\n");
@@ -2294,7 +2294,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Meditate]
-		private function meditateLikeAKitsuneEhQuestionMark():void
+		private meditateLikeAKitsuneEhQuestionMark():void
 		{
 			clearOutput();
 			if (player.hasItem(consumables.FOXJEWL) && player.tailType == TAIL.FOX && player.lowerBody.tailVenom < 9 && player.lowerBody.tailVenom + 1 <= player.level && player.lowerBody.tailVenom + 1 <= player.stats.int / 10 && player.upperBody.head.earType == EARS.FOX && !player.perks.has("CorruptedNinetails") && !player.perks.has("EnlightenedNinetails")) {
@@ -2330,7 +2330,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Steal Statue]
-		private function stealAStatue():void
+		private stealAStatue():void
 		{
 			clearOutput();
 			menu();
@@ -2347,7 +2347,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Take it]
-		private function takeAKitsuneStatue():void
+		private takeAKitsuneStatue():void
 		{
 			clearOutput();
 			Render.text("The thought of how many gems you'll be able to get for it is enough to quickly suppress those feelings, avarice winning out over guilt.");
@@ -2358,7 +2358,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //[Put it Back]
-		private function putKitsuneStatueBack():void
+		private putKitsuneStatueBack():void
 		{
 			clearOutput();
 			Render.text("Regretting your decision, you replace the statue on the pedestal, your guilty conscience winning out over greed today.");
@@ -2369,7 +2369,7 @@ package classes.Scenes.Areas.Forest
 		}
 
 //Use:
-		public function kitsuneStatue():void
+		public kitsuneStatue():void
 		{
 			Render.text("You pull out the gold statue and turn it around in your hands a few times, carefully examining the intricate filigree and inscriptions covering the masterfully crafted idol.  Whoever made this certainly put a lot of time and love into their craft." + ((player.stats.cor < 50) ? "  Examining the painstaking detail that went into it, you feel a slight pang of guilt for having stolen it from its rightful place.  You push the thoughts away, reasoning that it won't be missed - after all, the owner was long gone before you arrived." : "") + "\n\n");
 			Render.text("It's not much use to you other than decoration, but based on the craftsmanship alone you judge that you could get a fair price for it if you pawned it off.");

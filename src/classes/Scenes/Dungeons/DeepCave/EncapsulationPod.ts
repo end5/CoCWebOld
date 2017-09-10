@@ -15,7 +15,7 @@
 	public class EncapsulationPod extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.encapsulationPodAI();
 		}
@@ -74,7 +74,7 @@
 			return _long;
 		}
 
-		public function EncapsulationPod()
+		public EncapsulationPod()
 		{
 			this.a = "the ";
 			this.short = "pod";

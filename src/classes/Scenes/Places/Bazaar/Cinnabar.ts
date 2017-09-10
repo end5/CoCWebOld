@@ -18,7 +18,7 @@
 public class Cinnabar extends BazaarAbstractContent {
 	
 //Appearnace
-public function cinnabarAppearance(output:boolean = true):Function {
+public cinnabarAppearance(output:boolean = true):Function {
 	//Send back 0 for 'closed'.
 	if(model.time.hours < 15 || model.time.hours > 20) return null;
 	if(output) {
@@ -30,7 +30,7 @@ public function cinnabarAppearance(output:boolean = true):Function {
 	return cinnabarGreeting;
 }
 //Approach 
-private function cinnabarGreeting():void {
+private cinnabarGreeting():void {
 	Render.text("", true);
 	spriteSelect(91);
 	//1st Time:
@@ -92,7 +92,7 @@ private function cinnabarGreeting():void {
 
 
 //[Buy an Hour]
-private function cinnabarNonHugeDickings():void {
+private cinnabarNonHugeDickings():void {
 	flags[FlagEnum.CINNABAR_HOUSE_VISITED]++;
 	flags[FlagEnum.CINNABAR_NUMBER_TIMES_FUCKED]++;
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 0;
@@ -204,7 +204,7 @@ private function cinnabarNonHugeDickings():void {
 }
 	
 //[FUCK] – tracks if last fuck was huger + corrupteded version
-private function cinnabarGetsFUKKKKED():void {
+private cinnabarGetsFUKKKKED():void {
 	flags[FlagEnum.CINNABAR_HOUSE_VISITED]++;
 	flags[FlagEnum.CINNABAR_NUMBER_TIMES_FUCKED]++;
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 0;
@@ -270,7 +270,7 @@ private function cinnabarGetsFUKKKKED():void {
 }
 	
 //(Huger and Corrupteder) (75+ corr)
-private function fuckCinnabarHugerAndCorruptedEr():void {
+private fuckCinnabarHugerAndCorruptedEr():void {
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 1;
 	let x:number = player.biggestCockIndex();
 
@@ -336,7 +336,7 @@ private function fuckCinnabarHugerAndCorruptedEr():void {
 }
 
 //(HUGER)
-private function cinnabarHuger():void {
+private cinnabarHuger():void {
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 0;
 	let x:number = player.biggestCockIndex();
 
@@ -387,7 +387,7 @@ private function cinnabarHuger():void {
 }
 
 //(HUGE)
-private function cinnabarHuge():void {
+private cinnabarHuge():void {
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 0;
 	let x:number = player.biggestCockIndex();
 
@@ -442,7 +442,7 @@ private function cinnabarHuge():void {
 //setting two mirrors on the bed before she sits on them and fellates one on the wall.
 //surprise – at the end she moves the portal when you pull back and makes you cum in her
 //and in your own ass.
-private function cinnabarMultiCockPortalFuckFest():void {
+private cinnabarMultiCockPortalFuckFest():void {
 	flags[FlagEnum.CINNABAR_HOUSE_VISITED]++;
 	flags[FlagEnum.CINNABAR_NUMBER_TIMES_FUCKED]++;
 	flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] = 0;

@@ -7,7 +7,7 @@ package classes.Scenes.Monsters
 
 	public class AbstractSuccubus extends Monster
 	{
-		protected function whipAttack():void
+		protected whipAttack():void
 		{
 			if (statusAffects.has("WhipReady")) {
 				//Blind dodge change
@@ -80,11 +80,11 @@ package classes.Scenes.Monsters
 			combatRoundOver();
 		}
 
-		public function AbstractSuccubus()
+		public AbstractSuccubus()
 		{
 		}
 
-		protected function kissAttack():void
+		protected kissAttack():void
 		{
 			//[Kiss of Death Text]
 			Render.text("The succubus dances forwards, cocking her elbow back for a vicious strike.", false);
@@ -101,7 +101,7 @@ package classes.Scenes.Monsters
 			combatRoundOver();
 		}
 
-		protected function seduceAttack():void
+		protected seduceAttack():void
 		{
 			let temp: number;
 			//determine which method of teasing you use

@@ -5,7 +5,7 @@ package classes.Scenes.Dungeons.HelDungeon
 	public class PhoenixPlatoon extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			game.phoenixPlatoonAI();
 		}
@@ -20,7 +20,7 @@ package classes.Scenes.Dungeons.HelDungeon
 			game.phoenixPlatoonMurdersPC();
 		}
 
-		public function PhoenixPlatoon()
+		public PhoenixPlatoon()
 		{
 			this.a = "the ";
 			this.short = "phoenix platoon";

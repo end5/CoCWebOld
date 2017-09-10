@@ -19,10 +19,10 @@ package classes.Scenes.Areas
 		public let frogGirlScene:FrogGirlScene = new FrogGirlScene();
 		public let chameleonGirlScene:ChameleonGirlScene = new ChameleonGirlScene();
 		public let phoukaScene:PhoukaScene = new PhoukaScene();
-		public function Bog()
+		public Bog()
 		{
 		}
-		public function exploreBog():void
+		public exploreBog():void
 		{
 			flags[FlagEnum.BOG_EXPLORED]++;
 			//Helia monogamy fucks

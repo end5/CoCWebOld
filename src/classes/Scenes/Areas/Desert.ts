@@ -18,11 +18,11 @@ package classes.Scenes.Areas
 		public let sandTrapScene:SandTrapScene = new SandTrapScene();
 		public let sandWitchScene:SandWitchScene = new SandWitchScene();
 		public let wanderer:Wanderer = new Wanderer();
-		public function Desert()
+		public Desert()
 		{
 		}
 		//Explore desert
-		public function exploreDesert():void
+		public exploreDesert():void
 		{
 			player.exploredDesert++;
 			if (player.level >= 4 && player.exploredDesert % 15 == 0 && flags[FlagEnum.DISCOVERED_WITCH_DUNGEON] == 0) {
@@ -126,7 +126,7 @@ package classes.Scenes.Areas
 			else choices[select](args[select]);
 		}
 
-		private function mirageDesert():void
+		private mirageDesert():void
 		{
 			clearOutput();
 			Render.text("While exploring the desert, you see a shimmering tower in the distance.  As you rush towards it, it vanishes completely.  It was a mirage!   You sigh, depressed at wasting your time.", true);
@@ -134,7 +134,7 @@ package classes.Scenes.Areas
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function walkingDesertStatBoost():void
+		private walkingDesertStatBoost():void
 		{
 			clearOutput();
 			Render.text("You walk through the shifting sands for an hour, finding nothing.\n\n", true);

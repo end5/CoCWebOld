@@ -3,7 +3,7 @@
 
 	public class Jasun extends TelAdreAbstractContent{
 
-	public function Jasun()
+	public Jasun()
 	{
 	}
 
@@ -22,7 +22,7 @@
 //-----
 //GO TO GYM (FROM TEL'ADRE)
 
-public function changingRoom():void {
+public changingRoom():void {
 	//Charge for gym if no lifetime member!
 	Render.text("", true);
 	if(flags[FlagEnum.LIFETIME_GYM_MEMBER] == 0) {
@@ -45,7 +45,7 @@ public function changingRoom():void {
 }
 
 //AT CHANGING ROOM (SELECTING TO SEE THE SHARK OR LOOK AROUND IF FIRST TIME)
-private function meetJasun():void {
+private meetJasun():void {
 	Render.text("", true);
 	spriteSelect(33);
 	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00179] == 0) {
@@ -163,7 +163,7 @@ private function meetJasun():void {
 	}
 }
 
-private function meetJasun2():void {
+private meetJasun2():void {
 	Render.text("", true);
 	spriteSelect(33);
 	Render.text("You and he walk together for what can't be a very long time. He winds around the back side of the gym, avoiding the weightlifting room and going past the track altogether. You didn't even know that there were areas of the gym beyond what you had previously seen. He easily pushes aside a very thick door with one arm ", false);
@@ -177,7 +177,7 @@ private function meetJasun2():void {
 }
 
 //IF YOU TURN AWAY
-private function turnAwayFromAdj():void {
+private turnAwayFromAdj():void {
 	Render.text("", true);
 	spriteSelect(33);
 	Render.text("\"<i>I understand,</i>\" he says dejectedly. He steps up and walks back toward the door. He perks up at the last minute, not letting his being rejected hurt his pride in the least, and says, \"<i>If you ever would like to swim, you know where to find me. Farewell.</i>\" He stands at the door and waits for you to leave before leaping into the water alone, as he has done no doubt many times in the past.\n\n", false);
@@ -188,7 +188,7 @@ private function turnAwayFromAdj():void {
 }
 
 //IF YOU ACCEPT
-private function acceptJasunsAdvances():void {
+private acceptJasunsAdvances():void {
 	Render.text("", true);
 	spriteSelect(33);
 	Render.text("He smiles wider as you put your hand into his. He leaps into the pool with a finesse unrivaled and lets go of you just as you're over the edge and dive in yourself. You giggle and throw about your hair in the water, gleeful at being able to swim somewhere without fear of being attacked by assorted demons, slimes, or what-have-you. You swim swiftly through the water and manage to catch up to him as he rounds the second corner of his first lap. He's completely shocked at your adroitness in the water, and smiles a wicked and toothed grin as he speeds up, no longer content to hold back. You struggle to keep up, but find that he is simply designed for this kind of thing. Seeing that you are trying so hard, he lets up again, content with the challenge you've provided as you round out your first lap. He isn't even panting when he holds up and turns toward you. You're so focused on your swimming that you ram right into his chest, bonking your head and causing you to scowl a little and contort in the water to come up. As you come up, rubbing your head, you find that you are intimately close to Jasun and immediately blush.\n\n", false);
@@ -200,7 +200,7 @@ private function acceptJasunsAdvances():void {
 	doNext(jasunSecks);
 }
 
-private function jasunSecks():void {
+private jasunSecks():void {
 	Render.text("", true);
 	spriteSelect(33);
 	//Increment 'times had sex'

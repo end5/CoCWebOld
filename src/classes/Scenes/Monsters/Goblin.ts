@@ -5,7 +5,7 @@
 
 	public class Goblin extends Monster
 	{
-		protected function goblinDrugAttack():void {
+		protected goblinDrugAttack():void {
 			let temp2:number = rand(2);
 			if(short == "Tamani") temp2 = rand(5);
 			if(short == "Tamani's daughters") temp2 = rand(5);
@@ -73,7 +73,7 @@
 			if (!plural) combatRoundOver();
 			else Render.text("\n", false);
 		}
-		protected function goblinTeaseAttack():void {
+		protected goblinTeaseAttack():void {
 			let det:number = rand(3);
 			if(det == 0) Render.text(capitalA + short + " runs her hands along her leather-clad body and blows you a kiss. \"<i>Why not walk on the wild side?</i>\" she asks.", false);
 			if(det == 1) Render.text(capitalA + short + " grabs her heel and lifts it to her head in an amazing display of flexibility.  She caresses her snatch and gives you a come hither look.", false);
@@ -102,7 +102,7 @@
 			}
 		}
 
-		public function Goblin(noInit:boolean=false)
+		public Goblin(noInit:boolean=false)
 		{
 			if (noInit) return;
 			this.a = "the ";

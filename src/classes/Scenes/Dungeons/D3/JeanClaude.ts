@@ -9,7 +9,7 @@ package classes.Scenes.Dungeons.D3
 	 */
 	public class JeanClaude extends Monster
 	{
-		private function doubleAttack():void
+		private doubleAttack():void
 		{
 			Render.text("The monstrous basilisk suddenly lunges forward, snarling wordlessly as he swings his cutlass at you twice, the blows of a savage yet expert swordsman.\n\n");
 			statusAffects.add(new StatusAffect("Attacks", 2, 0, 0, 0)));
@@ -32,7 +32,7 @@ package classes.Scenes.Dungeons.D3
 			game.d3.jeanClaude.fuckhugeBasiliskFuckedYouUp(hpVictory);
 		}
 		
-		public function handleTease(lustDelta:number, successful:boolean):void
+		public handleTease(lustDelta:number, successful:boolean):void
 		{
 			if (player.findStatusAffect(StatusAffects.RemovedArmor) < 0)
 			{
@@ -76,7 +76,7 @@ package classes.Scenes.Dungeons.D3
 			}
 		}
 		
-		public function JeanClaude() 
+		public JeanClaude() 
 		{
 			this.a = "";
 			this.short = "Jean-Claude";

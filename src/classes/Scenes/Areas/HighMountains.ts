@@ -18,12 +18,12 @@ package classes.Scenes.Areas
 		public let minotaurMobScene:MinotaurMobScene = new MinotaurMobScene();
 		public let izumiScenes:IzumiScene = new IzumiScene();
 		
-		public function HighMountains()
+		public HighMountains()
 		{
 		}
 		
 		//Explore High Mountain
-		public function exploreHighMountain():void
+		public exploreHighMountain():void
 		{
 			flags[FlagEnum.DISCOVERED_HIGH_MOUNTAIN]++;
 			doNext(playerMenu);
@@ -121,7 +121,7 @@ package classes.Scenes.Areas
 		}
 		//\"<i>Chicken Harpy</i>\" by Jay Gatsby and not Savin he didn't do ANYTHING
 		//Initial Intro
-		public function chickenHarpy():void
+		public chickenHarpy():void
 		{
 			clearOutput();
 			spriteSelect(90);
@@ -153,7 +153,7 @@ package classes.Scenes.Areas
 		}
 
 		//If Give Two
-		public function giveTwoOviElix():void
+		public giveTwoOviElix():void
 		{
 			clearOutput();
 			spriteSelect(90);
@@ -171,7 +171,7 @@ package classes.Scenes.Areas
 		}
 
 		//If Give Three
-		public function giveThreeOviElix():void
+		public giveThreeOviElix():void
 		{
 			clearOutput();
 			spriteSelect(90);
@@ -188,7 +188,7 @@ package classes.Scenes.Areas
 		}
 
 		//All Text
-		public function getHarpyEgg(itype:ItemType):void
+		public getHarpyEgg(itype:ItemType):void
 		{
 			clearOutput();
 			spriteSelect(90);
@@ -198,7 +198,7 @@ package classes.Scenes.Areas
 		}
 
 		//If No
-		public function leaveChickenx():void
+		public leaveChickenx():void
 		{
 			clearOutput();
 			spriteSelect(90);

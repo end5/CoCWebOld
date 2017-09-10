@@ -6,7 +6,7 @@ package classes
 	 */
 	public class room 
 	{
-		public function room() 
+		public room() 
 		{
 			
 		}

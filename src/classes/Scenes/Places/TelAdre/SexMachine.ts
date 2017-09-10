@@ -4,11 +4,11 @@
 
 	public class SexMachine extends TelAdreAbstractContent{
 
-	public function SexMachine()
+	public SexMachine()
 	{
 	}
 
-public function exploreShowers():void {
+public exploreShowers():void {
 	Render.text("", true);
 	/*if(flags[FlagEnum.LIFETIME_GYM_MEMBER] == 0) {
 		Render.text("You toss ten gems to centaur and head towards the back.\n\n", false);
@@ -36,13 +36,13 @@ public function exploreShowers():void {
 }
 
 //[If you decide to leave.]
-private function leaveShowers():void {
+private leaveShowers():void {
 	Render.text("", true);
 	Render.text("You shake your head.  You've had enough of a workout for the day, and you remember you're in a land where curiosity almost certainly kills (well, more thoroughly rapes) the cat.  You leave the room and continue to search for the showers, eventually finding them and heading back to camp.", false);
 	doNext(camp.returnToCampUseOneHour);
 }
 
-private function useTheSexMachine():void {
+private useTheSexMachine():void {
 	Render.text("", true);
 	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00182] = 2;
 	//[If you decide to mess with the machine: Male]

@@ -26,7 +26,7 @@
 	{
 		private let _loppeTalks:Array;
 
-		public function UmasShop() 
+		public UmasShop() 
 		{
 			initLoppeTalks();
 		}
@@ -34,7 +34,7 @@
 		/**
 		 * Builds an array of the sub-scenes for Loppe conversations. No point continually building the shit every time, right?
 		 */
-		private function initLoppeTalks():void
+		private initLoppeTalks():void
 		{
 			_loppeTalks = [];
 			_loppeTalks.push(talkLoppeAttitudes);
@@ -48,7 +48,7 @@
 		 * First time scene entering le shoppe
 		 * Edit Status: 100%
 		 */
-		public function firstVisitPart1():void
+		public firstVisitPart1():void
 		{
 			clearOutput();
 			
@@ -100,7 +100,7 @@
 		 * Page 2 of introduction scene
 		 * Edit Status: 95%
 		 */
-		public function firstVisitPart2():void
+		public firstVisitPart2():void
 		{
 			clearOutput();
 			
@@ -130,7 +130,7 @@
 		 * Page 3 of introduction scene
 		 * Edit Status: 95%
 		 */
-		public function firstVisitPart3():void
+		public firstVisitPart3():void
 		{
 			clearOutput();
 			
@@ -158,7 +158,7 @@
 		 * Edit Status: 90%
 		 * @param returnedTo	Indicates the "entrance" mode. false = came here from an external menu, true = backed out from one of Uma's options
 		 */
-		public function enterClinic(returnedTo:boolean = false):void
+		public enterClinic(returnedTo:boolean = false):void
 		{
 			clearOutput();
 			
@@ -194,7 +194,7 @@
 		 * Build the primary interface menu to interact with Uma.
 		 * @param	noSex	Indicates if the Sex button should be hidden from display.
 		 */
-		private function buildCoreMenu(noSex:boolean = false):void
+		private buildCoreMenu(noSex:boolean = false):void
 		{
 			if (noSex)
 			{
@@ -224,7 +224,7 @@
 		 * Primary massage intro & selection menu
 		 * Edit Status: 95%
 		 */
- 		public function massageMenu():void
+ 		public massageMenu():void
 		{
 			clearOutput();
 			
@@ -251,7 +251,7 @@
 		 * Player changed mind about MASSAGEU TIEMU
 		 * Edit Status: 100%
 		 */
-		public function massageNope():void
+		public massageNope():void
 		{
 			clearOutput();
 			
@@ -270,7 +270,7 @@
 		public static const MASSAGE_RELIEF: number = 0;
 		public static const MASSAGE_RELIEF_BONUS:number = 0.9;	// Multiplicative bonus to Lust gains
 		private static const MASSAGE_RELIEF_BONUS_TEXT:string = "<b>(10% Reduction to all Lust gains whilst active!)</b>";
-		public function massageRelief():void
+		public massageRelief():void
 		{
 			clearOutput();
 			
@@ -290,7 +290,7 @@
 		public static const MASSAGE_LUST: number = 1;
 		public static const MASSAGE_LUST_BONUS:number = 1.1;	// Multiplicative bonus to Lust gains
 		private static const MASSAGE_LUST_BONUS_TEXT:string = "<b>(10% Increase to all Lust gains whilst active!)</b>";
-		public function massageLust():void
+		public massageLust():void
 		{
 			clearOutput();
 			
@@ -310,7 +310,7 @@
 		public static const MASSAGE_MODELLING: number = 2;
 		public static const MASSAGE_MODELLING_BONUS: number = 10;	// Flat bonus applied to femininity stat
 		private static const MASSAGE_MODELLING_BONUS_TEXT:string = "<b>(+10 Bonus Femininity whilst active!)</b>";
-		public function massageModelling():void
+		public massageModelling():void
 		{
 			clearOutput();
 			
@@ -339,7 +339,7 @@
 		public static const MASSAGE_RELAXATION: number = 3;
 		public static const MASSAGE_RELAXATION_BONUS:number = 0.9;	// Multiplicative bonus to damage taken -- these seem a little op with current values
 		private static const MASSAGE_RELAXATION_BONUS_TEXT:string = "<b>(10% Reduction to all Damage taken whilst active!)</b>";
-		public function massageRelaxation(): void
+		public massageRelaxation(): void
 		{
 			clearOutput();
 			
@@ -359,7 +359,7 @@
 		public static const MASSAGE_POWER: number = 4;
 		public static const MASSAGE_POWER_BONUS:number = 1.1;	// Multiplicative bonus to damage done -- these seem a little op with current values
 		private static const MASSAGE_POWER_BONUS_TEXT:string = "<b>(10% Increase to all Damage inflicted whilst active!)</b>";
-		public function massagePower():void 
+		public massagePower():void 
 		{
 			clearOutput();
 			
@@ -378,7 +378,7 @@
 		 * @param	selectedMassage		int key of the massage type, for later application of benefits.
 		 * Edit Status: 95%
 		 */
-		public function massageMain(selectedMassage: number):void
+		public massageMain(selectedMassage: number):void
 		{
 			clearOutput();
 			
@@ -423,7 +423,7 @@
 		 * @param	selectedMassage		Massage bonus ID to apply
 		 * Edit Status: 95%
 		 */
-		public function massageCommence(selectedMassage: number):void 
+		public massageCommence(selectedMassage: number):void 
 		{
 			clearOutput();
 			
@@ -471,7 +471,7 @@
 		 * StatusAffects.UmasMassage for all bonuses
 		 * @param	selectedMassage
 		 */
-		public function applyMassageBonus(selectedMassage: number):void
+		public applyMassageBonus(selectedMassage: number):void
 		{
 			if (selectedMassage < 0 || selectedMassage > 4)
 			{
@@ -526,7 +526,7 @@
 		 * Handle reducing the remaining time that the bonus is active for.
 		 * When expired, remove and include a message to the effect.
 		 */
-		public function updateBonusDuration(hours: number):void
+		public updateBonusDuration(hours: number):void
 		{
 			let statIndex: number = player.findStatusAffect(StatusAffects.UmasMassage);
 			
@@ -544,7 +544,7 @@
 		/**
 		 * Spam a message about the bonus being removed.
 		 */
-		public function bonusExpired():void
+		public bonusExpired():void
 		{
 			Render.text("\n<b>You groan softly as a feeling of increased tension washes over you, no longer as loose as you were before.  It looks like the effects of Uma's massage have worn off.</b>\n");
 			
@@ -600,7 +600,7 @@
 		 * @param	needleworkType		Static index value of the selected bonus scene
 		 * @return						String representation of the selected bonus scene
 		 */
-		public function needleworkString(needleworkType: number):string
+		public needleworkString(needleworkType: number):string
 		{
 			if (needleworkType == NEEDLEWORK_SPEED)
 			{
@@ -632,7 +632,7 @@
 		 * @param	perkName	PerkName currently being searched for
 		 * @return				Description of what the perk does.
 		 */
-		public function listPerkDescription(perkName:string):string
+		public listPerkDescription(perkName:string):string
 		{
 			switch(perkName)
 			{
@@ -661,7 +661,7 @@
 		 * Calculate the current undo cost of the players needlework
 		 * @return	calculated cost
 		 */
-		public function needleworkUndoCost(): number
+		public needleworkUndoCost(): number
 		{
 			let baseCost: number = 125;
 			
@@ -678,7 +678,7 @@
 		 * Figure out if the player currently has ANY needlework perk so we can modify scenes accordingly
 		 * @return	true if player has a needlework perk
 		 */
-		public function hasNeedleworkPerk():boolean
+		public hasNeedleworkPerk():boolean
 		{
 			let pType:PerkType = this.getNeedleworkPerk();
 			if (pType != null)
@@ -695,7 +695,7 @@
 		 * Figure out exactly WHICH needlework perk the player has
 		 * @return	Perk name that the player currently has
 		 */
-		public function getNeedleworkPerk():PerkType
+		public getNeedleworkPerk():PerkType
 		{
 			for each(let perk:PerkType in [
 					PerkLib.ChiReflowAttack,
@@ -718,7 +718,7 @@
 		 * ie. it makes future balancing of the perks more of a chore. Rather, other code can just reference the static vars we have here using UmasShop.NEEDLEWORK_MAGIC_blah. It's still bad, but its an shader of bad lighter so fuck it!
 		 * @param	selectedSession		Static bonus index to apply to the player
 		 */
-		public function applyNeedlework(selectedSession: number):void
+		public applyNeedlework(selectedSession: number):void
 		{
 			if (selectedSession == NEEDLEWORK_UNDO)
 			{
@@ -757,7 +757,7 @@
 		 * Edit Status: 85%
 		 * 				Some of the session descriptions might be a little... off. I've touched up one or two.
 		 */
-		public function acupunctureMenu():void
+		public acupunctureMenu():void
 		{
 			clearOutput();
 			
@@ -828,7 +828,7 @@
 		 * Player changes mind about going through with Accupuncture session.
 		 * Edit Status: 100%
 		 */
-		public function needleworkTurnDown():void
+		public needleworkTurnDown():void
 		{
 			clearOutput();
 			
@@ -845,7 +845,7 @@
 		 * Edit Status: 100%
 		 * @param	selectedSession		Static let indicating the desired outcome based on player selection. See NEEDLEWORK_ vars.
 		 */
-		public function needleworkSession(selectedSession: number):void
+		public needleworkSession(selectedSession: number):void
 		{
 			clearOutput();
 			
@@ -875,7 +875,7 @@
 		 * Edit Status: 90%
 		 * @param	selectedSession		Static let indicating the desired outcome based on player selection. See NEEDLEWORK_ vars.
 		 */
-		public function doNeedleworkSession(selectedSession: number):void
+		public doNeedleworkSession(selectedSession: number):void
 		{
 			clearOutput();
 			
@@ -912,7 +912,7 @@
 		 * Most of these will need breaking into multiple pages methinks.
 		 * Edit Status: 100%
 		 */
-		public function talkMenu():void
+		public talkMenu():void
 		{
 			clearOutput();
 			
@@ -932,7 +932,7 @@
 		 * Talk Job
 		 * Edit Status: 95%
 		 */
-		public function talkJob():void
+		public talkJob():void
 		{
 			clearOutput();
 			
@@ -959,7 +959,7 @@
 		 * Talk Sexuality
 		 * Edit Status: 90%
 		 */
-		public function talkSexuality():void
+		public talkSexuality():void
 		{
 			clearOutput();
 			
@@ -987,7 +987,7 @@
 		 * Talk about Loppe. Randomly selects a specific scene after selection.
 		 * Edit Status: 100%
 		 */
-		public function talkLoppe():void
+		public talkLoppe():void
 		{
 			clearOutput();
 			
@@ -1003,7 +1003,7 @@
 		/**
 		 * Centralise the end-of-talk loppe stuffs
 		 */
-		public function talkLoppeJoiner():void
+		public talkLoppeJoiner():void
 		{
 			menu();
 			doNext(camp.returnToCampUseOneHour);
@@ -1014,7 +1014,7 @@
 		 * Random talk scene about Loppe's Attitudes.
 		 * Edit Status: 90%
 		 */
-		public function talkLoppeAttitudes():void
+		public talkLoppeAttitudes():void
 		{
 			Render.text("\"<i>What do you think of Loppe?  How she acts?  Looks?  Behaves?</i>\"  Uma asks with a smile.\n\n");
 			Render.text("You're not quite sure what Uma's getting at and tell her as much, but finally declare that you'd probably call her girly.  A little on the tomboyish side, but, given she's a herm that only seems reasonable; it's hard to say what gender traits would be best for a person who is functionally both male and female.\n\n");
@@ -1044,7 +1044,7 @@
 		 * Loppe Talk - The Carrot Incident
 		 * Edit Status: 90%
 		 */
-		public function talkLoppeCarrotIncident():void
+		public talkLoppeCarrotIncident():void
 		{
 			Render.text("\"<i>Tell me, [name].  Did you know rabbits love carrots?</i>\"  Uma asks with a smirk.\n\n");
 			Render.text("You tell her that's what people say, back in the village you come from.  But, then again, you smirk, they also say that horses love carrots too, and you verbally recount an incident in which a mare broke out of her pen and ate so many carrots from one of the village fields she was heartily sick.  You ask jokingly if Uma shares any favorite dishes with her daughter?\n\n");
@@ -1072,7 +1072,7 @@
 		 * Loppe Talk - Loppe Puberty
 		 * Edit Status: 80%
 		 */
-		public function talkLoppePuberty():void
+		public talkLoppePuberty():void
 		{
 			Render.text("\"<i>By now, you must know about Loppe's stamina, right?  And that her cum production is also... quite elevated too, no?</i>\"  Uma asks, smiling.\n\n");
 			Render.text("You can't resist a wry grin as you comment that you might be familiar with what Uma is talking about, yes.\n\n");
@@ -1133,7 +1133,7 @@
 		 * 				Calling it 75%. I've been through all of it and some of the tensing seems off in places, but I've cleaned up a bunch of shit. I don't even know if this should stay;
 		 * 				It's good, but it's doesn't exactly fit with the style of anything else in CoC outside of Urta's Quest in a way, so...
 		 */
-		public function talkLoppesFirstGirl():void
+		public talkLoppesFirstGirl():void
 		{
 			Render.text("\"<i>Oh, I know what would be a great story...</i>\"  Uma smirks at you.  \"<i>How would you like to hear about my little laquine's first time with a girl?</i>\"\n\n");
 			Render.text("You give it a moments thought, and tell the mare that would be nice; you're curious about just what Loppe's dating life was like before you met her.  Oh, she talks a bold game, but you're not entirely certain she's being honest with you...\n\n");
@@ -1150,7 +1150,7 @@
 			addButton(0, "Next", talkLoppesFirstGirlPart2);
 		}
 		
-		public function talkLoppesFirstGirlPart2():void
+		public talkLoppesFirstGirlPart2():void
 		{
 			clearOutput();
 			
@@ -1173,7 +1173,7 @@
 			addButton(0, "Next", talkLoppesFirstGirlPart3);
 		}
 		
-		public function talkLoppesFirstGirlPart3():void
+		public talkLoppesFirstGirlPart3():void
 		{
 			clearOutput();
 			
@@ -1205,7 +1205,7 @@
 			addButton(0, "Next", talkLoppesFirstGirlPart4);
 		}
 		
-		public function talkLoppesFirstGirlPart4():void
+		public talkLoppesFirstGirlPart4():void
 		{
 			clearOutput();
 			
@@ -1243,7 +1243,7 @@
 			addButton(0, "Next", talkLoppesFirstGirlPart5);
 		}
 		
-		public function talkLoppesFirstGirlPart5():void
+		public talkLoppesFirstGirlPart5():void
 		{
 			clearOutput();
 			
@@ -1259,7 +1259,7 @@
 			addButton(0, "Next", talkLoppesFirstGirlPart6);
 		}
 		
-		public function talkLoppesFirstGirlPart6():void
+		public talkLoppesFirstGirlPart6():void
 		{
 			clearOutput();
 			
@@ -1291,7 +1291,7 @@
 		 * Talk Loppe - Loppe's First Boyfriend
 		 * Edit Status: 75% Some akwardness, and its fukken long. I did what I could without stomping all over everything.
 		 */
-		public function talkLoppesFirstBoyfriend():void
+		public talkLoppesFirstBoyfriend():void
 		{
 			Render.text("\"<i>How about I tell you about Loppe's first boyfriend?</i>\"  Uma suggests.\n\n");
 			Render.text("You tell Uma that it sounds like an interesting story, and you kindly ask her to proceed.\n\n");
@@ -1325,7 +1325,7 @@
 			addButton(0, "Next", talkLoppesFirstBoyfriendPart2);
 		}
 		
-		public function talkLoppesFirstBoyfriendPart2():void
+		public talkLoppesFirstBoyfriendPart2():void
 		{
 			clearOutput();
 			
@@ -1355,7 +1355,7 @@
 			addButton(0, "Next", talkLoppesFirstBoyfriendPart3)
 		}
 		
-		public function talkLoppesFirstBoyfriendPart3():void
+		public talkLoppesFirstBoyfriendPart3():void
 		{
 			clearOutput();
 			
@@ -1388,7 +1388,7 @@
 			addButton(0, "Next", talkLoppesFirstBoyfriendPart4);
 		}
 		
-		public function talkLoppesFirstBoyfriendPart4():void
+		public talkLoppesFirstBoyfriendPart4():void
 		{
 			clearOutput();
 			
@@ -1425,7 +1425,7 @@
 			addButton(0, "Next", talkLoppesFirstBoyfriendPart5);
 		}
 
-		public function talkLoppesFirstBoyfriendPart5():void
+		public talkLoppesFirstBoyfriendPart5():void
 		{
 			clearOutput();
 
@@ -1455,7 +1455,7 @@
 		 * Talk Loppe - Loppe's Dad
 		 * Edit Status: FUCK ALL
 		 */
-		public function talkLoppesDad():void
+		public talkLoppesDad():void
 		{
 			clearOutput();
 
@@ -1492,7 +1492,7 @@
 		 * Main sex menu
 		 * Edit Status: FUCK ALL
 		 */
-		public function sexMenu():void
+		public sexMenu():void
 		{
 			clearOutput();
 
@@ -1564,7 +1564,7 @@
 			buildSexMenu();
 		}
 
-		private function buildSexMenu():void
+		private buildSexMenu():void
 		{
 			menu();
 
@@ -1588,7 +1588,7 @@
 		* Erotic Massage
 		* Edit Status: FUCK ALL
 		*/
-		private function sexEroticMassage():void
+		private sexEroticMassage():void
 		{
 			clearOutput();
 
@@ -1658,7 +1658,7 @@
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		public function sexGetFingered():void
+		public sexGetFingered():void
 		{
 			clearOutput();
 
@@ -1768,7 +1768,7 @@
 			doNext(camp.returnToCampUseOneHour);
 		}
 
-		private function sexHandjob():void
+		private sexHandjob():void
 		{
 			clearOutput();
 
@@ -1847,7 +1847,7 @@
 			doNext(camp.returnToCampUseOneHour);
 		}
 		//Needs Cock.
-		private function sexGetABJFromDisMilfyLesboSlut():void
+		private sexGetABJFromDisMilfyLesboSlut():void
 		{
 			//Aim for something right around the biggest she can take, otherwise just take smallest.
 			let x: number = player.cockThatFits(25);
@@ -2024,7 +2024,7 @@
 			menu();
 			doNext(camp.returnToCampUseOneHour);
 		}
-		private function sexEatHerOut():void
+		private sexEatHerOut():void
 		{
 			clearOutput();
 
@@ -2076,7 +2076,7 @@
 		/**
 		 * Incomplete in the doc
 		 */
-		/* private function trainLoppe():void
+		/* private trainLoppe():void
 		{
 	You mention to Uma that her daughter has mentioned something about Uma wanting her to learn the family trade?
 

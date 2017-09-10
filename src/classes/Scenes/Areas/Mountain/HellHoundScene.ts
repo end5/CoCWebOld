@@ -8,7 +8,7 @@ package classes.Scenes.Areas.Mountain
 
 	public class HellHoundScene extends BaseContent
 	{
-		public function HellHoundScene()
+		public HellHoundScene()
 		{
 		}
 
@@ -25,7 +25,7 @@ package classes.Scenes.Areas.Mountain
 		 Upon defeat, the flames in the hellhound's mouth goes out. It submits to its foe by licking their gear.
 		 */
 
-		public function hellhoundEncounter():void
+		public hellhoundEncounter():void
 		{
 			Render.text("You hear a fiery howl as a demonic, two-headed beast-man leaps out in front of you!", true);
 			startCombat(new HellHound());
@@ -33,7 +33,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 
-		public function hellhoundRapesPlayer():void
+		public hellhoundRapesPlayer():void
 		{
 			//Lust or HP loss texts here
 			if (player.lust >= 100) Render.text("Overcome by sexual desire, you submit to the hungry hellhound.\n\n", true);
@@ -78,7 +78,7 @@ package classes.Scenes.Areas.Mountain
 			cleanupAfterCombat();
 		}
 
-		public function hellHoundGetsRaped():void
+		public hellHoundGetsRaped():void
 		{
 			Render.text("", true);
 			//(Raped by player)
@@ -98,7 +98,7 @@ package classes.Scenes.Areas.Mountain
 
 
 //HELLHOUND MASTER+ BAD ENDZZZZZ
-		public function HellHoundMasterEncounter():void
+		public HellHoundMasterEncounter():void
 		{
 			Render.text("", true);
 			//Initial encounter (A)
@@ -118,7 +118,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //choose no (B)
-		private function declineCrazyPresences():void
+		private declineCrazyPresences():void
 		{
 			Render.text("", true);
 			Render.text("You force the presence out of your mind.  You feel almost a bit lost after it disappears, but giving yourself over to foreign control can never be a good idea, can it?", false);
@@ -127,7 +127,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //choose yes (C)
-		private function acceptCrazyPresences():void
+		private acceptCrazyPresences():void
 		{
 			Render.text("", true);
 			Render.text("You relax your mind and allow the presence to fill your mind.  It takes control of your consciousness, and guides your thoughts.  You feel like you should go home, your master probably wants to meet you for the first time.  Instinctively you navigate the many twists and turns of the mountains, a path you can't remember, and don't have the presence of mind to chart.  Some time later, you emerge from the crags and passes to find an elaborate vale, filled with hellhounds.\n\n", false);
@@ -139,7 +139,7 @@ package classes.Scenes.Areas.Mountain
 			doNext(acceptCrazyPresencesII);
 		}
 
-		private function acceptCrazyPresencesII():void
+		private acceptCrazyPresencesII():void
 		{
 			Render.text("", true);
 			Render.text("The interior of the fort is obviously just the outer fortifications of a much bigger complex that goes deep inside a cave system.  As you move further inside, you find yourself stopping in front of the kennels.  These seem to be for the strongest of the hellhounds, and those that have their own demon masters.  You see a few other incubi and succubi playing with their hellhound pets.  For the most part though, you don't pay attention to the details of the fortress.  You're far too excited to get to the deepest part and meet up with your master, so you hurry on past.\n\n", false);
@@ -157,7 +157,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //Choose no (E)
-		private function declineGivingAwayLethicite():void
+		private declineGivingAwayLethicite():void
 		{
 			Render.text("", true);
 			Render.text("You push the presence out of your mind.  Maybe later you'll collect the hellfire, but for now you'd rather keep the lethicite.", false);
@@ -166,7 +166,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //Choose yes (F)
-		private function giveUpLethicite():void
+		private giveUpLethicite():void
 		{
 			Render.text("", true);
 			Render.text("You once again allow the master's will to fill you and bring you to his home.  Once again you pass through the many crags and passes of the mountains and find yourself in the hellhound valley.  The place is just as it was the last time you were here, but you don't take in the views, you have other pressing matters to deal with.  You quickly make your way across the valley to the entrance to the master's lair.\n\n", false);
@@ -181,7 +181,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //Regular Lethicite
-		private function giveLethicitePiece():void
+		private giveLethicitePiece():void
 		{
 			Render.text("", true);
 			//Give a single piece of Lethicite, get hellfire
@@ -217,7 +217,7 @@ package classes.Scenes.Areas.Mountain
 		}
 
 //Merae's Lethicite
-		private function giveALLTHELETHICITES():void
+		private giveALLTHELETHICITES():void
 		{
 			Render.text("", true);
 			//Give him Merae's Lethicite, now he's got enough power for a major upheaval in the demon hierarchy.  You don't get to keep being a champion.
@@ -292,7 +292,7 @@ package classes.Scenes.Areas.Mountain
 			getGame().gameOver();
 		}
 
-		public function hellHoundPropahRape():void
+		public hellHoundPropahRape():void
 		{
 			Render.text("", true);
 			if (monster.HP < 1) Render.text("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated and barely conscious. After all the trouble you had with him, you want to have some fun in exchange. \"<i>Bad boy, roll over!</i>\" you command as if the hellhound was just an ordinary domestic dog. To your surprise the creature actually does as you say. Accepting your victory he rolls onto his back, exposing his human-like abs and throat, signaling submissiveness. Looking down on your foe, your lustful gaze rests upon his privates. You examine the unusual ballsack with its quadruple testes, but the real treasure is yet to be found. Pulling on his sheath you reveal his twin dog members. An obsessive idea comes to your mind and you are determined to put his magnificent tools to a good use.\n\n", false);

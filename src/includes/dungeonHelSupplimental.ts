@@ -34,7 +34,7 @@ private static const DUNGEON_HEL_THRONE_ROOM: number	= 22;
 //Requirements: 
 //-PC has achieved \"<i>Fuckbuddy</i>\" status with Helia.
 //-HelAffection >= 70
-public function heliaDiscovery():void {
+public heliaDiscovery():void {
 	//clearOutput();
 	//(Scene proc's the first time all requirements are met and the player chooses [Sleep] at camp.)
 	Render.text("Before bedding down for the night, you make one last check of your camp's perimeter, making sure all your traps and defenses are still in place and primed in the event of a surprise nighttime assault.  As you come to the outermost parts of your makeshift camp, you notice a cloaked stranger approaching out of the evening darkness.  You're about to ready your [weapon], but you recognize the shapely figure of Hel the salamander walking towards you, hips a-sway underneath her loose traveling cloak.");
@@ -75,7 +75,7 @@ public function heliaDiscovery():void {
 }
 
 //Intro Scene -- No
-public function noDungeon():void {
+public noDungeon():void {
 	clearOutput();
 	Render.text("You consider for a few moments, but ultimately decide that this is a venture you'd rather not participate in.");
 	Render.text("\n\n\"<i>W-What? Why not?</i>\" Hel stammers, suddenly glowering at you.");
@@ -92,7 +92,7 @@ public function noDungeon():void {
 }
 
 //Intro Scene -- Yes
-public function agreeToHelpHeliaDungeon():void {
+public agreeToHelpHeliaDungeon():void {
 	clearOutput();
 	Render.text("You mull the salamander's proposition over and eventually agree to assist her.  Not only will you be stopping a new race of monsters from spawning into the mountains, but you'll be getting into the lovely Helia's good graces - a win-win if ever there was one.");
 	Render.text("\n\nHel breaks out into a great big smile and leaps at you, pulling you into a hug and squeezing until you damn near choke.  You return her tight embrace, and are eventually rewarded by Hel relaxing in your arms");
@@ -119,7 +119,7 @@ public function agreeToHelpHeliaDungeon():void {
 	player.orgasm();
 }
 	
-public function morningAfterHeliaDungeonAgreements():void {
+public morningAfterHeliaDungeonAgreements():void {
 	Render.text("\nWhen your eyes flicker open at the crack of dawn, you're pleased to see Helia is lying on your chest, ");
 	//[If PC has >C Cups, \"<i>
 	if(player.upperBody.chest.BreastRatingLargest[0].breastRating > 3) Render.text("her head nestled between your soft tits and ");
@@ -137,19 +137,19 @@ public function morningAfterHeliaDungeonAgreements():void {
 
 
 //Introduction -- Not Yet.
-public function notYet():void {
+public notYet():void {
 	clearOutput();
 	Render.text("You tell Hel you were only checking on her, and that you've still got some things to do.  She sighs and quietly asks you to hurry.");
 	doNext(playerMenu);
 }
 //Introduction -- Dungeon
-public function goToHeliaDungeon():void {
+public goToHeliaDungeon():void {
 	clearOutput();
 	Render.text("You tell Helia that yeah, you're as ready as you'll ever be.  She beams and grabs you in a tight hug.  \"<i>Thanks again, [name].  You're a real goddamn champion, you know that?</i>\"  You laugh it off, but the salamander gives you a sultry wink and starts off toward the mountains.  You're quick to follow her.");
 	//(NEXT)
 	doNext(goToHeliaDungeon2);
 }
-public function goToHeliaDungeon2():void {
+public goToHeliaDungeon2():void {
 	clearOutput();
 	Render.text("Within the hour, you and Helia are hiking up the narrow ledges and crevices of the high mountains, slowly but steadily climbing toward a snow-capped peak.  Hel certainly seems to know where she's going - she blazes a certain and steady trail, as if she knows every path and shortcut up the mountain.  By the time you near the peak, you're convinced she's been up here before - many times, even.");
 	Render.text("\n\nEventually, you see the crest of a squat, thick stone tower on the mountainside.  Hel easily guides you toward it, giving you a helping hand over an unusually wide gorge that would have kept most stray minotaurs well away from the solitary spire.  As you scramble onto the tower's plateau, Hel grabs your shoulders and pins you to the ground - just in time to avoid the gaze of a low-flying harpy.");
@@ -164,13 +164,13 @@ public function goToHeliaDungeon2():void {
 //	doNext(camp.campMenu);
 }
 
-public function takeGodsMead():void {
+public takeGodsMead():void {
 	inventory.takeItem(consumables.GODMEAD, playerMenu);
 	flags[FlagEnum.HEL_DUNGEON_MEAD_LOOTED]++;
 }
 
 //[Armor]:
-public function takeGooArmor():void {
+public takeGooArmor():void {
 	clearOutput();
 	Render.text("You approach the armor rack.  A suit of heavy plated armor sits upon it, overlaying a flexible chain vest.  Contrasting against the rotting room, the armor seems to be in pristine condition, even shining.  Perhaps someone uses this heavy equipment - but surely not a harpy? You suppose you could take it.");
 	//(Display Options: [Take Armor] [Back])
@@ -179,7 +179,7 @@ public function takeGooArmor():void {
 }
 
 //[Armor] -> [Take]:
-public function takeGooArmor4Realz():void {
+public takeGooArmor4Realz():void {
 	clearOutput();
 	spriteSelect(79);
 	Render.text("You reach out to grab the armor, but as soon as your finger brushes the shiny surface, a human-like face appears in the helm!  You recoil as a daintily feminine and bright blue face takes shape out of nowhere, staring at you with eyes afire with rage.  More of the gooey substance that makes up the girl's face fills out the armor, yanking it off the racks on feet made of goop.");
@@ -188,14 +188,14 @@ public function takeGooArmor4Realz():void {
 	startCombat(new GooArmor());
 }
 
-public function gooArmorAI():void {
+public gooArmorAI():void {
 	spriteSelect(79);
 	if(rand(2) == 0 && player.findStatusAffect(StatusAffects.GooArmorSilence) < 0) gooSilenceAttack();
 	else if(rand(3) > 0) gooArmorAttackPhysical();
 	else gooArmorAttackTwoGooConsume();
 }
 //ATTACK ONE: Greatsword
-public function gooArmorAttackPhysical():void {
+public gooArmorAttackPhysical():void {
 	if(combatMiss()) {
 		Render.text("The goo-armor rushes forward and swings her sword in a mighty arc, but you dodge it!");		
 	}
@@ -219,13 +219,13 @@ public function gooArmorAttackPhysical():void {
 	combatRoundOver();
 }
 //ATTACK TWO: Goo Consume
-public function gooArmorAttackTwoGooConsume():void {
+public gooArmorAttackTwoGooConsume():void {
 	Render.text("Suddenly, the goo-girl leaks half-way out of her heavy armor and lunges at you.  You attempt to dodge her attack, but she doesn't try and hit you - instead, she wraps around you, pinning your arms to your chest.  More and more goo latches onto you - you'll have to fight to get out of this.");
 	player.statusAffects.add(new StatusAffect("GooArmorBind",0,0,0,0)));
 	combatRoundOver();
 }
 //(Struggle)
-public function struggleAtGooBind():void {
+public struggleAtGooBind():void {
 	clearOutput();
 	//If fail:
 	if(rand(10) > 0 && player.str/5 + rand(20) < 23) {
@@ -246,7 +246,7 @@ public function struggleAtGooBind():void {
 	combatRoundOver();
 }
 //ATTACK THREE: Goo Silence
-public function gooSilenceAttack():void {
+public gooSilenceAttack():void {
 	Render.text("The goo pulls a hand off her greatsword and shoots her left wrist out towards you.  You recoil as a bit of goop slaps onto your mouth, preventing you from speaking - looks like you're silenced until you can pull it off!");
 	//(No spells until PC passes a moderate STR check or burns it away)
 	player.statusAffects.add(new StatusAffect("GooArmorSilence",0,0,0,0)));
@@ -254,7 +254,7 @@ public function gooSilenceAttack():void {
 }
 
 //Goo Armor -- PC Defeated (PC has Gender)
-public function gooArmorBeatsUpPC():void {
+public gooArmorBeatsUpPC():void {
 	spriteSelect(79);
 	Render.text("\n\nYou collapse, unable to resist the goo-armor's onslaught.  Laughing, she slithers out from underneath her armor, completely encasing you before you can do anything more than scream.  Laughing maniacally, the goo looms over you, hands on her hips.  \"<i>Tsk, tsk, tsk.  Not so eager to steal my armor now, are you?  Well... what am I to do with you, hmm?</i>\"  You struggle, but wrapped snugly in her goo, you can do little more than wiggle your hips and chest, accidentally moving yourself seductively.");
 	Render.text("\n\nAs you realize your mistake, a little smile spreads on her face.  \"<i>Ah, I know... I haven't had my precious fluids in so very long...</i>\"");
@@ -327,7 +327,7 @@ public function gooArmorBeatsUpPC():void {
 }
 
 //Goo Armor -- PC is Victorious (Intro)
-public function beatUpGooArmor():void {
+public beatUpGooArmor():void {
 	spriteSelect(79);
 	clearOutput();
 	Render.text("Succumbing to your ");
@@ -349,7 +349,7 @@ public function beatUpGooArmor():void {
 	flags[FlagEnum.WON_GOO_ARMOR_FIGHT] = 1;
 }
 //[Refuse Her]
-public function refuseGooArmorOffer():void {
+public refuseGooArmorOffer():void {
 	spriteSelect(79);
 	clearOutput();
 	Render.text("You tell her to fuck off -- you don't need armor that might try to kill or rape you at night.");
@@ -359,7 +359,7 @@ public function refuseGooArmorOffer():void {
 	doNext(playerMenu);
 }
 //[Take Her]
-public function takeGooArmorAndWearIt():void {
+public takeGooArmorAndWearIt():void {
 	spriteSelect(79);
 	clearOutput();
 	Render.text("You mull the proposition over for a few moments and then agree. Why the hell not.");
@@ -389,7 +389,7 @@ public function takeGooArmorAndWearIt():void {
 }
 
 //ATTACK ONE: Claw Flurry
-public function harpyHordeClawFlurry():void {
+public harpyHordeClawFlurry():void {
 	Render.text("The harpies lunge at you, a veritable storm of talons and claws raining down around you.  You stumble back, trying desperately to deflect some of the attacks, but there are simply too many to block them all!  Only a single harpy in the brood seems to be holding back...\n");
 	//(Effect: Multiple light attacks)
 	monster.statusAffects.add(new StatusAffect("Attacks",3+rand(3))),0,0,0);
@@ -398,14 +398,14 @@ public function harpyHordeClawFlurry():void {
 }
 
 //ATTACK TWO: Gangbang
-public function harpyHordeGangBangAttack():void {
+public harpyHordeGangBangAttack():void {
 	Render.text("Suddenly, a pair of harpies grabs you from behind, holding your arms to keep you from fighting back! Taking advantage of your open state, the other harpies leap at you, hammering your chest with punches and kicks - only one hangs back from the gang assault.\n\n");
 	player.statusAffects.add(new StatusAffect("HarpyBind",0,0,0,0)));
 	//(PC must struggle:
 	harpyHordeGangBangStruggle(false);
 }
 
-public function harpyHordeGangBangStruggle(clearDisp:boolean = true):void {
+public harpyHordeGangBangStruggle(clearDisp:boolean = true):void {
 	if(clearDisp) clearOutput();
 	//Failure: 
 	//If fail:
@@ -423,7 +423,7 @@ public function harpyHordeGangBangStruggle(clearDisp:boolean = true):void {
 }
 
 //ATTACK THREE: LUSTY HARPIES!
-public function harpyHordeLustAttack():void {
+public harpyHordeLustAttack():void {
 	Render.text("The harpies back off for a moment, giving you room to breathe - only to begin a mini strip-tease, pulling off bits of clothing to reveal their massive asses and hips or bearing their small, perky tits.  They caress themselves and each other, moaning lewdly.  Distracted by the burlesque, you don't notice a lipstick-wearing harpy approaching you until it's too late!  She plants a kiss right on your lips, ");
 	if(player.perks.has("LuststickAdapted")) Render.text("doing relatively little thanks to your adaptation");
 	else {
@@ -436,13 +436,13 @@ public function harpyHordeLustAttack():void {
 	combatRoundOver();
 }
 
-public function harpyHordeAI():void {
+public harpyHordeAI():void {
 	if(rand(3) == 0) harpyHordeLustAttack();
 	else if(rand(3) > 0) harpyHordeClawFlurry()
 	else harpyHordeGangBangAttack();
 }
 //Harpy Horde -- PC is Defeated (MAYBE BAD END!!!)
-public function pcLosesToHarpyHorde():void {
+public pcLosesToHarpyHorde():void {
 	Render.text("\n\nUnable to withstand the ");
 	if(player.HP < 1) Render.text("brutal assault");
 	else Render.text("raw sexuality");
@@ -454,7 +454,7 @@ public function pcLosesToHarpyHorde():void {
 }
 
 //Harpy Horde -- PC is Victorious
-public function pcDefeatsHarpyHorde():void {
+public pcDefeatsHarpyHorde():void {
 	clearOutput();
 	flags[FlagEnum.HEL_HARPIES_DEFEATED] = 1;
 	Render.text("The harpies collapse in a pile in the center of the room, all utterly defeated... except one.  The lone harpy that did not attack you throughout the fight, a rather slight girl with a shock of bright orange hair, still stands, gaping at the destruction you've wrought.  Eventually, her gaze shifts up to you.");
@@ -469,7 +469,7 @@ public function pcDefeatsHarpyHorde():void {
 	cleanupAfterCombat();
 }
 //Kiri -- [Talk]
-public function talkToKiri():void {
+public talkToKiri():void {
 	clearOutput();
 	Render.text("You ask Kiri if she wouldn't mind sharing a bit of information with you.");
 	Render.text("\n\n\"<i>Of course,</i>\" she says pleasantly, \"<i>that's what I'm here for!  What do you want to know?</i>\"");
@@ -478,7 +478,7 @@ public function talkToKiri():void {
 }
 
 //Kiri -- [Talk] -- [Hel]
-public function askKirkAboutHel():void {
+public askKirkAboutHel():void {
 	clearOutput();
 	Render.text("You ask the harpy girl how she knows Hel, exactly.");
 	Render.text("\n\n\"<i>Oh, uh,</i>\" she starts nervously, obviously taken aback by your question.  \"<i>I've known Miss Helia for quite a while now. She saved my life a couple of years ago, and, well, we've been friends ever since.  When I realized what was going on here - who the salamander in the dungeon was - I couldn't help but try and tell her what's up.</i>\"");
@@ -489,7 +489,7 @@ public function askKirkAboutHel():void {
 }
 
 //Kiri -- [Talk] -- [Harpies]
-public function askKiriAboutHarpies():void {
+public askKiriAboutHarpies():void {
 	clearOutput();
 	Render.text("You ask Kiri about the harpies remaining in the tower and their relative strength and position - anything to give you an advantage.");
 	Render.text("\n\n\"<i>Right, yeah, Hel asked me to scout around and remember that stuff.  Uh... Oh yeah!</i>\" she clears her throat and begins to recite:  \"<i>Dungeon Level: Brigid the Jailer, salamander prisoner.  Mezzanine: Phoenix Heavy Infantry unit, trained but inexperienced.  Second Floor: Honor Guard, elite bodyguards; and our Broodmother, Calais, queen of the tower.</i>\"");
@@ -499,7 +499,7 @@ public function askKiriAboutHarpies():void {
 }
 
 //Kiri -- [Talk] -- [Salamander]
-public function askKiriAboutSalamander():void {
+public askKiriAboutSalamander():void {
 	clearOutput();
 	Render.text("You ask her about the salamander prisoner you're here to help free.");
 	Render.text("\n\n\"<i>Oh, yeah...</i>\" Kiri says nervously \"<i>About that...</i>\"");
@@ -513,7 +513,7 @@ public function askKiriAboutSalamander():void {
 }
 
 //Kiri -- [Talk] -- [Kiri]
-public function askKiriAboutKiri():void {
+public askKiriAboutKiri():void {
 	clearOutput();
 	Render.text("You ask Kiri to tell you a little about herself.");
 	Render.text("\n\n\"<i>Who, me? Oh, I'm nobody special, really...</i>\" she says with a self-conscious chuckle.");
@@ -523,7 +523,7 @@ public function askKiriAboutKiri():void {
 	doNext(talkToKiri);
 }
 // Kiri -- [Sex] (Intro)
-public function kiriSexIntro():void {
+public kiriSexIntro():void {
 	clearOutput();
 	Render.text("You ask Kiri if she could help you blow off some steam.");
 	Render.text("\n\n\"<i>Wha-WHAT!?</i>\" she yelps, recoiling.  \"<i>Hey, look, I owe Hel big time, but I never agreed to do... to do that!  You... no way!</i>\"");
@@ -541,7 +541,7 @@ public function kiriSexIntro():void {
 }
 
 //Kiri -- [Sex] -- [Anal]
-public function kiriSexAnal():void {
+public kiriSexAnal():void {
 	clearOutput();
 	let x:number = player.cockThatFits(60);
 	if(x < 0) x = player.smallestCockIndex();
@@ -567,7 +567,7 @@ public function kiriSexAnal():void {
 }
 
 //Kiri -- [Sex] -- [Get Licked]
-public function kiriSexGetLicked():void {
+public kiriSexGetLicked():void {
 	clearOutput();
 	Render.text("You ask Kiri to eat you out. She grimaces but drops to her knees and undoes the bottom of your [armor], revealing your lusty [vagina]");
 	if(player.lowerBody.cockSpot.hasCock()) Render.text(" and " + player.multiCockDescriptLight());
@@ -582,7 +582,7 @@ public function kiriSexGetLicked():void {
 }
 
 //[Valeria]
-public function talkToValeria():void {
+public talkToValeria():void {
 	clearOutput();
 	Render.text("Now that you have a few moments to catch your breath, you ask your goo-armor what she thinks about the situation.");
 	Render.text("\n\n\"<i>Oh, hi,</i>\" she laughs.  She pours half-way out of your armor, forming her face a few inches from yours.  Kiri leaps in shock, wide-eyed as your armor becomes a new person before you.");
@@ -599,7 +599,7 @@ public function talkToValeria():void {
 
 
 //[Torture Gear]
-public function tortureGear():void {
+public tortureGear():void {
 	clearOutput();
 	menu();
 	Render.text("You walk up to the torture rack.  ");
@@ -624,23 +624,23 @@ public function tortureGear():void {
 	addButton(4, "Back", playerMenu);
 }
 
-private function takeWhip():void {
+private takeWhip():void {
 	inventory.takeItem(weapons.SUCWHIP, playerMenu);
 	flags[FlagEnum.HEL_DUNGEON_TAKEN_WHIP] = 1;
 }
 
-private function takeStraps():void {
+private takeStraps():void {
 	inventory.takeItem(armors.BONSTRP, playerMenu);
 	flags[FlagEnum.HEL_DUNGEON_TAKEN_STRAPS] = 1;
 }
 
-private function takeDagger():void {
+private takeDagger():void {
 	inventory.takeItem(weapons.L_DAGGR, playerMenu);
 	flags[FlagEnum.HEL_DUNGEON_TAKEN_DAGGER] = 1;
 }
 
 //[Prisoner] (First Time)
-public function helDungeonPrisonerTalk():void {
+public helDungeonPrisonerTalk():void {
 	clearOutput();
 	if(flags[FlagEnum.HEL_PC_TALKED_WITH_HAKON] == 0) {
 		Render.text("You approach the Salamander strapped to the table.  He looks at you with his one good eye, warily gauging you as you approach.");
@@ -670,7 +670,7 @@ public function helDungeonPrisonerTalk():void {
 
 
 //ATTACK ONE: SPARTAN RUSH
-public function phoenixPlatoonRush():void {
+public phoenixPlatoonRush():void {
 	Render.text("You fall back under a hail of scimitar attacks.  The sheer number of phoenixes attacking is bad enough, but their attacks are perfectly coordinated, leaving virtually no room for escape or maneuver without getting hit!\n");
 	//(Effect: Multiple medium-damage attacks)
 	//(Effect: Multiple light attacks)
@@ -680,7 +680,7 @@ public function phoenixPlatoonRush():void {
 }
 
 //ATTACK TWO: FIRE BREATH
-public function phoenixPlatoonFireBreath():void {
+public phoenixPlatoonFireBreath():void {
 	Render.text("Suddenly, the shield wall parts, revealing a single member of the platoon, a particularly muscular girl with a raging erection.  Before you can consider what's going on, she rears back and huffs at you.  To your horror, a great gout of fire erupts from her mouth, rolling towards you.  You dive, but are still caught partially in the inferno.");
 	//(Effect: One heavy-damage attack)
 	let damage:number = 100 + rand(50);
@@ -689,14 +689,14 @@ public function phoenixPlatoonFireBreath():void {
 	combatRoundOver();
 }
 //ATTACK THREE: LUSTBANG GRENADE
-public function phoenixPlatoonLustbang():void {
+public phoenixPlatoonLustbang():void {
 	Render.text("\"<i>LUSTBANG OUT!</i>\" one of the rear-most phoenixes shouts, causing all the other warriors to duck down behind their shields.  Oh, shit!  A large glass sphere rolls out from the shield wall, and immediately explodes in a great pink cloud.  You cough and wave your arms, but by the time the cloud has dissipated, you feel lightheaded and lusty, barely able to resist the urge to throw yourself at the phoenixes and beg for their cocks and cunts.");
 	//(Effect: Large lust increase)
 	dynStats("lus", 40);
 	combatRoundOver();
 }
 
-public function phoenixPlatoonAI():void {
+public phoenixPlatoonAI():void {
 	if(monster.findStatusAffect(StatusAffects.Platoon) < 0) {
 		phoenixPlatoonRush();
 		monster.statusAffects.add(new StatusAffect("Platoon",0,0,0,0)));
@@ -712,7 +712,7 @@ public function phoenixPlatoonAI():void {
 }
 
 //Phoenix Platoon -- PC is Defeated
-public function phoenixPlatoonMurdersPC():void {
+public phoenixPlatoonMurdersPC():void {
 	clearOutput();
 	Render.text("You collapse, too ");
 	if(player.lust > 99) Render.text("turned on");
@@ -726,7 +726,7 @@ public function phoenixPlatoonMurdersPC():void {
 }
 
 //Phoenix Platoon -- PC is Victorious
-public function phoenixPlatoonLosesToPC():void {
+public phoenixPlatoonLosesToPC():void {
 	clearOutput();
 	Render.text("With one final grunt, the last of the phoenixes collapses onto the pile of defeated warriors you've left in your wake.  The once-mighty platoon of soldiers has been reduced to a bruised, lusty heap of flesh, scales and feathers.  Seeing that the battle is won, you lower your [weapon] and take a look around.");
 	flags[FlagEnum.HEL_PHOENIXES_DEFEATED]++;
@@ -734,7 +734,7 @@ public function phoenixPlatoonLosesToPC():void {
 }
 
 //[Phoenixes]
-public function checkOutDemBirdBitches():void {
+public checkOutDemBirdBitches():void {
 	clearOutput();
 	Render.text("You loom over the defeated heavy infantry, marveling at them.  The half-breeds were probably the most organized and efficient fighting unit you've ever come across here in Mareth, and though you defeated them, you know most denizens of the region wouldn't have stood a chance.");
 	let missionary:Function = null;
@@ -759,7 +759,7 @@ public function checkOutDemBirdBitches():void {
 }
 
 //Phoenixes -- [Missionary]
-public function phoenixMissionary():void {
+public phoenixMissionary():void {
 	clearOutput();
 	let x:number = player.cockThatFits(80);
 	if(x < 0) x = player.smallestCockIndex();
@@ -816,7 +816,7 @@ public function phoenixMissionary():void {
 }
 
 //Phoenixes -- [Get Wanked]
-public function phoenixWanking():void {
+public phoenixWanking():void {
 	let x:number = player.biggestCockIndex();
 	let y:number = x + 1;
 
@@ -836,7 +836,7 @@ public function phoenixWanking():void {
 }
 	
 //Phoenixes -- [Git Butt-rode]
-public function gitButtRoadPhoenix():void {
+public gitButtRoadPhoenix():void {
 	clearOutput();
 	Render.text("You grab the healthiest looking phoenix off the top of the pile and throw the hermaphrodite on her back a few feet from her sisters.  She grunts, looking up at you with grim, fierce eyes.  \"<i>I'll never submit!  I am a proud warrior, not some-</i>\" Yeah, whatever.  You rip her chain shirt open, revealing the large, soft globes of her D-cups beneath. The phoenix gasps at the sudden exposure and turns her head away, determined not to look you in the eye as you take your pleasure.  Gripping the warrior by her hefty boobs, you tell the phoenix that it's her lucky goddamn day: you're going to let her fuck your ass.");
 
@@ -866,7 +866,7 @@ public function gitButtRoadPhoenix():void {
 }
 
 //Phoenix -- [Ride Vaginal]
-public function phoenixAginal():void {
+public phoenixAginal():void {
 	clearOutput();
 	Render.text("You grab the healthiest looking phoenix off the top of the pile and throw the hermaphrodite on her back a few feet from her sisters.  She grunts, looking up at you with grim, fierce eyes.  \"<i>I'll never submit!  I am a proud warrior, not some-</i>\"  Yeah, whatever.  You rip her chain shirt open, revealing the large, soft globes of her D-cups beneath.  The phoenix gasps at the sudden exposure and turns her head away, determined not to look you in the eye as you take your pleasure.  You ignore her temporary defiance and grab her cock.");
 
@@ -902,13 +902,13 @@ public function phoenixAginal():void {
 	doNext(playerMenu);
 }
 
-public function harpyQueenAI():void {
+public harpyQueenAI():void {
 	if(rand(4) == 0) eldritchRopes();
 	else if(rand(2) == 0) lustSpikeAttack();
 	else windSlamAttack();
 }
 //ATTACK ONE: ELDRITCH ROPES
-public function eldritchRopes():void {
+public eldritchRopes():void {
 	Render.text("The Harpy Queen flicks her left wrist at you. Before you can blink, ropes of white-hot magic hurtle toward you. You manage to duck and dodge a few of them, but a pair still grab your wrists, pulling painfully at your arms.");
 	//(Effect: Grab + Physical Damage)
 	let damage: number = 25 + rand(10);
@@ -918,7 +918,7 @@ public function eldritchRopes():void {
 	combatRoundOver();
 }
 
-public function ropeStruggles(wait:boolean = false):void {
+public ropeStruggles(wait:boolean = false):void {
 	clearOutput();
 	//Struggle Fail: 
 	if(rand(10) > 0 && player.str/5 + rand(20) < 23 || wait) {
@@ -935,7 +935,7 @@ public function ropeStruggles(wait:boolean = false):void {
 }
 
 //ATTACK TWO: LUST SPIKE
-public function lustSpikeAttack():void {
+public lustSpikeAttack():void {
 	Render.text("The Harpy Queen draws a strange arcane circle in the air, lines of magic remaining wherever the tip of her staff goes.  You try to rush her, but the circle seems to have created some kind of barrier around her.  You can only try to force it open - but too late!  A great pink bolt shoots out of the circle, slamming into your chest.  You suddenly feel light-headed and so very, very horny...");
 	//(Effect: Heavy Lust Damage)
 	dynStats("lus", 40);
@@ -943,7 +943,7 @@ public function lustSpikeAttack():void {
 }
 
 //ATTACK THREE: Wind Slam!
-public function windSlamAttack():void {
+public windSlamAttack():void {
 	Render.text("The queen swings her arm at you and, despite being a few feet away, you feel a kinetic wall slam into you, and you go flying - right into the harpy brood!  You feel claws, teeth and talons dig into you, but you're saved by a familiar pair of scaled arms.  \"<i>Get back in there!</i>\" Helia shouts, throwing you back into the battle!");
 	//(Effect; Heavy Damage)
 	let damage:number = 100 + rand(50);
@@ -953,7 +953,7 @@ public function windSlamAttack():void {
 }
 
 //HARPY QUEEN -- PC DEFEATED
-public function harpyQueenBeatsUpPCBadEnd(clearS:boolean = false):void {
+public harpyQueenBeatsUpPCBadEnd(clearS:boolean = false):void {
 	if(clearS) clearOutput();
 	//(Go to \"<i>Harpy Breeding Slut</i>\" Bad End)
 	//HARPY BREEDING SLUT BAD END
@@ -980,7 +980,7 @@ public function harpyQueenBeatsUpPCBadEnd(clearS:boolean = false):void {
 }
 
 //HARPY QUEEN -- PC VICTORIOUS
-public function harpyQueenDefeatedByPC():void {
+public harpyQueenDefeatedByPC():void {
 	clearOutput();
 	Render.text("With a final, loud gasp, the Harpy Queen collapses into her throne, unable to oppose you further.  Seeing their broodmother defeated, the other harpies that had been swarming around the room suddenly break off their attack and retreat, edging back to the fringes of the throne room.  Behind you, Hel stumbles out of the melee, covered in little cuts and bruises, but seeming otherwise unhurt.");
 	Render.text("\n\n\"<i>Y-you'll ruin everything,</i>\" the Harpy Queen groans, trying futilely to stand.  Before she can recover, Hel walks over and plants her clawed foot right on the bitch's chest, pinning her down.  From a small hook on the side of the throne, you take her key-ring for the prisoner down below.");
@@ -992,7 +992,7 @@ public function harpyQueenDefeatedByPC():void {
 }
 
 //Throne Room -- [Helia]
-public function HeliaThroneRoom():void {
+public HeliaThroneRoom():void {
 	clearOutput();
 	Render.text("You turn your attentions to the salamander, who is currently pinning down the harpy bitch to prevent her from flying off or doing something drastic.");
 	Render.text("\n\n\"<i>Hey, [name],</i>\" Hel says as you approach.  She grabs you roughly by the [armor] and pulls you into a long kiss, only breaking it to wrap her arms and tail around you.  \"<i>Thank you, lover.  From the bottom of my heart.  I couldn't have done it without you.</i>\"");
@@ -1009,7 +1009,7 @@ public function HeliaThroneRoom():void {
 }
 
 //Throne Room -- [Helia] -- [Hakon]
-public function heliaHakonTalk():void {
+public heliaHakonTalk():void {
 	clearOutput();
 	Render.text("You decide to tell Hel who, exactly, is chained up downstairs.  When you do, she simply stares at you, wide-eyed.");
 	Render.text("\n\n\"<i>Wha... what. No, that's not... It can't be...</i>\"");
@@ -1021,7 +1021,7 @@ public function heliaHakonTalk():void {
 }
 
 //Throne Room -- [Helia] -- [Kiri]
-public function heliaKiriTalk():void {
+public heliaKiriTalk():void {
 	clearOutput();
 	Render.text("You ask Hel about the half-breed girl that helped the two of you find this place, and offered you information below.");
 	Render.text("\n\n\"<i>Oh! You met Kiri? That's great, [name].</i>\" With a little chuckle, Hel adds, \"<i>She's a cutie, isn't she?  Nice ass, too.</i>\"");
@@ -1034,7 +1034,7 @@ public function heliaKiriTalk():void {
 	doNext(playerMenu);
 }
 //Throne Room -- [Helia] -- [Queen]
-public function heliaQueenTalk():void {
+public heliaQueenTalk():void {
 	clearOutput();
 	Render.text("You nod your head toward the great big-booty broodmother.  \"<i>Ah, the queen cunt herself,</i>\" Hel says ruefully, cracking her knuckles.  \"<i>We're gonna have some fun with you, little birdie...  Aren't we, [name]?</i>\"");
 	Render.text("\n\nYou ask Hel exactly what she thinks you ought to do with the 'queen cunt.'");
@@ -1045,7 +1045,7 @@ public function heliaQueenTalk():void {
 }
 
 //Throne Room -- [Harpy Queen]
-public function harpyQueenAdvantage():void {
+public harpyQueenAdvantage():void {
 	clearOutput();
 	Render.text("You loom over the defeated Harpy Queen, who squirms underneath Hel's foot on her chest.");
 	Render.text("\n\n\"<i>Fool!</i>\" she spits.  \"<i>Kill me and be done with it! I'll not be used by the likes of you, demon-lover!</i>\"");
@@ -1057,7 +1057,7 @@ public function harpyQueenAdvantage():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Let Her Go]
-public function letHarpyQueenGo():void {
+public letHarpyQueenGo():void {
 	clearOutput();
 	Render.text("You tell Hel to let up. You're letting the bitch go.");
 	Render.text("\n\n\"<i>What.</i>\" Hel says, deadpan.");
@@ -1090,7 +1090,7 @@ public function letHarpyQueenGo():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Let Her Go] -- [Forgive]
-public function harpyQueenLetHerGoForgive():void {
+public harpyQueenLetHerGoForgive():void {
 	clearOutput();
 	Render.text("You and Hel stare each other down, the dead harpy's body the only thing separating you.  Two dozen enraged harpies screech and caw around you, demanding justice for their fallen queen.");
 	Render.text("\n\n\"<i>All right, Hel. Fine.</i>\"");
@@ -1108,7 +1108,7 @@ public function harpyQueenLetHerGoForgive():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Let Her Go] -- [Berate]
-public function harpyQueenLetHerGoBerate():void {
+public harpyQueenLetHerGoBerate():void {
 	clearOutput();
 	Render.text("You and Hel stare each other down, the dead harpy's body the only thing separating you.  Two dozen enraged harpies screech and caw around you, demanding justice for their fallen queen.");
 	Render.text("\n\n\"<i>Hel, what the fuck!?</i>\" you yell.  That was NOT okay--you told the bitch she could leave, and then Hel just MURDERS her; what the FUCK?");
@@ -1121,7 +1121,7 @@ public function harpyQueenLetHerGoBerate():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Kill Her]
-public function killHarpyQueen():void {
+public killHarpyQueen():void {
 	clearOutput();
 	Render.text("You look from Hel to the Harpy Queen.  This bitch could have bred an entire army - and might try it again. You can't allow that.");
 	Render.text("\n\nYou reach down and, with one quick stroke, snap her neck.  It twists easily, no harder than popping the cork of a wine bottle.  The sound of bones breaking is drowned out by the screams of harpies, screeching and cawing in horror."); 
@@ -1139,7 +1139,7 @@ public function killHarpyQueen():void {
 }
 
 //Throne Room -- [Take Staff]
-public function takeQueensStaff():void {
+public takeQueensStaff():void {
 	clearOutput();
 	Render.text("You pick up the Harpy Queen's staff.  It is a tall whitewood staff, nearly six feet in length, and covered in glowing eldritch runes, with a singular shimmering sphere of crystal at its head, which seems to have a swirling mist within.");
 	//(New Weapon: EldritchStaff)
@@ -1149,7 +1149,7 @@ public function takeQueensStaff():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Fuck Her]
-public function fuckHarpyQueen():void {
+public fuckHarpyQueen():void {
 	clearOutput();
 	Render.text("You decide that the queen bitch deserves to be taught a lesson and you'll use her to get you off in the process.  You whisper this to Hel, who seems quite amused by the idea.");
 
@@ -1164,7 +1164,7 @@ public function fuckHarpyQueen():void {
 	simpleChoices("Anal", anal, "Vaginal", vaginalHarpyQueenSex, "", null, "", null, "Back", playerMenu);
 }
 //Harpy Queen Sex -- [Dick in Anal]
-public function harpyQueenSexAnal():void {
+public harpyQueenSexAnal():void {
 	clearOutput();
 	Render.text("Hel grabs the queen bitch by the shoulders and roughly tosses her onto the floor.  The gathered crowd of harpies gasp as Hel shoves the queen onto all fours for you.  You disrobe, tossing your [armor] aside and stroking your " + player.cockDescript(0) + " to full hardness.  You kneel down behind the Harpy Queen's massive flanks, so wide that you feel you could stuff your torso between her cheeks.  With great effort, you peel her jiggling ass apart, revealing the tight ring of her pucker and her loose, gaping cunt.");
 	Render.text("\n\nAs you position yourself behind the broodmother, Hel strips out of her skimpy bikini-mail and, grabbing the bitch by her hair, shoves her slick pussy into the harpy's face.  The queen struggles against Hel's grasp, making her inhuman hips and ass shake and jiggle seductively.  Your cock goes rock hard with the display before you, and you roughly push it into the harpy's buttcheeks.  You let her ass go, and shudder as the queen's soft flesh wraps around your " + player.cockDescript(0) + ", as tight as a virgin pussy, but at the same time so soft and giving..."); 
@@ -1184,7 +1184,7 @@ public function harpyQueenSexAnal():void {
 }
 
 //Harpy Queen Sex -- [Vaginal]
-public function vaginalHarpyQueenSex():void {
+public vaginalHarpyQueenSex():void {
 	clearOutput();
 	Render.text("You roughly toss the harpy queen to the floor and, grinning, tell her that since you're wrecking her plans to breed phoenixes, you'll just give her a brood of champion-spawn instead.  She gapes at you, wide-eyed in confusion and fear. Hel keeps her pinned down for you as you toss your [armor] aside, revealing your " + player.cockDescript(0) + ".");
 
@@ -1217,7 +1217,7 @@ public function vaginalHarpyQueenSex():void {
 }
 
 //Throne Room -- [Harpy Queen] -- [Interrogate]
-public function harpyQueenInterrogate():void {
+public harpyQueenInterrogate():void {
 	clearOutput();
 	Render.text("Leaning over the defeated Harpy Queen, you decide to get some answers.  First, you ask her why, exactly, she kidnapped a salamander in the first place.  That's what brought you here, after all.");
 	Render.text("\n\nGrunting under Hel's foot, the queen spits at you, narrowly missing your face. \"<i>What the fuck kind of question is that? I stole him to steal his seed, foolish " + player.mf("boy","girl") + ".</i>\"");
@@ -1240,7 +1240,7 @@ public function harpyQueenInterrogate():void {
 
 //Tower of the Phoenix: Outro
 //(Play when the PC interacts with Hakon, in the dungeon, while possessing both HARPY KEY key items)
-public function towerOutro():void {
+public towerOutro():void {
 	clearOutput();
 	if(flags[FlagEnum.HARPY_QUEEN_EXECUTED] == 0) flags[FlagEnum.HARPY_QUEEN_EXECUTED] = 1;
 	//[IF PC DID NOT TELL HEL ABOUT HAKON BEFORE]

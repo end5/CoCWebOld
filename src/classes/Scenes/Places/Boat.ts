@@ -13,10 +13,10 @@ package classes.Scenes.Places
 	{
 		public let sharkGirlScene:SharkGirlScene = new SharkGirlScene();
 		public let marae:Marae = new Marae();
-		public function Boat()
+		public Boat()
 		{
 		}
-		public function discoverBoat():void {
+		public discoverBoat():void {
 			player.statusAffects.add(new StatusAffect("BoatDiscovery",0,0,0,0)));
 			Render.text("You journey around the lake, seeking demons to fight", true);
 			if(player.stats.cor > 60) Render.text(" or fuck", false);
@@ -24,7 +24,7 @@ package classes.Scenes.Places
 			Render.text("<b>You have discovered the lake boat!</b>\n(You may return and use the boat to explore the lake's interior by using the 'places' menu.)", false);
 			doNext(camp.returnToCampUseOneHour);
 		}
-		public function boatExplore():void
+		public boatExplore():void
 		{
 			//Helia monogamy fucks
 			if (flags[FlagEnum.PC_PROMISED_HEL_MONOGAMY_FUCKS] == 1 && flags[FlagEnum.HEL_RAPED_TODAY] == 0 && rand(10) == 0 && player.gender > 0 && !kGAMECLASS.helScene.followerHel()) {

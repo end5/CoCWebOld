@@ -8,7 +8,7 @@ package classes.Scenes.Places.Owca
 	public class LustyDemons extends Monster
 	{
 
-		override protected function performCombatAction():void
+		override protected performCombatAction():void
 		{
 			str = 40;
 			this.weaponAttack = 10;
@@ -43,7 +43,7 @@ package classes.Scenes.Places.Owca
 			applyTease(lustDelta);
 		}
 
-		public function LustyDemons()
+		public LustyDemons()
 		{
 			this.a = "the ";
 			this.short = "lusty demons";

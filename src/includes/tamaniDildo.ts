@@ -1,5 +1,5 @@
 ﻿//RAEP SOME FUKKIN SHARKGIRLZ NIGGA
-public function sharkGirlGetsDildoed():void {
+public sharkGirlGetsDildoed():void {
 	Render.text("", true);
 	Render.text("You grin from ear to ear, revealing enough teeth to make even the defeated shark-girl shiver.  Advancing upon the prone monster-woman, you ", false);
 	if(player.weaponName != "fists") Render.text("put away your " + player.weaponName + " and ", false);
@@ -32,7 +32,7 @@ public function sharkGirlGetsDildoed():void {
 //RAEP BEE GIRLS WITH DILDO - Moved to BeeGirlScene
 
 //RAEP SAND-WITCH!
-public function sandwitchGetsDildoed():void {
+public sandwitchGetsDildoed():void {
 	Render.text("", true);
 	Render.text("You pull out Tamani's dildo, advancing on the helpless witch.   Her derriere makes an enticing target as you advance upon her, and the simple brown robe she wears does nothing to protect her body from your unusual attentions.\n\n", false);
 	Render.text("Pushing her legs apart, you take the toy and shove it up one of her moistened fuck-holes.   She cries out, noisily screaming into the dunes, though you're unsure whether from pain or pleasure.  Whatever the case, she'll think twice about sending her vibrating stones after you now.  You shove the dildo further into her, hard enough to lift her knees out of the sand. She slams back down once you've crammed it the whole way inside her, wiggling her supple ass back and forth as if it would somehow assuage the pain of the rapid insertion.\n\n", false); 
@@ -48,7 +48,7 @@ public function sandwitchGetsDildoed():void {
 }
 
 //[FACTORY SUCCUBUS]
-public function succubusGetsDildoed():void {
+public succubusGetsDildoed():void {
 	Render.text("", true);
 	Render.text("Your defeated opponent eyes you warily as you advance upon her, thrusting her chest forwards lewdly, with a hopeful gleam in her eye.  That gleam vanishes in sudden surprise when you stop and pull the oblong form of Tamani's dildo from your pouches.  The busty demon giggles happily, \"<i>I, like, love those things!  Those little sluts never let me keep one though!  Greedy bitches...</i>\"\n\n", false);
 	Render.text("The succubus spreads her fishnet-coated legs, exposing her moist vulva while she reclines against a table, beckoning you forwards.  Well, you certainly didn't expect her to be so willing, but you may as well go through with it!  You push up her tiny skirt for better access and position the toy for a perfect insertion. She begs, \"<i>Quit teasing me and just jam it in me already!  Honey, I just want to feel it stretch me while my hot little box drools all over it.  Would you mind giving my clitty a lick too?  It's aching for a touch.</i>\"\n\n", false);

@@ -70,7 +70,7 @@
 		 * @param	stage	Reference to core stage on which to add display objects
 		 * @param	debug	Emit debugging trace statements
 		 */
-		public function InputManager(stage:Stage, debug:boolean = true)
+		public InputManager(stage:Stage, debug:boolean = true)
 		{
 			_bindingMode = false;
 			_debug = debug;
@@ -97,7 +97,7 @@
 		 * 						callback function generated in BindingPane
 		 * @param	isPrimary	Specifies if the incoming bind will replace/set the primary or secondary bind for a control.
 		 */
-		public function ListenForNewBind(funcName:string, isPrimary:boolean = true):void
+		public ListenForNewBind(funcName:string, isPrimary:boolean = true):void
 		{
 			if (_debug)
 			{
@@ -130,7 +130,7 @@
 		/**
 		 * Mode toggle - return to normal keyboard event listening mechanics. Shows the binding display again.
 		 */
-		public function StopListenForNewBind():void
+		public StopListenForNewBind():void
 		{
 			_bindingMode = false;
 			_mainView.showCurrentBottomButtons();
@@ -149,7 +149,7 @@
 		 * @param	func		A function object that defines the BoundControlMethods action
 		 * @param	isCheat		Differentiates between a cheat method (not displayed in the UI) and normal controls.
 		 */
-		public function AddBindableControl(name:string, desc:string, func:Function, isCheat:boolean = false):void
+		public AddBindableControl(name:string, desc:string, func:Function, isCheat:boolean = false):void
 		{
 			if (isCheat)
 			{
@@ -167,7 +167,7 @@
 		 * @param	funcName	The name of the associated BoundControlMethod
 		 * @param	isPrimary	Specifies the primary or secondary binding slot
 		 */
-		public function BindKeyToControl(keyCode: number, funcName:string, isPrimary:boolean = true):void
+		public BindKeyToControl(keyCode: number, funcName:string, isPrimary:boolean = true):void
 		{
 			for (let key:string in _controlMethods)
 			{
@@ -215,7 +215,7 @@
 		 * Remove an existing key from a BoundControlMethod, if present, and shuffle the remaining key as appropriate
 		 * @param	keyCode		The keycode to remove.
 		 */
-		public function RemoveExistingKeyBind(keyCode: number):void
+		public RemoveExistingKeyBind(keyCode: number):void
 		{
 			// If the key is already bound to a method, remove it from that method
 			if (_keysToControlMethods[keyCode] != null)
@@ -236,7 +236,7 @@
 		 * The core event handler we attach to the stage to capture incoming keyboard events.
 		 * @param	e		KeyboardEvent data
 		 */
-		public function KeyHandler(e:KeyboardEvent):void
+		public KeyHandler(e:KeyboardEvent):void
 		{
 			if (_debug) trace("Got key input " + e.keyCode);
 			
@@ -269,7 +269,7 @@
 		 * Execute the BoundControlMethod's wrapped function associated with the given KeyCode
 		 * @param	keyCode		The KeyCode for which we wish to execute the BoundControlMethod for.
 		 */
-		private function ExecuteKeyCode(keyCode: number):void
+		private ExecuteKeyCode(keyCode: number):void
 		{
 			if (_keysToControlMethods[keyCode] != null)
 			{
@@ -288,7 +288,7 @@
 		 * Hide the mainText object and scrollbar, ensure the binding ScrollPane is up to date with the latest
 		 * data and then show the binding scrollpane.
 		 */
-		public function DisplayBindingPane():void
+		public DisplayBindingPane():void
 		{
 			_mainText.visible = false;
 			_mainTextScollBar.visible = false;
@@ -302,7 +302,7 @@
 		/**
 		 * Hide the binding ScrollPane, and re-display the mainText object + Scrollbar.
 		 */
-		public function HideBindingPane():void
+		public HideBindingPane():void
 		{
 			_mainText.visible = true;
 			_mainTextScollBar.visible = true;
@@ -313,7 +313,7 @@
 		 * Register the current methods, and their associated bindings, as the defaults.
 		 * TODO: Finish this shit off
 		 */
-		public function RegisterDefaults():void
+		public RegisterDefaults():void
 		{
 			for (let key:string in _controlMethods)
 			{
@@ -339,7 +339,7 @@
 		/**
 		 * Reset the bound keys to the defaults previously registered.
 		 */
-		public function ResetToDefaults():void
+		public ResetToDefaults():void
 		{
 			for (let key:string in _controlMethods)
 			{
@@ -366,7 +366,7 @@
 		 * Get an array of the available functions.
 		 * @return	Array of available BoundControlMethods.
 		 */
-		public function GetAvailableFunctions():Array
+		public GetAvailableFunctions():Array
 		{
 			let funcs:Array = new Array();
 			
@@ -385,7 +385,7 @@
 		 * Get an array of the currently active keyCodes.
 		 * @return	Array of active keycodes.
 		 */
-		public function GetControlMethods():Array
+		public GetControlMethods():Array
 		{
 			let buttons:Array = new Array();
 			for (let key:* in _keysToControlMethods)
@@ -399,7 +399,7 @@
 		/**
 		 * Clear all currently bound keys.
 		 */
-		public function ClearAllBinds():void
+		public ClearAllBinds():void
 		{
 			for (let key:string in _controlMethods)
 			{
@@ -414,7 +414,7 @@
 		 * Load bindings from a source "Object" retrieved from a game save file.
 		 * @param	source	Source object to enumerate for binding data.
 		 */
-		public function LoadBindsFromObj(source:Object):void
+		public LoadBindsFromObj(source:Object):void
 		{
 			this.ClearAllBinds();
 			
@@ -439,7 +439,7 @@
 		 * Create an associative object that can serialise the bindings to the users save file.
 		 * @return	Dynamic object of control bindings.
 		 */
-		public function SaveBindsToObj():Object
+		public SaveBindsToObj():Object
 		{
 			let controls:Object = new Object();
 			
