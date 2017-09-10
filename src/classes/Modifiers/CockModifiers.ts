@@ -1,9 +1,9 @@
 ﻿import Creature from "../Creature";
-import CockModule from "../Modules/CockModule";
+import CockSpot from "../Modules/CockModule";
 
 export default class CockModifiers {
     public static killCocks(creature: Creature, deadCock: number): number {
-        let cocks: CockModule = creature.lowerBody.cockSpot;
+        let cocks: CockSpot = creature.lowerBody.cockSpot;
         //Count removal for text bits
         let removed: number = 0;
         let temp: number;

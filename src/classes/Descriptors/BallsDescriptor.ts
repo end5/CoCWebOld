@@ -1,5 +1,5 @@
-﻿import Creature from "../Creature";
-import Utils from "../Utilities/Utils";
+﻿import Utils from "../Utilities/Utils";
+import BodyModule from "../Modules/BodyModule";
 
 export default class BallsDescriptor {
     /**
@@ -10,8 +10,8 @@ export default class BallsDescriptor {
         * @param    withArticle    Show description with article in front
         * @return    Full description of balls
         */
-    public static ballsDescription(forcedSize: boolean, plural: boolean, creature: Creature, withArticle: boolean = false): string {
-        if (creature.balls == 0)
+    public static describe(forcedSize: boolean, plural: boolean, body: BodyModule, withArticle: boolean = false): string {
+        if (body.lowerBody.balls == 0)
             return "prostate";
 
         let haveDescription: boolean = false;
@@ -19,8 +19,8 @@ export default class BallsDescriptor {
         let description: string = "";
         let options: string[] = [];
 
-        if (plural && (creature.statusAffects.has("Uniball") < 0)) {
-            if (creature.balls == 1) {
+        if (plural && (!body.statusAffects.has("Uniball"))) {
+            if (body.lowerBody.balls == 1) {
                 if (withArticle) {
                     options = ["a single",
                         "a solitary",
@@ -35,7 +35,7 @@ export default class BallsDescriptor {
                 }
                 description += Utils.randomChoice(options);
             }
-            else if (creature.balls == 2) {
+            else if (body.lowerBody.balls == 2) {
                 if (withArticle) {
                     options = ["a pair of",
                         "two",
@@ -48,13 +48,13 @@ export default class BallsDescriptor {
                 }
                 description += Utils.randomChoice(options);
             }
-            else if (creature.balls == 3) {
+            else if (body.lowerBody.balls == 3) {
                 options = ["three",
                     "triple"];
                 (withArticle) ? options.push("a trio of") : options.push("trio of");
                 description += Utils.randomChoice(options);
             }
-            else if (creature.balls == 4) {
+            else if (body.lowerBody.balls == 4) {
                 options = ["four",
                     "quadruple"];
                 (withArticle) ? options.push("a quartette of") : options.push("quartette of");
@@ -75,33 +75,33 @@ export default class BallsDescriptor {
             }
         }
         //size!
-        if (creature.ballSize > 1 && (Utils.rand(3) <= 1 || forcedSize)) {
+        if (body.lowerBody.ballSize > 1 && (Utils.rand(3) <= 1 || forcedSize)) {
             if (description) description += " ";
 
-            if (creature.ballSize >= 18)
+            if (body.lowerBody.ballSize >= 18)
                 description += "hideously swollen and oversized";
-            else if (creature.ballSize >= 15)
+            else if (body.lowerBody.ballSize >= 15)
                 description += "beachball-sized";
-            else if (creature.ballSize >= 12)
+            else if (body.lowerBody.ballSize >= 12)
                 description += "watermelon-sized";
-            else if (creature.ballSize >= 9)
+            else if (body.lowerBody.ballSize >= 9)
                 description += "basketball-sized";
-            else if (creature.ballSize >= 7)
+            else if (body.lowerBody.ballSize >= 7)
                 description += "soccerball-sized";
-            else if (creature.ballSize >= 5)
+            else if (body.lowerBody.ballSize >= 5)
                 description += "cantaloupe-sized";
-            else if (creature.ballSize >= 4)
+            else if (body.lowerBody.ballSize >= 4)
                 description += "grapefruit-sized";
-            else if (creature.ballSize >= 3)
+            else if (body.lowerBody.ballSize >= 3)
                 description += "apple-sized";
-            else if (creature.ballSize >= 2)
+            else if (body.lowerBody.ballSize >= 2)
                 description += "baseball-sized";
-            else if (creature.ballSize > 1)
+            else if (body.lowerBody.ballSize > 1)
                 description += "large";
 
         }
         //UNIBALL
-        if (creature.statusAffects.has("Uniball") >= 0) {
+        if (body.statusAffects.has("Uniball")) {
             if (description)
                 description += " ";
             options = ["tightly-compressed",
@@ -113,7 +113,7 @@ export default class BallsDescriptor {
 
         }
         //Descriptive
-        if (creature.hoursSinceCum >= 48 && Utils.rand(2) == 0 && !forcedSize) {
+        if (body.hoursSinceCum >= 48 && Utils.rand(2) == 0 && !forcedSize) {
             if (description)
                 description += " ";
             options = ["overflowing",
@@ -123,7 +123,7 @@ export default class BallsDescriptor {
 
         }
         //lusty
-        if (creature.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forcedSize) {
+        if (body.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forcedSize) {
             options = ["eager",
                 "full",
                 "needy",
@@ -137,7 +137,7 @@ export default class BallsDescriptor {
 
         }
         //Slimy skin
-        if (creature.skinType == 3) {
+        if (body.skinType == 3) {
             if (description)
                 description += " ";
             options = ["goopey",
@@ -165,7 +165,7 @@ export default class BallsDescriptor {
         if (plural)
             description += "s";
 
-        if (creature.statusAffects.has("Uniball") >= 0 && Utils.rand(2) == 0) {
+        if (body.statusAffects.has("Uniball") && Utils.rand(2) == 0) {
             if (Utils.rand(3) == 0)
                 description += " merged into a cute, spherical package";
             else if (Utils.rand(2) == 0)
@@ -177,8 +177,8 @@ export default class BallsDescriptor {
     }
 
     //Returns random description of scrotum
-    public static sackDescript(creature: Creature): string {
-        if (creature.balls == 0)
+    public static describeSack(body: BodyModule): string {
+        if (body.lowerBody.cockSpot.balls == 0)
             return "prostate";
 
         let options: string[] = [];

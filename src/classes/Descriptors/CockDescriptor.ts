@@ -1,28 +1,22 @@
-﻿import Creature, { SkinType } from "../Creature";
-import Cock, { CockType as CockType } from "../Modules/Cock";
-import CockModule from "../Modules/CockModule";
+﻿import Cock, { CockType } from "../Modules/Cock";
+import CockSpot from "../Modules/CockModule";
 import Utils from "../Utilities/Utils";
 import Flags from "../Game/Flags";
+import BodyModule, { SkinType } from "../Modules/BodyModule";
 
 export default class CockDescriptor {
-    public static cockDescript(creature: Creature, cock: Cock): string {
-        if (creature.lowerBody.cockSpot.hasCock() || cock == null)
+    public static describe(body: BodyModule, cock: Cock): string {
+        if (body.lowerBody.cockSpot.hasCock() || cock == null)
             return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
         let isPierced: boolean = cock.pierced; //Only describe as pierced or sock covered if the creature has just one cock
         let hasSock: boolean = cock.sock != ("");
-        let isGooey: boolean = (creature.skinType == SkinType.GOO);
-        return CockDescriptor.cockDescription(cock, creature.stats.lust, creature.cumQ(), isGooey);
-    }
-
-    //This function takes all the variables independently so that a creature object is not required for a cockDescription.
-    //This allows a single cockDescription function to produce output for both cockDescript and the old NPCCockDescript.
-    public static cockDescription(cock: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
+        let isGooey: boolean = (body.skinType == SkinType.GOO);
         if (Utils.chance(50)) {
             if (cock.cockType == CockType.HUMAN)
-                return CockDescriptor.adjective(cock, lust, cumQ, isGooey) + " " + CockDescriptor.noun(cock.cockType);
+                return CockDescriptor.adjective(cock, body.stats.lust, body.cumQ(), isGooey) + " " + CockDescriptor.noun(cock.cockType);
             else
-                return CockDescriptor.adjective(cock, lust, cumQ, isGooey) + ", " + CockDescriptor.noun(cock.cockType);
+                return CockDescriptor.adjective(cock, body.stats.lust, body.cumQ(), isGooey) + ", " + CockDescriptor.noun(cock.cockType);
         }
         return CockDescriptor.noun(cock.cockType);
     }
@@ -270,7 +264,7 @@ export default class CockDescriptor {
     }
 
     //Cock adjectives for single cock
-    private static adjectives(cock: Cock, creature: Creature): string {
+    public static adjectives(cock: Cock, body: BodyModule): string {
         let description: string = "";
         //length or thickness, usually length.
         if (Utils.chance(25)) {
@@ -325,9 +319,9 @@ export default class CockDescriptor {
             }*/
         //FINAL FALLBACKS - lust descriptors
         //Lust stuff
-        else if (creature.stats.lust > 90) {
+        else if (body.stats.lust > 90) {
             //lots of cum? drippy.
-            if (creature.cumQ() > 50 && creature.cumQ() < 200 && Utils.chance(50)) {
+            if (body.cumQ() > 50 && body.cumQ() < 200 && Utils.chance(50)) {
                 switch (cock.cockType) {
                     case CockType.HUMAN:
                     case CockType.HORSE:
@@ -343,7 +337,7 @@ export default class CockDescriptor {
                 }
             }
             //Tons of cum
-            else if (creature.cumQ() >= 200 && Utils.chance(50)) {
+            else if (body.cumQ() >= 200 && Utils.chance(50)) {
                 switch (cock.cockType) {
                     case CockType.HUMAN:
                     case CockType.HORSE:
@@ -363,16 +357,16 @@ export default class CockDescriptor {
                 description += Utils.randomChoice("throbbing", "pulsating");
         }
         //A little less lusty, but still lusty.
-        else if (creature.stats.lust > 75) {
-            if (creature.cumQ() > 50 && creature.cumQ() < 200 && Utils.chance(50))
+        else if (body.stats.lust > 75) {
+            if (body.cumQ() > 50 && body.cumQ() < 200 && Utils.chance(50))
                 description += "pre-leaking";
-            else if (creature.cumQ() >= 200 && Utils.chance(50))
+            else if (body.cumQ() >= 200 && Utils.chance(50))
                 description += "pre-cum dripping";
             else
                 description += Utils.randomChoice("rock-hard", "eager");
         }
         //Not lusty at all, fallback adjective
-        else if (creature.stats.lust > 50)
+        else if (body.stats.lust > 50)
             description += "hard";
         else
             description += "ready";
@@ -506,7 +500,7 @@ export default class CockDescriptor {
         return this.cockNoun(CockType.HUMAN) + "s";
     }*/
 
-    public headDescription(type: CockType): string {
+    public cockHead(type: CockType): string {
         switch (type) {
             case CockType.CAT:
                 return Utils.randomChoice(
@@ -561,12 +555,12 @@ export default class CockDescriptor {
         }
     }
 
-    public sheathDescription(cock: Cock): string {
+    public cockSheath(cock: Cock): string {
         return cock.hasSheath() ? "sheath" : "base";
     }
 
     //Short cock description. Describes length or girth. Supports multiple cocks.
-    public static cockDescriptionShort(cock: Cock): string {
+    public static describeShort(cock: Cock): string {
         let description: string = "";
         //Discuss length one in 3 times
         if (Utils.chance(33)) {
@@ -604,13 +598,13 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static multiCockDescriptionShort(creature: Creature, cocks: CockModule): string {
+    public static describeMultiCockShort(body: BodyModule, cocks: CockSpot): string {
         let description: string = "";
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.cockDescript(creature, cocks.list[0]);
+            return CockDescriptor.describe(body, cocks.list[0]);
 
         if (cockCount == 2) {
             if (cocksSameType)
@@ -627,7 +621,7 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("bundle of ", "obscene group of ", "cluster of ", "wriggling bunch of ");
 
-        description += CockDescriptor.adjective(cocks.biggestCocks[0], creature.stats.lust, creature.cumQ(), creature.skinType == SkinType.GOO);
+        description += CockDescriptor.adjective(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
             description += ", " + CockDescriptor.noun(cocks[0].cockType) + "s";
@@ -637,13 +631,13 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static multiCockDescription(creature: Creature, cocks: CockModule): string {
+    public static describeMultiCock(body: BodyModule, cocks: CockSpot): string {
         let description: string = "";
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.cockDescript(creature, cocks.list[0]);
+            return CockDescriptor.describe(body, cocks.list[0]);
 
         if (cockCount == 2) {
             if (cocksSameType)
@@ -660,7 +654,7 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ");
 
-        description += CockDescriptor.adjective(cocks.biggestCocks[0], creature.stats.lust, creature.cumQ(), creature.skinType == SkinType.GOO);
+        description += CockDescriptor.adjective(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
             description += ", " + CockDescriptor.noun(cocks[0].cockType) + "s";

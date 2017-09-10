@@ -1,9 +1,9 @@
-﻿import Utils from "../../internals/Utils";
-import BreastRow, { BreastCup } from "./BreastRow";
-import BreastRowModule from "./BreastRowModule";
+﻿import { BreastCup, BreastRow } from "../Modules/BreastRow";
+import Utils from "../Utilities/Utils";
+import BodyModule from "../Modules/BodyModule";
 
 export default class BreastDescriptor {
-    public static nippleDescription(breastRow: BreastRow): string {
+    public static descibeNipple(body: BodyModule, breastRow: BreastRow): string {
         let haveDescription: boolean = false;
         let description: string = "";
         let options: string[] = [];

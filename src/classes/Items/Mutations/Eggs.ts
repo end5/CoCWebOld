@@ -57,7 +57,7 @@ export function pinkEgg(large: boolean, player: Player): void {
         if (player.lowerBody.balls > 0) {
             if (player.lowerBody.ballSize > 15) {
                 player.lowerBody.ballSize -= 8;
-                Render.text("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + BallsDescriptor.ballsDescription(true, true, player) + " are much smaller.</b>\n\n", false);
+                Render.text("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + BallsDescriptor.describe(true, true, player) + " are much smaller.</b>\n\n", false);
             }
             else {
                 player.lowerBody.balls = 0;

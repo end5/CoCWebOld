@@ -1,7 +1,7 @@
 ﻿import Creature from "../Creature";
 import Utils from "../Utilities/Utils";
 import Flags, { FlagEnum } from "../Game/Flags";
-import BreastRowModule from "../Modules/BreastRowModule";
+import Chest from "../Modules/BreastRowModule";
 
 export default class BreastModifier {
     public growSmallestBreastRow(creature: Creature, amount: number, rowsGrown: number, display: boolean) {
