@@ -100,7 +100,7 @@ class PregnancyEvent {
     }
 }
 
-export default class PregnancyModule {
+export default class Pregnancy {
     private _pregnancyType: PregnancyType;
     private _pregnancyIncubation: IncubationTime;
     private _pregnancyEventList: PregnancyEvent[];
@@ -112,7 +112,7 @@ export default class PregnancyModule {
         this._pregnancyEventList = [];
     }
 
-    public get type(): PregnancyType {
+    public get pregType(): PregnancyType {
         return this._pregnancyType;
     }
 
@@ -121,7 +121,7 @@ export default class PregnancyModule {
     }
 
     public get isPregnant(): boolean {
-        return this.type != 0;
+        return this.pregType != 0;
     } //At birth the incubation can be zero so a check vs. type is safer
 
 	/* Using this adds a series of events which happen during the pregnancy. They must be added in descending order (ex. 500, 450, 350, 225, 100, 25)
@@ -160,7 +160,7 @@ export default class PregnancyModule {
 		When the NPC is not pregnant this always returns 0, when pregnant it will return at least 1. The further along the NPC is the larger the value. Each NPC
 		is free to have as many event as desired. They must be added using the addPregnancyEventSet and are unique to each pregnancy type. */
     public get event(): number {
-        let pregType: number = this.type;
+        let pregType: number = this.pregType;
         if (pregType == 0)
             return 0; //Not pregnant
         let incubationValue: number = this.incubation;

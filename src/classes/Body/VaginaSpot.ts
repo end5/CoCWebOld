@@ -1,6 +1,6 @@
 ﻿import Vagina, { VaginaLooseness, VaginaWetness } from "./Vagina";
 
-export default class VaginaModule {
+export default class VaginaSpot {
     private _vaginas: Vagina[];
 
     public constructor() {

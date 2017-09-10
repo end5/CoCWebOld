@@ -1,6 +1,6 @@
 ﻿import VaginaModule from "./VaginaModule";
 import Butt from "./Butt";
-import CockSpot from "./CockModule";
+import CockSpot from "./CockSpot";
 import OvipositorModule from "./OvipositorModule";
 
 export enum LowerBodyType {
@@ -17,7 +17,7 @@ export enum TailType {
     NONE, HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export default class LowerBodyModule {
+export default class LowerBody {
     public type: LowerBodyType;
     public hipRating: HipRating;
 

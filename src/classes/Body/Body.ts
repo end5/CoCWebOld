@@ -1,5 +1,5 @@
 ﻿import UpperBodyModule, { WingType } from "./UpperBodyModule";
-import LowerBodyModule, { LowerBodyType } from "./LowerBodyModule";
+import LowerBody, { LowerBodyType } from "./LowerBodyModule";
 import StatsModule from "./StatsModule";
 import ComponentList from "../Utilities/ComponentList";
 import Utils from "../Utilities/Utils";
@@ -18,7 +18,6 @@ export enum Gender {
 export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
-
 
 export default class Body {
     //Appearance Variables
@@ -43,7 +42,7 @@ export default class Body {
     public hoursSinceCum: number = 0;
 
     public upperBody: UpperBodyModule;
-    public lowerBody: LowerBodyModule;
+    public lowerBody: LowerBody;
 
     public stats: StatsModule;
     public statusAffects: ComponentList<StatusAffect>;
@@ -65,7 +64,7 @@ export default class Body {
         this.hoursSinceCum = 0;
 
         this.upperBody = new UpperBodyModule();
-        this.lowerBody = new LowerBodyModule();
+        this.lowerBody = new LowerBody();
 
         this.stats = new StatsModule(this);
         this.statusAffects = new ComponentList<StatusAffect>();

@@ -1,7 +1,7 @@
 ﻿import Flags, { FlagEnum } from "../Game/Flags";
-import BodyModule from "./BodyModule";
+import Body from "./Body";
 
-export default class StatsModule {
+export default class Stats {
     private body: BodyModule;
     //Primary stats
     private _str: number;

@@ -1,4 +1,4 @@
-﻿export default class OvipositorModule {
+﻿export default class Ovipositor {
     private _eggs: number;
     private _fertilizedEggs: number;
 
