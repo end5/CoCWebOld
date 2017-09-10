@@ -1,6 +1,6 @@
 ﻿import VaginaModule from "./VaginaModule";
 import Butt from "./Butt";
-import CockModule from "./CockModule";
+import CockSpot from "./CockModule";
 import OvipositorModule from "./OvipositorModule";
 
 export enum LowerBodyType {
@@ -28,7 +28,7 @@ export default class LowerBodyModule {
     //Tail recharge determines how fast venom/webs comes back per hour.
     public tailRecharge: number;
 
-    private _cocks: CockModule;
+    private _cocks: CockSpot;
     public get cockSpot() {
         return this._cocks;
     }
@@ -59,7 +59,7 @@ export default class LowerBodyModule {
         this.tailVenom = 0;
         this.tailRecharge = 5;
 
-        this._cocks = new CockModule();
+        this._cocks = new CockSpot();
         this.balls = 0;
         this.ballSize = 0;
 

@@ -1,4 +1,4 @@
-﻿import FaceModule from "./FaceModule";
+﻿import Face from "./Face";
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
@@ -16,7 +16,7 @@ export enum AntennaeType {
     NONE, BEE
 }
 
-export default class HeadModule {
+export default class Head {
     public hairType: HairType;
     public hairColor: string;
     public hairLength: number;
@@ -29,7 +29,7 @@ export default class HeadModule {
 
     public antennae: AntennaeType;
 
-    public face: FaceModule;
+    public face: Face;
 
     public constructor() {
         this.hairType = HairType.NORMAL;
@@ -44,6 +44,6 @@ export default class HeadModule {
 
         this.antennae = AntennaeType.NONE;
 
-        this.face = new FaceModule();
+        this.face = new Face();
     }
 }

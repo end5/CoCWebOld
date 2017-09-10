@@ -1,6 +1,6 @@
 ﻿import BreastRow from "./BreastRow";
 
-export default class BreastRowModule {
+export default class Chest {
     private breastRows: BreastRow[];
 
     public constructor() {

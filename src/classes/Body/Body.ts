@@ -20,7 +20,7 @@ export enum SkinType {
 }
 
 
-export default class BodyModule {
+export default class Body {
     //Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;

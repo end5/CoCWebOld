@@ -12,7 +12,7 @@ export enum EyeType {
     HUMAN, FOUR_SPIDER_EYES, BLACK_EYES_SAND_TRAP
 }
 
-export default class FaceModule {
+export default class Face {
     public faceType: FaceType;
     public eyeType: EyeType;
     public tongueType: TongueType;

@@ -1,5 +1,5 @@
 ﻿import HeadModule from "./HeadModule";
-import BreastRowModule from "./BreastRowModule";
+import Chest from "./BreastRowModule";
 
 export enum ArmType {
     HUMAN, HARPY, SPIDER
@@ -13,7 +13,7 @@ export default class UpperBodyModule {
     public head: HeadModule;
     public gills: boolean;
     public armType: ArmType;
-    public chest: BreastRowModule;
+    public chest: Chest;
     public wingType: WingType;
     public wingDesc: string;
 
@@ -21,7 +21,7 @@ export default class UpperBodyModule {
         this.head = new HeadModule();
         this.gills = false;
         this.armType = ArmType.HUMAN;
-        this.chest = new BreastRowModule();
+        this.chest = new Chest();
         this.wingType = WingType.NONE;
         this.wingDesc = "non-existant";
     }

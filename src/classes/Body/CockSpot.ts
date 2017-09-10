@@ -1,6 +1,6 @@
 ﻿import Cock, { CockType as CockType } from "./Cock";
 
-export default class CockModule {
+export default class CockSpot {
     private _cocks: Cock[];
 
     public constructor() {
