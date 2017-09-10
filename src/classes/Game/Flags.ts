@@ -1,23 +1,19 @@
 export default class Flags {
     private static flags: object = {};
     public static get(flagEnum: FlagEnum): number {
-        return Flags.flags[flagEnum];
+        return this.flags[flagEnum];
     }
 
     public static set(flagEnum: FlagEnum, number: number) {
-        Flags.flags[flagEnum] = number;
+        this.flags[flagEnum] = number;
     }
 
     public static increase(flagEnum: FlagEnum, number: number = 1) {
-        Flags.flags[flagEnum] += number;
+        this.flags[flagEnum] += number;
     }
 
     public static decrease(flagEnum: FlagEnum, number: number = 1) {
-        Flags.flags[flagEnum] -= number;
-    }
-
-    public static has(flagEnum: FlagEnum): boolean {
-        return Flags.flags[flagEnum] !== undefined;
+        this.flags[flagEnum] -= number;
     }
 }
 
