@@ -1,20 +1,19 @@
-﻿import Creature, { SkinType } from "../Creature";
+﻿import Body, { SkinType } from "../Body/Body";
 import Utils from "../Utilities/Utils";
-import HeadModule, { HairType } from "../Modules/HeadModule";
-import { TongueType, FaceModule, FaceType } from "../Modules/FaceModule";
-import Character from "../Character";
+import Head, { HairType } from "../Body/Head";
+import Face, { TongueType, FaceType } from "../Body/Face";
 
 export default class HeadDescriptor {
-    public static hairOrFur(creature: Creature): string {
-        if (creature.skinType == SkinType.FUR)
+    public static hairOrFur(body: Body): string {
+        if (body.skinType == SkinType.FUR)
             return "fur";
         else
             return "hair";
     }
 
-    public static hairDescription(creature: Creature): string {
+    public static describeHair(body: Body): string {
         let description: string = "";
-        let head = creature.upperBody.head;
+        let head = body.upperBody.head;
 
         if (head.hairLength == 0) {
             return Utils.randomChoice("shaved",
@@ -49,9 +48,9 @@ export default class HeadDescriptor {
         }
         else if (head.hairLength >= 26 && head.hairLength < 40)
             description += "ass-length, ";
-        else if (head.hairLength >= 40 && head.hairLength < creature.tallness)
+        else if (head.hairLength >= 40 && head.hairLength < body.tallness)
             description += "obscenely long, ";
-        else if (head.hairLength >= creature.tallness) {
+        else if (head.hairLength >= body.tallness) {
             if (Utils.chance(50))
                 description += "floor-length, ";
             else
@@ -83,7 +82,7 @@ export default class HeadDescriptor {
 			}*/
 
         //If furry and longish hair sometimes call it a mane (50%)
-        if (creature.skinType == SkinType.FUR && head.hairLength > 3 && Utils.chance(50))
+        if (body.skinType == SkinType.FUR && head.hairLength > 3 && Utils.chance(50))
             description += "mane";
         else
             description += "hair";
@@ -96,7 +95,7 @@ export default class HeadDescriptor {
 		* @param    character Either Player or NonPlayer
 		* @return    A beautiful description of a tongue.
 		*/
-    public static tongueDescription(tongueType: TongueType): string {
+    public static describeTongue(tongueType: TongueType): string {
         switch (tongueType) {
             case TongueType.SNAKE:
                 return "serpentine tongue";
@@ -109,7 +108,7 @@ export default class HeadDescriptor {
         }
     }
 
-    public static faceNoun(face: FaceModule): string {
+    public static nounFace(face: Face): string {
         let description: string = "";
 
         if (face.faceType == FaceType.HUMAN)
@@ -146,37 +145,41 @@ export default class HeadDescriptor {
         }
         return "face";
     }
-
-    public static faceDescCharacter(character: Character): string {
+    // prev faceDescCharacter
+    public static describeFaceOther(body: Body): string {
         let description: string = "";
-        if (character.femininity < 10) {
+        if (body.femininity < 10) {
             description = "a square chin";
-            if (!character.hasBeard())
+            // beard doesn't exist
+            //
+            //if (!body.hasBeard())
                 description += " and chiseled jawline";
-            else
-                description += ", chiseled jawline, and " + character.beard();
+            //else
+            //    description += ", chiseled jawline, and " + body.beard();
         }
-        else if (character.femininity < 20) {
-            description = "a rugged looking " + HeadDescriptor.faceNoun(character.upperBody.head.face) + " ";
-            if (character.hasBeard())
-                description += "and " + character.beard();
+        else if (body.femininity < 20) {
+            description = "a rugged looking " + HeadDescriptor.nounFace(body.upperBody.head.face) + " ";
+            // beard doesn't exist
+            //
+            //if (body.hasBeard())
+            //    description += "and " + body.beard();
             description += "that's surely handsome";
         }
-        else if (character.femininity < 28)
+        else if (body.femininity < 28)
             description = "a well-defined jawline and a fairly masculine profile";
-        else if (character.femininity < 35)
+        else if (body.femininity < 35)
             description = "a somewhat masculine, angular jawline";
-        else if (character.femininity < 45)
+        else if (body.femininity < 45)
             description = "the barest hint of masculinity on its features";
-        else if (character.femininity <= 55)
+        else if (body.femininity <= 55)
             description = "an androgynous set of features that would look normal on a male or female";
-        else if (character.femininity <= 65)
+        else if (body.femininity <= 65)
             description = "a tiny touch of character.femininity to it, with gentle curves";
-        else if (character.femininity <= 72)
+        else if (body.femininity <= 72)
             description = "a nice set of cheekbones and lips that have the barest hint of pout";
-        else if (character.femininity <= 80)
+        else if (body.femininity <= 80)
             description = "a beautiful, feminine shapeliness that's sure to draw the attention of males";
-        else if (character.femininity <= 90)
+        else if (body.femininity <= 90)
             description = "a gorgeous profile with full lips, a button nose, and noticeable eyelashes";
         else
             description = "a jaw-droppingly feminine shape with full, pouting lips, an adorable nose, and long, beautiful eyelashes";

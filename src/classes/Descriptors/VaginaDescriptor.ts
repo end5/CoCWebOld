@@ -1,10 +1,10 @@
-﻿import { VaginaLooseness as VaginaLooseness, VaginaWetness as VaginaWetness, VaginaType as VaginaType, Vagina } from "../Modules/Vagina";
-import Utils from "../Utilities/Utils";
+﻿import Utils from "../Utilities/Utils";
 import Creature from "../Creature";
-import { Skin } from "../../includes/appearanceDefs";
+import Body, { SkinType } from "../Body/Body";
+import Vagina, { VaginaLooseness, VaginaWetness, VaginaType } from "../Body/Vagina";
 
 export default class VaginaDescriptor {
-    public static vaginaDescript(creature: Creature, vagina: Vagina): string {
+    public static describe(body: Body, vagina: Vagina): string {
         let description: string = "";
 
         //tightness descript - 40% display rate
@@ -43,13 +43,13 @@ export default class VaginaDescriptor {
                 description += ", ";
             description += "pierced";
         }
-        if (description == "" && creature.skinType == Skin.GOO) {
+        if (description == "" && body.skinType == SkinType.GOO) {
             if (description.length > 0)
                 description += ", ";
 
             description += Utils.randomChoice("gooey", "slimy");
         }
-        if (vagina.type == VaginaType.BLACK_SAND_TRAP && Utils.chance(50)) {
+        if (vagina.vaginaType == VaginaType.BLACK_SAND_TRAP && Utils.chance(50)) {
             if (description.length > 0)
                 description += ", ";
             description += Utils.randomChoice(
@@ -80,7 +80,7 @@ export default class VaginaDescriptor {
         return description;
     }
 
-    public static clitDescription(vagina: Vagina): string {
+    public static describeClit(body: Body, vagina: Vagina): string {
         let description: string = "";
         //Length Adjective - 50% chance
         if (Utils.chance(50)) {
@@ -119,23 +119,23 @@ export default class VaginaDescriptor {
         //Descriptive descriptions - 50% chance of being called
         if (Utils.chance(50)) {
             //Doggie descriptors - 50%
-            if (vagina.skinType == Skin.FUR && Utils.chance(50)) {
+            if (body.skinType == SkinType.FUR && Utils.chance(50)) {
                 description += "bitch-";
             }
             /*Horse descriptors - 50%
-                if(creature.skinType == Skin.FUR && !descripted && Utils.chance(50)) {
+                if(creature.skinType == SkinType.FUR && !descripted && Utils.chance(50)) {
                 descripted = true;
                 descript += "mare-";
                 }*/
             //Horny descriptors - 75% chance
-            else if (vagina.lust > 70 && Utils.chance(75)) {
+            else if (body.stats.lust > 70 && Utils.chance(75)) {
                 description += Utils.randomChoice(
                     "throbbing ",
                     "pulsating ",
                     "hard ");
             }
             //High libido - always use if no other descript
-            else if (vagina.lib > 50 && Utils.chance(50)) {
+            else if (body.stats.lib > 50 && Utils.chance(50)) {
                 description += Utils.randomChoice(
                     "insatiable ",
                     "greedy ",

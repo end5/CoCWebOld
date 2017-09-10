@@ -1,5 +1,5 @@
 ﻿import Utils from "../Utilities/Utils";
-import BodyModule from "../Modules/BodyModule";
+import Body from "../Body/Body";
 
 export default class BallsDescriptor {
     /**
@@ -10,7 +10,7 @@ export default class BallsDescriptor {
         * @param    withArticle    Show description with article in front
         * @return    Full description of balls
         */
-    public static describe(forcedSize: boolean, plural: boolean, body: BodyModule, withArticle: boolean = false): string {
+    public static describeBalls(forcedSize: boolean, plural: boolean, body: Body, withArticle: boolean = false): string {
         if (body.lowerBody.balls == 0)
             return "prostate";
 
@@ -123,7 +123,7 @@ export default class BallsDescriptor {
 
         }
         //lusty
-        if (body.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forcedSize) {
+        if (body.stats.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forcedSize) {
             options = ["eager",
                 "full",
                 "needy",
@@ -177,7 +177,7 @@ export default class BallsDescriptor {
     }
 
     //Returns random description of scrotum
-    public static describeSack(body: BodyModule): string {
+    public static describeSack(body: Body): string {
         if (body.lowerBody.cockSpot.balls == 0)
             return "prostate";
 

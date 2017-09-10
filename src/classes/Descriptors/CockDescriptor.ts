@@ -1,11 +1,11 @@
-﻿import Cock, { CockType } from "../Modules/Cock";
-import CockSpot from "../Modules/CockModule";
+﻿import Body, { SkinType } from "../Body/Body";
+import Cock, { CockType } from "../Body/Cock";
+import CockSpot from "../Body/CockSpot";
 import Utils from "../Utilities/Utils";
 import Flags from "../Game/Flags";
-import BodyModule, { SkinType } from "../Modules/BodyModule";
 
 export default class CockDescriptor {
-    public static describe(body: BodyModule, cock: Cock): string {
+    public static describeCock(body: Body, cock: Cock): string {
         if (body.lowerBody.cockSpot.hasCock() || cock == null)
             return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
@@ -14,14 +14,14 @@ export default class CockDescriptor {
         let isGooey: boolean = (body.skinType == SkinType.GOO);
         if (Utils.chance(50)) {
             if (cock.cockType == CockType.HUMAN)
-                return CockDescriptor.adjective(cock, body.stats.lust, body.cumQ(), isGooey) + " " + CockDescriptor.noun(cock.cockType);
+                return CockDescriptor.adjectiveCock(cock, body.stats.lust, body.cumQ(), isGooey) + " " + CockDescriptor.nounCock(cock.cockType);
             else
-                return CockDescriptor.adjective(cock, body.stats.lust, body.cumQ(), isGooey) + ", " + CockDescriptor.noun(cock.cockType);
+                return CockDescriptor.adjectiveCock(cock, body.stats.lust, body.cumQ(), isGooey) + ", " + CockDescriptor.nounCock(cock.cockType);
         }
-        return CockDescriptor.noun(cock.cockType);
+        return CockDescriptor.nounCock(cock.cockType);
     }
 
-    public static noun(cockType: CockType): string {
+    public static nounCock(cockType: CockType): string {
         if (cockType == CockType.HUMAN) {
             // Yeah, this is kind of messy
             // there is no other easy way to preserve the weighting fenoxo did
@@ -195,7 +195,7 @@ export default class CockDescriptor {
 
     //New cock adjectives.  The old one sucked dicks
     //This function handles all cockAdjectives. Previously there were separate functions for the player, monsters and NPCs.
-    public static adjective(cock: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
+    public static adjectiveCock(cock: Cock, lust: number = 50, cumQ: number = 10, isGooey: boolean = false): string {
         //First, the three possible special cases
         if (cock.pierced && Utils.chance(20))
             return "pierced";
@@ -264,7 +264,7 @@ export default class CockDescriptor {
     }
 
     //Cock adjectives for single cock
-    public static adjectives(cock: Cock, body: BodyModule): string {
+    public static adjectivesCock(cock: Cock, body: Body): string {
         let description: string = "";
         //length or thickness, usually length.
         if (Utils.chance(25)) {
@@ -373,7 +373,7 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static multiNoun(cockType: CockType): string {
+    public static nounMultiCock(cockType: CockType): string {
         if (cockType == CockType.HUMAN)
             return Utils.randomChoice("cock",
                 "cock",
@@ -500,7 +500,7 @@ export default class CockDescriptor {
         return this.cockNoun(CockType.HUMAN) + "s";
     }*/
 
-    public cockHead(type: CockType): string {
+    public describeCockHead(type: CockType): string {
         switch (type) {
             case CockType.CAT:
                 return Utils.randomChoice(
@@ -555,12 +555,12 @@ export default class CockDescriptor {
         }
     }
 
-    public cockSheath(cock: Cock): string {
+    public describeCockSheath(cock: Cock): string {
         return cock.hasSheath() ? "sheath" : "base";
     }
 
     //Short cock description. Describes length or girth. Supports multiple cocks.
-    public static describeShort(cock: Cock): string {
+    public static describeCockShort(cock: Cock): string {
         let description: string = "";
         //Discuss length one in 3 times
         if (Utils.chance(33)) {
@@ -593,18 +593,18 @@ export default class CockDescriptor {
                 description = "distended ";
         }
         //Seems to work better without this comma:			if (descripted && cock.cockType != CockType.HUMAN) description += ", ";
-        description += CockDescriptor.noun(cock.cockType);
+        description += CockDescriptor.nounCock(cock.cockType);
 
         return description;
     }
 
-    public static describeMultiCockShort(body: BodyModule, cocks: CockSpot): string {
+    public static describeMultiCockShort(body: Body, cocks: CockSpot): string {
         let description: string = "";
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.describe(body, cocks.list[0]);
+            return CockDescriptor.describeCock(body, cocks.list[0]);
 
         if (cockCount == 2) {
             if (cocksSameType)
@@ -621,23 +621,23 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("bundle of ", "obscene group of ", "cluster of ", "wriggling bunch of ");
 
-        description += CockDescriptor.adjective(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
+        description += CockDescriptor.adjectiveCock(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
-            description += ", " + CockDescriptor.noun(cocks[0].cockType) + "s";
+            description += ", " + CockDescriptor.nounCock(cocks[0].cockType) + "s";
         else
             description += Utils.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks");
 
         return description;
     }
 
-    public static describeMultiCock(body: BodyModule, cocks: CockSpot): string {
+    public static describeMultiCock(body: Body, cocks: CockSpot): string {
         let description: string = "";
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.describe(body, cocks.list[0]);
+            return CockDescriptor.describeCock(body, cocks.list[0]);
 
         if (cockCount == 2) {
             if (cocksSameType)
@@ -654,10 +654,10 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ");
 
-        description += CockDescriptor.adjective(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
+        description += CockDescriptor.adjectiveCock(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
-            description += ", " + CockDescriptor.noun(cocks[0].cockType) + "s";
+            description += ", " + CockDescriptor.nounCock(cocks[0].cockType) + "s";
         else
             description += Utils.randomChoice("mutated cocks", "mutated dicks", "mixed cocks", "mismatched dicks");
 

@@ -1,4 +1,4 @@
-﻿import Creature, { Gender } from "../Creature";
+﻿import Body, { Gender } from "../Body/Body";
 
 export default class GenderDescriptor {
     public static genderText(gender: Gender, male: string = "man", female: string = "woman", futa: string = "herm", eunuch: string = "eunuch"): string {

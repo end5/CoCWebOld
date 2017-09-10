@@ -1,5 +1,5 @@
-﻿import Creature from "../Creature";
-import { TailType } from "../Modules/LowerBodyModule";
+﻿import { TailType } from "../Body/LowerBodyModule";
+import Body from "../Body/Body";
 
 export default class TailDescriptor {
     public static TailNameTable =
@@ -23,45 +23,45 @@ export default class TailDescriptor {
         [TailType.MOUSE, "mouse"]
     ];
 
-    public static tailDescript(creature: Creature): string {
-        if (creature.lowerbody.tailType == TailType.NONE) {
+    public static describeTail(body: Body): string {
+        if (body.lowerBody.tailType == TailType.NONE) {
             console.trace("WARNING: Creature has no tails to describe.");
             return "<b>!Creature has no tails to describe!</b>";
         }
 
         let description: string = "";
 
-        if (creature.tailType == TailType.FOX && creature.tailVenom >= 1) {
+        if (body.lowerBody.tailType == TailType.FOX && body.lowerBody.tailVenom >= 1) {
             // Kitsune tails, we're using tailVenom to track tail count
-            if (creature.tailVenom > 1) {
-                if (creature.tailVenom == 2) description += "pair ";
-                else if (creature.tailVenom == 3) description += "trio ";
-                else if (creature.tailVenom == 4) description += "quartet ";
-                else if (creature.tailVenom == 5) description += "quintet ";
-                else if (creature.tailVenom > 5) description += "bundle ";
+            if (body.lowerBody.tailVenom > 1) {
+                if (body.lowerBody.tailVenom == 2) description += "pair ";
+                else if (body.lowerBody.tailVenom == 3) description += "trio ";
+                else if (body.lowerBody.tailVenom == 4) description += "quartet ";
+                else if (body.lowerBody.tailVenom == 5) description += "quintet ";
+                else if (body.lowerBody.tailVenom > 5) description += "bundle ";
 
                 description += "of kitsune tails";
             }
             else description += "kitsune tail";
         }
         else {
-            description += TailDescriptor.TailNameTable[creature.tailType];
+            description += TailDescriptor.TailNameTable[body.lowerBody.tailType];
             description += " tail";
         }
 
         return description;
     }
 
-    public static oneTailDescript(creature: Creature): string {
-        if (creature.tailType == TailType.NONE) {
+    public static describeOneTail(body: Body): string {
+        if (body.lowerBody.tailType == TailType.NONE) {
             console.trace("WARNING: Creature has no tails to describe.");
             return "<b>!Creature has no tails to describe!</b>";
         }
 
         let description: string = "";
 
-        if (creature.tailType == TailType.FOX && creature.tailVenom >= 1) {
-            if (creature.tailVenom == 1) {
+        if (body.lowerBody.tailType == TailType.FOX && body.lowerBody.tailVenom >= 1) {
+            if (body.lowerBody.tailVenom == 1) {
                 description += "your kitsune tail";
             }
             else {
@@ -69,7 +69,7 @@ export default class TailDescriptor {
             }
         }
         else {
-            description += "your " + TailDescriptor.TailNameTable[creature.tailType] + " tail";
+            description += "your " + TailDescriptor.TailNameTable[body.lowerBody.tailType] + " tail";
         }
 
         return description;

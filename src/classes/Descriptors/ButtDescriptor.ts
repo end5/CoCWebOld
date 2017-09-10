@@ -1,20 +1,19 @@
-﻿import { ButtRating as ButtRating, ButtWetness as ButtWetness, ButtLooseness as ButtLooseness, Butt } from "../Modules/Butt";
-import Character from "../Character";
+﻿import Body from "../Body/Body";
+import { ButtRating as ButtRating, ButtWetness as ButtWetness, ButtLooseness as ButtLooseness, Butt } from "../Body/Butt";
 import Utils from "../Utilities/Utils";
-import Creature from "../Creature";
 
 export default class ButtDescriptor {
     /**
     * Gives a full description of a Character's butt.
     * Be aware that it only supports Characters, not all Creatures.
-    * @param    character
+    * @param    body
     * @return    A full description of a Character's butt.
     */
-    public static buttDescription(character: Character): string {
+    public static describeButt(body: Body): string {
         let description: string = "";
 
-        if (character.buttRating < ButtRating.TIGHT) {
-            if (character.tone >= 60)
+        if (body.lowerBody.buttRating < ButtRating.TIGHT) {
+            if (body.tone >= 60)
                 description += "incredibly tight, perky ";
             else {
                 description = Utils.randomChoice(
@@ -22,13 +21,13 @@ export default class ButtDescriptor {
                     "very small",
                     "dainty");
                 //Soft PC's buns!
-                if (character.tone <= 30 && Utils.chance(33))
+                if (body.tone <= 30 && Utils.chance(33))
                     description += " yet soft";
                 description += " ";
             }
         }
-        else if (character.buttRating >= ButtRating.TIGHT && character.buttRating < ButtRating.AVERAGE) {
-            if (character.tone >= 65) {
+        else if (body.lowerBody.buttRating >= ButtRating.TIGHT && body.lowerBody.buttRating < ButtRating.AVERAGE) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice(
                     "perky, muscular ",
                     "tight, toned ",
@@ -37,7 +36,7 @@ export default class ButtDescriptor {
                     "muscular, toned ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice(
                     "tight ",
                     "firm ",
@@ -56,9 +55,9 @@ export default class ButtDescriptor {
                     "snug ");
             }
         }
-        else if (character.buttRating >= ButtRating.AVERAGE && character.buttRating < ButtRating.NOTICEABLE) {
+        else if (body.lowerBody.buttRating >= ButtRating.AVERAGE && body.lowerBody.buttRating < ButtRating.NOTICEABLE) {
             //TOIGHT LIKE A TIGER
-            if (character.tone >= 65) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("nicely muscled ",
                     "nice, toned ",
                     "muscly ",
@@ -67,7 +66,7 @@ export default class ButtDescriptor {
                     "fair ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("nice ",
                     "fair ");
             }
@@ -80,9 +79,9 @@ export default class ButtDescriptor {
                     "soft, squeezable ");
             }
         }
-        else if (character.buttRating >= ButtRating.NOTICEABLE && character.buttRating < ButtRating.LARGE) {
+        else if (body.lowerBody.buttRating >= ButtRating.NOTICEABLE && body.lowerBody.buttRating < ButtRating.LARGE) {
             //TOIGHT LIKE A TIGER
-            if (character.tone >= 65) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("full, toned ",
                     "muscly handful of ",
                     "shapely, toned ",
@@ -92,7 +91,7 @@ export default class ButtDescriptor {
                     "chiseled ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("handful of ",
                     "full ",
                     "shapely ",
@@ -111,9 +110,9 @@ export default class ButtDescriptor {
                     "rounded, spongy ");
             }
         }
-        else if (character.buttRating >= ButtRating.LARGE && character.buttRating < ButtRating.JIGGLY) {
+        else if (body.lowerBody.buttRating >= ButtRating.LARGE && body.lowerBody.buttRating < ButtRating.JIGGLY) {
             //TOIGHT LIKE A TIGER
-            if (character.tone >= 65) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("large, muscular ",
                     "substantial, toned ",
                     "big-but-tight ",
@@ -124,7 +123,7 @@ export default class ButtDescriptor {
                     "large ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("squeezable ",
                     "large ",
                     "substantial ");
@@ -142,9 +141,9 @@ export default class ButtDescriptor {
                     "pleasantly plump ");
             }
         }
-        else if (character.buttRating >= ButtRating.JIGGLY && character.buttRating < ButtRating.EXPANSIVE) {
+        else if (body.lowerBody.buttRating >= ButtRating.JIGGLY && body.lowerBody.buttRating < ButtRating.EXPANSIVE) {
             //TOIGHT LIKE A TIGER
-            if (character.tone >= 65) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("thick, muscular ",
                     "big, burly ",
                     "heavy, powerful ",
@@ -154,7 +153,7 @@ export default class ButtDescriptor {
                     "thick, strong ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("jiggling ",
                     "spacious ",
                     "heavy ",
@@ -174,9 +173,9 @@ export default class ButtDescriptor {
                     "soft, plump ");
             }
         }
-        else if (character.buttRating >= ButtRating.EXPANSIVE && character.buttRating < ButtRating.HUGE) {
+        else if (body.lowerBody.buttRating >= ButtRating.EXPANSIVE && body.lowerBody.buttRating < ButtRating.HUGE) {
             //TOIGHT LIKE A TIGER
-            if (character.tone >= 65) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("expansive, muscled ",
                     "voluminous, rippling ",
                     "generous, powerful ",
@@ -187,7 +186,7 @@ export default class ButtDescriptor {
                     "powerful, expansive ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("expansive ",
                     "generous ",
                     "voluminous ",
@@ -208,8 +207,8 @@ export default class ButtDescriptor {
                     "soft, padded ");
             }
         }
-        else if (character.buttRating >= ButtRating.HUGE && character.buttRating < ButtRating.INCONCEIVABLY_BIG) {
-            if (character.tone >= 65) {
+        else if (body.lowerBody.buttRating >= ButtRating.HUGE && body.lowerBody.buttRating < ButtRating.INCONCEIVABLY_BIG) {
+            if (body.tone >= 65) {
                 description = Utils.randomChoice("huge, toned ",
                     "vast, muscular ",
                     "vast, well-built ",
@@ -218,7 +217,7 @@ export default class ButtDescriptor {
                     "muscle-bound ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 if (Utils.chance(20))
                     return "jiggling expanse of ass";
                 if (Utils.chance(20))
@@ -242,8 +241,8 @@ export default class ButtDescriptor {
                     "swollen, pillow-like ");
             }
         }
-        else if (character.buttRating >= ButtRating.INCONCEIVABLY_BIG) {
-            if (character.tone >= 65) {
+        else if (body.lowerBody.buttRating >= ButtRating.INCONCEIVABLY_BIG) {
+            if (body.tone >= 65) {
                 if (Utils.chance(14))
                     return "colossal, muscly ass";
                 description = Utils.randomChoice("ginormous, muscle-bound ",
@@ -254,7 +253,7 @@ export default class ButtDescriptor {
                     "colossal, well-defined ");
             }
             //Nondescript
-            else if (character.tone >= 30) {
+            else if (body.tone >= 30) {
                 description = Utils.randomChoice("ginormous ",
                     "colossal ",
                     "tremendous ",
@@ -299,53 +298,54 @@ export default class ButtDescriptor {
         * Gives a short description of a creature's butt.
         * Different from buttDescription in that it supports all creatures, not just characters.
         * Warning, very judgemental.
-        * @param    creature
+        * @param    body
         * @return Short description of a butt.
         */
-    public static buttDescriptionShort(creature: Creature): string {
+    public static describeButtShort(body: Body): string {
         let description: string = "";
-        if (creature.buttRating < ButtRating.TIGHT) {
+        let buttRating: number = body.lowerBody.buttRating;
+        if (buttRating < ButtRating.TIGHT) {
             description = Utils.randomChoice("insignificant ",
                 "very small ");
         }
-        else if (creature.buttRating >= ButtRating.TIGHT && creature.buttRating < ButtRating.AVERAGE) {
+        else if (buttRating >= ButtRating.TIGHT && buttRating < ButtRating.AVERAGE) {
             description = Utils.randomChoice("tight ",
                 "firm ",
                 "compact ");
         }
-        else if (creature.buttRating >= ButtRating.AVERAGE && creature.buttRating < ButtRating.NOTICEABLE) {
+        else if (buttRating >= ButtRating.AVERAGE && buttRating < ButtRating.NOTICEABLE) {
             description = Utils.randomChoice("regular ",
                 "unremarkable ");
         }
-        else if (creature.buttRating >= ButtRating.NOTICEABLE && creature.buttRating < ButtRating.LARGE) {
+        else if (buttRating >= ButtRating.NOTICEABLE && buttRating < ButtRating.LARGE) {
             if (Utils.chance(33))
                 return "handful of ass";
             description = Utils.randomChoice("full ",
                 "shapely ");
         }
-        else if (creature.buttRating >= ButtRating.LARGE && creature.buttRating < ButtRating.JIGGLY) {
+        else if (buttRating >= ButtRating.LARGE && buttRating < ButtRating.JIGGLY) {
             description = Utils.randomChoice("squeezable ",
                 "large ",
                 "substantial ");
         }
-        else if (creature.buttRating >= ButtRating.JIGGLY && creature.buttRating < ButtRating.EXPANSIVE) {
+        else if (buttRating >= ButtRating.JIGGLY && buttRating < ButtRating.EXPANSIVE) {
             description = Utils.randomChoice("jiggling ",
                 "spacious ",
                 "heavy ");
         }
-        else if (creature.buttRating >= ButtRating.EXPANSIVE && creature.buttRating < ButtRating.HUGE) {
+        else if (buttRating >= ButtRating.EXPANSIVE && buttRating < ButtRating.HUGE) {
             if (Utils.chance(33))
                 return "generous amount of ass";
             description = Utils.randomChoice("expansive ",
                 "voluminous ");
         }
-        else if (creature.buttRating >= ButtRating.HUGE && creature.buttRating < ButtRating.INCONCEIVABLY_BIG) {
+        else if (buttRating >= ButtRating.HUGE && buttRating < ButtRating.INCONCEIVABLY_BIG) {
             if (Utils.chance(66))
                 return "jiggling expanse of ass";
             description = Utils.randomChoice("huge ",
                 "vast ");
         }
-        else if (creature.buttRating >= ButtRating.INCONCEIVABLY_BIG) {
+        else if (buttRating >= ButtRating.INCONCEIVABLY_BIG) {
             description = Utils.randomChoice("ginormous ",
                 "colossal ",
                 "tremendous ");
@@ -357,7 +357,7 @@ export default class ButtDescriptor {
         return description;
     }
 
-    public static assholeDescript(butt: Butt): string {
+    public static describeButthole(butt: Butt): string {
         let description: string = "";
 
         if (Utils.chance(33)) {

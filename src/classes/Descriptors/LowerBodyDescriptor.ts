@@ -1,73 +1,72 @@
-﻿import { LowerBody } from "../../includes/appearanceDefs";
-import Character from "../Character";
-import Creature from "../Creature";
+﻿import Body from "../Body/Body";
 import Utils from "../Utilities/Utils";
+import LowerBody, { LowerBodyType } from "../Body/LowerBody";
 
 export default class LowerBodyDescriptor {
-    public static assholeOrPussy(creature: Creature): string {
-        if (creature.vaginas.hasVagina)
-            return vaginaDescript(creature, 0);
-        return assholeDescript(creature);
+    public static assholeOrPussy(body: Body): string {
+        if (body.lowerBody.vaginaSpot.hasVagina())
+            return vaginaDescript(body, 0);
+        return assholeDescript(body);
     }
 
-    public static hipDescription(character: Character): string {
+    public static describeHips(body: Body): string {
         let description: string = "";
         let options: string[] = [];
-        if (character.hipRating <= 1) {
+        if (body.lowerBody.hipRating <= 1) {
             description = Utils.randomChoice(
                 "tiny ",
                 "narrow ",
                 "boyish ");
         }
-        else if (character.hipRating > 1 && character.hipRating < 4) {
+        else if (body.lowerBody.hipRating > 1 && body.lowerBody.hipRating < 4) {
             description = Utils.randomChoice(
                 "slender ",
                 "narrow ",
                 "thin ");
-            if (character.thickness < 30) {
+            if (body.thickness < 30) {
                 if (Utils.chance(50))
                     description = "slightly-flared ";
                 else
                     description = "curved ";
             }
         }
-        else if (character.hipRating >= 4 && character.hipRating < 6) {
+        else if (body.lowerBody.hipRating >= 4 && body.lowerBody.hipRating < 6) {
             description = Utils.randomChoice(
                 "well-formed ",
                 "pleasant ");
-            if (character.thickness < 30) {
+            if (body.thickness < 30) {
                 if (Utils.chance(50))
                     description = "flared ";
                 else
                     description = "curvy ";
             }
         }
-        else if (character.hipRating >= 6 && character.hipRating < 10) {
+        else if (body.lowerBody.hipRating >= 6 && body.lowerBody.hipRating < 10) {
             description = Utils.randomChoice(
                 "ample ",
                 "noticeable ",
                 "girly ");
-            if (character.thickness < 30) {
+            if (body.thickness < 30) {
                 if (Utils.chance(50))
                     description = "flared ";
                 else
                     description = "waspish ";
             }
         }
-        else if (character.hipRating >= 10 && character.hipRating < 15) {
+        else if (body.lowerBody.hipRating >= 10 && body.lowerBody.hipRating < 15) {
             description = Utils.randomChoice(
                 "flared ",
                 "curvy ",
                 "wide ");
-            if (character.thickness < 30) {
+            if (body.thickness < 30) {
                 if (Utils.chance(50))
                     description = "flared ";
                 else
                     description = "waspish ";
             }
         }
-        else if (character.hipRating >= 15 && character.hipRating < 20) {
-            if (character.thickness < 40) {
+        else if (body.lowerBody.hipRating >= 15 && body.lowerBody.hipRating < 20) {
+            if (body.thickness < 40) {
                 if (Utils.chance(50))
                     description = "flared, ";
                 else
@@ -78,8 +77,8 @@ export default class LowerBodyDescriptor {
                 "child-bearing ",
                 "voluptuous ");
         }
-        else if (character.hipRating >= 20) {
-            if (character.thickness < 40) {
+        else if (body.lowerBody.hipRating >= 20) {
+            if (body.thickness < 40) {
                 if (Utils.chance(50))
                     description = "flaring, ";
                 else
@@ -91,10 +90,10 @@ export default class LowerBodyDescriptor {
                 "inhumanly-wide ");
         }
         //Taurs
-        if (character.isTaur() && Utils.chance(33))
+        if (body.lowerBody.isTaur() && Utils.chance(33))
             description += "flanks";
         //Nagas have sides, right?
-        else if (character.isNaga() && Utils.chance(33))
+        else if (body.lowerBody.isNaga() && Utils.chance(33))
             description += "sides";
         //Non taurs or taurs who didn't roll flanks
         else {
@@ -106,40 +105,40 @@ export default class LowerBodyDescriptor {
         return description;
     }
 
-    public static leg(lowerBody: LowerBody): string {
-        switch (lowerBody) {
-            case LowerBody.HUMAN:
-            case LowerBody.HOOFED:
-            case LowerBody.DOG:
+    public static describeLeg(lowerBody: LowerBody): string {
+        switch (lowerBody.type) {
+            case LowerBodyType.HUMAN:
+            case LowerBodyType.HOOFED:
+            case LowerBodyType.DOG:
                 return "leg";
-            case LowerBody.NAGA:
+            case LowerBodyType.NAGA:
                 return "snake-tail";
-            case LowerBody.CENTAUR:
+            case LowerBodyType.CENTAUR:
                 return "equine leg";
-            case LowerBody.GOO:
+            case LowerBodyType.GOO:
                 return "mound of goo";
-            case LowerBody.PONY:
+            case LowerBodyType.PONY:
                 return "cartoonish pony-leg";
-            case LowerBody.BUNNY:
+            case LowerBodyType.BUNNY:
                 return Utils.randomChoice(
                     "fuzzy, bunny leg",
                     "fur-covered leg",
                     "furry leg",
                     "leg");
-            case LowerBody.HARPY:
+            case LowerBodyType.HARPY:
                 return Utils.randomChoice(
                     "bird-like leg",
                     "feathered leg",
                     "leg"
                 );
-            case LowerBody.FOX:
+            case LowerBodyType.FOX:
                 return Utils.randomChoice(
                     "fox-like leg",
                     "leg",
                     "leg",
                     "vulpine leg"
                 );
-            case LowerBody.RACCOON:
+            case LowerBodyType.RACCOON:
                 return Utils.randomChoice(
                     "raccoon-like leg",
                     "leg"
@@ -149,40 +148,40 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static legs(lowerBody: LowerBody): string {
-        switch (lowerBody) {
-            case LowerBody.HUMAN:
-            case LowerBody.HOOFED:
-            case LowerBody.DOG:
+    public static describeLegs(lowerBody: LowerBody): string {
+        switch (lowerBody.type) {
+            case LowerBodyType.HUMAN:
+            case LowerBodyType.HOOFED:
+            case LowerBodyType.DOG:
                 return "legs";
-            case LowerBody.NAGA:
+            case LowerBodyType.NAGA:
                 return "snake-like coils";
-            case LowerBody.CENTAUR:
+            case LowerBodyType.CENTAUR:
                 return "four legs";
-            case LowerBody.GOO:
+            case LowerBodyType.GOO:
                 return "mounds of goo";
-            case LowerBody.PONY:
+            case LowerBodyType.PONY:
                 return "cute pony-legs";
-            case LowerBody.BUNNY:
+            case LowerBodyType.BUNNY:
                 return Utils.randomChoice(
                     "fuzzy, bunny legs",
                     "fur-covered legs",
                     "furry legs",
                     "legs");
-            case LowerBody.HARPY:
+            case LowerBodyType.HARPY:
                 return Utils.randomChoice(
                     "bird-like legs",
                     "feathered legs",
                     "legs"
                 );
-            case LowerBody.FOX:
+            case LowerBodyType.FOX:
                 return Utils.randomChoice(
                     "fox-like legs",
                     "legs",
                     "legs",
                     "vulpine legs"
                 );
-            case LowerBody.RACCOON:
+            case LowerBodyType.RACCOON:
                 return Utils.randomChoice(
                     "raccoon-like legs",
                     "legs"
@@ -192,42 +191,42 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static foot(lowerBody: LowerBody): string {
-        switch (lowerBody) {
-            case LowerBody.HUMAN:
+    public static describeFoot(lowerBody: LowerBody): string {
+        switch (lowerBody.type) {
+            case LowerBodyType.HUMAN:
                 return "foot";
-            case LowerBody.HOOFED:
-            case LowerBody.CENTAUR:
+            case LowerBodyType.HOOFED:
+            case LowerBodyType.CENTAUR:
                 return "hoof";
-            case LowerBody.DOG:
+            case LowerBodyType.DOG:
                 return "paw";
-            case LowerBody.NAGA:
+            case LowerBodyType.NAGA:
                 return "coiled tail";
-            case LowerBody.GOO:
+            case LowerBodyType.GOO:
                 return "slimey undercarriage";
-            case LowerBody.PONY:
+            case LowerBodyType.PONY:
                 return "flat pony-foot";
-            case LowerBody.BUNNY:
+            case LowerBodyType.BUNNY:
                 return Utils.randomChoice(
                     "large bunny foot",
                     "rabbit foot",
                     "large foot",
                     "foot");
-            case LowerBody.HARPY:
+            case LowerBodyType.HARPY:
                 return Utils.randomChoice(
                     "taloned foot",
                     "foot"
                 );
-            case LowerBody.KANGAROO:
+            case LowerBodyType.KANGAROO:
                 return "foot-foot";
-            case LowerBody.FOX:
+            case LowerBodyType.FOX:
                 return Utils.randomChoice(
                     "foot",
                     "soft, padded paw",
                     "fox-like foot",
                     "paw"
                 );
-            case LowerBody.RACCOON:
+            case LowerBodyType.RACCOON:
                 return Utils.randomChoice(
                     "raccoon-like foot",
                     "long-toed paw",
@@ -239,46 +238,46 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static feet(lowerBody: LowerBody): string {
-        switch (lowerBody) {
-            case LowerBody.HUMAN:
+    public static describeFeet(lowerBody: LowerBody): string {
+        switch (lowerBody.type) {
+            case LowerBodyType.HUMAN:
                 return "feet";
-            case LowerBody.HOOFED:
-            case LowerBody.CENTAUR:
+            case LowerBodyType.HOOFED:
+            case LowerBodyType.CENTAUR:
                 return "hooves";
-            case LowerBody.DOG:
+            case LowerBodyType.DOG:
                 return "paws";
-            case LowerBody.NAGA:
+            case LowerBodyType.NAGA:
                 return "coils";
-            case LowerBody.DEMONIC_HIGH_HEELS:
+            case LowerBodyType.DEMONIC_HIGH_HEELS:
                 return "demonic high-heels";
-            case LowerBody.DEMONIC_CLAWS:
+            case LowerBodyType.DEMONIC_CLAWS:
                 return "demonic foot-claws";
-            case LowerBody.GOO:
+            case LowerBodyType.GOO:
                 return "slimey cillia";
-            case LowerBody.PONY:
+            case LowerBodyType.PONY:
                 return "flat pony-feet";
-            case LowerBody.BUNNY:
+            case LowerBodyType.BUNNY:
                 return Utils.randomChoice(
                     "large bunny feet",
                     "rabbit feet",
                     "large feet",
                     "feet");
-            case LowerBody.HARPY:
+            case LowerBodyType.HARPY:
                 return Utils.randomChoice(
                     "taloned feet",
                     "feet"
                 );
-            case LowerBody.KANGAROO:
+            case LowerBodyType.KANGAROO:
                 return "foot-paws";
-            case LowerBody.FOX:
+            case LowerBodyType.FOX:
                 return Utils.randomChoice(
                     "paws",
                     "soft, padded paws",
                     "fox-like feet",
                     "paws"
                 );
-            case LowerBody.RACCOON:
+            case LowerBodyType.RACCOON:
                 return Utils.randomChoice(
                     "raccoon-like feet",
                     "long-toed paws",

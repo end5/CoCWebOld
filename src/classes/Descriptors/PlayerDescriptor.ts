@@ -3,7 +3,7 @@ import RaceScore from "../BodyTypeScore";
 import GenderDescriptor from "./GenderDescriptor";
 
 export default class PlayerDescriptor {
-    public bodyType(player: Player): string {
+    public static describeBody(player: Player): string {
         let description: string = "";
         //OLD STUFF
         //SUPAH THIN
@@ -114,7 +114,7 @@ export default class PlayerDescriptor {
         return description;
     }
 
-    public race(player: Player): string {
+    public static describeRace(player: Player): string {
         let race: string = "human";
         if (player.lowerBody.type == 4)
             race = "centaur";

@@ -1,28 +1,16 @@
-﻿
+﻿import Body from "../Body/Body";
+
 export default class OtherDescriptors {
-    public static inverseMap(x: object): object {
+    /*public static inverseMap(x: object): object {
         let result: object = {};
         for (let i: string in x) {
             result[String(x[i])] = i;
         }
         return result;
-    }
-
-
-
-
-    /* Moved to Creature.as
-	    public static sheathDescription(i_character:Character):string
-	    {
-		    if (i_character.hasSheath()) return "sheath";
-		    else return "base";
-	    }
-    */
-
-
-
-    public static wingsDescript(i_creature: Creature): string {
-        return DEFAULT_WING_NAMES[i_creature.wingType] + " wings";
+    }*/
+    /*
+    public static describeWings(body: Body): string {
+        return OtherDescriptors.DEFAULT_WING_NAMES[body.wingType] + " wings";
     }
 
 
@@ -267,7 +255,7 @@ export default class OtherDescriptors {
         [BUTT_RATING.HUGE, "huge"],
         [BUTT_RATING.INCONCEIVABLY_BIG, "inconceivably big"]
     ];
-
+    */
     /**
         * Assume scale = [[0,"small"],[5,"average"],[10,"big"]]
         *      value < 0   ->   "less than small"
@@ -278,7 +266,7 @@ export default class OtherDescriptors {
         *      value = 10  ->   "big"
         *      value > 10  ->   "more than big"
         */
-    public static describeByScale(value: number, scale: Array, lessThan: string = "less than", moreThan: string = "more than"): string {
+    /*public static describeByScale(value: number, scale: Array, lessThan: string = "less than", moreThan: string = "more than"): string {
         if (scale.length == 0) return "undescribeale";
         if (scale.length == 1) return "about " + scale[0][1];
         if (value < scale[0][0]) return lessThan + " " + scale[0][1];
@@ -288,7 +276,7 @@ export default class OtherDescriptors {
             if (value == scale[i][0]) return scale[i][1];
         }
         return moreThan + " " + scale[scale.length - 1][1];
-    }
+    }*/
 
     /**
         * numberOfThings(0,"brain") = "no brains"
@@ -296,32 +284,32 @@ export default class OtherDescriptors {
         * numberOfThings(2,"tail") = "2 tails"
         * numberOfThings(3,"hoof","hooves") = "3 hooves"
         */
-    public static numberOfThings(n: number, name: string, pluralForm: string = null): string {
+    /*public static numberOfThings(n: number, name: string, pluralForm: string = null): string {
         pluralForm = pluralForm || (name + "s");
         if (n == 0) return "no " + pluralForm;
         if (n == 1) return "one " + name;
         return n + " " + pluralForm;
-    }
+    }*/
 
     /**
         * 13 -> 2'1"
         * 5.5 -> 5.5"
         * Positive only!
         */
-    public static feetsAndInches(n: number): string {
+    /*public static feetsAndInches(n: number): string {
         let feet: number = Math.floor(n / 12);
         let inches: number = n - feet * 12;
         if (feet > 0) return feet + "'" + inches + "\"";
         else return inches + "\"";
-    }
+    }*/
 
     /**
         * 13 -> 13" (2'1")
         */
-    public static inchesAndFeetsAndInches(n: number): string {
+    /*public static inchesAndFeetsAndInches(n: number): string {
         if (n < 12) return n + "\"";
         return n + "\" (" + feetsAndInches(n) + ")";
-    }
+    }*/
 
 
 
