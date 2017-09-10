@@ -1,24 +1,17 @@
-﻿import Creature, { Gender } from "./Creature"
+﻿import Body, { Gender } from "./Body/Body";
 import StatusAffect from "./StatusAffect";
 import { FaceType } from "./Modules/FaceModule";
 import Utils from "./Utilities/Utils";
 import { CockType as CockType } from "./Modules/Cock";
 import HeadDescriptor from "./Descriptors/HeadDescriptor";
 
-export default class Character extends Creature
+export default class Character extends Body
 {
-
-    public constructor() {
-        super();
-    }
-
-
-		
 	//Modify this.femininity!
 	public modFem(goal:number, strength:number = 1):string
 	{
 		let output:string = "";
-        let old: string = HeadDescriptor.faceDescCharacter(this);
+        let old: string = HeadDescriptor.describeFaceOther(this);
 		let oldN:number = this.femininity;
 		let Changed:boolean = false;
 		//If already perfect!
@@ -49,7 +42,7 @@ export default class Character extends Creature
 		if (!Changed)
 			return "";
 		//See if a change happened!
-        if (old != HeadDescriptor.faceDescCharacter(this))
+        if (old != HeadDescriptor.describeFaceOther(this))
 		{
 			//Gain fem?
 			if (goal > oldN)
@@ -61,9 +54,9 @@ export default class Character extends Creature
 		else
 		{
 			if (goal > oldN)
-                output = "\n\nThere's a tingling in your " + HeadDescriptor.faceNoun(this.upperBody.head.face) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
+                output = "\n\nThere's a tingling in your " + HeadDescriptor.nounFace(this.upperBody.head.face) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
 			else if (goal < oldN)
-                output = "\n\nThere's a tingling in your " + HeadDescriptor.faceNoun(this.upperBody.head.face) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
+                output = "\n\nThere's a tingling in your " + HeadDescriptor.nounFace(this.upperBody.head.face) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
 		}
 		return output;
 	}
