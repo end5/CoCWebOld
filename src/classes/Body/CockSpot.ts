@@ -1,6 +1,8 @@
 ﻿import Cock, { CockType as CockType } from "./Cock";
+import { SaveInterface } from "../SaveInterface";
 
-export default class CockSpot {
+export default class CockSpot implements SaveInterface{
+
     private _cocks: Cock[];
 
     public constructor() {
@@ -193,6 +195,26 @@ export default class CockSpot {
         return false;
     }
 
+    saveKey: string = "CockSpot";
+    save(): object {
+        let saveObject: object;
+        saveObject["length"] = this._cocks.length;
+        for (let index = 0; index < this._cocks.length; index++) {
+            saveObject[index] = this._cocks[index].save();
+        }
+        return saveObject;
+    }
+    load(saveObject: object) {
+        if (!saveObject["length"] || saveObject["length"] < 0) {
+            console.error("Chest length non zero.");
+            return;
+        }
+        this._cocks = [];
+        for (let index = 0; index < saveObject["length"]; index++) {
+            this._cocks.push(new Cock());
+            this._cocks[index].load(saveObject[index]);
+        }
+    }
 
     /*   IDK
     public twoDickRadarSpecial(width: number): boolean {

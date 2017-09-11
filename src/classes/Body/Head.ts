@@ -1,4 +1,5 @@
 ﻿import Face from "./Face";
+import { SaveInterface } from "../SaveInterface";
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
@@ -16,7 +17,7 @@ export enum AntennaeType {
     NONE, BEE
 }
 
-export default class Head {
+export default class Head implements SaveInterface{
     public hairType: HairType;
     public hairColor: string;
     public hairLength: number;
@@ -46,4 +47,31 @@ export default class Head {
 
         this.face = new Face();
     }
+
+    saveKey: string;
+    save(): object {
+        let saveObject: object = {};
+        saveObject["hairType"] = this.hairType;
+        saveObject["hairColor"] = this.hairColor;
+        saveObject["hairLength"] = this.hairLength;
+        saveObject["earType"] = this.earType;
+        saveObject["earValue"] = this.earValue;
+        saveObject["hornType"] = this.hornType;
+        saveObject["horns"] = this.horns;
+        saveObject["antennae"] = this.antennae;
+        saveObject[this.face.saveKey] = this.face.save();
+        return saveObject;
+    }
+    load(saveObject: object) {
+        this.hairType = saveObject["hairType"];
+        this.hairColor = saveObject["hairColor"];
+        this.hairLength = saveObject["hairLength"];
+        this.earType = saveObject["earType"];
+        this.earValue = saveObject["earValue"];
+        this.hornType = saveObject["hornType"];
+        this.horns = saveObject["horns"];
+        this.antennae = saveObject["antennae"];
+        this.face.load(saveObject[this.face.saveKey]);
+    }
+
 }

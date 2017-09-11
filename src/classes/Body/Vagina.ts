@@ -1,5 +1,6 @@
 ﻿import Utils from "../Utilities/Utils";
-import PregnancyModule from "./PregnancyModule";
+import Pregnancy from "./Pregnancy";
+import { SaveInterface } from "../SaveInterface";
 
 export enum VaginaType {
     HUMAN, BLACK_SAND_TRAP
@@ -13,7 +14,8 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export default class Vagina extends PregnancyModule {
+export default class Vagina extends Pregnancy implements SaveInterface {
+
     public vaginaType: VaginaType = VaginaType.HUMAN;
     public virgin: boolean = true;
 
@@ -87,4 +89,37 @@ export default class Vagina extends PregnancyModule {
         if (this.vaginalLooseness == VaginaLooseness.LEVEL_CLOWN_CAR) return 100;
         return 10000;
     }
+
+    saveKey: string = "Vagina";
+    save(): object {
+        return {
+            "vaginaType": this.vaginaType,
+            "virgin": this.virgin,
+            "vaginalWetness": this.vaginalWetness,
+            "vaginalLooseness": this.vaginalLooseness,
+            "fullness": this.fullness,
+            "labiaPierced": this.labiaPierced,
+            "labiaPShort": this.labiaPShort,
+            "labiaPLong": this.labiaPLong,
+            "clitLength": this.clitLength,
+            "clitPierced": this.clitPierced,
+            "clitPShort": this.clitPShort,
+            "clitPLong": this.clitPLong
+        };
+    }
+    load(saveObject: object) {
+        this.vaginaType = saveObject["vaginaType"];
+        this.virgin = saveObject["virgin"];
+        this.vaginalWetness = saveObject["vaginalWetness"];
+        this.vaginalLooseness = saveObject["vaginalLooseness"];
+        this.fullness = saveObject["fullness"];
+        this.labiaPierced = saveObject["labiaPierced"];
+        this.labiaPShort = saveObject["labiaPShort"];
+        this.labiaPLong = saveObject["labiaPLong"];
+        this.clitLength = saveObject["clitLength"];
+        this.clitPierced = saveObject["clitPierced"];
+        this.clitPShort = saveObject["clitPShort"];
+        this.clitPLong = saveObject["clitPLong"];
+    }
+
 }

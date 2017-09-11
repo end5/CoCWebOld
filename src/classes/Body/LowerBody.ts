@@ -1,7 +1,8 @@
-﻿import VaginaModule from "./VaginaModule";
-import Butt from "./Butt";
+﻿import Butt from "./Butt";
 import CockSpot from "./CockSpot";
-import OvipositorModule from "./OvipositorModule";
+import Ovipositor from "./Ovipositor";
+import { SaveInterface } from "../SaveInterface";
+import VaginaSpot from "./VaginaSpot";
 
 export enum LowerBodyType {
     HUMAN, HOOFED, DOG, NAGA, CENTAUR, DEMONIC_HIGH_HEELS, DEMONIC_CLAWS, BEE,
@@ -17,7 +18,7 @@ export enum TailType {
     NONE, HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export default class LowerBody {
+export default class LowerBody implements SaveInterface {
     public type: LowerBodyType;
     public hipRating: HipRating;
 
@@ -29,27 +30,15 @@ export default class LowerBody {
     public tailRecharge: number;
 
     private _cocks: CockSpot;
-    public get cockSpot() {
-        return this._cocks;
-    }
     public balls: number;
     public ballSize: number;
 
-    private _vaginas: VaginaModule;
-    public get vaginaSpot() {
-        return this._vaginas;
-    }
+    private _vaginas: VaginaSpot;
 
     public butt: Butt;
 
     private _hasOvipositor: boolean;
-    public hasOvipositor(): boolean {
-        return this._hasOvipositor;
-    }
-    private _ovipositor: OvipositorModule;
-    public get ovipositor() {
-        return this._hasOvipositor ? this._ovipositor : null;
-    }
+    private _ovipositor: Ovipositor;
 
     public constructor() {
         this.type = LowerBodyType.HUMAN;
@@ -63,15 +52,28 @@ export default class LowerBody {
         this.balls = 0;
         this.ballSize = 0;
 
-        this._vaginas = new VaginaModule();
+        this._vaginas = new VaginaSpot();
 
         this.butt = new Butt();
 
-        this._ovipositor = new OvipositorModule();
+        this._ovipositor = new Ovipositor();
         this._hasOvipositor = false;
     }
 
-    public isBiped(): boolean {
+    public get cockSpot() {
+        return this._cocks;
+    }
+    public get vaginaSpot() {
+        return this._vaginas;
+    }
+    public hasOvipositor(): boolean {
+        return this._hasOvipositor;
+    }
+    public get ovipositor() {
+        return this._hasOvipositor ? this._ovipositor : null;
+    }
+
+   public isBiped(): boolean {
         //Naga/Centaur
         if (this.type == LowerBodyType.NAGA || this.type == LowerBodyType.CENTAUR)
             return false;
@@ -119,5 +121,37 @@ export default class LowerBody {
             default:
                 return false;
         }
+    }
+    saveKey: string = "LowerBody";
+    save(): object {
+        let saveObject: object = {};
+        saveObject["type"] = this.type;
+        saveObject["hipRating"] = this.hipRating;
+        saveObject["tailType"] = this.tailType;
+        saveObject["tailVenom"] = this.tailVenom;
+        saveObject["tailRecharge"] = this.tailRecharge;
+        saveObject[this._cocks.saveKey] = this._cocks.save();
+        saveObject["balls"] = this.balls;
+        saveObject["ballSize"] = this.ballSize;
+        saveObject[this._vaginas.saveKey] = this._vaginas.save();
+        saveObject[this.butt.saveKey] = this.butt.save();
+        saveObject[this._ovipositor.saveKey] = this._ovipositor.save();
+        saveObject["_hasOvipositor"] = this._hasOvipositor;
+
+        return saveObject;
+    }
+    load(saveObject: object) {
+        this.type = saveObject["type"];
+        this.hipRating = saveObject["hipRating"];
+        this.tailType = saveObject["tailType"];
+        this.tailVenom = saveObject["tailVenom"];
+        this.tailRecharge = saveObject["tailRecharge"];
+        this._cocks.load(saveObject[this._cocks.saveKey]);
+        this.balls = saveObject["balls"];
+        this.ballSize = saveObject["ballSize"];
+        this._vaginas.load(saveObject[this._vaginas.saveKey]);
+        this.butt.load(saveObject[this.butt.saveKey]);
+        this._ovipositor.load(saveObject[this._ovipositor.saveKey]);
+        this._hasOvipositor = saveObject["_hasOvipositor"];
     }
 }

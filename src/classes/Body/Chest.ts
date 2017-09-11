@@ -1,6 +1,7 @@
 ﻿import BreastRow from "./BreastRow";
+import { SaveInterface } from "../SaveInterface";
 
-export default class Chest {
+export default class Chest implements SaveInterface {
     private breastRows: BreastRow[];
 
     public constructor() {
@@ -181,7 +182,7 @@ export default class Chest {
         return (total / this.breastRows.length);
     }
 
-   public averageLactation(): number {
+    public averageLactation(): number {
         if (this.breastRows.length == 0)
             return 0;
         let total: number = 0;
@@ -190,18 +191,18 @@ export default class Chest {
         return Math.floor(total / this.breastRows.length);
     }
 
-   public averageNippleLength(): number {
-       return this.averageBreastSize() / 10 + 0.2;
-   }
+    public averageNippleLength(): number {
+        return this.averageBreastSize() / 10 + 0.2;
+    }
 
-   public averageNipplesPerBreast(): number {
-       if (this.breastRows.length == 0)
-           return 0;
-       let total: number = 0;
-       for (let index = 0; index < this.breastRows.length; index++)
-           total += this.breastRows[index].nipplesPerBreast;
-       return total / this.breastRows.length;
-   }
+    public averageNipplesPerBreast(): number {
+        if (this.breastRows.length == 0)
+            return 0;
+        let total: number = 0;
+        for (let index = 0; index < this.breastRows.length; index++)
+            total += this.breastRows[index].nipplesPerBreast;
+        return total / this.breastRows.length;
+    }
 
     public canTitFuck(): boolean {
         for (let index = 0; index < this.breastRows.length; index++)
@@ -210,5 +211,25 @@ export default class Chest {
         return false;
     }
 
+    saveKey: string = "Chest";
+    save(): object {
+        let saveObject: object;
+        saveObject["length"] = this.breastRows.length;
+        for (let index = 0; index < this.breastRows.length; index++) {
+            saveObject[index] = this.breastRows[index].save();
+        }
+        return saveObject;
+    }
+    load(saveObject: object) {
+        if (!saveObject["length"] || saveObject["length"] < 0) {
+            console.error("Chest length non zero.");
+            return;
+        }
+        this.breastRows = [];
+        for (let index = 0; index < saveObject["length"]; index++) {
+            this.breastRows.push(new BreastRow());
+            this.breastRows[index].load(saveObject[index]);
+        }
+    }
 
 }

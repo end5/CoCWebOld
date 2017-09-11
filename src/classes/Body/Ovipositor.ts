@@ -1,4 +1,6 @@
-﻿export default class Ovipositor {
+﻿import { SaveInterface } from "../SaveInterface";
+
+export default class Ovipositor implements SaveInterface {
     private _eggs: number;
     private _fertilizedEggs: number;
 
@@ -36,4 +38,17 @@
         this._fertilizedEggs = this._eggs;
         return this._fertilizedEggs;
     }
+
+    saveKey: string = "Ovipositor";
+    save(): object {
+        return {
+            "_eggs": this._eggs,
+            "_fertilizedEggs": this._fertilizedEggs
+        };
+    }
+    load(saveObject: object) {
+        this._eggs = saveObject["_eggs"];
+        this._fertilizedEggs = saveObject["_fertilizedEggs"];
+    }
+
 }

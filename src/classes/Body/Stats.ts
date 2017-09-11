@@ -1,8 +1,9 @@
 ﻿import Flags, { FlagEnum } from "../Game/Flags";
 import Body from "./Body";
+import { SaveInterface } from "../SaveInterface";
 
-export default class Stats {
-    private body: BodyModule;
+export default class Stats implements SaveInterface {
+    private body: Body;
     //Primary stats
     private _str: number;
     private _tou: number;
@@ -24,7 +25,7 @@ export default class Stats {
     public gems: number;
     public additionalXP: number;
 
-    public constructor(body: BodyModule) {
+    public constructor(body: Body) {
         this.body = body;
         this._str = 0;
         this._tou = 0;
@@ -346,4 +347,45 @@ export default class Stats {
         return max;
 
     }
+
+    saveKey: string = "Stats";
+    save(): object {
+        let saveObject: object;
+        saveObject["body"] = this.body;
+        saveObject["_str"] = this._str;
+        saveObject["_tou"] = this._tou;
+        saveObject["_spe"] = this._spe;
+        saveObject["_int"] = this._int;
+        saveObject["_lib"] = this._lib;
+        saveObject["_sens"] = this._sens;
+        saveObject["_cor"] = this._cor;
+        saveObject["_fatigue"] = this._fatigue;
+        saveObject["_HP"] = this._HP;
+        saveObject["_lust"] = this._lust;
+        saveObject["lustResisted"] = this.lustResisted;
+        saveObject["XP"] = this.XP;
+        saveObject["level"] = this.level;
+        saveObject["gems"] = this.gems;
+        saveObject["additionalXP"] = this.additionalXP;
+        return saveObject;
+    }
+    load(saveObject: object) {
+        this.body = saveObject["body"];
+        this._str = saveObject["_str"];
+        this._tou = saveObject["_tou"];
+        this._spe = saveObject["_spe"];
+        this._int = saveObject["_int"];
+        this._lib = saveObject["_lib"];
+        this._sens = saveObject["_sens"];
+        this._cor = saveObject["_cor"];
+        this._fatigue = saveObject["_fatigue"];
+        this._HP = saveObject["_HP"];
+        this._lust = saveObject["_lust"];
+        this.lustResisted = saveObject["lustResisted"];
+        this.XP = saveObject["XP"];
+        this.level = saveObject["level"];
+        this.gems = saveObject["gems"];
+        this.additionalXP = saveObject["additionalXP"];
+    }
+
 }

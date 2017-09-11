@@ -1,4 +1,6 @@
 ﻿//Pregancy types. Both butt and normal. Each type represents the father of this baby.
+import { SaveInterface } from "../SaveInterface";
+
 export enum PregnancyType {
     IMP,
     MINOTAUR,
@@ -100,7 +102,14 @@ class PregnancyEvent {
     }
 }
 
-export default class Pregnancy {
+export default class Pregnancy implements SaveInterface {
+    saveKey: string = "Pregnancy";
+    save(): object {
+        return {};
+    }
+    load(saveObject: object) {
+
+    }
     private _pregnancyType: PregnancyType;
     private _pregnancyIncubation: IncubationTime;
     private _pregnancyEventList: PregnancyEvent[];

@@ -1,15 +1,16 @@
-﻿import UpperBodyModule, { WingType } from "./UpperBodyModule";
-import LowerBody, { LowerBodyType } from "./LowerBodyModule";
-import StatsModule from "./StatsModule";
+﻿import UpperBody, { WingType } from "./UpperBody";
+import LowerBody, { LowerBodyType } from "./LowerBody";
+import Stats from "./Stats";
 import ComponentList from "../Utilities/ComponentList";
 import Utils from "../Utilities/Utils";
 import BreastRow from "./BreastRow";
 import Vagina, { VaginaLooseness } from "./Vagina";
-import { PregnancyType } from "./PregnancyModule";
+import { PregnancyType } from "./Pregnancy";
 import Butt, { ButtLooseness } from "./Butt";
 import StatusAffect from "../StatusAffects/StatusAffect";
 import Cock from "./Cock";
 import Render from "../Game/Render";
+import { SaveInterface } from "../SaveInterface";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -19,7 +20,7 @@ export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class Body {
+export default class Body implements SaveInterface {
     //Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;
@@ -41,10 +42,10 @@ export default class Body {
     public cumMultiplier: number = 1;
     public hoursSinceCum: number = 0;
 
-    public upperBody: UpperBodyModule;
+    public upperBody: UpperBody;
     public lowerBody: LowerBody;
 
-    public stats: StatsModule;
+    public stats: Stats;
     public statusAffects: ComponentList<StatusAffect>;
 
     public constructor() {
@@ -63,10 +64,10 @@ export default class Body {
         this.cumMultiplier = 1;
         this.hoursSinceCum = 0;
 
-        this.upperBody = new UpperBodyModule();
+        this.upperBody = new UpperBody();
         this.lowerBody = new LowerBody();
 
-        this.stats = new StatsModule(this);
+        this.stats = new Stats(this);
         this.statusAffects = new ComponentList<StatusAffect>();
     }
 
@@ -551,5 +552,56 @@ export default class Body {
         butt.knockUpForce(type, type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
     }
 
+    saveKey: string = "Body";
+    save(): object {
+        let saveObject: object = {};
+        saveObject["gender"] = this.gender;
+        saveObject["tallness"] = this.tallness;
+        saveObject["skinType"] = this.skinType;
+        saveObject["skinTone"] = this.skinTone;
+        saveObject["skinDesc"] = this.skinDesc;
+        saveObject["skinAdj"] = this.skinAdj;
+
+        saveObject["femininity"] = this._femininity;
+        saveObject["tone"] = this.tone;
+        saveObject["thickness"] = this.thickness;
+
+        saveObject["_femininity"] = this.fertility;
+        saveObject["cumMultiplier"] = this.cumMultiplier;
+        saveObject["hoursSinceCum"] = this.hoursSinceCum;
+
+        saveObject[this.upperBody.saveKey] = this.upperBody.save();
+        saveObject[this.lowerBody.saveKey] = this.lowerBody.save();
+
+        saveObject[this.stats.saveKey] = this.stats.save();
+        saveObject[this.statusAffects.saveKey] = this.statusAffects.save();
+
+        return saveObject;
+    }
+
+    load(saveObject: object) {
+        this.gender = saveObject["gender"];
+        this.tallness = saveObject["tallness"];
+        this.skinType = saveObject["skinType"];
+        this.skinTone = saveObject["skinTone"];
+        this.skinDesc = saveObject["skinDesc"];
+        this.skinAdj = saveObject["skinAdj"];
+
+        this._femininity = saveObject["_femininity"];
+        this.tone = saveObject["tone"];
+        this.thickness = saveObject["thickness"];
+
+        this.fertility = saveObject["fertility"];
+        this.cumMultiplier = saveObject["cumMultiplier"];
+        this.hoursSinceCum = saveObject["hoursSinceCum"];
+
+        this.upperBody.load(saveObject[this.upperBody.saveKey]);
+        this.lowerBody.load(saveObject[this.lowerBody.saveKey]);
+
+        this.stats.load(saveObject[this.stats.saveKey]);
+        this.statusAffects.load(saveObject[this.statusAffects.saveKey]);
+
+        return saveObject;
+    }
 
 }

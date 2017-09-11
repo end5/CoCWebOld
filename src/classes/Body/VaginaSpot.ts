@@ -1,6 +1,7 @@
 ﻿import Vagina, { VaginaLooseness, VaginaWetness } from "./Vagina";
+import { SaveInterface } from "../SaveInterface";
 
-export default class VaginaSpot {
+export default class VaginaSpot implements SaveInterface {
     private _vaginas: Vagina[];
 
     public constructor() {
@@ -85,6 +86,27 @@ export default class VaginaSpot {
         for (let index = 0; index < this._vaginas.length; index++)
             average += this._vaginas[index].vaginalWetness;
         return average / this._vaginas.length;
+    }
+
+    saveKey: string = "VaginaSpot";
+    save(): object {
+        let saveObject: object;
+        saveObject["length"] = this._vaginas.length;
+        for (let index = 0; index < this._vaginas.length; index++) {
+            saveObject[index] = this._vaginas[index].save();
+        }
+        return saveObject;
+    }
+    load(saveObject: object) {
+        if (!saveObject["length"] || saveObject["length"] < 0) {
+            console.error("Chest length non zero.");
+            return;
+        }
+        this._vaginas = [];
+        for (let index = 0; index < saveObject["length"]; index++) {
+            this._vaginas.push(new Vagina());
+            this._vaginas[index].load(saveObject[index]);
+        }
     }
 
 }

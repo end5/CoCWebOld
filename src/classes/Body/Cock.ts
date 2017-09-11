@@ -1,10 +1,11 @@
 import Utils from "../Utilities/Utils";
+import { SaveInterface } from "../SaveInterface";
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
-export default class Cock {
+export default class Cock implements SaveInterface {
     private _cockLength: number;
     private _cockThickness: number;
     private _cockType: CockType;
@@ -22,19 +23,6 @@ export default class Cock {
 
     //Sock
     private _sock: string;
-
-    public validate(): string {
-        let error: string = "";
-        error += Utils.validateNonNegativeNumberFields(this, "Cock.validate", ["cockLength", "cockThickness", "knotMultiplier", "pierced"]);
-        if (!this._isPierced) {
-            if (this._piercedShortDesc.length > 0) error += "Not pierced but this.pShortDesc = " + this._piercedShortDesc + ". ";
-            if (this._piercedLongDesc.length > 0) error += "Not pierced but pLong = " + this._piercedLongDesc + ". ";
-        } else {
-            if (this._piercedShortDesc.length == 0) error += "Pierced but no this.pShortDesc. ";
-            if (this._piercedLongDesc.length == 0) error += "Pierced but no pLong. ";
-        }
-        return error;
-    }
 
     public constructor(cockLength: number = 5.5, cockThickness: number = 1, cockType: CockType = CockType.HUMAN) {
         this._cockLength = cockLength;
@@ -293,4 +281,31 @@ export default class Cock {
                 return false;
         }
     }
+
+    saveKey: string = "Cock";
+    save(): object {
+        return {
+            "_cockLength": this._cockLength,
+            "_cockThickness": this._cockThickness,
+            "_cockType": this._cockType,
+            "_piercings": this._piercings,
+            "_knotMultiplier": this._knotMultiplier,
+            "_isPierced": this._isPierced,
+            "_piercedShortDesc": this._piercedShortDesc,
+            "_piercedLongDesc": this._piercedLongDesc,
+            "_sock": this._sock
+        };
+    }
+    load(saveObject: object) {
+        this._cockLength = saveObject["_cockLength"];
+        this._cockThickness = saveObject["_cockThickness"];
+        this._cockType = saveObject["_cockType"];
+        this._piercings = saveObject["_piercings"];
+        this._knotMultiplier = saveObject["_knotMultiplier"];
+        this._isPierced = saveObject["_isPierced"];
+        this._piercedShortDesc = saveObject["_piercedShortDesc"];
+        this._piercedLongDesc = saveObject["_piercedLongDesc"];
+        this._sock = saveObject["_sock"];
+    }
+
 }

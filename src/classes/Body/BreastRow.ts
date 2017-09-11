@@ -1,4 +1,6 @@
-﻿export enum BreastCup {
+﻿import { SaveInterface } from "../SaveInterface";
+
+export enum BreastCup {
     FLAT, A, B, C, D, DD, DD_BIG, E, E_BIG, EE, EE_BIG, F, F_BIG, FF, FF_BIG,
     G, G_BIG, GG, GG_BIG, H, H_BIG, HH, HH_BIG, HHH, I, I_BIG, II, II_BIG,
     J, J_BIG, JJ, JJ_BIG, K, K_BIG, KK, KK_BIG, L, L_BIG, LL, LL_BIG,
@@ -9,7 +11,7 @@
     X, X_LARGE, XX, XX_LARGE, Y, Y_LARGE, YY, YY_LARGE, Z, Z_LARGE, ZZ, ZZ_LARGE, ZZZ, ZZZ_LARGE
 }
 
-export default class BreastRow {
+export default class BreastRow implements SaveInterface {
     public breasts: number;
     public nipplesPerBreast: number;
     public breastRating: number;
@@ -41,5 +43,35 @@ export default class BreastRow {
         this.nipplesPiercedShort = "";
         this.nipplesPiercedLong = "";
 
+    }
+
+    saveKey: string = "BreastRow";
+    save(): object {
+        return {
+            "breasts": this.breasts,
+            "nipplesPerBreast": this.nipplesPerBreast,
+            "breastRating": this.breastRating,
+            "lactationMultiplier": this.lactationMultiplier,
+            "milkFullness": this.milkFullness,
+            "fullness": this.fullness,
+            "fuckable": this.fuckable,
+            "nippleLength": this.nippleLength,
+            "nipplesPierced": this.nipplesPierced,
+            "nipplesPiercedShort": this.nipplesPiercedShort,
+            "nipplesPiercedLong": this.nipplesPiercedLong
+        };
+    }
+    load(saveObject: object) {
+        this.breasts = saveObject["breasts"];
+        this.nipplesPerBreast = saveObject["nipplesPerBreast"];
+        this.breastRating = saveObject["breastRating"];
+        this.lactationMultiplier = saveObject["lactationMultiplier"];
+        this.milkFullness = saveObject["milkFullness"];
+        this.fullness = saveObject["fullness"];
+        this.fuckable = saveObject["fuckable"];
+        this.nippleLength = saveObject["nippleLength"];
+        this.nipplesPierced = saveObject["nipplesPierced"];
+        this.nipplesPiercedShort = saveObject["nipplesPiercedShort"];
+        this.nipplesPiercedLong = saveObject["nipplesPiercedLong"];
     }
 }
