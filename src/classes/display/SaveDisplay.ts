@@ -1,4 +1,5 @@
-import MainScreen from "../Game/Render";
+import MainScreen from "./MainScreen";
+import SaveManager from "../SaveManager";
 
 export default class SaveDisplay {
     private static loadSaveDisplay(saveFile: SaveFile, slotName: string): string {
@@ -32,44 +33,12 @@ export default class SaveDisplay {
     }
 
     public static displaySaves() {
-        let slots: Array = new Array(saveFileNames.length);
-
         MainScreen.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", true);
 
-        for (let i: number = 0; i < saveFileNames.length; i += 1) {
-            let test: Object = SharedObject.getLocal(saveFileNames[i], "/");
-            MainScreen.text(SaveDisplay.loadSaveDisplay(test, String(i + 1)), false);
-            if (test.data.exists && test.data.flags[2066] == undefined) {
-                //trace("Creating function with indice = ", i);
-                (function (i: number): void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-                {
-                    slots[i] = function (): void 		// Anonymous functions FTW
-                    {
-                        trace("Loading save with name", saveFileNames[i], "at index", i);
-                        if (loadGame(saveFileNames[i])) {
-                            doNext(playerMenu);
-                            showStats();
-                            statScreenRefresh();
-                            MainScreen.text("Slot " + i + " Loaded!", true);
-                        }
-                    }
-                })(i);
-            }
-            else {
-                slots[i] = null;		// You have to set the parameter to 0 to disable the button
-            }
+        for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
+            let saveSlot: object = SaveManager.get(index);
+            MainScreen.text(SaveDisplay.loadSaveDisplay(saveSlot, (index + 1).toString()), false);
         }
-
-        choices("Slot 1", slots[0],
-            "Slot 2", slots[1],
-            "Slot 3", slots[2],
-            "Slot 4", slots[3],
-            "Slot 5", slots[4],
-            "Slot 6", slots[5],
-            "Slot 7", slots[6],
-            "Slot 8", slots[7],
-            "Slot 9", slots[8],
-            "Back", returnToSaveMenu);
     }
 
 

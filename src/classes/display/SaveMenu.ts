@@ -1,56 +1,36 @@
-import MainScreen from "../Game/Render";
+import MainScreen from "./MainScreen";
 import SaveManager from "../SaveManager";
+import SaveDisplay from "./SaveDisplay";
+import DataMenu from "./DataMenu";
+import Flags, { FlagEnum } from "../Game/Flags";
 
 export default class SaveMenu {
     public static display(): void {
-        // need alternative for notes
-        /*mainView.nameBox.x = 210;
-        mainView.nameBox.y = 620;
-        mainView.nameBox.width = 550;
-        mainView.nameBox.text = "";
-        mainView.nameBox.visible = true;*/
-
-        // let test; // Disabling this variable because it seems to be unused.
-
         MainScreen.text("", true);
         if (SaveManager.activeSlot() != 0)
             MainScreen.text("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r", false);
         MainScreen.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", false);
 
-        let saveFuncs: Array = [];
+        SaveDisplay.displaySaves();
 
-
-        for (let i: number = 0; i < saveFileNames.length; i += 1) {
-            let test: Object = SharedObject.getLocal(saveFileNames[i], "/");
-            MainScreen.text(loadSaveDisplay(test, String(i + 1)), false);
-            trace("Creating function with indice = ", i);
-            (function (i: number): void		// messy hack to work around closures. See: http://en.wikipedia.org/wiki/Immediately-invoked_function_expression
-            {
-                saveFuncs[i] = function (): void 		// Anonymous functions FTW
-                {
-                    trace("Saving game with name", saveFileNames[i], "at index", i);
-                    saveGame(saveFileNames[i]);
-                }
-            })(i);
-
-        }
-
-
-        if (player.slotName == "VOID")
-            MainScreen.text("\r\r", false);
+        //if (player.slotName == "VOID")
+        //    MainScreen.text("\r\r", false);
 
         MainScreen.text("<b>Leave the notes box blank if you don't wish to change notes.\r<u>NOTES:</u></b>", false);
-        choices("Slot 1", saveFuncs[0],
-            "Slot 2", saveFuncs[1],
-            "Slot 3", saveFuncs[2],
-            "Slot 4", saveFuncs[3],
-            "Slot 5", saveFuncs[4],
-            "Slot 6", saveFuncs[5],
-            "Slot 7", saveFuncs[6],
-            "Slot 8", saveFuncs[7],
-            "Slot 9", saveFuncs[8],
-            "Back", returnToSaveMenu);
+
+
+
+        MainScreen.hideButtons();
+        for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
+            if (SaveManager.has(index)) {
+                MainScreen.addButton(index, "Slot " + index.toString(), function () { SaveMenu.confirmOverwrite(index) }, false);
+            }
+        }
+        MainScreen.addButton(SaveManager.saveSlotCount(), "Back", DataMenu.display);
     }
 
-
+    private static confirmOverwrite(slotNumber: number) {
+        MainScreen.text("You are about to overwrite the following save: <b>" + Flags.get[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
+        MainScreen.displayChoices(["No", "Yes"], [SaveMenu.display, function () { SaveManager.save(slotNumber) }]);
+    }
 }

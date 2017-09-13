@@ -159,8 +159,20 @@ export default class MainScreen {
         }
     }
 
+    public static showButtons() {
+        for (let buttonNumber: number = 0; buttonNumber < 10; buttonNumber++) {
+            MainScreen.bottomButtons[buttonNumber].style.visibility = "visible";
+        }
+    }
+
     public static hideButton(buttonNumber: number) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
+            MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
+        }
+    }
+
+    public static hideButtons() {
+        for (let buttonNumber: number = 0; buttonNumber < 10; buttonNumber++) {
             MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
         }
     }
@@ -175,7 +187,7 @@ export default class MainScreen {
         }
     }
 
-    public static displayChoices(text: string[], func: Array<() => void>) {
+    public static displayChoices(text: string[], func: (() => void)[]) {
         for (let index = 0; index < text.length; index++) {
             MainScreen.addButton(index, text[index], func[index]);
         }

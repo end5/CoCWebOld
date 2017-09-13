@@ -1,14 +1,11 @@
-import MainScreen from "../Game/Render";
+import MainScreen from "./MainScreen";
 import Game, { GameState } from "../Game/Game";
 import SaveMenu from "./SaveMenu";
+import LoadMenu from "./LoadMenu";
+import DeleteMenu from "./DeleteMenu";
+import SaveManager from "../SaveManager";
 
 export default class DataMenu {
-    private autosave: boolean;
-
-    //
-    // TODO: Redo Data menu. Remove menus save, load, delete. 
-    //
-
     private static displayInfo() {
         MainScreen.text("", true);
         MainScreen.text("<b>Where are my saves located?</b>\n", false);
@@ -24,25 +21,26 @@ export default class DataMenu {
 
     public static display(): void {
         DataMenu.displayInfo();
-        //This is to clear the 'game over' block from stopping simpleChoices from working.  Loading games supercede's game over.
+
+        MainScreen.hideButtons();
 
         if (Game.state == GameState.GameOver || player.str == 0 || inDungeon) {
             MainScreen.addButton(0, "Save", SaveMenu.display, true);
-            MainScreen.addButton(5, "Save File", DataMenu.saveToFile, true);
+            MainScreen.addButton(5, "Save File", SaveManager.saveToFile, true);
         }
         else {
             MainScreen.addButton(0, "Save", SaveMenu.display);
-            MainScreen.addButton(5, "Save File", DataMenu.saveToFile);
+            MainScreen.addButton(5, "Save File", SaveManager.saveToFile);
         }
 
         MainScreen.addButton(1, "Load", LoadMenu.display);
         if (DataMenu.autosave)
-            MainScreen.addButton(2, "AutoSav: ON", DataMenu.autosaveToggle);
+            MainScreen.addButton(2, "AutoSav: ON", SaveManager.autosaveToggle);
         else
-            MainScreen.addButton(2, "AutoSav: ON", DataMenu.autosaveToggle);
+            MainScreen.addButton(2, "AutoSav: OFF", SaveManager.autosaveToggle);
 
         MainScreen.addButton(3, "Delete", DeleteMenu.display);
-        MainScreen.addButton(6, "Load File", loadFromFile);
+        MainScreen.addButton(6, "Load File", SaveManager.loadFromFile);
 
         if (Game.state == GameState.GameOver)
             MainScreen.addButton(9, "Back", GameOverMenu.display);
@@ -50,22 +48,6 @@ export default class DataMenu {
             MainScreen.addButton(9, "Back", MainMenu.display);
         else
             MainScreen.addButton(9, "Back", PlayerMenu.display);
-    }
-
-
-    private static saveToFile(): void {
-        saveGameObject(null, true);
-    }
-
-    private static loadFromFile(): void {
-        openSave();
-        showStats();
-        statScreenRefresh();
-    }
-
-    private static autosaveToggle(): void {
-        player.autoSave = !player.autoSave;
-        saveLoad();
     }
 
 }
