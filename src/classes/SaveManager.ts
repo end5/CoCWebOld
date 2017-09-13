@@ -4,6 +4,13 @@ import Game from "./Game/Game";
 export default class SaveManager {
     private static _activeSlot: number;
     private static saveSlots: object[];
+    private static autoSave: boolean;
+
+    public constructor() {
+        SaveManager.saveSlots = [];
+        SaveManager.saveSlots.length = SaveManager.saveSlotCount();
+        SaveManager.autoSave = true;
+    }
 
     public static activeSlot(): number {
         return SaveManager._activeSlot;
@@ -27,15 +34,24 @@ export default class SaveManager {
         Game.load(SaveManager.saveSlots[number]);
     }
 
-    public static count(): number {
-        return SaveManager.saveSlots.length;
+    public static delete(number: number) {
+        SaveManager.saveSlots[number] = null;
+        SaveManager.write();
     }
 
-    public static write() {
+    public static saveSlotCount(): number {
+        return 9;
+    }
+
+    private static write() {
         document.cookie = JSON.stringify(SaveManager.saveSlots);
     }
 
-    public static read() {
+    private static read() {
         SaveManager.saveSlots = JSON.parse(document.cookie);
+    }
+
+    public static autosaveToggle() {
+        SaveManager.autoSave = !SaveManager.autoSave;
     }
 }
