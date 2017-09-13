@@ -141,30 +141,32 @@ body {
 
 
 
-#MainMenuButton {
+#buttontop0 {
     background-image: url("resource/ui/button9.jpg");
     left: 2%;
 }
 
-#DataButton {
+#buttontop1 {
     background-image: url("resource/ui/button8.jpg");
     left: 18%;
 }
 
-#StatsButton {
+#buttontop2 {
     background-image: url("resource/ui/button4.jpg");
     left: 37%;
 }
 
-#PerksButton {
+#buttontop3 {
     background-image: url("resource/ui/button6.jpg");
     left: 68%;
 }
 
-#AppearanceButton {
+#buttontop4 {
     background-image: url("resource/ui/button5.jpg");
     left: 83%;
 }
+
+
 
 #button0 {
     background-image: url("resource/ui/button3.jpg");
