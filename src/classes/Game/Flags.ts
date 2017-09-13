@@ -1,6 +1,10 @@
-export default class Flags {
+import { SaveInterface } from "../SaveInterface";
+
+export default class Flags implements SaveInterface {
     private static flags: object = {};
     public static get(flagEnum: FlagEnum): number {
+        if (this.flags[flagEnum] == undefined)
+            this.flags[flagEnum] = 0;
         return this.flags[flagEnum];
     }
 
@@ -14,6 +18,15 @@ export default class Flags {
 
     public static decrease(flagEnum: FlagEnum, number: number = 1) {
         this.flags[flagEnum] -= number;
+    }
+
+    saveKey: string = "Flags";
+    save(): object {
+        return { saveKey: Flags.flags };
+    }
+
+    load(object: object) {
+        Flags.flags = object[this.saveKey];
     }
 }
 
