@@ -143,25 +143,30 @@ body {
 
 #buttontop0 {
     background-image: url("resource/ui/button9.jpg");
-    left: 2%;
+    left: 3%;
 }
 
 #buttontop1 {
     background-image: url("resource/ui/button8.jpg");
-    left: 18%;
+    left: 19%;
 }
 
 #buttontop2 {
     background-image: url("resource/ui/button4.jpg");
-    left: 37%;
+    left: 35%;
 }
 
 #buttontop3 {
     background-image: url("resource/ui/button6.jpg");
-    left: 68%;
+    left: 51%;
 }
 
 #buttontop4 {
+    background-image: url("resource/ui/button3.jpg");
+    left: 67%;
+}
+
+#buttontop5 {
     background-image: url("resource/ui/button5.jpg");
     left: 83%;
 }
