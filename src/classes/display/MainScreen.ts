@@ -51,6 +51,15 @@ class StatPanel {
     }
 }
 
+export enum TopButton {
+    MainMenu,
+    Data,
+    Stats,
+    PerkUp,
+    Perks,
+    Appearance
+}
+
 export default class MainScreen {
     private static mainTextDisplay: HTMLElement;
     private static bottomButtons: HTMLElement[];
@@ -152,6 +161,19 @@ export default class MainScreen {
     public static clearText() {
         MainScreen.mainTextDisplay.innerText = "";
     }
+
+    public static showTopButton(buttonNumber: TopButton) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            MainScreen.bottomButtons[buttonNumber].style.visibility = "visible";
+        }
+    }
+
+    public static hideTopButton(buttonNumber: TopButton) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
+        }
+    }
+
 
     public static showButton(buttonNumber: number) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
