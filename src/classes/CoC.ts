@@ -55,55 +55,6 @@ import kGAMECLASS from "./GlobalFlags/kGAMECLASS";
 
 export default class CoC
 {
-    /*
-	// Include the functions. ALL THE FUNCTIONS
-//No longer needed. Added into CharCreation.as:		include "../../includes/customCharCreation.as";
-		
-	include "../../includes/descriptors.as";
-	include "../../includes/appearance.as";
-
-//No longer needed:		include "../../includes/InitialiseUI.as";
-	include "../../includes/input.as";
-	include "../../includes/OnLoadVariables.as";
-	include "../../includes/startUp.as";
-	include "../../includes/debug.as";
-		
-	include "../../includes/combat.as";
-//No longer needed. This file has been chopped up and spread throughout the codebase:		include "../../includes/doEvent.as";
-	include "../../includes/eventParser.as";
-		
-
-	include "../../includes/eventTest.as";
-		
-		
-	include "../../includes/transform.as";
-		
-	include "../../includes/engineCore.as";
-
-	// Lots of constants
-	//include "../../includes/flagDefs.as";
-	include "../../includes/appearanceDefs.as";
-    */
-	//Any classes that need to be made aware when the game is saved or loaded can add themselves to this array using saveAwareAdd.
-	//	Once in the array they will be notified by Saves.as whenever the game needs them to write or read their data to the flags array.
-	private static let _saveAwareClassList:Vector.<SaveAwareInterface> = new Vector.<SaveAwareInterface>();
-	
-	//Called by the saveGameObject function in Saves
-    public static function saveAllAwareClasses(game: CoC): void {
-        for (let sac: number = 0; sac < _saveAwareClassList.length; sac++)
-            _saveAwareClassList[sac].updateBeforeSave(game);
-    }
-
-	//Called by the loadGameObject function in Saves
-    public static function loadAllAwareClasses(game: CoC): void {
-        for (let sac: number = 0; sac < _saveAwareClassList.length; sac++)
-            _saveAwareClassList[sac].updateAfterLoad(game);
-    }
-
-    public static function saveAwareClassAdd(newEntry: SaveAwareInterface): void {
-        _saveAwareClassList.push(newEntry);
-    }
-	
 	//Any classes that need to be aware of the passage of time can add themselves to this array using timeAwareAdd.
 	//	Once in the array they will be notified as each hour passes, allowing them to update actions, lactation, pregnancy, etc.
 	private static _timeAwareClassList:Vector.<TimeAwareInterface> = new Vector.<TimeAwareInterface>(); //Accessed by goNext function in eventParser
