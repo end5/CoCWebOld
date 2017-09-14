@@ -198,12 +198,12 @@ export default class BaseContent
 		kGAMECLASS.rawOutputText(output, purgeText);
 	}
 
-	protected Render.text(output:string, purgeText:boolean = false, parseAsMarkdown:boolean = false):void
+	protected MainScreen.text(output:string, purgeText:boolean = false, parseAsMarkdown:boolean = false):void
 	{
-		kGAMECLASS.Render.text(output, purgeText, parseAsMarkdown);
+		kGAMECLASS.MainScreen.text(output, purgeText, parseAsMarkdown);
 	}
 		
-	protected clearOutput():void
+	protected MainScreen.clearText():void
 	{
 		kGAMECLASS.currentText = "";
 		kGAMECLASS.mainView.clearOutputText();
@@ -263,7 +263,7 @@ export default class BaseContent
 		kGAMECLASS.doYesNo(eventYes, eventNo);
 	}
 
-	protected addButton(pos: number, text:string = "", func1:= null, arg1:* = -9000):void
+	protected MainScreen.addButton(pos: number, text:string = "", func1:= null, arg1:* = -9000):void
 	{
 		kGAMECLASS.addButton(pos, text, func1, arg1);
 	}
@@ -808,7 +808,7 @@ export default class BaseContent
 		* PRIMO BULLSHIT ACCESS
 		*/
 	// Need to work out a better way of doing this -- I THINK maybe treating external functions as a string and calling
-	// addButton like "addButton(0, "thing", "thisFunc");" might be a way to do it -- check if Func let is a Func type in this.addbutton args
+	// MainScreen.addButton like "addButton(0, "thing", "thisFunc");" might be a way to do it -- check if Func let is a Func type in this.addbutton args
 	// if it is, pass it into kGAMECLASS, if it isn't, check if string. If it is, use the string to pull the func from kGAMECLASS
 	// before passing it into addbutton etc.
 	// Going the string route also makes it... not awful to call into other content classes too - split string on . and chain

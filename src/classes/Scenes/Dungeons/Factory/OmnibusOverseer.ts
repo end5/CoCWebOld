@@ -14,7 +14,7 @@ package classes.Scenes.Dungeons.Factory
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nYour foe doesn't seem to care...");
+				MainScreen.text("\n\nYour foe doesn't seem to care...");
 				doNext(game.endLustLoss);
 			} else {
 				game.omnibusLossRape();
@@ -22,9 +22,9 @@ package classes.Scenes.Dungeons.Factory
 		}
 		
 		private lustAura():void {
-			Render.text("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.");
+			MainScreen.text("The demoness blinks her eyes closed and knits her eyebrows in concentration.  The red orbs open wide and she smiles, licking her lips.   The air around her grows warmer, and muskier, as if her presence has saturated it with lust.");
 			if (statusAffects.has("LustAura")) {
-				Render.text("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
+				MainScreen.text("  Your eyes cross with unexpected feelings as the taste of desire in the air worms its way into you.  The intense aura quickly subsides, but it's already done its job.");
 				game.dynStats("lus", (8 + int(player.stats.lib / 20 + player.stats.cor / 25)));
 			}
 			else {
@@ -35,29 +35,29 @@ package classes.Scenes.Dungeons.Factory
 		
 		private milkAttack():void {
 			if (rand(2) == 0)
-				Render.text("The demoness grips her sizable breasts and squeezes, spraying milk at you.\n");
-			else Render.text("Your foe curls up to pinch her nipples, tugging hard and squirting milk towards you.\n");
+				MainScreen.text("The demoness grips her sizable breasts and squeezes, spraying milk at you.\n");
+			else MainScreen.text("Your foe curls up to pinch her nipples, tugging hard and squirting milk towards you.\n");
 			if ((player.stats.spe > 50 && rand(4) == 0) || (player.perks.has("Evade") && rand(3) == 0) || (player.perks.has("Misdirection") && rand(4) == 0 && player.armorName == "red, high-society bodysuit")) {
-				Render.text("You sidestep the gushing fluids.");
+				MainScreen.text("You sidestep the gushing fluids.");
 			}
 			//You didn't dodge
 			else {
 				if (rand(2) == 0) {
-					Render.text("The milk splatters across your face and chest, soaking you with demonic cream.  Some managed to get into your mouth, and you swallow without thinking.  It makes you tingle with warmth.  ");
+					MainScreen.text("The milk splatters across your face and chest, soaking you with demonic cream.  Some managed to get into your mouth, and you swallow without thinking.  It makes you tingle with warmth.  ");
 				}
 				else {
-					Render.text("The milk splashes into your " + player.armorName + ", soaking you effectively.  ");
+					MainScreen.text("The milk splashes into your " + player.armorName + ", soaking you effectively.  ");
 					if (player.lowerBody.cockSpot.count() > 0) {
-						Render.text("Your " + cockDescript(0) + " gets hard as the milk lubricates and stimulates it.  ");
+						MainScreen.text("Your " + cockDescript(0) + " gets hard as the milk lubricates and stimulates it.  ");
 						game.dynStats("lus", 5);
 					}
 					if (player.lowerBody.vaginaSpot.count() > 0) {
-						Render.text("You rub your thighs together as the milk slides between your pussy lips, stimulating you far more than it should.  ");
+						MainScreen.text("You rub your thighs together as the milk slides between your pussy lips, stimulating you far more than it should.  ");
 						game.dynStats("lus", 5);
 					}
 				}
 				game.dynStats("lus", 7 + player.stats.sens / 20);
-				if (player.biggestLactation() > 1) Render.text("Milk dribbles from your " + allBreastsDescript() + " in sympathy.");
+				if (player.biggestLactation() > 1) MainScreen.text("Milk dribbles from your " + allBreastsDescript() + " in sympathy.");
 			}
 			game.combatRoundOver();
 		}

@@ -21,7 +21,7 @@ package classes.Scenes.Dungeons.DeepCave
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nYour foe doesn't seem put off enough to care...");
+				MainScreen.text("\n\nYour foe doesn't seem put off enough to care...");
 				doNext(game.endLustLoss);
 			} else {
 				game.loseToZetaz();

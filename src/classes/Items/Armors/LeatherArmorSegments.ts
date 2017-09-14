@@ -7,7 +7,7 @@ export default class LeatherArmorSegments extends Armor {
 		super("UrtaLta", "UrtaLta", "leather armor segments", "leather armor segments", 5, 76, null, "Light", true);
 	}
 	public removeText():void {
-		Render.text("You have your old set of " + game.armors.LEATHRA.longName + " left over.  ");
+		MainScreen.text("You have your old set of " + game.armors.LEATHRA.longName + " left over.  ");
 	}
 		
 	public playerRemove():Armor {

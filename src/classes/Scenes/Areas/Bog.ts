@@ -38,8 +38,8 @@ package classes.Scenes.Areas
             else if (rand(3) == 0) phoukaScene.phoukaEncounter();
 			else if (rand(2) == 0) chameleonGirlScene.encounterChameleon();
 			else {
-				clearOutput();
-				Render.text("You wander around through the humid muck, but you don't run into anything interesting.");
+				MainScreen.clearText();
+				MainScreen.text("You wander around through the humid muck, but you don't run into anything interesting.");
 				doNext(camp.returnToCampUseOneHour);
 			}
 		}

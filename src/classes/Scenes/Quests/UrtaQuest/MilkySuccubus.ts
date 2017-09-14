@@ -23,16 +23,16 @@ package classes.Scenes.Quests.UrtaQuest
 		private cowCubiMilkSprayAttack():void
 		{
 			//Lasts a couple turns like the goblin lust poison?
-			Render.text("\"<i>How about a taste?</i>\"  The succubus asks, pressing her tits together.  Before you can reply, a veritable jet of milk sprays in your direction!\n");
+			MainScreen.text("\"<i>How about a taste?</i>\"  The succubus asks, pressing her tits together.  Before you can reply, a veritable jet of milk sprays in your direction!\n");
 //Miss:
 			if (rand(20) + 1 + player.stats.spe / 20 > 17) {
-				Render.text("With your trained reflexes, you manage to duck and roll, narrowly avoiding getting sprayed with milk.");
-				Render.text("\n\n\"<i>Such a waste.</i>\"  The succubus pouts.  \"<i>No worries, I'll just have Fido clean it up later... perhaps I'll even have you do it later, when you become mine.</i>\"  The succubus giggles.");
+				MainScreen.text("With your trained reflexes, you manage to duck and roll, narrowly avoiding getting sprayed with milk.");
+				MainScreen.text("\n\n\"<i>Such a waste.</i>\"  The succubus pouts.  \"<i>No worries, I'll just have Fido clean it up later... perhaps I'll even have you do it later, when you become mine.</i>\"  The succubus giggles.");
 				kGAMECLASS.dynStats("lus", 6);
 			}
 			//Hit:
 			else {
-				Render.text("All you manage to do is cover your face; the rest of you, however, gets completely soaked in the demon's corrupted milk.  Looking down at yourself, you realize that you are panting, and the places where the milk splashed your fur begin to heat up.  Oh no! <b>You'd better finish off this succubus before you succumb to your lusts!</b>");
+				MainScreen.text("All you manage to do is cover your face; the rest of you, however, gets completely soaked in the demon's corrupted milk.  Looking down at yourself, you realize that you are panting, and the places where the milk splashed your fur begin to heat up.  Oh no! <b>You'd better finish off this succubus before you succumb to your lusts!</b>");
 				kGAMECLASS.dynStats("lus", 15);
 				statusAffects.add(new StatusAffect("MilkyUrta", 3, 0, 0, 0)));
 			}
@@ -41,10 +41,10 @@ package classes.Scenes.Quests.UrtaQuest
 
 		private drinkMinoCum():void
 		{
-			Render.text("Smiling wryly and licking her lips, the succubus-cow procures a bottle of her pet's cum with her probing tail.");
+			MainScreen.text("Smiling wryly and licking her lips, the succubus-cow procures a bottle of her pet's cum with her probing tail.");
 //Success:
 			if (findStatusAffect(StatusAffects.DrankMinoCum) < 0 || findStatusAffect(StatusAffects.DrankMinoCum2) < 0) {
-				Render.text("\n\nSmiling triumphantly, she takes the bottle and opens it with a pop, drinking the contents with glee.  When done, she throws the bottle away and smacks her lips.  \"<i>Nothing like a bottle of minotaur cum to get you back on your feet, right?</i>\"  She grins, her pussy dripping with more juices.");
+				MainScreen.text("\n\nSmiling triumphantly, she takes the bottle and opens it with a pop, drinking the contents with glee.  When done, she throws the bottle away and smacks her lips.  \"<i>Nothing like a bottle of minotaur cum to get you back on your feet, right?</i>\"  She grins, her pussy dripping with more juices.");
 				lust += 25;
 				HP += 400;
 				if (findStatusAffect(StatusAffects.DrankMinoCum) < 0) statusAffects.add(new StatusAffect("DrankMinoCum", 0, 0, 0, 0)));
@@ -52,17 +52,17 @@ package classes.Scenes.Quests.UrtaQuest
 			}
 			//Failure:
 			else {
-				Render.text("\n\nShe frowns and looks behind her, pouting slightly when she turns to look back at you.  \"<i>Seems like I'm all out of cum.</i>\"  She grins evilly.  \"<i>I'll just have to get more after I'm done with you.</i>\"");
+				MainScreen.text("\n\nShe frowns and looks behind her, pouting slightly when she turns to look back at you.  \"<i>Seems like I'm all out of cum.</i>\"  She grins evilly.  \"<i>I'll just have to get more after I'm done with you.</i>\"");
 			}
 			combatRoundOver();
 		}
 
 		private succubusTease():void
 		{
-			if (rand(4) == 0) Render.text("Turning around, the succubus begins to bounce her rather round derriere in your direction, the cheeks lewdly clapping together with each change in direction, exposing her dark anal star and juicy snatch, literally gushing forth a stream of lubricants.  Her eyes glow with faint, purple light as she whispers, \"<i>Don't you just want to... slide on in?</i>\"");
-			else if (rand(3) == 0) Render.text("The succubus squeezes her spotted, sweat-oiled breasts together, squirting out trickles of fresh, creamy, succubi milk.  Bending down, she laps at her own bounty, taking to meet your eyes, her own glowing violet.  You can feel her next words as much as hear them, reaching into your brain and stirring a familiar heat in your loins.  \"<i>Giving in would mean pleasure unending, my dear vixen.</i>\"");
-			else if (rand(2) == 0) Render.text("The succubus turns slightly and slowly bends over, sliding her hands down the sides of her milk laden jugs. \"<i>Mmm, would you help a poor girl relax? These things need some attention,</i>\" she says with a lust filled moan as her hands reach her multitude of nipples.");
-			else Render.text("The succubus leans forwards holding her tits, while wrapping her fingers around her nipples.  \"<i>My boobs are soo full.  Would you like to help me drain them?</i>\" she says with a husky voice.");
+			if (rand(4) == 0) MainScreen.text("Turning around, the succubus begins to bounce her rather round derriere in your direction, the cheeks lewdly clapping together with each change in direction, exposing her dark anal star and juicy snatch, literally gushing forth a stream of lubricants.  Her eyes glow with faint, purple light as she whispers, \"<i>Don't you just want to... slide on in?</i>\"");
+			else if (rand(3) == 0) MainScreen.text("The succubus squeezes her spotted, sweat-oiled breasts together, squirting out trickles of fresh, creamy, succubi milk.  Bending down, she laps at her own bounty, taking to meet your eyes, her own glowing violet.  You can feel her next words as much as hear them, reaching into your brain and stirring a familiar heat in your loins.  \"<i>Giving in would mean pleasure unending, my dear vixen.</i>\"");
+			else if (rand(2) == 0) MainScreen.text("The succubus turns slightly and slowly bends over, sliding her hands down the sides of her milk laden jugs. \"<i>Mmm, would you help a poor girl relax? These things need some attention,</i>\" she says with a lust filled moan as her hands reach her multitude of nipples.");
+			else MainScreen.text("The succubus leans forwards holding her tits, while wrapping her fingers around her nipples.  \"<i>My boobs are soo full.  Would you like to help me drain them?</i>\" she says with a husky voice.");
 			kGAMECLASS.dynStats("lus", 20);
 			combatRoundOver();
 		}
@@ -80,7 +80,7 @@ package classes.Scenes.Quests.UrtaQuest
 
 		public teased(lustDelta:number):void
 		{
-			Render.text(capitalA + short + " smiles, rubbing her hands across herself as she watches your display.  She does not seem greatly affected by your show - at least in the sense of increasing arousal.  She does seem oddly more... vital, as if she drew strength from the very display you put on.");
+			MainScreen.text(capitalA + short + " smiles, rubbing her hands across herself as she watches your display.  She does not seem greatly affected by your show - at least in the sense of increasing arousal.  She does seem oddly more... vital, as if she drew strength from the very display you put on.");
 			str += 5;
 			HP += 50;
 			applyTease(lustDelta);

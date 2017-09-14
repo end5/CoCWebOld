@@ -25,7 +25,7 @@ export default class Armor extends Useable //Equipable
     //For most clothes if the modArmorName is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
     public useText(): void {
-        Render.text("You equip " + this.longName + ".  ");
+        MainScreen.text("You equip " + this.longName + ".  ");
     }
 
     public playerEquip(): Armor { //This item is being equipped by the player. Add any perks, etc. - This function should only handle mechanics, not text output

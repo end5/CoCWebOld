@@ -8,7 +8,7 @@ export default class HugeWarhammer extends Weapon {
 
     public canUse(): boolean {
         if (player.str >= 80) return true;
-        Render.text("You aren't strong enough to handle such a heavy weapon!  ");
+        MainScreen.text("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
 

@@ -19,7 +19,7 @@ package classes.Scenes.Areas.Swamp
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
-				Render.text("\n\nThe spider flashes a predatory grin while she waits it out...");
+				MainScreen.text("\n\nThe spider flashes a predatory grin while she waits it out...");
 				doNext(game.endLustLoss);
 			} else {
 				game.swamp.femaleSpiderMorphScene.loseToFemaleSpiderMorph();

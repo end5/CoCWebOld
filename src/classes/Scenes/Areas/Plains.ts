@@ -22,7 +22,7 @@ package classes.Scenes.Areas
 		}
 		public explorePlains():void
 		{
-			Render.text("", true);
+			MainScreen.text("", true);
 			flags[FlagEnum.TIMES_EXPLORED_PLAINS]++;
 			//Dem Kangasluts!  Force Sheila relationship phase!
 			if (flags[FlagEnum.SHEILA_DEMON] == 0 && flags[FlagEnum.SHEILA_XP] == 3 && model.time.hours == 20 && flags[FlagEnum.SHEILA_CLOCK] >= 0) {
@@ -98,11 +98,11 @@ package classes.Scenes.Areas
 		
 		private plainsLoot():void {
 			if (rand(2) == 0) { //OVI
-				Render.text("While exploring the plains you nearly trip over a discarded, hexagonal bottle.  ");
+				MainScreen.text("While exploring the plains you nearly trip over a discarded, hexagonal bottle.  ");
 				inventory.takeItem(consumables.OVIELIX, camp.returnToCampUseOneHour);
 			}
 			else { //FIND KANGAAA
-				Render.text("While exploring the plains you come across a strange-looking plant.  As you peer at it, you realize it has some fruit you can get at.  ");
+				MainScreen.text("While exploring the plains you come across a strange-looking plant.  As you peer at it, you realize it has some fruit you can get at.  ");
 				inventory.takeItem(consumables.KANGAFT, camp.returnToCampUseOneHour);
 			}
 		}

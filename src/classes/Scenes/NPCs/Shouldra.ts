@@ -17,17 +17,17 @@ package classes.Scenes.NPCs
 			doNext(game.playerMenu);
 			//Determine if dodged!
 			if(player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 80) {
-				Render.text("The girl wades in for a swing, but you deftly dodge to the side. She recovers quickly, spinning back at you.", false);
+				MainScreen.text("The girl wades in for a swing, but you deftly dodge to the side. She recovers quickly, spinning back at you.", false);
 				return;
 			}
 			//("Misdirection"
 			if(player.perks.has("Misdirection") && rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
-				Render.text("The girl wades in for a swing, but you deftly misdirect her and avoid the attack. She recovers quickly, spinning back at you.", false);
+				MainScreen.text("The girl wades in for a swing, but you deftly misdirect her and avoid the attack. She recovers quickly, spinning back at you.", false);
 				return;
 			}
 			//Determine if cat'ed
 			if(player.perks.has("Flexibility") && rand(100) < 6) {
-				Render.text("The girl wades in for a swing, but you deftly twist your flexible body out of the way. She recovers quickly, spinning back at you.", false);
+				MainScreen.text("The girl wades in for a swing, but you deftly twist your flexible body out of the way. She recovers quickly, spinning back at you.", false);
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
@@ -36,42 +36,42 @@ package classes.Scenes.NPCs
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
-				if(rand(player.armorDef + player.tou) < player.armorDef) Render.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
-				else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+				if(rand(player.armorDef + player.tou) < player.armorDef) MainScreen.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
+				else MainScreen.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 			}
 			//everyone else
 			else {
 				let choice:number = rand(3);
 				//(regular attack 1)
-				if(choice == 0) Render.text("Ducking in close, the girl thunders a punch against your midsection, leaving a painful sting.", false);
+				if(choice == 0) MainScreen.text("Ducking in close, the girl thunders a punch against your midsection, leaving a painful sting.", false);
 				//(regular attack 2)
-				else if(choice == 1) Render.text("The girl feints a charge, leans back, and snaps a kick against your " + kGAMECLASS.hipDescript() + ". You stagger, correct your posture, and plunge back into combat.", false);
+				else if(choice == 1) MainScreen.text("The girl feints a charge, leans back, and snaps a kick against your " + kGAMECLASS.hipDescript() + ". You stagger, correct your posture, and plunge back into combat.", false);
 				//(regular attack 3)
-				else if(choice == 2) Render.text("You momentarily drop your guard as the girl appears to stumble. She rights herself as you step forward and lands a one-two combination against your torso.", false);
-				Render.text(" (" + damage + ")", false);
+				else if(choice == 2) MainScreen.text("You momentarily drop your guard as the girl appears to stumble. She rights herself as you step forward and lands a one-two combination against your torso.", false);
+				MainScreen.text(" (" + damage + ")", false);
 			}
 			if(damage > 0) {
 				if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
-					Render.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
+					MainScreen.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
 					lust += 5 * lustVuln;
 				}
 			}
 			statScreenRefresh();
-			Render.text("\n", false);
+			MainScreen.text("\n", false);
 			combatRoundOver();
 		}
 
 		//(lust attack 1)
 		private shouldraLustAttack():void {
-			if(rand(2) == 0) Render.text("The girl spins away from one of your swings, her tunic flaring around her hips. The motion gives you a good view of her firm and moderately large butt. She notices your glance and gives you a little wink.\n", false);
-			else Render.text("The girl's feet get tangled on each other and she tumbles to the ground. Before you can capitalize on her slip, she rolls with the impact and comes up smoothly. As she rises, however, you reel back and raise an eyebrow in confusion; are her breasts FILLING the normally-loose tunic? She notices your gaze and smiles, performing a small pirouette on her heel before squaring up to you again. Your confusion only heightens when her torso comes back into view, her breasts back to their normal proportions. A trick of the light, perhaps? You shake your head and try to fall into the rhythm of the fight.\n", false);
+			if(rand(2) == 0) MainScreen.text("The girl spins away from one of your swings, her tunic flaring around her hips. The motion gives you a good view of her firm and moderately large butt. She notices your glance and gives you a little wink.\n", false);
+			else MainScreen.text("The girl's feet get tangled on each other and she tumbles to the ground. Before you can capitalize on her slip, she rolls with the impact and comes up smoothly. As she rises, however, you reel back and raise an eyebrow in confusion; are her breasts FILLING the normally-loose tunic? She notices your gaze and smiles, performing a small pirouette on her heel before squaring up to you again. Your confusion only heightens when her torso comes back into view, her breasts back to their normal proportions. A trick of the light, perhaps? You shake your head and try to fall into the rhythm of the fight.\n", false);
 			game.dynStats("lus", (8+player.stats.lib/10));
 			combatRoundOver();
 		}
 		//(magic attack)
 		private shouldraMagicLazers():void {
 			let damage:number = player.takeDamage(20 + rand(10));
-			Render.text("Falling back a step, the girl raises a hand and casts a small spell. From her fingertips shoot four magic missiles that slam against your skin and cause a surprising amount of discomfort. (" + damage + ")\n", false);
+			MainScreen.text("Falling back a step, the girl raises a hand and casts a small spell. From her fingertips shoot four magic missiles that slam against your skin and cause a surprising amount of discomfort. (" + damage + ")\n", false);
 			combatRoundOver();
 		}
 

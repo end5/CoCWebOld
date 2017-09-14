@@ -8,12 +8,12 @@ export default class DragonShellShield extends Weapon {
 
     public useText(): void { //Produces any text seen when equipping the armor normally
         if (game.flags[FlagEnum.TIMES_EQUIPPED_EMBER_SHIELD] == 0) {
-            clearOutput();
-            Render.text("Turning the sturdy shield over in inspection, you satisfy yourself as to its craftsmanship and adjust the straps to fit your arm snugly.  You try a few practice swings, but find yourself overbalancing at each one due to the deceptive lightness of the material.  Eventually, though, you pick up the knack of putting enough weight behind it to speed it through the air while thrusting a leg forward to stabilize yourself, and try bashing a nearby rock with it.  You smile with glee as ");
-            if (player.str < 80) Render.text("bits and pieces from the surface of the");
-            else Render.text("huge shards of the shattered");
-            Render.text(" rock are sent flying in all directions.");
-            Render.text("\n\nAfter a few more practice bashes and shifts to acquaint yourself with its weight, you think you're ready to try facing an enemy with your new protection.  One last thing... taking off the shield and turning it straps-down, you spit onto the surface.  Satisfyingly, the liquid disappears into the shell as soon as it touches.");
+            MainScreen.clearText();
+            MainScreen.text("Turning the sturdy shield over in inspection, you satisfy yourself as to its craftsmanship and adjust the straps to fit your arm snugly.  You try a few practice swings, but find yourself overbalancing at each one due to the deceptive lightness of the material.  Eventually, though, you pick up the knack of putting enough weight behind it to speed it through the air while thrusting a leg forward to stabilize yourself, and try bashing a nearby rock with it.  You smile with glee as ");
+            if (player.str < 80) MainScreen.text("bits and pieces from the surface of the");
+            else MainScreen.text("huge shards of the shattered");
+            MainScreen.text(" rock are sent flying in all directions.");
+            MainScreen.text("\n\nAfter a few more practice bashes and shifts to acquaint yourself with its weight, you think you're ready to try facing an enemy with your new protection.  One last thing... taking off the shield and turning it straps-down, you spit onto the surface.  Satisfyingly, the liquid disappears into the shell as soon as it touches.");
         }
         game.flags[FlagEnum.TIMES_EQUIPPED_EMBER_SHIELD]++;
     }

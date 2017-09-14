@@ -51,8 +51,8 @@ export default class Equipable extends Consumable {
     public doEffect(player: Player, output: boolean): void {
         if (game.debug && !(this is GooArmor)){
             if (output) {
-                clearOutput();
-                Render.text("You cannot equip anything in debug mode.  Please restart the game in normal mode to equip items.");
+                MainScreen.clearText();
+                MainScreen.text("You cannot equip anything in debug mode.  Please restart the game in normal mode to equip items.");
             }
             return;
         }

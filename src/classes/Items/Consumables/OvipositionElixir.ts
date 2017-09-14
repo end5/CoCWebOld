@@ -11,7 +11,7 @@ export default class OvipositionElixir extends Consumable {
 
     public canUse(player: Player): boolean {
         if (player.lowerBody.vaginaSpot.hasVagina()) return true;
-        Render.text("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
+        MainScreen.text("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
         return false;
     }
 
@@ -30,17 +30,17 @@ export default class OvipositionElixir extends Consumable {
      */
     public use(player: Player) {
         player.slimeFeed();
-        Render.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
+        MainScreen.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
         if (player.pregnancyType == PregnancyType.GOO_STUFFED) {
-            Render.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
+            MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
         if (player.pregnancyType == PregnancyType.WORM_STUFFED) {
-            Render.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
+            MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
         if (player.pregnancyIncubation == 0) { //If the player is not pregnant, get preggers with eggs!
-            Render.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
+            MainScreen.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
             player.knockUp(PregnancyType.OVIELIXIR_EGGS, PregnancyType.INCUBATION_OVIELIXIR_EGGS, 1, 1);
             player.statusAffects.add(new StatusAffect("Eggs", Utils.rand(6))), 0, Utils.rand(3) + 5, 0);
             return;
@@ -53,20 +53,20 @@ export default class OvipositionElixir extends Consumable {
                     //1 in 2 chance!
                     if (Utils.rand(3) == 0) {
                         player.statusAffects.get("Eggs").value2 = 1;
-                        Render.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
+                        MainScreen.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
                         changeOccurred = true;
                     }
                 }
                 //Chance of quantity increase!
                 if (Utils.rand(2) == 0) {
-                    Render.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
+                    MainScreen.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
                     player.statusAffects.get("Eggs").value3 = Utils.rand(4 + 1);
                     changeOccurred = true;
                 }
             }
         }
         if (!changeOccurred && player.pregnancyIncubation > 20 && player.pregnancyType != PregnancyType.BUNNY) { //If no changes, speed up pregnancy.
-            Render.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
+            MainScreen.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
             let newIncubation: number = player.pregnancyIncubation - Math.floor(player.pregnancyIncubation * 0.3 + 10);
             if (newIncubation < 2) newIncubation = 2;
             player.knockUpForce(player.pregnancyType, newIncubation);

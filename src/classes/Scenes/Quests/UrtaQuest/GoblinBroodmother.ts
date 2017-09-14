@@ -11,9 +11,9 @@ package classes.Scenes.Quests.UrtaQuest
 	{
 		public defeated(hpVictory:boolean):void
 		{
-			game.clearOutput();
-			Render.text("The goblin broodmother is defeated!  You find a bottle of succubi milk on her.  That stuff is banned in Tel'Adre - and for good reason, but it might come in handy.  You pocket the foul fluid for now.");
-			Render.text("  You could use her for a quick, willing fuck to sate your lusts before continuing on.  Do you?");
+			game.MainScreen.clearText();
+			MainScreen.text("The goblin broodmother is defeated!  You find a bottle of succubi milk on her.  That stuff is banned in Tel'Adre - and for good reason, but it might come in handy.  You pocket the foul fluid for now.");
+			MainScreen.text("  You could use her for a quick, willing fuck to sate your lusts before continuing on.  Do you?");
 			game.menu();
 			game.addButton(0,"Fuck",game.urtaQuest.winFuckAGoblinBroodmotherAsUrta);
 			game.addButton(4,"Leave",game.urtaQuest.nagaPleaseNagaStoleMyDick);

@@ -22,7 +22,7 @@ package classes.Scenes.NPCs
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nThe armored goo sighs while you exhaust yourself...");
+				MainScreen.text("\n\nThe armored goo sighs while you exhaust yourself...");
 				doNext(game.endLustLoss);
 			} else {
 				if(statusAffects.has("Spar")) game.valeria.pcWinsValeriaSparDefeat();

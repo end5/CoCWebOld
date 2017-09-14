@@ -7,28 +7,28 @@ package classes.Scenes.Areas.Plains
 	{
 		//Attacks (Z)
 		private satyrAttack():void {
-			Render.text("The satyr swings at you with one knuckled fist.  ");
+			MainScreen.text("The satyr swings at you with one knuckled fist.  ");
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you with a blind punch!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you with a blind punch!\n", false);
 			}
 			//Evade: 
 			else if(combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
-				Render.text("He snarls as you duck his blow and it swishes harmlessly through the air.");
+				MainScreen.text("He snarls as you duck his blow and it swishes harmlessly through the air.");
 			}
 			else {
 				let damage:number = int((str + weaponAttack) - rand(player.tou));
 				if(damage > 0) {
 					damage = player.takeDamage(damage);
-					Render.text("It feels like you just got hit with a wooden club! (" + damage + ")");
+					MainScreen.text("It feels like you just got hit with a wooden club! (" + damage + ")");
 				}
-				else Render.text("You successfully block it.");
+				else MainScreen.text("You successfully block it.");
 			}
 			combatRoundOver();
 		}
 				
 		private satyrBate():void {
-			Render.text("He glares at you, panting while his tongue hangs out and begins to masturbate.  You can nearly see his lewd thoughts reflected in his eyes, as beads of pre form on his massive cock and begin sliding down the erect shaft.");
+			MainScreen.text("He glares at you, panting while his tongue hangs out and begins to masturbate.  You can nearly see his lewd thoughts reflected in his eyes, as beads of pre form on his massive cock and begin sliding down the erect shaft.");
 			//(small Libido based Lust increase, and increase lust)
 			game.dynStats("lus", (player.stats.lib/5)+4);
 			lust += 5;
@@ -36,45 +36,45 @@ package classes.Scenes.Areas.Plains
 		}
 		
 		internal function satyrCharge():void {
-			Render.text("Lowering his horns, the satyr digs his hooves on the ground and begins snorting; he's obviously up to something.  ");
+			MainScreen.text("Lowering his horns, the satyr digs his hooves on the ground and begins snorting; he's obviously up to something.  ");
 			if(statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you due to blindness!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you due to blindness!\n", false);
 			}
 			else if(combatMiss()) {
-				Render.text("He charges at you with a loud bleat, but you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
+				MainScreen.text("He charges at you with a loud bleat, but you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
 				HP -= 5;
 			}
 			else if(combatEvade()) {
-				Render.text("He charges at you with a loud bleat, but using your evasive skills, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
+				MainScreen.text("He charges at you with a loud bleat, but using your evasive skills, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
 				HP -= 5;
 			}
 			else if(combatFlexibility()) {
-				Render.text("He charges at you with a loud bleat, but using your flexibility, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
+				MainScreen.text("He charges at you with a loud bleat, but using your flexibility, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
 				HP -= 5;
 			}
 			else if(combatMisdirect()) {
-				Render.text("He charges at you with a loud bleat, but using your misdirecting skills, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
+				MainScreen.text("He charges at you with a loud bleat, but using your misdirecting skills, you nimbly dodge and strike a vicious blow with your [weapon] in return that sends him crashing into the ground, hollering in pain. (5)");
 				HP -= 5;
 			}
 			else {
 				let damage:number = int((str + weaponAttack) - rand(player.tou));
 				if(damage > 0) {
 					damage = player.takeDamage(damage);
-					Render.text("He charges at you with a loud bleat, catching you off-guard and sending you flying into the ground.");
+					MainScreen.text("He charges at you with a loud bleat, catching you off-guard and sending you flying into the ground.");
 					if(!player.perks.has("Resolute")) {
-						Render.text("  The pain of the impact is so big you feel completely dazed, almost seeing stars.");
+						MainScreen.text("  The pain of the impact is so big you feel completely dazed, almost seeing stars.");
 						player.statusAffects.add(new StatusAffect("Stunned",0,0,0,0)));
 					}
 					//stun PC + hp damage if hit, hp damage dependent on str if miss
-					Render.text(" (" + damage + ")");
+					MainScreen.text(" (" + damage + ")");
 				}
-				else Render.text("He charges at you, but you successfully deflect it at the last second.");
+				else MainScreen.text("He charges at you, but you successfully deflect it at the last second.");
 			}
 			combatRoundOver();
 		}
 			
 		private bottleChug():void {
-			Render.text("He whips a bottle of wine seemingly from nowhere and begins chugging it down, then lets out a bellowing belch towards you.  The smell is so horrible you cover your nose in disgust, yet you feel hot as you inhale some of the fetid scent.");
+			MainScreen.text("He whips a bottle of wine seemingly from nowhere and begins chugging it down, then lets out a bellowing belch towards you.  The smell is so horrible you cover your nose in disgust, yet you feel hot as you inhale some of the fetid scent.");
 			//(damage PC lust very slightly and raise the satyr's lust.)
 			game.dynStats("lus", (player.stats.lib/5));
 			lust += 5;
@@ -83,15 +83,15 @@ package classes.Scenes.Areas.Plains
 		
 		//5:(Only executed at high lust) 
 		private highLustChugRape():void {
-			Render.text("Panting with barely-contained lust, the Satyr charges at you and tries to ram you into the ground.  ");
+			MainScreen.text("Panting with barely-contained lust, the Satyr charges at you and tries to ram you into the ground.  ");
 			if(statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you due to blindness!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you due to blindness!\n", false);
 			}
 			else if(combatMiss() || combatFlexibility() || combatMisdirect() || combatEvade()) {
-				Render.text("As he charges you, you grab him by the horns and spin around, sending him away.");
+				MainScreen.text("As he charges you, you grab him by the horns and spin around, sending him away.");
 			}
 			else {
-				Render.text("You fall with a <b>THUD</b> and the Satyr doesn't even bother to undress you before he begins rubbing his massive cock on your body until he comes, soiling your [armor] and " + player.skinFurScales() + " with slimy, hot cum.  As it rubs into your body, you shiver with unwanted arousal.");
+				MainScreen.text("You fall with a <b>THUD</b> and the Satyr doesn't even bother to undress you before he begins rubbing his massive cock on your body until he comes, soiling your [armor] and " + player.skinFurScales() + " with slimy, hot cum.  As it rubs into your body, you shiver with unwanted arousal.");
 				//large-ish sensitivity based lust increase if hit.)(This also relieves him of some of his lust, though not completely.)
 				lust -= 50;
 				game.dynStats("lus", (player.stats.sens/5+20));
@@ -122,7 +122,7 @@ package classes.Scenes.Areas.Plains
 		public won(hpVictory:boolean,pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				Render.text("\n\nThe satyr laughs heartily at your eagerness...");
+				MainScreen.text("\n\nThe satyr laughs heartily at your eagerness...");
 				doNext(game.endLustLoss);
 			} else {
 				game.plains.satyrScene.loseToSatyr();

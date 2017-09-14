@@ -13,40 +13,40 @@ package classes.Scenes.Areas.Bog
 			let damage: number;
 			//Only the bunny, goat and horse forms make physical attacks
 			if (statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you due to his blindness!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you due to his blindness!\n", false);
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) {
 				damage = Math.round((60 + 30 + 10) - rand(player.tou) - player.armorDef); //60 == Bunny Strength, 30 == Bunny Weapon Attack
-				Render.text("The bunny morph hops towards you.  At the last second he changes direction and throws a kick toward you with his powerful hind legs.");
+				MainScreen.text("The bunny morph hops towards you.  At the last second he changes direction and throws a kick toward you with his powerful hind legs.");
 				if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect())
-					Render.text("\nThrowing yourself out of the way, you manage to avoid the kick.  The " + this.short + " hops out of reach and prepares for another attack.");
+					MainScreen.text("\nThrowing yourself out of the way, you manage to avoid the kick.  The " + this.short + " hops out of reach and prepares for another attack.");
 				else if (damage <= 0)
-					Render.text("\nYou block his attack by moving your shoulder in close, absorbing the energy of the kick harmlessly.");
+					MainScreen.text("\nYou block his attack by moving your shoulder in close, absorbing the energy of the kick harmlessly.");
 				else {
 					player.takeDamage(damage);
-					Render.text("\nThe kick connects and leaves you reeling.");
+					MainScreen.text("\nThe kick connects and leaves you reeling.");
 				}
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_GOAT) {
 				damage = Math.round((80 + 40 + 10) - rand(player.tou) - player.armorDef); //80 == Goat Strength, 40 == Goat Weapon Attack
-				Render.text("The goat morph races toward you, head down.");
+				MainScreen.text("The goat morph races toward you, head down.");
 				if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect())
-					Render.text("\nThrowing yourself out of the way, you manage to keep from getting skewered.");
+					MainScreen.text("\nThrowing yourself out of the way, you manage to keep from getting skewered.");
 				else if (damage <= 0)
-					Render.text("\nYou manage to smack the goat morph in the side of the head.  The horns pass you by harmlessly.");
+					MainScreen.text("\nYou manage to smack the goat morph in the side of the head.  The horns pass you by harmlessly.");
 				else {
 					player.takeDamage(damage);
-					Render.text("\nIts head and horns crash into you, leaving you winded and bruised.");
+					MainScreen.text("\nIts head and horns crash into you, leaving you winded and bruised.");
 				}
 			}
 			else { //HORSE
 				damage = Math.round((95 + 55 + 10) - rand(player.tou) - player.armorDef); //95 == Horse Strength, 55 == Horse Weapon Attack
-				Render.text("The stallion charges you, clearly intending to trample you under its hooves.");
+				MainScreen.text("The stallion charges you, clearly intending to trample you under its hooves.");
 				if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect() || (damage <= 0))
-					Render.text("\nAs the stallion passes you twist in place and manage to stay clear of its legs.");
+					MainScreen.text("\nAs the stallion passes you twist in place and manage to stay clear of its legs.");
 				else {
 					player.takeDamage(damage);
-					Render.text("\nYou get clipped by the stallion's legs and hooves as he charges. As he comes around for another pass you check over your body, amazed none of your bones are broken after that.");
+					MainScreen.text("\nYou get clipped by the stallion's legs and hooves as he charges. As he comes around for another pass you check over your body, amazed none of your bones are broken after that.");
 				}
 			}
 			combatRoundOver();
@@ -55,22 +55,22 @@ package classes.Scenes.Areas.Bog
 		protected phoukaFightLustAttack():void
 		{ //Only the faerie, bunny and horse forms make lust attacks
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE)
-				Render.text("The " + this.short + " uses his wings to climb high up in the air above you.  Then he starts jerking his cock at you with one hand while fondling his balls with the other.  ");
+				MainScreen.text("The " + this.short + " uses his wings to climb high up in the air above you.  Then he starts jerking his cock at you with one hand while fondling his balls with the other.  ");
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY)
-				Render.text("The bunny morph leaps forward, trying to catch you off guard and grapple you.  ");
-			else Render.text("The stallion rears up on his hind legs, waving his massive cock at you.  ");
+				MainScreen.text("The bunny morph leaps forward, trying to catch you off guard and grapple you.  ");
+			else MainScreen.text("The stallion rears up on his hind legs, waving his massive cock at you.  ");
 
 			if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
 				if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY)
-					Render.text("You throw yourself out of the way at the last moment and succeed in throwing the " + this.short + " off balance. He staggers away, his attempted attack ruined.\n");
-				else Render.text("You manage to look away in time and the " + this.short + "'s lewd display has no real effect on you.\n");
+					MainScreen.text("You throw yourself out of the way at the last moment and succeed in throwing the " + this.short + " off balance. He staggers away, his attempted attack ruined.\n");
+				else MainScreen.text("You manage to look away in time and the " + this.short + "'s lewd display has no real effect on you.\n");
 			}
 			else {
 				if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE)
-					Render.text("A drizzle of precum rains down around you.  The sight of the " + this.short + " pumping his shaft along with the smell of the salty yet sweet fluids makes you wish you could stop fighting and concentrate on pleasuring yourself.");
+					MainScreen.text("A drizzle of precum rains down around you.  The sight of the " + this.short + " pumping his shaft along with the smell of the salty yet sweet fluids makes you wish you could stop fighting and concentrate on pleasuring yourself.");
 				else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY)
-					Render.text("He grabs you and rubs up against your body.  For a moment you are lost in the feeling of his soft black fur.  Then you feel his cock pressing against your ribs and shove him away.");
-				else Render.text("You are hypnotized by the equine cock jabbing at the air.  Then the " + this.short + " charges past you and you can taste the musk in the air.");
+					MainScreen.text("He grabs you and rubs up against your body.  For a moment you are lost in the feeling of his soft black fur.  Then you feel his cock pressing against your ribs and shove him away.");
+				else MainScreen.text("You are hypnotized by the equine cock jabbing at the air.  Then the " + this.short + " charges past you and you can taste the musk in the air.");
 				game.dynStats("lus", 15 + player.stats.lib / 10 + player.stats.cor / 5 + rand(10));
 			}
 			combatRoundOver();
@@ -78,19 +78,19 @@ package classes.Scenes.Areas.Bog
 
 		protected phoukaFightSilence():void
 		{ //Reuses the statusAffect Web-Silence from the spiders
-			Render.text(this.capitalA + this.short + " scoops up some muck from the ground and rams it down over his cock.  After a few strokes he forms the lump of mud and precum into a ball and whips it at your face.  ");
+			MainScreen.text(this.capitalA + this.short + " scoops up some muck from the ground and rams it down over his cock.  After a few strokes he forms the lump of mud and precum into a ball and whips it at your face.  ");
 			if (statusAffects.has("Blind") && rand(3) < 2)
-				Render.text("Since he's blind the shot goes horribly wide, missing you entirely.");
+				MainScreen.text("Since he's blind the shot goes horribly wide, missing you entirely.");
 			else if (combatMiss())
-				Render.text("You lean back and let the muck ball whip pass to one side, avoiding the attack.");
+				MainScreen.text("You lean back and let the muck ball whip pass to one side, avoiding the attack.");
 			else if (combatEvade())
-				Render.text("You pull back and to the side, blocking the shot with your arm. The muck splatters against it uselessly.");
+				MainScreen.text("You pull back and to the side, blocking the shot with your arm. The muck splatters against it uselessly.");
 			else if (combatMisdirect())
-				Render.text(this.capitalA + this.short + " was watching you carefully before his throw.  That proves to be his undoing as your misleading movements cause him to lob the muck at the wrong time");
+				MainScreen.text(this.capitalA + this.short + " was watching you carefully before his throw.  That proves to be his undoing as your misleading movements cause him to lob the muck at the wrong time");
 			else if (combatFlexibility())
-				Render.text("As the ball leaves his fingers you throw yourself back, your spine bending in an inhuman way.  You feel the ball sail past, inches above your chest.");
+				MainScreen.text("As the ball leaves his fingers you throw yourself back, your spine bending in an inhuman way.  You feel the ball sail past, inches above your chest.");
 			else {
-				Render.text("The ball smacks into your face like a wet snowball.  It covers most of your nose and mouth with a layer of sticky, salty mud which makes it hard to breathe.  You'll be unable to use your magic while you're struggling for breath!\n");
+				MainScreen.text("The ball smacks into your face like a wet snowball.  It covers most of your nose and mouth with a layer of sticky, salty mud which makes it hard to breathe.  You'll be unable to use your magic while you're struggling for breath!\n");
 				player.statusAffects.add(new StatusAffect("WebSilence", 0, 0, 0, 0))); //Probably safe to reuse the same status affect as for the spider morphs
 			}
 			combatRoundOver();
@@ -128,11 +128,11 @@ package classes.Scenes.Areas.Bog
 		public teased(lustDelta:number):void
 		{
 			if (lustDelta >= 10)
-				Render.text("\n\nThe " + this.short + " breaks off its attack in the face of your teasing.  Its drooling member leaves a trail of precum along the ground and you get the feeling it needs to end this fight quickly.");
+				MainScreen.text("\n\nThe " + this.short + " breaks off its attack in the face of your teasing.  Its drooling member leaves a trail of precum along the ground and you get the feeling it needs to end this fight quickly.");
 			else if (lustDelta >= 5)
-				Render.text("\n\nThe " + this.short + " stops its assault for a moment.  A glob of precum oozes from its cock before it shakes its head and gets ready to attack again.");
+				MainScreen.text("\n\nThe " + this.short + " stops its assault for a moment.  A glob of precum oozes from its cock before it shakes its head and gets ready to attack again.");
 			else if (lustDelta > 0)
-				Render.text("\n\nThe " + this.short + " hesitates and slows down.  You see its cock twitch and then it readies for the next attack.", false);
+				MainScreen.text("\n\nThe " + this.short + " hesitates and slows down.  You see its cock twitch and then it readies for the next attack.", false);
 			applyTease(lustDelta);
 		}
         
@@ -144,10 +144,10 @@ package classes.Scenes.Areas.Bog
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				Render.text("\n\nThe " + this.short + " looks on, amused. <i>“Kinky! But those wee things can't handle whiskey, so I’m safe from ‘em. Now be a good ");
+				MainScreen.text("\n\nThe " + this.short + " looks on, amused. <i>“Kinky! But those wee things can't handle whiskey, so I’m safe from ‘em. Now be a good ");
 				if (player.lowerBody.vaginaSpot.hasVagina())
-					Render.text("lass and spread yer legs for me.”</i>\n\n");
-				else Render.text("lad and spread yer asscheeks for me.”</i>\n\n");
+					MainScreen.text("lass and spread yer legs for me.”</i>\n\n");
+				else MainScreen.text("lad and spread yer asscheeks for me.”</i>\n\n");
 				doNext(game.endLustLoss);
 			}
 			else {
@@ -164,13 +164,13 @@ package classes.Scenes.Areas.Bog
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) return; //Already a bunny, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
-				Render.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 5 foot tall bunny morph.\n\n");
+				MainScreen.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 5 foot tall bunny morph.\n\n");
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_GOAT) {
-				Render.text("As the goat morph charges towards you it starts to grow.  By the time it gets close it has changed completely and you now face a 5 foot tall bunny morph.\n\n");
+				MainScreen.text("As the goat morph charges towards you it starts to grow.  By the time it gets close it has changed completely and you now face a 5 foot tall bunny morph.\n\n");
 			}
 			else { //Was a horse
-				Render.text("As the horse morph charges towards you it quite suddenly shrinks.  You have to adjust your defence as a 5 foot tall bunny morph is now hopping your way.\n\n");
+				MainScreen.text("As the horse morph charges towards you it quite suddenly shrinks.  You have to adjust your defence as a 5 foot tall bunny morph is now hopping your way.\n\n");
 			}
 			this.long = "The " + this.short + " is hopping around near you, waiting for an opening.  He has the general appearance of a bunny with coal black fur.  A large cock stands erect between his legs.  His cat-like green eyes, filled with lust, follow your every motion.";
 			this.armorValue = 60;
@@ -182,13 +182,13 @@ package classes.Scenes.Areas.Bog
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_GOAT) return; //Already a goat, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
-				Render.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 4 foot tall goat morph.\n\n");
+				MainScreen.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to expand and warp.  You blink and see that in front of you there is now a 4 foot tall goat morph.\n\n");
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) {
-				Render.text("The bunny morph hops back from you and starts to melt and change.  You blink and see that in front of you there is now a 4 foot tall goat morph.\n\n");
+				MainScreen.text("The bunny morph hops back from you and starts to melt and change.  You blink and see that in front of you there is now a 4 foot tall goat morph.\n\n");
 			}
 			else { //Was a horse
-				Render.text("As the horse morph charges towards you it quite suddenly shrinks.  You have to adjust your defence as it is now a 4 foot tall goat morph.\n\n");
+				MainScreen.text("As the horse morph charges towards you it quite suddenly shrinks.  You have to adjust your defence as it is now a 4 foot tall goat morph.\n\n");
 			}
 			this.long = "The " + this.short + " is charging back and forth just out of reach, waiting for an opening.  He has the general appearance of a goat with coal black fur.  He has large glossy black horns and a large cock between his legs.  His cat-like green eyes, filled with lust, follow your every motion.";
 			this.armorValue = 60;
@@ -200,13 +200,13 @@ package classes.Scenes.Areas.Bog
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_HORSE) return; //Already a horse, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) {
-				Render.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to grow larger and larger.  You watch amazed as the creature's form stretches.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
+				MainScreen.text("The faerie suddenly drops out of the air.  A look of concentration sets in on its face and it begins to grow larger and larger.  You watch amazed as the creature's form stretches.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) {
-				Render.text("The bunny morph hops back from you and starts to grow and melt.  You watch amazed as the creature's form stretches.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
+				MainScreen.text("The bunny morph hops back from you and starts to grow and melt.  You watch amazed as the creature's form stretches.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
 			}
 			else { //Was a goat
-				Render.text("The goat morph eyes you then seems to think better of charging again.  It backs away and starts to grow larger and larger, its features and body shape twisting and reforming.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
+				MainScreen.text("The goat morph eyes you then seems to think better of charging again.  It backs away and starts to grow larger and larger, its features and body shape twisting and reforming.  Finally it seems unable to grow further and settles into the form of a massive stallion.\n\n");
 			}
 			this.long = "The " + this.short + " is running in a wide circle around you, waiting for an opening.  He has the general appearance of a stallion with coal black fur.  A massive cock stands erect between his legs.  His cat-like green eyes, filled with lust, follow your every motion.";
 			this.armorValue = 75;
@@ -218,13 +218,13 @@ package classes.Scenes.Areas.Bog
 		{
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_FAERIE) return; //Already a faerie, so no change
 			if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_BUNNY) {
-				Render.text("The bunny morph hops back from you and starts to melt and shrink.  In seconds only a tiny faerie is left floating in the air where the bunny once was.\n\n");
+				MainScreen.text("The bunny morph hops back from you and starts to melt and shrink.  In seconds only a tiny faerie is left floating in the air where the bunny once was.\n\n");
 			}
 			else if (PhoukaScene.phoukaForm == PhoukaScene.PHOUKA_FORM_GOAT) {
-				Render.text("The goat morph bounds away from you and starts to melt and deform.  In seconds only a tiny faerie is left floating in the air where the goat once was.\n\n");
+				MainScreen.text("The goat morph bounds away from you and starts to melt and deform.  In seconds only a tiny faerie is left floating in the air where the goat once was.\n\n");
 			}
 			else { //Was a horse
-				Render.text("The horse morph charges past you.  You look over your shoulder and wonder where the stallion could have gone.  Then you see the tiny faerie zipping back for another attack.\n\n");
+				MainScreen.text("The horse morph charges past you.  You look over your shoulder and wonder where the stallion could have gone.  Then you see the tiny faerie zipping back for another attack.\n\n");
 			}
 			this.long = "The " + this.short + " is flying around near you, waiting for an opening.  He has the general appearance of a faerie, though he is slightly larger and his skin and wings are coal black.  A large cock stands erect between his legs.  His cat-like green eyes, filled with lust, follow your every motion.";
 			this.armorValue = 80;
@@ -234,10 +234,10 @@ package classes.Scenes.Areas.Bog
 
 		public handleAwardItemText(itype:ItemType):void
 		{
-			Render.text("  You are just about to leave when you remember that glint from the hollow of that nearby tree.");
+			MainScreen.text("  You are just about to leave when you remember that glint from the hollow of that nearby tree.");
 			if (itype == null)
-				Render.text("\n\nYou take a look and curse the " + this.short + ".  Looks like it used a piece of a broken bottle to lure you in.  At least you learned more about fighting the little pests.  You gain " + this.XP + " XP from your victory.");
-			else Render.text("\n\nYou look inside the hollow and are pleased to find " + itype.longName + ".  You also gain " + this.XP + " XP from your victory, since you learned a bit more about fighting these little pests.\n\n");
+				MainScreen.text("\n\nYou take a look and curse the " + this.short + ".  Looks like it used a piece of a broken bottle to lure you in.  At least you learned more about fighting the little pests.  You gain " + this.XP + " XP from your victory.");
+			else MainScreen.text("\n\nYou look inside the hollow and are pleased to find " + itype.longName + ".  You also gain " + this.XP + " XP from your victory, since you learned a bit more about fighting these little pests.\n\n");
 		}
 
 		public handleAwardText():void
@@ -248,9 +248,9 @@ package classes.Scenes.Areas.Bog
 		public handleCombatLossText(inDungeon:boolean, gemsLost: number): number
 		{
 			if (player.stats.gems > 1)
-				Render.text("  Once free you check your gem pouch and realize the " + this.short + " took " + gemsLost + " of your gems.");
+				MainScreen.text("  Once free you check your gem pouch and realize the " + this.short + " took " + gemsLost + " of your gems.");
 			else if (player.stats.gems == 1)
-				Render.text("  Once free you check your gem pouch and realize the " + this.short + " took your only gem.");
+				MainScreen.text("  Once free you check your gem pouch and realize the " + this.short + " took your only gem.");
 			return 1; //Only use up one hour after combat loss
 		}
 		

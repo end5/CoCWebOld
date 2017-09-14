@@ -7,10 +7,10 @@ package classes.Scenes.Places.Farm
 	{
 		//Trample - once every five turns
 		private keltTramplesJoo():void {
-			Render.text("Before you know what's what, Kelt is galloping toward you, kicking up a cloud of dust in his wake.  He's trying to trample you!  ");
+			MainScreen.text("Before you know what's what, Kelt is galloping toward you, kicking up a cloud of dust in his wake.  He's trying to trample you!  ");
 			//Miss:
 			if(combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
-				Render.text("You roll out of the way at the last moment, avoiding his dangerous hooves.");
+				MainScreen.text("You roll out of the way at the last moment, avoiding his dangerous hooves.");
 				combatRoundOver();
 				return;
 			}
@@ -21,12 +21,12 @@ package classes.Scenes.Places.Farm
 
 			//Block:
 			if(damage <= 0) {
-				Render.text("Incredibly, you brace yourself and dig in your [feet].  Kelt slams into you, but you grind his momentum to a half.  His mouth flaps uncomprehendingly for a moment before he backs up, flushing from being so close to you.");
+				MainScreen.text("Incredibly, you brace yourself and dig in your [feet].  Kelt slams into you, but you grind his momentum to a half.  His mouth flaps uncomprehendingly for a moment before he backs up, flushing from being so close to you.");
 				lust += 5;
 			}
 			//Hit:
 			else {
-				Render.text("You can't get out of the way in time, and you're knocked down!  Kelt tramples overtop of you!  (" + damage + ")");
+				MainScreen.text("You can't get out of the way in time, and you're knocked down!  Kelt tramples overtop of you!  (" + damage + ")");
 			}
 			combatRoundOver();
 		}
@@ -34,11 +34,11 @@ package classes.Scenes.Places.Farm
 		//Arrow Attack
 		private keltShootBow():void {
 			statusAffects.add(new StatusAffect("BowCooldown",3,0,0,0)));
-			Render.text("Kelt knocks and fires an arrow almost faster than you can track.  He's lost none of his talent with a bow, even after everything you've put him through.  ");
+			MainScreen.text("Kelt knocks and fires an arrow almost faster than you can track.  He's lost none of his talent with a bow, even after everything you've put him through.  ");
 
 			//Miss:
 			if(combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
-				Render.text("You manage to avoid the missile by the skin of your teeth!");
+				MainScreen.text("You manage to avoid the missile by the skin of your teeth!");
 				combatRoundOver();
 				return;
 			}
@@ -47,13 +47,13 @@ package classes.Scenes.Places.Farm
 			damage = int((20 + str/3 + 100) + spe/3 - rand(player.tou) - player.armorDef);
 			if(damage < 0) damage = 0;
 			if(damage == 0) {
-				Render.text("You deflect the hit, preventing it from damaging you.");
+				MainScreen.text("You deflect the hit, preventing it from damaging you.");
 				combatRoundOver();
 				return;
 			}
 			//Hit:
 			damage = player.takeDamage(damage);
-			Render.text("The arrow bites into you before you can react. (" + damage + ")");
+			MainScreen.text("The arrow bites into you before you can react. (" + damage + ")");
 			combatRoundOver();
 		}
 
@@ -61,14 +61,14 @@ package classes.Scenes.Places.Farm
 		private KellyuraAttack():void {
 			let select: number = rand(3);
 			//(1)
-			if(select == 0) Render.text("Kelt flashes his cockiest smile and gestures downward.  \"<i>Did you forget why you're here, slut?  Taking me by surprise once doesn't make you any less of a whore.</i>\"");
+			if(select == 0) MainScreen.text("Kelt flashes his cockiest smile and gestures downward.  \"<i>Did you forget why you're here, slut?  Taking me by surprise once doesn't make you any less of a whore.</i>\"");
 			//(2)
-			else if(select == 2) Render.text("Grinning, Kelt runs by, trailing a cloud of his musk and pheremones behind you.  You have to admit, they get you a little hot under the collar...");
+			else if(select == 2) MainScreen.text("Grinning, Kelt runs by, trailing a cloud of his musk and pheremones behind you.  You have to admit, they get you a little hot under the collar...");
 			//(3)
 			else {
-				Render.text("Kelt snarls, \"<i>Why don't you just masturbate like the slut that you are until I come over there and punish you?</i>\"  ");
-				if(player.lust >= 80) Render.text("Your hand moves towards your groin seemingly of its own volition.");
-				else Render.text("Your hands twitch towards your groin but you arrest them.  Still, the idea seems to buzz at the back of your brain, exciting you.");
+				MainScreen.text("Kelt snarls, \"<i>Why don't you just masturbate like the slut that you are until I come over there and punish you?</i>\"  ");
+				if(player.lust >= 80) MainScreen.text("Your hand moves towards your groin seemingly of its own volition.");
+				else MainScreen.text("Your hands twitch towards your groin but you arrest them.  Still, the idea seems to buzz at the back of your brain, exciting you.");
 			}
 			game.dynStats("lus", player.stats.lib/5 + rand(10));
 			combatRoundOver();
@@ -77,8 +77,8 @@ package classes.Scenes.Places.Farm
 		//Attacks as normal + daydream "attack"
 		//DayDream "Attack"
 		private dayDreamKelly():void {
-			if(rand(2) == 0) Render.text("Kelt pauses mid-draw, looking you up and down.  He licks his lips for a few moments before shaking his head to rouse himself from his lusty stupor.  He must miss the taste of your sperm.");
-			else Render.text("Flaring 'his' nostrils, Kelt inhales deeply, his eyelids fluttering closed as he gives a rather lady-like moan.   His hands roam over his stiff nipples, tweaking them slightly before he recovers.");
+			if(rand(2) == 0) MainScreen.text("Kelt pauses mid-draw, looking you up and down.  He licks his lips for a few moments before shaking his head to rouse himself from his lusty stupor.  He must miss the taste of your sperm.");
+			else MainScreen.text("Flaring 'his' nostrils, Kelt inhales deeply, his eyelids fluttering closed as he gives a rather lady-like moan.   His hands roam over his stiff nipples, tweaking them slightly before he recovers.");
 			lust += 5;
 			combatRoundOver();
 		}
@@ -110,7 +110,7 @@ package classes.Scenes.Places.Farm
 		public won(hpVictory:boolean,pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nKelt recoils for a moment before assuming a look of superiority...");
+				MainScreen.text("\n\nKelt recoils for a moment before assuming a look of superiority...");
 				doNext(game.endLustLoss);
 			} else {
 				game.farm.kelly.keltFucksShitUp();

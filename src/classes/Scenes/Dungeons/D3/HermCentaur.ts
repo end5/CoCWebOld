@@ -102,15 +102,15 @@ package classes.Scenes.Dungeons.D3
 		
 		private feminineMusk():void
 		{
-			Render.text("Turning about, the demonic centauress lifts her tail to reveal the slimy, lubricated lips of her puffy, black horse-cunt.  She arches her human body back to lie on her back, an incredible show of flexibility, allowing you to view the silhouette of her jutting nipples her tail lazily fans her corruption-enhanced pheromones in your direction.  The air temperature seems to spike by a few degrees as the fan of biological lust washes over you.  Fragrant female moisture seems to seep into your very pores, and in spite of your desire to win out, ");
+			MainScreen.text("Turning about, the demonic centauress lifts her tail to reveal the slimy, lubricated lips of her puffy, black horse-cunt.  She arches her human body back to lie on her back, an incredible show of flexibility, allowing you to view the silhouette of her jutting nipples her tail lazily fans her corruption-enhanced pheromones in your direction.  The air temperature seems to spike by a few degrees as the fan of biological lust washes over you.  Fragrant female moisture seems to seep into your very pores, and in spite of your desire to win out, ");
 			
-			if (player.lust <= 50) Render.text(" your " + player.skin() + " grows feverishly hot.");
+			if (player.lust <= 50) MainScreen.text(" your " + player.skin() + " grows feverishly hot.");
 			else 
 			{
-				Render.text(" blood rushes to your loins, invigorating");
-				if (player.lowerBody.cockSpot.hasCock()) Render.text(" [eachCock] with the desire to plunge inside that juicy-hot hole.");
-				else if (player.lowerBody.vaginaSpot.hasVagina()) Render.text(" your [vagina] with the desire to submit while juices pool between your [legs].");
-				else Render.text(" your anus until it puckers, craving something to fill it - anything.");
+				MainScreen.text(" blood rushes to your loins, invigorating");
+				if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(" [eachCock] with the desire to plunge inside that juicy-hot hole.");
+				else if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(" your [vagina] with the desire to submit while juices pool between your [legs].");
+				else MainScreen.text(" your anus until it puckers, craving something to fill it - anything.");
 			}
 			
 			game.dynStats("lus+", 8 + (player.stats.lib / 10) + (player.stats.sens / 10));
@@ -118,45 +118,45 @@ package classes.Scenes.Dungeons.D3
 		
 		private aphrodisiacSquirt():void
 		{
-			Render.text("The centaur grabs her heavy tits and casually squeezes the prodding, hard nipples that cap them.  A trickle of rose moisture trickles out, dripping down the underside of her bust to glisten wetly in the light.  Spellbound for the moment, you look on in wonder at the display of demonic lactations.  A faint sweetness lingers in the air, and you lick your lips without meaning to.  Then, she squeezes down to spray a torrent of pink-tinged breastmilk directly at you, splitting into so many forks of fluid that you have no hope to dodge.");
+			MainScreen.text("The centaur grabs her heavy tits and casually squeezes the prodding, hard nipples that cap them.  A trickle of rose moisture trickles out, dripping down the underside of her bust to glisten wetly in the light.  Spellbound for the moment, you look on in wonder at the display of demonic lactations.  A faint sweetness lingers in the air, and you lick your lips without meaning to.  Then, she squeezes down to spray a torrent of pink-tinged breastmilk directly at you, splitting into so many forks of fluid that you have no hope to dodge.");
 			
 			game.dynStats("lus+", 8 + (player.stats.lib / 10) + (player.stats.sens / 10));
 
-	if (player.lust < 30) Render.text("\n\nYou close your mouth tight and endure the shimmering shower, trying your damnedest to resist the effects of this insidious liquid.  Wherever it strikes you, it vanishes soon after, absorbed directly into your body.");
-	else if (player.lust < 40) Render.text("\n\nYour heart beats faster.");
-	else if (player.lust < 50) Render.text("\n\nYour cheeks color as you try not to imagine how you could fuck such a beast.");
-	else if (player.lust < 60) Render.text("\n\nYour blink, but find your eyes staying closed a moment longer than you intended, visions of yourself suckling down the pink sweetness occupying your mind.");
+	if (player.lust < 30) MainScreen.text("\n\nYou close your mouth tight and endure the shimmering shower, trying your damnedest to resist the effects of this insidious liquid.  Wherever it strikes you, it vanishes soon after, absorbed directly into your body.");
+	else if (player.lust < 40) MainScreen.text("\n\nYour heart beats faster.");
+	else if (player.lust < 50) MainScreen.text("\n\nYour cheeks color as you try not to imagine how you could fuck such a beast.");
+	else if (player.lust < 60) MainScreen.text("\n\nYour blink, but find your eyes staying closed a moment longer than you intended, visions of yourself suckling down the pink sweetness occupying your mind.");
 	else if (player.lust < 70) 
 	{
-		Render.text("\n\nYou groan in disappointment when you realize what's going to happen, but as soon as you're slicked with the aphrodisiac,");
-		if (player.lowerBody.cockSpot.hasCock()) Render.text(" [eachCock] awakens, filling itself towards full erection.");
-		else if (player.lowerBody.vaginaSpot.hasVagina()) Render.text(" a wet heat answers in your loins, growing more insistent from moment to moment.");
-		else Render.text(" your [asshole] tingles, craving something to fill it.");
+		MainScreen.text("\n\nYou groan in disappointment when you realize what's going to happen, but as soon as you're slicked with the aphrodisiac,");
+		if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(" [eachCock] awakens, filling itself towards full erection.");
+		else if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(" a wet heat answers in your loins, growing more insistent from moment to moment.");
+		else MainScreen.text(" your [asshole] tingles, craving something to fill it.");
 	}
 	else if (player.lust < 80) 
 	{
-		Render.text("\n\nYou sigh and try to gain a better position during the pink rain");
-		if (player.lowerBody.cockSpot.hasCock()) Render.text(" ignoring the stiffening pressure of [eachCock]");
-		else Render.text(" ignoring the increasing wetness of your inner [armor]");
-		Render.text(". It's getting harder to think straight with all this desire welling up inside you.  It isn't for a few moments that you realize you tongue is hanging out and drooling all over youself.  Gods, you want to fuck!");
+		MainScreen.text("\n\nYou sigh and try to gain a better position during the pink rain");
+		if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(" ignoring the stiffening pressure of [eachCock]");
+		else MainScreen.text(" ignoring the increasing wetness of your inner [armor]");
+		MainScreen.text(". It's getting harder to think straight with all this desire welling up inside you.  It isn't for a few moments that you realize you tongue is hanging out and drooling all over youself.  Gods, you want to fuck!");
 	}
 	else if (player.lust < 90)
 	{
-		Render.text("\n\nPanting feverishly, you try to ignore the blush-colored downfall, but it's a futile gesture.  It makes your " + player.skinFurScales() + " burn hot, wicking inside you with devilish efficiency to stoke the fires of your lust beyond normal limits.");
-		if (player.lowerBody.cockSpot.hasCock()) Render.text("  Pre begins to dribble from your hot-and-ready cum-slit, eager to pour out in a deluge of sperm.");
-		else if (player.lowerBody.vaginaSpot.hasVagina()) Render.text("  A flood of sopping moisture dribbles down your [legs], the proof of your unholy desire to breed.");
-		Render.text(" You NEED to fuck soon.  You can barely contain yourself!");
+		MainScreen.text("\n\nPanting feverishly, you try to ignore the blush-colored downfall, but it's a futile gesture.  It makes your " + player.skinFurScales() + " burn hot, wicking inside you with devilish efficiency to stoke the fires of your lust beyond normal limits.");
+		if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("  Pre begins to dribble from your hot-and-ready cum-slit, eager to pour out in a deluge of sperm.");
+		else if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  A flood of sopping moisture dribbles down your [legs], the proof of your unholy desire to breed.");
+		MainScreen.text(" You NEED to fuck soon.  You can barely contain yourself!");
 	}
-	else if (player.lust < 100) Render.text("\n\nMoaning out loud, you smear the stuff across your [chest] as it sprinkles you, the mounting desire almost at your limit.  You want to touch yourself SO BADLY, but you know that if you do, you'll wind up a mare to this centaur, perhaps forever.  You have to resist!  You can't fall victim to this... alluring creature.");
-	else Render.text(" Sinking to your knees, you start trying to tear your way out of your [armor].  You don't care about winning anymore - fucking this woman... this beast... that's all that matters.  You don't care how she takes you, as long as you get to cum all over her!");
+	else if (player.lust < 100) MainScreen.text("\n\nMoaning out loud, you smear the stuff across your [chest] as it sprinkles you, the mounting desire almost at your limit.  You want to touch yourself SO BADLY, but you know that if you do, you'll wind up a mare to this centaur, perhaps forever.  You have to resist!  You can't fall victim to this... alluring creature.");
+	else MainScreen.text(" Sinking to your knees, you start trying to tear your way out of your [armor].  You don't care about winning anymore - fucking this woman... this beast... that's all that matters.  You don't care how she takes you, as long as you get to cum all over her!");
 	
 		}
 		
 		private arouseSpellCharge():void
 		{
 			// one turn charge-up, can be interrupted by tease
-			Render.text("The centauress closes her eyes for a moment, then opens them.  Her eyes have gone completely, solidly black.  She's chanting low, though you see her dick bobbing beneath her in time with the mysterious utterances, leaking pre-cum.  You've got to stop her!");
-			if (player.stats.int > 80) Render.text("  A tease attack would likely be the most effective method of attack.");
+			MainScreen.text("The centauress closes her eyes for a moment, then opens them.  Her eyes have gone completely, solidly black.  She's chanting low, though you see her dick bobbing beneath her in time with the mysterious utterances, leaking pre-cum.  You've got to stop her!");
+			if (player.stats.int > 80) MainScreen.text("  A tease attack would likely be the most effective method of attack.");
 			
 			_chargingArouse = true;
 			_lustAtChargeStart = this.lust;
@@ -171,12 +171,12 @@ package classes.Scenes.Dungeons.D3
 			if (this.lust >= this._lustAtChargeStart + 10)
 			{
 				//(Interrupted)
-				Render.text("Shuddering, the demoness stumbles over her words, and a flash of ruby light envelops her form!  A low, lurid moan escapes the crimson-fogged outline, echoing with lust beyond measure as its owner's spell backfires on her.  Ropes of pre as thick as most men's cum-shots splatter into the grass and cobble while the herm's balls seem to double in size.  Even then, the heavy male orbs shine dully, absolutely soaked with dripping mare-lube.");
+				MainScreen.text("Shuddering, the demoness stumbles over her words, and a flash of ruby light envelops her form!  A low, lurid moan escapes the crimson-fogged outline, echoing with lust beyond measure as its owner's spell backfires on her.  Ropes of pre as thick as most men's cum-shots splatter into the grass and cobble while the herm's balls seem to double in size.  Even then, the heavy male orbs shine dully, absolutely soaked with dripping mare-lube.");
 			}
 			else
 			{
 				//(OH SHIT YOU GUNNA GET FUKKED)
-				Render.text("The chanting reaches a crescendo before you can stop it, and as the nine-foot woman points at you, you barely have time to enunciate a single curse.  Her spell is upon you.  There's a flash of crimson light, seemingly as bright as the sun, and then you're hit with a wave of lust so strong it might as well be a physical force.  It slaps you hard enough to send you reeling, even while your heart pumps every spare drop of blood south.  You cry out at the forced arousal, blubbering wildly as the pleasure mounts and images of you and your foe locked together in every sexual position imaginable flood your consciousness.");
+				MainScreen.text("The chanting reaches a crescendo before you can stop it, and as the nine-foot woman points at you, you barely have time to enunciate a single curse.  Her spell is upon you.  There's a flash of crimson light, seemingly as bright as the sun, and then you're hit with a wave of lust so strong it might as well be a physical force.  It slaps you hard enough to send you reeling, even while your heart pumps every spare drop of blood south.  You cry out at the forced arousal, blubbering wildly as the pleasure mounts and images of you and your foe locked together in every sexual position imaginable flood your consciousness.");
 				
 				game.dynStats("lus+", 20 + (player.stats.lib / 6) + (player.stats.sens / 6));
 			}
@@ -188,16 +188,16 @@ package classes.Scenes.Dungeons.D3
 			
 			if (_hypnoCockUses == 1)
 			{
-				Render.text("THWACK! You start at the odd noise - neither of you were making contact with the other.  THWACKschlorp!  This time a ludicrously wet sound punctuates the noise.  The demonic centaur is smiling widely, her cheeks flushing slightly as the audible noises continue, each time deepening her blush.  What the hell?  TWHACKschhhlick!");
-				Render.text("\n\nYou glance lower in time to see her member slowly stretching away from her equine underside, seemingly held by thick strands of her heavy pre.  Only when it's hanging low enough for the shiny webs to snap does it move, surging upward with fresh lust to slap against her belly, spattering globules of pre-cum over the furry flesh.  There's a steady, undeniable tempo to it - every impact seems to follow the same hidden beat as the one before, echoing through the courtyard and into your vulnerable ears.");
-				Render.text("\n\nOnly after watching spellbound for a few moments do you realize that the demoness has begun to talk, speaking in low whispers, \"<i>Hard to look away isn't it?  I've been told it can be quite hypnotic... almost... spell-binding.</i>\"");
-				Render.text("\n\nWell, you can see that for yourself.  It's easy to watch it slowly lower, then smack up, ejecting a heavy load of pre-orgasmic fuck-juice.  You've got to look at her while you fight her anyway, so you don't mind that you're looking there.  You can keep an eye where she's most vulnerable.");
+				MainScreen.text("THWACK! You start at the odd noise - neither of you were making contact with the other.  THWACKschlorp!  This time a ludicrously wet sound punctuates the noise.  The demonic centaur is smiling widely, her cheeks flushing slightly as the audible noises continue, each time deepening her blush.  What the hell?  TWHACKschhhlick!");
+				MainScreen.text("\n\nYou glance lower in time to see her member slowly stretching away from her equine underside, seemingly held by thick strands of her heavy pre.  Only when it's hanging low enough for the shiny webs to snap does it move, surging upward with fresh lust to slap against her belly, spattering globules of pre-cum over the furry flesh.  There's a steady, undeniable tempo to it - every impact seems to follow the same hidden beat as the one before, echoing through the courtyard and into your vulnerable ears.");
+				MainScreen.text("\n\nOnly after watching spellbound for a few moments do you realize that the demoness has begun to talk, speaking in low whispers, \"<i>Hard to look away isn't it?  I've been told it can be quite hypnotic... almost... spell-binding.</i>\"");
+				MainScreen.text("\n\nWell, you can see that for yourself.  It's easy to watch it slowly lower, then smack up, ejecting a heavy load of pre-orgasmic fuck-juice.  You've got to look at her while you fight her anyway, so you don't mind that you're looking there.  You can keep an eye where she's most vulnerable.");
 			}
 			else
 			{
-				Render.text("THWACK!  She's started thumping her cock against her belly again, and you look for the source of the noise again without thinking, spotting her turgid horse-cock just soon enough to watch it thump into her belly, a drizzle of pre running across its hard underside.  It slowly lowers, then rises again, slamming itself against her jizz-moistened underset with a wet slap.  The tempo is as steady and rhythmic as before, and the demon's voice doesn't help.");
-				Render.text("\n\n\"<i>Yes, your eyes do seem to lock onto it, don't they?  They see my hard cock and they have such a hard time doing anything but watching it, letting it fill their view entirely,</i>\" she muses quietly.");
-				Render.text("\n\nYes... it's quite mesmerizing.  You try to look up, but that cock just seems to slap itself right back into your view, the echo of the impact rattling around your skull.  The sultry centaur muses, \"<i>I can see you're quite taken with it.  Surely there's no harm in relaxing to watch it, is there?</i>\"");
+				MainScreen.text("THWACK!  She's started thumping her cock against her belly again, and you look for the source of the noise again without thinking, spotting her turgid horse-cock just soon enough to watch it thump into her belly, a drizzle of pre running across its hard underside.  It slowly lowers, then rises again, slamming itself against her jizz-moistened underset with a wet slap.  The tempo is as steady and rhythmic as before, and the demon's voice doesn't help.");
+				MainScreen.text("\n\n\"<i>Yes, your eyes do seem to lock onto it, don't they?  They see my hard cock and they have such a hard time doing anything but watching it, letting it fill their view entirely,</i>\" she muses quietly.");
+				MainScreen.text("\n\nYes... it's quite mesmerizing.  You try to look up, but that cock just seems to slap itself right back into your view, the echo of the impact rattling around your skull.  The sultry centaur muses, \"<i>I can see you're quite taken with it.  Surely there's no harm in relaxing to watch it, is there?</i>\"");
 			}
 
 			// Resistance-esque check, idk I threw this terrible shit together
@@ -205,28 +205,28 @@ package classes.Scenes.Dungeons.D3
 			{
 				game.dynStats("lus+", 2 + rand((player.stats.lib / 20) + (player.stats.sens / 20)));
 				
-				if (player.lust <= 33) Render.text("\n\nA warning thought jars you out of the cock-induced reverie with a start - this demon was going to hypnotize you, likely trying to seduce you into submission.  Not this time!  You tear yourself away and look her in the eye triumphantly.");
-				else if (player.lust <= 66) Render.text("\n\nA quiet voice pipes up somewhere inside you and warns that something is amiss.  It's enough to stir you from your stupor, kindling your willpower to wrest your view from your foe's gently bobbing fuck-log.  You look her in the eye triumphantly.");
-				else Render.text("\n\nA simpering voice begs you to look away from the deliciously-throbbing fuck-stick before you, but you nearly ignore it.  That fat cock looks so goddamn good - so hypnotic as it bounces and dances before you, enthralling you.  No!  You jerk your gaze up to look the demon in the eyes and frown when you see her gloating.  You might be primed to fuck, but you won't fall for her tricks this time!");
+				if (player.lust <= 33) MainScreen.text("\n\nA warning thought jars you out of the cock-induced reverie with a start - this demon was going to hypnotize you, likely trying to seduce you into submission.  Not this time!  You tear yourself away and look her in the eye triumphantly.");
+				else if (player.lust <= 66) MainScreen.text("\n\nA quiet voice pipes up somewhere inside you and warns that something is amiss.  It's enough to stir you from your stupor, kindling your willpower to wrest your view from your foe's gently bobbing fuck-log.  You look her in the eye triumphantly.");
+				else MainScreen.text("\n\nA simpering voice begs you to look away from the deliciously-throbbing fuck-stick before you, but you nearly ignore it.  That fat cock looks so goddamn good - so hypnotic as it bounces and dances before you, enthralling you.  No!  You jerk your gaze up to look the demon in the eyes and frown when you see her gloating.  You might be primed to fuck, but you won't fall for her tricks this time!");
 			}
 			else
 			{
 				game.dynStats("lus+", 20 + 2 * _hypnoCockUses + 2 + rand((player.stats.lib / 10) + (player.stats.sens / 10)));
 				
-				Render.text("Down it bobs, slowly hanging lower and lower... SMACK!  Up it goes, taking your bedazzled eyes along for the ride.  \"<i>That's a good " + player.mf("boy", "girl") + ",</i>\" the dick's director whispers, \"<i>Just follow the tempo and let it fill your mind, oozing inside you with each thump.</i>\"");
-				Render.text("\n\nFuck!  She's right, it's getting awfully hard to think about anything else.  You fixate further on the cock, unwilling or unable to look away.");
-				Render.text("\n\n\"<i>It's so easy to just watch and let your thoughts leak out of your head?</i>\" the voice asks.");
-				Render.text("\n\nYou nod.");
-				Render.text("\n\n\"<i>Each pendulous motion, every movement, it's so sexy, isn't it?</i>\"");
-				Render.text("\n\nAgain, you nod.");
-				Render.text("\n\nThe voice continues, \"<i>Every pulse, every sloppy discharge, every throb... they're all so sexy, so wet and hot.  The harder you watch, the more arousing it gets... the more you want to touch it.</i>\"");
-				Render.text("\n\nGods, you want to touch it.  One of the rigid veins pulsates, and you want to caress it so badly, to feel it twitch in your hand and drip all over you.  It looks so good, so powerful and lusty.  It's making you so horny just looking at it.  How would it feel to fuck it?  To ride it?  To bend over and present yourself to be willingly impaled?");
+				MainScreen.text("Down it bobs, slowly hanging lower and lower... SMACK!  Up it goes, taking your bedazzled eyes along for the ride.  \"<i>That's a good " + player.mf("boy", "girl") + ",</i>\" the dick's director whispers, \"<i>Just follow the tempo and let it fill your mind, oozing inside you with each thump.</i>\"");
+				MainScreen.text("\n\nFuck!  She's right, it's getting awfully hard to think about anything else.  You fixate further on the cock, unwilling or unable to look away.");
+				MainScreen.text("\n\n\"<i>It's so easy to just watch and let your thoughts leak out of your head?</i>\" the voice asks.");
+				MainScreen.text("\n\nYou nod.");
+				MainScreen.text("\n\n\"<i>Each pendulous motion, every movement, it's so sexy, isn't it?</i>\"");
+				MainScreen.text("\n\nAgain, you nod.");
+				MainScreen.text("\n\nThe voice continues, \"<i>Every pulse, every sloppy discharge, every throb... they're all so sexy, so wet and hot.  The harder you watch, the more arousing it gets... the more you want to touch it.</i>\"");
+				MainScreen.text("\n\nGods, you want to touch it.  One of the rigid veins pulsates, and you want to caress it so badly, to feel it twitch in your hand and drip all over you.  It looks so good, so powerful and lusty.  It's making you so horny just looking at it.  How would it feel to fuck it?  To ride it?  To bend over and present yourself to be willingly impaled?");
 	
-				if (player.lust >= 100) Render.text("\n\nYou whimper, too horny to care anymore.  You moan in anticipation when you realize she's going to breed you...");
+				if (player.lust >= 100) MainScreen.text("\n\nYou whimper, too horny to care anymore.  You moan in anticipation when you realize she's going to breed you...");
 				else
 				{
-					Render.text("You stumble forward, the movement actually startling you from your lusty haze.  It's just what you need to free yourself from the unholy compulsion, and you ready yourself anew to take down this troublesome foe.  Still, your gaze keeps flicking down.  You'll have a harder time fighting off any similar teases...");
-					Render.text("\n\n\"<i>Let's see the mighty 'Champion' resist me now,</i>\" the equine demon taunts, finally stopping her phallus's troublesome motion.");
+					MainScreen.text("You stumble forward, the movement actually startling you from your lusty haze.  It's just what you need to free yourself from the unholy compulsion, and you ready yourself anew to take down this troublesome foe.  Still, your gaze keeps flicking down.  You'll have a harder time fighting off any similar teases...");
+					MainScreen.text("\n\n\"<i>Let's see the mighty 'Champion' resist me now,</i>\" the equine demon taunts, finally stopping her phallus's troublesome motion.");
 				}
 			}
 		}
@@ -234,13 +234,13 @@ package classes.Scenes.Dungeons.D3
 		private gottaCum():void
 		{
 			_usedGottaCum = true;
-			Render.text("Sighing, the demoness gives you a lust glare and idly stomps at the ground with a hoof.  \"<i>Stop turning-unf-on you... you stupid... sexy...ungh, DAMNIT!</i>\" she protests, her rigid cock, slapping her belly while streamers of lady-jizz drip down the gleaming orbs that fill her black-skinned ballsack.  The centaur paws at her tits with unrepentant lust, tugging her large, hard nipples mercilessly while her hind legs stutter around, probably only moving in order to grind the thick, female lips together that much harder.");
+			MainScreen.text("Sighing, the demoness gives you a lust glare and idly stomps at the ground with a hoof.  \"<i>Stop turning-unf-on you... you stupid... sexy...ungh, DAMNIT!</i>\" she protests, her rigid cock, slapping her belly while streamers of lady-jizz drip down the gleaming orbs that fill her black-skinned ballsack.  The centaur paws at her tits with unrepentant lust, tugging her large, hard nipples mercilessly while her hind legs stutter around, probably only moving in order to grind the thick, female lips together that much harder.");
 			
-			Render.text("\n\nThe corruption-fouled, fair-skinned creature coos breathily, \"<i>Now you've got to watch me cum, Champion.</i>\"");
+			MainScreen.text("\n\nThe corruption-fouled, fair-skinned creature coos breathily, \"<i>Now you've got to watch me cum, Champion.</i>\"");
 			
-			Render.text("\n\nHundreds of pounds of monstrous, equine bulk shift and contort, her body violently clenching with bliss as her cock flares, rigid beneath her belly.  She moans and dribbles pink milk from her hard nipples as her pussy explodes, releasing a torrent of slimy lady-spunk that splashes in the grass between her hooves, flooding the air with her scent.  A second later, her fully-dilated cockhead trembles, the moist cum-slit opening wide.  A surge of white bursts from that narrow hole, spattering over the cobbles in a messy tide, flooding the air with salty jizz-smell.  Quaking, her cum-inflated nuts slowly shrink with each spray of spunk until they're barely the size of large apples.");
+			MainScreen.text("\n\nHundreds of pounds of monstrous, equine bulk shift and contort, her body violently clenching with bliss as her cock flares, rigid beneath her belly.  She moans and dribbles pink milk from her hard nipples as her pussy explodes, releasing a torrent of slimy lady-spunk that splashes in the grass between her hooves, flooding the air with her scent.  A second later, her fully-dilated cockhead trembles, the moist cum-slit opening wide.  A surge of white bursts from that narrow hole, spattering over the cobbles in a messy tide, flooding the air with salty jizz-smell.  Quaking, her cum-inflated nuts slowly shrink with each spray of spunk until they're barely the size of large apples.");
 			
-			Render.text("\n\nFlushing, the demoness whimpers, \"<i>...don't think I can do that again, but I don't think you'll be able to turn me on like that twice!</i>\"");
+			MainScreen.text("\n\nFlushing, the demoness whimpers, \"<i>...don't think I can do that again, but I don't think you'll be able to turn me on like that twice!</i>\"");
 			
 			this.lust = 0;
 			game.dynStats("lus", 15);
@@ -250,7 +250,7 @@ package classes.Scenes.Dungeons.D3
 		{
 			_usedHeal = true;
 			
-			Render.text("Wiping a drop of blood from her wounds, the demon frowns in irritation.  \"<i>Do you have any idea how hard healing spells are to pull off when you're thinking about plowing a champion from behind?</i>\"  Her eyes flutter closed in concentration while sexual fluids run unimpeded from her mixed genitals.  At the same time, her wounds close up, covered with freshly grown horsehair or pale pink skin.  A few moments later, she wobbles slightly and mutters, \"<i>All better... hopefully you don't manage that twice.  I doubt I could pull it off again.  Then again, you'll likely be hilted on my dick or tongue-deep in my snatch by then, won't you?</i>\"");
+			MainScreen.text("Wiping a drop of blood from her wounds, the demon frowns in irritation.  \"<i>Do you have any idea how hard healing spells are to pull off when you're thinking about plowing a champion from behind?</i>\"  Her eyes flutter closed in concentration while sexual fluids run unimpeded from her mixed genitals.  At the same time, her wounds close up, covered with freshly grown horsehair or pale pink skin.  A few moments later, she wobbles slightly and mutters, \"<i>All better... hopefully you don't manage that twice.  I doubt I could pull it off again.  Then again, you'll likely be hilted on my dick or tongue-deep in my snatch by then, won't you?</i>\"");
 			
 			this.HP = this.eMaxHP();
 		}

@@ -52,55 +52,55 @@ package classes.Scenes
 			}
 			hideMenus();
 			hideUpDown();
-			clearOutput();
-			Render.text("<b><u>Equipment:</u></b>\n");
-			Render.text("<b>Weapon</b>: " + player.weaponName + " (Attack - " + player.weaponAttack + ")\n");
-			Render.text("<b>Armor : </b>" + player.armorName + " (Defense - " + player.armorDef + ")\n");
-			if (player.keyItems.length > 0) Render.text("<b><u>\nKey Items:</u></b>\n");
-			for (x = 0; x < player.keyItems.length; x++) Render.text(player.keyItems[x].keyName + "\n");
+			MainScreen.clearText();
+			MainScreen.text("<b><u>Equipment:</u></b>\n");
+			MainScreen.text("<b>Weapon</b>: " + player.weaponName + " (Attack - " + player.weaponAttack + ")\n");
+			MainScreen.text("<b>Armor : </b>" + player.armorName + " (Defense - " + player.armorDef + ")\n");
+			if (player.keyItems.length > 0) MainScreen.text("<b><u>\nKey Items:</u></b>\n");
+			for (x = 0; x < player.keyItems.length; x++) MainScreen.text(player.keyItems[x].keyName + "\n");
 			menu();
 			for (x = 0; x < 5; x++) {
 				if (player.itemSlots[x].unlocked && player.itemSlots[x].quantity > 0) {
-					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), useItemInInventory, x);
+					MainScreen.addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), useItemInInventory, x);
 					foundItem = true;
 				}
 			}
 			if (player.weapon != WeaponLib.FISTS) {
-				addButton(5, "Unequip", unequipWeapon);
+				MainScreen.addButton(5, "Unequip", unequipWeapon);
 			}
 			if (!getGame().inCombat && inDungeon == false && inRoomedDungeon == false) {
 				if (getGame().nieveHoliday() && flags[FlagEnum.NIEVE_STAGE] > 0 && flags[FlagEnum.NIEVE_STAGE] < 5) {
 					if (flags[FlagEnum.NIEVE_STAGE] == 1)
-						Render.text("\nThere's some odd snow here that you could do something with...\n");
-					else Render.text("\nYou have a snow" + getGame().nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
-					addButton(6, "Snow", getGame().nieveBuilding);
+						MainScreen.text("\nThere's some odd snow here that you could do something with...\n");
+					else MainScreen.text("\nYou have a snow" + getGame().nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
+					MainScreen.addButton(6, "Snow", getGame().nieveBuilding);
 					foundItem = true;
 				}
 				if (flags[FlagEnum.FUCK_FLOWER_KILLED] == 0 && flags[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
-					if (flags[FlagEnum.FUCK_FLOWER_LEVEL] == 4) Render.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
-					addButton(7, (flags[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), getGame().holliScene.treeMenu);
+					if (flags[FlagEnum.FUCK_FLOWER_LEVEL] == 4) MainScreen.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
+					MainScreen.addButton(7, (flags[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), getGame().holliScene.treeMenu);
 					foundItem = true;
 				}
 				if (player.hasKeyItem("Dragon Egg") >= 0) {
 					getGame().emberScene.emberCampDesc();
-					addButton(8, "Egg", getGame().emberScene.emberEggInteraction);
+					MainScreen.addButton(8, "Egg", getGame().emberScene.emberEggInteraction);
 					foundItem = true;
 				}
 			}
 			if (!foundItem) {
-				Render.text("\nYou have no usable items.");
+				MainScreen.text("\nYou have no usable items.");
 				doNext(playerMenu);
 				return;
 			}
 			if (getGame().inCombat && player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value1 == 3) {
-				Render.text("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
+				MainScreen.text("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
 				getGame().enemyAI();
 				return;
 			}
-			Render.text("\nWhich item will you use?");
+			MainScreen.text("\nWhich item will you use?");
 			if (getGame().inCombat)
-				addButton(9, "Back", kGAMECLASS.combatMenu, false); //Player returns to the combat menu on cancel
-			else addButton(9, "Back", playerMenu);
+				MainScreen.addButton(9, "Back", kGAMECLASS.combatMenu, false); //Player returns to the combat menu on cancel
+			else MainScreen.addButton(9, "Back", playerMenu);
 //Gone			menuLoc = 1;
 		}
 		
@@ -109,33 +109,33 @@ package classes.Scenes
 			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
 			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;*/
 			//REMOVE THE ABOVE BEFORE RELASE ()
-			clearOutput();
+			MainScreen.clearText();
 			spriteSelect(-1);
 			menu();
 			if (flags[FlagEnum.ANEMONE_KID] > 0) {
 				kGAMECLASS.anemoneScene.anemoneBarrelDescription();
-				if (model.time.hours >= 6) addButton(4, "Anemone", kGAMECLASS.anemoneScene.approachAnemoneBarrel);
+				if (model.time.hours >= 6) MainScreen.addButton(4, "Anemone", kGAMECLASS.anemoneScene.approachAnemoneBarrel);
 			}
 			if (player.hasKeyItem("Camp - Chest") >= 0) {
-				Render.text("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
-				addButton(0, "Chest Store", pickItemToPlaceInCampStorage);
-				if (hasItemsInStorage()) addButton(1, "Chest Take", pickItemToTakeFromCampStorage);
+				MainScreen.text("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
+				MainScreen.addButton(0, "Chest Store", pickItemToPlaceInCampStorage);
+				if (hasItemsInStorage()) MainScreen.addButton(1, "Chest Take", pickItemToTakeFromCampStorage);
 			}
 			//Weapon Rack
 			if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
-				Render.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
-				addButton(2, "W.Rack Put", pickItemToPlaceInWeaponRack);
-				if (weaponRackDescription()) addButton(3, "W.Rack Take", pickItemToTakeFromWeaponRack);
-				Render.text("\n\n");
+				MainScreen.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
+				MainScreen.addButton(2, "W.Rack Put", pickItemToPlaceInWeaponRack);
+				if (weaponRackDescription()) MainScreen.addButton(3, "W.Rack Take", pickItemToTakeFromWeaponRack);
+				MainScreen.text("\n\n");
 			}
 			//Armor Rack
 			if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
-				Render.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
-				addButton(5, "A.Rack Put", pickItemToPlaceInArmorRack);
-				if (armorRackDescription()) addButton(6, "A.Rack Take", pickItemToTakeFromArmorRack);
-				Render.text("\n\n");
+				MainScreen.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
+				MainScreen.addButton(5, "A.Rack Put", pickItemToPlaceInArmorRack);
+				if (armorRackDescription()) MainScreen.addButton(6, "A.Rack Take", pickItemToTakeFromArmorRack);
+				MainScreen.text("\n\n");
 			}
-			addButton(9, "Back", playerMenu);
+			MainScreen.addButton(9, "Back", playerMenu);
 		}
 			
 		public takeItem(itype:ItemType, nextAction:Function, overrideAbandon:Function = null, source:ItemSlotClass = null):void {
@@ -151,7 +151,7 @@ package classes.Scenes
 			let temp: number = player.roomInExistingStack(itype);
 			if (temp >= 0) { //First slot go!
 				player.itemSlots[temp].quantity++;
-				Render.text("You place " + itype.longName + " in your " + inventorySlotName[temp] + " pouch, giving you " + player.itemSlots[temp].quantity + " of them.");
+				MainScreen.text("You place " + itype.longName + " in your " + inventorySlotName[temp] + " pouch, giving you " + player.itemSlots[temp].quantity + " of them.");
 				itemGoNext();
 				return;
 			}
@@ -160,7 +160,7 @@ package classes.Scenes
 			temp = player.emptySlot();
 			if (temp >= 0) {
 				player.itemSlots[temp].setItemAndQty(itype, 1);
-				Render.text("You place " + itype.longName + " in your " + inventorySlotName[temp] + " pouch.");
+				MainScreen.text("You place " + itype.longName + " in your " + inventorySlotName[temp] + " pouch.");
 				itemGoNext();
 				return;
 			}
@@ -211,11 +211,11 @@ package classes.Scenes
 		
 		public giveHumanizer():void {
 			if(flags[FlagEnum.TIMES_CHEATED_COUNTER] > 0) {
-				Render.text("<b>I was a cheater until I took an arrow to the knee...</b>", true);
+				MainScreen.text("<b>I was a cheater until I took an arrow to the knee...</b>", true);
 				getGame().gameOver();
 				return;
 			}
-			Render.text("I AM NOT A CROOK.  BUT YOU ARE!  <b>CHEATER</b>!\n\n", true);
+			MainScreen.text("I AM NOT A CROOK.  BUT YOU ARE!  <b>CHEATER</b>!\n\n", true);
 			inventory.takeItem(consumables.HUMMUS_, playerMenu);
 			flags[FlagEnum.TIMES_CHEATED_COUNTER]++;
 		}
@@ -263,7 +263,7 @@ package classes.Scenes
 		}
 		
 		private useItemInInventory(slotNum: number):void {
-			clearOutput();
+			MainScreen.clearText();
 			if (player.itemSlots[slotNum].itype is Useable) {
 				let item:Useable = player.itemSlots[slotNum].itype as Useable;
 				if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
@@ -273,14 +273,14 @@ package classes.Scenes
 				}
 			}
 			else {
-				Render.text("You cannot use " + player.itemSlots[slotNum].itype.longName + "!\n\n");
+				MainScreen.text("You cannot use " + player.itemSlots[slotNum].itype.longName + "!\n\n");
 			}
 			itemGoNext(); //Normally returns to the inventory menu. In combat it goes to the inventoryCombatHandler function
 /* menuLoc is no longer needed, after enemyAI game will always move to the next round			
 			else if (menuLoc == 1) {
 				menuLoc = 0;
 				if (!combatRoundOver()) {
-					Render.text("\n\n");
+					MainScreen.text("\n\n");
 					enemyAI();
 				}
 			}
@@ -289,7 +289,7 @@ package classes.Scenes
 		
 		private inventoryCombatHandler():void {
 			if (!combatRoundOver()) { //Check if the battle is over. If not then go to the enemy's action.
-				Render.text("\n\n");
+				MainScreen.text("\n\n");
 				enemyAI();
 			}
 		}
@@ -320,22 +320,22 @@ package classes.Scenes
 		}
 		
 		private takeItemFull(itype:ItemType, showUseNow:boolean, source:ItemSlotClass):void {
-			Render.text("There is no room for " + itype.longName + " in your inventory.  You may replace the contents of a pouch with " + itype.longName + " or abandon it.");
+			MainScreen.text("There is no room for " + itype.longName + " in your inventory.  You may replace the contents of a pouch with " + itype.longName + " or abandon it.");
 			menu();
 			for (let x: number = 0; x < 5; x++) {
 				if (player.itemSlots[x].unlocked)
-					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), createCallBackFunction2(replaceItem, itype, x));
+					MainScreen.addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), createCallBackFunction2(replaceItem, itype, x));
 			}
 			if (source != null) {
 				currentItemSlot = source;
-				addButton(7, "Put Back", createCallBackFunction2(returnItemToInventory, itype, false));
+				MainScreen.addButton(7, "Put Back", createCallBackFunction2(returnItemToInventory, itype, false));
 			}
-			if (showUseNow && itype is Useable) addButton(8, "Use Now", createCallBackFunction2(useItemNow, itype as Useable, source));
-			addButton(9, "Abandon", callOnAbandon); //Does not doNext - immediately executes the callOnAbandon function
+			if (showUseNow && itype is Useable) MainScreen.addButton(8, "Use Now", createCallBackFunction2(useItemNow, itype as Useable, source));
+			MainScreen.addButton(9, "Abandon", callOnAbandon); //Does not doNext - immediately executes the callOnAbandon function
 		}
 		
 		private useItemNow(item:Useable, source:ItemSlotClass):void {
-			clearOutput();
+			MainScreen.clearText();
 			if (item.canUse()) { //If an item cannot be used then canUse should provide a description of why the item cannot be used
 				useItem(item, source);
 			}
@@ -345,19 +345,19 @@ package classes.Scenes
 		}
 		
 		private replaceItem(itype:ItemType, slotNum: number):void {
-			clearOutput();
+			MainScreen.clearText();
 			if (player.itemSlots[slotNum].itype == itype) //If it is the same as what's in the slot...just throw away the new item
-				Render.text("You discard " + itype.longName + " from the stack to make room for the new one.");
+				MainScreen.text("You discard " + itype.longName + " from the stack to make room for the new one.");
 			else { //If they are different...
-				if (player.itemSlots[slotNum].quantity == 1) Render.text("You throw away " + player.itemSlots[slotNum].itype.longName + " and replace it with " + itype.longName + ".");
-				else Render.text("You throw away " + player.itemSlots[slotNum].itype.longName + "(x" + player.itemSlots[slotNum].quantity + ") and replace it with " + itype.longName + ".");
+				if (player.itemSlots[slotNum].quantity == 1) MainScreen.text("You throw away " + player.itemSlots[slotNum].itype.longName + " and replace it with " + itype.longName + ".");
+				else MainScreen.text("You throw away " + player.itemSlots[slotNum].itype.longName + "(x" + player.itemSlots[slotNum].quantity + ") and replace it with " + itype.longName + ".");
 				player.itemSlots[slotNum].setItemAndQty(itype, 1);
 			}
 			itemGoNext();
 		}
 		
 		private unequipWeapon():void {
-			clearOutput();
+			MainScreen.clearText();
 			takeItem(player.setWeapon(WeaponLib.FISTS), inventoryMenu);
 		}
 		
@@ -373,7 +373,7 @@ package classes.Scenes
 				let itemList:Array = [];
 				for (let x: number = 9; x < 18; x++)
 					if (gearStorage[x].quantity > 0) itemList[itemList.length] = gearStorage[x].itype.longName;
-				Render.text("  It currently holds " + formatStringArray(itemList) + ".");
+				MainScreen.text("  It currently holds " + formatStringArray(itemList) + ".");
 				return true;
 			}
 			return false;
@@ -384,7 +384,7 @@ package classes.Scenes
 				let itemList:Array = [];
 				for (let x: number = 0; x < 9; x++)
 					if (gearStorage[x].quantity > 0) itemList[itemList.length] = gearStorage[x].itype.longName;
-				Render.text("  It currently holds " + formatStringArray(itemList) + ".");
+				MainScreen.text("  It currently holds " + formatStringArray(itemList) + ".");
 				return true;
 			}
 			return false;
@@ -416,23 +416,23 @@ package classes.Scenes
 		}
 		
 		private pickItemToTakeFromStorage(storage:Array, startSlot: number, endSlot: number, text:string):void {
-			clearOutput(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
+			MainScreen.clearText(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
 			hideUpDown();
 			if (!itemAnyInStorage(storage, startSlot, endSlot)) { //If no items are left then return to the camp menu. Can only happen if the player removes the last item.
 				playerMenu();
 				return;
 			}
-			Render.text("What " + text + " slot do you wish to take an item from?");
+			MainScreen.text("What " + text + " slot do you wish to take an item from?");
 			let button: number = 0;
 			menu();
 			for (let x: number = startSlot; x < endSlot; x++, button++) {
-				if (storage[x].quantity > 0) addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
+				if (storage[x].quantity > 0) MainScreen.addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
 			}
-			addButton(9, "Back", stash);
+			MainScreen.addButton(9, "Back", stash);
 		}
 		
 		private pickFrom(storage:Array, slotNum: number):void {
-			clearOutput();
+			MainScreen.clearText();
 			let itype:ItemType = storage[slotNum].itype;
 			storage[slotNum].quantity--;
 			inventory.takeItem(itype, callNext, callNext, storage[slotNum]);
@@ -451,19 +451,19 @@ package classes.Scenes
 		private weaponAcceptable(itype:ItemType):boolean { return itype is Weapon; }
 		
 		private pickItemToPlaceInStorage(placeInStorageFunction:Function, typeAcceptableFunction:Function, text:string, showEmptyWarning:boolean):void {
-			clearOutput(); //Selects an item to place in a gear slot. Rewritten so that it no longer needs to use numbered events
+			MainScreen.clearText(); //Selects an item to place in a gear slot. Rewritten so that it no longer needs to use numbered events
 			hideUpDown();
-			Render.text("What item slot do you wish to empty into your " + text + "?");
+			MainScreen.text("What item slot do you wish to empty into your " + text + "?");
 			menu();
 			let foundItem:boolean = false;
 			for (let x: number = 0; x < 5; x++) {
 				if (player.itemSlots[x].unlocked && player.itemSlots[x].quantity > 0 && typeAcceptableFunction(player.itemSlots[x].itype)) {
-					addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), placeInStorageFunction, x);
+					MainScreen.addButton(x, (player.itemSlots[x].itype.shortName + " x" + player.itemSlots[x].quantity), placeInStorageFunction, x);
 					foundItem = true;
 				}
 			}
-			if (showEmptyWarning && !foundItem) Render.text("\n<b>You have no appropriate items to put in this rack.</b>");
-			addButton(9, "Back", stash);
+			if (showEmptyWarning && !foundItem) MainScreen.text("\n<b>You have no appropriate items to put in this rack.</b>");
+			MainScreen.addButton(9, "Back", stash);
 		}
 		
 		private placeInCampStorage(slotNum: number):void {
@@ -482,7 +482,7 @@ package classes.Scenes
 		}
 		
 		private placeIn(storage:Array, startSlot: number, endSlot: number, slotNum: number):void {
-			clearOutput();
+			MainScreen.clearText();
 			let x: number;
 			let temp: number;
 			let itype:ItemType = player.itemSlots[slotNum].itype;
@@ -493,7 +493,7 @@ package classes.Scenes
 				if (storage[x].itype == itype && storage[x].quantity < 5) {
 					temp = 5 - storage[x].quantity;
 					if (qty < temp) temp = qty;
-					Render.text("You add " + temp + "x " + itype.shortName + " into storage slot " + num2Text(x + 1 - startSlot) + ".\n");
+					MainScreen.text("You add " + temp + "x " + itype.shortName + " into storage slot " + num2Text(x + 1 - startSlot) + ".\n");
 					storage[x].quantity += temp;
 					qty -= temp;
 					if (qty == 0) return;
@@ -502,12 +502,12 @@ package classes.Scenes
 			for (x = startSlot; x < endSlot && qty > 0; x++) { //Find any empty slots and put the item(s) there
 				if (storage[x].quantity == 0) {
 					storage[x].setItemAndQty(itype, qty);
-					Render.text("You place " + qty + "x " + itype.shortName + " into storage slot " + num2Text(x + 1 - startSlot) + ".\n");
+					MainScreen.text("You place " + qty + "x " + itype.shortName + " into storage slot " + num2Text(x + 1 - startSlot) + ".\n");
 					qty = 0;
 					return;
 				}
 			}
-			Render.text("There is no room for " + (orig == qty ? "" : "the remaining ") + qty + "x " + itype.shortName + ".  You leave " + (qty > 1 ? "them" : "it") + " in your inventory.\n");
+			MainScreen.text("There is no room for " + (orig == qty ? "" : "the remaining ") + qty + "x " + itype.shortName + ".  You leave " + (qty > 1 ? "them" : "it") + " in your inventory.\n");
 			player.itemSlots[slotNum].setItemAndQty(itype, qty);
 		}
 	}

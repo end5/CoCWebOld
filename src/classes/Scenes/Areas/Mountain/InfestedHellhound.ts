@@ -14,47 +14,47 @@
 		//[Extra special attack]
 		private hellHoundWormCannon():void
 		{
-			Render.text("The thing rears up onto its hind legs, revealing its more humanoid stature, and allowing it to use its flexible paws to caress its twinned-penises.  It lurches forwards powerfully, its thickness twitching and flaring as it launches a wave of worm-filled canine cum at you.", false);
-			Render.text("\n", false);
+			MainScreen.text("The thing rears up onto its hind legs, revealing its more humanoid stature, and allowing it to use its flexible paws to caress its twinned-penises.  It lurches forwards powerfully, its thickness twitching and flaring as it launches a wave of worm-filled canine cum at you.", false);
+			MainScreen.text("\n", false);
 			if (rand(2) == 0) {
 				//Get hit – 10+ lust
 				game.dynStats("lus", 5 + player.stats.lib / 20);
-				Render.text("Taken off-guard by the unexpected sexual display, you fail to move out of the way, and the wormy jism splatters you from the chest down.", false);
+				MainScreen.text("Taken off-guard by the unexpected sexual display, you fail to move out of the way, and the wormy jism splatters you from the chest down.", false);
 				if (player.statusAffects.has("Infested") && player.totalCocks() > 0) {
-					Render.text("  The worms inside you begin moving and squirming. A few of your cum-soaked parasites crawl out from your shivering " + multiCockDescriptLight() + " as if attempting to meet the new arrivals.  You desperately want to brush them away, but the pleasure in your crotch is too good to fight, and you find yourself staying your hand as each and every one of the new worms makes it way into your " + multiCockDescriptLight() + ".", false);
-					if (player.lowerBody.balls > 0) Render.text("  Your " + ballsDescriptLight() + " grow weightier as the worms settle into their new home, arousing you beyond measure.", false);
-					else Render.text("  You can feel them shifting around inside you as they adjust to their new home, arousing you beyond measure.", false);
+					MainScreen.text("  The worms inside you begin moving and squirming. A few of your cum-soaked parasites crawl out from your shivering " + multiCockDescriptLight() + " as if attempting to meet the new arrivals.  You desperately want to brush them away, but the pleasure in your crotch is too good to fight, and you find yourself staying your hand as each and every one of the new worms makes it way into your " + multiCockDescriptLight() + ".", false);
+					if (player.lowerBody.balls > 0) MainScreen.text("  Your " + ballsDescriptLight() + " grow weightier as the worms settle into their new home, arousing you beyond measure.", false);
+					else MainScreen.text("  You can feel them shifting around inside you as they adjust to their new home, arousing you beyond measure.", false);
 					game.dynStats("lus", 10);
 				}
 				else if (player.totalCocks() > 0) {
-					Render.text("  The worms wriggle and squirm all over you, working their way towards your groin.  It tickles pleasantly, but you brush them away before they can get inside you.  The thought of being turned into a worm-dispensing cum fountain is horrifying, but it leaves you hard.", false);
+					MainScreen.text("  The worms wriggle and squirm all over you, working their way towards your groin.  It tickles pleasantly, but you brush them away before they can get inside you.  The thought of being turned into a worm-dispensing cum fountain is horrifying, but it leaves you hard.", false);
 					game.dynStats("lus", (5 + Math.round(player.stats.cor / 20)));
 				}
-				else if (player.lowerBody.vaginaSpot.hasVagina()) Render.text("  Thankfully, the worms don't seem to want anything to do with you, and rapidly drop down to the ground.", false);
+				else if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Thankfully, the worms don't seem to want anything to do with you, and rapidly drop down to the ground.", false);
 			}
 			//Sidestep
 			else {
-				Render.text("You sidestep the gush of wormy fluid, letting it splatter against the rocks behind you.", false);
+				MainScreen.text("You sidestep the gush of wormy fluid, letting it splatter against the rocks behind you.", false);
 				//(If infested +10 lust:  
 				if (player.statusAffects.has("Infested")  && player.lowerBody.cockSpot.hasCock()) {
 					if (player.lowerBody.cockSpot.hasCock()) {
-						Render.text("  Despite avoiding the torrent of infected seed, your own wormy ", false);
-						if (player.lowerBody.balls > 0) Render.text(ballsDescriptLight(), false);
-						else Render.text(multiCockDescriptLight(), false);
-						Render.text(" wriggle", false);
-						if (player.lowerBody.balls == 0 && player.lowerBody.cockSpot.count() == 1) Render.text("s", false);
-						Render.text(" hotly, expelling a few of your own worms in response along with a dribble of thick pre-cum.   You wonder what it would feel like to let his worms crawl inside you...", false);
+						MainScreen.text("  Despite avoiding the torrent of infected seed, your own wormy ", false);
+						if (player.lowerBody.balls > 0) MainScreen.text(ballsDescriptLight(), false);
+						else MainScreen.text(multiCockDescriptLight(), false);
+						MainScreen.text(" wriggle", false);
+						if (player.lowerBody.balls == 0 && player.lowerBody.cockSpot.count() == 1) MainScreen.text("s", false);
+						MainScreen.text(" hotly, expelling a few of your own worms in response along with a dribble of thick pre-cum.   You wonder what it would feel like to let his worms crawl inside you...", false);
 						game.dynStats("lus", 10);
 					} else {
 						CoC_Settings.error("Infested but no cock!");
 						game.dynStats("lus", 5);
-						Render.text("  The idea of being covered in the beast's infested seed arouses you slightly, but you shake your head violently and clear away the unwelcome thought.", false);
+						MainScreen.text("  The idea of being covered in the beast's infested seed arouses you slightly, but you shake your head violently and clear away the unwelcome thought.", false);
 					}
 				}
 				//if aroused by worms +5 lust:
 				else if (player.statusAffects.has("WormsOn") && player.findStatusAffect(StatusAffects.WormsHalf) < 0) {
 					game.dynStats("lus", 5);
-					Render.text("  The idea of being covered in the beast's infested seed arouses you slightly, but you shake your head violently and clear away the unwelcome thought.", false);
+					MainScreen.text("  The idea of being covered in the beast's infested seed arouses you slightly, but you shake your head violently and clear away the unwelcome thought.", false);
 				}
 			}
 			lust -= 25;
@@ -65,16 +65,16 @@
 		public defeated(hpVictory:boolean):void
 		{
 			if (hpVictory) {
-				Render.text("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated, unconscious, and yet still drooling worms.", true);
+				MainScreen.text("The hellhound's flames dim and the heads let out a whine before the creature slumps down, defeated, unconscious, and yet still drooling worms.", true);
 				game.cleanupAfterCombat();
 			} else {
-				Render.text("Unable to bear its unnatural arousal, the infested hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.\n\n", true);
+				MainScreen.text("Unable to bear its unnatural arousal, the infested hellhound's flames dim as he stops his attack. The two heads look at you, whining plaintively.  The hellhound slowly pads over to you and nudges its noses at your crotch.  It seems he wishes to pleasure you.\n\n", true);
 				if (player.gender > 0 && player.lust >= 33) {
-					Render.text("You realize your desires aren't quite sated.  You could let it please you.  Do you?", false);
+					MainScreen.text("You realize your desires aren't quite sated.  You could let it please you.  Do you?", false);
 					game.simpleChoices("Fuck it", game.mountain.hellHoundScene.hellHoundGetsRaped, "", null, "", null, "", null, "Leave", game.cleanupAfterCombat);
 				}
 				else {
-					Render.text("You turn away, not really turned on enough to be interested in such an offer from such a beast.", false);
+					MainScreen.text("You turn away, not really turned on enough to be interested in such an offer from such a beast.", false);
 					game.cleanupAfterCombat();
 				}
 			}
@@ -83,7 +83,7 @@
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				Render.text("\n\nThe infested hellhound's heads both grin happily as it advances towards you...", false);
+				MainScreen.text("\n\nThe infested hellhound's heads both grin happily as it advances towards you...", false);
 				doNext(game.mountain.infestedHellhoundScene.infestedHellhoundLossRape);
 			} else if (hpVictory) {
 				game.mountain.infestedHellhoundScene.infestedHellhoundLossRape();

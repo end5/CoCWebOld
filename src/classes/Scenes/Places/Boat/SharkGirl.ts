@@ -9,13 +9,13 @@
 		private sharkTease():void {
 			game.spriteSelect(70);
 			if(rand(2) == 0) {
-				Render.text("You charge at the shark girl, prepared to strike again, but stop dead in your tracks when she bends over and wiggles her toned ass towards you. It distracts you long enough for her tail to swing out and smack you to the ground. She coos, \"<i>Aw... You really do like me!</i>\"", false);
+				MainScreen.text("You charge at the shark girl, prepared to strike again, but stop dead in your tracks when she bends over and wiggles her toned ass towards you. It distracts you long enough for her tail to swing out and smack you to the ground. She coos, \"<i>Aw... You really do like me!</i>\"", false);
 				//(Small health damage, medium lust build).
 				player.takeDamage(4+rand(4));
 				game.dynStats("lus", (10+(player.stats.lib/20)));
 			}
 			else {
-				Render.text("You pull your " + player.weaponName + " back, getting a running start to land another attack. The Shark girl smirks and pulls up her bikini top, shaking her perky breasts in your direction. You stop abruptly, aroused by the sight just long enough for the shark girl to kick you across the face and knock you to the ground.  She teases, \"<i>Aw, don't worry baby, you're gonna get the full package in a moment!</i>\"", false);
+				MainScreen.text("You pull your " + player.weaponName + " back, getting a running start to land another attack. The Shark girl smirks and pulls up her bikini top, shaking her perky breasts in your direction. You stop abruptly, aroused by the sight just long enough for the shark girl to kick you across the face and knock you to the ground.  She teases, \"<i>Aw, don't worry baby, you're gonna get the full package in a moment!</i>\"", false);
 				//(Small health damage, medium lust build)
 				player.takeDamage(4+rand(4));
 				game.dynStats("lus", (5+(player.stats.lib/10)));
@@ -30,7 +30,7 @@
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nYour foe doesn't seem disgusted enough to leave...");
+				MainScreen.text("\n\nYour foe doesn't seem disgusted enough to leave...");
 				doNext(game.endLustLoss);
 			} else {
 				game.boat.sharkGirlScene.sharkLossRape();

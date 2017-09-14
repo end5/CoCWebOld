@@ -13,23 +13,23 @@ package classes.Scenes.NPCs
 			doNext(game.playerMenu);
 			//Blind dodge change
 			if (statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you with a blind attack!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you with a blind attack!\n", false);
 			}
 			//Determine if dodged!
 			else if (player.stats.spe - spe > 0 && int(Math.random() * (((player.stats.spe-spe) / 4) + 80)) > 80) {
-				Render.text("You nimbly dodge the salamander's massive sword thrust!", false);
+				MainScreen.text("You nimbly dodge the salamander's massive sword thrust!", false);
 			}
 			//Determine if evaded
 			else if (player.perks.has("Evade") && rand(100) < 10) {
-				Render.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.\n", false);
+				MainScreen.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s attack.\n", false);
 			}
 			//("Misdirection"
 			else if (player.perks.has("Misdirection") && rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
-				Render.text("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' attacks.\n", false);
+				MainScreen.text("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' attacks.\n", false);
 			}
 			//Determine if cat'ed
 			else if (player.perks.has("Flexibility") && rand(100) < 6) {
-				Render.text("With your incredible flexibility, you squeeze out of the way of " + a + short + "", false);
+				MainScreen.text("With your incredible flexibility, you squeeze out of the way of " + a + short + "", false);
 			}
 			//Determine damage - str modified by enemy toughness!
 			else
@@ -40,21 +40,21 @@ package classes.Scenes.NPCs
 				if(damage <= 0) {
 					damage = 0;
 					//Due to toughness or amor...
-					if(rand(player.armorDef + player.tou) < player.armorDef) Render.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
-					else Render.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
+					if(rand(player.armorDef + player.tou) < player.armorDef) MainScreen.text("You absorb and deflect every " + weaponVerb + " with your " + player.armorName + ".", false);
+					else MainScreen.text("You deflect and block every " + weaponVerb + " " + a + short + " throws at you.", false);
 				}
 				//Take Damage
-				else Render.text("The salamander lunges at you, sword swinging in a high, savage arc.  You attempt to duck her attack, but she suddenly spins about mid-swing, bringing the sword around on a completely different path.  It bites deep into your flesh, sending you stumbling back. (" + damage + ")", false);
+				else MainScreen.text("The salamander lunges at you, sword swinging in a high, savage arc.  You attempt to duck her attack, but she suddenly spins about mid-swing, bringing the sword around on a completely different path.  It bites deep into your flesh, sending you stumbling back. (" + damage + ")", false);
 				if(damage > 0) {
 					if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
-						Render.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
+						MainScreen.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
 						lust += 5 * lustVuln;
 					}
 				}
 			}
 			
 			statScreenRefresh();
-			Render.text("\n", false);
+			MainScreen.text("\n", false);
 			combatRoundOver();
 		}
 
@@ -66,27 +66,27 @@ package classes.Scenes.NPCs
 			doNext(game.playerMenu);
 			//Blind dodge change
 			if(statusAffects.has("Blind") && rand(3) < 1) {
-				Render.text(capitalA + short + " completely misses you with a blind attack!\n", false);
+				MainScreen.text(capitalA + short + " completely misses you with a blind attack!\n", false);
 				return;
 			}
 			//Determine if dodged!
 			if(player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 83) {
-				Render.text("The salamander rushes at you, knocking aside your defensive feint and trying to close the distance between you.  She lashes out at your feet with her tail, and you're only just able to dodge the surprise attack.", false);
+				MainScreen.text("The salamander rushes at you, knocking aside your defensive feint and trying to close the distance between you.  She lashes out at your feet with her tail, and you're only just able to dodge the surprise attack.", false);
 				return;
 			}
 			//Determine if evaded
 			if(player.perks.has("Evade") && rand(100) < 5) {
-				Render.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s tail-swipe.\n", false);
+				MainScreen.text("Using your skills at evading attacks, you anticipate and sidestep " + a + short + "'s tail-swipe.\n", false);
 				return;
 			}
 			//("Misdirection"
 			if(player.perks.has("Misdirection") && rand(100) < 5 && player.armorName == "red, high-society bodysuit") {
-				Render.text("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' tail-swipe.\n", false);
+				MainScreen.text("Using Raphael's teachings, you anticipate and sidestep " + a + short + "' tail-swipe.\n", false);
 				return;
 			}
 			//Determine if cat'ed
 			if(player.perks.has("Flexibility") && rand(100) < 3) {
-				Render.text("With your incredible flexibility, you squeeze out of the way of a tail-swipe!", false);
+				MainScreen.text("With your incredible flexibility, you squeeze out of the way of a tail-swipe!", false);
 				return;
 			}
 			//Determine damage - str modified by enemy toughness!
@@ -96,37 +96,37 @@ package classes.Scenes.NPCs
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
-				if(rand(player.armorDef + player.tou) < player.armorDef) Render.text("The salamander's tail-swipe harmlessly deflects off your armor!", false);
-				else Render.text("The salamander's tail-swipe hits you but fails to move or damage you.", false);
+				if(rand(player.armorDef + player.tou) < player.armorDef) MainScreen.text("The salamander's tail-swipe harmlessly deflects off your armor!", false);
+				else MainScreen.text("The salamander's tail-swipe hits you but fails to move or damage you.", false);
 			}
 			//Take Damage
-			else Render.text("The salamander rushes at you, knocking aside your defensive feint and sliding in past your guard.  She lashes out at your feet with her tail, and you can feel the heated wake of the fiery appendage on your ensuing fall toward the now-smouldering grass. (" + damage + ")", false);
+			else MainScreen.text("The salamander rushes at you, knocking aside your defensive feint and sliding in past your guard.  She lashes out at your feet with her tail, and you can feel the heated wake of the fiery appendage on your ensuing fall toward the now-smouldering grass. (" + damage + ")", false);
 			if(damage > 0) {
 				if(lustVuln > 0 && player.armorName == "barely-decent bondage straps") {
-					Render.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
+					MainScreen.text("\n" + capitalA + short + " brushes against your exposed skin and jerks back in surprise, coloring slightly from seeing so much of you revealed.", false);
 					lust += 5 * lustVuln;
 				}
 			}
 			statScreenRefresh();
-			Render.text("\n", false);
+			MainScreen.text("\n", false);
 			combatRoundOver();
 		}
 
 		private helCleavage():void {
 			//FAIL
 			if((player.perks.has("Flexibility") && rand(100) < 6) || (player.perks.has("Evade") && rand(100) < 10) || (player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 80)) {
-				Render.text("To your surprise, the salamander suddenly pulls up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms reaches around your waist, and the other toward your head, but you roll away from her grip and push her bodily away.  She staggers a moment, but then quickly yanks the jangling bikini top back down with a glare.\n", false);
+				MainScreen.text("To your surprise, the salamander suddenly pulls up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms reaches around your waist, and the other toward your head, but you roll away from her grip and push her bodily away.  She staggers a moment, but then quickly yanks the jangling bikini top back down with a glare.\n", false);
 			}
 			//Attack 3 – Lust – Cleavage (Failure)
 			else {
-				Render.text("To your surprise, the salamander suddenly yanks up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms encircles your waist, and the other forcefully shoves your face into her cleavage.  She jiggles her tits around your face for a moment before you're able to break free, though you can feel a distinct heat rising in your loins.  As quickly as they were revealed, the breasts are concealed again and your opponent is ready for more combat!", false);
+				MainScreen.text("To your surprise, the salamander suddenly yanks up her top, letting her hefty breasts hang free in the air; her small, bright pink nipples quickly harden from either arousal or temperature.  Before you can take your eyes off her impressive rack, she jumps at you.  One of her scaled arms encircles your waist, and the other forcefully shoves your face into her cleavage.  She jiggles her tits around your face for a moment before you're able to break free, though you can feel a distinct heat rising in your loins.  As quickly as they were revealed, the breasts are concealed again and your opponent is ready for more combat!", false);
 				let lust:number = 20 + rand(10) + player.stats.sens/10 + rand(player.stats.lib/20);
 				game.dynStats("lus", lust);
 				//Apply resistance
 				lust *= game.lustPercent()/100;
 				//Clean up
 				lust = Math.round(lust * 10)/10;
-				Render.text(" (+" + lust + " lust)\n", false);
+				MainScreen.text(" (+" + lust + " lust)\n", false);
 			}
 			combatRoundOver();
 		}
@@ -157,7 +157,7 @@ package classes.Scenes.NPCs
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if (pcCameWorms){
-				Render.text("\n\nHelia waits it out in stoic silence...");
+				MainScreen.text("\n\nHelia waits it out in stoic silence...");
 				doNext(game.endLustLoss);
 			} else {
 				if(statusAffects.has("Sparring")) game.helFollower.loseToSparringHeliaLikeAButtRapedChump();

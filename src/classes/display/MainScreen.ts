@@ -199,6 +199,16 @@ export default class MainScreen {
         }
     }
 
+    public static addTopButton(buttonNumber: TopButton, text: string, func: () => void, disabled: boolean = false) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            let button = MainScreen.topButtons[buttonNumber];
+            if (button.style.visibility != "visible")
+                button.style.visibility = "visible";
+            button.textContent = text;
+            button.addEventListener('click', func);
+        }
+    }
+
     public static addButton(buttonNumber: number, text: string, func: () => void, disabled: boolean = false) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
             let button = MainScreen.bottomButtons[buttonNumber];

@@ -7,26 +7,26 @@
 	{
 		//Wait:
 		public sandTrapWait():void {
-			clearOutput();
+			MainScreen.clearText();
 			game.spriteSelect(97);
 			if(findStatusAffect(StatusAffects.Climbed) < 0) statusAffects.add(new StatusAffect("Climbed",0,0,0,0)));
-			Render.text("Instead of attacking, you turn away from the monster and doggedly attempt to climb back up the pit, digging all of your limbs into the soft powder as you climb against the sandslide.");
+			MainScreen.text("Instead of attacking, you turn away from the monster and doggedly attempt to climb back up the pit, digging all of your limbs into the soft powder as you climb against the sandslide.");
 			if(trapLevel() == 4) {
-				Render.text("\n\nYou eye the ground above you.  The edge of the pit is too sheer, the ground too unstable... although it looks like you can fight against the currents carrying you further down, it seems impossible to gain freedom with the sand under the monster's spell.");
+				MainScreen.text("\n\nYou eye the ground above you.  The edge of the pit is too sheer, the ground too unstable... although it looks like you can fight against the currents carrying you further down, it seems impossible to gain freedom with the sand under the monster's spell.");
 			}
 			else {
 				//Strength check success: [Player goes up one level, does not go down a level this turn]
 				if(player.str/10 + rand(20) > 10) {
-					Render.text("\n\nSweat beads your forehead - trying to clamber out of this pit is like running against the softest treadmill imaginable.  Nonetheless, through considerable effort you see you've managed to pull further clear of the sandtrap's grasp.  \"<i>Watching you squirm around like that gets me so hot,</i>\" it calls up to you.  Turning around you see that the creature is rubbing its hands all over its lean body whilst watching you struggle.  \"<i>Such an energetic little mating dance, just for me... mmm, prey who do that are always the best!</i>\"");
+					MainScreen.text("\n\nSweat beads your forehead - trying to clamber out of this pit is like running against the softest treadmill imaginable.  Nonetheless, through considerable effort you see you've managed to pull further clear of the sandtrap's grasp.  \"<i>Watching you squirm around like that gets me so hot,</i>\" it calls up to you.  Turning around you see that the creature is rubbing its hands all over its lean body whilst watching you struggle.  \"<i>Such an energetic little mating dance, just for me... mmm, prey who do that are always the best!</i>\"");
 					trapLevel(2);
 				}
 				else {
 					//Strength check fail:  [Player goes down as normal]
-					Render.text("\n\nSweat beads your forehead - trying to clamber out of this pit is like running against the softest treadmill imaginable.  You feel like you're going to burst and you eventually give up, noting wearily that you've managed to get nowhere. \"<i>Watching you squirm around like that gets me so hot,</i>\" the sandtrap calls to you.  Turning around you see that the creature is rubbing its hands all over its lean body whilst watching you struggle.  \"<i>Such an energetic little mating dance, just for me... mmm, prey who do that are always the best!</i>\"");
+					MainScreen.text("\n\nSweat beads your forehead - trying to clamber out of this pit is like running against the softest treadmill imaginable.  You feel like you're going to burst and you eventually give up, noting wearily that you've managed to get nowhere. \"<i>Watching you squirm around like that gets me so hot,</i>\" the sandtrap calls to you.  Turning around you see that the creature is rubbing its hands all over its lean body whilst watching you struggle.  \"<i>Such an energetic little mating dance, just for me... mmm, prey who do that are always the best!</i>\"");
 					trapLevel(1);
 				}
 			}
-			Render.text("\n\n");
+			MainScreen.text("\n\n");
 			doAI();
 			//combatRoundOver();
 		}
@@ -46,31 +46,31 @@
 		//sandtrap pheromone attack:
 		private sandTrapPheremones():void {
 			game.spriteSelect(97);
-			Render.text("The sandtrap puckers its lips.  For one crazed moment you think it's going to blow you a kiss... but instead it spits clear fluid at you!   You desperately try to avoid it, even as your lower half is mired in sand.");
+			MainScreen.text("The sandtrap puckers its lips.  For one crazed moment you think it's going to blow you a kiss... but instead it spits clear fluid at you!   You desperately try to avoid it, even as your lower half is mired in sand.");
 			if(player.stats.spe/10 + rand(20) > 10 || combatEvade() || combatFlexibility()) {
-				Render.text("  Moving artfully with the flow rather than against it, you are able to avoid the trap's fluids, which splash harmlessly into the dune.");
+				MainScreen.text("  Moving artfully with the flow rather than against it, you are able to avoid the trap's fluids, which splash harmlessly into the dune.");
 			}
 			else {
 				let damage:number = (10 + player.stats.lib/10);
-				Render.text("  Despite ducking away from the jet of fluid as best you can, you cannot avoid some of the stuff splashing upon your arms and face.  The substance feels oddly warm and oily, and though you quickly try to wipe it off it sticks resolutely to your skin and the smell hits your nose.  Your heart begins to beat faster as warmth radiates out from it; you feel languid, light-headed and sensual, eager to be touched and led by the hand to a sandy bed...  Shaking your head, you try to stifle what the foreign pheromones are making you feel.");
+				MainScreen.text("  Despite ducking away from the jet of fluid as best you can, you cannot avoid some of the stuff splashing upon your arms and face.  The substance feels oddly warm and oily, and though you quickly try to wipe it off it sticks resolutely to your skin and the smell hits your nose.  Your heart begins to beat faster as warmth radiates out from it; you feel languid, light-headed and sensual, eager to be touched and led by the hand to a sandy bed...  Shaking your head, you try to stifle what the foreign pheromones are making you feel.");
 				game.dynStats("lus", damage);
 				damage = Math.round(damage * game.lustPercent()/10)/10;
-				Render.text(" (" + damage +" lust)");
+				MainScreen.text(" (" + damage +" lust)");
 			}
 		}
 
 		//sandtrap quicksand attack:
 		private nestleQuikSandAttack():void {
 			game.spriteSelect(97);
-			Render.text("The sandtrap smiles at you winningly as it thrusts its hands into the sifting granules.  The sand beneath you suddenly seems to lose even more of its density; you're sinking up to your thighs!");
+			MainScreen.text("The sandtrap smiles at you winningly as it thrusts its hands into the sifting granules.  The sand beneath you suddenly seems to lose even more of its density; you're sinking up to your thighs!");
 			//Quicksand attack fail:
 			if(player.stats.spe/10 + rand(20) > 10 || combatEvade() || combatFlexibility()) {
-				Render.text("  Acting with alacrity, you manage to haul yourself free of the area affected by the sandtrap's spell, and set yourself anew.");
+				MainScreen.text("  Acting with alacrity, you manage to haul yourself free of the area affected by the sandtrap's spell, and set yourself anew.");
 			}
 			//Quicksand attack success: (Speed and Strength loss, ability to fly free lost)
 			else {
-				Render.text("  You can't get free in time and in a panic you realize you are now practically wading in sand.  Attempting to climb free now is going to be very difficult.");
-				if(player.canFly()) Render.text("  You try to wrench yourself free by flapping your wings, but it is hopeless.  You are well and truly snared.");
+				MainScreen.text("  You can't get free in time and in a panic you realize you are now practically wading in sand.  Attempting to climb free now is going to be very difficult.");
+				if(player.canFly()) MainScreen.text("  You try to wrench yourself free by flapping your wings, but it is hopeless.  You are well and truly snared.");
 				trapLevel(-1);
 				if(findStatusAffect(StatusAffects.Climbed) < 0) statusAffects.add(new StatusAffect("Climbed",0,0,0,0)));
 			}
@@ -83,7 +83,7 @@
 				else sandTrapPheremones();
 //PC sinks a level (end of any turn in which player didn't successfully \"<i>Wait</i>\"):
 				if (findStatusAffect(StatusAffects.Climbed) < 0) {
-					Render.text("\n\nRivulets of sand run past you as you continue to sink deeper into both the pit and the sand itself.");
+					MainScreen.text("\n\nRivulets of sand run past you as you continue to sink deeper into both the pit and the sand itself.");
 					trapLevel(-1);
 				}
 				else statusAffects.remove("Climbed");
@@ -99,7 +99,7 @@
 		public won(hpVictory:boolean,pcCameWorms:boolean):void
 		{
 			if (pcCameWorms) {
-				Render.text("\n\nThe sand trap seems bemused by the insects your body houses...");
+				MainScreen.text("\n\nThe sand trap seems bemused by the insects your body houses...");
 				doNext(game.endLustLoss);
 			} else {
 				game.desert.sandTrapScene.sandtrapmentLoss(true);

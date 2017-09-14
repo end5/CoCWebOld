@@ -10,14 +10,14 @@ package classes.Scenes.Quests.UrtaQuest
 
 		public eAttack():void
 		{
-			Render.text("Sirius readies his hands, undulating his body erratically with quick motions in order to catch you off-guard and strike at you.\n");
+			MainScreen.text("Sirius readies his hands, undulating his body erratically with quick motions in order to catch you off-guard and strike at you.\n");
 			super.eAttack();
 		}
 
 
 		override protected outputPlayerDodged(dodge: number):void
 		{
-			Render.text("With your trained eyes, you see through his feints and effectively block his first swipe, then quickly twist your body to kick him away.  He clutches his belly where you kicked him, but recovers quickly, eyes fixated on yours.\n");
+			MainScreen.text("With your trained eyes, you see through his feints and effectively block his first swipe, then quickly twist your body to kick him away.  He clutches his belly where you kicked him, but recovers quickly, eyes fixated on yours.\n");
 		}
 
 		public outputAttack(damage: number):void
@@ -25,7 +25,7 @@ package classes.Scenes.Quests.UrtaQuest
 			if (damage<=0) {
 				super.outputAttack(damage);
 			} else {
-				Render.text("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. (" + damage + ")");
+				MainScreen.text("You misjudge his pattern and wind up getting slashed by a series of swipes from his sharpened nails.  He distances himself from you in order to avoid retaliation and glares at you with his piercing yellow eyes, a hint of a smile on his face. (" + damage + ")");
 			}
 		}
 
@@ -41,20 +41,20 @@ package classes.Scenes.Quests.UrtaQuest
 
 		private manNagaTease():void
 		{
-			Render.text("The snake-man stares deeply into your eyes, seemingly looking past them, and for a moment your body goes numb.");
+			MainScreen.text("The snake-man stares deeply into your eyes, seemingly looking past them, and for a moment your body goes numb.");
 //Miss:
 			if (rand(10) == 0) {
-				Render.text("  You blink and shake yourself free of the effects of the snake-man's penetrating gaze.");
+				MainScreen.text("  You blink and shake yourself free of the effects of the snake-man's penetrating gaze.");
 				combatRoundOver();
 			}
 //Hit (Blind):
 			if (statusAffects.has("Blind")) {
-				Render.text("  Though your vision is still blurry, you feel yourself being sucked into the golden depths of those pupils, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
+				MainScreen.text("  Though your vision is still blurry, you feel yourself being sucked into the golden depths of those pupils, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
 				kGAMECLASS.dynStats("lus", (5 + player.stats.lib / 10 - player.stats.int / 20));
 			}
 			//Hit:
 			else {
-				Render.text("  Those pools of yellow suck you into their golden depths, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
+				MainScreen.text("  Those pools of yellow suck you into their golden depths, making you forget all your worries, if only for an instant.  All you can focus on is your growing arousal as you sink deeper into his gaze.  You shake your head, clearing your mind of the hypnotising effects the snake-man's eyes seem to possess, though the arousal remains.");
 				kGAMECLASS.dynStats("lus", (10 + player.stats.lib / 7 - player.stats.int / 20));
 			}
 			combatRoundOver();
@@ -62,30 +62,30 @@ package classes.Scenes.Quests.UrtaQuest
 
 		private nagaSpitAttack():void
 		{
-			Render.text("Hissing loudly, Sirius suddenly curls his lips and spits at your eyes!  ");
+			MainScreen.text("Hissing loudly, Sirius suddenly curls his lips and spits at your eyes!  ");
 //{Hit:
 			if (spe / 20 + rand(20) + 1 > player.stats.spe / 20 + 10) {
-				Render.text("The vile spray hits your eyes and you scream in pain, clawing fiercely at your burning, watering, weeping eyes.  <b>You can't see!  It'll be much harder to fight in this state, but at the same time, his hypnosis won't be so effective...</b>");
+				MainScreen.text("The vile spray hits your eyes and you scream in pain, clawing fiercely at your burning, watering, weeping eyes.  <b>You can't see!  It'll be much harder to fight in this state, but at the same time, his hypnosis won't be so effective...</b>");
 				player.statusAffects.add(new StatusAffect("Blind", 3, 0, 0, 0)));
 			}
 			//Miss:
-			else Render.text("You quickly lean to the side, narrowly avoiding being blinded by the snake-man's spit!");
+			else MainScreen.text("You quickly lean to the side, narrowly avoiding being blinded by the snake-man's spit!");
 			combatRoundOver();
 		}
 
 		private poisonBite():void
 		{
-			Render.text("With a loud and vicious hiss, Sirius suddenly lunges at you, mouth distended impossibly wide and revealing four needle-like fangs dripping with venom!  ");
+			MainScreen.text("With a loud and vicious hiss, Sirius suddenly lunges at you, mouth distended impossibly wide and revealing four needle-like fangs dripping with venom!  ");
 //Miss:
 			if (combatMiss() || combatEvade() || combatFlexibility() || combatMisdirect()) {
-				Render.text("You dodge just in the nick of time, and deliver a punishing blow with the butt of your halberd as Sirius soars past, forcing him to slither past you to make himself ready to defend himself again.");
+				MainScreen.text("You dodge just in the nick of time, and deliver a punishing blow with the butt of your halberd as Sirius soars past, forcing him to slither past you to make himself ready to defend himself again.");
 				combatRoundOver();
 			}
 //Hit:
-			Render.text("The snake-man moves too quickly for you to evade and he sinks long fangs into your flesh, leaving a wound that burns with horrific pain.");
+			MainScreen.text("The snake-man moves too quickly for you to evade and he sinks long fangs into your flesh, leaving a wound that burns with horrific pain.");
 			let damage:number = 40 + rand(20);
 			damage = player.takeDamage(damage);
-			Render.text(" (" + damage + ")");
+			MainScreen.text(" (" + damage + ")");
 			combatRoundOver();
 		}
 

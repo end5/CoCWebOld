@@ -1118,9 +1118,9 @@ package classes.Parser
 				ret = enterParserScene("startup");
 
 				// HORRIBLE HACK
-				// since we're initially called via a Render.text command, the content of the first page's text will be overwritten
+				// since we're initially called via a MainScreen.text command, the content of the first page's text will be overwritten
 				// when we return. Therefore, in a horrible hack, we return the contents of mainTest.htmlText as the ret value, so
-				// the Render.text call overwrites the window content with the exact same content.
+				// the MainScreen.text call overwrites the window content with the exact same content.
 
 				// trace("WARNING: Returning: ", ret);
 				_ownerClass.currentText = ret;

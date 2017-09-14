@@ -4,9 +4,9 @@
         let stretched: boolean = buttChangeNoDisplay(cArea);
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
         if (stretched && display) {
-            if (spacingsF) Render.text("  ");
+            if (spacingsF) MainScreen.text("  ");
             buttChangeDisplay();
-            if (spacingsB) Render.text("  ");
+            if (spacingsB) MainScreen.text("  ");
         }
         return stretched;
     }

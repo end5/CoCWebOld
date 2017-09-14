@@ -20,7 +20,7 @@
 		public won(hpVictory:boolean, pcCameWorms:boolean):void
 		{
 			if(pcCameWorms){
-				Render.text("\n\nYour foes don't seem put off enough to leave...");
+				MainScreen.text("\n\nYour foes don't seem put off enough to leave...");
 				doNext(game.endLustLoss);
 			} else {
 				game.loseToImpMob();

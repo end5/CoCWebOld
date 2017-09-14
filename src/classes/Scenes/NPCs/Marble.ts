@@ -11,19 +11,19 @@
 			let damage:number = 0;
 			//Blind dodge change
 			if(statusAffects.has("Blind")) {
-				Render.text("Marble unwisely tries to make a massive swing while blinded, which you are easily able to avoid.", false);
+				MainScreen.text("Marble unwisely tries to make a massive swing while blinded, which you are easily able to avoid.", false);
 				combatRoundOver();
 				return;
 			}
 			//Determine if dodged!
 			if(player.stats.spe - spe > 0 && int(Math.random()*(((player.stats.spe-spe)/4)+80)) > 60) {
-				Render.text("You manage to roll out of the way of a massive overhand swing.", false);
+				MainScreen.text("You manage to roll out of the way of a massive overhand swing.", false);
 				combatRoundOver();
 				return;
 			}
 			//Determine if evaded
 			if(player.perks.has("Evade") && rand(100) < 60) {
-				Render.text("You easily sidestep as Marble tries to deliver a huge overhand blow.", false);
+				MainScreen.text("You easily sidestep as Marble tries to deliver a huge overhand blow.", false);
 				combatRoundOver();
 				return;
 			}
@@ -32,10 +32,10 @@
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
-				Render.text("You somehow manage to deflect and block Marble's massive overhead swing.", false);
+				MainScreen.text("You somehow manage to deflect and block Marble's massive overhead swing.", false);
 			}
 			if(damage > 0) damage = player.takeDamage(damage);
-			Render.text("You are struck by a two-handed overhead swing from the enraged cow-girl.  (" + damage + " damage).", false);
+			MainScreen.text("You are struck by a two-handed overhead swing from the enraged cow-girl.  (" + damage + " damage).", false);
 			statScreenRefresh();
 			combatRoundOver();
 		}
@@ -44,11 +44,11 @@
 			let damage:number = 0;
 			//Blind dodge change
 			if(statusAffects.has("Blind")) {
-				Render.text("Marble makes a wide sweeping attack with her hammer, which is difficult to avoid even from a blinded opponent.\n", false);
+				MainScreen.text("Marble makes a wide sweeping attack with her hammer, which is difficult to avoid even from a blinded opponent.\n", false);
 			}
 			//Determine if evaded
 			if(player.perks.has("Evade") && rand(100) < 10) {
-				Render.text("You barely manage to avoid a wide sweeping attack from marble by rolling under it.", false);
+				MainScreen.text("You barely manage to avoid a wide sweeping attack from marble by rolling under it.", false);
 				combatRoundOver();
 				return;
 			}
@@ -58,9 +58,9 @@
 			if(damage <= 0) {
 				damage = 0;
 				//Due to toughness or amor...
-				Render.text("You easily deflect and block the damage from Marble's wide swing.", false);
+				MainScreen.text("You easily deflect and block the damage from Marble's wide swing.", false);
 			}
-			Render.text("Marble easily hits you with a wide, difficult to avoid swing.  (" + damage + " damage).", false);
+			MainScreen.text("Marble easily hits you with a wide, difficult to avoid swing.  (" + damage + " damage).", false);
 			if(damage > 0) player.takeDamage(damage);
 			statScreenRefresh();
 			combatRoundOver();

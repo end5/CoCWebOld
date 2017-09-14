@@ -24,19 +24,19 @@
 		private selfCorruption():void {
 			switch (game.monk) {
 				case 2:
-					Render.text("Jojo looks lost in thought for a moment, and fails to attack.  ");
+					MainScreen.text("Jojo looks lost in thought for a moment, and fails to attack.  ");
 					lust += 4;
 					break;
 				case 3:
-					Render.text("Jojo blushes as he fights you, distracted by a stray thought.  You think you see a bulge in the loose cloth of his pants.  ");
+					MainScreen.text("Jojo blushes as he fights you, distracted by a stray thought.  You think you see a bulge in the loose cloth of his pants.  ");
 					lust += 8;
 					break;
 				case 4:
-					Render.text("Jojo stumbles, shakes his head, and pulls one of his hands away from the stiff tent in his pants.  ");
+					MainScreen.text("Jojo stumbles, shakes his head, and pulls one of his hands away from the stiff tent in his pants.  ");
 					lust += 10;
 					break;
 				default:
-					Render.text("Jojo frantically jerks his " + cockDescriptShort(0) + ", stroking the " + cockDescriptShort(0) + " as it leaks pre-cum at the sight of you.  ");
+					MainScreen.text("Jojo frantically jerks his " + cockDescriptShort(0) + ", stroking the " + cockDescriptShort(0) + " as it leaks pre-cum at the sight of you.  ");
 					lust += 15;
 			}
 			
@@ -45,13 +45,13 @@
 				return;
 			}
 			else if (lust >= 85)
-				Render.text("The mouse is panting and softly whining, each movement seeming to make his bulge more pronounced.  You don't think he can hold out much longer.  ");
+				MainScreen.text("The mouse is panting and softly whining, each movement seeming to make his bulge more pronounced.  You don't think he can hold out much longer.  ");
 			else if (lust >= 70)
-				Render.text("The mouse is having trouble moving due to the rigid protrusion from his groin.  ");
+				MainScreen.text("The mouse is having trouble moving due to the rigid protrusion from his groin.  ");
 			else if (lust >= 60)
-				Render.text("The mouse's eyes constantly dart over your most sexual parts, betraying his lust.  ");
+				MainScreen.text("The mouse's eyes constantly dart over your most sexual parts, betraying his lust.  ");
 			else if (lust > 50)
-				Render.text("The mouse's skin remains flushed with the beginnings of arousal.  ");
+				MainScreen.text("The mouse's skin remains flushed with the beginnings of arousal.  ");
 			doNext(game.playerMenu);
 		}
 		
