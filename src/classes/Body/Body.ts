@@ -9,7 +9,7 @@ import { PregnancyType } from "./Pregnancy";
 import Butt, { ButtLooseness } from "./Butt";
 import StatusAffect from "../StatusAffects/StatusAffect";
 import Cock from "./Cock";
-import Render from "../Game/Render";
+import MainScreen from "../Game/Render";
 import { SaveInterface } from "../SaveInterface";
 
 export enum Gender {
@@ -47,6 +47,9 @@ export default class Body implements SaveInterface {
 
     public stats: Stats;
     public statusAffects: ComponentList<StatusAffect>;
+    public get perks(): ComponentList<StatusAffect> {
+        return this.statusAffects;
+    }
 
     public constructor() {
         this.gender = Gender.NONE;
@@ -103,7 +106,7 @@ export default class Body implements SaveInterface {
 
             let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.list);
             let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
-            Render.text("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
+            MainScreen.text("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
             this.stats.gems += bonusGems;
         }
     }
