@@ -2,6 +2,7 @@
 import Flags from "./Flags";
 import SaveManager from "../SaveManager";
 import Player from "../Player";
+import MainMenu from "../display/MainMenu";
 
 export enum GameState {
     Normal,
@@ -39,6 +40,15 @@ export default class Game{
         throw new Error("Method not implemented.");
     }
     public run(): void {
-        mainMenu();
+        MainMenu.display();
     }
+
+    public get inCombat(): boolean {
+        return Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple;
+    }
+
+    public set inCombat(value: boolean) {
+        Game.state = (value ? GameState.InCombat : GameState.Normal);
+    }
+
 }
