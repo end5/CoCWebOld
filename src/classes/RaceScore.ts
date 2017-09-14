@@ -1,11 +1,6 @@
 ﻿import Player from "./Player";
-import { HornType, EarType, HairType, AntennaeType } from "./Modules/HeadModule";
-import { TailType, LowerBodyType } from "./Modules/LowerBodyModule";
-import { WingType, ArmType } from "./Modules/UpperBodyModule";
-import { FaceType, EyeType, TongueType } from "./Modules/FaceModule";
-import { CockType } from "./Modules/Cock";
-import { VaginaType } from "./Modules/Vagina";
-import { SkinType } from "./Creature";
+import { HornType } from "./Body/Head";
+import { TailType } from "./Body/LowerBody";
 
 export default class RaceScore {
     public static demonScore(player: Player): number {
