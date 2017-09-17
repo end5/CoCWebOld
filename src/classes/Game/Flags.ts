@@ -20,6 +20,10 @@ export default class Flags implements SaveInterface {
         this.flags[flagEnum] -= number;
     }
 
+    public static clear() {
+        this.flags = {};
+    }
+
     saveKey: string = "Flags";
     save(): object {
         return { saveKey: Flags.flags };
