@@ -1,4 +1,6 @@
-﻿export enum StatType {
+﻿import HtmlUtils from "../Utilities/HtmlUtils";
+
+export enum StatType {
     Strength,
     Toughness,
     Speed,
@@ -24,13 +26,10 @@ class StatPanel {
     private statCurrent: number;
 
     public constructor(statPanelName: string) {
-        this.statPanelElement = document.getElementById(statPanelName);
-        if (this.statPanelElement.getElementsByClassName("statsBar").length != 0)
-            this.statBarElement = <HTMLElement>this.statPanelElement.getElementsByClassName("statsBar")[0];
-        if (this.statPanelElement.getElementsByClassName("statsCurrent").length != 0)
-            this.statCurrentElement = <HTMLElement>this.statPanelElement.getElementsByClassName("statsCurrent")[0];
-        if (this.statPanelElement.getElementsByClassName("statsMax").length != 0)
-            this.statMaxElement = <HTMLElement>this.statPanelElement.getElementsByClassName("statsMax")[0];
+        this.statPanelElement = HtmlUtils.loadFromId(statPanelName);
+        this.statBarElement = HtmlUtils.loadFromClassName("statsBar", this.statPanelElement);
+        this.statCurrentElement = HtmlUtils.loadFromClassName("statsCurrent", this.statPanelElement);
+        this.statMaxElement = HtmlUtils.loadFromClassName("statsMax", this.statPanelElement);
         this.statCurrent = 0;
         this.statMax = 100;
     }
@@ -65,31 +64,25 @@ export default class MainScreen {
     private static bottomButtons: HTMLElement[];
     private static topButtons: HTMLElement[];
     private static nameDisplay: HTMLElement;
+    private static statsPanel: HTMLElement;
     private static statsPanels: StatPanel[];
     private static levelupIcon: HTMLElement;
     private static timeDayPanel: HTMLElement;
     private static timeHourPanel: HTMLElement;
 
     public constructor() {
-        MainScreen.mainTextDisplay = document.getElementById("mainTextDisplay");
-        if (!MainScreen.mainTextDisplay)
-            throw new Error("Could not find main text display on page");
+        MainScreen.mainTextDisplay = HtmlUtils.loadFromId("mainTextDisplay");
         MainScreen.bottomButtons = [];
         for (let index = 0; index < 10; index++) {
-            MainScreen.bottomButtons.push(document.getElementById("button" + index));
-            if (!MainScreen.bottomButtons[index])
-                throw new Error("Could not find button" + index + " on page");
+            MainScreen.bottomButtons.push(HtmlUtils.loadFromId("button" + index));
         }
         MainScreen.topButtons = [];
         for (let index = 0; index < 10; index++) {
-            MainScreen.topButtons.push(document.getElementById("buttontop" + index));
-            if (!MainScreen.topButtons[index])
-                throw new Error("Could not find buttontop" + index + " on page");
+            MainScreen.topButtons.push(HtmlUtils.loadFromId("buttontop" + index));
         }
 
-        MainScreen.nameDisplay = document.getElementById("nameDisplay");
-        if (!MainScreen.nameDisplay)
-            throw new Error("Could not find time day panel on page");
+        MainScreen.statsPanel = HtmlUtils.loadFromId("statsPanel");
+        MainScreen.nameDisplay = HtmlUtils.loadFromId("nameDisplay");
         MainScreen.statsPanels.push(new StatPanel("StrengthPanel"));
         MainScreen.statsPanels.push(new StatPanel("ToughnessPanel"));
         MainScreen.statsPanels.push(new StatPanel("SpeedPanel"));
@@ -104,22 +97,53 @@ export default class MainScreen {
         MainScreen.statsPanels.push(new StatPanel("LevelPanel"));
         MainScreen.statsPanels.push(new StatPanel("XpPanel"));
         MainScreen.statsPanels.push(new StatPanel("GemsPanel"));
-        for (let index = 0; index < 14; index++) {
-            if (!MainScreen.statsPanels[index])
-                throw new Error("Could not find panel " + index + " on page");
+
+        MainScreen.levelupIcon = HtmlUtils.loadFromId("levelupIcon");
+        MainScreen.timeDayPanel = HtmlUtils.loadFromId("timeDay");
+        MainScreen.timeHourPanel = HtmlUtils.loadFromId("timeHour");
+    }
+
+    // Top Buttons
+    public static showTopButton(buttonNumber: TopButton) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            HtmlUtils.showElement(MainScreen.topButtons[buttonNumber]);
         }
+    }
 
+    public static hideTopButton(buttonNumber: TopButton) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            HtmlUtils.hideElement(MainScreen.topButtons[buttonNumber]);
+        }
+    }
 
-        MainScreen.levelupIcon = document.getElementById("levelupIcon");
-        if (!MainScreen.levelupIcon)
-            throw new Error("Could not find level up icon on page");
-        MainScreen.timeDayPanel = document.getElementById("timeDay");
-        if (!MainScreen.timeDayPanel)
-            throw new Error("Could not find time day panel on page");
-        MainScreen.timeHourPanel = document.getElementById("timeHour");
-        if (!MainScreen.timeHourPanel)
-            throw new Error("Could not find time hour panel on page");
+    public static showTopButtons() {
+        for (let buttonNumber: number = 0; buttonNumber < 6; buttonNumber++) {
+            HtmlUtils.showElement(MainScreen.topButtons[buttonNumber]);
+        }
+    }
 
+    public static hideTopButtons() {
+        for (let buttonNumber: number = 0; buttonNumber < 6; buttonNumber++) {
+            HtmlUtils.hideElement(MainScreen.topButtons[buttonNumber]);
+        }
+    }
+
+    public static setTopButton(buttonNumber: TopButton, text: string, func: () => void, disabled: boolean = false) {
+        if (buttonNumber >= 0 && buttonNumber < 6) {
+            let button = MainScreen.topButtons[buttonNumber];
+            HtmlUtils.showElement(button);
+            button.textContent = text;
+            button.addEventListener('click', func);
+        }
+    }
+
+    // Stat Panel
+    public static hideStatsPanel() {
+        HtmlUtils.hideElement(this.statsPanel);
+    }
+
+    public static showStatsPanel() {
+        HtmlUtils.showElement(this.statsPanel);
     }
 
     public static setStat(statType: StatType, statCurrent: number, statMax: number = -1) {
@@ -142,6 +166,7 @@ export default class MainScreen {
         MainScreen.timeHourPanel.innerText = hour.toString();
     }
 
+    // Main text display
     public static text(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
         if (purgeText) {
             MainScreen.clearText();
@@ -158,62 +183,55 @@ export default class MainScreen {
         }
     }
 
+    public static html(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
+        if (purgeText) {
+            MainScreen.clearText();
+        }
+
+        text = this.parser.recursiveParser(text, parseAsMarkdown);
+
+        //OUTPUT!
+        if (purgeText) {
+            MainScreen.mainTextDisplay.innerHTML = text;
+        }
+        else {
+            MainScreen.mainTextDisplay.innerHTML += text;
+        }
+    }
+
     public static clearText() {
         MainScreen.mainTextDisplay.innerText = "";
     }
 
-    public static showTopButton(buttonNumber: TopButton) {
-        if (buttonNumber >= 0 && buttonNumber < 6) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "visible";
-        }
-    }
-
-    public static hideTopButton(buttonNumber: TopButton) {
-        if (buttonNumber >= 0 && buttonNumber < 6) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
-        }
-    }
-
-
+    // Bottom buttons
     public static showButton(buttonNumber: number) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "visible";
+            HtmlUtils.showElement(MainScreen.bottomButtons[buttonNumber]);
         }
     }
 
     public static showButtons() {
         for (let buttonNumber: number = 0; buttonNumber < 10; buttonNumber++) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "visible";
+            HtmlUtils.showElement(MainScreen.bottomButtons[buttonNumber]);
         }
     }
 
     public static hideButton(buttonNumber: number) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
+            HtmlUtils.hideElement(MainScreen.bottomButtons[buttonNumber]);
         }
     }
 
     public static hideButtons() {
         for (let buttonNumber: number = 0; buttonNumber < 10; buttonNumber++) {
-            MainScreen.bottomButtons[buttonNumber].style.visibility = "hidden";
-        }
-    }
-
-    public static addTopButton(buttonNumber: TopButton, text: string, func: () => void, disabled: boolean = false) {
-        if (buttonNumber >= 0 && buttonNumber < 6) {
-            let button = MainScreen.topButtons[buttonNumber];
-            if (button.style.visibility != "visible")
-                button.style.visibility = "visible";
-            button.textContent = text;
-            button.addEventListener('click', func);
+            HtmlUtils.hideElement(MainScreen.bottomButtons[buttonNumber]);
         }
     }
 
     public static addButton(buttonNumber: number, text: string, func: () => void, disabled: boolean = false) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
             let button = MainScreen.bottomButtons[buttonNumber];
-            if (button.style.visibility != "visible")
-                button.style.visibility = "visible";
+            HtmlUtils.showElement(button);
             button.textContent = text;
             button.addEventListener('click', func);
         }
@@ -223,5 +241,16 @@ export default class MainScreen {
         for (let index = 0; index < text.length; index++) {
             MainScreen.addButton(index, text[index], func[index]);
         }
+    }
+
+    public static doNext(func: () => void) {
+        MainScreen.hideButtons();
+        MainScreen.addButton(0, "Next", func);
+    }
+
+    public static doYesNo(func1: () => void, func2: () => void) {
+        MainScreen.hideButtons();
+        MainScreen.addButton(0, "Yes", func1);
+        MainScreen.addButton(1, "No", func2);
     }
 }
