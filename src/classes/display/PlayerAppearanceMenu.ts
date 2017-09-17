@@ -1052,7 +1052,7 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("\nLooking positively perverse, a " + player.lowerBody.cockSpot.list[0].pShortDesc + " adorns your " + player.cockDescript(0) + ".", false);
             }
         }
-        if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00286] == 1)
+        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00286) == 1)
             MainScreen.text("\nA magical, ruby-studded bar pierces your belly button, allowing you to summon Ceraph on a whim.", false);
         if (player.lowerBody.vaginaSpot.hasVagina()) {
             if (player.vaginas[0].labiaPierced > 0)
@@ -1068,7 +1068,7 @@ export default class PlayerAppearanceMenu {
         if (player.stats.gems == 1)
             MainScreen.text("\n\n<b>You have " + player.stats.gems + " shining gem, collected in your travels.", false);
         mainView.setOutputText(currentText);
-        //menu();
+        //MainScreen.hideButtons();
         //addButton(0,"Next",camp);
         flushOutputTextToGUI();
     }

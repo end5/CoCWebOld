@@ -6,7 +6,7 @@ export default class PerksMenu {
             MainScreen.text("<b>" + player.perk(temp).perkName + "</b> - " + player.perk(temp).perkDesc + "\n", false);
             temp++;
         }
-        menu();
+        MainScreen.hideButtons();
         if (player.perkPoints > 0) {
             MainScreen.text("\n<b>You have " + num2Text(player.perkPoints) + " perk point", false);
             if (player.perkPoints > 1) MainScreen.text("s", false);
@@ -22,15 +22,15 @@ export default class PerksMenu {
 
     public doubleAttackOptions(): void {
         MainScreen.clearText();
-        menu();
-        if (flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
+        MainScreen.hideButtons();
+        if (Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) == 0) {
             MainScreen.text("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
             MainScreen.text("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
             MainScreen.text("\nYou can change it to always single attack.");
             MainScreen.addButton(1, "Dynamic", doubleAttackDynamic);
             MainScreen.addButton(2, "Single", doubleAttackOff);
         }
-        else if (flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 1) {
+        else if (Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) == 1) {
             MainScreen.text("You will currently double attack until your strength exceeds sixty, and then single attack.");
             MainScreen.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
             MainScreen.text("\nYou can change it to always single attack.");
@@ -49,15 +49,15 @@ export default class PerksMenu {
     }
 
     public doubleAttackForce(): void {
-        flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 0;
+        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 0;
         doubleAttackOptions();
     }
     public doubleAttackDynamic(): void {
-        flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 1;
+        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 1;
         doubleAttackOptions();
     }
     public doubleAttackOff(): void {
-        flags[FlagEnum.DOUBLE_ATTACK_STYLE] = 2;
+        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 2;
         doubleAttackOptions();
     }
 

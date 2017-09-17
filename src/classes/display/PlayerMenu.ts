@@ -4,7 +4,7 @@ import Game, { GameState } from "../Game/Game";
 export default class PlayerMenu {
     public static display(): void {
         if (!inCombat) spriteSelect(-1);
-        MainScreen.addTopButton(TopButton.MainMenu, "New Game", charCreation.newGameGo);
+        MainScreen.setTopButton(TopButton.MainMenu, "New Game", charCreation.newGameGo);
         MainScreen.nameBox.visible = false;
         if (Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple) {
             CombatMenu.display();
@@ -20,7 +20,7 @@ export default class PlayerMenu {
             if (inRoomedDungeonResume != null) inRoomedDungeonResume();
             return;
         }
-        flags[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;
+        Flags.get(FlagEnum.PLAYER_PREGGO_WITH_WORMS) = 0;
         doCamp();
     }
 }

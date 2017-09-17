@@ -1,7 +1,7 @@
 export default class CombatMenu {
     public display(newRound: boolean = true): void { //If returning from a sub menu set newRound to false
         MainScreen.clearText();
-        flags[FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG] = 0;
+        Flags.get(FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG) = 0;
         MainScreen.hideTopButton(MainScreen);
         MainScreen.hideMenuButton(MainView.MENU_APPEARANCE);
         MainScreen.hideMenuButton(MainView.MENU_PERKS);
@@ -11,7 +11,7 @@ export default class CombatMenu {
         statScreenRefresh();
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         if (combatRoundOver()) return;
-        menu();
+        MainScreen.hideButtons();
         let attacks: Function = normalAttack;
         let magic: Function = (canUseMagic() ? magicMenu : null);
         let pSpecials: Function = physicalSpecials;

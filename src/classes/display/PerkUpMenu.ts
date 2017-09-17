@@ -7,12 +7,12 @@ export default class PerkUpMenu {
             MainScreen.text("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + num2Text(player.perkPoints) + " perk point");
             if (player.perkPoints > 1) MainScreen.text("s");
             MainScreen.text(".");
-            doNext(playerMenu);
+            MainScreen.doNext(playerMenu);
             return;
         }
         if (testingBlockExiting) {
-            menu();
-            MainScreen.addButton(0, "Next", perkSelect, perkList[rand(perkList.length)].perk);
+            MainScreen.hideButtons();
+            MainScreen.addButton(0, "Next", perkSelect, perkList[Utils.rand(perkList.length)].perk);
         }
         else {
             MainScreen.text("Please select a perk from the drop-down list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.\n\n");
@@ -25,7 +25,7 @@ export default class PerkUpMenu {
             }
 
             mainView.hideMenuButton(MainView.MENU_NEW_MAIN);
-            menu();
+            MainScreen.hideButtons();
             MainScreen.addButton(1, "Skip", perkSkip);
         }
     }
@@ -52,7 +52,7 @@ export default class PerkUpMenu {
         mainView.aCb.move(210, 85);
         MainScreen.text("You have selected the following perk:\n\n");
         MainScreen.text("<b>" + selected.perkName + ":</b> " + selected.perkLongDesc + "\n\nIf you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-        menu();
+        MainScreen.hideButtons();
         MainScreen.addButton(0, "Okay", perkSelect, selected);
         MainScreen.addButton(1, "Skip", perkSkip);
     }
@@ -248,7 +248,7 @@ export default class PerkUpMenu {
             HPChange(player.tou, false);
             statScreenRefresh();
         }
-        doNext(playerMenu);
+        MainScreen.doNext(playerMenu);
     }
 
     public levelUpGo(e: MouseEvent = null): void {
@@ -261,7 +261,7 @@ export default class PerkUpMenu {
             player.perkPoints++;
             MainScreen.text("<b>You are now level " + player.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
             player.XP -= (player.level - 1) * 100;
-            menu();
+            MainScreen.hideButtons();
             MainScreen.addButton(0, "Strength", levelUpStatStrength);
             MainScreen.addButton(1, "Toughness", levelUpStatToughness);
             MainScreen.addButton(2, "Speed", levelUpStatSpeed);
@@ -273,7 +273,7 @@ export default class PerkUpMenu {
         }
         else {
             MainScreen.text("<b>ERROR.  LEVEL UP PUSHED WHEN PC CANNOT LEVEL OR GAIN PERKS.  PLEASE REPORT THE STEPS TO REPRODUCE THIS BUG TO FENOXO@GMAIL.COM OR THE FENOXO.COM BUG REPORT FORUM.</b>");
-            doNext(playerMenu);
+            MainScreen.doNext(playerMenu);
         }
     }
 
@@ -281,7 +281,7 @@ export default class PerkUpMenu {
         dynStats("str", 5); //Gain +5 Str due to level
         MainScreen.clearText();
         MainScreen.text("Your muscles feel significantly stronger from your time adventuring.");
-        doNext(perkBuyMenu);
+        MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatToughness(): void {
@@ -290,21 +290,21 @@ export default class PerkUpMenu {
         statScreenRefresh();
         MainScreen.clearText();
         MainScreen.text("You feel tougher from all the fights you have endured.");
-        doNext(perkBuyMenu);
+        MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatSpeed(): void {
         dynStats("spe", 5); //Gain +5 speed due to level
         MainScreen.clearText();
         MainScreen.text("Your time in combat has driven you to move faster.");
-        doNext(perkBuyMenu);
+        MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatIntelligence(): void {
         dynStats("int", 5); //Gain +5 Intelligence due to level
         MainScreen.clearText();
         MainScreen.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
-        doNext(perkBuyMenu);
+        MainScreen.doNext(perkBuyMenu);
     }
 
 

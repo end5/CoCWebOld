@@ -1,15 +1,15 @@
 export default class GameOverMenu {
     public gameOver(clear: boolean = false): void { //Leaves text on screen unless clear is set to true
         if (testingBlockExiting) {
-            doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
+            MainScreen.doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
         }
         else {
             if (clear) MainScreen.clearText();
             MainScreen.text("\n\n<b>GAME OVER</b>");
-            menu();
+            MainScreen.hideButtons();
             MainScreen.addButton(0, "Game Over", gameOverMenuOverride);
             MainScreen.addButton(3, "NewGamePlus", charCreation.newGamePlus);
-            if (flags[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 || debug) MainScreen.addButton(4, "Debug Cheat", playerMenu);
+            if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG) == 1 || debug) MainScreen.addButton(4, "Debug Cheat", playerMenu);
             gameOverMenuOverride();
 
         }
