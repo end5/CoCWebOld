@@ -11,13 +11,13 @@ export default class EldritchStaff extends Weapon {
         while (player.perks.has("WizardsFocus"))
             player.perks.remove("WizardsFocus");
         player.perks.add(new Perk("WizardsFocus", 0.6, 0, 0, 0));
-        return this;
+        return super.equip(player);
     }
 
     public unequip(player: Player): Weapon {
         while (player.perks.has("WizardsFocus"))
             player.perks.remove("WizardsFocus");
-        return this;
+        return super.unequip(player);
     }
 }
 
