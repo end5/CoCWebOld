@@ -1,21 +1,21 @@
-﻿import ItemType from "./ItemType";
+﻿import Item from "./Item";
 
-export default class ItemStack {
+export default class ItemStack<T extends Item> {
     public static MAX_ITEM_AMOUNT = 5;
 
-    private _itemType: ItemType;
+    private _item: Item;
     private _quantity: number;
-    public constructor(itemType: ItemType = ItemType.Nothing, quantity: number = 0) {
-        this._itemType = itemType;
+    public constructor(item: T = null, quantity: number = 0) {
+        this._item = item;
         this._quantity = quantity;
     }
 
-    public get itemType(): ItemType {
-        return this._itemType;
+    public get item(): Item {
+        return this._item;
     }
 
-    public set itemType(itemType: ItemType) {
-        this._itemType = itemType == null ? ItemType.Nothing : itemType;
+    public set item(itemType: Item) {
+        this._item = itemType == null ? null : itemType;
     }
 
     public get quantity(): number {
@@ -23,10 +23,10 @@ export default class ItemStack {
     }
 
     public set quantity(value: number) {
-        if (this._itemType != ItemType.Nothing && value >= 0) {
+        if (this._item != null && value >= 0) {
             this._quantity = value;
             if (value == 0) {
-                this._itemType = ItemType.Nothing;
+                this._item = null;
             }
         }
     }

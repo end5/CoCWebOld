@@ -1,7 +1,7 @@
 ﻿import Library from "../Utilities/Library";
 import ItemTypeLib from "../Items/ItemTypeLib";
 import ConsumableLib from "../Items/Consumables/ConsumableLib";
-import UseableLib from "../Items/UseableLib";
+import ItemLib from "../Items/UseableLib";
 import WeaponLib from "../Items/Weapons/WeaponLib";
 import ArmorLib from "../Items/Armors/ArmorLib";
 import StatusAffectDescLib from "../Effects/StatusAffectDescLib";
@@ -12,7 +12,7 @@ export default class Libraries {
     public readonly weapons: WeaponLib;
     public readonly armor: ArmorLib;
     public readonly consumables: ConsumableLib;
-    public readonly useables: UseableLib;
+    public readonly useables: ItemLib;
     public readonly statusAffectDesc: StatusAffectDescLib;
     public readonly perkDesc: PerkDescLib;
 
@@ -21,7 +21,7 @@ export default class Libraries {
         this.weapons = new WeaponLib();
         this.armor = new ArmorLib();
         this.consumables = new ConsumableLib();
-        this.useables = new UseableLib();
+        this.useables = new ItemLib();
         this.statusAffectDesc = new StatusAffectDescLib();
         this.perkDesc = new PerkDescLib();
     }
