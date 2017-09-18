@@ -1,15 +1,12 @@
-import Weapon from "../Weapon";
+import Weapon from "./Weapon";
+import Player from "../../Player";
 
 export default class Fists extends Weapon {
-
     public constructor() {
         super("Fists  ", "Fists", "fists", "fists", "punch", 0);
     }
 
-    public useText(): void { } //No text for equipping fists
-
-    public playerRemove(): Weapon {
+    public unequip(player: Player): Weapon {
         return null;
     }
-
 }

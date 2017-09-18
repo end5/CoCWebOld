@@ -1,37 +1,35 @@
-import Useable from "../Useable";
+import Item from "../Item";
+import Player from "../../Player";
+import MainScreen from "../../display/MainScreen";
 
-export default class Weapon extends Useable //Equipable
+export default class Weapon extends Item
 {
-    private _verb: string;
-    private _attack: number;
-    private _perk: string;
-    private _displayname: string;
+    public readonly verb: string;
+    public readonly attack: number;
+    public readonly perk: string;
+    public readonly displayname: string;
 
-    public constructor(id: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = "") {
-        super(id, shortName, longName, value, description);
-        this._displayname = displayname;
-        this._verb = verb;
-        this._attack = attack;
-        this._perk = perk;
+    public constructor(key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = "") {
+        super(key, shortName, longName, value, description);
+        this.displayname = displayname;
+        this.verb = verb;
+        this.attack = attack;
+        this.perk = perk;
     }
 
-    public get verb(): string { return this._verb; }
-
-    public get attack(): number { return this._attack; }
-
-    public get perk(): string { return this._perk; }
-
-    public get displayname(): string { return this._displayname; }
-
-    public use() {
-        MainScreen.text("You equip " + this._longName + ".  ");
+    public canUse(player: Player): boolean {
+        return true;
     }
 
-    public playerEquip(): Weapon { //This item is being equipped by the player. Add any perks, etc. - This should only handle mechanics, not text output
+    public use(player: Player) {
+        MainScreen.text("You equip " + this.longName + ".  ");
+    }
+
+    public equip(player: Player): Weapon { //This item is being equipped by the player. Add any perks, etc. - This should only handle mechanics, not text output
         return this;
     }
 
-    public playerRemove(): Weapon { //This item is being removed by the player. Remove any perks, etc. - This should only handle mechanics, not text output
+    public unequip(player: Player): Weapon { //This item is being removed by the player. Remove any perks, etc. - This should only handle mechanics, not text output
         return this;
     }
 
