@@ -1,8 +1,8 @@
-import StatusAffectDesc from "../StatusAffectDesc";
-import StatusAffect from "../StatusAffect";
+import PerkDesc from "../PerkDesc";
+import Perk from "../Perk";
 
-export default class PiercedFertitePerk extends StatusAffectDesc {
-    public desc(params: StatusAffect = null): string {
+export default class PiercedFertitePerk extends PerkDesc {
+    public desc(params: Perk = null): string {
         return "Increases cum production by " + Math.round(2 * params.value1) + "% and fertility by " + Math.round(params.value1) + ".";
     }
 
