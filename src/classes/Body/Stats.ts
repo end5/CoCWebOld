@@ -14,10 +14,13 @@ export default class Stats implements SaveInterface {
     private _cor: number;
     private _fatigue: number;
 
+    //Special modifiers
+    public lustResisted: boolean;
+    public bimboIntReduction: boolean;
+
     //Combat Stats
     private _HP: number;
     private _lust: number;
-    public lustResisted: boolean;
 
     //Level Stats
     public XP: number;
@@ -36,10 +39,13 @@ export default class Stats implements SaveInterface {
         this._cor = 0;
         this._fatigue = 0;
 
+        //Special modifiers
+        this.lustResisted = true;
+        this.bimboIntReduction = false;
+
         //Combat Stats
         this._HP = 0;
         this._lust = 0;
-        this.lustResisted = true;
 
         //Level Stats
         this.XP = 0;
@@ -113,12 +119,15 @@ export default class Stats implements SaveInterface {
     }
 
     public set int(value: number) {
-        if (this.body.perks.has("FutaFaculties") || this.body.perks.has("BimboBrains") || this.body.perks.has("BroBrains")) {
-            if (value > 0)
-                value /= 2;
-            if (value < 0)
-                value *= 2;
-        }
+        if (!this.bimboIntReduction)
+            if (this.body.perks.has("FutaFaculties") || this.body.perks.has("BimboBrains") || this.body.perks.has("BroBrains")) {
+                if (value > 0)
+                    value /= 2;
+                if (value < 0)
+                    value *= 2;
+            }
+
+        this.bimboIntReduction = false;
 
         this._int += value;
 
@@ -135,16 +144,19 @@ export default class Stats implements SaveInterface {
     }
 
     public set lib(value: number) {
-        if (this.body.perks.has("FutaForm") || this.body.perks.has("BimboBody") || this.body.perks.has("BroBody")) {
-            if (value > 0)
-                value *= 2;
-            if (value < 0)
-                value /= 2;
-        }
+        if (!this.bimboIntReduction)
+            if (this.body.perks.has("FutaForm") || this.body.perks.has("BimboBody") || this.body.perks.has("BroBody")) {
+                if (value > 0)
+                    value *= 2;
+                if (value < 0)
+                    value /= 2;
+            }
         if (this.body.perks.has("ChiReflowLust") && value > 0)
             value *= UmasShop.NEEDLEWORK_LUST_LIBSENSE_MULTI;
         if (value > 0 && this.body.perks.has("PurityBlessing"))
             value *= 0.75;
+
+        this.bimboIntReduction = false;
 
         this._lib += value;
 
