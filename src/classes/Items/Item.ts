@@ -9,5 +9,7 @@ export default abstract class Item extends ItemDesc {
     abstract canUse(player: Player): boolean;
 
     abstract use(player: Player);
+
+    abstract useText(player: Player);
 }
 
