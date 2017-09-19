@@ -1,42 +1,48 @@
-import Useable from "./Useable";
+import Item from "../Item";
+import MainScreen from "../../display/MainScreen";
+import Game from "../../Game/Game";
+import Player from "../../Player";
 
-export default class Armor extends Useable //Equipable
-{
-    private _def: number;
-    private _perk: string;
-    private _displayname: string;
+export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
+
+export default class Armor extends Item {
+    public readonly defense: number;
+    public readonly armorClass: string;
+    public readonly displayName: string;
     private _supportsBulge: boolean;
 
-    constructor(id: string, shortName: string, displayname: string, longName: string, def: number, value: number = 0, description: string = null, perk: string = "", supportsBulge: boolean = false) {
-        super(id, shortName, longName, value, description);
-        this._displayname = displayname;
-        this._def = def;
-        this._perk = perk;
+    constructor(key: string, shortName: string, displayname: string, longName: string, defense: number, value: number = 0, description: string = null, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
+        super(key, shortName, longName, value, description);
+        this.displayName = displayname;
+        this.defense = defense;
+        this.armorClass = armorClass;
         this._supportsBulge = supportsBulge;
     }
 
-    public get def(): number { return this._def; }
+    public get supportsBulge(): boolean { return this._supportsBulge && Game.player.inventory.armorDescMod == ""; }
+    //For most clothes if the armorDescMod is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
-    public get perk(): string { return this._perk; }
+    public canUse(player: Player): boolean {
+        return true;
+    }
 
-    public get displayname(): string { return this._displayname; }
+    public use(player: Player) {
 
-    public get supportsBulge(): boolean { return this._supportsBulge && this.player.modArmorName == ""; }
-    //For most clothes if the modArmorName is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
+    }
 
-    public useText(): void {
+    public useText(player: Player): void {
         MainScreen.text("You equip " + this.longName + ".  ");
     }
 
-    public playerEquip(): Armor { //This item is being equipped by the player. Add any perks, etc. - This function should only handle mechanics, not text output
+    public equip(player: Player): Armor { //This item is being equipped by the player. Add any perks, etc. - This function should only handle mechanics, not text output
         return this;
     }
 
-    public playerRemove(): Armor { //This item is being removed by the player. Remove any perks, etc. - This function should only handle mechanics, not text output
-        while (this.player.perks.has("BulgeArmor"))
-            this.player.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
-        if (this.player.modArmorName.length > 0)
-            this.player.modArmorName = "";
+    public unequip(player: Player): Armor { //This item is being removed by the player. Remove any perks, etc. - This function should only handle mechanics, not text output
+        while (Game.player.perks.has("BulgeArmor"))
+            Game.player.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
+        if (Game.player.inventory.armorDescMod.length > 0)
+            Game.player.inventory.armorDescMod = "";
         return this;
     }
 
