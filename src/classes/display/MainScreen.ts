@@ -1,4 +1,5 @@
 ﻿import HtmlUtils from "../Utilities/HtmlUtils";
+import Player from "../Player";
 
 export enum StatType {
     Strength,
@@ -59,6 +60,8 @@ export enum TopButton {
     Appearance
 }
 
+export type ClickFunction = (() => void) | ((Player) => void);
+
 export default class MainScreen {
     private static mainTextDisplay: HTMLElement;
     private static bottomButtons: HTMLElement[];
@@ -69,17 +72,25 @@ export default class MainScreen {
     private static levelupIcon: HTMLElement;
     private static timeDayPanel: HTMLElement;
     private static timeHourPanel: HTMLElement;
+    private static topButtonFuncs: ClickFunction[];
+    private static bottomButtonFuncs: ClickFunction[];
 
     public constructor() {
         MainScreen.mainTextDisplay = HtmlUtils.loadFromId("mainTextDisplay");
+
         MainScreen.bottomButtons = [];
         for (let index = 0; index < 10; index++) {
             MainScreen.bottomButtons.push(HtmlUtils.loadFromId("button" + index));
         }
+        MainScreen.bottomButtonFuncs = [];
+        MainScreen.bottomButtonFuncs.length = 10;
+
         MainScreen.topButtons = [];
-        for (let index = 0; index < 10; index++) {
+        for (let index = 0; index < 6; index++) {
             MainScreen.topButtons.push(HtmlUtils.loadFromId("buttontop" + index));
         }
+        MainScreen.topButtonFuncs = [];
+        MainScreen.topButtonFuncs.length = 6;
 
         MainScreen.statsPanel = HtmlUtils.loadFromId("statsPanel");
         MainScreen.nameDisplay = HtmlUtils.loadFromId("nameDisplay");
@@ -101,6 +112,7 @@ export default class MainScreen {
         MainScreen.levelupIcon = HtmlUtils.loadFromId("levelupIcon");
         MainScreen.timeDayPanel = HtmlUtils.loadFromId("timeDay");
         MainScreen.timeHourPanel = HtmlUtils.loadFromId("timeHour");
+
     }
 
     // Top Buttons
@@ -128,12 +140,14 @@ export default class MainScreen {
         }
     }
 
-    public static setTopButton(buttonNumber: TopButton, text: string, func: () => void, disabled: boolean = false) {
+    public static setTopButton(buttonNumber: TopButton, text: string, func: ClickFunction, disabled: boolean = false) {
         if (buttonNumber >= 0 && buttonNumber < 6) {
             let button = MainScreen.topButtons[buttonNumber];
             HtmlUtils.showElement(button);
             button.textContent = text;
-            button.addEventListener('click', func);
+            button.removeEventListener('click', MainScreen.topButtonFuncs[buttonNumber]);
+            MainScreen.topButtonFuncs[buttonNumber] = func;
+            button.addEventListener('click', MainScreen.topButtonFuncs[buttonNumber]);
         }
     }
 
@@ -228,29 +242,35 @@ export default class MainScreen {
         }
     }
 
-    public static addButton(buttonNumber: number, text: string, func: () => void, disabled: boolean = false) {
+    public static addButton(buttonNumber: number, text: string, func: ClickFunction, disabled: boolean = false) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
             let button = MainScreen.bottomButtons[buttonNumber];
             HtmlUtils.showElement(button);
             button.textContent = text;
-            button.addEventListener('click', func);
-        }
+            button.removeEventListener('click', MainScreen.bottomButtonFuncs[buttonNumber]);
+            MainScreen.bottomButtonFuncs[buttonNumber] = func;
+            button.addEventListener('click', MainScreen.bottomButtonFuncs[buttonNumber]);
+       }
     }
 
-    public static displayChoices(text: string[], func: (() => void)[]) {
+    public static displayChoices(text: string[], func: ClickFunction[]) {
         for (let index = 0; index < text.length; index++) {
             MainScreen.addButton(index, text[index], func[index]);
         }
     }
 
-    public static doNext(func: () => void) {
+    public static addBackButton(name: string, func: ClickFunction) {
+        MainScreen.addButton(9, name, func);
+    }
+
+    public static doNext(func: ClickFunction) {
         MainScreen.hideButtons();
         MainScreen.addButton(0, "Next", func);
     }
 
-    public static doYesNo(func1: () => void, func2: () => void) {
+    public static doYesNo(yesFunc: ClickFunction, noFunc: ClickFunction) {
         MainScreen.hideButtons();
-        MainScreen.addButton(0, "Yes", func1);
-        MainScreen.addButton(1, "No", func2);
+        MainScreen.addButton(0, "Yes", yesFunc);
+        MainScreen.addButton(1, "No", noFunc);
     }
 }
