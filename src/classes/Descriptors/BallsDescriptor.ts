@@ -2,15 +2,16 @@
 import Body from "../Body/Body";
 
 export default class BallsDescriptor {
+    //ballsDescriptLight(forcedSize, true, this)
     /**
         * Describe creatures balls.
-        * @param    forcedSize    Force a description of the size of the balls
+        * @param    forceDisplaySize    Force a description of the size of the balls
         * @param    plural        Show plural forms
         * @param    creature        Monster, Player or NonPlayer
         * @param    withArticle    Show description with article in front
         * @return    Full description of balls
         */
-    public static describeBalls(forcedSize: boolean, plural: boolean, body: Body, withArticle: boolean = false): string {
+    public static describeBalls(forceDisplaySize: boolean, plural: boolean, body: Body, withArticle: boolean = false): string {
         if (body.lowerBody.balls == 0)
             return "prostate";
 
@@ -75,7 +76,7 @@ export default class BallsDescriptor {
             }
         }
         //size!
-        if (body.lowerBody.ballSize > 1 && (Utils.rand(3) <= 1 || forcedSize)) {
+        if (body.lowerBody.ballSize > 1 && (Utils.rand(3) <= 1 || forceDisplaySize)) {
             if (description) description += " ";
 
             if (body.lowerBody.ballSize >= 18)
@@ -113,7 +114,7 @@ export default class BallsDescriptor {
 
         }
         //Descriptive
-        if (body.hoursSinceCum >= 48 && Utils.rand(2) == 0 && !forcedSize) {
+        if (body.hoursSinceCum >= 48 && Utils.rand(2) == 0 && !forceDisplaySize) {
             if (description)
                 description += " ";
             options = ["overflowing",
@@ -123,7 +124,7 @@ export default class BallsDescriptor {
 
         }
         //lusty
-        if (body.stats.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forcedSize) {
+        if (body.stats.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forceDisplaySize) {
             options = ["eager",
                 "full",
                 "needy",
