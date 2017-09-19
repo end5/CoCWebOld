@@ -14,8 +14,8 @@ export default class ItemStack<T extends Item> {
         return this._item;
     }
 
-    public set item(itemType: Item) {
-        this._item = itemType == null ? null : itemType;
+    public set item(item: Item) {
+        this._item = item == null ? null : item;
     }
 
     public get quantity(): number {

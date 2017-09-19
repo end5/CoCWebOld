@@ -1,16 +1,17 @@
-﻿import ItemDesc from "./ItemDesc";
+﻿import Item from "./Item";
 import ItemStack from "./ItemStack";
 import Weapon from "./Weapons/Weapon";
 import Armor from "./Armors/Armor";
 
 export default class InventoryManager {
-    private itemSlots: ItemStack[];
+    private itemSlots: ItemStack<Item>[];
     private weapon: Weapon;
     private armor: Armor;
-
+    public armorDescMod: string;
 
     public constructor() {
         this.itemSlots = [];
+        this.armorDescMod = "";
     }
 
     public unlock(amount: number = 1) {
@@ -29,26 +30,26 @@ export default class InventoryManager {
         }
     }
 
-    public has(type: ItemDesc, minQuantity: number = 1): boolean {
-        return this.count(type) >= minQuantity;
+    public has(item: Item, minQuantity: number = 1): boolean {
+        return this.count(item) >= minQuantity;
     }
 
     public get length(): number {
         return this.itemSlots.length;
     }
 
-    public count(type: ItemDesc): number {
+    public count(item: Item): number {
         let count: number = 0;
         for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].itemType == type)
+            if (this.itemSlots[index].item == item)
                 count += this.itemSlots[index].quantity;
         }
         return count;
     }
 
-    public roomInExistingStack(type: ItemDesc): boolean {
+    public roomInExistingStack(item: Item): boolean {
     for (let index = 0; index < this.itemSlots.length; index++)
-            if (this.itemSlots[index].itemType == type && this.itemSlots[index].quantity != 0 && this.itemSlots[index].quantity < ItemStack.MAX_ITEM_AMOUNT)
+        if (this.itemSlots[index].item == item && this.itemSlots[index].quantity != 0 && this.itemSlots[index].quantity < ItemStack.MAX_ITEM_AMOUNT)
                 return true;
         return false;
     }
@@ -68,9 +69,9 @@ export default class InventoryManager {
     }
 
 
-    public destroyItems(type: ItemDesc, numOfItemToRemove: number): boolean {
+    public destroyItems(item: Item, numOfItemToRemove: number): boolean {
         for (let index = 0; index < this.itemSlots.length; index++)
-            if (this.itemSlots[index].itemType == type)
+            if (this.itemSlots[index].item == item)
                 while (this.itemSlots[index].quantity > 0 && numOfItemToRemove > 0) {
                     this.itemSlots[index].quantity--;
                     numOfItemToRemove--;
@@ -78,18 +79,18 @@ export default class InventoryManager {
         return numOfItemToRemove <= 0;
     }
 
-    private lowestQuantityItemStack(itemType: ItemDesc): ItemStack[] {
-        return this.itemSlots.filter((itemStack: ItemStack) => {
-            if (itemStack.itemType == itemType)
+    private lowestQuantityItemStack(item: Item): ItemStack<Item>[] {
+        return this.itemSlots.filter((itemStack: ItemStack<Item>) => {
+            if (itemStack.item == item)
                 return itemStack;
-        }).sort((a: ItemStack, b: ItemStack) => {
+        }).sort((a: ItemStack<Item>, b: ItemStack<Item>) => {
                 return b.quantity - a.quantity;
         });
     }
 
-    public consumeItem(itemType: ItemDesc, amount: number = 1) {
+    public consumeItem(itemType: Item, amount: number = 1) {
         if (this.count(itemType) >= amount) {
-            let lowestItemStacks: ItemStack[] = this.lowestQuantityItemStack(itemType);
+            let lowestItemStacks: ItemStack<Item>[] = this.lowestQuantityItemStack(itemType);
             while (amount > 0) {
                 if (lowestItemStacks[0].quantity == 0)
                     lowestItemStacks = this.lowestQuantityItemStack(itemType);
