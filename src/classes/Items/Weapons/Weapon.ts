@@ -22,6 +22,9 @@ export default class Weapon extends Item
     }
 
     public use(player: Player) {
+    }
+
+    public useText(player: Player) {
         MainScreen.text("You equip " + this.longName + ".  ");
     }
 
