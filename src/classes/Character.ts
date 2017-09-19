@@ -1,12 +1,63 @@
 ﻿import Body, { Gender } from "./Body/Body";
 import StatusAffect from "./StatusAffect";
-import { FaceType } from "./Modules/FaceModule";
+import { FaceType } from "./Body/Face";
 import Utils from "./Utilities/Utils";
-import { CockType as CockType } from "./Modules/Cock";
+import { CockType as CockType } from "./Body/Cock";
 import HeadDescriptor from "./Descriptors/HeadDescriptor";
 
 export default class Character extends Body
 {
+    public armorDefense(player: Player): number {
+        let armorDef: number = this._armor.defense;
+        //Blacksmith history!
+        if (armorDef > 0 && player.perks.has("HistorySmith")) {
+            armorDef = Math.round(armorDef * 1.1);
+            armorDef += 1;
+        }
+        //Skin armor perk
+        if (player.perks.has("ThickSkin")) {
+            armorDef += 2;
+            if (player.skinType > SkinType.PLAIN) armorDef += 1;
+        }
+        //If no skin armor perk scales rock
+        else {
+            if (player.skinType == SkinType.FUR) armorDef += 1;
+            if (player.skinType == SkinType.SCALES) armorDef += 3;
+        }
+        //'Thick' dermis descriptor adds 1!
+        if (player.skinAdj == "smooth") armorDef += 1;
+        //Agility boosts armor ratings!
+        if (player.perks.has("Agility")) {
+            if (this.armorClass == "Light")
+                armorDef += Math.round(player.stats.spe / 8);
+            else if (this.armorClass == "Medium")
+                armorDef += Math.round(player.stats.spe / 13);
+        }
+        //Berzerking removes armor
+        if (player.statusAffects.has("Berzerking")) {
+            armorDef = 0;
+        }
+        if (Game.monster.this.statusAffects.has("TailWhip")) {
+            armorDef -= Game.monster.this.statusAffects.get("TailWhip").value1;
+            if (armorDef < 0)
+                armorDef = 0;
+        }
+        return armorDef;
+    }
+
+    public weaponAttack(player: Player): number {
+        let attack: number = this._weapon.attack;
+        if (player.perks.has("WeaponMastery") && this.weaponPerk == "Large" && player.stats.str > 60)
+            attack *= 2;
+        if (player.perks.has("LightningStrikes") && player.stats.spe >= 60 && this.weaponPerk != "Large") {
+            attack += Math.round((player.stats.spe - 50) / 3);
+        }
+        if (player.statusAffects.has("Berzerking")) attack += 30;
+        attack += player.statusAffects.get("ChargeWeapon").value1;
+        return attack;
+    }
+
+
 	//Modify this.femininity!
 	public modFem(goal:number, strength:number = 1):string
 	{
