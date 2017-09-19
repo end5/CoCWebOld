@@ -15,4 +15,7 @@ export default class Perk extends Effect<PerkDesc> {
         super(perkDesc, value1, value2, value3, value4);
     }
 
+    public clone(): Perk {
+        return new Perk(this.objectKey, this.value1, this.value2, this.value3, this.value4);
+    }
 }
