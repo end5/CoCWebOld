@@ -1,8 +1,8 @@
 ﻿import StatusAffectDesc from "./StatusAffectDesc";
 import Game from "../Game/Game";
-import Effect from "./Effect";
+import ValueContainer from "../Utilities/ValueContainer";
 
-export default class StatusAffect extends Effect<StatusAffectDesc> {
+export default class StatusAffect extends ValueContainer<StatusAffectDesc> {
     public constructor(statusAffectDescKey: string, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
         let statusAffectDesc: StatusAffectDesc;
         if (!Game.libraries.statusAffectDesc.has(statusAffectDescKey)) {

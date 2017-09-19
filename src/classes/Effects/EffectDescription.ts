@@ -1,5 +1,4 @@
 import KeyObject from "../Utilities/KeyObject";
-import Effect from "./Effect";
 
 export default class EffectDescription extends KeyObject {
     public readonly name: string;
