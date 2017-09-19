@@ -39,7 +39,7 @@ export default class Cock implements SaveInterface {
         this._sock = "";
     }
 
-    public get cockArea(): number {
+    public cockArea(): number {
         return this._cockThickness * this._cockLength;
     }
 
