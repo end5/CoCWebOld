@@ -1,12 +1,12 @@
-﻿import Creature from "../Creature";
-import CockSpot from "../Modules/CockModule";
+﻿import Body from "../Body/Body";
+import CockSpot from "../Body/CockSpot";
+import Cock, { CockType } from "../Body/Cock";
 
 export default class CockModifiers {
-    public static killCocks(creature: Creature, deadCock: number): number {
-        let cocks: CockSpot = creature.lowerBody.cockSpot;
+    public static killCocks(body: Body, deadCock: number): number {
+        let cocks: CockSpot = body.lowerBody.cockSpot;
         //Count removal for text bits
         let removed: number = 0;
-        let temp: number;
         //Holds cock index
         let storedCock: number = 0;
         //Less than 0 = PURGE ALL
@@ -20,28 +20,106 @@ export default class CockModifiers {
             removed++;
             deadCock--;
         }
-        if (cocks.count() == 0 && creature.lowerBody.balls > 0) {
-            creature.lowerBody.balls = 0;
-            creature.lowerBody.ballSize = 1;
+        if (cocks.count() == 0 && body.lowerBody.balls > 0) {
+            body.lowerBody.balls = 0;
+            body.lowerBody.ballSize = 1;
         }
         return removed;
     }
 
-    public increaseCock(cockNum: number, lengthDelta: number): number {
-        bigCock: boolean = false;
+    public static growCock(cock: Cock, lengthDelta: number, bigCock: boolean): number {
+        if (lengthDelta == 0) {
+            console.trace("Whoops! growCock called with 0, aborting...");
+            return lengthDelta;
+        }
 
-        if (this.perks.has("BigCock"))
-            bigCock = true;
+        let threshhold: number = 0;
+        console.trace("growcock starting at:" + lengthDelta);
 
-        return cocks[cockNum].growCock(lengthDelta, bigCock);
+        if (lengthDelta > 0) { // growing
+            console.trace("and growing...");
+            threshhold = 24;
+            // BigCock Perk increases incoming change by 50% and adds 12 to the length before diminishing returns set in
+            if (bigCock) {
+                console.trace("growCock found BigCock Perk");
+                lengthDelta *= 1.5;
+                threshhold += 12;
+            }
+            // Not a human cock? Multiple the length before dimishing returns set in by 3
+            if (cock.cockType != CockType.HUMAN)
+                threshhold *= 2;
+            // Modify growth for cock socks
+            if (cock.sock == "scarlet") {
+                console.trace("growCock found Scarlet sock");
+                lengthDelta *= 1.5;
+            }
+            else if (cock.sock == "cobalt") {
+                console.trace("growCock found Cobalt sock");
+                lengthDelta *= .5;
+            }
+            // Do diminishing returns
+            if (cock.cockLength > threshhold)
+                lengthDelta /= 4;
+            else if (cock.cockLength > threshhold / 2)
+                lengthDelta /= 2;
+        }
+        else {
+            console.trace("and shrinking...");
+
+            threshhold = 0;
+            // BigCock Perk doubles the incoming change value and adds 12 to the length before diminishing returns set in
+            if (bigCock) {
+                console.trace("growCock found BigCock Perk");
+                lengthDelta *= 0.5;
+                threshhold += 12;
+            }
+            // Not a human cock? Add 12 to the length before dimishing returns set in
+            if (cock.cockType != CockType.HUMAN)
+                threshhold += 12;
+            // Modify growth for cock socks
+            if (cock.sock == "scarlet") {
+                console.trace("growCock found Scarlet sock");
+                lengthDelta *= 0.5;
+            }
+            else if (cock.sock == "cobalt") {
+                console.trace("growCock found Cobalt sock");
+                lengthDelta *= 1.5;
+            }
+            // Do diminishing returns
+            if (cock.cockLength > threshhold)
+                lengthDelta /= 3;
+            else if (cock.cockLength > threshhold / 2)
+                lengthDelta /= 2;
+        }
+
+        console.trace("then changing by: " + lengthDelta);
+
+        cock.cockLength += lengthDelta;
+
+        if (cock.cockLength < 1)
+            cock.cockLength = 1;
+
+        if (cock.cockThickness > cock.cockLength * .33)
+            cock.cockThickness = cock.cockLength * .33;
+
+        return lengthDelta;
     }
 
-    public increaseEachCock(lengthDelta: number): number {
-        totalGrowth: number = 0;
+    public static increaseCock(body: Body, cockNum: number, lengthDelta: number): number {
+        let bigCock: boolean = false;
 
-        for (i:number = 0; i < cocks.count(); i++) {
-            console.trace("increaseEachCock at: " + i);
-            totalGrowth += increaseCock(i as Number, lengthDelta);
+        if (body.perks.has("BigCock"))
+            bigCock = true;
+
+        return CockModifiers.growCock(body.lowerBody.cockSpot.list[cockNum], lengthDelta, bigCock);
+    }
+
+    public static increaseEachCock(body: Body, lengthDelta: number): number {
+        let totalGrowth: number = 0;
+
+        for (let index: number = 0; index < body.lowerBody.cockSpot.count(); index++) {
+            console.trace("increaseEachCock at: " + index);
+            totalGrowth += CockModifiers.increaseCock(body, index, lengthDelta);
         }
 
         return totalGrowth;
