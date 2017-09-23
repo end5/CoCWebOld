@@ -1,8 +1,8 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
+import MainScreen from "../../display/MainScreen";
 
 export default class DeBimbo extends Consumable {
-
     public constructor() {
         super("Debimbo", "Debimbo", "a bottle marked as 'Debimbo'", 250);
     }
@@ -15,7 +15,8 @@ export default class DeBimbo extends Consumable {
     }
 
     public canUse(player: Player): boolean {
-        if (player.perks.has("BimboBrains") || player.perks.has("FutaFaculties")) return true;
+        if (player.perks.has("BimboBrains") || player.perks.has("FutaFaculties"))
+            return true;
         MainScreen.text("You can't use this right now, and it's too expensive to waste!\n\n");
         return false;
     }
@@ -29,7 +30,6 @@ export default class DeBimbo extends Consumable {
             MainScreen.text("\n\n(<b>Perk Removed:  Futa Faculties - Your intelligence and speech patterns are no longer limited to that of a futanari bimbo.</b>)");
             player.perks.remove("FutaFaculties");
         }
-        return (false);
     }
 
     public useText() {

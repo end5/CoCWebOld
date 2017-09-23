@@ -1,13 +1,19 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
-import Utils from "../../Utilities/Utils";
+import MainScreen from "../../display/MainScreen";
 import Flags, { FlagEnum } from "../../Game/Flags";
-import { SkinType } from "../../Creature";
-import { AntennaeType, HornType } from "../../Modules/HeadModule";
-import { LowerBodyType, TailType } from "../../Modules/LowerBodyModule";
-import Perk from "../../Perks/Perk";
-import Cock, { CockType } from "../../Modules/Cock";
-import { WingType } from "../../Modules/UpperBodyModule";
+import Utils from "../../Utilities/Utils";
+import { SkinType } from "../../Body/Body";
+import { AntennaeType, HornType } from "../../Body/Head";
+import { LowerBodyType, TailType } from "../../Body/LowerBody";
+import Perk from "../../Effects/Perk";
+import { WingType } from "../../Body/UpperBody";
+import Cock, { CockType } from "../../Body/Cock";
+import HeadDescriptor from "../../Descriptors/HeadDescriptor";
+import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import ButtDescriptor from "../../Descriptors/ButtDescriptor";
+import CockDescriptor from "../../Descriptors/CockDescriptor";
+import PlayerDescriptor from "../../Descriptors/PlayerDescriptor";
 
 export default class BeeHoney extends Consumable {
     private static PURE_HONEY_VALUE: number = 40;
@@ -70,8 +76,9 @@ export default class BeeHoney extends Consumable {
             else { //Child is on the line, will become a faerie with this drink
                 MainScreen.text("\n\nAt first you feel your baby struggle against the honey, then it seems to grow content and enjoy it.");
             }
-            Flags.sub(FlagEnum.PREGNANCY_CORRUPTION, 1);
-            if (pure) return (false); //No transformative effects for the player because the pure honey was absorbed by the baby - Special honey will keep on giving
+            Flags.decrease(FlagEnum.PREGNANCY_CORRUPTION, 1);
+            if (pure)
+                return (false); //No transformative effects for the player because the pure honey was absorbed by the baby - Special honey will keep on giving
         }
         //Corruption reduction
         if (changes < changeLimit && pure) { //Special honey will also reduce corruption, but uses different text and is handled separately
@@ -96,7 +103,7 @@ export default class BeeHoney extends Consumable {
         //bee item corollary:
         if (changes < changeLimit && player.upperBody.head.hairType == 4 && Utils.rand(2) == 0) {
             //-insert anemone hair removal into them under whatever criteria you like, though hair removal should precede abdomen growth; here's some sample text:
-            MainScreen.text("\n\nAs you down the sticky-sweet honey, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels and smells like the honey you just ate; you watch as it dissolves into many thin strands coated in the sugary syrup.  <b>Your hair is back to normal (well, once you wash the honey out)!</b>");
+            MainScreen.text("\n\nAs you down the sticky-sweet honey, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels and smells like the honey you just ate; you watch as it dissolves into many thin stUtils.rands coated in the sugary syrup.  <b>Your hair is back to normal (well, once you wash the honey out)!</b>");
             player.upperBody.head.hairType = 0;
             changes++;
         }
@@ -112,7 +119,7 @@ export default class BeeHoney extends Consumable {
         //Appearance Stuff
         //Hair Color
         if (changes < changeLimit && (player.upperBody.head.hairColor != "shiny black" && player.upperBody.head.hairColor != "black and yellow") && player.upperBody.head.hairLength > 10 && Utils.chance(50)) {
-            MainScreen.text("\n\nYou feel your scalp tingling, and you grab your hair in a panic, pulling a strand forward.  ");
+            MainScreen.text("\n\nYou feel your scalp tingling, and you grab your hair in a panic, pulling a stUtils.rand forward.  ");
             if (Utils.rand(9) == 0) player.upperBody.head.hairColor = "black and yellow";
             else player.upperBody.head.hairColor = "shiny black";
             MainScreen.text("Your hair is now " + player.upperBody.head.hairColor + ", just like a bee-girl's!");
@@ -122,16 +129,16 @@ export default class BeeHoney extends Consumable {
         if (changes < changeLimit && player.upperBody.head.hairLength < 25 && Utils.rand(3) == 0) {
             MainScreen.text("\n\nFeeling a bit off-balance, you discover your hair has lengthened, ");
             player.upperBody.head.hairLength += Utils.rand(4) + 1;
-            MainScreen.text("becoming " + getGame().hairDescript() + ".");
+            MainScreen.text("becoming " + HeadDescriptor.describeHair(player) + ".");
             changes++;
         }
         //-Remove extra breast rows
-        if (changes < changeLimit && player.upperBody.chest.list.length > 2 && Utils.rand(3) == 0 && !Flags.has[FlagEnum.HYPER_HAPPY]) {
+        if (changes < changeLimit && player.upperBody.chest.list.length > 2 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
             changes++;
-            MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + getGame().breastDescript(player.upperBody.chest.count() - 1) + " shrink down, disappearing completely into your ");
+            MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(player.upperBody.chest.list[player.upperBody.chest.count() - 1]) + " shrink down, disappearing completely into your ");
             if (player.upperBody.chest.list.length >= 3) MainScreen.text("abdomen");
             else MainScreen.text("chest");
-            MainScreen.text(". The " + getGame().nippleDescript(player.upperBody.chest.list[player.upperBody.chest.list.length - 1]) + "s even fade until nothing but ");
+            MainScreen.text(". The " + BreastDescriptor.describeNipple(player, player.upperBody.chest.list[player.upperBody.chest.list.length - 1]) + "s even fade until nothing but ");
             if (player.skinType == SkinType.FUR) MainScreen.text(player.upperBody.head.hairColor + " " + player.skinDesc);
             else MainScreen.text(player.skinTone + " " + player.skinDesc);
             MainScreen.text(" remains. <b>You've lost a row of breasts!</b>");
@@ -140,7 +147,7 @@ export default class BeeHoney extends Consumable {
         }
         //Antennae
         if (changes < changeLimit && player.upperBody.head.antennae == AntennaeType.NONE && player.upperBody.head.horns == 0 && Utils.rand(3) == 0) {
-            MainScreen.text("\n\nYour head itches momentarily as two floppy antennae sprout from your " + getGame().hairDescript() + ".");
+            MainScreen.text("\n\nYour head itches momentarily as two floppy antennae sprout from your " + HeadDescriptor.describeHair(player) + ".");
             player.upperBody.head.antennae = AntennaeType.BEE;
             changes++;
         }
@@ -159,7 +166,7 @@ export default class BeeHoney extends Consumable {
         }
         //-Nipples reduction to 1 per tit.
         if (player.upperBody.chest.averageNipplesPerBreast() > 1 && changes < changeLimit && Utils.rand(4) == 0) {
-            MainScreen.text("\n\nA chill runs over your " + getGame().allBreastsDescript() + " and vanishes.  You stick a hand under your " + player.armorName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            MainScreen.text("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " and vanishes.  You stick a hand under your " + player.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1) MainScreen.text("'breast'.");
             else MainScreen.text("breast.");
             changes++;
@@ -177,8 +184,8 @@ export default class BeeHoney extends Consumable {
         }
         //Bee butt - 66% lower chance if already has a tail
         if (changes < changeLimit && player.lowerBody.tailType != TailType.BEE_ABDOMEN && (player.lowerBody.tailType == TailType.NONE || Utils.rand(1.5) == 0) && Utils.rand(4) == 0) {
-            if (player.lowerBody.tailType > TailType.NONE) MainScreen.text("\n\nPainful swelling just above your " + getGame().buttDescript() + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
-            else MainScreen.text("\n\nPainful swelling just above your " + getGame().buttDescript() + " doubles you over.  It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt.  The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide.  You sigh as your stinger slides into place with a 'snick', finishing the transformation.  <b>You have a bee's abdomen.</b>");
+            if (player.lowerBody.tailType > TailType.NONE) MainScreen.text("\n\nPainful swelling just above your " + ButtDescriptor.describeButt(player) + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
+            else MainScreen.text("\n\nPainful swelling just above your " + ButtDescriptor.describeButt(player) + " doubles you over.  It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt.  The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide.  You sigh as your stinger slides into place with a 'snick', finishing the transformation.  <b>You have a bee's abdomen.</b>");
             player.lowerBody.tailType = TailType.BEE_ABDOMEN;
             player.lowerBody.tailVenom = 10;
             player.lowerBody.tailRecharge = 2;
@@ -206,8 +213,8 @@ export default class BeeHoney extends Consumable {
         //Grow new bee wings if player has none.
         if (changes < changeLimit && (player.upperBody.wingType == WingType.NONE || player.upperBody.wingType == WingType.SHARK_FIN) && Utils.rand(4)) {
             changes++;
-            if (player.upperBody.wingType == WingType.SHARK_FIN) MainScreen.text("\n\nYou feel an itching on your large back-fin as something begins growing there.  You twist and contort yourself, trying to scratch and bring yourself relief, and failing miserably.  A sense of relief erupts from you as you feel something new grow out from your fin.  You hastily remove the top portion of your " + player.armorName + " and marvel as a pair of small bee-like wings sprout from your back, replacing the fin that once grew there.  Tenderly flexing your new muscles, you find you can flap them quite fast.  Unfortunately you can't seem to flap your little wings fast enough to fly, but they would certainly slow a fall.  A few quick modifications to your " + player.armorName + " later and you are ready to continue your journey with <b>your new bee wings</b>.");
-            else MainScreen.text("\n\nYou feel an itching between your shoulder-blades as something begins growing there.  You twist and contort yourself, trying to scratch and bring yourself relief, and failing miserably.  A sense of relief erupts from you as you feel something new grow out from your body.  You hastily remove the top portion of your " + player.armorName + " and marvel as a pair of small bee-like wings sprout from your back.  Tenderly flexing your new muscles, you find you can flap them quite fast.  Unfortunately you can't seem to flap your little wings fast enough to fly, but they would certainly slow a fall.  A few quick modifications to your " + player.armorName + " later and you are ready to continue your journey with <b>your new bee wings</b>.");
+            if (player.upperBody.wingType == WingType.SHARK_FIN) MainScreen.text("\n\nYou feel an itching on your large back-fin as something begins growing there.  You twist and contort yourself, trying to scratch and bring yourself relief, and failing miserably.  A sense of relief erupts from you as you feel something new grow out from your fin.  You hastily remove the top portion of your " + player.inventory.armor.displayName + " and marvel as a pair of small bee-like wings sprout from your back, replacing the fin that once grew there.  Tenderly flexing your new muscles, you find you can flap them quite fast.  Unfortunately you can't seem to flap your little wings fast enough to fly, but they would certainly slow a fall.  A few quick modifications to your " + player.inventory.armor.displayName + " later and you are ready to continue your journey with <b>your new bee wings</b>.");
+            else MainScreen.text("\n\nYou feel an itching between your shoulder-blades as something begins growing there.  You twist and contort yourself, trying to scratch and bring yourself relief, and failing miserably.  A sense of relief erupts from you as you feel something new grow out from your body.  You hastily remove the top portion of your " + player.inventory.armor.displayName + " and marvel as a pair of small bee-like wings sprout from your back.  Tenderly flexing your new muscles, you find you can flap them quite fast.  Unfortunately you can't seem to flap your little wings fast enough to fly, but they would certainly slow a fall.  A few quick modifications to your " + player.inventory.armor.displayName + " later and you are ready to continue your journey with <b>your new bee wings</b>.");
             player.upperBody.wingType = WingType.BEE_LIKE_SMALL;
             player.upperBody.wingDesc = "small bee-like";
         }
@@ -232,17 +239,17 @@ export default class BeeHoney extends Consumable {
                 player.stats.sens += 10;
             }
             else if (player.lowerBody.cockSpot.count() > 1) {
-                MainScreen.text("\n\nThe effects of the honey move towards your groin, and into your " + player.multiCockDescriptLight() + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + player.cockDescript(biggest) + " is absorbed into your " + player.cockDescript(0) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + player.cockDescript(0) + " seems a lot more sensative now...");
-                player.lowerBody.cockSpot.list[0].cockLength += 5 * Math.sqrt(0.2 * player.lowerBody.cockSpot.biggestCocks[0].cockArea);
-                player.lowerBody.cockSpot.list[0].cockThickness += Math.sqrt(0.2 * player.lowerBody.cockSpot.biggestCocks[0].cockArea);
+                MainScreen.text("\n\nThe effects of the honey move towards your groin, and into your " + CockDescriptor.describeMultiCockShort(player) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.biggestCocks[0]) + " is absorbed into your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " seems a lot more sensative now...");
+                player.lowerBody.cockSpot.list[0].cockLength += 5 * Math.sqrt(0.2 * player.lowerBody.cockSpot.biggestCocks[0].cockArea());
+                player.lowerBody.cockSpot.list[0].cockThickness += Math.sqrt(0.2 * player.lowerBody.cockSpot.biggestCocks[0].cockArea());
                 player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.biggestCocks[0]);
                 player.stats.sens += 5;
             }
-            else if (player.lowerBody.cockSpot.list[0].cockArea < 100) {
-                MainScreen.text("\n\nYour " + player.cockDescript(0) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + player.armorName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + player.cockDescript(0) + " has both grown much longer and wider!  <b>");
-                if (player.lowerBody.cockSpot.list[0].cockArea <= 20)
+            else if (player.lowerBody.cockSpot.list[0].cockArea() < 100) {
+                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + player.inventory.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " has both grown much longer and wider!  <b>");
+                if (player.lowerBody.cockSpot.list[0].cockArea() <= 20)
                     MainScreen.text("It now swings as low as your knees!");
-                else if (player.lowerBody.cockSpot.list[0].cockArea <= 50)
+                else if (player.lowerBody.cockSpot.list[0].cockArea() <= 50)
                     MainScreen.text("While erect, your massive member fills the lower half of your vision.");
                 else MainScreen.text("Your member is now simply huge, you wonder what in the world could actually take your massive size now?");
                 MainScreen.text("</b>");
@@ -250,8 +257,8 @@ export default class BeeHoney extends Consumable {
                 player.lowerBody.cockSpot.list[0].cockThickness += 0.1 * Utils.rand(5) + 0.5; //0.5 to 1 inches in thickness
                 player.stats.sens += 5;
             }
-            else if (player.lowerBody.cockSpot.list[0].cockType != CockType.BEE && player.race() == "bee-morph") {
-                MainScreen.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + player.armorName + " and watch in fascination as your " + player.cockDescript(0) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
+            else if (player.lowerBody.cockSpot.list[0].cockType != CockType.BEE && PlayerDescriptor.describeRace(player) == "bee-morph") {
+                MainScreen.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + player.inventory.armor.displayName + " and watch in fascination as your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
                 MainScreen.text("It is entirely different from the usual feeling you get when you’re cock grows larger from imbibing transformative substances.  When the changes stop, the tip is shaped like a typical human mushroom cap covered in fine bee hair, but it feels nothing like what you’d expect a human dick to feel like.  Your whole length is incredibly sensitive, and touching it gives you incredible stimulation, but you’re sure that no matter how much you rub it, you aren’t going to cum by yourself.  You want cool honey covering it, you want tight walls surrounding it, you want to fertilize hundreds of eggs with it.  These desires are almost overwhelming, and it takes a lot of will not to just run off in search of the bee girl that gave you that special honey right now.  This isn’t good.\n\n");
                 MainScreen.text("<b>You now have a bee cock!</b>");
                 player.lowerBody.cockSpot.list[0].cockType = CockType.BEE;
@@ -260,7 +267,7 @@ export default class BeeHoney extends Consumable {
                 player.stats.sens += 15;
             }
             else {
-                MainScreen.text("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + player.cockDescript(0) + " grow slightly under your " + player.armorName + ".");
+                MainScreen.text("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " grow slightly under your " + player.inventory.armor.displayName + ".");
                 player.lowerBody.cockSpot.list[0].cockLength += 0.1 * Utils.rand(10) + 1;
                 player.lowerBody.cockSpot.list[0].cockThickness += 0.1 * Utils.rand(2) + 0.1;
                 player.stats.sens += 3;
