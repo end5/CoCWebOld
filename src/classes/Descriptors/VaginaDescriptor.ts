@@ -4,7 +4,7 @@ import Body, { SkinType } from "../Body/Body";
 import Vagina, { VaginaLooseness, VaginaWetness, VaginaType } from "../Body/Vagina";
 
 export default class VaginaDescriptor {
-    public static describe(body: Body, vagina: Vagina): string {
+    public static describeVagina(body: Body, vagina: Vagina): string {
         let description: string = "";
 
         //tightness descript - 40% display rate

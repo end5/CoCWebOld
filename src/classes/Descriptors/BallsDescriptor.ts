@@ -177,6 +177,10 @@ export default class BallsDescriptor {
         return description;
     }
 
+    public static describeBallsShort(body: Body, forceDisplaySize: boolean = true): string {
+        return BallsDescriptor.describeBalls(forceDisplaySize, true, body);
+    }
+
     //Returns random description of scrotum
     public static describeSack(body: Body): string {
         if (body.lowerBody.cockSpot.balls == 0)

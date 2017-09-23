@@ -30,6 +30,9 @@ export default class VaginaSpot implements SaveInterface {
         return this._vaginas.length > 0 ? true : false;
     }
 
+    public isVirgin(): boolean {
+        return this.NotVirgin.length == 0 && this._vaginas.length > 0;
+    }
 
 
     public get LoosenessMost(): Vagina[] {

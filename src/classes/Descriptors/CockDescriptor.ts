@@ -598,8 +598,9 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCockShort(body: Body, cocks: CockSpot): string {
+    public static describeMultiCockShort(body: Body): string {
         let description: string = "";
+        let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
@@ -631,8 +632,9 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCock(body: Body, cocks: CockSpot): string {
+    public static describeMultiCock(body: Body): string {
         let description: string = "";
+        let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
         let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
 
