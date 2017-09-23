@@ -1,5 +1,6 @@
 ﻿import HtmlUtils from "../Utilities/HtmlUtils";
 import Player from "../Player";
+import Game from "../Game/Game";
 
 export enum StatType {
     Strength,
@@ -60,7 +61,10 @@ export enum TopButton {
     Appearance
 }
 
-export type ClickFunction = (() => void) | ((Player) => void);
+export interface ClickFunction {
+    (player: Player): void;
+
+}
 
 export default class MainScreen {
     private static mainTextDisplay: HTMLElement;
@@ -72,8 +76,8 @@ export default class MainScreen {
     private static levelupIcon: HTMLElement;
     private static timeDayPanel: HTMLElement;
     private static timeHourPanel: HTMLElement;
-    private static topButtonFuncs: ClickFunction[];
-    private static bottomButtonFuncs: ClickFunction[];
+    private static topButtonFuncs: EventListener[];
+    private static bottomButtonFuncs: EventListener[];
 
     public constructor() {
         MainScreen.mainTextDisplay = HtmlUtils.loadFromId("mainTextDisplay");
@@ -146,7 +150,9 @@ export default class MainScreen {
             HtmlUtils.showElement(button);
             button.textContent = text;
             button.removeEventListener('click', MainScreen.topButtonFuncs[buttonNumber]);
-            MainScreen.topButtonFuncs[buttonNumber] = func;
+            MainScreen.topButtonFuncs[buttonNumber] = function (evnt: Event) {
+                func(Game.player);
+            };
             button.addEventListener('click', MainScreen.topButtonFuncs[buttonNumber]);
         }
     }
