@@ -1,19 +1,56 @@
 ﻿import Character from "./Character"
 import Utils from "./Utilities/Utils";
-import StatusAffect from "./StatusAffect";
-import { SkinType } from "./Creature";
-import ItemType from "./Items/ItemType";
-import InventoryManager from "./Items/InventoryManager";
+import { SkinType } from "./Body/Body";
+import Item from "./Items/Item";
+import Flags, { FlagEnum } from "./Game/Flags";
+import { FaceType, TongueType } from "./Body/Face";
+import { TailType } from "./Body/LowerBody";
+import { ButtLooseness, ButtWetness } from "./Body/Butt";
+import { HornType } from "./Body/Head";
+import { WingType } from "./Body/UpperBody";
+import KeyItem from "./Items/KeyItem";
 
 export default class Player extends Character {
 
     public constructor() {
         super();
+        // Reset all standard stats
+        this.stats.str = 15;
+        this.stats.tou = 15;
+        this.stats.spe = 15;
+        this.stats.int = 15;
+        this.stats.sens = 15;
+        this.stats.lib = 15;
+        this.stats.cor = 0;
+        this.stats.lust = 15;
+
+        //kGAMECLASS.notes = "No Notes Available.";
+        this.stats.XP = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP);
+        this.stats.level = 1;
+        this.stats.HP = this.maxHP();
+        this.stats.gems = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS);
+        this.skinType = SkinType.PLAIN;
+        this.upperBody.head.face.faceType = FaceType.HUMAN;
+        this.lowerBody.tailType = TailType.NONE;
+        this.upperBody.head.face.tongueType = TongueType.HUMAN;
+        this.skinDesc = "skin";
+        this.cumMultiplier = 1;
+        this.hoursSinceCum = 0;
+        this.lowerBody.butt.analLooseness = ButtLooseness.VIRGIN;
+        this.lowerBody.butt.analWetness = ButtWetness.DRY;
+        this.lowerBody.butt.fullness = 0;
+        this.stats.fatigue = 0;
+        this.upperBody.head.horns = HornType.NONE;
+        this.lowerBody.tailVenom = 0;
+        this.lowerBody.tailRecharge = 0;
+        this.upperBody.wingType = WingType.NONE;
+        this.upperBody.wingDesc = "non-existant";
+
+        // Inventory
+        this.inventory.items.unlock(6);
+        this.keyItems = [];
     }
 
-    //Autosave
-    public slotName: string = "VOID";
-    public autoSave: boolean = false;
 
     //Lust vulnerability
     //TODO: Kept for backwards compatibility reasons but should be phased out.
@@ -39,9 +76,15 @@ export default class Player extends Character {
     }
 
     // Inventory
+    public keyItems: KeyItem[];
 
-    public inventoryManager: InventoryManager;
-
+    public hasKeyItem(objectKey: string): boolean {
+        for (let index = 0; index < this.keyItems.length; index++) {
+            if (this.keyItems[index].objectKey == name)
+                return true;
+        }
+        return false;
+    }
 
     public reduceDamage(damage: number): number {
         damage = damage - Utils.rand(this.stats.tou) - this.armorDef;
@@ -60,7 +103,7 @@ export default class Player extends Character {
         //Take damage you masochist!
         if (this.perks.has("Masochist") && this.stats.lib >= 60) {
             damage = Math.round(damage * .7);
-            this.stats.lus = 2;
+            this.stats.lust = 2;
             //Dont let it round too far down!
             if (damage < 1)
                 damage = 1;

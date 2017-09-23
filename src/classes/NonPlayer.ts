@@ -1,20 +1,5 @@
-package classes.classes 
-{
-	import classes.Character;
-	import classes.CoC;
+import Character from "./Character";
 
-	/**
-	 * ...
-	 * @author Yoffy
-	 */
-	public class NonPlayer extends Character
-	{
-		
-		public NonPlayer(game:CoC)
-		{
-			super(game);
-		}
-		
-	}
+export default class NonPlayer extends Character {
 
 }

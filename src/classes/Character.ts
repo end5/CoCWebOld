@@ -1,40 +1,49 @@
-﻿import Body, { Gender } from "./Body/Body";
-import StatusAffect from "./StatusAffect";
+﻿import Body, { Gender, SkinType } from "./Body/Body";
+import StatusAffect from "./Effects/StatusAffect";
 import { FaceType } from "./Body/Face";
 import Utils from "./Utilities/Utils";
 import { CockType as CockType } from "./Body/Cock";
 import HeadDescriptor from "./Descriptors/HeadDescriptor";
+import CharacterInventory from "./Inventory/CharacterInventory";
+import Game from "./Game/Game";
 
 export default class Character extends Body
 {
-    public armorDefense(player: Player): number {
-        let armorDef: number = this._armor.defense;
+    public readonly inventory: CharacterInventory;
+
+    public constructor() {
+        super();
+        this.inventory = new CharacterInventory();
+    }
+
+    public armorDefense(): number {
+        let armorDef: number = this.inventory.armor.defense;
         //Blacksmith history!
-        if (armorDef > 0 && player.perks.has("HistorySmith")) {
+        if (armorDef > 0 && this.perks.has("HistorySmith")) {
             armorDef = Math.round(armorDef * 1.1);
             armorDef += 1;
         }
         //Skin armor perk
-        if (player.perks.has("ThickSkin")) {
+        if (this.perks.has("ThickSkin")) {
             armorDef += 2;
-            if (player.skinType > SkinType.PLAIN) armorDef += 1;
+            if (this.skinType > SkinType.PLAIN) armorDef += 1;
         }
         //If no skin armor perk scales rock
         else {
-            if (player.skinType == SkinType.FUR) armorDef += 1;
-            if (player.skinType == SkinType.SCALES) armorDef += 3;
+            if (this.skinType == SkinType.FUR) armorDef += 1;
+            if (this.skinType == SkinType.SCALES) armorDef += 3;
         }
         //'Thick' dermis descriptor adds 1!
-        if (player.skinAdj == "smooth") armorDef += 1;
+        if (this.skinAdj == "smooth") armorDef += 1;
         //Agility boosts armor ratings!
-        if (player.perks.has("Agility")) {
-            if (this.armorClass == "Light")
-                armorDef += Math.round(player.stats.spe / 8);
-            else if (this.armorClass == "Medium")
-                armorDef += Math.round(player.stats.spe / 13);
+        if (this.perks.has("Agility")) {
+            if (this.inventory.armor.armorClass == "Light")
+                armorDef += Math.round(this.stats.spe / 8);
+            else if (this.inventory.armor.armorClass == "Medium")
+                armorDef += Math.round(this.stats.spe / 13);
         }
         //Berzerking removes armor
-        if (player.statusAffects.has("Berzerking")) {
+        if (this.statusAffects.has("Berzerking")) {
             armorDef = 0;
         }
         if (Game.monster.this.statusAffects.has("TailWhip")) {
@@ -45,15 +54,15 @@ export default class Character extends Body
         return armorDef;
     }
 
-    public weaponAttack(player: Player): number {
-        let attack: number = this._weapon.attack;
-        if (player.perks.has("WeaponMastery") && this.weaponPerk == "Large" && player.stats.str > 60)
+    public weaponAttack(): number {
+        let attack: number = this.inventory.weapon.attack;
+        if (this.perks.has("WeaponMastery") && this.inventory.weapon.perk == "Large" && this.stats.str > 60)
             attack *= 2;
-        if (player.perks.has("LightningStrikes") && player.stats.spe >= 60 && this.weaponPerk != "Large") {
-            attack += Math.round((player.stats.spe - 50) / 3);
+        if (this.perks.has("LightningStrikes") && this.stats.spe >= 60 && this.inventory.weapon.perk != "Large") {
+            attack += Math.round((this.stats.spe - 50) / 3);
         }
-        if (player.statusAffects.has("Berzerking")) attack += 30;
-        attack += player.statusAffects.get("ChargeWeapon").value1;
+        if (this.statusAffects.has("Berzerking")) attack += 30;
+        attack += this.statusAffects.get("ChargeWeapon").value1;
         return attack;
     }
 

@@ -1,10 +1,9 @@
-﻿//CoC Creature.as
-import KeyItem from "./KeyItem";
-import Weapon from "./Items/Weapons/Weapon";
-import Armor from "./Items/Armors/Armor";
-import InventoryManager from "./Items/InventoryManager";
+﻿import Body from "./Body/Body";
+import ComponentList from "./Utilities/ComponentList";
+import KeyItem from "./Items/KeyItem";
+import CharacterInventory from "./Inventory/CharacterInventory";
 
-export default class Creature extends BodyModule {
+export default class Creature extends Body {
     //Short refers to player name and monster name. BEST VARIABLE NAME EVA!
     //"a" refers to how the article "a" should appear in text. 
     private _short: string = "You";
@@ -20,12 +19,12 @@ export default class Creature extends BodyModule {
 
     public keyItems: ComponentList<KeyItem>;
 
-    public inventoryManager: InventoryManager;
+    public inventoryManager: CharacterInventory;
 
     public constructor() {
         super();
         this.keyItems = new ComponentList<KeyItem>();
-        this.inventoryManager = new InventoryManager();
+        this.inventoryManager = new CharacterInventory();
     }
 }
 
