@@ -7,7 +7,7 @@ export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
 export default class Armor extends Item {
     public readonly defense: number;
-    public readonly armorClass: string;
+    public readonly armorClass: ArmorClass;
     public readonly displayName: string;
     private _supportsBulge: boolean;
 
