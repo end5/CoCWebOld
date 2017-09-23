@@ -31,5 +31,16 @@ export default class ItemStack<T extends Item> {
         }
     }
 
+    public split(amount: number): ItemStack<T> {
+        if (this.quantity == 0) {
+            return null;
+        }
+        else if (amount > 0) {
+            let quantity: number = this.quantity - amount > 0 ? this.quantity - amount : 0;
+            let returnItemStack: ItemStack<T> = new ItemStack<Item>(this.item, quantity);
+            this.quantity -= quantity;
 
+            return returnItemStack;
+        }
+    }
 }
