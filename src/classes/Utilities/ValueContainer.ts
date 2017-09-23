@@ -1,7 +1,7 @@
 import KeyObject from "./KeyObject";
 
 export default abstract class ValueContainer<T extends KeyObject> extends KeyObject {
-    private keyObject: KeyObject;
+    public readonly object: T;
     public value1: number;
     public value2: number;
     public value3: number;
@@ -9,7 +9,7 @@ export default abstract class ValueContainer<T extends KeyObject> extends KeyObj
 
     public constructor(keyObject: T, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
         super(keyObject.objectKey);
-        this.keyObject = keyObject
+        this.object = keyObject
         this.value1 = value1;
         this.value2 = value2;
         this.value3 = value3;
