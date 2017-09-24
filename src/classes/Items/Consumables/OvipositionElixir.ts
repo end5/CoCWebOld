@@ -1,7 +1,9 @@
 import Consumable from "./Consumable";
 import Utils from "../../Utilities/Utils";
 import Player from "../../Player";
-import StatusAffect from "../../StatusAffect";
+import StatusAffect from "../../Effects/StatusAffect";
+import MainScreen from "../../display/MainScreen";
+import { PregnancyType } from "../../Body/Pregnancy";
 
 export default class OvipositionElixir extends Consumable {
 

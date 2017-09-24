@@ -1,8 +1,10 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import Utils from "../../Utilities/Utils";
-import { FlagEnum } from "../../Game/Flags";
-import StatusAffect from "../../StatusAffect";
+import { FlagEnum, Flags } from "../../Game/Flags";
+import StatusAffect from "../../Effects/StatusAffect";
+import MainScreen from "../../display/MainScreen";
+import { PregnancyType } from "../../Body/Pregnancy";
 
 export default class PhoukaWhiskey extends Consumable {
 		
@@ -34,7 +36,8 @@ export default class PhoukaWhiskey extends Consumable {
 			switch (this.phoukaWhiskeyDrink(player)) {
 				case 0: //Player isn't pregnant
 					MainScreen.text("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");
-					game.dynStats("cor", Utils.rand(2) + 1, "lus", Utils.rand(8) + 1); //These gains are permanent
+                    player.stats.cor += Utils.rand(2) + 1; //These gains are permanent
+                    player.stats.lust += Utils.rand(8) + 1;
 					break;
 				case 1: //Child is a phouka or satyr, loves alcohol
 					MainScreen.text("You uncork the bottle and drink some whiskey, hoping it will help with the gnawing hunger for alcohol you've had since this baby started growing inside you.\n\nYou down the booze in one shot and a wave of contentment washes over you.  It seems your passenger enjoyed the meal.");
@@ -45,9 +48,8 @@ export default class PhoukaWhiskey extends Consumable {
 				case 3: //Child is a faerie, hates phouka whiskey
 					MainScreen.text("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
 			}
-			game.flags[FlagEnum.PREGNANCY_CORRUPTION]++; //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
+			Flags.increase(FlagEnum.PREGNANCY_CORRUPTION); //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
 			this.phoukaWhiskeyAddStatus(player);
-			return(false);
         }
         
 		public phoukaWhiskeyAcceptable(player:Player): number
@@ -78,8 +80,8 @@ export default class PhoukaWhiskey extends Consumable {
 			//			3 = Player is pregnant with a faerie that will remain a faerie after this drink
 			if ((player.pregnancyIncubation == 0) && (player.buttPregnancyIncubation == 0)) return 0;
 			if (player.pregnancyType == PregnancyType.FAERIE) {
-				if (game.flags[FlagEnum.PREGNANCY_CORRUPTION] == 0) return 2;
-				if (game.flags[FlagEnum.PREGNANCY_CORRUPTION] < 0) return 3;
+				if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) == 0) return 2;
+				if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) < 0) return 3;
 			}
 			return 1; //Pregnancy has to be either a satyr or a phouka
 		}
@@ -100,14 +102,20 @@ export default class PhoukaWhiskey extends Consumable {
 				player.statusAffects.get("PhoukaWhiskeyAffect").value3 = 256 * libidoChange + sensChange;
 				player.statusAffects.get("PhoukaWhiskeyAffect").value4 = 256 * speedChange + intChange;
 				MainScreen.text("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
-				game.dynStats("lib", libidoChange, "sens", -sensChange, "spe", -speedChange, "int", -intChange);
+                player.stats.lib += libidoChange;
+                player.stats.sens -= sensChange;
+                player.stats.spe -= speedChange;
+                player.stats.int -= intChange;
 			}
 			else { //First time
 				player.statusAffects.add(new StatusAffect("PhoukaWhiskeyAffect", 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange));
 					//The four stats we’re affecting get paired together to save space. This way we don’t need a second StatusAffect to store more info.
-				game.dynStats("lib", libidoChange, "sens", -sensChange, "spe", -speedChange, "int", -intChange);
-			}
-			game.statScreenRefresh();
+                player.stats.lib += libidoChange;
+                player.stats.sens -= sensChange;
+                player.stats.spe -= speedChange;
+                player.stats.int -= intChange;
+            }
+            MainScreen.updateStats(player);
         }
 		
 		public phoukaWhiskeyExpires(player:Player)
@@ -120,7 +128,11 @@ export default class PhoukaWhiskey extends Consumable {
 			let libidoChange: number = (libidoSensCombined - sensChange) / 256;
 			let intChange: number = intSpeedCombined & 255;
 			let speedChange: number = (intSpeedCombined - intChange) / 256;
-			game.dynStats("lib", -libidoChange , "sens", sensChange, "spe", speedChange, "int", intChange); //Get back all the stats you lost
+			//Get back all the stats you lost
+            player.stats.lib -= libidoChange;
+            player.stats.sens += sensChange;
+            player.stats.spe += speedChange;
+            player.stats.int += intChange;
 			player.statusAffects.remove("PhoukaWhiskeyAffect");
 			if (numDrunk > 3)
 				MainScreen.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
@@ -128,7 +140,7 @@ export default class PhoukaWhiskey extends Consumable {
 				MainScreen.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
 			else
 				MainScreen.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
-			game.statScreenRefresh();
+            MainScreen.updateStats(player);
 		}
     }
 

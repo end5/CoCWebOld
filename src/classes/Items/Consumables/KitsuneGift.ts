@@ -1,6 +1,7 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import Utils from "../../Utilities/Utils";
+import MainScreen from "../../display/MainScreen";
 
 export default class KitsuneGift extends Consumable {
 
@@ -15,7 +16,7 @@ export default class KitsuneGift extends Consumable {
     public use(player: Player) {
         MainScreen.clearText();
         MainScreen.text("Curiosity gets the best of you, and you decide to open the package.  After all, what's the worst that could happen?\n\n");
-        //Opening the gift randomly results in one of the following:
+        //Opening the gift Utils.randomly results in one of the following:
         switch (Utils.rand(12)) {
             //[Fox Jewel]
             case 0:
@@ -125,7 +126,7 @@ export default class KitsuneGift extends Consumable {
                 game.inventory.takeItem(game.useables.B_CHITN, game.inventory.inventoryMenu);
                 return (true);
 
-            default: trace("Kitsune's gift roll foobar...");
+            default: console.trace("Kitsune's gift roll foobar...");
         }
         return (false); //Any other case does not have a sub-menu.
     }

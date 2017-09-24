@@ -1,7 +1,9 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import Flags, { FlagEnum } from "../../Game/Flags";
-import { HairType } from "../../Modules/HeadModule";
+import MainScreen from "../../display/MainScreen";
+import { HairType } from "../../Body/Head";
+import HeadDescriptor from "../../Descriptors/HeadDescriptor";
 
 export default class HairExtensionSerum extends Consumable {
 
@@ -32,7 +34,7 @@ export default class HairExtensionSerum extends Consumable {
         }
         if (Flags.get(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD) > 0 && player.upperBody.head.hairType != HairType.ANEMONE) {
             Flags.set(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD, 0);
-            MainScreen.text("\n\n<b>Somehow you know that your " + player.hairDescript() + " is growing again.</b>");
+            MainScreen.text("\n\n<b>Somehow you know that your " + HeadDescriptor.describeHair(player) + " is growing again.</b>");
         }
         if (Flags.get(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING) < 7) Flags.set(FlagEnum.INCREASED_HAIR_GROWTH_TIME_REMAINING, 7);
         return (false);

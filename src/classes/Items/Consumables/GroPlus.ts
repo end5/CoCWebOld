@@ -129,5 +129,6 @@ export default class GroPlus extends Consumable {
         MainScreen.clearText();
         MainScreen.text("You put the vial away.\n\n");
         InventoryDisplay.reverseAction();
-    }
+        MainScreen.doNext(PlayerInventoryMenu.display);
+   }
 }

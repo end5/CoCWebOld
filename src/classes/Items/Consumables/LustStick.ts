@@ -1,7 +1,8 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
-import StatusAffect from "../../StatusAffect";
 import Utils from "../../Utilities/Utils";
+import MainScreen from "../../display/MainScreen";
+import StatusAffect from "../../Effects/StatusAffect";
 
 export default class LustStick extends Consumable {
 

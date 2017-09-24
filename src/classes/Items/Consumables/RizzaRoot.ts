@@ -1,10 +1,12 @@
 import Consumable from "./Consumable";
 import Utils from "../../Utilities/Utils";
 import Player from "../../Player";
+import MainScreen from "../../display/MainScreen";
+import HeadDescriptor from "../../Descriptors/HeadDescriptor";
 
 export default class RizzaRoot extends Consumable {
     public constructor() {
-        super("RizzaRt", "Rizza Root", "a tube of rizza root strands", 10, "A small ceramic tube full of fine red root strands.  They smell something like citrus fruit.");
+        super("RizzaRt", "Rizza Root", "a tube of rizza root stUtils.rands", 10, "A small ceramic tube full of fine red root stUtils.rands.  They smell something like citrus fruit.");
     }
 
     public canUse(player: Player): boolean {
@@ -35,7 +37,7 @@ export default class RizzaRoot extends Consumable {
         if ((changes < changeLimit) && (player.upperBody.head.earType != 4) && (Utils.rand(4) == 0)) {
             player.upperBody.head.earType = 4;
             changes++;
-            MainScreen.text("\n\nA weird tingling runs through your scalp as your " + player.hairDescript() + " shifts slightly.  You reach up and your hand bumps against <b>your new pointed elfin ears</b>.  You bet they look cute!");
+            MainScreen.text("\n\nA weird tingling runs through your scalp as your " + HeadDescriptor.describeHair(player) + " shifts slightly.  You reach up and your hand bumps against <b>your new pointed elfin ears</b>.  You bet they look cute!");
         }
         if ((changes < changeLimit) && (player.tallness < 108)) {
             player.tallness += changeLimit - changes + Utils.rand(2); //Add remaining changes as additional height
