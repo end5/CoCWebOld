@@ -27,7 +27,29 @@ export default class CockModifiers {
         return removed;
     }
 
-    public static growCock(cock: Cock, lengthDelta: number, bigCock: boolean): number {
+    public static growEachCock(body: Body, lengthDelta: number): number {
+        let totalGrowth: number = 0;
+
+        for (let index: number = 0; index < body.lowerBody.cockSpot.count(); index++) {
+            console.trace("increaseEachCock at: " + index);
+            totalGrowth += CockModifiers.growCock(body, body.lowerBody.cockSpot.list[index], lengthDelta);
+        }
+
+        return totalGrowth;
+    }
+
+    /**
+     * Increases size of cock. Returnshow much the cock has grown length wise.
+     * @param cock
+     * @param lengthDelta
+     * @param bigCock
+     */
+    public static growCock(body: Body, cock: Cock, lengthDelta: number): number {
+        let bigCock: boolean = false;
+
+        if (body.perks.has("BigCock"))
+            bigCock = true;
+
         if (lengthDelta == 0) {
             console.trace("Whoops! growCock called with 0, aborting...");
             return lengthDelta;
@@ -105,25 +127,73 @@ export default class CockModifiers {
         return lengthDelta;
     }
 
-    public static increaseCock(body: Body, cockNum: number, lengthDelta: number): number {
-        let bigCock: boolean = false;
-
-        if (body.perks.has("BigCock"))
-            bigCock = true;
-
-        return CockModifiers.growCock(body.lowerBody.cockSpot.list[cockNum], lengthDelta, bigCock);
-    }
-
-    public static increaseEachCock(body: Body, lengthDelta: number): number {
-        let totalGrowth: number = 0;
-
-        for (let index: number = 0; index < body.lowerBody.cockSpot.count(); index++) {
-            console.trace("increaseEachCock at: " + index);
-            totalGrowth += CockModifiers.increaseCock(body, index, lengthDelta);
+    public thickenCock(cock: Cock, increase: number): number {
+        let amountGrown: number = 0;
+        let temp: number = 0;
+        if (increase > 0) {
+            while (increase > 0) {
+                if (increase < 1)
+                    temp = increase;
+                else
+                    temp = 1;
+                //Cut thickness growth for huge dicked
+                if (cock.cockThickness > 1 && cock.cockLength < 12) {
+                    temp /= 4;
+                }
+                if (cock.cockThickness > 1.5 && cock.cockLength < 18)
+                    temp /= 5;
+                if (cock.cockThickness > 2 && cock.cockLength < 24)
+                    temp /= 5;
+                if (cock.cockThickness > 3 && cock.cockLength < 30)
+                    temp /= 5;
+                //proportional thickness diminishing returns.
+                if (cock.cockThickness > cock.cockLength * .15)
+                    temp /= 3;
+                if (cock.cockThickness > cock.cockLength * .20)
+                    temp /= 3;
+                if (cock.cockThickness > cock.cockLength * .30)
+                    temp /= 5;
+                //massive thickness limiters
+                if (cock.cockThickness > 4)
+                    temp /= 2;
+                if (cock.cockThickness > 5)
+                    temp /= 2;
+                if (cock.cockThickness > 6)
+                    temp /= 2;
+                if (cock.cockThickness > 7)
+                    temp /= 2;
+                //Start adding up bonus length
+                amountGrown += temp;
+                cock.cockThickness += temp;
+                temp = 0;
+                increase--;
+            }
+            increase = 0;
         }
-
-        return totalGrowth;
+        else if (increase < 0) {
+            while (increase < 0) {
+                temp = -1;
+                //Cut length growth for huge dicked
+                if (cock.cockThickness <= 1)
+                    temp /= 2;
+                if (cock.cockThickness < 2 && cock.cockLength < 10)
+                    temp /= 2;
+                //Cut again for massively dicked
+                if (cock.cockThickness < 3 && cock.cockLength < 18)
+                    temp /= 2;
+                if (cock.cockThickness < 4 && cock.cockLength < 24)
+                    temp /= 2;
+                //MINIMUM Thickness of OF .5!
+                if (cock.cockThickness <= .5)
+                    temp = 0;
+                //Start adding up bonus length
+                amountGrown += temp;
+                cock.cockThickness += temp;
+                temp = 0;
+                increase++;
+            }
+        }
+        console.trace("thickenCock called and thickened by: " + amountGrown);
+        return amountGrown;
     }
-
-
 }
