@@ -12,18 +12,18 @@ export default class GenderDescriptor {
             return eunuch;
     }
 
-    public static mf(creature: Creature, male: string, female: string) {
-        if (creature.lowerBody.cockSpot.hasCock()) {
-            if (creature.lowerBody.vaginaSpot.hasVagina())
+    public static mf(body: Body, male: string, female: string) {
+        if (body.lowerBody.cockSpot.hasCock()) {
+            if (body.lowerBody.vaginaSpot.hasVagina())
                 return female;
             else
                 return male;
         }
         else {
-            if (creature.lowerBody.vaginaSpot.hasVagina())
+            if (body.lowerBody.vaginaSpot.hasVagina())
                 return female;
             else {
-                if (creature.upperBody.chest.hasFemaleBreasts())
+                if (body.upperBody.chest.hasFemaleBreasts())
                     return female;
                 else
                     return male;

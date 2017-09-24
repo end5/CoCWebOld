@@ -310,11 +310,11 @@ export default class CockDescriptor {
         }
         //Length/Thickness done.  Moving on to special animal characters/lust stuff.
         /*Animal Fillers - turned off due to duplication in noun segment
-            else if(type == 1 && descripts == 0 && Utils.Utils.rand(2) == 0) {
-            if(Utils.Utils.rand(2) == 0) descript += "flared ";
+            else if(type == 1 && descripts == 0 && Utils.rand(2) == 0) {
+            if(Utils.rand(2) == 0) descript += "flared ";
             else descript += "musky ";
             }
-            else if(type == 2 && descripts == 0 && Utils.Utils.rand(2) == 0) {
+            else if(type == 2 && descripts == 0 && Utils.rand(2) == 0) {
             descript += "musky ";
             }*/
         //FINAL FALLBACKS - lust descriptors
