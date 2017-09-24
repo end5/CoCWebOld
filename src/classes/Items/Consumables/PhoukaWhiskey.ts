@@ -1,7 +1,7 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import Utils from "../../Utilities/Utils";
-import { FlagEnum, Flags } from "../../Game/Flags";
+import Flags, { FlagEnum } from "../../Game/Flags";
 import StatusAffect from "../../Effects/StatusAffect";
 import MainScreen from "../../display/MainScreen";
 import { PregnancyType } from "../../Body/Pregnancy";

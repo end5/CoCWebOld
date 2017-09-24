@@ -4,16 +4,25 @@ import ButtDescriptor from "../../Descriptors/ButtDescriptor";
 import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
 import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
 import BallsDescriptor from "../../Descriptors/BallsDescriptor";
+import MainScreen from "../../display/MainScreen";
+import CockModifiers from "../../Modifiers/CockModifiers";
+import CockDescriptor from "../../Descriptors/CockDescriptor";
+import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
+import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import BreastModifier from "../../Modifiers/BreastModifiers";
+import { SkinType } from "../../Body/Body";
+import HeadDescriptor from "../../Descriptors/HeadDescriptor";
+import Flags, { FlagEnum } from "../../Game/Flags";
 
 //butt expansion
 export function brownEgg(large: boolean, player: Player): void {
     MainScreen.text("You devour the egg, momentarily sating your hunger.\n\n", true);
     if (!large) {
-        MainScreen.text("You feel a bit of additional weight on your backside as your " + ButtDescriptor.buttDescription(player) + " gains a bit more padding.", true);
+        MainScreen.text("You feel a bit of additional weight on your backside as your " + ButtDescriptor.describeButt(player) + " gains a bit more padding.", true);
         player.lowerBody.butt.buttRating++;
     }
     else {
-        MainScreen.text("Your " + ButtDescriptor.buttDescription(player) + " wobbles, nearly throwing you off balance as it grows much bigger!", true);
+        MainScreen.text("Your " + ButtDescriptor.describeButt(player) + " wobbles, nearly throwing you off balance as it grows much bigger!", true);
         player.lowerBody.butt.buttRating += 2 + Utils.rand(3);
     }
     if (Utils.chance(33)) {
@@ -28,7 +37,7 @@ export function brownEgg(large: boolean, player: Player): void {
 export function purpleEgg(large: boolean, player: Player): void {
     MainScreen.text("You devour the egg, momentarily sating your hunger.\n\n", true);
     if (!large || player.lowerBody.hipRating > 20) {
-        MainScreen.text("You stumble as you feel your " + LowerBodyDescriptor.hipDescription(player) + " widen, altering your gait slightly.", false);
+        MainScreen.text("You stumble as you feel your " + LowerBodyDescriptor.describeHips(player) + " widen, altering your gait slightly.", false);
         player.lowerBody.hipRating++;
     }
     else {
@@ -57,7 +66,7 @@ export function pinkEgg(large: boolean, player: Player): void {
         if (player.lowerBody.balls > 0) {
             if (player.lowerBody.ballSize > 15) {
                 player.lowerBody.ballSize -= 8;
-                MainScreen.text("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + BallsDescriptor.describe(true, true, player) + " are much smaller.</b>\n\n", false);
+                MainScreen.text("Your scrotum slowly shrinks, settling down at a MUCH smaller size.  <b>Your " + BallsDescriptor.describeBalls(true, true, player) + " are much smaller.</b>\n\n", false);
             }
             else {
                 player.lowerBody.balls = 0;
@@ -67,7 +76,7 @@ export function pinkEgg(large: boolean, player: Player): void {
         }
         //Fertility boost
         if (player.lowerBody.vaginaSpot.hasVagina() && player.fertility < 40) {
-            MainScreen.text("You feel a tingle deep inside your body, just above your " + VaginaDescriptor.vaginaDescript(player, player.lowerBody.vaginaSpot.list[0]) + ", as if you were becoming more fertile.\n\n", false);
+            MainScreen.text("You feel a tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.list[0]) + ", as if you were becoming more fertile.\n\n", false);
             player.fertility += 5;
         }
     }
@@ -75,9 +84,9 @@ export function pinkEgg(large: boolean, player: Player): void {
     else {
         //Remove a dick
         if (player.lowerBody.cockSpot.hasCock()) {
-            player.killCocks(-1);
+            CockModifiers.killCocks(player, -1);
             MainScreen.text("\n\n", false);
-            player.genderCheck();
+            player.updateGender();
         }
         if (player.lowerBody.balls > 0) {
             player.lowerBody.balls = 0;
@@ -86,7 +95,7 @@ export function pinkEgg(large: boolean, player: Player): void {
         }
         //Fertility boost
         if (player.lowerBody.vaginaSpot.count() > 0 && player.fertility < 70) {
-            MainScreen.text("You feel a powerful tingle deep inside your body, just above your " + vaginaDescript(0) + ". Instinctively you know you have become more fertile.\n\n", false);
+            MainScreen.text("You feel a powerful tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.list[0]) + ". Instinctively you know you have become more fertile.\n\n", false);
             player.fertility += 10;
         }
     }
@@ -98,64 +107,72 @@ export function pinkEgg(large: boolean, player: Player): void {
 
 //Maleness
 export function blueEgg(large: boolean, player: Player): void {
-    let temp2: number = 0;
-    let temp3: number = 0;
+    let cockAmountLengthened: number = 0;
+    let cockAmountThickened: number = 0;
     MainScreen.text("You devour the egg, momentarily sating your hunger.", true);
     if (!large) {
         //Kill pussies!
         if (player.lowerBody.vaginaSpot.count() > 0) {
             MainScreen.text("\n\nYour vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it! <b> Your vagina is gone!</b>", false);
-            player.removeVagina(0, 1);
-            player.lowerBody.vaginaSpot.list[0].clitLength = .5;
-            player.genderCheck();
+            player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.list[0]);
+            // -- Don't understand this
+            //player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+            player.updateGender();
         }
         //Dickz
         if (player.lowerBody.cockSpot.count() > 0) {
             //Multiz
             if (player.lowerBody.cockSpot.count() > 1) {
-                MainScreen.text("\n\nYour " + multiCockDescript() + " fill to full-size... and begin growing obscenely.", false);
-                temp = player.lowerBody.cockSpot.count();
-                while (temp > 0) {
-                    temp--;
-                    temp2 = player.increaseCock(temp, Utils.rand(3) + 2);
-                    temp3 = player.lowerBody.cockSpot.list[temp].thickenCock(1);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.", false);
+
+                for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
+                    cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.list[index], Utils.rand(3) + 2);
+                    cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.list[index], 1);
                 }
-                player.lengthChange(temp2, player.lowerBody.cockSpot.count());
+                cockAmountLengthened /= player.lowerBody.cockSpot.count();
+                cockAmountThickened /= player.lowerBody.cockSpot.count();
+
+                CockChangeDescriptor.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
+
                 //Display the degree of thickness change.
-                if (temp3 >= 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
-                    else MainScreen.text("\n\nYour " + multiCockDescriptLight() + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
+                if (cockAmountThickened >= 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
+                    else MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
                 }
-                if (temp3 <= .5) {
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
-                    else MainScreen.text("\n\nYour " + multiCockDescriptLight() + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
+                if (cockAmountThickened <= .5) {
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
+                    else MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
                 }
-                if (temp3 > .5 && temp2 < 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
+                if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
                 }
-                dynStats("lib", 1, "sen", 1, "lus", 20);
+                player.stats.lib += 1;
+                player.stats.sens += 1;
+                player.stats.lust += 20;
             }
             //SINGLEZ
             if (player.lowerBody.cockSpot.count() == 1) {
-                MainScreen.text("\n\nYour " + multiCockDescriptLight() + " fills to its normal size... and begins growing... ", false);
-                temp3 = player.lowerBody.cockSpot.list[0].thickenCock(1);
-                temp2 = player.increaseCock(0, Utils.rand(3) + 2);
-                player.lengthChange(temp2, 1);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing... ", false);
+                cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.list[0], 1);
+                cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.list[0], Utils.rand(3) + 2);
+                CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
                 //Display the degree of thickness change.
-                if (temp3 >= 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + multiCockDescriptLight() + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
-                    else MainScreen.text("  Your " + multiCockDescriptLight() + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
+                if (cockAmountThickened >= 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
+                    else MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
                 }
-                if (temp3 <= .5) {
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + multiCockDescriptLight() + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
-                    else MainScreen.text("  Your " + multiCockDescriptLight() + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
+                if (cockAmountThickened <= .5) {
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
+                    else MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
                 }
-                if (temp3 > .5 && temp2 < 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + multiCockDescriptLight() + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + multiCockDescriptLight() + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
+                if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
                 }
-                dynStats("lib", 1, "sen", 1, "lus", 20);
+                player.stats.lib += 1;
+                player.stats.sens += 1;
+                player.stats.lust += 20;
             }
 
         }
@@ -163,82 +180,90 @@ export function blueEgg(large: boolean, player: Player): void {
     //LARGE
     else {
         //New lines if changes
-        if (player.bRows() > 1 || player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5 || player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("\n\n", false);
+        if (player.upperBody.chest.count() > 1 || player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5 || player.lowerBody.vaginaSpot.hasVagina())
+            MainScreen.text("\n\n", false);
         //Kill pussies!
         if (player.lowerBody.vaginaSpot.count() > 0) {
             MainScreen.text("Your vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it!\n\n", false);
-            if (player.bRows() > 1 || player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5) MainScreen.text("  ", false);
-            player.removeVagina(0, 1);
-            player.lowerBody.vaginaSpot.list[0].clitLength = .5;
-            player.genderCheck();
+            if (player.upperBody.chest.count() > 1 || player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5)
+                MainScreen.text("  ", false);
+            player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.list[0]);
+            // -- Don't understand this
+            //player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+            player.updateGender();
         }
         //Kill extra boobages
-        if (player.bRows() > 1) {
-            MainScreen.text("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + breastDescript(player.bRows() - 1) + " have vanished.</b>", false);
+        if (player.upperBody.chest.count() > 1) {
+            MainScreen.text("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + BreastDescriptor.describeBreastRow(player.upperBody.chest.list.reverse[0]) + " have vanished.</b>", false);
             if (player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5) MainScreen.text("  ", false);
             //Remove lowest row.
-            player.removeBreastRow((player.bRows() - 1), 1);
+            player.upperBody.chest.remove(player.upperBody.chest.list.reverse[0]);
         }
         //Ass/hips shrinkage!
         if (player.lowerBody.butt.buttRating > 5) {
-            MainScreen.text("Muscles firm and tone as you feel your " + buttDescript() + " become smaller and tighter.", false);
+            MainScreen.text("Muscles firm and tone as you feel your " + ButtDescriptor.describeButt(player) + " become smaller and tighter.", false);
             if (player.lowerBody.hipRating > 5) MainScreen.text("  ", false);
             player.lowerBody.butt.buttRating -= 2;
         }
         if (player.lowerBody.hipRating > 5) {
-            MainScreen.text("Feeling the sudden burning of lactic acid in your " + hipDescript() + ", you realize they have slimmed down and firmed up some.", false);
+            MainScreen.text("Feeling the sudden burning of lactic acid in your " + LowerBodyDescriptor.describeHips(player) + ", you realize they have slimmed down and firmed up some.", false);
             player.lowerBody.hipRating -= 2;
         }
         //Shrink tits!
         if (player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
-            player.shrinkTits();
+            BreastModifier.shrinkTits(player);
         }
         if (player.lowerBody.cockSpot.count() > 0) {
             //Multiz
             if (player.lowerBody.cockSpot.count() > 1) {
-                MainScreen.text("\n\nYour " + multiCockDescript() + " fill to full-size... and begin growing obscenely.  ", false);
-                temp = player.lowerBody.cockSpot.count();
-                while (temp > 0) {
-                    temp--;
-                    temp2 = player.increaseCock(temp, Utils.rand(3) + 5);
-                    temp3 = player.lowerBody.cockSpot.list[temp].thickenCock(1.5);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.  ", false);
+                for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
+                    cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.list[index], Utils.rand(3) + 5);
+                    cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.list[index], 1.5);
                 }
-                player.lengthChange(temp2, player.lowerBody.cockSpot.count());
+                cockAmountLengthened /= player.lowerBody.cockSpot.count();
+                cockAmountThickened /= player.lowerBody.cockSpot.count();
+
+                CockChangeDescriptor.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
                 //Display the degree of thickness change.
-                if (temp3 >= 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
-                    else MainScreen.text("\n\nYour " + multiCockDescriptLight() + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
+                if (cockAmountThickened >= 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
+                    else MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
                 }
-                if (temp3 <= .5) {
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
-                    else MainScreen.text("\n\nYour " + multiCockDescriptLight() + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
+                if (cockAmountThickened <= .5) {
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
+                    else MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
                 }
-                if (temp3 > .5 && temp2 < 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + multiCockDescriptLight() + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
+                if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
                 }
-                dynStats("lib", 1, "sen", 1, "lus", 20);
+                player.stats.lib += 1;
+                player.stats.sens += 1;
+                player.stats.lust += 20;
             }
             //SINGLEZ
             if (player.lowerBody.cockSpot.count() == 1) {
-                MainScreen.text("\n\nYour " + multiCockDescriptLight() + " fills to its normal size... and begins growing...", false);
-                temp3 = player.lowerBody.cockSpot.list[0].thickenCock(1.5);
-                temp2 = player.increaseCock(0, Utils.rand(3) + 5);
-                player.lengthChange(temp2, 1);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing...", false);
+                cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.list[0], 1.5);
+                cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.list[0], Utils.rand(3) + 5);
+                CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
                 //Display the degree of thickness change.
-                if (temp3 >= 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + multiCockDescriptLight() + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
-                    else MainScreen.text("  Your " + multiCockDescriptLight() + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
+                if (cockAmountThickened >= 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
+                    else MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spread rapidly, swelling as they grow an inch or more in girth, making them feel fat and floppy.", false);
                 }
-                if (temp3 <= .5) {
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + multiCockDescriptLight() + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
-                    else MainScreen.text("  Your " + multiCockDescriptLight() + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
+                if (cockAmountThickened <= .5) {
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " feel swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. They are definitely thicker.", false);
+                    else MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " feels swollen and heavy. With a firm, but gentle, squeeze, you confirm your suspicions. It is definitely thicker.", false);
                 }
-                if (temp3 > .5 && temp2 < 1) {
-                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + multiCockDescriptLight() + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
-                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + multiCockDescriptLight() + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
+                if (cockAmountThickened > .5 && cockAmountLengthened < 1) {
+                    if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " seems to swell up, feeling heavier. You look down and watch it growing fatter as it thickens.", false);
+                    if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " seem to swell up, feeling heavier. You look down and watch them growing fatter as they thicken.", false);
                 }
-                dynStats("lib", 1, "sen", 1, "lus", 20);
+                player.stats.lib += 1;
+                player.stats.sens += 1;
+                player.stats.lust += 20;
             }
 
         }
@@ -251,37 +276,36 @@ export function blueEgg(large: boolean, player: Player): void {
 
 //Nipplezzzzz
 export function whiteEgg(large: boolean, player: Player): void {
-    let temp2: number = 0;
+    let gainedNippleCunts: boolean = false;
     MainScreen.text("You devour the egg, momentarily sating your hunger.", true);
     if (!large) {
         //Grow nipples
         if (player.upperBody.chest.BreastRatingLargest[0].nippleLength < 3 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
-            MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.armorName + ".  Abruptly you realize they've gotten almost a quarter inch longer.", false);
+            MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.", false);
             player.upperBody.chest.BreastRatingLargest[0].nippleLength += .2;
-            dynStats("lus", 15);
+            player.stats.lust += 15;
         }
     }
     //LARGE
     else {
         //Grow nipples
         if (player.upperBody.chest.BreastRatingLargest[0].nippleLength < 3 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
-            MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.armorName + ".  Abruptly you realize they've grown more than an additional quarter-inch.", false);
+            MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.", false);
             player.upperBody.chest.BreastRatingLargest[0].nippleLength += (Utils.rand(2) + 3) / 10;
-            dynStats("lus", 15);
+            player.stats.lust += 15;
         }
         //NIPPLECUNTZZZ
-        temp = player.upperBody.chest.count();
         //Set nipplecunts on every row.
-        while (temp > 0) {
-            temp--;
-            if (!player.upperBody.chest.list[temp].fuckable && player.upperBody.chest.BreastRatingLargest[0].nippleLength >= 2) {
-                player.upperBody.chest.list[temp].fuckable = true;
+        for (let index = 0; index < player.upperBody.chest.count(); index++) {
+            if (!player.upperBody.chest.list[index].fuckable && player.upperBody.chest.list[index].nippleLength >= 2) {
+                player.upperBody.chest.list[index].fuckable = true;
                 //Keep track of changes.
-                temp2++;
+                gainedNippleCunts = true;
             }
         }
         //Talk about if anything was changed.
-        if (temp2 > 0) MainScreen.text("\n\nYour " + allBreastsDescript() + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>", false);
+        if (gainedNippleCunts)
+            MainScreen.text("\n\nYour " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>", false);
     }
 }
 
@@ -292,31 +316,31 @@ export function blackRubberEgg(large: boolean, player: Player): void {
         //Change skin to normal if not flawless!
         if ((player.skinAdj != "smooth" && player.skinAdj != "latex" && player.skinAdj != "rubber") || player.skinDesc != "skin") {
             MainScreen.text("\n\nYour " + player.skinDesc + " tingles delightfully as it ", false);
-            if (player.skinType == SKIN.PLAIN) MainScreen.text(" loses its blemishes, becoming flawless smooth skin.", false);
-            if (player.skinType == SKIN.FUR) MainScreen.text(" falls out in clumps, revealing smooth skin underneath.", false);
-            if (player.skinType == SKIN.SCALES) MainScreen.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.", false);
-            if (player.skinType > SKIN.SCALES) MainScreen.text(" shifts and changes into flawless smooth skin.", false);
+            if (player.skinType == SkinType.PLAIN) MainScreen.text(" loses its blemishes, becoming flawless smooth skin.", false);
+            if (player.skinType == SkinType.FUR) MainScreen.text(" falls out in clumps, revealing smooth skin underneath.", false);
+            if (player.skinType == SkinType.SCALES) MainScreen.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.", false);
+            if (player.skinType > SkinType.SCALES) MainScreen.text(" shifts and changes into flawless smooth skin.", false);
             player.skinDesc = "skin";
             player.skinAdj = "smooth";
             if (player.skinTone == "rough gray") player.skinTone = "gray";
-            player.skinType = SKIN.PLAIN;
+            player.skinType = SkinType.PLAIN;
         }
         //chance of hair change
         else {
             //If hair isn't rubbery/latex yet
-            if (player.hairColor.indexOf("rubbery") == -1 && player.hairColor.indexOf("latex-textured") && player.hairLength != 0) {
+            if (player.upperBody.head.hairColor.indexOf("rubbery") == -1 && player.upperBody.head.hairColor.indexOf("latex-textured") && player.upperBody.head.hairLength != 0) {
                 //if skin is already one...
                 if (player.skinDesc == "skin" && player.skinAdj == "rubber") {
-                    MainScreen.text("\n\nYour scalp tingles and your " + hairDescript() + " thickens, the stUtils.rands merging into ", false);
+                    MainScreen.text("\n\nYour scalp tingles and your " + HeadDescriptor.describeHair(player) + " thickens, the stUtils.Utils.rands merging into ", false);
                     MainScreen.text(" thick rubbery hair.", false);
-                    player.hairColor = "rubbery " + player.hairColor;
-                    dynStats("cor", 2);
+                    player.upperBody.head.hairColor = "rubbery " + player.upperBody.head.hairColor;
+                    player.stats.cor += 2;
                 }
                 if (player.skinDesc == "skin" && player.skinAdj == "latex") {
-                    MainScreen.text("\n\nYour scalp tingles and your " + hairDescript() + " thickens, the stUtils.rands merging into ", false);
+                    MainScreen.text("\n\nYour scalp tingles and your " + HeadDescriptor.describeHair(player) + " thickens, the stUtils.Utils.rands merging into ", false);
                     MainScreen.text(" shiny latex hair.", false);
-                    player.hairColor = "latex-textured " + player.hairColor;
-                    dynStats("cor", 2);
+                    player.upperBody.head.hairColor = "latex-textured " + player.upperBody.head.hairColor;
+                    player.stats.cor += 2;
                 }
             }
         }
@@ -336,39 +360,42 @@ export function blackRubberEgg(large: boolean, player: Player): void {
                 player.skinAdj = "rubber";
                 MainScreen.text("a layer of sensitive rubber.  ", false);
             }
-            flags[FlagEnum.PC_KNOWS_ABOUT_BLACK_EGGS] = 1;
+            Flags.set(FlagEnum.PC_KNOWS_ABOUT_BLACK_EGGS, 1);
             if (player.stats.cor < 66) MainScreen.text("You feel like some kind of freak.", false);
             else MainScreen.text("You feel like some kind of sexy " + player.skinDesc + " love-doll.", false);
-            dynStats("spe", -3, "sen", 8, "lus", 10, "cor", 2);
+            player.stats.spe -= 3;
+            player.stats.sens += 8;
+            player.stats.lust += 10;
+            player.stats.cor += 2;
         }
         //Change skin to normal if not flawless!
         if ((player.skinAdj != "smooth" && player.skinAdj != "latex" && player.skinAdj != "rubber") || player.skinDesc != "skin") {
             MainScreen.text("\n\nYour " + player.skinDesc + " tingles delightfully as it ", false);
-            if (player.skinType == SKIN.PLAIN) MainScreen.text(" loses its blemishes, becoming flawless smooth skin.", false);
-            if (player.skinType == SKIN.FUR) MainScreen.text(" falls out in clumps, revealing smooth skin underneath.", false);
-            if (player.skinType == SKIN.SCALES) MainScreen.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.", false);
-            if (player.skinType > SKIN.SCALES) MainScreen.text(" shifts and changes into flawless smooth skin.", false);
+            if (player.skinType == SkinType.PLAIN) MainScreen.text(" loses its blemishes, becoming flawless smooth skin.", false);
+            if (player.skinType == SkinType.FUR) MainScreen.text(" falls out in clumps, revealing smooth skin underneath.", false);
+            if (player.skinType == SkinType.SCALES) MainScreen.text(" begins dropping to the ground in a pile around you, revealing smooth skin underneath.", false);
+            if (player.skinType > SkinType.SCALES) MainScreen.text(" shifts and changes into flawless smooth skin.", false);
             player.skinDesc = "skin";
             player.skinAdj = "smooth";
             if (player.skinTone == "rough gray") player.skinTone = "gray";
-            player.skinType = SKIN.PLAIN;
+            player.skinType = SkinType.PLAIN;
         }
         //chance of hair change
         else {
             //If hair isn't rubbery/latex yet
-            if (player.hairColor.indexOf("rubbery") == -1 && player.hairColor.indexOf("latex-textured") && player.hairLength != 0) {
+            if (player.upperBody.head.hairColor.indexOf("rubbery") == -1 && player.upperBody.head.hairColor.indexOf("latex-textured") && player.upperBody.head.hairLength != 0) {
                 //if skin is already one...
                 if (player.skinAdj == "rubber" && player.skinDesc == "skin") {
-                    MainScreen.text("\n\nYour scalp tingles and your " + hairDescript() + " thickens, the stUtils.rands merging into ", false);
+                    MainScreen.text("\n\nYour scalp tingles and your " + HeadDescriptor.describeHair(player) + " thickens, the stUtils.Utils.rands merging into ", false);
                     MainScreen.text(" thick rubbery hair.", false);
-                    player.hairColor = "rubbery " + player.hairColor;
-                    dynStats("cor", 2);
+                    player.upperBody.head.hairColor = "rubbery " + player.upperBody.head.hairColor;
+                    player.stats.cor += 2;
                 }
                 if (player.skinAdj == "latex" && player.skinDesc == "skin") {
-                    MainScreen.text("\n\nYour scalp tingles and your " + hairDescript() + " thickens, the stUtils.rands merging into ", false);
+                    MainScreen.text("\n\nYour scalp tingles and your " + HeadDescriptor.describeHair(player) + " thickens, the stUtils.Utils.rands merging into ", false);
                     MainScreen.text(" shiny latex hair.", false);
-                    player.hairColor = "latex-textured " + player.hairColor;
-                    dynStats("cor", 2);
+                    player.upperBody.head.hairColor = "latex-textured " + player.upperBody.head.hairColor;
+                    player.stats.cor += 2;
                 }
             }
         }
