@@ -1,7 +1,8 @@
 ﻿import Cock, { CockType as CockType } from "./Cock";
 import { SaveInterface } from "../SaveInterface";
+import CreatureBody from "./Body"
 
-export default class CockSpot implements SaveInterface{
+export default class CockSpot implements SaveInterface {
 
     private _cocks: Cock[];
 
@@ -13,32 +14,30 @@ export default class CockSpot implements SaveInterface{
         this._cocks.push(cock);
     }
 
-
-    // Need event handler
-    public remove(cock: Cock): void {
+    public remove(body: CreatureBody, cock: Cock): void {
         let index = this._cocks.indexOf(cock);
         if (index >= 0) {
             if (cock.sock == "viridian") {
-                removePerk(PerkLib.LustyRegeneration);
+                body.perks.remove("LustyRegeneration");
             }
             else if (cock.sock == "cockring") {
                 let numRings: number = 0;
-                for (let i: number = 0; i < cocks.length; i++) {
-                    if (cocks[i].sock == "cockring")
+                for (let index: number = 0; index < this._cocks.length; index++) {
+                    if (this._cocks[index].sock == "cockring")
                         numRings++;
                 }
 
                 if (numRings == 0)
-                    removePerk(PerkLib.PentUp);
+                    body.perks.remove("PentUp");
                 else
-                    setPerkValue(PerkLib.PentUp, 1, 5 + (numRings * 5));
+                    body.perks.get("PentUp").value1 = 5 + (numRings * 5);
             }
             this._cocks.splice(index, 1);
         }
     }
 
-    public get list(): Cock[] {
-        return this._cocks.slice();
+    public get(index: number): Cock {
+        return index >= 0 && index < this._cocks.length ? this._cocks[index] : null;
     }
 
     public count(): number {
@@ -76,42 +75,42 @@ export default class CockSpot implements SaveInterface{
     }
 
     public canAutoFellate(): boolean {
-        if (!hasCock())
+        if (!this.hasCock())
             return false;
         return (this._cocks[0].cockLength >= 20);
     }
 
-    public get smallestCocks(): Cock[] {
+    public get listSmallestCockArea(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
-            return a.cockArea - b.cockArea;
+            return a.cockArea() - b.cockArea();
         });
     }
 
-    public get biggestCocks(): Cock[] {
+    public get listLargestCockArea(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
-            return b.cockArea - a.cockArea;
+            return b.cockArea() - a.cockArea();
         });
     }
 
-    public get shortestCock(): Cock[] {
+    public get listShortestCocks(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
             return a.cockLength - b.cockLength;
         });
     }
 
-    public get longestCock(): Cock[] {
+    public get listLongestCocks(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
             return b.cockLength - a.cockLength;
         });
     }
 
-    public get thinnestCockIndex(): Cock[] {
+    public get listThinnestCocks(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
             return a.cockThickness - b.cockThickness;
         });
     }
 
-    public get thickestCock(): Cock[] {
+    public get listThinkestCocks(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
             return b.cockThickness - a.cockThickness;
         });
@@ -124,17 +123,29 @@ export default class CockSpot implements SaveInterface{
         return totalCockThickness;
     }
 
-    public biggestCocksThatFit(area: number = 0): Cock[] {
-        return this.biggestCocks.filter((cock: Cock) => {
-            if (cock.cockArea >= area)
+    public listLargestCocksThatFits(area: number = 0): Cock[] {
+        return this.listLargestCockArea.filter((cock: Cock) => {
+            if (cock.cockArea() >= area)
                 return cock;
         });
     }
 
-    public longestCocksThatFit(length: number = 0): Cock[] {
-        return this.biggestCocks.filter((cock: Cock) => {
+    public listLongestCocksThatFits(length: number = 0): Cock[] {
+        return this.listLargestCockArea.filter((cock: Cock) => {
             if (cock.cockLength >= length)
                 return cock;
+        });
+    }
+
+    public listCockType(cockType: CockType): Cock[] {
+        return this.listLargestCockArea.filter((cock: Cock) => {
+            if (cock.cockType == cockType) {
+                if (cock.cockType == CockType.DOG || cock.cockType == CockType.FOX)
+                    return cock;
+                else
+                    return cock;
+            }
+
         });
     }
 

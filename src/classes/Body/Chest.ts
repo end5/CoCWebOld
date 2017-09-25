@@ -8,12 +8,9 @@ export default class Chest implements SaveInterface {
         this.breastRows = [];
     }
 
-    public add(size: number = 0, nipplesPerBreast: number = 1): boolean {
+    public add(newBreastRow: BreastRow): boolean {
         if (this.breastRows.length >= 10)
             return false;
-        let newBreastRow: BreastRow = new BreastRow();
-        newBreastRow.breastRating = size;
-        newBreastRow.nipplesPerBreast = nipplesPerBreast;
         this.breastRows.push(newBreastRow);
         return true;
     }
@@ -24,8 +21,8 @@ export default class Chest implements SaveInterface {
             this.breastRows.splice(index);
     }
 
-    public get list(): BreastRow[] {
-        return this.breastRows.slice();
+    public get(index: number): BreastRow {
+        return index >= 0 && index < this.breastRows.length ? this.breastRows[index] : null;
     }
 
     public count(): number {

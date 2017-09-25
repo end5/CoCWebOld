@@ -22,8 +22,8 @@ export default class VaginaSpot implements SaveInterface {
         return this._vaginas.length;
     }
 
-    public get list(): Vagina[] {
-        return this._vaginas.slice();
+    public get(index: number): Vagina {
+        return index >= 0 && index < this._vaginas.length ? this._vaginas[index] : null;
     }
 
     public hasVagina(): boolean {
