@@ -15,23 +15,98 @@ import { SkinType } from "../../Body/Body";
 import HeadDescriptor from "../../Descriptors/HeadDescriptor";
 import Flags, { FlagEnum } from "../../Game/Flags";
 
+export enum EggType {
+    Black,
+    Blue,
+    Brown,
+    Pink,
+    Purple,
+    White
+}
+
 export default class Eggs extends Consumable {
-    public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", 0, "This powerful brew supposedly has mind-strengthening effects.");
+    private large: boolean;
+    private eggType: EggType;
+
+    public constructor(eggType: EggType, large: boolean) {
+        if (large) {
+            switch (eggType) {
+                case EggType.Black:
+                    super("L.BlkEg", "L.BlkEg", "a large rubbery black egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!");
+                    break;
+                case EggType.Blue:
+                    super("L.BluEg", "L.BluEg", "a large blue and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Brown:
+                    super("L.BrnEg", "L.BrnEg", "a large brown and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Pink:
+                    super("L.PnkEg", "L.PnkEg", "a large pink and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Purple:
+                    super("L.PrpEg", "L.PrpEg", "a large purple and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                default:
+                case EggType.White:
+                    super("L.WhtEg", "L.WhtEg", "a large white egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food.");
+                    break;
+            }
+        }
+        else {
+            switch (eggType) {
+                case EggType.Black:
+                    super("BlackEg", "BlackEg", "a rubbery black egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Blue:
+                    super("BlueEgg", "BlueEgg", "a blue and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Brown:
+                    super("BrownEg", "BrownEg", "a brown and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Pink:
+                    super("PinkEgg", "PinkEgg", "a pink and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                case EggType.Purple:
+                    super("PurplEg", "PurplEg", "a purple and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    break;
+                default:
+                case EggType.White:
+                    super("WhiteEg", "WhiteEg", "a milky-white egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food.");
+                    break;
+            }
+        }
+        this.eggType = eggType;
+        this.large = large;
     }
 
     public use(player: Player) {
-        player.slimeFeed();
-        MainScreen.text("Following the merchant's instructions, you steep and drink the tea. Its sharp taste fires up your palate and in moments, you find yourself more alert and insightful. As your mind wanders, a creative, if somewhat sordid, story comes to mind. It is a shame that you do not have writing implements as you feel you could make a coin or two off what you have conceived. The strange seller was not lying about the power of the tea.", true);
-        if (Utils.rand(3) == 0)
-            MainScreen.text(player.modTone(15, 1), false);
-        player.stats.int = 2.5 + Utils.rand(5);
+        switch (this.eggType) {
+            case EggType.Black:
+                this.blackRubberEgg(player);
+                break;
+            case EggType.Blue:
+                this.blueEgg(player);
+                break;
+            case EggType.Brown:
+                this.brownEgg(player);
+                break;
+            case EggType.Pink:
+                this.pinkEgg(player);
+                break;
+            case EggType.Purple:
+                this.purpleEgg(player);
+                break;
+            default:
+            case EggType.White:
+                this.whiteEgg(player);
+                break;
+        }
     }
 
     //butt expansion
-    private brownEgg(large: boolean, player: Player): void {
+    private brownEgg(player: Player): void {
         MainScreen.text("You devour the egg, momentarily sating your hunger.\n\n", true);
-        if (!large) {
+        if (!this.large) {
             MainScreen.text("You feel a bit of additional weight on your backside as your " + ButtDescriptor.describeButt(player) + " gains a bit more padding.", true);
             player.lowerBody.butt.buttRating++;
         }
@@ -40,7 +115,7 @@ export default class Eggs extends Consumable {
             player.lowerBody.butt.buttRating += 2 + Utils.rand(3);
         }
         if (Utils.chance(33)) {
-            if (large)
+            if (this.large)
                 MainScreen.text(player.modThickness(100, 8), false);
             else
                 MainScreen.text(player.modThickness(95, 3), false);
@@ -48,9 +123,9 @@ export default class Eggs extends Consumable {
     }
 
     //hip expansion
-    private purpleEgg(large: boolean, player: Player): void {
+    private purpleEgg(player: Player): void {
         MainScreen.text("You devour the egg, momentarily sating your hunger.\n\n", true);
-        if (!large || player.lowerBody.hipRating > 20) {
+        if (!this.large || player.lowerBody.hipRating > 20) {
             MainScreen.text("You stumble as you feel your " + LowerBodyDescriptor.describeHips(player) + " widen, altering your gait slightly.", false);
             player.lowerBody.hipRating++;
         }
@@ -59,7 +134,7 @@ export default class Eggs extends Consumable {
             player.lowerBody.hipRating += 2 + Utils.rand(2);
         }
         if (Utils.chance(33)) {
-            if (large)
+            if (this.large)
                 MainScreen.text(player.modThickness(80, 8), false);
             else
                 MainScreen.text(player.modThickness(80, 3), false);
@@ -67,12 +142,12 @@ export default class Eggs extends Consumable {
     }
 
     //Femminess
-    private pinkEgg(large: boolean, player: Player): void {
+    private pinkEgg(player: Player): void {
         MainScreen.text("You devour the egg, momentarily sating your hunger.\n\n", true);
-        if (!large) {
+        if (!this.large) {
             //Remove a dick
             if (player.lowerBody.cockSpot.hasCock()) {
-                player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.list[0]);
+                player.lowerBody.cockSpot.remove(player, player.lowerBody.cockSpot.get(0));
                 MainScreen.text("\n\n", false);
                 player.updateGender();
             }
@@ -90,7 +165,7 @@ export default class Eggs extends Consumable {
             }
             //Fertility boost
             if (player.lowerBody.vaginaSpot.hasVagina() && player.fertility < 40) {
-                MainScreen.text("You feel a tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.list[0]) + ", as if you were becoming more fertile.\n\n", false);
+                MainScreen.text("You feel a tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", as if you were becoming more fertile.\n\n", false);
                 player.fertility += 5;
             }
         }
@@ -109,28 +184,28 @@ export default class Eggs extends Consumable {
             }
             //Fertility boost
             if (player.lowerBody.vaginaSpot.count() > 0 && player.fertility < 70) {
-                MainScreen.text("You feel a powerful tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.list[0]) + ". Instinctively you know you have become more fertile.\n\n", false);
+                MainScreen.text("You feel a powerful tingle deep inside your body, just above your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ". Instinctively you know you have become more fertile.\n\n", false);
                 player.fertility += 10;
             }
         }
         if (Utils.rand(3) == 0) {
-            if (large) MainScreen.text(player.modFem(100, 8), false);
+            if (this.large) MainScreen.text(player.modFem(100, 8), false);
             else MainScreen.text(player.modFem(95, 3), false);
         }
     }
 
     //Maleness
-    private blueEgg(large: boolean, player: Player): void {
+    private blueEgg(player: Player): void {
         let cockAmountLengthened: number = 0;
         let cockAmountThickened: number = 0;
         MainScreen.text("You devour the egg, momentarily sating your hunger.", true);
-        if (!large) {
+        if (!this.large) {
             //Kill pussies!
             if (player.lowerBody.vaginaSpot.count() > 0) {
                 MainScreen.text("\n\nYour vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it! <b> Your vagina is gone!</b>", false);
-                player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.list[0]);
+                player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.get(0));
                 // -- Don't understand this
-                //player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+                //player.lowerBody.vaginaSpot.get(0).clitLength = .5;
                 player.updateGender();
             }
             //Dickz
@@ -140,8 +215,8 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.", false);
 
                     for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.list[index], Utils.rand(3) + 2);
-                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.list[index], 1);
+                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 2);
+                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.get(index), 1);
                     }
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
@@ -168,8 +243,8 @@ export default class Eggs extends Consumable {
                 //SINGLEZ
                 if (player.lowerBody.cockSpot.count() == 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing... ", false);
-                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.list[0], 1);
-                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.list[0], Utils.rand(3) + 2);
+                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1);
+                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 2);
                     CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -201,17 +276,17 @@ export default class Eggs extends Consumable {
                 MainScreen.text("Your vagina clenches in pain, doubling you over.  You slip a hand down to check on it, only to feel the slit growing smaller and smaller until it disappears, taking your clit with it!\n\n", false);
                 if (player.upperBody.chest.count() > 1 || player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5)
                     MainScreen.text("  ", false);
-                player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.list[0]);
+                player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.get(0));
                 // -- Don't understand this
-                //player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+                //player.lowerBody.vaginaSpot.get(0).clitLength = .5;
                 player.updateGender();
             }
             //Kill extra boobages
             if (player.upperBody.chest.count() > 1) {
-                MainScreen.text("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + BreastDescriptor.describeBreastRow(player.upperBody.chest.list.reverse[0]) + " have vanished.</b>", false);
+                MainScreen.text("Your back relaxes as extra weight vanishes from your chest.  <b>Your lowest " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(player.upperBody.chest.count() - 1)) + " have vanished.</b>", false);
                 if (player.lowerBody.butt.buttRating > 5 || player.lowerBody.hipRating > 5) MainScreen.text("  ", false);
                 //Remove lowest row.
-                player.upperBody.chest.remove(player.upperBody.chest.list.reverse[0]);
+                player.upperBody.chest.remove(player.upperBody.chest.get(player.upperBody.chest.count() - 1));
             }
             //Ass/hips shrinkage!
             if (player.lowerBody.butt.buttRating > 5) {
@@ -232,8 +307,8 @@ export default class Eggs extends Consumable {
                 if (player.lowerBody.cockSpot.count() > 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.  ", false);
                     for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.list[index], Utils.rand(3) + 5);
-                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.list[index], 1.5);
+                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 5);
+                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.get(index), 1.5);
                     }
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
@@ -259,8 +334,8 @@ export default class Eggs extends Consumable {
                 //SINGLEZ
                 if (player.lowerBody.cockSpot.count() == 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing...", false);
-                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.list[0], 1.5);
-                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.list[0], Utils.rand(3) + 5);
+                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1.5);
+                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 5);
                     CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -283,16 +358,16 @@ export default class Eggs extends Consumable {
             }
         }
         if (Utils.rand(3) == 0) {
-            if (large) MainScreen.text(player.modFem(0, 8), false);
+            if (this.large) MainScreen.text(player.modFem(0, 8), false);
             else MainScreen.text(player.modFem(5, 3), false);
         }
     }
 
     //Nipplezzzzz
-    private whiteEgg(large: boolean, player: Player): void {
+    private whiteEgg(player: Player): void {
         let gainedNippleCunts: boolean = false;
         MainScreen.text("You devour the egg, momentarily sating your hunger.", true);
-        if (!large) {
+        if (!this.large) {
             //Grow nipples
             if (player.upperBody.chest.BreastRatingLargest[0].nippleLength < 3 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
                 MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.", false);
@@ -311,8 +386,8 @@ export default class Eggs extends Consumable {
             //NIPPLECUNTZZZ
             //Set nipplecunts on every row.
             for (let index = 0; index < player.upperBody.chest.count(); index++) {
-                if (!player.upperBody.chest.list[index].fuckable && player.upperBody.chest.list[index].nippleLength >= 2) {
-                    player.upperBody.chest.list[index].fuckable = true;
+                if (!player.upperBody.chest.get(index).fuckable && player.upperBody.chest.get(index).nippleLength >= 2) {
+                    player.upperBody.chest.get(index).fuckable = true;
                     //Keep track of changes.
                     gainedNippleCunts = true;
                 }
@@ -323,10 +398,10 @@ export default class Eggs extends Consumable {
         }
     }
 
-    private blackRubberEgg(large: boolean, player: Player): void {
+    private blackRubberEgg(player: Player): void {
         MainScreen.text("You devour the egg, momentarily sating your hunger.", true);
         //Small
-        if (!large) {
+        if (!this.large) {
             //Change skin to normal if not flawless!
             if ((player.skinAdj != "smooth" && player.skinAdj != "latex" && player.skinAdj != "rubber") || player.skinDesc != "skin") {
                 MainScreen.text("\n\nYour " + player.skinDesc + " tingles delightfully as it ", false);
@@ -360,7 +435,7 @@ export default class Eggs extends Consumable {
             }
         }
         //Large
-        if (large) {
+        else {
             //Change skin to latex if smooth.
             if (player.skinDesc == "skin" && player.skinAdj == "smooth") {
                 MainScreen.text("\n\nYour already flawless smooth skin begins to tingle as it changes again.  It becomes shinier as its texture changes subtly.  You gasp as you touch yourself and realize your skin has become ", false);

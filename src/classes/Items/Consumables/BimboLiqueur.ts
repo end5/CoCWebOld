@@ -40,7 +40,7 @@ export default class BimboLiqueur extends Consumable {
                 MainScreen.text("  Before you can even take a breath, an extremely peculiar sensation emanates from your crotch.  You can't see through your " + player.inventory.armor.displayName + ", but you can certainly feel the vagina splitting " + (player.lowerBody.balls > 0 ? "from behind your testicles" : "your groin") + ".  Luckily, the cunt-forming doesn't yield any discomfort - on the contrary, you feel yourself falling farther into your chemically-dulled, libido-fueled rut.");
                 if (player.lowerBody.hipRating < 12 || player.lowerBody.butt.buttRating < 12) MainScreen.text("  As if realizing the necessity of womanly proportions to attract the hard cocks your body now craves, your waist pinches slightly inward and your hips and butt swell.  You can't help but run a hand across your newly-feminized pelvis, admiring it.");
                 player.lowerBody.vaginaSpot.add(new Vagina());
-                player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+                player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
                 if (player.lowerBody.hipRating < 12)
                     player.lowerBody.hipRating = 12;
                 if (player.lowerBody.butt.buttRating < 12)
@@ -85,22 +85,22 @@ export default class BimboLiqueur extends Consumable {
             MainScreen.text("Moaning lewdly, you begin to sway your hips from side to side, putting on a show for anyone who might manage to see you.   You just feel so... sexy.  Too sexy to hide it.  Your body aches to show itself and feel the gaze of someone, anyone upon it.  Mmmm, it makes you so wet!  ");
             if (!player.lowerBody.vaginaSpot.hasVagina()) {
                 player.lowerBody.vaginaSpot.add(new Vagina());
-                player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
-                player.lowerBody.vaginaSpot.list[0].vaginalWetness = VaginaWetness.SLICK;
-                if (player.lowerBody.isTaur()) MainScreen.text("Wait!? Wet? You wish you could touch yourself between the " + LowerBodyDescriptor.describeLegs(player.lowerBody) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
-                else MainScreen.text("Wait!?  Wet?  You touch yourself between the " + LowerBodyDescriptor.describeLegs(player.lowerBody) + " and groan when your fingers sink into a sloppy, wet cunt.");
+                player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
+                player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+                if (player.lowerBody.isTaur()) MainScreen.text("Wait!? Wet? You wish you could touch yourself between the " + LowerBodyDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
+                else MainScreen.text("Wait!?  Wet?  You touch yourself between the " + LowerBodyDescriptor.describeLegs(player) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
                 if (player.lowerBody.isTaur()) {
                     MainScreen.text("You wish you could sink your fingers into your sloppy, wet cunt, but as a centaur, you can't quite reach.");
-                    if (player.lowerBody.vaginaSpot.list[0].vaginalWetness < VaginaWetness.SLICK)
-                        player.lowerBody.vaginaSpot.list[0].vaginalWetness = VaginaWetness.SLICK;
+                    if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.SLICK)
+                        player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
                 }
                 else {
                     MainScreen.text("You sink your fingers into your ");
-                    if (player.lowerBody.vaginaSpot.list[0].vaginalWetness < VaginaWetness.SLICK) {
+                    if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.SLICK) {
                         MainScreen.text("now ");
-                        player.lowerBody.vaginaSpot.list[0].vaginalWetness = VaginaWetness.SLICK;
+                        player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
                     }
                     MainScreen.text("sloppy, wet cunt with a groan of satisfaction.");
                 }
@@ -117,27 +117,27 @@ export default class BimboLiqueur extends Consumable {
                 else MainScreen.text("penises");
                 MainScreen.text("!</b>");
                 while (player.lowerBody.cockSpot.hasCock()) {
-                    player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.list[0]);
+                    player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.get(0));
                 }
             }
             MainScreen.text("  Somehow, you feel like you could seduce anyone right now!\n\n");
 
             MainScreen.text("Another bubbly giggle bursts from your lips, which you then lick hungrily.  You, like, totally want some dick to suck!  Wow, that came out of left field.  You shake your head and try to clear the unexpected, like, words from your head but it's getting kind of hard.  Omigosh, you feel kind of like a dumb bimbo after, like, drinking that weird booze.  Oh, well, it doesn't matter anyhow – you can, like, still stop the demons and stuff.  You'll just have to show off your sexy bod until they're offering to serve you.\n\n");
 
-            MainScreen.text("You sigh and run one hand over your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.list[0]) + "s");
-            if (player.upperBody.chest.list[0].breastRating < 10) {
-                player.upperBody.chest.list[0].breastRating += 5 + Utils.rand(5);
-                MainScreen.text(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + BreastDescriptor.breastCup(player.upperBody.chest.list[0].breastRating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
+            MainScreen.text("You sigh and run one hand over your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s");
+            if (player.upperBody.chest.get(0).breastRating < 10) {
+                player.upperBody.chest.get(0).breastRating += 5 + Utils.rand(5);
+                MainScreen.text(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + BreastDescriptor.breastCup(player.upperBody.chest.get(0).breastRating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
             }
             else {
-                player.upperBody.chest.list[0].breastRating += 5 + Utils.rand(5);
-                MainScreen.text(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + BreastDescriptor.breastCup(player.upperBody.chest.list[0].breastRating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
+                player.upperBody.chest.get(0).breastRating += 5 + Utils.rand(5);
+                MainScreen.text(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + BreastDescriptor.breastCup(player.upperBody.chest.get(0).breastRating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
             }
             player.stats.sens += 20;
-            MainScreen.text("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.list[0]) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.list[0]) + " is throbbing, and you give it an experimental ");
-            if (player.lowerBody.vaginaSpot.list[0].clitLength >= 3) MainScreen.text("jerk ");
+            MainScreen.text("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + " is throbbing, and you give it an experimental ");
+            if (player.lowerBody.vaginaSpot.get(0).clitLength >= 3) MainScreen.text("jerk ");
             else MainScreen.text("caress ");
-            MainScreen.text("that makes your " + LowerBodyDescriptor.describeLegs(player.lowerBody) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
+            MainScreen.text("that makes your " + LowerBodyDescriptor.describeLegs(player) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
 
             MainScreen.text("Though the orgasm is intense, you recover a few moments later feeling refreshed, but still hot and horny.  Maybe you could find a partner to fuck?  After all, sex is, like, better with a partner or two.  Or that number after two.  You brush a lengthy, platinum blonde stUtils.rand of hair out of your eyes and lick your lips - you're ready to have some fun!\n\n");
 
