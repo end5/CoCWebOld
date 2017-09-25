@@ -7,10 +7,10 @@ import BreastRow from "./BreastRow";
 import Vagina, { VaginaLooseness } from "./Vagina";
 import { PregnancyType } from "./Pregnancy";
 import Butt, { ButtLooseness } from "./Butt";
-import StatusAffect from "../StatusAffects/StatusAffect";
 import Cock from "./Cock";
-import MainScreen from "../Game/Render";
 import { SaveInterface } from "../SaveInterface";
+import MainScreen from "../display/MainScreen";
+import StatusAffect from "../Effects/StatusAffect";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -20,7 +20,7 @@ export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class Body implements SaveInterface {
+export default class CreatureBody implements SaveInterface {
     //Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;
@@ -113,14 +113,14 @@ export default class Body implements SaveInterface {
 
 
     // TODO: Fix this function
-    public boostLactation(todo: number): number {
+    public boostLactation(boostAmt: number): number {
         if (!this.upperBody.chest.hasBreasts)
             return 0;
         let breasts: BreastRow;
         let changes: number = 0;
         let temp2: number = 0;
         //Prevent lactation decrease if lactating.
-        if (todo >= 0) {
+        if (boostAmt >= 0) {
             if (this.statusAffects.has("LactationReduction"))
                 this.statusAffects.get("LactationReduction").value1 = 0;
             if (this.statusAffects.has("LactationReduc0"))
@@ -132,10 +132,10 @@ export default class Body implements SaveInterface {
             if (this.statusAffects.has("LactationReduc3"))
                 this.statusAffects.remove("LactationReduc3");
         }
-        if (todo > 0) {
-            while (todo > 0) {
+        if (boostAmt > 0) {
+            while (boostAmt > 0) {
                 breasts = this.upperBody.chest.BreastRatingLargest[0];
-                todo -= .1;
+                boostAmt -= .1;
                 temp2 = .1;
                 if (breasts.lactationMultiplier > 1.5)
                     temp2 /= 2;
@@ -148,19 +148,19 @@ export default class Body implements SaveInterface {
             }
         }
         else {
-            while (todo < 0) {
-                if (todo > -.1) {
+            while (boostAmt < 0) {
+                if (boostAmt > -.1) {
                     breasts = this.upperBody.chest.LactationMultipierSmallest[0];
                     //trace(biggestLactation());
-                    breasts.lactationMultiplier += todo;
+                    breasts.lactationMultiplier += boostAmt;
                     if (breasts.lactationMultiplier < 0)
                         breasts.lactationMultiplier = 0;
-                    todo = 0;
+                    boostAmt = 0;
                 }
                 else {
-                    todo += .1;
+                    boostAmt += .1;
                     breasts = this.upperBody.chest.LactationMultipierSmallest[0];
-                    temp2 = todo;
+                    temp2 = boostAmt;
                     changes += temp2;
                     breasts.lactationMultiplier += temp2;
                     if (breasts.lactationMultiplier < 0)
