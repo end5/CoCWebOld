@@ -1,4 +1,4 @@
-﻿import Body from "../Body/Body";
+﻿import CreatureBody from "../Body/Body";
 import { ButtRating as ButtRating, ButtWetness as ButtWetness, ButtLooseness as ButtLooseness, Butt } from "../Body/Butt";
 import Utils from "../Utilities/Utils";
 
@@ -9,7 +9,7 @@ export default class ButtDescriptor {
     * @param    body
     * @return    A full description of a Character's butt.
     */
-    public static describeButt(body: Body): string {
+    public static describeButt(body: CreatureBody): string {
         let description: string = "";
 
         if (body.lowerBody.buttRating < ButtRating.TIGHT) {
@@ -301,7 +301,7 @@ export default class ButtDescriptor {
         * @param    body
         * @return Short description of a butt.
         */
-    public static describeButtShort(body: Body): string {
+    public static describeButtShort(body: CreatureBody): string {
         let description: string = "";
         let buttRating: number = body.lowerBody.buttRating;
         if (buttRating < ButtRating.TIGHT) {

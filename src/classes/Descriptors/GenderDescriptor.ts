@@ -1,4 +1,4 @@
-﻿import Body, { Gender } from "../Body/Body";
+﻿import CreatureBody, { Gender } from "../Body/Body";
 
 export default class GenderDescriptor {
     public static genderText(gender: Gender, male: string = "man", female: string = "woman", futa: string = "herm", eunuch: string = "eunuch"): string {
@@ -12,7 +12,7 @@ export default class GenderDescriptor {
             return eunuch;
     }
 
-    public static mf(body: Body, male: string, female: string) {
+    public static mf(body: CreatureBody, male: string, female: string) {
         if (body.lowerBody.cockSpot.hasCock()) {
             if (body.lowerBody.vaginaSpot.hasVagina())
                 return female;

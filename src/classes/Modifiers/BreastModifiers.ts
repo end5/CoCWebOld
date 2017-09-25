@@ -1,11 +1,11 @@
 ﻿import Utils from "../Utilities/Utils";
 import Flags, { FlagEnum } from "../Game/Flags";
-import Body from "../Body/Body";
+import CreatureBody from "../Body/Body";
 import MainScreen from "../display/MainScreen";
 import BreastDescriptor from "../Descriptors/BreastDescriptor";
 
 export default class BreastModifier {
-    public static growSmallestBreastRow(body: Body, amount: number, rowsGrown: number, display: boolean) {
+    public static growSmallestBreastRow(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -35,7 +35,7 @@ export default class BreastModifier {
         }
     }
 
-    public static growTopBreastRowDownwards(body: Body, amount: number, rowsGrown: number, display: boolean) {
+    public static growTopBreastRowDownwards(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -44,7 +44,7 @@ export default class BreastModifier {
             amount = 1;
 
         if (!Flags.get[FlagEnum.HYPER_HAPPY]) {
-            let topBreastRow: number = chest.list[0].breastRating;
+            let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
             if (body.perks.has("BigTits")) {
@@ -60,7 +60,7 @@ export default class BreastModifier {
         while (rowsGrown > 0) {
             if (breastIndex + 1 > chest.count())
                 breastIndex = 0;
-            chest.list[breastIndex].breastRating += amount;
+            chest.get(breastIndex).breastRating += amount;
             console.trace("Breasts increased by " + amount + " on row " + breastIndex);
             breastIndex++;
             rowsGrown--;
@@ -68,7 +68,7 @@ export default class BreastModifier {
 
     }
 
-    public static growTopBreastRow(body: Body, amount: number, rowsGrown: number, display: boolean) {
+    public static growTopBreastRow(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -77,7 +77,7 @@ export default class BreastModifier {
             amount = 1;
 
         if (!Flags.get[FlagEnum.HYPER_HAPPY]) {
-            let topBreastRow: number = chest.list[0].breastRating;
+            let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
             if (body.perks.has("BigTits")) {
@@ -90,7 +90,7 @@ export default class BreastModifier {
 
         while (rowsGrown > 0) {
             rowsGrown--;
-            chest.list[0].breastRating += amount;
+            chest.get(0).breastRating += amount;
         }
     }
 
@@ -106,25 +106,25 @@ export default class BreastModifier {
      * GrowthType 2 = Top Row working downward
      * GrowthType 3 = Only top row
      */
-    public static growTits(body: Body, amount: number, rowsGrown: number, growthType: number): void {
+    public static growTits(body: CreatureBody, amount: number, rowsGrown: number, growthType: number): void {
     }
 
 
-    public static shrinkTits(body: Body, ignore_hyper_happy: boolean = false): void {
+    public static shrinkTits(body: CreatureBody, ignore_hyper_happy: boolean = false): void {
         if (Flags.get[FlagEnum.HYPER_HAPPY] && !ignore_hyper_happy) {
             return;
         }
         if (body.upperBody.chest.count() == 1) {
-            if (body.upperBody.chest.list[0].breastRating > 0) {
+            if (body.upperBody.chest.get(0).breastRating > 0) {
                 //Shrink if bigger than N/A cups
                 let superShrink: boolean = false;
-                body.upperBody.chest.list[0].breastRating--;
+                body.upperBody.chest.get(0).breastRating--;
                 //Shrink again 50% chance
-                if (body.upperBody.chest.list[0].breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has("BigTits")) {
+                if (body.upperBody.chest.get(0).breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has("BigTits")) {
                     superShrink = true;
-                    body.upperBody.chest.list[0].breastRating--;
+                    body.upperBody.chest.get(0).breastRating--;
                 }
-                if (body.upperBody.chest.list[0].breastRating < 0) body.upperBody.chest.list[0].breastRating = 0;
+                if (body.upperBody.chest.get(0).breastRating < 0) body.upperBody.chest.get(0).breastRating = 0;
                 //Talk about shrinkage
                 if (!superShrink) MainScreen.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
                 if (superShrink) MainScreen.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
@@ -139,16 +139,16 @@ export default class BreastModifier {
             let breastRowIndex: number = body.upperBody.chest.count();
             while (breastRowIndex > 0) {
                 breastRowIndex--;
-                if (body.upperBody.chest.list[breastRowIndex].breastRating > 0) {
-                    body.upperBody.chest.list[breastRowIndex].breastRating--;
-                    if (body.upperBody.chest.list[breastRowIndex].breastRating < 0) body.upperBody.chest.list[breastRowIndex].breastRating = 0;
+                if (body.upperBody.chest.get(breastRowIndex).breastRating > 0) {
+                    body.upperBody.chest.get(breastRowIndex).breastRating--;
+                    if (body.upperBody.chest.get(breastRowIndex).breastRating < 0) body.upperBody.chest.get(breastRowIndex).breastRating = 0;
                     shrinkAmount++;
                     MainScreen.text("\n", false);
                     if (breastRowIndex < body.upperBody.chest.count() - 1) MainScreen.text("...and y", false);
                     else MainScreen.text("Y", false);
-                    MainScreen.text("our " + BreastDescriptor.describeBreastRow(body.upperBody.chest.list[breastRowIndex]) + " shrink, dropping to " + BreastDescriptor.breastCup(body.upperBody.chest.list[breastRowIndex].breastRating) + "s.", false);
+                    MainScreen.text("our " + BreastDescriptor.describeBreastRow(body.upperBody.chest.get(breastRowIndex)) + " shrink, dropping to " + BreastDescriptor.breastCup(body.upperBody.chest.get(breastRowIndex).breastRating) + "s.", false);
                 }
-                if (body.upperBody.chest.list[breastRowIndex].breastRating < 0) body.upperBody.chest.list[breastRowIndex].breastRating = 0;
+                if (body.upperBody.chest.get(breastRowIndex).breastRating < 0) body.upperBody.chest.get(breastRowIndex).breastRating = 0;
             }
             if (shrinkAmount == 2) MainScreen.text("\nYou feel so much lighter after the change.", false);
             if (shrinkAmount == 3) MainScreen.text("\nWithout the extra weight you feel particularly limber.", false);

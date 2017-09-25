@@ -105,7 +105,7 @@ export default class RaceScore {
         let counter: number = 0;
         if (player.statusAffects.has("BlackNipples"))
             counter++;
-        if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.list[0].type == VaginaType.BLACK_SAND_TRAP)
+        if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).type == VaginaType.BLACK_SAND_TRAP)
             counter++;
         if (player.upperBody.head.face.eyeType == EyeType.BLACK_EYES_SAND_TRAP)
             counter++;
@@ -344,7 +344,7 @@ export default class RaceScore {
             kitsuneCounter++;
         if (player.lowerBody.tailType == TailType.FOX && player.lowerBody.tailVenom >= 2)
             kitsuneCounter += 2;
-        if (player.lowerBody.vaginaSpot.list[0].capacity() >= 8000)
+        if (player.lowerBody.vaginaSpot.get(0).capacity() >= 8000)
             kitsuneCounter++;
         if (kitsuneCounter > 0 && player.upperBody.head.face.faceType == FaceType.HUMAN)
             kitsuneCounter++;
@@ -427,7 +427,7 @@ export default class RaceScore {
             gooCounter++;
         if (player.lowerBody.type == LowerBodyType.GOO)
             gooCounter++;
-        if (player.lowerBody.vaginaSpot.list[0].capacity() > 9000)
+        if (player.lowerBody.vaginaSpot.get(0).capacity() > 9000)
             gooCounter++;
         if (player.statusAffects.has("SlimeCraving"))
             gooCounter++;

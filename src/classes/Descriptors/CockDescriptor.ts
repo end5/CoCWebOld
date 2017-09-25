@@ -1,11 +1,11 @@
-﻿import Body, { SkinType } from "../Body/Body";
+﻿import CreatureBody, { SkinType } from "../Body/Body";
 import Cock, { CockType } from "../Body/Cock";
 import CockSpot from "../Body/CockSpot";
 import Utils from "../Utilities/Utils";
 import Flags from "../Game/Flags";
 
 export default class CockDescriptor {
-    public static describeCock(body: Body, cock: Cock): string {
+    public static describeCock(body: CreatureBody, cock: Cock): string {
         if (body.lowerBody.cockSpot.hasCock() || cock == null)
             return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
@@ -264,7 +264,7 @@ export default class CockDescriptor {
     }
 
     //Cock adjectives for single cock
-    public static adjectivesCock(cock: Cock, body: Body): string {
+    public static adjectivesCock(cock: Cock, body: CreatureBody): string {
         let description: string = "";
         //length or thickness, usually length.
         if (Utils.chance(25)) {
@@ -598,7 +598,7 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCockShort(body: Body): string {
+    public static describeMultiCockShort(body: CreatureBody): string {
         let description: string = "";
         let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
@@ -622,7 +622,7 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("bundle of ", "obscene group of ", "cluster of ", "wriggling bunch of ");
 
-        description += CockDescriptor.adjectiveCock(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
+        description += CockDescriptor.adjectiveCock(cocks.listLargestCockArea[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
             description += ", " + CockDescriptor.nounCock(cocks[0].cockType) + "s";
@@ -632,7 +632,7 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCock(body: Body): string {
+    public static describeMultiCock(body: CreatureBody): string {
         let description: string = "";
         let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
@@ -656,7 +656,7 @@ export default class CockDescriptor {
         else if (cockCount > 3)
             description += Utils.randomChoice("a bundle of ", "an obscene group of ", "a cluster of ", "a wriggling group of ");
 
-        description += CockDescriptor.adjectiveCock(cocks.biggestCocks[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
+        description += CockDescriptor.adjectiveCock(cocks.listLargestCockArea[0], body.stats.lust, body.cumQ(), body.skinType == SkinType.GOO);
 
         if (cocksSameType)
             description += ", " + CockDescriptor.nounCock(cocks[0].cockType) + "s";

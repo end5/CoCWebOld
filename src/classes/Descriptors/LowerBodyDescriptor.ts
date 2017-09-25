@@ -1,15 +1,15 @@
-﻿import Body from "../Body/Body";
+﻿import CreatureBody from "../Body/Body";
 import Utils from "../Utilities/Utils";
 import LowerBody, { LowerBodyType } from "../Body/LowerBody";
 
 export default class LowerBodyDescriptor {
-    public static assholeOrPussy(body: Body): string {
+    public static assholeOrPussy(body: CreatureBody): string {
         if (body.lowerBody.vaginaSpot.hasVagina())
             return vaginaDescript(body, 0);
         return assholeDescript(body);
     }
 
-    public static describeHips(body: Body): string {
+    public static describeHips(body: CreatureBody): string {
         let description: string = "";
         let options: string[] = [];
         if (body.lowerBody.hipRating <= 1) {

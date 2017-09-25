@@ -1,5 +1,5 @@
 ﻿import Utils from "../Utilities/Utils";
-import Body from "../Body/Body";
+import CreatureBody from "../Body/Body";
 import BreastRow, { BreastCup } from "../Body/BreastRow";
 import Chest from "../Body/Chest";
 import MainScreen from "../Game/Render";
@@ -37,7 +37,7 @@ export default class BreastDescriptor {
         return description + "breasts";
     }
 
-    public static describeNipple(body: Body, breastRow: BreastRow): string {
+    public static describeNipple(body: CreatureBody, breastRow: BreastRow): string {
         let haveDescription: boolean = false;
         let description: string = "";
         let options: string[] = [];
@@ -356,8 +356,8 @@ export default class BreastDescriptor {
         }
     }
 
-    public static describeTopRowBreastGrowth(amount: number, body: Body, chest: Chest) {
-        let topBreastRow: BreastRow = chest.list[0];
+    public static describeTopRowBreastGrowth(amount: number, body: CreatureBody, chest: Chest) {
+        let topBreastRow: BreastRow = chest.get(0);
         if (amount <= 2) {
             if (chest.count() > 1) MainScreen.text("Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.", false);
             if (chest.count() == 1) MainScreen.text("Your row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.", false);

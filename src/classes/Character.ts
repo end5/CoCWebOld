@@ -1,4 +1,4 @@
-﻿import Body, { Gender, SkinType } from "./Body/Body";
+﻿import CreatureBody, { Gender, SkinType } from "./Body/Body";
 import StatusAffect from "./Effects/StatusAffect";
 import { FaceType } from "./Body/Face";
 import Utils from "./Utilities/Utils";
@@ -7,7 +7,7 @@ import HeadDescriptor from "./Descriptors/HeadDescriptor";
 import CharacterInventory from "./Inventory/CharacterInventory";
 import Game from "./Game/Game";
 
-export default class Character extends Body
+export default class Character extends CreatureBody
 {
     public readonly inventory: CharacterInventory;
 
@@ -302,7 +302,7 @@ export default class Character extends Body
     {
         let cockSpot = this.lowerBody.cockSpot;
         for (let index = 0; index < cockSpot.count(); index++)
-            if (cockSpot.list[index].sock == "amaranthine" && cockSpot.list[index].cockType != CockType.DISPLACER)
+            if (cockSpot.get(index].sock == "amaranthine" && cockSpot.list[index).cockType != CockType.DISPLACER)
                 return true;
         return false;
 	}

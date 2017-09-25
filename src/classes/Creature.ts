@@ -1,9 +1,9 @@
-﻿import Body from "./Body/Body";
+﻿import CreatureBody from "./Body/Body";
 import ComponentList from "./Utilities/ComponentList";
 import KeyItem from "./Items/KeyItem";
 import CharacterInventory from "./Inventory/CharacterInventory";
 
-export default class Creature extends Body {
+export default class Creature extends CreatureBody {
     //Short refers to player name and monster name. BEST VARIABLE NAME EVA!
     //"a" refers to how the article "a" should appear in text. 
     private _short: string = "You";
@@ -19,12 +19,12 @@ export default class Creature extends Body {
 
     public keyItems: ComponentList<KeyItem>;
 
-    public inventoryManager: CharacterInventory;
+    public inventory: CharacterInventory;
 
     public constructor() {
         super();
         this.keyItems = new ComponentList<KeyItem>();
-        this.inventoryManager = new CharacterInventory();
+        this.inventory = new CharacterInventory();
     }
 }
 

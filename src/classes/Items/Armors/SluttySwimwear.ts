@@ -30,14 +30,14 @@ export default class SluttySwimwear extends ArmorWithPerk {
         }
         else {
             if (player.lowerBody.cockSpot.count() == 1) {
-                MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " flopping free from the thong's confines. The tight material rubbing against your dick does manage to turn you on slightly.  ");
+                MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " flopping free from the thong's confines. The tight material rubbing against your dick does manage to turn you on slightly.  ");
             }
             else {
                 MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeMultiCockShort(player, player.lowerBody.cockSpot) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
             }
             player.stats.lust += 5;
-            if (player.lowerBody.cockSpot.biggestCocks[0].cockArea() >= 20)
-                MainScreen.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.biggestCocks[0]) + " has popped out of the top, completely exposed.  Maybe if you shrunk your male parts down a little...");
+            if (player.lowerBody.cockSpot.listLargestCockArea[0].cockArea() >= 20)
+                MainScreen.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.listLargestCockArea[0]) + " has popped out of the top, completely exposed.  Maybe if you shrunk your male parts down a little...");
             //[If dick is 7+ inches OR balls are apple-sized]
             else if (player.lowerBody.ballSize > 5)
                 MainScreen.text("You do your best to put the thong on, and while the material is very stretchy, it simply can't even begin to cover everything, and your " + BallsDescriptor.describeBalls(true, true, player) + " hang on the sides, exposed.  Maybe if you shrunk your male parts down a little...");

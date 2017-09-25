@@ -14,11 +14,11 @@ export default class SeductiveArmor extends Armor {
             MainScreen.text("After struggling to get it on, you feel a sudden shift in your scandalous new armor.  To your horror, it begins folding into itself, revealing more and more of your " + player.skinDesc + " and the comfortable underclothes you had on underneath it.  The transforming armor gradually covers less and less of you until it's little more than a pair of huge nipple-coverings and a silver chain.  A loud KA-CHUNK startles you, and then you're screaming as you feel something stabbing through your nipples.  Goosebumps cover your flesh as you twist in unexpected agony.\n\n");
             MainScreen.text("After you've had a chance to recover, you inspect your abused nipples and discover that your armor has totally disappeared.  The only thing left behind is a pair of seamless black nipple-studs, embedded into your vulnerable flesh.  There doesn't appear to be any way to remove them either.  Thankfully, your comfortable underclothes have been unaffected by the sudden disappearance of your armor.  The thought of having to run around naked stays stubbornly locked in your mind, and you mentally curse the demon for what she's done to you.\n\n");
             MainScreen.text("As if summoned by your thoughts, you can hear her voice on the wind, taunting you again, \"<i>Enjoy your new bondage fetish, pet!  One more piercing and you'll be ready.  Don't have too much fun being tied down and fucked, ok?</i>\"\n\n");
-            if (player.upperBody.chest.list[0].nipplesPierced > 0)
+            if (player.upperBody.chest.get(0).nipplesPierced > 0)
                 MainScreen.text("You're left to wonder - where did the old piercings go?\n\n");
-            player.upperBody.chest.list[0].nipplesPierced = 1;
-            player.upperBody.chest.list[0].nipplesPiercedShort = "seamless black nipple-studs";
-            player.upperBody.chest.list[0].nipplesPiercedLong = "Seamless black nipple-studs";
+            player.upperBody.chest.get(0).nipplesPierced = 1;
+            player.upperBody.chest.get(0).nipplesPiercedShort = "seamless black nipple-studs";
+            player.upperBody.chest.get(0).nipplesPiercedLong = "Seamless black nipple-studs";
             Flags.set(FlagEnum.PC_FETISH, 2);
         }
         else {

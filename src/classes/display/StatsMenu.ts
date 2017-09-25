@@ -149,8 +149,8 @@ export default class StatsMenu {
             let totalCockGirth: number = 0;
 
             for (let i: number = 0; i < player.lowerBody.cockSpot.count(); i++) {
-                totalCockLength += player.lowerBody.cockSpot.list[i].cockLength;
-                totalCockGirth += player.lowerBody.cockSpot.list[i].cockThickness
+                totalCockLength += player.lowerBody.cockSpot.get(i].cockLength;
+                totalCockGirth += player.lowerBody.cockSpot.list[i).cockThickness
             }
 
             bodyStats += "<b>Total Cock Length:</b> " + Math.round(totalCockLength) + " inches\n";

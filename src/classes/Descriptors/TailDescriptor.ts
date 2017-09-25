@@ -1,5 +1,5 @@
 ﻿import { TailType } from "../Body/LowerBodyModule";
-import Body from "../Body/Body";
+import CreatureBody from "../Body/Body";
 
 export default class TailDescriptor {
     public static TailNameTable =
@@ -23,7 +23,7 @@ export default class TailDescriptor {
         [TailType.MOUSE, "mouse"]
     ];
 
-    public static describeTail(body: Body): string {
+    public static describeTail(body: CreatureBody): string {
         if (body.lowerBody.tailType == TailType.NONE) {
             console.trace("WARNING: Creature has no tails to describe.");
             return "<b>!Creature has no tails to describe!</b>";
@@ -52,7 +52,7 @@ export default class TailDescriptor {
         return description;
     }
 
-    public static describeOneTail(body: Body): string {
+    public static describeOneTail(body: CreatureBody): string {
         if (body.lowerBody.tailType == TailType.NONE) {
             console.trace("WARNING: Creature has no tails to describe.");
             return "<b>!Creature has no tails to describe!</b>";
