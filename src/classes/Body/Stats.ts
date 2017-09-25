@@ -1,9 +1,10 @@
 ﻿import Flags, { FlagEnum } from "../Game/Flags";
-import Body from "./Body";
+import CreatureBody from "./Body";
 import { SaveInterface } from "../SaveInterface";
+import StatModifiers from "../Modifiers/StatModifiers";
 
 export default class Stats implements SaveInterface {
-    private body: Body;
+    private body: CreatureBody;
     //Primary stats
     private _str: number;
     private _tou: number;
@@ -28,7 +29,7 @@ export default class Stats implements SaveInterface {
     public gems: number;
     public additionalXP: number;
 
-    public constructor(body: Body) {
+    public constructor(body: CreatureBody) {
         this.body = body;
         this._str = 0;
         this._tou = 0;
@@ -168,8 +169,8 @@ export default class Stats implements SaveInterface {
             this._lib = 15;
         else if (this._lib < 10 && this.body.gender == 0)
             this._lib = 10;
-        if (this._lib < minLust() * 2 / 3)
-            this._lib = minLust() * 2 / 3;
+        if (this._lib < this.minLust() * 2 / 3)
+            this._lib = this.minLust() * 2 / 3;
     }
 
     public setLib(value: number) {
@@ -241,10 +242,10 @@ export default class Stats implements SaveInterface {
 
 
         //Add HP for toughness change.
-        HPChange(toug * 2, false);
+        StatModifiers.HPChange(this.body, this.tou * 2);
         //Reduce hp if over max
-        if (this._HP > maxHP())
-            this._HP = maxHP();
+        if (this._HP > this.maxHP())
+            this._HP = this.maxHP();
     }
 
     public setHP(value: number) {
@@ -259,7 +260,7 @@ export default class Stats implements SaveInterface {
         if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG) == 1 && value > 0 && this.lustResisted)
             value /= 2;
         if (value > 0 && this.lustResisted)
-            value *= lustPercent() / 100;
+            value *= this.lustPercent() / 100;
 
         this.lustResisted = true;
 
@@ -269,8 +270,8 @@ export default class Stats implements SaveInterface {
             this._lust = 0;
         if (this._lust > 99)
             this._lust = 100;
-        if (this._lust < minLust())
-            this._lust = minLust();
+        if (this._lust < this.minLust())
+            this._lust = this.minLust();
         if (this.body.statusAffects.has("Infested"))
             if (this._lust < 50)
                 this._lust = 50;
@@ -358,6 +359,75 @@ export default class Stats implements SaveInterface {
             max = 999;
         return max;
 
+    }
+
+    public lustPercent():number {
+        let lust: number = 100;
+        //2.5% lust resistance per level - max 75.
+        if (this.level < 21)
+            lust -= (this.level - 1) * 3;
+        else lust = 40;
+	
+        //++++++++++++++++++++++++++++++++++++++++++++++++++
+        //ADDITIVE REDUCTIONS
+        //THESE ARE FLAT BONUSES WITH LITTLE TO NO DOWNSIDE
+        //TOTAL IS LIMITED TO 75%!
+        //++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Corrupted Libido reduces lust gain by 10%!
+        if (this.body.perks.has("CorruptedLibido"))
+            lust -= 10;
+        //Acclimation reduces by 15%
+        if (this.body.perks.has("Acclimation"))
+            lust -= 15;
+        //Purity blessing reduces lust gain
+        if (this.body.perks.has("PurityBlessing"))
+            lust -= 5;
+        //Resistance = 10%
+        if (this.body.perks.has("Resistance"))
+            lust -= 10;
+        if (this.body.perks.has("ChiReflowLust"))
+            lust -= UmasShop.NEEDLEWORK_LUST_LUST_RESIST;
+	
+        if (lust < 25) lust = 25;
+        if (this.body.statusAffects.has("BlackCatBeer")) {
+            if (lust >= 80) lust = 100;
+            else lust += 20;
+        }
+	    lust += Math.round(this.body.perks.get("PentUp").value1 / 2);
+        //++++++++++++++++++++++++++++++++++++++++++++++++++
+        //MULTIPLICATIVE REDUCTIONS
+        //THESE PERKS ALSO RAISE MINIMUM LUST OR HAVE OTHER
+        //DRAWBACKS TO JUSTIFY IT.
+        //++++++++++++++++++++++++++++++++++++++++++++++++++
+        //Bimbo body slows lust gains!
+        if ((this.body.statusAffects.has("BimboChampagne") || this.body.statusAffects.has("BimboBody")) && lust > 0)
+            lust *= .75;
+        if (this.body.statusAffects.has("BroBody") && lust > 0)
+            lust *= .75;
+        if (this.body.statusAffects.has("FutaForm") && lust > 0)
+            lust *= .75;
+        //Omnibus' Gift reduces lust gain by 15%
+        if (this.body.statusAffects.has("OmnibusGift"))
+            lust *= .85;
+        //Luststick reduces lust gain by 10% to match increased min lust
+        if (this.body.statusAffects.has("LuststickAdapted"))
+            lust *= 0.9;
+        if (this.body.statusAffects.has("Berzerking"))
+            lust *= .6;
+        if (this.body.statusAffects.has("PureAndLoving"))
+            lust *= 0.95;
+	
+        // Lust mods from Uma's content -- Given the short duration and the gem cost, I think them being multiplicative is justified.
+        // Changing them to an additive bonus should be pretty simple (check the static values in UmasShop.as)
+        if (this.body.statusAffects.has("UmasMassage")) {
+            let UmasMassageStatusAffect = this.body.statusAffects.get("UmasMassage");
+            if (UmasMassageStatusAffect.value1 == UmasShop.MASSAGE_RELIEF || UmasMassageStatusAffect.value1 == UmasShop.MASSAGE_LUST) {
+                lust *= UmasMassageStatusAffect.value2;
+            }
+        }
+	
+	    lust = Math.round(lust);
+        return lust;
     }
 
     saveKey: string = "Stats";
