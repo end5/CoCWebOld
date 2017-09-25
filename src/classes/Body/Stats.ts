@@ -242,10 +242,34 @@ export default class Stats implements SaveInterface {
 
 
         //Add HP for toughness change.
-        StatModifiers.HPChange(this.body, this.tou * 2);
+        this.HPChange(this.body, this.tou * 2);
         //Reduce hp if over max
         if (this._HP > this.maxHP())
             this._HP = this.maxHP();
+    }
+
+    public HPChange(body: CreatureBody, changeAmount: number): number {
+        if (changeAmount == 0)
+            return;
+        if (changeAmount > 0) {
+            //Increase by 20%!
+            if (body.perks.has("HistoryHealer"))
+                changeAmount *= 1.2;
+            if (body.stats.HP + Math.floor(changeAmount) > body.stats.maxHP()) {
+                if (body.stats.HP >= body.stats.maxHP())
+                    return;
+                body.stats.HP = body.stats.maxHP();
+            }
+            else
+                body.stats.HP += Math.floor(changeAmount);
+        }
+        //Negative HP
+        else {
+            if (body.stats.HP + changeAmount <= 0)
+                body.stats.HP = 0;
+            else
+                body.stats.HP += changeAmount;
+        }
     }
 
     public setHP(value: number) {
