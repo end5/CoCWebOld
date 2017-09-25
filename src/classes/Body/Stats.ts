@@ -224,12 +224,48 @@ export default class Stats implements SaveInterface {
     }
 
     public set fatigue(value: number) {
-
-        this._fatigue += value;
+        this.fatigueChange(value);
     }
 
     public setFatigue(value: number) {
         this._fatigue = value;
+    }
+
+    //Modify fatigue
+    //types:
+    //        0 - normal
+    //        1 - magic
+    public fatigueChange(value: number, type: number = 0): void {
+        //Spell reductions
+        if (type == 1) {
+            value = spellCost(value);
+
+            //Blood mages use HP for spells
+            if (this.body.perks.has("BloodMage")) {
+                takeDamage(value);
+                return;
+            }
+        }
+        //Physical special reductions
+        if (type == 2) {
+            value = physicalCost(value);
+        }
+        if (this._fatigue >= 100 && value > 0) return;
+        if (this._fatigue <= 0 && value < 0) return;
+        //Fatigue restoration buffs!
+        if (value < 0) {
+            let multi: number = 1;
+
+            if (this.body.perks.has("HistorySlacker"))
+                multi += 0.2;
+            if (this.body.perks.has("ControlledBreath") && this.cor < 30)
+                multi += 0.1;
+
+            value *= multi;
+        }
+        this._fatigue += value;
+        if (this._fatigue > 100) this._fatigue = 100;
+        if (this._fatigue < 0) this._fatigue = 0;
     }
 
     public get HP(): number {
