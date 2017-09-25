@@ -110,7 +110,7 @@ export default class CockSpot implements SaveInterface {
         });
     }
 
-    public get listThinkestCocks(): Cock[] {
+    public get listThickestCocks(): Cock[] {
         return this._cocks.slice().sort((a: Cock, b: Cock) => {
             return b.cockThickness - a.cockThickness;
         });
@@ -140,6 +140,18 @@ export default class CockSpot implements SaveInterface {
     public listCockType(cockType: CockType): Cock[] {
         return this.listLargestCockArea.filter((cock: Cock) => {
             if (cock.cockType == cockType) {
+                if (cock.cockType == CockType.DOG || cock.cockType == CockType.FOX)
+                    return cock;
+                else
+                    return cock;
+            }
+
+        });
+    }
+
+    public listNotCockType(cockType: CockType): Cock[] {
+        return this.listLargestCockArea.filter((cock: Cock) => {
+            if (cock.cockType != cockType) {
                 if (cock.cockType == CockType.DOG || cock.cockType == CockType.FOX)
                     return cock;
                 else
