@@ -34,7 +34,7 @@ export default class BeeHoney extends Consumable {
             honeyName = (pure ? "PurHony" : "BeeHony");
             honeyLong = (pure ? "a crystal vial filled with glittering honey" : "a small vial filled with giant-bee honey");
             honeyDesc = "This fine crystal vial is filled with a thick amber liquid that glitters " + (pure ? "" : "dully ") + "in the light.  You can smell a sweet scent, even though it is tightly corked.";
-            honeyValue = (pure ? BeeHoney.PURE_HONEY_VALUE : 6);
+            honeyValue = (pure ? BeeHoney.PURE_HONEY_VALUE : BeeHoney.DefaultValue);
         }
         super(honeyName, honeyName, honeyLong, honeyValue, honeyDesc);
     }
@@ -52,6 +52,9 @@ export default class BeeHoney extends Consumable {
         let special: boolean = (this.value == BeeHoney.SPECIAL_HONEY_VALUE);
         let changes: number = 0;
         let changeLimit: number = 1;
+        let cockSpot = player.lowerBody.cockSpot;
+        let chest = player.upperBody.chest;
+
         MainScreen.clearText();
         player.slimeFeed();
         //Chances of boosting the change limit.
@@ -133,17 +136,22 @@ export default class BeeHoney extends Consumable {
             changes++;
         }
         //-Remove extra breast rows
-        if (changes < changeLimit && player.upperBody.chest.list.length > 2 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (changes < changeLimit && chest.count() > 2 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
             changes++;
-            MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(player.upperBody.chest.list[player.upperBody.chest.count() - 1]) + " shrink down, disappearing completely into your ");
-            if (player.upperBody.chest.list.length >= 3) MainScreen.text("abdomen");
-            else MainScreen.text("chest");
-            MainScreen.text(". The " + BreastDescriptor.describeNipple(player, player.upperBody.chest.list[player.upperBody.chest.list.length - 1]) + "s even fade until nothing but ");
-            if (player.skinType == SkinType.FUR) MainScreen.text(player.upperBody.head.hairColor + " " + player.skinDesc);
-            else MainScreen.text(player.skinTone + " " + player.skinDesc);
+            let lastBreastRow = chest.get(chest.count() - 1);
+            MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
+            if (chest.count() >= 3)
+                MainScreen.text("abdomen");
+            else
+                MainScreen.text("chest");
+            MainScreen.text(". The " + BreastDescriptor.describeNipple(player, lastBreastRow) + "s even fade until nothing but ");
+            if (player.skinType == SkinType.FUR)
+                MainScreen.text(player.upperBody.head.hairColor + " " + player.skinDesc);
+            else
+                MainScreen.text(player.skinTone + " " + player.skinDesc);
             MainScreen.text(" remains. <b>You've lost a row of breasts!</b>");
             player.stats.sens -= 5
-            player.upperBody.chest.remove(player.upperBody.chest.list[player.upperBody.chest.list.length - 1]);
+            player.upperBody.chest.remove(lastBreastRow);
         }
         //Antennae
         if (changes < changeLimit && player.upperBody.head.antennae == AntennaeType.NONE && player.upperBody.head.horns == 0 && Utils.rand(3) == 0) {
@@ -165,14 +173,16 @@ export default class BeeHoney extends Consumable {
             changes++;
         }
         //-Nipples reduction to 1 per tit.
-        if (player.upperBody.chest.averageNipplesPerBreast() > 1 && changes < changeLimit && Utils.rand(4) == 0) {
-            MainScreen.text("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " and vanishes.  You stick a hand under your " + player.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1) MainScreen.text("'breast'.");
-            else MainScreen.text("breast.");
+        if (chest.averageNipplesPerBreast() > 1 && changes < changeLimit && Utils.rand(4) == 0) {
+            MainScreen.text("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(chest) + " and vanishes.  You stick a hand under your " + player.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            if (chest.BreastRatingLargest[0].breastRating < 1)
+                MainScreen.text("'breast'.");
+            else
+                MainScreen.text("breast.");
             changes++;
             //Loop through and reset nipples
-            for (let index: number = 0; index < player.upperBody.chest.count(); index++) {
-                player.upperBody.chest.get(index).nipplesPerBreast = 1;
+            for (let index: number = 0; index < chest.count(); index++) {
+                chest.get(index).nipplesPerBreast = 1;
             }
         }
         //Gain oviposition!
@@ -231,45 +241,53 @@ export default class BeeHoney extends Consumable {
             changes++;
         }
         if (special) { //All the speical honey effects occur after any normal bee transformations (if the player wasn't a full bee morph)
-            if (!player.lowerBody.cockSpot.hasCock()) {
+            let selectedCock: Cock;
+            if (!cockSpot.hasCock()) {
                 MainScreen.text("\n\nYou double over in pain as the effects start to concentrate into your groin.  You need to get release, but what you’ve got just isn’t cutting it.  You fall to the ground and grab at your crotch, trying desperately to get the release you need.  Finally, it happens.  With a sudden burst of intense relief and sexual satisfaction, a new human looking penis bursts from your skin and sprays your seed all over the ground in front of you.  When you’re able to recover and take a look at your new possession.  <b>You now have an eight inch long human cock that is very sensitive to stimulation.</b>");
-                player.lowerBody.cockSpot.add(new Cock());
-                player.lowerBody.cockSpot.get(0).cockLength = Utils.rand(3) + 8;
-                player.lowerBody.cockSpot.get(0).cockThickness = 2;
+                selectedCock = new Cock();
+                selectedCock.cockLength = Utils.rand(3) + 8;
+                selectedCock.cockThickness = 2;
+                cockSpot.add(selectedCock);
                 player.stats.sens += 10;
             }
             else if (player.lowerBody.cockSpot.count() > 1) {
-                MainScreen.text("\n\nThe effects of the honey move towards your groin, and into your " + CockDescriptor.describeMultiCockShort(player) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.listLargestCockArea[0]) + " is absorbed into your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " seems a lot more sensative now...");
-                player.lowerBody.cockSpot.get(0].cockLength += 5 * Math.sqrt(0.2 * player.lowerBody.cockSpot.listLargestCockArea[0).cockArea());
-                player.lowerBody.cockSpot.get(0].cockThickness += Math.sqrt(0.2 * player.lowerBody.cockSpot.listLargestCockArea[0).cockArea());
-                player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.listLargestCockArea[0]);
+                let largestCock = cockSpot.listLargestCockArea[0];
+                selectedCock = cockSpot.get(0);
+                MainScreen.text("\n\nThe effects of the honey move towards your groin, and into your " + CockDescriptor.describeMultiCockShort(player) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + CockDescriptor.describeCock(player, player, largestCock) + " is absorbed into your " + CockDescriptor.describeCock(player, player, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + CockDescriptor.describeCock(player, player, selectedCock) + " seems a lot more sensative now...");
+                selectedCock.cockLength += 5 * Math.sqrt(0.2 * largestCock.cockArea());
+                selectedCock.cockThickness += Math.sqrt(0.2 * largestCock.cockArea());
+                cockSpot.remove(player, largestCock);
                 player.stats.sens += 5;
             }
             else if (player.lowerBody.cockSpot.get(0).cockArea() < 100) {
-                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + player.inventory.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " has both grown much longer and wider!  <b>");
-                if (player.lowerBody.cockSpot.get(0).cockArea() <= 20)
+                selectedCock = cockSpot.get(0);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, selectedCock) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + player.inventory.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + CockDescriptor.describeCock(player, player, selectedCock) + " has both grown much longer and wider!  <b>");
+                if (selectedCock.cockArea() <= 20)
                     MainScreen.text("It now swings as low as your knees!");
-                else if (player.lowerBody.cockSpot.get(0).cockArea() <= 50)
+                else if (selectedCock.cockArea() <= 50)
                     MainScreen.text("While erect, your massive member fills the lower half of your vision.");
-                else MainScreen.text("Your member is now simply huge, you wonder what in the world could actually take your massive size now?");
+                else
+                    MainScreen.text("Your member is now simply huge, you wonder what in the world could actually take your massive size now?");
                 MainScreen.text("</b>");
-                player.lowerBody.cockSpot.get(0).cockLength += Utils.rand(3) + 4; //4 to 6 inches in length
-                player.lowerBody.cockSpot.get(0).cockThickness += 0.1 * Utils.rand(5) + 0.5; //0.5 to 1 inches in thickness
+                selectedCock.cockLength += Utils.rand(3) + 4; //4 to 6 inches in length
+                selectedCock.cockThickness += 0.1 * Utils.rand(5) + 0.5; //0.5 to 1 inches in thickness
                 player.stats.sens += 5;
             }
-            else if (player.lowerBody.cockSpot.get(0).cockType != CockType.BEE && PlayerDescriptor.describeRace(player) == "bee-morph") {
-                MainScreen.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + player.inventory.armor.displayName + " and watch in fascination as your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
+            else if (cockSpot.get(0).cockType != CockType.BEE && PlayerDescriptor.describeRace(player) == "bee-morph") {
+                selectedCock = cockSpot.get(0);
+                MainScreen.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + player.inventory.armor.displayName + " and watch in fascination as your " + CockDescriptor.describeCock(player, player, selectedCock) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
                 MainScreen.text("It is entirely different from the usual feeling you get when you’re cock grows larger from imbibing transformative substances.  When the changes stop, the tip is shaped like a typical human mushroom cap covered in fine bee hair, but it feels nothing like what you’d expect a human dick to feel like.  Your whole length is incredibly sensitive, and touching it gives you incredible stimulation, but you’re sure that no matter how much you rub it, you aren’t going to cum by yourself.  You want cool honey covering it, you want tight walls surrounding it, you want to fertilize hundreds of eggs with it.  These desires are almost overwhelming, and it takes a lot of will not to just run off in search of the bee girl that gave you that special honey right now.  This isn’t good.\n\n");
                 MainScreen.text("<b>You now have a bee cock!</b>");
-                player.lowerBody.cockSpot.get(0].cockType = CockType.BEE;
-                player.lowerBody.cockSpot.get(0).cockLength += 5;
-                player.lowerBody.cockSpot.get(0).cockThickness += 1;
+                selectedCock.cockType = CockType.BEE;
+                selectedCock.cockLength += 5;
+                selectedCock.cockThickness += 1;
                 player.stats.sens += 15;
             }
             else {
-                MainScreen.text("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0)) + " grow slightly under your " + player.inventory.armor.displayName + ".");
-                player.lowerBody.cockSpot.get(0).cockLength += 0.1 * Utils.rand(10) + 1;
-                player.lowerBody.cockSpot.get(0).cockThickness += 0.1 * Utils.rand(2) + 0.1;
+                selectedCock = cockSpot.get(0);
+                MainScreen.text("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + CockDescriptor.describeCock(player, player, selectedCock) + " grow slightly under your " + player.inventory.armor.displayName + ".");
+                selectedCock.cockLength += 0.1 * Utils.rand(10) + 1;
+                selectedCock.cockThickness += 0.1 * Utils.rand(2) + 0.1;
                 player.stats.sens += 3;
             }
             if (player.stats.cor >= 5) {
@@ -291,7 +309,6 @@ export default class BeeHoney extends Consumable {
             }
             player.stats.lust += 0.2 * player.stats.lib + 5;
         }
-        return (false);
     }
 
 }

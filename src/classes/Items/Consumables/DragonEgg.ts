@@ -3,11 +3,10 @@ import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
 import StatusAffect from "../../Effects/StatusAffect";
-import StatModifiers from "../../Modifiers/StatModifiers";
 
 export default class DragonEgg extends Consumable {
     public constructor() {
-        super("DrgnEgg", "DrgnEgg", "an unfertilized dragon egg", 0, "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches.");
+        super("DrgnEgg", "DrgnEgg", "an unfertilized dragon egg", DragonEgg.DefaultValue, "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches.");
     }
 
     public use(player: Player) {
@@ -22,6 +21,6 @@ export default class DragonEgg extends Consumable {
             //(if PC has breath weapon)
             MainScreen.text("\n\nA sudden surge of energy fills your being and you feel like you could blast anything to atoms with a single breath, like the mighty dragons of legends.");
         }
-        StatModifiers.fatigue(player, -20);
+        player.stats.fatigueChange(-20);
     }
 }

@@ -28,12 +28,14 @@ export default class BimboLiqueur extends Consumable {
                 MainScreen.text(" ...Did the ground just get farther away?  You glance down and realize, you're growing!  Like a sped-up flower sprout, you keep on getting taller until finally stopping around... six and a half feet, you assume.  Huh.  You didn't expect that to happen!");
                 player.tallness = 77;
             }
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 7) {
-                if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1)
+            let largestBreasts = player.upperBody.chest.BreastRatingLargest[0];
+            if (largestBreasts.breastRating < 7) {
+                if (largestBreasts.breastRating < 1)
                     MainScreen.text("  Tingling, your chest begins to itch, then swell into a pair of rounded orbs.  ");
-                else MainScreen.text("  You feel a tingling inside your breasts.  ");
+                else
+                    MainScreen.text("  You feel a tingling inside your breasts.  ");
                 MainScreen.text("They quiver ominously, and you can't help but squeeze your tits together to further appreciate the boobquake as another tremor runs through them.  Unexpectedly, the shaking pushes your hands further apart as your tits balloon against each other, growing rapidly against your now-sunken fingers.  The quakes continue until calming at around an E-cup.");
-                player.upperBody.chest.BreastRatingLargest[0].breastRating = 7;
+                largestBreasts.breastRating = 7;
             }
             //(If vagina = 2tight:
             if (!player.lowerBody.vaginaSpot.hasVagina()) {
@@ -117,7 +119,7 @@ export default class BimboLiqueur extends Consumable {
                 else MainScreen.text("penises");
                 MainScreen.text("!</b>");
                 while (player.lowerBody.cockSpot.hasCock()) {
-                    player.lowerBody.cockSpot.remove(player.lowerBody.cockSpot.get(0));
+                    player.lowerBody.cockSpot.remove(player, player.lowerBody.cockSpot.get(0));
                 }
             }
             MainScreen.text("  Somehow, you feel like you could seduce anyone right now!\n\n");

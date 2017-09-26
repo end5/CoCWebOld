@@ -2,10 +2,13 @@ import Consumable from "./Consumable";
 import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
+import StatChangeDisplay from "../../display/StatChangeDisplay";
+import StatusAffect from "../../Effects/StatusAffect";
+import Game from "../../Game/Game";
 
 export default class MarbleMilk extends Consumable {
     public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", 0, "This powerful brew supposedly has mind-strengthening effects.");
+        super("Smart T", "Scholars T.", "a cup of scholar's tea", MarbleMilk.DefaultValue, "This powerful brew supposedly has mind-strengthening effects.");
     }
 
     public use(player: Player) {
@@ -29,18 +32,19 @@ export default class MarbleMilk extends Consumable {
             }
         }
         //Increases addiction by 5, up to a max of 50 before the player becomes addicted, no max after the player is addicted.
-        kGAMECLASS.marbleScene.marbleStatusChange(0, 5);
+        Game.sceneManager.marbleScene.marbleStatusChange(0, 5);
         //Does not apply the 'Marble's Milk' effect
         //Purge withdrawl
         if (player.statusAffects.has("MarbleWithdrawl")) {
             player.statusAffects.remove("MarbleWithdrawl");
-            dynStats("tou", 5, "int", 5);
+            player.stats.tou += 5;
+            player.stats.int += 5;
             MainScreen.text("You no longer feel the symptoms of withdrawal.\n\n", false);
         }
         //Heals the player 70-100 health
-        HPChange(70 + Utils.rand(31), true);
+        StatChangeDisplay.HPChange(player, 70 + Utils.rand(31));
         //Restores a portion of fatigue (once implemented)
-        kGAMECLASS.changeFatigue(-25);
+        player.stats.fatigueChange(-25);
         //If the player is addicted, this item negates the withdrawal effects for a few hours (suggest 6), there will need to be a check here to make sure the withdrawal effect doesn't reactivate while the player is under the effect of 'Marble's Milk'.
         if (player.statusAffects.has("BottledMilk")) {
             player.statusAffects.get("BottledMilk").value1 = (6 + Utils.rand(6));

@@ -2,10 +2,11 @@ import Consumable from "./Consumable";
 import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
+import Game from "../../Game/Game";
 
 export default class GodsMead extends Consumable {
     public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", 0, "This powerful brew supposedly has mind-strengthening effects.");
+        super("GodMead", "GodMead", "a pint of god's mead");
     }
 
     public use(player: Player) {
@@ -14,19 +15,20 @@ export default class GodsMead extends Consumable {
 
         //Libido: No desc., always increases.
         //Corruption: No desc., always decreases.
-        dynStats("lib", 1, "cor", -1);
+        player.stats.lib += 1;
+        player.stats.cor -= 1;
         //Health/HP(Large increase; always occurs):
         MainScreen.text("\n\nYou feel suddenly invigorated by the potent beverage, like you could take on a whole horde of barbarians or giants and come out victorious!");
-        HPChange(Math.round(player.maxHP() * .33), false);
+        player.stats.HPChange(Math.round(player.maxHP() * .33));
         if (Utils.rand(3) == 0) {
             MainScreen.text("\n\nThe alcohol fills your limbs with vigor, making you feel like you could take on the world with just your fists!");
-            if (silly()) MainScreen.text("  Maybe you should run around shirtless, drink, and fight!  Saxton Hale would be proud.");
-            dynStats("str", 1);
+            if (Game.silly()) MainScreen.text("  Maybe you should run around shirtless, drink, and fight!  Saxton Hale would be proud.");
+            player.stats.str += 1;
         }
         //Tough:
         else {
             MainScreen.text("\n\nYou thump your chest and grin - your foes will have a harder time taking you down while you're fortified by liquid courage.");
-            dynStats("tou", 1);
+            player.stats.tou += 1;
         }
         //Grow Beard [ONLY if PC has a masculine face & a dick.)( -- Why? Bearded ladies are also a fetish [That's just nasty.] (I want a lady beard)): A sudden tingling runs along your chin. You rub it with your hand, and find a thin layer of bristles covering your lower face. You now sport a fine [player.HairColor] beard!
         //[If player already has beard] A sudden tingling runs along your chin. You stroke your beard proudly as it slowly grows in length and lustre.

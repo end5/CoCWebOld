@@ -67,8 +67,8 @@ export default class GroPlus extends Consumable {
         MainScreen.clearText();
         player.slimeFeed();
         MainScreen.text("You sink the needle into your clit, nearly crying with how much it hurts.  You push down the plunger and the pain vanishes as your clit starts to grow.\n\n");
-        player.lowerBody.vaginaSpot.list[0].clitLength++;
-        MainScreen.text("Your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.list[0]) + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
+        player.lowerBody.vaginaSpot.get(0).clitLength++;
+        MainScreen.text("Your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
 
         player.stats.sens += 2;
         player.stats.lust += 10;
@@ -80,18 +80,18 @@ export default class GroPlus extends Consumable {
         player.slimeFeed();
         MainScreen.text("You sink the needle into the base of your " + CockDescriptor.describeMultiCockShort(player) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
         if (player.lowerBody.cockSpot.count() == 1) {
-            MainScreen.text("Your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.list[0]) + " twitches and thickens, pouring more than an inch of thick new length from your ");
-            CockModifiers.increaseCock(player, 0, 4);
-            player.lowerBody.cockSpot.list[0].cockLength += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
-            player.lowerBody.cockSpot.list[0].cockThickness += 0.5; // And growCock never actually touched thickness. Nor does the new version. Thickness mod was stripped out entirely.
+            MainScreen.text("Your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " twitches and thickens, pouring more than an inch of thick new length from your ");
+            CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), 4);
+            player.lowerBody.cockSpot.get(0).cockLength += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
+            player.lowerBody.cockSpot.get(0).cockThickness += 0.5; // And growCock never actually touched thickness. Nor does the new version. Thickness mod was stripped out entirely.
         }
         //MULTI
         else {
             MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(player) + " twitch and thicken, each member pouring out more than an inch of new length from your ");
             for (let index: number = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                CockModifiers.increaseCock(player, index, 2);
-                player.lowerBody.cockSpot.list[index].cockLength += 1;
-                player.lowerBody.cockSpot.list[index].cockThickness += 0.5;
+                CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), 2);
+                player.lowerBody.cockSpot.get(index).cockLength += 1;
+                player.lowerBody.cockSpot.get(index).cockThickness += 0.5;
             }
         }
         if (player.lowerBody.cockSpot.hasSheath())
@@ -105,17 +105,17 @@ export default class GroPlus extends Consumable {
     private growPlusNipples(player: Player): void {
         MainScreen.clearText();
         player.slimeFeed();
-        MainScreen.text("You sink the needle into each of your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.list[0]) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
+        MainScreen.text("You sink the needle into each of your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         //Grow nipples
         MainScreen.text("Your nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
-        player.upperBody.chest.list[Utils.rand(player.upperBody.chest.count() - 1)].nippleLength += (Utils.rand(2) + 3) / 10;
+        player.upperBody.chest.get(Utils.rand(player.upperBody.chest.count() - 1)).nippleLength += (Utils.rand(2) + 3) / 10;
         player.stats.lust += 15;
         //NIPPLECUNTZZZ
         if (!player.upperBody.chest.hasFuckableNipples() && Utils.rand(4) == 0) {
             let nowFuckable: boolean = false;
             for (let index: number = 0; index < player.upperBody.chest.count(); index++) {
-                if (!player.upperBody.chest.list[index].fuckable && player.upperBody.chest.list[index].nippleLength >= 2) {
-                    player.upperBody.chest.list[index].fuckable = true;
+                if (!player.upperBody.chest.get(index).fuckable && player.upperBody.chest.get(index).nippleLength >= 2) {
+                    player.upperBody.chest.get(index).fuckable = true;
                     nowFuckable = true;
                 }
             }

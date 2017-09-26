@@ -1,11 +1,10 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
 
 export default class GiantChocolateCupcake extends Consumable {
     public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", 0, "This powerful brew supposedly has mind-strengthening effects.");
+        super("CCupcak", "CCupcak", "a gigantic, chocolate cupcake", 250);
     }
 
     public use(player: Player) {

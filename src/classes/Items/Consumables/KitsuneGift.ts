@@ -2,11 +2,13 @@ import Consumable from "./Consumable";
 import Player from "../../Player";
 import Utils from "../../Utilities/Utils";
 import MainScreen from "../../display/MainScreen";
+import InventoryDisplay from "../../display/InventoryDisplay";
+import Game from "../../Game/Game";
 
 export default class KitsuneGift extends Consumable {
 
     public constructor() {
-        super("KitGift", "KitGift", "a kitsune's gift", 0, "A small square package given to you by a forest kitsune.  It is wrapped up in plain white paper and tied with a string.  Who knows what's inside?");
+        super("KitGift", "KitGift", "a kitsune's gift", KitsuneGift.DefaultValue, "A small square package given to you by a forest kitsune.  It is wrapped up in plain white paper and tied with a string.  Who knows what's inside?");
     }
 
     public canUse(player: Player) {
@@ -22,7 +24,10 @@ export default class KitsuneGift extends Consumable {
             case 0:
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, sitting in the center is a small teardrop-shaped jewel!");
                 MainScreen.text("\n\n<b>You've received a shining Fox Jewel from the kitsune's gift!  How generous!</b>  ");
-                game.inventory.takeItem(game.consumables.FOXJEWL, game.inventory.inventoryMenu);
+                if (!InventoryDisplay.isHoldingItem) {
+                    InventoryDisplay.addItem(Game.libraries.consumables.get("FoxJewl"))
+                    InventoryDisplay.displayPlayersInventory(player);
+                }
                 return (true);
 
             //[Fox Berries]
@@ -30,7 +35,10 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, there is a small cluster of orange-colored berries sitting in the center!");
                 MainScreen.text("\n\n<b>You've received a fox berry from the kitsune's gift!  How generous!</b>  ");
                 //add Fox Berries to inventory
-                game.inventory.takeItem(game.consumables.FOXBERY, game.inventory.inventoryMenu);
+                if (!InventoryDisplay.isHoldingItem) {
+                    InventoryDisplay.addItem(Game.libraries.consumables.get("FoxJewl"))
+                    InventoryDisplay.displayPlayersInventory(player);
+                }
                 return (true);
 
             //[Gems]
@@ -40,7 +48,7 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("\n\n<b>You've received " + Utils.numToCardinalText(gems) + " shining gems from the kitsune's gift!  How generous!</b>");
                 player.stats.gems += gems;
                 //add X gems to inventory
-                game.statScreenRefresh();
+                MainScreen.updateStats(player);
                 break;
 
             //[Kitsune Tea/Scholar's Tea] //Just use Scholar's Tea and drop the "trick" effect if you don't want to throw in another new item.
@@ -48,22 +56,28 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, it contains a small bag of dried tea leaves!");
                 MainScreen.text("\n\n<b>You've received a bag of tea from the kitsune's gift!  How thoughtful!</b>  ");
                 //add Kitsune Tea/Scholar's Tea to inventory
-                game.inventory.takeItem(game.consumables.SMART_T, game.inventory.inventoryMenu);
+                if (!InventoryDisplay.isHoldingItem) {
+                    InventoryDisplay.addItem(Game.libraries.consumables.get("FoxJewl"))
+                    InventoryDisplay.displayPlayersInventory(player);
+                }
                 return (true);
 
             //[Hair Dye]
             case 4:
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, it contains a small vial filled with hair dye!");
-                let itype: Consumable = [
-                    game.consumables.RED_DYE,
-                    game.consumables.BLOND_D,
-                    game.consumables.BLACK_D,
-                    game.consumables.WHITEDY
+                let randomHairDye: Consumable = [
+                    Game.libraries.consumables.get("Red Dye"),
+                    Game.libraries.consumables.get("Blond D"),
+                    Game.libraries.consumables.get("Black D"),
+                    Game.libraries.consumables.get("WhiteDy")
                 ][Utils.rand(4)];
 
-                MainScreen.text("\n\n<b>You've received " + itype.longName + " from the kitsune's gift!  How generous!</b>  ");
+                MainScreen.text("\n\n<b>You've received " + randomHairDye.longName + " from the kitsune's gift!  How generous!</b>  ");
                 //add <color> Dye to inventory
-                game.inventory.takeItem(itype, game.inventory.inventoryMenu);
+                if (!InventoryDisplay.isHoldingItem) {
+                    InventoryDisplay.addItem(Game.libraries.consumables.get("FoxJewl"))
+                    InventoryDisplay.displayPlayersInventory(player);
+                }
                 return (true);
 
             //[Knowledge Spell]
@@ -84,7 +98,7 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("\n\n<b>The kitsune's familiar has stolen your gems!</b>");
                 // Lose X gems as though losing in battle to a kitsune
                 player.stats.gems -= 2 + Utils.rand(15);
-                game.statScreenRefresh();
+                MainScreen.updateStats(player);
                 break;
 
             //[Prank]
@@ -123,7 +137,10 @@ export default class KitsuneGift extends Consumable {
             case 11:
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, but to your disappointment, the only other contents appear to be nothing more than twigs, leaves, and other forest refuse.  Upon further investigation, though, you find a shard of shiny black chitinous plating mixed in with the other useless junk.");
                 MainScreen.text("\n\n<b>At least you managed to salvage a shard of black chitin from it...</b>  ");
-                game.inventory.takeItem(game.useables.B_CHITN, game.inventory.inventoryMenu);
+                if (!InventoryDisplay.isHoldingItem) {
+                    InventoryDisplay.addItem(Game.libraries.materials.get("B.Chitn"))
+                    InventoryDisplay.displayPlayersInventory(player);
+                }
                 return (true);
 
             default: console.trace("Kitsune's gift roll foobar...");

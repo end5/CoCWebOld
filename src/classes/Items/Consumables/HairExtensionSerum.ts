@@ -8,7 +8,7 @@ import HeadDescriptor from "../../Descriptors/HeadDescriptor";
 export default class HairExtensionSerum extends Consumable {
 
     public constructor() {
-        super("ExtSerm", "ExtSerm", "a bottle of hair extension serum", 6, "This is a bottle of foamy pink liquid, purported by the label to increase the speed at which the user's hair grows.");
+        super("ExtSerm", "ExtSerm", "a bottle of hair extension serum", HairExtensionSerum.DefaultValue, "This is a bottle of foamy pink liquid, purported by the label to increase the speed at which the user's hair grows.");
     }
 
     public canUse(player: Player): boolean {

@@ -7,7 +7,7 @@ import StatusAffect from "../../Effects/StatusAffect";
 
 export default class CeruleanPotion extends Consumable {
     public constructor() {
-        super("Cerul P", "Cerulean P.", "a cerulean-tinted potion", 0, "This is a mysterious bottle filled with a sky-blue liquid that sloshes gently inside.  Supposedly it will make you irresistible, though to what or who you cannot say.");
+        super("Cerul P", "Cerulean P.", "a cerulean-tinted potion", CeruleanPotion.DefaultValue, "This is a mysterious bottle filled with a sky-blue liquid that sloshes gently inside.  Supposedly it will make you irresistible, though to what or who you cannot say.");
     }
 
     public use(player: Player) {

@@ -4,7 +4,6 @@ import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
 import Cock, { CockType } from "../../Body/Cock";
 import CockDescriptor from "../../Descriptors/CockDescriptor";
-import CockModifier from "../../Modifiers/CockModifiers";
 import Flags, { FlagEnum } from "../../Game/Flags";
 import BreastModifier from "../../Modifiers/BreastModifiers";
 import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
@@ -15,11 +14,15 @@ import { FaceType, TongueType } from "../../Body/Face";
 import { SkinType } from "../../Body/Body";
 import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
 import { WingType } from "../../Body/UpperBody";
+import CockModifiers from "../../Modifiers/CockModifiers";
 
 export default class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
     public constructor(tainted: boolean) {
-        super("IncubiD", "IncubiD", "an Incubi draft", 0, "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass.");
+        if (tainted)
+            super("IncubiD", "IncubiD", "an Incubi draft", IncubusDraft.DefaultValue, "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass.");
+        else
+            super("P.Draft", "P.Draft", "an untainted Incubi draft", 20, "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass. Rathazul has purified this to prevent corruption upon use.");
         this.tainted = tainted;
     }
 
@@ -62,15 +65,15 @@ export default class IncubusDraft extends Consumable {
         let cockGrowth: number;
         if (cockCount == 1) {
             cockGrowth= 0;
-            selectedCock = player.lowerBody.cockSpot.list[0];
+            selectedCock = player.lowerBody.cockSpot.get(0);
             if (selectedCock.cockType != CockType.DEMON)
-                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.", false);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.", false);
             else
-                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.", false);
+                MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.", false);
             if (Utils.rand(4) == 0)
-                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
             else
-                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
 
             player.stats.int += 1;
             player.stats.lib += 2;
@@ -85,19 +88,19 @@ export default class IncubusDraft extends Consumable {
             if (cockGrowth >= 1 && cockGrowth <= 2)
                 MainScreen.text("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.", false);
             if (cockGrowth > 2)
-                MainScreen.text("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(player, selectedCock) + " as a few more inches sprout.", false);
+                MainScreen.text("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(player, player, selectedCock) + " as a few more inches sprout.", false);
             if (selectedCock.cockType != CockType.DEMON)
-                MainScreen.text("  With the transformation complete, your " + CockDescriptor.describeCock(player, selectedCock) + " returns to its normal coloration.", false);
+                MainScreen.text("  With the transformation complete, your " + CockDescriptor.describeCock(player, player, selectedCock) + " returns to its normal coloration.", false);
             else
-                MainScreen.text("  With the transformation complete, your " + CockDescriptor.describeCock(player, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.", false);
+                MainScreen.text("  With the transformation complete, your " + CockDescriptor.describeCock(player, player, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.", false);
         }
         if (cockCount > 1) {
-            selectedCock = player.lowerBody.cockSpot.shortestCocks[0];
+            selectedCock = player.lowerBody.cockSpot.listShortestCocks[0];
             cockGrowth = 0;
             if (Utils.rand(4) == 0)
-                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
             else
-                cockGrowth = CockModifier.growCock(player, selectedCock, 1);
+                cockGrowth = CockModifiers.growCock(player, selectedCock, 1);
 
             player.stats.int += 1;
             player.stats.lib += 2;
@@ -106,9 +109,9 @@ export default class IncubusDraft extends Consumable {
             player.stats.cor += this.tainted ? 1 : 0;
 
             if (player.lowerBody.cockSpot.count() == 2)
-                MainScreen.text("\n\nBoth of your " + CockDescriptor.describeMultiCockShort(player) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(player, selectedCock) + " begins to grow.", false);
+                MainScreen.text("\n\nBoth of your " + CockDescriptor.describeMultiCockShort(player) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(player, player, selectedCock) + " begins to grow.", false);
             else
-                MainScreen.text("\n\nAll of your " + CockDescriptor.describeMultiCockShort(player) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(player, selectedCock) + " begins to grow.", false);
+                MainScreen.text("\n\nAll of your " + CockDescriptor.describeMultiCockShort(player) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(player, player, selectedCock) + " begins to grow.", false);
 
             if (cockGrowth < .5)
                 MainScreen.text("  It stops almost as soon as it starts, growing only a tiny bit longer.", false);
@@ -117,7 +120,7 @@ export default class IncubusDraft extends Consumable {
             if (cockGrowth >= 1 && cockGrowth <= 2)
                 MainScreen.text("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.", false);
             if (cockGrowth > 2)
-                MainScreen.text("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(player, selectedCock) + " as a few more inches sprout.", false);
+                MainScreen.text("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(player, player, selectedCock) + " as a few more inches sprout.", false);
             MainScreen.text("  With the transformation complete, your " + CockDescriptor.describeMultiCockShort(player) + " return to their normal coloration.", false);
         }
         //NO CAWKS?
@@ -128,7 +131,7 @@ export default class IncubusDraft extends Consumable {
             player.lowerBody.cockSpot.add(selectedCock);
 
             MainScreen.text("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ", false);
-            MainScreen.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(player, selectedCock) + " fades to a more normal " + player.skinTone + " tone.", false);
+            MainScreen.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(player, player, selectedCock) + " fades to a more normal " + player.skinTone + " tone.", false);
 
             player.stats.lib += 3;
             player.stats.sens += 5;
@@ -151,9 +154,9 @@ export default class IncubusDraft extends Consumable {
         if (cockCount > 1) {
             MainScreen.text("\n\nYour cocks fill to full-size... and begin growing obscenely.  ", false);
             for (let index: number = 0; index < cockCount; index++) {
-                selectedCock = player.lowerBody.cockSpot.list[index];
-                cockGrowth = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 2);
-                cockThickness = CockModifier.thickenCock(selectedCock, 1);
+                selectedCock = player.lowerBody.cockSpot.get(index);
+                cockGrowth = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 2);
+                cockThickness = CockModifiers.thickenCock(selectedCock, 1);
                 if (cockThickness < .1)
                     selectedCock.cockThickness += .05;
             }
@@ -179,9 +182,9 @@ export default class IncubusDraft extends Consumable {
         }
         if (cockCount == 1) {
             MainScreen.text("\n\nYour cock fills to its normal size and begins growing... ", false);
-            selectedCock = player.lowerBody.cockSpot.list[0];
-            cockThickness = CockModifier.thickenCock(selectedCock, 1);
-            cockGrowth = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 2);
+            selectedCock = player.lowerBody.cockSpot.get(0);
+            cockThickness = CockModifiers.thickenCock(selectedCock, 1);
+            cockGrowth = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 2);
             CockChangeDescriptor.lengthChange(player, cockGrowth, cockCount);
             //Display the degree of thickness change.
             if (cockThickness >= 1) {
@@ -208,7 +211,7 @@ export default class IncubusDraft extends Consumable {
             player.lowerBody.cockSpot.add(selectedCock);
 
             MainScreen.text("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ", false);
-            MainScreen.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(player, selectedCock) + " fades to a more normal " + player.skinTone + " tone.", false);
+            MainScreen.text("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(player, player, selectedCock) + " fades to a more normal " + player.skinTone + " tone.", false);
 
             player.stats.lib += 3;
             player.stats.sens += 5;
@@ -307,7 +310,7 @@ export default class IncubusDraft extends Consumable {
         }
         //Nipples Turn Back:
         if (player.statusAffects.has("BlackNipples") && Utils.rand(3) == 0) {
-            MainScreen.text("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.list[0]) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            MainScreen.text("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             player.statusAffects.remove("BlackNipples");
         }
         //remove fur
@@ -338,14 +341,14 @@ export default class IncubusDraft extends Consumable {
             if (player.gender <= 1) {
                 if (player.lowerBody.type != LowerBodyType.DEMONIC_CLAWS) {
                     MainScreen.text("\n\n", false);
-                    MainScreen.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player.lowerBody) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>", false);
+                    MainScreen.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>", false);
                     player.lowerBody.type = LowerBodyType.DEMONIC_CLAWS;
                 }
             }
             //Females/futa get high heels
             else if (player.lowerBody.type != LowerBodyType.DEMONIC_HIGH_HEELS) {
                 MainScreen.text("\n\n", false);
-                MainScreen.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player.lowerBody) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.", false);
+                MainScreen.text("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.", false);
                 player.lowerBody.type = LowerBodyType.DEMONIC_HIGH_HEELS;
             }
         }

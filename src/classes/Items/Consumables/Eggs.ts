@@ -32,46 +32,46 @@ export default class Eggs extends Consumable {
         if (large) {
             switch (eggType) {
                 case EggType.Black:
-                    super("L.BlkEg", "L.BlkEg", "a large rubbery black egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!");
+                    super("L.BlkEg", "L.BlkEg", "a large rubbery black egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!");
                     break;
                 case EggType.Blue:
-                    super("L.BluEg", "L.BluEg", "a large blue and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.BluEg", "L.BluEg", "a large blue and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Brown:
-                    super("L.BrnEg", "L.BrnEg", "a large brown and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.BrnEg", "L.BrnEg", "a large brown and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Pink:
-                    super("L.PnkEg", "L.PnkEg", "a large pink and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.PnkEg", "L.PnkEg", "a large pink and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Purple:
-                    super("L.PrpEg", "L.PrpEg", "a large purple and white mottled egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.PrpEg", "L.PrpEg", "a large purple and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 default:
                 case EggType.White:
-                    super("L.WhtEg", "L.WhtEg", "a large white egg", 0, "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food.");
+                    super("L.WhtEg", "L.WhtEg", "a large white egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food.");
                     break;
             }
         }
         else {
             switch (eggType) {
                 case EggType.Black:
-                    super("BlackEg", "BlackEg", "a rubbery black egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BlackEg", "BlackEg", "a rubbery black egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Blue:
-                    super("BlueEgg", "BlueEgg", "a blue and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BlueEgg", "BlueEgg", "a blue and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Brown:
-                    super("BrownEg", "BrownEg", "a brown and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BrownEg", "BrownEg", "a brown and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Pink:
-                    super("PinkEgg", "PinkEgg", "a pink and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("PinkEgg", "PinkEgg", "a pink and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 case EggType.Purple:
-                    super("PurplEg", "PurplEg", "a purple and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("PurplEg", "PurplEg", "a purple and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
                     break;
                 default:
                 case EggType.White:
-                    super("WhiteEg", "WhiteEg", "a milky-white egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food.");
+                    super("WhiteEg", "WhiteEg", "a milky-white egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food.");
                     break;
             }
         }

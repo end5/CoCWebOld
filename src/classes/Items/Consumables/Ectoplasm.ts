@@ -7,7 +7,6 @@ import CockDescriptor from "../../Descriptors/CockDescriptor";
 import { SkinType } from "../../Body/Body";
 import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
 import Perk from "../../Effects/Perk";
-import StatModifiers from "../../Modifiers/StatModifiers";
 import StatChangeDisplay from "../../display/StatChangeDisplay";
 
 //Miscellaneous
@@ -18,7 +17,7 @@ import StatChangeDisplay from "../../display/StatChangeDisplay";
 //Bottle of Ectoplasm Text
 export default class Ectoplasm extends Consumable {
     public constructor() {
-        super("EctoPls", "EctoPls", "a bottle of ectoplasm", 0, "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it.");
+        super("EctoPls", "EctoPls", "a bottle of ectoplasm", Ectoplasm.DefaultValue, "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it.");
     }
 
     public use(player: Player) {
@@ -100,8 +99,7 @@ export default class Ectoplasm extends Consumable {
         //Effect Script 8: 100% chance of healing
         if (changes == 0) {
             MainScreen.text("You feel strangely refreshed, as if you just gobbled down a bottle of sunshine.  A smile graces your lips as vitality fills you.  ", false);
-            StatChangeDisplay.displayHPChange(player, player.stats.level * 5 + 10);
-            StatModifiers.HPChange(player, player.stats.level * 5 + 10);
+            StatChangeDisplay.HPChange(player, player.level * 5 + 10);
             changes++;
         }
         //Incorporeality Perk Text:  You seem to have inherited some of the spiritual powers of the residents of the afterlife!  While you wouldn't consider doing it for long due to its instability, you can temporarily become incorporeal for the sake of taking over enemies and giving them a taste of ghostly libido.

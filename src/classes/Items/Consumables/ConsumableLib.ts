@@ -37,10 +37,56 @@ export default class ConsumableLib extends Library<Consumable>
         this.add(new Eggs(EggType.Pink, true));
         this.add(new Eggs(EggType.Purple, true));
         this.add(new Eggs(EggType.White, true));
+        this.add(new Equinum());
+        this.add(new FerretFruit());
+        this.add(new FishFillet());
+        this.add(new FoxJewel(false));
+        this.add(new FoxJewel(true));
+        this.add(new GiantChocolateCupcake());
+        this.add(new GoblinAle());
+        this.add(new GodsMead());
+        this.add(new GoldenSeed(false));
+        this.add(new GoldenSeed(true));
+        this.add(new GroPlus());
+        this.add(new HairDye(HairDyeType.Auburn));
+        this.add(new HairDye(HairDyeType.Black));
+        this.add(new HairDye(HairDyeType.Blonde));
+        this.add(new HairDye(HairDyeType.DarkBlue));
+        this.add(new HairDye(HairDyeType.Brown));
+        this.add(new HairDye(HairDyeType.Gray));
+        this.add(new HairDye(HairDyeType.Green));
+        this.add(new HairDye(HairDyeType.BrightOrange));
+        this.add(new HairDye(HairDyeType.NeonPink));
+        this.add(new HairDye(HairDyeType.Purple));
+        this.add(new HairDye(HairDyeType.Red));
+        this.add(new HairDye(HairDyeType.White));
+        this.add(new HairExtentionSerum());
+        this.add(new HerbalContraceptive());
+        this.add(new Hummus());
+        this.add(new ImpFood());
+        this.add(new IncubusDraft(false));
+        this.add(new IncubusDraft(true));
+        this.add(new IsabellaMilk());
+        this.add(new KangaFruit(false));
+        this.add(new KangaFruit(true));
+        this.add(new KitsuneGift());
+        this.add(new LaBova(false, false));
+        this.add(new LaBova(true, false));
+        this.add(new LaBova(false, true));
+        this.add(new Lactaid());
+        this.add(new LustDraft(false));
+        this.add(new LustDraft(true));
+        this.add(new LustStick());
+        this.add(new MarbleMilk());
+        
+
+
+
+
         this.add(new Consumable("AuburnD", "AuburnD", "a vial of auburn hair dye", 0, "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste.", Utils.curry(m.hairDye, "auburn"));
         this.add(new Consumable("B.Gossr", "B.Gossr", "a bundle of black, gossamer webbing", 0, "These stUtils.rands of gooey black gossamer seem quite unlike the normal silk that driders produce.  It smells sweet and is clearly edible, but who knows what it might do to you?", Utils.curry(m.sweetGossamer, 1));
-        this.add(new Consumable("BC Beer", "BC Beer", "a mug of Black Cat Beer", 1, "A capped mug containing an alcoholic drink secreted from the breasts of Niamh.  It smells tasty.", function (player: Player): void { getGame().telAdre.niamh.blackCatBeerEffects(player) });
-        //this.add(new Consumable("BimboCh", "BimboCh", "a bottle of bimbo champagne", Utils.curry(function (player: Player): void { getGame().telAdre.niamh.bimboChampagne(player, true, true) }), null, 1));
+        this.add(new Consumable("BC Beer", "BC Beer", "a mug of Black Cat Beer", 1, "A capped mug containing an alcoholic drink secreted from the breasts of Niamh.  It smells tasty.", function (player: Player): void { Game.telAdre.niamh.blackCatBeerEffects(player) });
+        //this.add(new Consumable("BimboCh", "BimboCh", "a bottle of bimbo champagne", Utils.curry(function (player: Player): void { Game.telAdre.niamh.bimboChampagne(player, true, true) }), null, 1));
         this.add(new Consumable("Black D", "Black D", "a vial of black hair dye", 0, "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste.", Utils.curry(m.hairDye, "black"));
         this.add(new Consumable("BlackEg", "BlackEg", "a rubbery black egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.", Utils.curry(m.blackRubberEgg, false));
         this.add(new Consumable("Blond D", "Blond D", "a vial of blonde hair dye", 0, "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste.", Utils.curry(m.hairDye, "blonde"));
@@ -101,7 +147,7 @@ export default class ConsumableLib extends Library<Consumable>
         //this.add(new Consumable("P.Pearl", "P.Pearl", "a pure pearl", m.purePearl, null, 1000));
         this.add(new Consumable("P.S.Mlk", "P.S.Mlk", "an untainted bottle of Succubi milk", 20, "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"  Purified by Rathazul to prevent corruption.", Utils.curry(m.succubiMilk, false));
         this.add(new PhoukaWhiskey());
-        this.add(new Consumable("PeppWht", "PeppWht", "a vial of peppermint white", 120, "This tightly corked glass bottle gives off a pepperminty smell and reminds you of the winter holidays.  How odd.", function (player: Player): void { getGame().peppermintWhite(player) });
+        this.add(new Consumable("PeppWht", "PeppWht", "a vial of peppermint white", 120, "This tightly corked glass bottle gives off a pepperminty smell and reminds you of the winter holidays.  How odd.", function (player: Player): void { Game.peppermintWhite(player) });
         this.add(new Consumable("PinkDye", "PinkDye", "a vial of bright pink hair dye", 0, "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste.", Utils.curry(m.hairDye, "neon pink"));
         this.add(new Consumable("PinkEgg", "PinkEgg", "a pink and white mottled egg", 0, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.", Utils.curry(m.pinkEgg, false));
         this.add(new Consumable("PrFruit", "PrFruit", "a purple fruit", 0, "This sweet-smelling produce looks like an eggplant, but feels almost squishy, and rubbery to the touch. Holding it to your ear, you think you can hear some fluid sloshing around inside.", m.purpleFruitEssrayle);

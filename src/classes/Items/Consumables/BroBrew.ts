@@ -5,7 +5,6 @@ import Utils from "../../Utilities/Utils";
 import Cock from "../../Body/Cock";
 import Perk from "../../Effects/Perk";
 import StatChangeDisplay from "../../display/StatChangeDisplay";
-import StatModifiers from "../../Modifiers/StatModifiers";
 import BreastDescriptor from "../../Descriptors/BreastDescriptor";
 import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
 import CockDescriptor from "../../Descriptors/CockDescriptor";
@@ -14,7 +13,7 @@ import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
 
 export default class BroBrew extends Consumable {
     public constructor() {
-        super("BroBrew", "BroBrew", "a can of Bro Brew", 0, "This aluminum can is labelled as 'Bro Brew'.  It even has a picture of a muscly, bare-chested man flexing on it.  A small label in the corner displays: \"Demon General's Warning: Bro Brew's effects are as potent (and irreversible) as they are refreshing.\"");
+        super("BroBrew", "BroBrew", "a can of Bro Brew", BroBrew.DefaultValue, "This aluminum can is labelled as 'Bro Brew'.  It even has a picture of a muscly, bare-chested man flexing on it.  A small label in the corner displays: \"Demon General's Warning: Bro Brew's effects are as potent (and irreversible) as they are refreshing.\"");
     }
 
     public use(player: Player) {
@@ -78,9 +77,8 @@ export default class BroBrew extends Consumable {
         //HP restore for bros!
         if (player.perks.has("BroBody") || player.perks.has("FutaForm")) {
             MainScreen.text("You crack open the can and guzzle it in a hurry.  Goddamn, this shit is the best.  As you crush the can against your forehead, you wonder if you can find a six-pack of it somewhere?\n\n", false);
-            StatModifiers.fatigue(player, -33);
-            StatChangeDisplay.displayHPChange(player, 100);
-            StatModifiers.HPChange(player, 100);
+            player.stats.fatigueChange(-33);
+            StatChangeDisplay.HPChange(player, 100);
             return;
         }
         MainScreen.text("Well, maybe this will give you the musculature that you need to accomplish your goals.  You pull on the tab at the top and hear the distinctive snap-hiss of venting, carbonating pressure.  A smoky haze wafts from the opened container, smelling of hops and alcohol.  You lift it to your lips, the cold, metallic taste of the can coming to your tongue before the first amber drops of beer roll into your waiting mouth.  It tingles, but it's very, very good.  You feel compelled to finish it as rapidly as possible, and you begin to chug it.  You finish the entire container in seconds.\n\n", false);
@@ -129,7 +127,7 @@ export default class BroBrew extends Consumable {
         if (player.lowerBody.cockSpot.hasCock()) {
             let cock: Cock = player.lowerBody.cockSpot.get(0);
             if (cock.cockLength < 10) {
-                MainScreen.text("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + CockDescriptor.describeCock(player, cock) + " swells in size, ", false);
+                MainScreen.text("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + CockDescriptor.describeCock(player, player, cock) + " swells in size, ", false);
                 if (cock.cockThickness < 2.75) {
                     MainScreen.text("thickening and ", false);
                     cock.cockThickness = 2.75;
