@@ -1,5 +1,5 @@
 ﻿import CreatureBody from "../Body/Body";
-import { ButtRating as ButtRating, ButtWetness as ButtWetness, ButtLooseness as ButtLooseness, Butt } from "../Body/Butt";
+import Butt, { ButtRating as ButtRating, ButtWetness as ButtWetness, ButtLooseness as ButtLooseness } from "../Body/Butt";
 import Utils from "../Utilities/Utils";
 
 export default class ButtDescriptor {

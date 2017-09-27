@@ -108,44 +108,49 @@ export default class HeadDescriptor {
         }
     }
 
-    public static nounFace(face: Face): string {
-        let description: string = "";
-
-        if (face.faceType == FaceType.HUMAN)
+    public static describeFace(body: CreatureBody): string {
+        let stringo: string = "";
+        let face = body.upperBody.head.face;
+        let faceType = body.upperBody.head.face.faceType;
+        if (faceType == FaceType.HUMAN)
             return "face";
-        else if (face.hasMuzzle()) {
-            if (Utils.chance(50))
+        if (face.hasMuzzle()) {
+            if (Utils.rand(2) == 0)
                 return "muzzle";
-            if (Utils.chance(33) && face.faceType == FaceType.HORSE)
-                description = "long ";
-            if (Utils.chance(33) && face.faceType == FaceType.CAT)
-                description = "feline ";
-            return description + "face";
+            if (Utils.rand(3) == 0 && faceType == FaceType.HORSE)
+                stringo = "long ";
+            if (Utils.rand(3) == 0 && faceType == FaceType.CAT)
+                stringo = "feline ";
+            return stringo + "face";
         }
-        else if (face.faceType == FaceType.COW_MINOTAUR) {
-            if (Utils.chance(25))
-                description = "bovine ";
-            if (Utils.chance(50))
+        if (faceType == FaceType.COW_MINOTAUR) {
+            if (Utils.rand(4) == 0)
+                stringo = "bovine ";
+            if (Utils.rand(2) == 0)
                 return "muzzle";
-            return description + "face";
+            return stringo + "face";
         }
-        else if (face.faceType == FaceType.SHARK_TEETH) {
-            if (Utils.chance(25))
-                description = "angular ";
-            return description + "face";
+        if (faceType == FaceType.SHARK_TEETH) {
+            if (Utils.rand(4) == 0)
+                stringo = "angular ";
+            return stringo + "face";
         }
-        else if (face.faceType == FaceType.LIZARD || face.faceType == FaceType.DRAGON) {
-            if (Utils.chance(25))
-                description = "reptilian ";
-            if (Utils.chance(25))
-                return description + "muzzle";
-            if (Utils.chance(25))
-                return description + "snout";
-            return description + "face";
+        if (faceType == FaceType.LIZARD || face.faceType == FaceType.DRAGON) {
+            if (Utils.rand(4) == 0)
+                stringo = "reptilian ";
+            if (Utils.rand(4) == 0)
+                return stringo + "muzzle";
+            if (Utils.rand(4) == 0)
+                return stringo + "snout";
+            return stringo + "face";
         }
         return "face";
     }
-    // prev faceDescCharacter
+
+    /**
+     * prev faceDesc from Character
+     * @param body
+     */
     public static describeFaceOther(body: CreatureBody): string {
         let description: string = "";
         if (body.femininity < 10) {
@@ -153,12 +158,12 @@ export default class HeadDescriptor {
             // beard doesn't exist
             //
             //if (!body.hasBeard())
-                description += " and chiseled jawline";
+            description += " and chiseled jawline";
             //else
             //    description += ", chiseled jawline, and " + body.beard();
         }
         else if (body.femininity < 20) {
-            description = "a rugged looking " + HeadDescriptor.nounFace(body.upperBody.head.face) + " ";
+            description = "a rugged looking " + HeadDescriptor.describeFace(body) + " ";
             // beard doesn't exist
             //
             //if (body.hasBeard())

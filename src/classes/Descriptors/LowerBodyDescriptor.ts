@@ -105,8 +105,8 @@ export default class LowerBodyDescriptor {
         return description;
     }
 
-    public static describeLeg(lowerBody: LowerBody): string {
-        switch (lowerBody.type) {
+    public static describeLeg(body: CreatureBody): string {
+        switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
             case LowerBodyType.HOOFED:
             case LowerBodyType.DOG:
@@ -148,8 +148,8 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeLegs(lowerBody: LowerBody): string {
-        switch (lowerBody.type) {
+    public static describeLegs(body: CreatureBody): string {
+        switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
             case LowerBodyType.HOOFED:
             case LowerBodyType.DOG:
@@ -191,8 +191,8 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeFoot(lowerBody: LowerBody): string {
-        switch (lowerBody.type) {
+    public static describeFoot(body: CreatureBody): string {
+        switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
                 return "foot";
             case LowerBodyType.HOOFED:
@@ -238,8 +238,8 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeFeet(lowerBody: LowerBody): string {
-        switch (lowerBody.type) {
+    public static describeFeet(body: CreatureBody): string {
+        switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
                 return "feet";
             case LowerBodyType.HOOFED:

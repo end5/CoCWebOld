@@ -327,31 +327,31 @@ export default class BreastDescriptor {
 
     public static describeBreastGrowth(amount: number, chest: Chest) {
         if (amount <= 2) {
-            if (chest.count() > 1) MainScreen.text("Your rows of " + breastDescript(0) + " jiggle with added weight, growing a bit larger.", false);
-            if (chest.count() == 1) MainScreen.text("Your " + breastDescript(0) + " jiggle with added weight as they expand, growing a bit larger.", false);
+            if (chest.count() > 1) MainScreen.text("Your rows of " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight, growing a bit larger.", false);
+            if (chest.count() == 1) MainScreen.text("Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.", false);
         }
         else if (amount <= 4) {
-            if (chest.count() > 1) MainScreen.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + breastDescript(0) + " expand significantly.", false);
-            if (chest.count() == 1) MainScreen.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + breastDescript(0) + " expand significantly.", false);
+            if (chest.count() > 1) MainScreen.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " expand significantly.", false);
+            if (chest.count() == 1) MainScreen.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " expand significantly.", false);
         }
         else {
-            if (chest.count() > 1) MainScreen.text("You drop to your knees from a massive change in your body's center of gravity.  Your " + breastDescript(0) + " tingle strongly, growing disturbingly large.", false);
-            if (chest.count() == 1) MainScreen.text("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + breastDescript(0) + " intensifies as they continue to grow at an obscene rate.", false);
+            if (chest.count() > 1) MainScreen.text("You drop to your knees from a massive change in your body's center of gravity.  Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " tingle strongly, growing disturbingly large.", false);
+            if (chest.count() == 1) MainScreen.text("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.", false);
         }
         if (chest.BreastRatingLargest[0].breastRating >= 8.5 && chest.BreastRatingLargest[0].nippleLength < 2) {
-            MainScreen.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            MainScreen.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 2;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 7 && chest.BreastRatingLargest[0].nippleLength < 1) {
-            MainScreen.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            MainScreen.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = 1;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 5 && chest.BreastRatingLargest[0].nippleLength < .75) {
-            MainScreen.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            MainScreen.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .75;
         }
         if (chest.BreastRatingLargest[0].breastRating >= 3 && chest.BreastRatingLargest[0].nippleLength < .5) {
-            MainScreen.text("  A tender ache starts at your " + nippleDescript(0) + "s as they grow to match your burgeoning breast-flesh.", false);
+            MainScreen.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.", false);
             chest.BreastRatingLargest[0].nippleLength = .5;
         }
     }
