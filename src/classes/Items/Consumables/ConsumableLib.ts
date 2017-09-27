@@ -78,8 +78,9 @@ export default class ConsumableLib extends Library<Consumable>
         this.add(new LustDraft(true));
         this.add(new LustStick());
         this.add(new MarbleMilk());
-        
-
+        this.add(new MinotaurBlood());
+        this.add(new MinotaurCum());
+        this.add(new MouseCocoa());
 
 
 

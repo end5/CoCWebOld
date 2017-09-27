@@ -7,6 +7,7 @@ export default class SaveManager {
     private static autoSave: boolean;
 
     public constructor() {
+        SaveManager._activeSlot = -1;
         SaveManager.saveSlots = [];
         SaveManager.saveSlots.length = SaveManager.saveSlotCount();
         SaveManager.autoSave = true;
