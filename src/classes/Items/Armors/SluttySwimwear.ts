@@ -33,7 +33,7 @@ export default class SluttySwimwear extends ArmorWithPerk {
                 MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " flopping free from the thong's confines. The tight material rubbing against your dick does manage to turn you on slightly.  ");
             }
             else {
-                MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeMultiCockShort(player, player.lowerBody.cockSpot) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
+                MainScreen.text("You grunt in discomfort, your " + CockDescriptor.describeMultiCockShort(player) + " flopping free from the thong's confines. The tight material rubbing against your dicks does manage to turn you on slightly.  ");
             }
             player.stats.lust += 5;
             if (player.lowerBody.cockSpot.listLargestCockArea[0].cockArea() >= 20)

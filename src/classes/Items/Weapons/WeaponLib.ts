@@ -12,12 +12,8 @@ import Spellblade from "./Spellblade";
 import WizardsStaff from "./WizardsStaff";
 import HugeWarhammer from "./HugeWarhammer";
 
-export default class WeaponLib extends Library<Weapon>
-{
+export default class WeaponLib extends Library<Weapon> {
     public constructor() {
-        //public static const DEFAULT_VALUE:number = 6;
-
-        //public static const FISTS:Fists = new Fists();
         super();
         this.add(new Fists());
         this.add(new BeautifulSword());

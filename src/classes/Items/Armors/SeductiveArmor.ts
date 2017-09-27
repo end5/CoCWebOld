@@ -3,6 +3,7 @@ import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
 import Flags, { FlagEnum } from "../../Game/Flags";
 import Game from "../../Game/Game";
+import GenderDescriptor from "../../Descriptors/GenderDescriptor";
 
 export default class SeductiveArmor extends Armor {
     public constructor() {
@@ -22,7 +23,7 @@ export default class SeductiveArmor extends Armor {
             Flags.set(FlagEnum.PC_FETISH, 2);
         }
         else {
-            MainScreen.text("As you're trying to put on the armor, Ceraph appears from nowhere, apologizing profusely and stopping you before you can slide the last strap into place.  \"<i>Please don't put that on, " + player.mf("Master", "Mistress") + ".  I trapped that armor to pierce new fetishes the unwary so that I could add them to my harem.  I'd hate to garner your anger.</i>\"  She wrings her hands nervously.  \"<i>If you'll hand it here, I'll get rid of it for you. Noone would buy it anyway.</i>\"");
+            MainScreen.text("As you're trying to put on the armor, Ceraph appears from nowhere, apologizing profusely and stopping you before you can slide the last strap into place.  \"<i>Please don't put that on, " + GenderDescriptor.mf(player, "Master", "Mistress") + ".  I trapped that armor to pierce new fetishes the unwary so that I could add them to my harem.  I'd hate to garner your anger.</i>\"  She wrings her hands nervously.  \"<i>If you'll hand it here, I'll get rid of it for you. Noone would buy it anyway.</i>\"");
             MainScreen.text("\n\nYou shrug and toss her the armor, disappointed that you're down a potentially sexy outfit.");
             MainScreen.text("\n\nCeraph bows gratefully and swiftly backpedals, offering, \"<i>And if you ever want me to stuff you full of magic fetishes, just ask, okay?</i>\"");
             MainScreen.text("\n\nShe's gone before you can reply.  Sometimes she's more trouble than she's worth.");

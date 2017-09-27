@@ -6,6 +6,8 @@ import MainScreen from "../../display/MainScreen";
 import { BreastCup } from "../../Body/BreastRow";
 import Perk from "../../Effects/Perk";
 import CockDescriptor from "../../Descriptors/CockDescriptor";
+import Monster from "../../Monster";
+import GenderDescriptor from "../../Descriptors/GenderDescriptor";
 
 export default class LustyMaidensArmor extends Armor {
     public constructor() {
@@ -37,7 +39,7 @@ export default class LustyMaidensArmor extends Armor {
         if (player.lowerBody.cockSpot.hasCock() || player.lowerBody.balls > 0) {
             MainScreen.text("that it won't fit you ");
             if (player.lowerBody.cockSpot.hasCock())
-                MainScreen.text("or your " + CockDescriptor.describeMultiCockShort(player, player.lowerBody.cockSpot));
+                MainScreen.text("or your " + CockDescriptor.describeMultiCockShort(player));
             else
                 MainScreen.text("or your [balls]");
             MainScreen.text(" at all!  <b>You put your old gear back on with a sigh</b>.");
@@ -90,15 +92,15 @@ export default class LustyMaidensArmor extends Armor {
     //"Chaste" Paizuri - works for most foes with penises.
     public lustyMaidenPaizuri(player: Player = null, monster: Monster = null): void {
         if (player == null) player = player;
-        if (monster == null) monster = game.monster;
+        if (monster == null) monster = Game.monster;
         MainScreen.clearText();
-        MainScreen.text("You make sure " + monster.a + monster.short + " is comfortably lying down, " + monster.pronoun3 + " " + monster.cockDescriptShort(0) + " exposed to the air");
-        if (monster.lust < 50) MainScreen.text(", soft and not yet ready.  You purr throatily as you touch the burgeoning boner, tracing your thumb across the sensitive urethral bulge.  It pulses slowly at your touch, and the base begins to fill with blood, thickening against your palm.  You splay your remaining fingers just under the " + monster.cockHead() + ", tickling around the glans until that too is flooding with blood, expanding under your caresses until it slowly lifts away from " + monster.pronoun3 + " abdomen.");
-        else if (monster.lust < 100) MainScreen.text(", nicely turgid but quite ready to feel the sensuous pleasure of your girls' tight squeeze.  You lean over the defeated foe and kiss the rod just under the " + monster.cockHead() + ", smiling when it expands under your slow kisses.  Your fingers move up to play with the sensitive, urethral bulge that runs along the underside, and in no time, " + monster.a + monster.short + " is hard as a rock, so ready that " + monster.pronoun3 + " member is lifting up on its own.");
+        MainScreen.text("You make sure " + monster.a + monster.short + " is comfortably lying down, " + monster.pronoun3 + " " + CockDescriptor.describeCockShort(monster.lowerBody.cockSpot.get(0)) + " exposed to the air");
+        if (monster.stats.lust < 50) MainScreen.text(", soft and not yet ready.  You purr throatily as you touch the burgeoning boner, tracing your thumb across the sensitive urethral bulge.  It pulses slowly at your touch, and the base begins to fill with blood, thickening against your palm.  You splay your remaining fingers just under the " + CockDescriptor.describeCockHead(monster.lowerBody.cockSpot.get(0)) + ", tickling around the glans until that too is flooding with blood, expanding under your caresses until it slowly lifts away from " + monster.pronoun3 + " abdomen.");
+        else if (monster.stats.lust < 100) MainScreen.text(", nicely turgid but quite ready to feel the sensuous pleasure of your girls' tight squeeze.  You lean over the defeated foe and kiss the rod just under the " + CockDescriptor.describeCockHead(monster.lowerBody.cockSpot.get(0)) + ", smiling when it expands under your slow kisses.  Your fingers move up to play with the sensitive, urethral bulge that runs along the underside, and in no time, " + monster.a + monster.short + " is hard as a rock, so ready that " + monster.pronoun3 + " member is lifting up on its own.");
         else MainScreen.text(", bouncing with each beat of " + monster.pronoun3 + " heart, thick beads of pre dribbling from " + monster.pronoun3 + " tip as you bat " + monster.pronoun3 + " hands away before " + monster.pronoun1 + " can waste the load " + monster.pronoun1 + "'s saved up for you.");
         MainScreen.text("\n\nYour own moistness has risen to uncomfortable levels, and the sticky seal of your g-string's curvy front panel slips oh-so-slightly across your hot, hard clitty, something that makes your [legs] weak and your arms quake.  The leather fold on the front of your undergarments is so slippery that each movement has it shifting and shuffling across your nethers, a tiny bit at a time.  Already, you have your [butt] up in the air, shaking it back and forth for more of the delicious friction.  The motion only exacerbates the jiggling your [chest] are doing inside their tight containment.  " + monster.capitalA + monster.short + "'s head tilts up to watch, an unashamedly lusty look overtaking " + monster.pronoun3 + " features as " + monster.pronoun1 + " enjoys the inadvertent show you're giving.");
 
-        MainScreen.text("\n\n\"<i>Such lascivious behavior!  I'll have to make sure you're thoroughly purified,</i>\" you state matter-of-factly with a feigned serious look on your blushing [face].  To put proof to your taunt, you grab the throbbing shaft by the base and aim it straight up, dropping your [chest] down on either side.  The slippery, self-lubricating leather that joins the cups of your sexy, chainmail bra together loops over the top of the " + monster.cockDescriptShort(0) + " to properly restrain it, pinned in the slick, sweaty valley you call your cleavage.  It thrums happily against your " + player.skin() + " when you compress the jiggly flesh around it, leaning down to let it feel pleasure that rivals any pussy, no matter how wet or skilled.");
+        MainScreen.text("\n\n\"<i>Such lascivious behavior!  I'll have to make sure you're thoroughly purified,</i>\" you state matter-of-factly with a feigned serious look on your blushing [face].  To put proof to your taunt, you grab the throbbing shaft by the base and aim it straight up, dropping your [chest] down on either side.  The slippery, self-lubricating leather that joins the cups of your sexy, chainmail bra together loops over the top of the " + CockDescriptor.describeCockShort(monster.lowerBody.cockSpot.get(0)) + " to properly restrain it, pinned in the slick, sweaty valley you call your cleavage.  It thrums happily against your " + player.skin() + " when you compress the jiggly flesh around it, leaning down to let it feel pleasure that rivals any pussy, no matter how wet or skilled.");
 
         MainScreen.text("\n\nYou smile at your defeated foe as you begin to bob over " + monster.pronoun2 + ", and you find more words coming from your lips without meaning to speak.  \"<i>That's better.  You really shouldn't go around trying to fuck everyone like that!  Pussies are ");
         if (!player.lowerBody.vaginaSpot.isVirgin()) MainScreen.text("a gift too fine for a selfish brute like you");
@@ -106,11 +108,11 @@ export default class LustyMaidensArmor extends Armor {
         MainScreen.text("!  Now, I'm going to squeeze all the impure thoughts out of you through your cock, so you just lie there and focus on letting them out all over my breasts.</i>\"");
 
         MainScreen.text("\n\n" + monster.capitalA + monster.short + " nods solemnly while " + monster.pronoun3 + " eyes half-cross from pleasure.  You bottom out around " + monster.pronoun3 + " base");
-        if (monster.balls > 0) MainScreen.text(" and fondle " + monster.pronoun3 + " balls one-handed, squeezing the virile orbs to try and coax more of " + monster.pronoun3 + " dirty, perverted thoughts to distill into salty seed");
+        if (monster.lowerBody.balls > 0) MainScreen.text(" and fondle " + monster.pronoun3 + " balls one-handed, squeezing the virile orbs to try and coax more of " + monster.pronoun3 + " dirty, perverted thoughts to distill into salty seed");
         else if (monster.short == "anemone") MainScreen.text(" and stroke " + monster.pronoun3 + " taint, even brushing over the featureless spot where an asshole would be, if she had one, to try and coax more of " + monster.pronoun3 + " dirty, perverted thoughts to distill into salty seed");
         else MainScreen.text(" and stroke " + monster.pronoun3 + " taint, even brushing close to " + monster.pronoun3 + " asshole to try and coax more of " + monster.pronoun3 + " dirty, perverted thoughts to distill into salty seed");
-        MainScreen.text(".  A startled moan slips out of " + monster.pronoun3 + " lips, but you're just getting warmed up.  You dive down onto " + monster.pronoun3 + " " + monster.cockDescriptShort(0) + ", taking the " + monster.cockHead() + " straight into your mouth with a smooth gulp.");
-        if (monster.cockArea(0) >= 80) MainScreen.text("  It's so big and strong that it pushes right into your throat, stretching out your neck in the shape of the intruding cock.");
+        MainScreen.text(".  A startled moan slips out of " + monster.pronoun3 + " lips, but you're just getting warmed up.  You dive down onto " + monster.pronoun3 + " " + CockDescriptor.describeCockShort(monster.lowerBody.cockSpot.get(0)) + ", taking the " + CockDescriptor.describeCockHead(monster.lowerBody.cockSpot.get(0)) + " straight into your mouth with a smooth gulp.");
+        if (monster.lowerBody.cockSpot.get(0).cockArea() >= 80) MainScreen.text("  It's so big and strong that it pushes right into your throat, stretching out your neck in the shape of the intruding cock.");
         MainScreen.text("  The strong, pulsing cock feels so good inside your mouth, like it belongs there, and you can't help but think that you're doing a good deed by helping " + monster.a + monster.short + " empty every last perverse desire onto your purifying breasts.");
 
         MainScreen.text("\n\nUp and down, up and down, you slide across the expansive member with unhurried, slow strokes, each time making your [chest] bounce beautifully.  Your [nipples] are so hard");
@@ -121,13 +123,13 @@ export default class LustyMaidensArmor extends Armor {
         MainScreen.text(".  Still, you're not sure how much hotter you can get before you're cumming all over your g-string, letting your own dark thoughts seep into your magical underwear.");
 
         MainScreen.text("\n\nBelow you, " + monster.a + monster.short + " is moaning out loud and roughly thrusting " + monster.pronoun3 + " hips to meet your every motion, their tip expanding slightly in your mouth as " + monster.pronoun3 + " passion mounts.  You pull back");
-        if (monster.cockArea(0) >= 80) MainScreen.text(" with a messy cough to clear your throat");
-        MainScreen.text(" and tease, \"<i>Oh, you're going to cum already, aren't you?  Well, go ahead then.</i>\"  You pump your [chest] faster against the twitching rod and smile when a thick bead of pre sloughs off into your squishy boobs, smearing across your " + player.skin() + ".  You kiss it, licking the dollop that slips out of the dilating cum-slit before commanding, \"<i>Cum for me, " + monster.mf("boy", "girl") + ".  Let it allll out.</i>\"");
+        if (monster.lowerBody.cockSpot.get(0).cockArea() >= 80) MainScreen.text(" with a messy cough to clear your throat");
+        MainScreen.text(" and tease, \"<i>Oh, you're going to cum already, aren't you?  Well, go ahead then.</i>\"  You pump your [chest] faster against the twitching rod and smile when a thick bead of pre sloughs off into your squishy boobs, smearing across your " + player.skin() + ".  You kiss it, licking the dollop that slips out of the dilating cum-slit before commanding, \"<i>Cum for me, " + GenderDescriptor.mf(monster, "boy", "girl") + ".  Let it allll out.</i>\"");
         MainScreen.text("\n\n" + monster.capitalA + monster.short + " groans and shakes");
-        if (monster.balls > 0) MainScreen.text(", " + monster.pronoun3 + " balls pumping and bouncing in " + monster.pronoun3 + " sack");
+        if (monster.lowerBody.balls > 0) MainScreen.text(", " + monster.pronoun3 + " balls pumping and bouncing in " + monster.pronoun3 + " sack");
         MainScreen.text(", " + monster.pronoun3 + " urethra swollen with the heavy load about to explode out of it.  \"<i>Drain out all that nasty jizz,</i>\" you quip as you bottom your breasts down on " + monster.pronoun2 + " and slurp the quivering cock-head into your sperm-hungry lips.  Salty warmth fires in a long rope into your well-prepared mouth and over your tongue.  The blissed out look on your captive foe's face combined with the feel of " + monster.pronoun2 + " giving up all " + monster.pronoun3 + " naughty thoughts thanks to your cleavage gets you so fucking hot that your [hips] begin to shake spastically.");
         MainScreen.text("\n\nYou do your best to hold on to the pumping cock while it fires spastic ropes into your mouth, but the way your undies are digging into your [vagina] and grinding across your [clit], you simply lack the control to keep it up.  You throw back your head and cry out ecstatically, taking the next ejaculation in a long line across your cheek, up your nose, and onto your forehead.  Again and again, long ropes of tainted jizz spatter all over your face, dripping messily over the exposed tops of your teats.  You lick your lips while you cream the inside of your [armor] with girlish love-goo, feeling such immense pleasure at letting your own impure desires out into the armor.  More jets, weaker than the early ones, crest from the bouncing cock-tip to fall weakly over your well-slicked mammaries.");
-        MainScreen.text("\n\nYou seize " + monster.a + monster.short + " by " + monster.pronoun3 + " base and jerk " + monster.pronoun2 + " off with quick, sharp little strokes, commanding, \"<i>All of it!  Give me all of your lusts and cruel desires!</i>\".  " + monster.mf("His", "Her") + " back arches as " + monster.pronoun3 + " orgasm redoubles, and fresh ropes begin to spout out again, ensuring your face and breasts are soaked with the sloppy spooge.  It runs in moist, warm rivulets into your concealing top, and what doesn't drip down, you compulsively rub into your skin, feeling a positively healthy glow from the feeling.  You don't free the " + monster.cockDescriptShort(0) + " from your chesty embrace until every single drop is splattered all over you, and when you do, you leave a thoroughly wiped-out " + monster.short + " behind you.");
+        MainScreen.text("\n\nYou seize " + monster.a + monster.short + " by " + monster.pronoun3 + " base and jerk " + monster.pronoun2 + " off with quick, sharp little strokes, commanding, \"<i>All of it!  Give me all of your lusts and cruel desires!</i>\".  " + GenderDescriptor.mf(monster, "His", "Her") + " back arches as " + monster.pronoun3 + " orgasm redoubles, and fresh ropes begin to spout out again, ensuring your face and breasts are soaked with the sloppy spooge.  It runs in moist, warm rivulets into your concealing top, and what doesn't drip down, you compulsively rub into your skin, feeling a positively healthy glow from the feeling.  You don't free the " + CockDescriptor.describeCockShort(monster.lowerBody.cockSpot.get(0)) + " from your chesty embrace until every single drop is splattered all over you, and when you do, you leave a thoroughly wiped-out " + monster.short + " behind you.");
 
         MainScreen.text("\n\nThe stink of sperm slowly fades as you move, almost seeming to absorb into your skin.  It leaves you with a healthy glow and a surety to your movements, sure that your revealing armor is going to protect you.");
 
@@ -150,9 +152,9 @@ export default class LustyMaidensArmor extends Armor {
             Flags.increase(FlagEnum.UNKNOWN_FLAG_NUMBER_00291);
         //Usable on: Imps, Minotaurs, Satyrs, Incubus Mechanic, Anemones, Spider Guys, Akbal, Drider, Fetish Zealot, Sand Trap, Very Corrupt Jojo (Maybe slight decorruption to him), Ceraph, Red Kitsune if cock out.
         if (Game.state == GameState.InCombat)
-            game.cleanupAfterCombat();
+            Game.cleanupAfterCombat();
         else
-            MainScreen.doNext(game.camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
     }
 }
 

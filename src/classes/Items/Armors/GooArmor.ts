@@ -18,7 +18,7 @@ export default class GooArmor extends Armor {
         if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.cockSpot.hasCock())
             MainScreen.text(" and ");
         if (player.lowerBody.cockSpot.hasCock())
-            MainScreen.text(CockDescriptor.describeMultiCockShort(player, player.lowerBody.cockSpot));
+            MainScreen.text(CockDescriptor.describeMultiCockShort(player));
         if (player.gender == 0)
             MainScreen.text("groin");
         MainScreen.text(", encasing your loins in case you need a little mid-battle release, she says.");

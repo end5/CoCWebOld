@@ -3,6 +3,7 @@ import MainScreen from "../../display/MainScreen";
 import Player from "../../Player";
 import Perk from "../../Effects/Perk";
 import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import ButtDescriptor from "../../Descriptors/ButtDescriptor";
 
 export default class InquisitorsCorset extends Armor {
     public constructor() {
@@ -20,7 +21,7 @@ export default class InquisitorsCorset extends Armor {
 
         //[(if PC has human, demon, or bee feet)
         if (player.lowerBody.isBiped())
-            MainScreen.text("Finally you slide your legs into the boots.  The heel itself is hollow, to accommodate any natural spurs on the wearer's foot, and the rest of the boot seems surprisingly fitted to your dimensions.  To a certain extent it feels as though it is reshaping itself as you enter - parts that initially feel tight loosen up in minutes, as if the boots were breaking themselves in.  If what the note said is true, and the armor adapts to he who finds it, perhaps even hooves and paws could have fit, given enough magical power used in the creation.  Laces run up the side of each boot all the way to your thighs, resembling the corset they were paired with.  The front of them bear golden symbology, akin to the symbols  that sat on the front of the secret chamber.  Based on your previous decoding, they're halfway between a prayer and a exaltation of cock.  Standing up in them, you smile as your " + player.buttDescript() + " rises with their influence.");
+            MainScreen.text("Finally you slide your legs into the boots.  The heel itself is hollow, to accommodate any natural spurs on the wearer's foot, and the rest of the boot seems surprisingly fitted to your dimensions.  To a certain extent it feels as though it is reshaping itself as you enter - parts that initially feel tight loosen up in minutes, as if the boots were breaking themselves in.  If what the note said is true, and the armor adapts to he who finds it, perhaps even hooves and paws could have fit, given enough magical power used in the creation.  Laces run up the side of each boot all the way to your thighs, resembling the corset they were paired with.  The front of them bear golden symbology, akin to the symbols  that sat on the front of the secret chamber.  Based on your previous decoding, they're halfway between a prayer and a exaltation of cock.  Standing up in them, you smile as your " + ButtDescriptor.describeButt(player) + " rises with their influence.");
         ///(else if PC has funny feet)
         else
             MainScreen.text("The final bit of the outfit is a pair of long-heeled lace-up boots, which, though decorated with gorgeous golden symbols spelling out what appears to be a hymn to sex, seem... relatively unusable in your current state.  You tuck them away someplace safe in case you ever become a biped again, then stand to your full height and assess yourself.");
