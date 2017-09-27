@@ -9,7 +9,12 @@ import Flags, { FlagEnum } from "./Game/Flags";
 import Item from "./Items/Item";
 import GenderDescriptor from "./Descriptors/GenderDescriptor";
 
+export enum MonsterType {
+
+}
+
 export default class Monster extends Creature {
+    public readonly type: MonsterType;
 
     //For enemies
     public bonusHP: number = 0;
@@ -120,7 +125,9 @@ export default class Monster extends Creature {
             107][Math.round(this.stats.level)] || 130);
     }
 
-    public constructor() {
+    public constructor(monsterType: MonsterType) {
+        super();
+        this.type = monsterType;
         // trace("Generic Monster Constructor!");
 
         //// INSTRUCTIONS
