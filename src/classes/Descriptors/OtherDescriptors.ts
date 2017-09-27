@@ -1,4 +1,4 @@
-﻿import Body from "../Body/Body";
+﻿import CreatureBody from "../Body/Body";
 
 export default class OtherDescriptors {
     /*public static inverseMap(x: object): object {
@@ -30,161 +30,161 @@ export default class OtherDescriptors {
     );
     public static const DEFAULT_SKIN.NAMES: Object = createMapFromPairs(
         [
-            [SKIN.PLAIN, "skin"],
-            [SKIN.FUR, "fur"],
-            [SKIN.SCALES, "scales"],
-            [SKIN.GOO, "goo"],
-            [SKIN.UNDEFINED, "undefined flesh"]
+            [SkinType.PLAIN, "skin"],
+            [SkinType.FUR, "fur"],
+            [SkinType.SCALES, "scales"],
+            [SkinType.GOO, "goo"],
+            [SkinType.UNDEFINED, "undefined flesh"]
         ]
     );
     public static const DEFAULT_SKIN.DESCS: Object = createMapFromPairs(
         [
-            [SKIN.PLAIN, "skin"],
-            [SKIN.FUR, "fur"],
-            [SKIN.SCALES, "scales"],
-            [SKIN.GOO, "skin"],
-            [SKIN.UNDEFINED, "skin"]
+            [SkinType.PLAIN, "skin"],
+            [SkinType.FUR, "fur"],
+            [SkinType.SCALES, "scales"],
+            [SkinType.GOO, "skin"],
+            [SkinType.UNDEFINED, "skin"]
         ]
     );
     public static const DEFAULT_HAIR.NAMES: Object = createMapFromPairs(
         [
-            [HAIR.NORMAL, "normal"],
-            [HAIR.FEATHER, "feather"],
-            [HAIR.GHOST, "transparent"],
-            [HAIR.GOO, "goopy"],
-            [HAIR.ANEMONE, "tentacle"]
+            [HairType.NORMAL, "normal"],
+            [HairType.FEATHER, "feather"],
+            [HairType.GHOST, "transparent"],
+            [HairType.GOO, "goopy"],
+            [HairType.ANEMONE, "tentacle"]
         ]
     );
     public static const DEFAULT_FACE.NAMES: Object = createMapFromPairs(
         [
-            [FACE.HUMAN, "human"],
-            [FACE.HORSE, "horse"],
-            [FACE.DOG, "dog"],
-            [FACE.COW_MINOTAUR, "cow"],
-            [FACE.SHARK_TEETH, "shark"],
-            [FACE.SNAKE_FANGS, "snake"],
-            [FACE.CAT, "cat"],
-            [FACE.LIZARD, "lizard"],
-            [FACE.BUNNY, "bunny"],
-            [FACE.KANGAROO, "kangaroo"],
-            [FACE.SPIDER_FANGS, "spider"],
-            [FACE.FOX, "fox"],
-            [FACE.DRAGON, "dragon"],
-            [FACE.RACCOON_MASK, "raccoon mask"],
-            [FACE.RACCOON, "racoon"],
-            [FACE.BUCKTEETH, "buckteeth"],
-            [FACE.MOUSE, "mouse"]
+            [FaceType.HUMAN, "human"],
+            [FaceType.HORSE, "horse"],
+            [FaceType.DOG, "dog"],
+            [FaceType.COW_MINOTAUR, "cow"],
+            [FaceType.SHARK_TEETH, "shark"],
+            [FaceType.SNAKE_FANGS, "snake"],
+            [FaceType.CAT, "cat"],
+            [FaceType.LIZARD, "lizard"],
+            [FaceType.BUNNY, "bunny"],
+            [FaceType.KANGAROO, "kangaroo"],
+            [FaceType.SPIDER_FANGS, "spider"],
+            [FaceType.FOX, "fox"],
+            [FaceType.DRAGON, "dragon"],
+            [FaceType.RACCOON_MASK, "raccoon mask"],
+            [FaceType.RACCOON, "racoon"],
+            [FaceType.BUCKTEETH, "buckteeth"],
+            [FaceType.MOUSE, "mouse"]
         ]
     );
     public static const DEFAULT_TONGUE_NAMES: Object = createMapFromPairs(
         [
-            [TONUGE.HUMAN, "human"],
-            [TONUGE.SNAKE, "snake"],
-            [TONUGE.DEMONIC, "demonic"],
-            [TONUGE.DRACONIC, "draconic"]
+            [TongueType.HUMAN, "human"],
+            [TongueType.SNAKE, "snake"],
+            [TongueType.DEMONIC, "demonic"],
+            [TongueType.DRACONIC, "draconic"]
         ]
     );
     public static const DEFAULT_EYES.NAMES: Object = createMapFromPairs(
         [
-            [EYES.HUMAN, "human"],
-            [EYES.FOUR_SPIDER_EYES, "4 spider"],
-            [EYES.BLACK_EYES_SAND_TRAP, "sandtrap black"]
+            [EyeType.HUMAN, "human"],
+            [EyeType.FOUR_SPIDER_EYES, "4 spider"],
+            [EyeType.BLACK_EYES_SAND_TRAP, "sandtrap black"]
         ]
     );
     public static const DEFAULT_EARS.NAMES: Object = createMapFromPairs(
         [
-            [EARS.HUMAN, "human"],
-            [EARS.HORSE, "horse"],
-            [EARS.DOG, "dog"],
-            [EARS.COW, "cow"],
-            [EARS.ELFIN, "elfin"],
-            [EARS.CAT, "cat"],
-            [EARS.LIZARD, "lizard"],
-            [EARS.BUNNY, "bunny"],
-            [EARS.KANGAROO, "kangaroo"],
-            [EARS.FOX, "fox"],
-            [EARS.DRAGON, "dragon"],
-            [EARS.RACCOON, "raccoon"],
-            [EARS.MOUSE, "mouse"]
+            [EarType.HUMAN, "human"],
+            [EarType.HORSE, "horse"],
+            [EarType.DOG, "dog"],
+            [EarType.COW, "cow"],
+            [EarType.ELFIN, "elfin"],
+            [EarType.CAT, "cat"],
+            [EarType.LIZARD, "lizard"],
+            [EarType.BUNNY, "bunny"],
+            [EarType.KANGAROO, "kangaroo"],
+            [EarType.FOX, "fox"],
+            [EarType.DRAGON, "dragon"],
+            [EarType.RACCOON, "raccoon"],
+            [EarType.MOUSE, "mouse"]
         ]
     );
     public static const DEFAULT_HORNS.NAMES: Object = createMapFromPairs(
         [
-            [HORNS.NONE, "non-existant"],
-            [HORNS.DEMON, "demon"],
-            [HORNS.COW_MINOTAUR, "cow"],
-            [HORNS.DRACONIC_X2, "2 draconic"],
-            [HORNS.DRACONIC_X4_12_INCH_LONG, "four 12\" long draconic"],
-            [HORNS.ANTLERS, "deer"]
+            [HornType.NONE, "non-existant"],
+            [HornType.DEMON, "demon"],
+            [HornType.COW_MINOTAUR, "cow"],
+            [HornType.DRACONIC_X2, "2 draconic"],
+            [HornType.DRACONIC_X4_12_INCH_LONG, "four 12\" long draconic"],
+            [HornType.ANTLERS, "deer"]
         ]
     );
     public static const DEFAULT_ANTENNAE.NAMES: Object = createMapFromPairs(
         [
-            [ANTENNAE.NONE, "non-existant"],
-            [ANTENNAE.BEE, "bee"]
+            [AntennaeType.NONE, "non-existant"],
+            [AntennaeType.BEE, "bee"]
         ]
     );
     public static const DEFAULT_ARM_NAMES: Object = createMapFromPairs(
         [
-            [ARM.HUMAN, "human"],
-            [ARM.HARPY, "harpy"],
-            [ARM.SPIDER, "spider"]
+            [ArmType.HUMAN, "human"],
+            [ArmType.HARPY, "harpy"],
+            [ArmType.SPIDER, "spider"]
         ]
     );
     public static const DEFAULT_WING_NAMES: Object = createMapFromPairs(
         [
-            [WING.NONE, "non-existant"],
-            [WING.BEE_LIKE_SMALL, "small bee-like"],
-            [WING.BEE_LIKE_LARGE, "large bee-like"],
-            [WING.HARPY, "harpy"],
-            [WING.IMP, "imp"],
-            [WING.BAT_LIKE_TINY, "tiny bat-like"],
-            [WING.BAT_LIKE_LARGE, "large bat-like"],
-            [WING.SHARK_FIN, "shark fin"],
-            [WING.FEATHERED_LARGE, "large feathered"],
-            [WING.DRACONIC_SMALL, "small draconic"],
-            [WING.DRACONIC_LARGE, "large draconic"],
-            [WING.GIANT_DRAGONFLY, "giant dragonfly"]
+            [WingType.NONE, "non-existant"],
+            [WingType.BEE_LIKE_SMALL, "small bee-like"],
+            [WingType.BEE_LIKE_LARGE, "large bee-like"],
+            [WingType.HARPY, "harpy"],
+            [WingType.IMP, "imp"],
+            [WingType.BAT_LIKE_TINY, "tiny bat-like"],
+            [WingType.BAT_LIKE_LARGE, "large bat-like"],
+            [WingType.SHARK_FIN, "shark fin"],
+            [WingType.FEATHERED_LARGE, "large feathered"],
+            [WingType.DRACONIC_SMALL, "small draconic"],
+            [WingType.DRACONIC_LARGE, "large draconic"],
+            [WingType.GIANT_DRAGONFLY, "giant dragonfly"]
         ]
     );
     public static const DEFAULT_WING_DESCS: Object = createMapFromPairs(
         [
-            [WING.NONE, "non-existant"],
-            [WING.BEE_LIKE_SMALL, "small bee-like"],
-            [WING.BEE_LIKE_LARGE, "large bee-like"],
-            [WING.HARPY, "large feathery"],
-            [WING.IMP, "small"],
-            [WING.BAT_LIKE_TINY, "tiny, bat-like"],
-            [WING.BAT_LIKE_LARGE, "large, bat-like"],
-            [WING.SHARK_FIN, ""],
-            [WING.FEATHERED_LARGE, "large, feathered"],
-            [WING.DRACONIC_SMALL, "small, draconic"],
-            [WING.DRACONIC_LARGE, "large, draconic"],
-            [WING.GIANT_DRAGONFLY, "giant dragonfly"]
+            [WingType.NONE, "non-existant"],
+            [WingType.BEE_LIKE_SMALL, "small bee-like"],
+            [WingType.BEE_LIKE_LARGE, "large bee-like"],
+            [WingType.HARPY, "large feathery"],
+            [WingType.IMP, "small"],
+            [WingType.BAT_LIKE_TINY, "tiny, bat-like"],
+            [WingType.BAT_LIKE_LARGE, "large, bat-like"],
+            [WingType.SHARK_FIN, ""],
+            [WingType.FEATHERED_LARGE, "large, feathered"],
+            [WingType.DRACONIC_SMALL, "small, draconic"],
+            [WingType.DRACONIC_LARGE, "large, draconic"],
+            [WingType.GIANT_DRAGONFLY, "giant dragonfly"]
         ]
     );
     public static const DEFAULT_LOWER_BODY.NAMES: Object = createMapFromPairs(
         [
-            [LOWER_BODY.HUMAN, "human"],
-            [LOWER_BODY.HOOFED, "hoofed"],
-            [LOWER_BODY.DOG, "dog"],
-            [LOWER_BODY.NAGA, "naga"],
-            [LOWER_BODY.CENTAUR, "centaur"],
-            [LOWER_BODY.DEMONIC_HIGH_HEELS, "demonic high-heels"],
-            [LOWER_BODY.DEMONIC_CLAWS, "demonic claws"],
-            [LOWER_BODY.BEE, "bee"],
-            [LOWER_BODY.GOO, "goo"],
-            [LOWER_BODY.CAT, "cat"],
-            [LOWER_BODY.LIZARD, "lizard"],
-            [LOWER_BODY.PONY, "pony"],
-            [LOWER_BODY.BUNNY, "bunny"],
-            [LOWER_BODY.HARPY, "harpy"],
-            [LOWER_BODY.KANGAROO, "kangaroo"],
-            [LOWER_BODY.CHITINOUS_SPIDER_LEGS, "chitinous spider legs"],
-            [LOWER_BODY.DRIDER_LOWER_BODY, "drider"],
-            [LOWER_BODY.FOX, "fox"],
-            [LOWER_BODY.DRAGON, "dragon"],
-            [LOWER_BODY.RACCOON, "raccoon"]
+            [LowerBodyType.HUMAN, "human"],
+            [LowerBodyType.HOOFED, "hoofed"],
+            [LowerBodyType.DOG, "dog"],
+            [LowerBodyType.NAGA, "naga"],
+            [LowerBodyType.CENTAUR, "centaur"],
+            [LowerBodyType.DEMONIC_HIGH_HEELS, "demonic high-heels"],
+            [LowerBodyType.DEMONIC_CLAWS, "demonic claws"],
+            [LowerBodyType.BEE, "bee"],
+            [LowerBodyType.GOO, "goo"],
+            [LowerBodyType.CAT, "cat"],
+            [LowerBodyType.LIZARD, "lizard"],
+            [LowerBodyType.PONY, "pony"],
+            [LowerBodyType.BUNNY, "bunny"],
+            [LowerBodyType.HARPY, "harpy"],
+            [LowerBodyType.KANGAROO, "kangaroo"],
+            [LowerBodyType.CHITINOUS_SPIDER_LEGS, "chitinous spider legs"],
+            [LowerBodyType.DRIDER_LOWER_BODY, "drider"],
+            [LowerBodyType.FOX, "fox"],
+            [LowerBodyType.DRAGON, "dragon"],
+            [LowerBodyType.RACCOON, "raccoon"]
         ]
     );
     public static const DEFAULT_PIERCING_NAMES: Object = createMapFromPairs(
@@ -204,20 +204,20 @@ export default class OtherDescriptors {
         ]
     );
     public static const DEFAULT_VAGINA_WETNESS.SCALES: Array = [
-        [VAGINA_WETNESS.DRY, "dry"],
-        [VAGINA_WETNESS.NORMAL, "normal"],
-        [VAGINA_WETNESS.WET, "wet"],
-        [VAGINA_WETNESS.SLICK, "slick"],
-        [VAGINA_WETNESS.DROOLING, "drooling"],
-        [VAGINA_WETNESS.SLAVERING, "slavering"],
+        [VaginaWetness.DRY, "dry"],
+        [VaginaWetness.NORMAL, "normal"],
+        [VaginaWetness.WET, "wet"],
+        [VaginaWetness.SLICK, "slick"],
+        [VaginaWetness.DROOLING, "drooling"],
+        [VaginaWetness.SLAVERING, "slavering"],
     ];
     public static const DEFAULT_VAGINA_LOOSENESS.SCALES: Array = [
-        [VAGINA_LOOSENESS.TIGHT, "tight"],
-        [VAGINA_LOOSENESS.NORMAL, "normal"],
-        [VAGINA_LOOSENESS.LOOSE, "loose"],
-        [VAGINA_LOOSENESS.GAPING, "gaping"],
-        [VAGINA_LOOSENESS.GAPING_WIDE, "gaping wide"],
-        [VAGINA_LOOSENESS.LEVEL_CLOWN_CAR, "clown-car level"]
+        [VaginaLooseness.TIGHT, "tight"],
+        [VaginaLooseness.NORMAL, "normal"],
+        [VaginaLooseness.LOOSE, "loose"],
+        [VaginaLooseness.GAPING, "gaping"],
+        [VaginaLooseness.GAPING_WIDE, "gaping wide"],
+        [VaginaLooseness.LEVEL_CLOWN_CAR, "clown-car level"]
     ];
     public static const DEFAULT_ANAL_WETNESS.SCALES: Array = [
         [ANAL_WETNESS.DRY, "dry"],
