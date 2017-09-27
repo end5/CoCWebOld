@@ -1,22 +1,31 @@
+import MainScreen, { TopButton } from "./MainScreen";
+import Flags, { FlagEnum } from "../Game/Flags";
+import Player from "../Player";
+import Game from "../Game/Game";
+
 export default class CombatMenu {
-    public display(newRound: boolean = true): void { //If returning from a sub menu set newRound to false
+    private static newRound = true;
+
+    public static display(player: Player): void { //If returning from a sub menu set newRound to false
         MainScreen.clearText();
-        Flags.get(FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG) = 0;
-        MainScreen.hideTopButton(MainScreen);
-        MainScreen.hideMenuButton(MainView.MENU_APPEARANCE);
-        MainScreen.hideMenuButton(MainView.MENU_PERKS);
-        hideUpDown();
-        if (newRound) combatStatusesUpdate(); //Update Combat Statuses
+        Flags.set(FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG, 0);
+        MainScreen.hideTopButton(TopButton.MainMenu);
+        MainScreen.hideTopButton(TopButton.Appearance);
+        MainScreen.hideTopButton(TopButton.Perks);
+
+        if (CombatMenu.newRound)
+            combatStatusesUpdate(); //Update Combat Statuses
         display();
-        statScreenRefresh();
+        updateStats(player);
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
-        if (combatRoundOver()) return;
+        if (combatRoundOver())
+            return;
         MainScreen.hideButtons();
         let attacks: Function = normalAttack;
         let magic: Function = (canUseMagic() ? magicMenu : null);
         let pSpecials: Function = physicalSpecials;
 
-        if (monster.statusAffects.has("AttackDisabled")) {
+        if (Game.monster.statusAffects.has("AttackDisabled")) {
             MainScreen.text("\n<b>Chained up as you are, you can't manage any real physical attacks!</b>");
             attacks = null;
         }
@@ -96,18 +105,19 @@ export default class CombatMenu {
             if (CoC_Settings.debugBuild && !debug) MainScreen.addButton(9, "Inspect", debugInspect);
         }
     }
-    public physicalCost(mod: number): number {
+
+    public static physicalCost(mod: number): number {
         let costPercent: number = 100;
         if (player.perks.has("IronMan")) costPercent -= 50;
         mod *= costPercent / 100;
         return mod;
     }
 
-    public spellCost(mod: number): number {
+    public static spellCost(player: Player, mod: number): number {
         //Addiditive mods
         let costPercent: number = 100;
-        if (player.perks.has("SpellcastingAffinity")) costPercent -= player.perkv1(PerkLib.SpellcastingAffinity);
-        if (player.perks.has("WizardsEndurance")) costPercent -= player.perkv1(PerkLib.WizardsEndurance);
+        if (player.perks.has("SpellcastingAffinity")) costPercent -= player.perks.get("SpellcastingAffinity").value1;
+        if (player.perks.has("WizardsEndurance")) costPercent -= player.perks.get("WizardsEndurance").value1;
 
         //Limiting it and multiplicative mods
         if (player.perks.has("BloodMage") && costPercent < 50) costPercent = 50;
@@ -123,111 +133,7 @@ export default class CombatMenu {
         mod = Math.round(mod * 100) / 100;
         return mod;
     }
-
-    //Modify fatigue
-    //types:
-    //        0 - normal
-    //        1 - magic
-    public fatigue(mod: number, type: number = 0): void {
-        //Spell reductions
-        if (type == 1) {
-            mod = spellCost(mod);
-
-            //Blood mages use HP for spells
-            if (player.perks.has("BloodMage")) {
-                takeDamage(mod);
-                statScreenRefresh();
-                return;
-            }
-        }
-        //Physical special reductions
-        if (type == 2) {
-            mod = physicalCost(mod);
-        }
-        if (player.fatigue >= 100 && mod > 0) return;
-        if (player.fatigue <= 0 && mod < 0) return;
-        //Fatigue restoration buffs!
-        if (mod < 0) {
-            let multi: number = 1;
-
-            if (player.perks.has("HistorySlacker")) multi += 0.2;
-            if (player.perks.has("ControlledBreath") && player.stats.cor < 30) multi += 0.1;
-
-            mod *= multi;
-        }
-        player.fatigue += mod;
-        if (mod > 0) {
-            mainView.statsView.showStatUp('fatigue');
-            // fatigueUp.visible = true;
-            // fatigueDown.visible = false;
-        }
-        if (mod < 0) {
-            mainView.statsView.showStatDown('fatigue');
-            // fatigueDown.visible = true;
-            // fatigueUp.visible = false;
-        }
-        if (player.fatigue > 100) player.fatigue = 100;
-        if (player.fatigue < 0) player.fatigue = 0;
-        statScreenRefresh();
-    }
-
-    public lustPercent(): number {
-        let lust: number = 100;
-        //2.5% lust resistance per level - max 75.
-        if (player.level < 21) lust -= (player.level - 1) * 3;
-        else lust = 40;
-
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //ADDITIVE REDUCTIONS
-        //THESE ARE FLAT BONUSES WITH LITTLE TO NO DOWNSIDE
-        //TOTAL IS LIMITED TO 75%!
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //Corrupted Libido reduces lust gain by 10%!
-        if (player.perks.has("CorruptedLibido")) lust -= 10;
-        //Acclimation reduces by 15%
-        if (player.perks.has("Acclimation")) lust -= 15;
-        //Purity blessing reduces lust gain
-        if (player.perks.has("PurityBlessing")) lust -= 5;
-        //Resistance = 10%
-        if (player.perks.has("Resistance")) lust -= 10;
-        if (player.perks.has("ChiReflowLust")) lust -= UmasShop.NEEDLEWORK_LUST_LUST_RESIST;
-
-        if (lust < 25) lust = 25;
-        if (player.statusAffects.get("BlackCatBeer").value1 > 0) {
-            if (lust >= 80) lust = 100;
-            else lust += 20;
-        }
-        lust += Math.round(player.perkv1(PerkLib.PentUp) / 2);
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //MULTIPLICATIVE REDUCTIONS
-        //THESE PERKS ALSO RAISE MINIMUM LUST OR HAVE OTHER
-        //DRAWBACKS TO JUSTIFY IT.
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //Bimbo body slows lust gains!
-        if ((player.statusAffects.has("BimboChampagne") || player.perks.has("BimboBody")) && lust > 0) lust *= .75;
-        if (player.perks.has("BroBody") && lust > 0) lust *= .75;
-        if (player.perks.has("FutaForm") && lust > 0) lust *= .75;
-        //Omnibus' Gift reduces lust gain by 15%
-        if (player.perks.has("OmnibusGift")) lust *= .85;
-        //Luststick reduces lust gain by 10% to match increased min lust
-        if (player.perks.has("LuststickAdapted")) lust *= 0.9;
-        if (player.statusAffects.has("Berzerking")) lust *= .6;
-        if (player.perks.has("PureAndLoving")) lust *= 0.95;
-
-        // Lust mods from Uma's content -- Given the short duration and the gem cost, I think them being multiplicative is justified.
-        // Changing them to an additive bonus should be pretty simple (check the static values in UmasShop.as)
-        let statIndex: number = player.findStatusAffect(StatusAffects.UmasMassage);
-        if (statIndex >= 0) {
-            if (player.statusAffect(statIndex).value1 == UmasShop.MASSAGE_RELIEF || player.statusAffect(statIndex).value1 == UmasShop.MASSAGE_LUST) {
-                lust *= player.statusAffect(statIndex).value2;
-            }
-        }
-
-        lust = Math.round(lust);
-        return lust;
-    }
-
-
+    /*
     public HPChange(changeNum: number, display: boolean): void {
         if (changeNum == 0) return;
         if (changeNum > 0) {
@@ -259,7 +165,7 @@ export default class CombatMenu {
                 player.HP += changeNum;
             }
         }
-        statScreenRefresh();
-    }
+        updateStats(player);
+    }*/
 
 }

@@ -11,6 +11,7 @@ import Cock from "./Cock";
 import { SaveInterface } from "../SaveInterface";
 import MainScreen from "../display/MainScreen";
 import StatusAffect from "../Effects/StatusAffect";
+import CockDescriptor from "../Descriptors/CockDescriptor";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -104,9 +105,9 @@ export default class CreatureBody implements SaveInterface {
         let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
         if (gildedCockSocks > 0) {
 
-            let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.list);
+            let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.listLargestCockArea);
             let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
-            MainScreen.text("\n\nFeeling some minor discomfort in your " + cockDescript(randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
+            MainScreen.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
             this.stats.gems += bonusGems;
         }
     }
@@ -178,18 +179,18 @@ export default class CreatureBody implements SaveInterface {
         let loosestVagina = this.lowerBody.vaginaSpot.LoosenessMost[0];
         if (this.perks.has("FerasBoonMilkingTwat") || loosestVagina.vaginalLooseness <= VaginaLooseness.NORMAL) {
             //cArea > capacity = autostreeeeetch.
-            if (vaginaArea >= this.vaginalCapacity) {
+            if (vaginaArea >= this.vaginalCapacity()) {
                 if (loosestVagina.vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR)
                     loosestVagina.vaginalLooseness++;
                 stretched = true;
             }
             //If within top 10% of capacity, 50% stretch
-            else if (vaginaArea >= .9 * this.vaginalCapacity && Utils.chance(50)) {
+            else if (vaginaArea >= .9 * this.vaginalCapacity() && Utils.chance(50)) {
                 loosestVagina.vaginalLooseness++;
                 stretched = true;
             }
             //if within 75th to 90th percentile, 25% stretch
-            else if (vaginaArea >= .75 * this.vaginalCapacity && Utils.chance(25)) {
+            else if (vaginaArea >= .75 * this.vaginalCapacity() && Utils.chance(25)) {
                 loosestVagina.vaginalLooseness++;
                 stretched = true;
             }
@@ -199,7 +200,7 @@ export default class CreatureBody implements SaveInterface {
             this.lowerBody.vaginaSpot.Virgin[0].virgin = false;
         }
         //Delay anti-stretching
-        if (vaginaArea >= .5 * this.vaginalCapacity) {
+        if (vaginaArea >= .5 * this.vaginalCapacity()) {
             //Cunt Stretched used to determine how long since last enlargement
             if (!this.statusAffects.has("CuntStretched"))
                 this.statusAffects.add(new StatusAffect("CuntStretched", 0, 0, 0, 0));
@@ -214,7 +215,7 @@ export default class CreatureBody implements SaveInterface {
     }
 
 
-    public get vaginalCapacity(): number {
+    public vaginalCapacity(): number {
         if (!this.lowerBody.vaginaSpot.hasVagina)
             return 0;
         let total: number;
@@ -466,6 +467,51 @@ export default class CreatureBody implements SaveInterface {
         return this.statusAffects.has("Rut");
     }
 
+    public canGoIntoHeat() {
+        return this.lowerBody.vaginaSpot.hasVagina() && this.canKnockUp();
+    }
+
+    public canGoIntoRut(): boolean {
+        return this.lowerBody.cockSpot.hasCock();
+    }
+
+    public goIntoHeat(intensity: number = 1) {
+        if (this.inHeat) {
+            let statusAffectHeat: StatusAffect = this.statusAffects.get("Heat");
+            statusAffectHeat.value1 += 5 * intensity;
+            statusAffectHeat.value2 += 5 * intensity;
+            statusAffectHeat.value3 += 48 * intensity;
+            this.stats.bimboIntReduction = true;
+            this.stats.lib += 5 * intensity;
+        }
+        //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
+        else {
+            this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            this.stats.bimboIntReduction = true;
+            this.stats.lib += 15 * intensity;
+        }
+    }
+
+    public goIntoRut(intensity: number = 1) {
+        //Has rut, intensify it!
+        if (this.inRut) {
+            let statusAffectRut: StatusAffect = this.statusAffects.get("Rut");
+            statusAffectRut.value1 = 100 * intensity;
+            statusAffectRut.value2 = 5 * intensity;
+            statusAffectRut.value3 = 48 * intensity;
+            this.stats.bimboIntReduction = true;
+            this.stats.lib += 5 * intensity;
+        }
+        else {
+            //v1 - bonus cum production
+            //v2 - bonus this.stats.libido
+            //v3 - time remaining!
+            this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            this.stats.bimboIntReduction = true;
+            this.stats.lib += 5 * intensity;
+        }
+    }
+
     public get bonusFertility(): number {
         let counter: number = 0;
         if (this.inHeat)
@@ -500,9 +546,23 @@ export default class CreatureBody implements SaveInterface {
         return skinzilla;
     }
 
+    public canKnockUp(): boolean {
+        for (let index: number = 0; index < this.lowerBody.vaginaSpot.count(); index++)
+            if (!this.lowerBody.vaginaSpot.get(index).isPregnant)
+                return true;
+        return false;
+    }
+
     //fertility must be >= random(0-beat)
     //If arg == 1 then override any contraceptives and guarantee fertilization
-    public knockUp(vagina: Vagina, type: number = 0, incubation: number = 0, beat: number = 100, arg: number = 0): void {
+    public knockUp(pregnancyType: PregnancyType, incubation: number = 0, beat: number = 100, arg: number = 0): void {
+        let nonPregVagina: Vagina = null;
+        for (let index: number = 0; index < this.lowerBody.vaginaSpot.count(); index++)
+            if (!this.lowerBody.vaginaSpot.get(index).isPregnant) {
+                nonPregVagina = this.lowerBody.vaginaSpot.get(index);
+                break;
+            }
+
         //Contraceptives cancel!
         if (this.statusAffects.has("Contraceptives") && arg < 1)
             return;
@@ -513,12 +573,12 @@ export default class CreatureBody implements SaveInterface {
         if (arg <= -1)
             bonus = -9000;
         //If unpregnant and fertility wins out:
-        if (vagina.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat) && this.lowerBody.vaginaSpot.hasVagina()) {
-            vagina.knockUp(type, incubation);
-            console.trace("PC Knocked up with pregnancy type: " + type + " for " + incubation + " incubation.");
+        if (nonPregVagina.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat) && this.lowerBody.vaginaSpot.hasVagina()) {
+            nonPregVagina.knockUp(pregnancyType, incubation);
+            console.trace("PC Knocked up with pregnancy type: " + pregnancyType + " for " + incubation + " incubation.");
         }
         //Chance for eggs fertilization - ovi elixir and imps excluded!
-        if (type != PregnancyType.IMP && type != PregnancyType.OVIELIXIR_EGGS && type != PregnancyType.ANEMONE) {
+        if (pregnancyType != PregnancyType.IMP && pregnancyType != PregnancyType.OVIELIXIR_EGGS && pregnancyType != PregnancyType.ANEMONE) {
             if (this.perks.has("SpiderOvipositor") || this.perks.has("BeeOvipositor")) {
                 if (this.totalFertility() + bonus > Utils.rand(beat)) {
                     this.lowerBody.ovipositor.fertilizeEggs();
@@ -533,7 +593,7 @@ export default class CreatureBody implements SaveInterface {
     }
 
     //fertility must be >= random(0-beat)
-    public buttKnockUp(butt: Butt, type: number = 0, incubation: number = 0, beat: number = 100, arg: number = 0): void {
+    public buttKnockUp(pregnancyType: PregnancyType, incubation: number = 0, beat: number = 100, arg: number = 0): void {
         //Contraceptives cancel!
         if (this.statusAffects.has("Contraceptives") && arg < 1)
             return;
@@ -544,15 +604,15 @@ export default class CreatureBody implements SaveInterface {
         if (arg <= -1)
             bonus = -9000;
         //If unpregnant and fertility wins out:
-        if (butt.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat)) {
-            butt.knockUp(type, incubation);
-            console.trace("PC Butt Knocked up with pregnancy type: " + type + " for " + incubation + " incubation.");
+        if (this.lowerBody.butt.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat)) {
+            this.lowerBody.butt.knockUp(pregnancyType, incubation);
+            console.trace("PC Butt Knocked up with pregnancy type: " + pregnancyType + " for " + incubation + " incubation.");
         }
     }
 
     //The more complex buttKnockUp used by the player is defined in Character.as
-    public buttKnockUpForce(butt: Butt, type: number = 0, incubation: number = 0): void {
-        butt.knockUpForce(type, type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
+    public buttKnockUpForce(type: PregnancyType = 0, incubation: number = 0): void {
+        this.lowerBody.butt.knockUpForce(type, type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
     }
 
     saveKey: string = "Body";

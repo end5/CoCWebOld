@@ -97,14 +97,14 @@ export default class BreastModifier {
 
     /**
      * Note: Only here as reference to the old function
+     * GrowthType 1 = smallest grows - growSmallestBreastRow
+     * GrowthType 2 = Top Row working downward - growTopBreastRowDownwards
+     * GrowthType 3 = Only top row - growTopBreastRow
      * @param body
      * @param amount
      * @param rowsGrown
      * @param display
      * @param growthType
-     * GrowthType 1 = smallest grows
-     * GrowthType 2 = Top Row working downward
-     * GrowthType 3 = Only top row
      */
     public static growTits(body: CreatureBody, amount: number, rowsGrown: number, growthType: number): void {
     }

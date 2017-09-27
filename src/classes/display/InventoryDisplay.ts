@@ -1,7 +1,7 @@
 import Player from "../Player";
 import Inventory from "../Inventory/Inventory";
 import Item from "../Items/Item";
-import MainScreen, { ClickEventListener } from "./MainScreen";
+import MainScreen, { ClickFunction } from "./MainScreen";
 import Game from "../Game/Game";
 import ItemStack from "../Items/ItemStack";
 import CombatMenu from "./CombatMenu";
@@ -37,11 +37,17 @@ import PlayerInventoryMenu from "./PlayerInventoryMenu";
 type ItemCallback = (player: Player, inventory: Inventory<Item>, itemSlot: number) => void;
 
 export default class InventoryDisplay {
-    private static prevMenu: ClickEventListener;
-    private static reverseAction: Function;
+    private static prevMenu: ClickFunction;
+    private static reverseActionFunc: Function;
     private static heldItem: ItemStack<Item>;
     public static isHoldingItem(): boolean {
         return InventoryDisplay.heldItem != null;
+    }
+
+    public static addItem(item: Item) {
+        if (!InventoryDisplay.heldItem) {
+            InventoryDisplay.heldItem = new ItemStack(item, 1);
+        }
     }
 
     /**
@@ -79,8 +85,8 @@ export default class InventoryDisplay {
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
             MainScreen.addButton(7, "Put Back", function () {
-                InventoryDisplay.reverseAction();
-                InventoryDisplay.reverseAction = null;
+                InventoryDisplay.reverseActionFunc();
+                InventoryDisplay.reverseActionFunc = null;
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
             MainScreen.addButton(8, "Use Now", function () {
@@ -88,13 +94,13 @@ export default class InventoryDisplay {
                     InventoryDisplay.heldItem.item.use(player);
                     InventoryDisplay.heldItem.item.useText(player);
                     InventoryDisplay.heldItem = null;
-                    InventoryDisplay.reverseAction = null;
+                    InventoryDisplay.reverseActionFunc = null;
                     MainScreen.doNext(InventoryDisplay.prevMenu);
                 }
             });
             MainScreen.addButton(9, "Abandon", function () {
                 InventoryDisplay.heldItem = null;
-                InventoryDisplay.reverseAction = null;
+                InventoryDisplay.reverseActionFunc = null;
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
         }
@@ -132,7 +138,7 @@ export default class InventoryDisplay {
         }
     }
 
-    public static unequipFunction(player: Player): ClickEventListener {
+    public static unequipFunction(player: Player): ClickFunction {
         return function () {
             player.inventory.weapon.removeText();
             InventoryDisplay.heldItem = new ItemStack(player.inventory.weapon.unequip(player), 1);
@@ -143,6 +149,7 @@ export default class InventoryDisplay {
     private static useItem(player: Player, inventory: Inventory<Item>, itemSlot: number) {
         let itemStack = inventory.get(itemSlot);
         if (itemStack && itemStack.item.canUse(player)) {
+            InventoryDisplay.createReverseAction(inventory, itemSlot);
             itemStack = itemStack.split(1);
             itemStack.item.use(player);
             itemStack.item.useText(player);
@@ -167,7 +174,11 @@ export default class InventoryDisplay {
 
     private static holdItem(player: Player, inventory: Inventory<Item>, itemSlot: number) {
         InventoryDisplay.heldItem = inventory.get(itemSlot).split(1);
-        InventoryDisplay.reverseAction = function () {
+        InventoryDisplay.createReverseAction(inventory, itemSlot);
+    }
+
+    private static createReverseAction(inventory: Inventory<Item>, itemSlot: number) {
+        InventoryDisplay.reverseActionFunc = function () {
             let itemStack = inventory.get(itemSlot);
             if (itemStack.quantity == 0)
                 inventory.set(itemSlot, InventoryDisplay.heldItem);
@@ -177,7 +188,11 @@ export default class InventoryDisplay {
         }
     }
 
-    private static displayInventoryButtons(player: Player, displayedInv: Inventory<Item>, itemCallback: ItemCallback, clickFunction: ClickEventListener) {
+    public static reverseAction() {
+        InventoryDisplay.reverseActionFunc();
+    }
+
+    private static displayInventoryButtons(player: Player, displayedInv: Inventory<Item>, itemCallback: ItemCallback, clickFunction: ClickFunction) {
         MainScreen.hideButtons();
         for (let index = 0; index < displayedInv.length; index++) {
             if (displayedInv.get(index).quantity > 0) {

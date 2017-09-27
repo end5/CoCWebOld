@@ -305,7 +305,8 @@ export default class BreastDescriptor {
         return description;
     }
 
-    public static describeAllBreasts(chest: Chest): string {
+    public static describeAllBreasts(body: CreatureBody): string {
+        let chest: Chest = body.upperBody.chest;
         let desciption: string = "";
         switch (chest.count() / 2) {
             case 0:

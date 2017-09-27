@@ -92,14 +92,14 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Exude a lust-inducing aura (Req's corruption of 70 or more)",
             "You choose the 'Arousing Aura' perk, causing you to radiate an aura of lust when your corruption is over 70.", false, true));
         this.add(new PerkDesc("Berzerker", "Berzerker",
-            "[if(player.str>=75)" +
+            "[if(player.stats.str>=75)" +
             "Grants 'Berzerk' ability." +
             "|" +
             "<b>You aren't strong enough to benefit from this anymore.</b>" +
             "]",
             "You choose the 'Berzerker' perk, which unlocks the 'Berzerk' magical ability.  Berzerking increases attack and lust resistance but reduces physical defenses.", false, true));
         this.add(new PerkDesc("BrutalBlows", "Brutal Blows",
-            "[if(player.str>=75)" +
+            "[if(player.stats.str>=75)" +
             "Reduces enemy armor with each hit." +
             "|" +
             "<b>You aren't strong enough to benefit from this anymore.</b>" +
@@ -114,7 +114,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc("DoubleAttack", "Double Attack",
             "[if (player.stats.spe<50)" +
             "<b>You're too slow to double attack!</b>" +
-            "|[if(player.str<61)" +
+            "|[if(player.stats.str<61)" +
             "Allows you to perform two melee attacks per round." +
             "|" +
             "<b>You are stronger than double attack allows.  To choose between reduced strength double-attacks and a single strong attack, access \"Dbl Options\" in the perks menu.</b>" +
@@ -130,7 +130,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Raises minimum lust by up to 20.",
             "You choose the 'Hot Blooded' perk.  As a result of your enhanced libido, your lust no longer drops below 20! (If you already have some minimum lust, it will be increased by 10)", false, true));
         this.add(new PerkDesc("ImmovableObject", "Immovable Object",
-            "[if(player.tou>=75)" +
+            "[if(player.stats.tou>=75)" +
             "Grants 20% physical damage reduction.</b>" +
             "|" +
             "<b>You aren't tough enough to benefit from this anymore.</b>" +
@@ -178,7 +178,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Reduces lust gain by 10%.",
             "You choose the 'Resistance' perk, reducing the rate at which your lust increases by 10%.", false, true));
         this.add(new PerkDesc("Resolute", "Resolute",
-            "[if(player.tou>=75)" +
+            "[if(player.stats.tou>=75)" +
             "Grants immunity to stuns and some statuses.</b>" +
             "|" +
             "<b>You aren't tough enough to benefit from this anymore.</b>" +
@@ -222,7 +222,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "+20% 'Attack' damage while strength is at or above 80.",
             "You choose the 'Thunderous Strikes' perk, increasing normal damage by 20% while your strength is over 80.", false, true));
         this.add(new PerkDesc("WeaponMastery", "Weapon Mastery",
-            "[if(player.str>60)" +
+            "[if(player.stats.str>60)" +
             "Doubles damage bonus of weapons classified as 'Large'." +
             "|" +
             "<b>You aren't strong enough to benefit from this anymore.</b>" +

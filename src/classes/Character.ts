@@ -302,7 +302,7 @@ export default class Character extends CreatureBody
     {
         let cockSpot = this.lowerBody.cockSpot;
         for (let index = 0; index < cockSpot.count(); index++)
-            if (cockSpot.get(index].sock == "amaranthine" && cockSpot.list[index).cockType != CockType.DISPLACER)
+            if (cockSpot.get(index).sock == "amaranthine" && cockSpot.get(index).cockType != CockType.DISPLACER)
                 return true;
         return false;
 	}

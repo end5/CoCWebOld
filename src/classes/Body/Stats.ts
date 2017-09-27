@@ -15,7 +15,9 @@ export default class Stats implements SaveInterface {
     private _fatigue: number;
 
     //Special modifiers
+    /** Note: Only affects lust. */
     public lustResisted: boolean;
+    /** Note: Only affects int and lib. */
     public bimboIntReduction: boolean;
 
     //Combat Stats

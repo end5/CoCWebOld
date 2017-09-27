@@ -49,15 +49,15 @@ export default class PerksMenu {
     }
 
     public doubleAttackForce(): void {
-        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 0;
+        Flags.set(FlagEnum.DOUBLE_ATTACK_STYLE, 0);
         doubleAttackOptions();
     }
     public doubleAttackDynamic(): void {
-        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 1;
+        Flags.set(FlagEnum.DOUBLE_ATTACK_STYLE, 1);
         doubleAttackOptions();
     }
     public doubleAttackOff(): void {
-        Flags.get(FlagEnum.DOUBLE_ATTACK_STYLE) = 2;
+        Flags.set(FlagEnum.DOUBLE_ATTACK_STYLE, 2);
         doubleAttackOptions();
     }
 

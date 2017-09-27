@@ -170,6 +170,10 @@ export default class MainScreen {
         MainScreen.statsPanels[statType].setStat(statCurrent, statMax);
     }
 
+    public static updateStats(player: Player) {
+
+    }
+
     public static showLevelUpIcon() {
         MainScreen.levelupIcon.style.visibility = "visible";
     }

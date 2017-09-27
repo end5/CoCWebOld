@@ -9,9 +9,10 @@ import { ButtLooseness, ButtWetness } from "./Body/Butt";
 import { HornType } from "./Body/Head";
 import { WingType } from "./Body/UpperBody";
 import KeyItem from "./Items/KeyItem";
+import StatusAffect from "./Effects/StatusAffect";
 
 export default class Player extends Character {
-
+    level: number;
     public constructor() {
         super();
         // Reset all standard stats
@@ -255,82 +256,8 @@ export default class Player extends Character {
         }
 
         console.trace("and modifying by " + delta);
-        cumMultiplier += delta;
+        this.cumMultiplier += delta;
         return delta;
-    }
-
-    // Attempts to put the player in heat (or deeper in heat).
-    // Returns true if successful, false if not.
-    // The player cannot go into heat if she is already pregnant or is a he.
-    // 
-    // First parameter: boolean indicating if should output standard text.
-    // Second parameter: intensity, an integer multiplier that can increase the 
-    // duration and intensity. Defaults to 1.
-    public goIntoHeat(output: boolean, intensity: number = 1): boolean {
-        if (!this.lowerBody.vaginaSpot.hasVagina() || pregnancyIncubation != 0) {
-            // No vagina or already pregnant, can't go into heat.
-            return false;
-        }
-
-        //Already in heat, intensify further.
-        if (this.inHeat) {
-            if (output) {
-                MainScreen.text("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
-            }
-            let temp: number = this.statusAffects.has(StatusAffects.Heat);
-            statusAffect(temp).value1 += 5 * intensity;
-            statusAffect(temp).value2 += 5 * intensity;
-            statusAffect(temp).value3 += 48 * intensity;
-            game.dynStats("this.stats.lib", 5 * intensity, "resisted", false, "noBimbo", true);
-        }
-        //Go into heat.  Heats v1 is bonus fertility, v2 is bonus this.stats.libido, v3 is hours till it's gone
-        else {
-            if (output) {
-                MainScreen.text("\n\nYour mind clouds as your " + vaginaDescript(0) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>", false);
-            }
-            this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
-            game.dynStats("this.stats.lib", 15 * intensity, "resisted", false, "noBimbo", true);
-        }
-        return true;
-    }
-
-    // Attempts to put the player in rut (or deeper in heat).
-    // Returns true if successful, false if not.
-    // The player cannot go into heat if he is a she.
-    // 
-    // First parameter: boolean indicating if should output standard text.
-    // Second parameter: intensity, an integer multiplier that can increase the 
-    // duration and intensity. Defaults to 1.
-    public goIntoRut(output: boolean, intensity: number = 1): boolean {
-        if (!hasCock()) {
-            // No cocks, can't go into rut.
-            return false;
-        }
-
-        //Has rut, intensify it!
-        if (this.inRut) {
-            if (output) {
-                MainScreen.text("\n\nYour " + cockDescript(0) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);
-            }
-
-            statusAffects.get("Rut").value1 = 100 * intensity;
-            statusAffects.get("Rut").value2 = 5 * intensity;
-            statusAffects.get("Rut").value3 = 48 * intensity;
-            game.dynStats("this.stats.lib", 5 * intensity, "resisted", false, "noBimbo", true);
-        }
-        else {
-            if (output) {
-                MainScreen.text("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!", false);
-            }
-
-            //v1 - bonus cum production
-            //v2 - bonus this.stats.libido
-            //v3 - time remaining!
-            this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
-            game.dynStats("this.stats.lib", 5 * intensity, "resisted", false, "noBimbo", true);
-        }
-
-        return true;
     }
 }
 

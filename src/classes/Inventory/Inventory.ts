@@ -24,8 +24,8 @@ export default class Inventory<T extends Item> {
         }
     }
 
-    public has(objectKey: string, minQuantity: number = 1): boolean {
-        return this.count(objectKey) >= minQuantity;
+    public has(object: T, minQuantity: number = 1): boolean {
+        return this.count(object.objectKey) >= minQuantity;
     }
 
     public get length(): number {

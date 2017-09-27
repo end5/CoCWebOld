@@ -111,7 +111,7 @@ export default class StatsMenu {
         let bodyStats: string = "";
 
         bodyStats += "<b>Anal Capacity:</b> " + Math.round(player.analCapacity()) + "\n";
-        bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.ass.analLooseness) + "\n";
+        bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.lowerBody.butt.analLooseness) + "\n";
 
         bodyStats += "<b>Fertility (Base) Rating:</b> " + Math.round(player.fertility) + "\n";
         bodyStats += "<b>Fertility (With Bonuses) Rating:</b> " + Math.round(player.totalFertility()) + "\n";

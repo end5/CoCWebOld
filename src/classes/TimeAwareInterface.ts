@@ -1,6 +1,5 @@
 //Call CoC.timeAwareClassAdd if you want a class that implements this interface to receive time changes
-export interface TimeAwareInterface
-{
+export interface TimeAwareInterface {
     /*	Called for every Class in the _timeAwareClassList each time the game time advances.
         Should be used for code with no screen output and short text output which can be bundled with
         other game text. Larger scenes which require an immediate pause should go in timeChangeLarge instead.
@@ -23,7 +22,7 @@ export interface TimeAwareInterface
         may be called multiple times on a single tick of the hour, so updates should go in timeChange()
         and any scene that triggers on timeChangeLarge must make sure it cannot be triggered twice.
         Returning true indicates that you want the game to pause and display your screen output.
-        When this function returns true it is responsible for calling doNext, menu, choices, etc.
+        When this function returns true it is responsible for calling MainScreen.doNext, menu, choices, etc.
         Returning false indicates the function has produced no screen output. */
     /*
         The text above has been changed. If you need time to stop, pause it from the TimeManager.

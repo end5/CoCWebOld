@@ -1,10 +1,13 @@
 import MainScreen, { TopButton } from "./MainScreen";
 import Game, { GameState } from "../Game/Game";
+import CharCreationMenu from "./CharCreationMenu";
+import CombatMenu from "./CombatMenu";
 
 export default class PlayerMenu {
     public static display(): void {
-        if (!inCombat) spriteSelect(-1);
-        MainScreen.setTopButton(TopButton.MainMenu, "New Game", charCreation.newGameGo);
+        if (Game.state != GameState.InCombat)
+            spriteSelect(-1);
+        MainScreen.setTopButton(TopButton.MainMenu, "New Game", CharCreationMenu.newGameGo);
         MainScreen.nameBox.visible = false;
         if (Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple) {
             CombatMenu.display();
@@ -20,7 +23,7 @@ export default class PlayerMenu {
             if (inRoomedDungeonResume != null) inRoomedDungeonResume();
             return;
         }
-        Flags.get(FlagEnum.PLAYER_PREGGO_WITH_WORMS) = 0;
+        Flags.set(FlagEnum.PLAYER_PREGGO_WITH_WORMS, 0);
         doCamp();
     }
 }

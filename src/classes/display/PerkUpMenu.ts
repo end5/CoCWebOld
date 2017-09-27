@@ -63,56 +63,56 @@ export default class PerkUpMenu {
             perkList.push({ label: p.perkName, perk: p });
         }
         //STRENGTH PERKS
-        if (player.str >= 25) {
+        if (player.stats.str >= 25) {
             _add(new PerkClass(PerkLib.StrongBack));
         }
-        if (player.perks.has("StrongBack") && player.str >= 50) {
+        if (player.perks.has("StrongBack") && player.stats.str >= 50) {
             _add(new PerkClass(PerkLib.StrongBack2));
         }
         //Tier 1 Strength Perks
         if (player.level >= 6) {
             //Thunderous Strikes - +20% basic attack damage while str > 80.
-            if (player.str >= 80) {
+            if (player.stats.str >= 80) {
                 _add(new PerkClass(PerkLib.ThunderousStrikes));
             }
             //Weapon Mastery - Doubles weapon damage bonus of 'large' type weapons. (Minotaur Axe, M. Hammer, etc)
-            if (player.str > 60) {
+            if (player.stats.str > 60) {
                 _add(new PerkClass(PerkLib.WeaponMastery));
             }
-            if (player.str >= 75)
+            if (player.stats.str >= 75)
                 _add(new PerkClass(PerkLib.BrutalBlows));
         }
         //Tier 2 Strength Perks
         if (player.level >= 12) {
-            if (player.str >= 75)
+            if (player.stats.str >= 75)
                 _add(new PerkClass(PerkLib.Berzerker));
         }
         //slot 2 - toughness perk 1
-        if (!player.perks.has("Tank") && player.tou >= 25) {
+        if (!player.perks.has("Tank") && player.stats.tou >= 25) {
             _add(new PerkClass(PerkLib.Tank));
         }
         //slot 2 - regeneration perk
-        if (player.perks.has("Tank") && player.tou >= 50) {
+        if (player.perks.has("Tank") && player.stats.tou >= 50) {
             _add(new PerkClass(PerkLib.Regeneration));
         }
         //Tier 1 Toughness Perks
         if (player.level >= 6) {
-            if (player.perks.has("Tank") && player.tou >= 60) {
+            if (player.perks.has("Tank") && player.stats.tou >= 60) {
                 _add(new PerkClass(PerkLib.Tank2));
             }
-            if (player.perks.has("Regeneration") && player.tou >= 70) {
+            if (player.perks.has("Regeneration") && player.stats.tou >= 70) {
                 _add(new PerkClass(PerkLib.Regeneration2));
             }
-            if (player.tou >= 75) {
+            if (player.stats.tou >= 75) {
                 _add(new PerkClass(PerkLib.ImmovableObject));
             }
         }
         //Tier 2 Toughness Perks
         if (player.level >= 12) {
-            if (player.tou >= 75) {
+            if (player.stats.tou >= 75) {
                 _add(new PerkClass(PerkLib.Resolute));
             }
-            if (player.tou >= 60) {
+            if (player.stats.tou >= 60) {
                 _add(new PerkClass(PerkLib.IronMan));
             }
         }
@@ -245,8 +245,8 @@ export default class PerkUpMenu {
         if (perk.ptype == PerkLib.StrongBack2) player.itemSlot5.unlocked = true;
         if (perk.ptype == PerkLib.StrongBack) player.itemSlot4.unlocked = true;
         if (perk.ptype == PerkLib.Tank2) {
-            HPChange(player.tou, false);
-            statScreenRefresh();
+            HPChange(player.stats.tou, false);
+            updateStats(player);
         }
         MainScreen.doNext(playerMenu);
     }
@@ -278,30 +278,30 @@ export default class PerkUpMenu {
     }
 
     private levelUpStatStrength(): void {
-        dynStats("str", 5); //Gain +5 Str due to level
+        player.stats.str += 5; //Gain +5 Str due to level
         MainScreen.clearText();
         MainScreen.text("Your muscles feel significantly stronger from your time adventuring.");
         MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatToughness(): void {
-        dynStats("tou", 5); //Gain +5 Toughness due to level
+        player.stats.tou += 5; //Gain +5 Toughness due to level
         trace("HP: " + player.HP + " MAX HP: " + maxHP());
-        statScreenRefresh();
+        updateStats(player);
         MainScreen.clearText();
         MainScreen.text("You feel tougher from all the fights you have endured.");
         MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatSpeed(): void {
-        dynStats("spe", 5); //Gain +5 speed due to level
+        player.stats.spe += 5; //Gain +5 speed due to level
         MainScreen.clearText();
         MainScreen.text("Your time in combat has driven you to move faster.");
         MainScreen.doNext(perkBuyMenu);
     }
 
     private levelUpStatIntelligence(): void {
-        dynStats("int", 5); //Gain +5 Intelligence due to level
+        player.stats.int += 5; //Gain +5 Intelligence due to level
         MainScreen.clearText();
         MainScreen.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
         MainScreen.doNext(perkBuyMenu);

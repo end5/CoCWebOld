@@ -24,7 +24,7 @@ export default class DataMenu {
 
         MainScreen.hideButtons();
 
-        if (Game.state == GameState.GameOver || player.str == 0 || inDungeon) {
+        if (Game.state == GameState.GameOver || player.stats.str == 0 || inDungeon) {
             MainScreen.addButton(0, "Save", SaveMenu.display, true);
             MainScreen.addButton(5, "Save File", SaveManager.saveToFile, true);
         }
@@ -44,7 +44,7 @@ export default class DataMenu {
 
         if (Game.state == GameState.GameOver)
             MainScreen.addButton(9, "Back", GameOverMenu.display);
-        if (player.str == 0)
+        if (player.stats.str == 0)
             MainScreen.addButton(9, "Back", MainMenu.display);
         else
             MainScreen.addButton(9, "Back", PlayerMenu.display);
