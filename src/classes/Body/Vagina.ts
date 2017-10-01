@@ -1,5 +1,4 @@
 ﻿import Utils from "../Utilities/Utils";
-import Pregnancy from "./Pregnancy";
 import { SaveInterface } from "../SaveInterface";
 
 export enum VaginaType {
@@ -14,8 +13,7 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export default class Vagina extends Pregnancy implements SaveInterface {
-
+export default class Vagina implements SaveInterface {
     public vaginaType: VaginaType = VaginaType.HUMAN;
     public virgin: boolean = true;
 
@@ -33,7 +31,6 @@ export default class Vagina extends Pregnancy implements SaveInterface {
     public clitPLong: string;
 
     public constructor(vaginalWetness: VaginaWetness = VaginaWetness.NORMAL, vaginalLooseness: VaginaLooseness = VaginaLooseness.TIGHT, virgin: boolean = false) {
-        super();
         this.vaginaType = VaginaType.HUMAN;
         this.virgin = virgin;
         this.vaginalWetness = vaginalWetness;

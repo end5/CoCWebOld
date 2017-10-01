@@ -12,6 +12,7 @@ import { SaveInterface } from "../SaveInterface";
 import MainScreen from "../display/MainScreen";
 import StatusAffect from "../Effects/StatusAffect";
 import CockDescriptor from "../Descriptors/CockDescriptor";
+import PregnancyManager from "./PregnancyHandler";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -46,6 +47,8 @@ export default class CreatureBody implements SaveInterface {
     public upperBody: UpperBody;
     public lowerBody: LowerBody;
 
+    public pregnancy: PregnancyManager;
+
     public stats: Stats;
     public statusAffects: ComponentList<StatusAffect>;
     public get perks(): ComponentList<StatusAffect> {
@@ -70,6 +73,8 @@ export default class CreatureBody implements SaveInterface {
 
         this.upperBody = new UpperBody();
         this.lowerBody = new LowerBody();
+
+        this.pregnancy = new PregnancyManager();
 
         this.stats = new Stats(this);
         this.statusAffects = new ComponentList<StatusAffect>();
@@ -468,7 +473,7 @@ export default class CreatureBody implements SaveInterface {
     }
 
     public canGoIntoHeat() {
-        return this.lowerBody.vaginaSpot.hasVagina() && this.canKnockUp();
+        return this.lowerBody.vaginaSpot.hasVagina() && this.pregnancy.canKnockUp();
     }
 
     public canGoIntoRut(): boolean {
@@ -544,75 +549,6 @@ export default class CreatureBody implements SaveInterface {
         skinzilla += this.skinType == SkinType.FUR ? this.upperBody.head.hairColor + " " : this.skinTone + " ";
         skinzilla += this.skinDesc;
         return skinzilla;
-    }
-
-    public canKnockUp(): boolean {
-        for (let index: number = 0; index < this.lowerBody.vaginaSpot.count(); index++)
-            if (!this.lowerBody.vaginaSpot.get(index).isPregnant)
-                return true;
-        return false;
-    }
-
-    //fertility must be >= random(0-beat)
-    //If arg == 1 then override any contraceptives and guarantee fertilization
-    public knockUp(pregnancyType: PregnancyType, incubation: number = 0, beat: number = 100, arg: number = 0): void {
-        let nonPregVagina: Vagina = null;
-        for (let index: number = 0; index < this.lowerBody.vaginaSpot.count(); index++)
-            if (!this.lowerBody.vaginaSpot.get(index).isPregnant) {
-                nonPregVagina = this.lowerBody.vaginaSpot.get(index);
-                break;
-            }
-
-        //Contraceptives cancel!
-        if (this.statusAffects.has("Contraceptives") && arg < 1)
-            return;
-        let bonus: number = 0;
-        //If arg = 1 (always pregnant), bonus = 9000
-        if (arg >= 1)
-            bonus = 9000;
-        if (arg <= -1)
-            bonus = -9000;
-        //If unpregnant and fertility wins out:
-        if (nonPregVagina.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat) && this.lowerBody.vaginaSpot.hasVagina()) {
-            nonPregVagina.knockUp(pregnancyType, incubation);
-            console.trace("PC Knocked up with pregnancy type: " + pregnancyType + " for " + incubation + " incubation.");
-        }
-        //Chance for eggs fertilization - ovi elixir and imps excluded!
-        if (pregnancyType != PregnancyType.IMP && pregnancyType != PregnancyType.OVIELIXIR_EGGS && pregnancyType != PregnancyType.ANEMONE) {
-            if (this.perks.has("SpiderOvipositor") || this.perks.has("BeeOvipositor")) {
-                if (this.totalFertility() + bonus > Utils.rand(beat)) {
-                    this.lowerBody.ovipositor.fertilizeEggs();
-                }
-            }
-        }
-    }
-    //The more complex knockUp used by the player is defined above
-    //The player doesn't need to be told of the last event triggered, so the code here is quite a bit simpler than that in PregnancyType
-    public knockUpForce(vagina: Vagina, type: number = 0, incubation: number = 0): void {
-        vagina.knockUpForce(type, type == 0 ? 0 : incubation);
-    }
-
-    //fertility must be >= random(0-beat)
-    public buttKnockUp(pregnancyType: PregnancyType, incubation: number = 0, beat: number = 100, arg: number = 0): void {
-        //Contraceptives cancel!
-        if (this.statusAffects.has("Contraceptives") && arg < 1)
-            return;
-        let bonus: number = 0;
-        //If arg = 1 (always pregnant), bonus = 9000
-        if (arg >= 1)
-            bonus = 9000;
-        if (arg <= -1)
-            bonus = -9000;
-        //If unpregnant and fertility wins out:
-        if (this.lowerBody.butt.incubation == 0 && this.totalFertility() + bonus > Utils.rand(beat)) {
-            this.lowerBody.butt.knockUp(pregnancyType, incubation);
-            console.trace("PC Butt Knocked up with pregnancy type: " + pregnancyType + " for " + incubation + " incubation.");
-        }
-    }
-
-    //The more complex buttKnockUp used by the player is defined in Character.as
-    public buttKnockUpForce(type: PregnancyType = 0, incubation: number = 0): void {
-        this.lowerBody.butt.knockUpForce(type, type == 0 ? 0 : incubation); //Won't allow incubation time without pregnancy type
     }
 
     saveKey: string = "Body";
