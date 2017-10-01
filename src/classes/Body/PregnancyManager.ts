@@ -1,4 +1,4 @@
-import CreatureBody from "./Body";
+import Creature from "./Creature";
 import Vagina from "./Vagina";
 import Pregnancy, { PregnancyType } from "./Pregnancy";
 import VaginaSpot from "./VaginaSpot";
@@ -7,12 +7,12 @@ import Utils from "../Utilities/Utils";
 import UpdateInterface from "../UpdateInterface";
 
 export default class PregnancyManager implements UpdateInterface {
-    private body: CreatureBody;
+    private body: Creature;
     private vaginaSpot: VaginaSpot;
     private wombs: Pregnancy[];
     private buttWomb: Pregnancy;
 
-    public constructor(body: CreatureBody) {
+    public constructor(body: Creature) {
         this.body = body;
         this.vaginaSpot = body.lowerBody.vaginaSpot;
         this.wombs = [];

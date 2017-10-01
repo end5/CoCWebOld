@@ -1,5 +1,4 @@
-﻿import Creature from "./Creature";
-import { ChainedDrop } from "./Utilities/ChainedDrop";
+﻿import { ChainedDrop } from "./Utilities/ChainedDrop";
 import Player from "./Player";
 import MainScreen from "./display/MainScreen";
 import Game from "./Game/Game";
@@ -8,12 +7,13 @@ import StatusAffect from "./Effects/StatusAffect";
 import Flags, { FlagEnum } from "./Game/Flags";
 import Item from "./Items/Item";
 import GenderDescriptor from "./Descriptors/GenderDescriptor";
+import Character from "./Character";
 
 export enum MonsterType {
 
 }
 
-export default class Monster extends Creature {
+export default class Monster extends Character {
     public readonly type: MonsterType;
 
     //For enemies
@@ -156,7 +156,7 @@ export default class Monster extends Creature {
         ///*OPTIONAL*/ //this.cumMultiplier = ; // default 1
         ///*OPTIONAL*/ //this.hoursSinceCum = ; // default 0
         //// 2.2. Female
-        ///*REQUIRED*/ this.createVagina(virgin=true|false,VAGINA_WETNESS.,VAGINA_LOOSENESS.); // default true,normal,tight
+        ///*REQUIRED*/ this.createVagina(virgin=true|false,VAGINA_WETNESS.,VaginaLooseness.); // default true,normal,tight
         ///*OPTIONAL*/ //this.statusAffects.add(new StatusAffect("BonusVCapacity", bonus, 0, 0, 0)));
         //// 2.3. Hermaphrodite
         //// Just create cocks and vaginas. Last call determines this.pronouns.
@@ -190,12 +190,12 @@ export default class Monster extends Creature {
         ///*REQUIRED*/ this.tallness = ;
         ///*OPTIONAL*/ //this.hipRating = HIP_RATING.; // default boyish
         ///*OPTIONAL*/ //this.buttRating = BUTT_RATING.; // default buttless
-        ///*OPTIONAL*/ //this.lowerBody = LOWER_BODY.; //default human
-        ///*OPTIONAL*/ //this.armType = ARM.; // default human
+        ///*OPTIONAL*/ //this.lowerBody = LowerBodyType.; //default human
+        ///*OPTIONAL*/ //this.armType = ArmType.; // default human
 
         //// 6. Skin
         ///*OPTIONAL*/ //this.skinTone = "skinTone"; // default "albino"
-        ///*OPTIONAL*/ //this.skinType = SKIN.; // default PLAIN
+        ///*OPTIONAL*/ //this.skinType = SkinType.; // default PLAIN
         ///*OPTIONAL*/ //this.skinDesc = "skinDesc"; // default "skin" if this.skinType is not set, else Appearance.DEFAULT_SKIN.DESCS[skinType]
         ///*OPTIONAL*/ //this.skinAdj = "skinAdj"; // default ""
 
@@ -205,8 +205,8 @@ export default class Monster extends Creature {
         ///*OPTIONAL*/ //this.hairType = HAIR.; // default NORMAL
 
         //// 8. Face
-        ///*OPTIONAL*/ //this.faceType = FACE.; // default HUMAN
-        ///*OPTIONAL*/ //this.earType = EARS.; // default HUMAN
+        ///*OPTIONAL*/ //this.faceType = FaceType.; // default HUMAN
+        ///*OPTIONAL*/ //this.earType = EarType.; // default HUMAN
         ///*OPTIONAL*/ //this.tongueType = TONGUE_; // default HUMAN
         ///*OPTIONAL*/ //this.eyeType = EYES.; // default HUMAN
 
@@ -284,16 +284,16 @@ export default class Monster extends Creature {
         ///*OPTIONAL*/ //this.special3 = ; //default 0
 
         //// 16. Tail
-        ///*OPTIONAL*/ //this.tailType = TAIL.; // default NONE
+        ///*OPTIONAL*/ //this.tailType = TailType.; // default NONE
         ///*OPTIONAL*/ //this.tailVenom = ; // default 0
         ///*OPTIONAL*/ //this.tailRecharge = ; // default 5
 
         //// 17. Horns
-        ///*OPTIONAL*/ //this.hornType = HORNS.; // default NONE
+        ///*OPTIONAL*/ //this.hornType = HornType.; // default NONE
         ///*OPTIONAL*/ //this.horns = numberOfHorns; // default 0
 
         //// 18. Wings
-        ///*OPTIONAL*/ //this.wingType = WING.; // default NONE
+        ///*OPTIONAL*/ //this.wingType = WingType.; // default NONE
         ///*OPTIONAL*/ //this.wingDesc = ; // default Appearance.DEFAULT_WING_DESCS[wingType]
 
         //// 19. Antennae
@@ -432,7 +432,7 @@ export default class Monster extends Creature {
             return true;
         }
         //("Misdirection"
-        if (player.perks.has("Misdirection") && Utils.rand(100) < 10 && player.armorName == "red, high-society bodysuit") {
+        if (player.perks.has("Misdirection") && Utils.rand(100) < 10 && player.inventory.armor.displayName == "red, high-society bodysuit") {
             MainScreen.text("Using Raphael's teachings, you anticipate and sidestep " + this.a + this.short + "' attacks.\n", false);
             return true;
         }
@@ -692,11 +692,11 @@ export default class Monster extends Creature {
             + (Appearance.DEFAULT_TONGUE_NAMES[tongueType] || ("tongueType#" + tongueType)) + " tongue and "
             + (Appearance.DEFAULT_EYES.NAMES[eyeType] || ("eyeType#" + eyeType)) + " eyes.\n";
         result += Hehas;
-        if (tailType == TAIL.NONE) result += "no tail, ";
+        if (tailType == TailType.NONE) result += "no tail, ";
         else result += (Appearance.DEFAULT_TAIL_NAMES[tailType] || ("tailType#" + tailType)) + " tail with venom=" + tailVenom + " and recharge=" + tailRecharge + ", ";
-        if (hornType == HORNS.NONE) result += "no horns, ";
+        if (hornType == HornType.NONE) result += "no horns, ";
         else result += horns + " " + (Appearance.DEFAULT_HORNS.NAMES[hornType] || ("hornType#" + hornType)) + " horns, ";
-        if (wingType == WING.NONE) result += "no wings, ";
+        if (wingType == WingType.NONE) result += "no wings, ";
         else result += wingDesc + " wings (type " + (Appearance.DEFAULT_WING_NAMES[wingType] || ("wingType#" + wingType)) + "), ";
         if (antennae == ANTENNAE.NONE) result += "no antennae.\n\n";
         else result += (Appearance.DEFAULT_ANTENNAE.NAMES[antennae] || ("antennaeType#" + antennae)) + " antennae.\n\n";

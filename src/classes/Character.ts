@@ -1,4 +1,4 @@
-﻿import CreatureBody, { Gender, SkinType } from "./Body/Body";
+﻿import { Gender, SkinType } from "./Body/Body";
 import StatusAffect from "./Effects/StatusAffect";
 import { FaceType } from "./Body/Face";
 import Utils from "./Utilities/Utils";
@@ -6,14 +6,32 @@ import { CockType as CockType } from "./Body/Cock";
 import HeadDescriptor from "./Descriptors/HeadDescriptor";
 import CharacterInventory from "./Inventory/CharacterInventory";
 import Game from "./Game/Game";
+import UpdateInterface from "./UpdateInterface";
+import Creature from "./Body/Creature";
 
-export default class Character extends CreatureBody
-{
+export default class Character extends Creature implements UpdateInterface {
     public readonly inventory: CharacterInventory;
 
     public constructor() {
         super();
         this.inventory = new CharacterInventory();
+    }
+
+    //Short refers to player name and monster name. BEST VARIABLE NAME EVA!
+    //"a" refers to how the article "a" should appear in text. 
+    private _short: string = "You";
+    private _a: string = "a ";
+    public get short(): string { return this._short; }
+    public set short(value: string) { this._short = value; }
+    public get a(): string { return this._a; }
+    public set a(value: string) { this._a = value; }
+    public get capitalA(): string {
+        if (this._a.length == 0) return "";
+        return this._a.charAt(0).toUpperCase() + this._a.substr(1);
+    }
+
+    public update(hours: number) {
+        this.pregnancy.update(hours);
     }
 
     public armorDefense(): number {
@@ -294,10 +312,6 @@ export default class Character extends CreatureBody
 		return skinzilla;
 	}
 		
-		
-
-
-		
 	public viridianChange():boolean
     {
         let cockSpot = this.lowerBody.cockSpot;
@@ -305,25 +319,5 @@ export default class Character extends CreatureBody
             if (cockSpot.get(index).sock == "amaranthine" && cockSpot.get(index).cockType != CockType.DISPLACER)
                 return true;
         return false;
-	}
-
-	public maxHP():number
-	{
-		let max:number = 0;
-		max += this.stats.tou * 2 + 50;
-        if (this.perks.has("Tank"))
-            max += 50;
-        if (this.perks.has("Tank2"))
-            max += Math.round(this.stats.tou);
-        if (this.perks.has("ChiReflowDefense"))
-            max += UmasShop.NEEDLEWORK_DEFENSE_EXTRA_HP;
-        if (this.stats.level <= 20)
-            max += this.stats.level * 15;
-        else
-            max += 20 * 15;
-		max = Math.round(max);
-        if (max > 999)
-            max = 999;
-		return max;
 	}
 }

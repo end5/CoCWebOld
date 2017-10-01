@@ -1,6 +1,6 @@
 ﻿import Cock, { CockType as CockType } from "./Cock";
 import { SaveInterface } from "../SaveInterface";
-import CreatureBody from "./Body"
+import Creature from "./Creature"
 
 export default class CockSpot implements SaveInterface {
 
@@ -14,7 +14,7 @@ export default class CockSpot implements SaveInterface {
         this._cocks.push(cock);
     }
 
-    public remove(body: CreatureBody, cock: Cock): void {
+    public remove(body: Creature, cock: Cock): void {
         let index = this._cocks.indexOf(cock);
         if (index >= 0) {
             if (cock.sock == "viridian") {

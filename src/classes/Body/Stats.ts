@@ -1,9 +1,9 @@
 ﻿import Flags, { FlagEnum } from "../Game/Flags";
-import CreatureBody from "./Body";
+import Creature from "./Creature";
 import { SaveInterface } from "../SaveInterface";
 
 export default class Stats implements SaveInterface {
-    private body: CreatureBody;
+    private body: Creature;
     //Primary stats
     private _str: number;
     private _tou: number;
@@ -30,7 +30,7 @@ export default class Stats implements SaveInterface {
     public gems: number;
     public additionalXP: number;
 
-    public constructor(body: CreatureBody) {
+    public constructor(body: Creature) {
         this.body = body;
         this._str = 0;
         this._tou = 0;

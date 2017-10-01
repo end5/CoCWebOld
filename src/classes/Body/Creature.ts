@@ -12,7 +12,6 @@ import { SaveInterface } from "../SaveInterface";
 import MainScreen from "../display/MainScreen";
 import StatusAffect from "../Effects/StatusAffect";
 import CockDescriptor from "../Descriptors/CockDescriptor";
-import PregnancyManager from "./PregnancyHandler";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -22,7 +21,7 @@ export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class CreatureBody implements SaveInterface {
+export default class Creature implements SaveInterface {
     //Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;

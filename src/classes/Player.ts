@@ -1,6 +1,6 @@
 ﻿import Character from "./Character"
 import Utils from "./Utilities/Utils";
-import { SkinType } from "./Body/Body";
+import { SkinType } from "./Body/Creature";
 import Item from "./Items/Item";
 import Flags, { FlagEnum } from "./Game/Flags";
 import { FaceType, TongueType } from "./Body/Face";
@@ -12,7 +12,8 @@ import KeyItem from "./Items/KeyItem";
 import StatusAffect from "./Effects/StatusAffect";
 
 export default class Player extends Character {
-    level: number;
+    public keyItems: KeyItem[];
+
     public constructor() {
         super();
         // Reset all standard stats
@@ -28,7 +29,7 @@ export default class Player extends Character {
         //kGAMECLASS.notes = "No Notes Available.";
         this.stats.XP = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP);
         this.stats.level = 1;
-        this.stats.HP = this.maxHP();
+        this.stats.HP = this.stats.maxHP();
         this.stats.gems = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS);
         this.skinType = SkinType.PLAIN;
         this.upperBody.head.face.faceType = FaceType.HUMAN;
@@ -71,13 +72,7 @@ export default class Player extends Character {
     public exploredMountain: number = 0;
     public exploredLake: number = 0;
 
-    //Player pregnancy variables and functions
-    public pregnancyUpdate(): boolean {
-        return game.updatePregnancy(); //Returns true if we need to make sure pregnancy texts aren't hidden
-    }
-
     // Inventory
-    public keyItems: KeyItem[];
 
     public hasKeyItem(objectKey: string): boolean {
         for (let index = 0; index < this.keyItems.length; index++) {
