@@ -1,5 +1,5 @@
 import Flags, { FlagEnum } from "../Game/Flags";
-import CreatureBody from "../Body/Body";
+import Creature from "../Body/Body";
 import MainScreen from "./MainScreen";
 import CockDescriptor from "../Descriptors/CockDescriptor";
 import Utils from "../Utilities/Utils";
@@ -8,7 +8,7 @@ import StatusAffect from "../Effects/StatusAffect";
 import VaginaDescriptor from "../Descriptors/VaginaDescriptor";
 
 export default class BodyChangeDisplay {
-    public static lengthChange(body: CreatureBody, lengthChange: number, ncocks: number): void {
+    public static lengthChange(body: Creature, lengthChange: number, ncocks: number): void {
 
         if (lengthChange < 0 && Flags.get[FlagEnum.HYPER_HAPPY]) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
             return;
@@ -154,7 +154,7 @@ export default class BodyChangeDisplay {
     // First parameter: boolean indicating if should output standard text.
     // Second parameter: intensity, an integer multiplier that can increase the 
     // duration and intensity. Defaults to 1.
-    public static goIntoHeat(body: CreatureBody, intensity: number = 1) {
+    public static goIntoHeat(body: Creature, intensity: number = 1) {
         //Already in heat, intensify further.
         if (body.inHeat) {
             MainScreen.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
@@ -181,7 +181,7 @@ export default class BodyChangeDisplay {
     // First parameter: boolean indicating if should output standard text.
     // Second parameter: intensity, an integer multiplier that can increase the 
     // duration and intensity. Defaults to 1.
-    public static goIntoRut(body: CreatureBody, intensity: number = 1) {
+    public static goIntoRut(body: Creature, intensity: number = 1) {
         //Has rut, intensify it!
         if (body.inRut) {
             MainScreen.text("\n\nYour " + CockDescriptor.describeCock(body, body.lowerBody.cockSpot.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);

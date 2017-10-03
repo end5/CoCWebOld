@@ -12,6 +12,7 @@ import { SaveInterface } from "../SaveInterface";
 import MainScreen from "../display/MainScreen";
 import StatusAffect from "../Effects/StatusAffect";
 import CockDescriptor from "../Descriptors/CockDescriptor";
+import PregnancyManager from "./PregnancyManager";
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM

@@ -1,11 +1,11 @@
 ﻿import Utils from "../Utilities/Utils";
 import Flags, { FlagEnum } from "../Game/Flags";
-import CreatureBody from "../Body/Body";
+import Creature from "../Body/Body";
 import MainScreen from "../display/MainScreen";
 import BreastDescriptor from "../Descriptors/BreastDescriptor";
 
 export default class BreastModifier {
-    public static growSmallestBreastRow(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
+    public static growSmallestBreastRow(body: Creature, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -35,7 +35,7 @@ export default class BreastModifier {
         }
     }
 
-    public static growTopBreastRowDownwards(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
+    public static growTopBreastRowDownwards(body: Creature, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -68,7 +68,7 @@ export default class BreastModifier {
 
     }
 
-    public static growTopBreastRow(body: CreatureBody, amount: number, rowsGrown: number, display: boolean) {
+    public static growTopBreastRow(body: Creature, amount: number, rowsGrown: number, display: boolean) {
         let chest = body.upperBody.chest;
         if (chest.count() == 0)
             return;
@@ -106,11 +106,11 @@ export default class BreastModifier {
      * @param display
      * @param growthType
      */
-    public static growTits(body: CreatureBody, amount: number, rowsGrown: number, growthType: number): void {
+    public static growTits(body: Creature, amount: number, rowsGrown: number, growthType: number): void {
     }
 
 
-    public static shrinkTits(body: CreatureBody, ignore_hyper_happy: boolean = false): void {
+    public static shrinkTits(body: Creature, ignore_hyper_happy: boolean = false): void {
         if (Flags.get[FlagEnum.HYPER_HAPPY] && !ignore_hyper_happy) {
             return;
         }

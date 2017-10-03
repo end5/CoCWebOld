@@ -126,7 +126,7 @@
             str += this.statusAffects.get("AnemoneVenom").value1;
             this.stats.spe += this.statusAffects.get("AnemoneVenom").value2;
             //Make sure nothing got out of bounds
-            kGAMECLASS.dynStats("cor", 0);
+            kGAMECLASS.player.stats.cor += 0;
 
             kGAMECLASS.mainView.statsView.showStatUp('spe');
             kGAMECLASS.mainView.statsView.showStatUp('str');
@@ -137,7 +137,7 @@
         if (this.statusAffects.has("GnollSpear")) {
             this.stats.spe += this.statusAffects.get("GnollSpear").value1;
             //Make sure nothing got out of bounds
-            kGAMECLASS.dynStats("cor", 0);
+            kGAMECLASS.player.stats.cor += 0;
             kGAMECLASS.mainView.statsView.showStatUp('spe');
             // speUp.visible = true;
             // speDown.visible = false;

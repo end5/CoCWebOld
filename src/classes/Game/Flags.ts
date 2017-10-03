@@ -1376,7 +1376,7 @@ public static CERULEAN_POTION_NEUTER_ATTEMPTED                            =   62
 public static TEMP_STORAGE_SAVE_DELETION                                  =   63; // Used as temp storage for deleting save slots
 public static MARBLE_GROSSED_OUT_BECAUSE_WORM_INFESTATION                 =   64; // Marble not sleeping with you due to worms
 public static FORCE_BEE_TO_PRODUCE_HONEY                                  =   65; // Force Bee Honey Drop - Found Bee Honey.	1=Found
-public static HAIR.GROWTH_STOPPED_BECAUSE_LIZARD                          =   66; // Hair no longer grows due to lizard
+public static HAIR_GROWTH_STOPPED_BECAUSE_LIZARD                          =   66; // Hair no longer grows due to lizard
 public static TIMES_AUTOFELLATIO_DUE_TO_CAT_FLEXABILITY                   =   67; // CAT: Autofellated
 public static EDRYN_PREGNANCY_INCUBATION                                  =   68; // 
 public static EDRYN_NUMBER_OF_KIDS                                        =   69; // EDRYN: Kids

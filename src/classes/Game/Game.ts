@@ -5,6 +5,8 @@ import Player from "../Player";
 import MainMenu from "../display/MainMenu";
 import TimeManager from "./TimeManager";
 import CampStorage from "../Inventory/CampStorage";
+import SceneManager from "../Scenes/SceneManager";
+import Monster from "../Monster";
 
 export enum GameState {
     Normal,
@@ -22,9 +24,10 @@ export default class Game {
     public static libraries: Libraries;
     public static flags: Flags;
     public static state: GameState;
-    public static saveManager: SaveManager;
     public static player: Player;
+    public static saveManager: SaveManager;
     public static timeManager: TimeManager;
+    public static sceneManager: SceneManager;
     public static campStorage: CampStorage;
 
     public constructor() {
@@ -36,12 +39,14 @@ export default class Game {
         Game.instance = components;
 
         Game.saveManager = new SaveManager();
+        Game.campStorage = new CampStorage();
 
+        // Time sensitive components
         Game.player = new Player();
+        Game.monster = null;
 
         Game.timeManager = new TimeManager();
-
-        Game.campStorage = new CampStorage();
+        Game.sceneManager = new SceneManager();
     }
 
     public static save(): object {
@@ -50,8 +55,15 @@ export default class Game {
     public static load(saveObject: object) {
         throw new Error("Method not implemented.");
     }
-    public run(): void {
+    public start(): void {
         MainMenu.display();
+    }
+
+    public static update(hours: number) {
+        Game.player.update(hours);
+        Game.monster.update(hours);
+        Game.timeManager.update(hours);
+        Game.sceneManager.update(hours);
     }
 
     public static get inCombat(): boolean {

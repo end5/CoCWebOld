@@ -1,9 +1,9 @@
-﻿import CreatureBody from "../Body/Body";
+﻿import Creature from "../Body/Body";
 import CockSpot from "../Body/CockSpot";
 import Cock, { CockType } from "../Body/Cock";
 
 export default class CockModifiers {
-    public static killCocks(body: CreatureBody, deadCock: number): number {
+    public static killCocks(body: Creature, deadCock: number): number {
         let cocks: CockSpot = body.lowerBody.cockSpot;
         //Count removal for text bits
         let removed: number = 0;
@@ -27,7 +27,7 @@ export default class CockModifiers {
         return removed;
     }
 
-    public static growEachCock(body: CreatureBody, lengthDelta: number): number {
+    public static growEachCock(body: Creature, lengthDelta: number): number {
         let totalGrowth: number = 0;
 
         for (let index: number = 0; index < body.lowerBody.cockSpot.count(); index++) {
@@ -44,7 +44,7 @@ export default class CockModifiers {
      * @param lengthDelta
      * @param bigCock
      */
-    public static growCock(body: CreatureBody, cock: Cock, lengthDelta: number): number {
+    public static growCock(body: Creature, cock: Cock, lengthDelta: number): number {
         let bigCock: boolean = false;
 
         if (body.perks.has("BigCock"))
