@@ -1,5 +1,5 @@
 ﻿import Utils from "../Utilities/Utils";
-import CreatureBody from "../Body/Body";
+import Creature from "../Body/Creature";
 
 export default class BallsDescriptor {
     //ballsDescriptLight(forcedSize, true, this)
@@ -11,7 +11,7 @@ export default class BallsDescriptor {
         * @param    withArticle    Show description with article in front
         * @return    Full description of balls
         */
-    public static describeBalls(forceDisplaySize: boolean, plural: boolean, body: CreatureBody, withArticle: boolean = false): string {
+    public static describeBalls(forceDisplaySize: boolean, plural: boolean, body: Creature, withArticle: boolean = false): string {
         if (body.lowerBody.balls == 0)
             return "prostate";
 
@@ -177,13 +177,13 @@ export default class BallsDescriptor {
         return description;
     }
 
-    public static describeBallsShort(body: CreatureBody, forceDisplaySize: boolean = true): string {
+    public static describeBallsShort(body: Creature, forceDisplaySize: boolean = true): string {
         return BallsDescriptor.describeBalls(forceDisplaySize, true, body);
     }
 
     //Returns random description of scrotum
-    public static describeSack(body: CreatureBody): string {
-        if (body.lowerBody.cockSpot.balls == 0)
+    public static describeSack(body: Creature): string {
+        if (body.lowerBody.balls == 0)
             return "prostate";
 
         let options: string[] = [];

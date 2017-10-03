@@ -1,15 +1,17 @@
-﻿import CreatureBody from "../Body/Body";
+﻿import Creature from "../Body/Creature";
 import Utils from "../Utilities/Utils";
 import LowerBody, { LowerBodyType } from "../Body/LowerBody";
+import VaginaDescriptor from "./VaginaDescriptor";
+import ButtDescriptor from "./ButtDescriptor";
 
 export default class LowerBodyDescriptor {
-    public static assholeOrPussy(body: CreatureBody): string {
+    public static assholeOrPussy(body: Creature): string {
         if (body.lowerBody.vaginaSpot.hasVagina())
-            return vaginaDescript(body, 0);
-        return assholeDescript(body);
+            return VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0));
+        return ButtDescriptor.describeButthole(body);
     }
 
-    public static describeHips(body: CreatureBody): string {
+    public static describeHips(body: Creature): string {
         let description: string = "";
         let options: string[] = [];
         if (body.lowerBody.hipRating <= 1) {
@@ -105,7 +107,7 @@ export default class LowerBodyDescriptor {
         return description;
     }
 
-    public static describeLeg(body: CreatureBody): string {
+    public static describeLeg(body: Creature): string {
         switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
             case LowerBodyType.HOOFED:
@@ -148,7 +150,7 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeLegs(body: CreatureBody): string {
+    public static describeLegs(body: Creature): string {
         switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
             case LowerBodyType.HOOFED:
@@ -191,7 +193,7 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeFoot(body: CreatureBody): string {
+    public static describeFoot(body: Creature): string {
         switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
                 return "foot";
@@ -238,7 +240,7 @@ export default class LowerBodyDescriptor {
         }
     }
 
-    public static describeFeet(body: CreatureBody): string {
+    public static describeFeet(body: Creature): string {
         switch (body.lowerBody.type) {
             case LowerBodyType.HUMAN:
                 return "feet";

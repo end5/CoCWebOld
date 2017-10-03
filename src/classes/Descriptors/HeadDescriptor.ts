@@ -1,17 +1,17 @@
-﻿import CreatureBody, { SkinType } from "../Body/Body";
+﻿import Creature, { SkinType } from "../Body/Creature";
 import Utils from "../Utilities/Utils";
 import Head, { HairType } from "../Body/Head";
 import Face, { TongueType, FaceType } from "../Body/Face";
 
 export default class HeadDescriptor {
-    public static hairOrFur(body: CreatureBody): string {
+    public static hairOrFur(body: Creature): string {
         if (body.skinType == SkinType.FUR)
             return "fur";
         else
             return "hair";
     }
 
-    public static describeHair(body: CreatureBody): string {
+    public static describeHair(body: Creature): string {
         let description: string = "";
         let head = body.upperBody.head;
 
@@ -108,7 +108,7 @@ export default class HeadDescriptor {
         }
     }
 
-    public static describeFace(body: CreatureBody): string {
+    public static describeFace(body: Creature): string {
         let stringo: string = "";
         let face = body.upperBody.head.face;
         let faceType = body.upperBody.head.face.faceType;
@@ -151,7 +151,7 @@ export default class HeadDescriptor {
      * prev faceDesc from Character
      * @param body
      */
-    public static describeFaceOther(body: CreatureBody): string {
+    public static describeFaceOther(body: Creature): string {
         let description: string = "";
         if (body.femininity < 10) {
             description = "a square chin";

@@ -1,11 +1,11 @@
-﻿import CreatureBody, { SkinType } from "../Body/Body";
+﻿import Creature, { SkinType } from "../Body/Creature";
 import Cock, { CockType } from "../Body/Cock";
 import CockSpot from "../Body/CockSpot";
 import Utils from "../Utilities/Utils";
 import Flags from "../Game/Flags";
 
 export default class CockDescriptor {
-    public static describeCock(body: CreatureBody, cock: Cock): string {
+    public static describeCock(body: Creature, cock: Cock): string {
         if (body.lowerBody.cockSpot.hasCock() || cock == null)
             return "<b>ERROR: CockDescript Called But No Cock Present</b>";
 
@@ -264,7 +264,7 @@ export default class CockDescriptor {
     }
 
     //Cock adjectives for single cock
-    public static adjectivesCock(cock: Cock, body: CreatureBody): string {
+    public static adjectivesCock(cock: Cock, body: Creature): string {
         let description: string = "";
         //length or thickness, usually length.
         if (Utils.chance(25)) {
@@ -466,25 +466,35 @@ export default class CockDescriptor {
             "pecker",
             "shaft");
     }
-    
-    public static describeMultiCockSimpleOne(body: CreatureBody, caps: boolean = false): string {
+
+    /**
+     * Previously sMultiCockDesc and SMultiCockDesc
+     * @param body
+     * @param caps
+     */
+    public static describeMultiCockSimpleOne(body: Creature, caps: boolean = false): string {
         if (caps)
             return (body.lowerBody.cockSpot.count() > 1 ? "One of your " : "Your ") + CockDescriptor.cockMultiLDescriptionShort(body);
         else
             return (body.lowerBody.cockSpot.count() > 1 ? "one of your " : "your ") + CockDescriptor.cockMultiLDescriptionShort(body);
     }
 
-    public static describeMultiCockSimpleEach(body: CreatureBody, caps: boolean = false): string {
+    /**
+     * Previously oMultiCockDesc and OMultiCockDesc
+     * @param body
+     * @param caps
+     */
+    public static describeMultiCockSimpleEach(body: Creature, caps: boolean = false): string {
         if (caps)
             return (body.lowerBody.cockSpot.count() > 1 ? "Each of your " : "Your ") + CockDescriptor.cockMultiLDescriptionShort(body);
         else
             return (body.lowerBody.cockSpot.count() > 1 ? "each of your " : "your ") + CockDescriptor.cockMultiLDescriptionShort(body);
     }
 
-    private static cockMultiLDescriptionShort(body: CreatureBody): string {
+    private static cockMultiLDescriptionShort(body: Creature): string {
         let cocks = body.lowerBody.cockSpot;
         if (cocks.count() == 1) { //For a songle cock return the default description
-            return CockDescriptor.describeCock(player, body, cocks.get(0));
+            return CockDescriptor.describeCock(body, cocks.get(0));
         }
         if (cocks.get(0).cockType == CockType.DOG || cocks.get(0).cockType == CockType.FOX) {
             if (cocks.countType(CockType.DOG) == cocks.count())
@@ -498,8 +508,8 @@ export default class CockDescriptor {
         return CockDescriptor.nounCock(CockType.HUMAN) + "s";
     }
 
-    public describeCockHead(type: CockType): string {
-        switch (type) {
+    public static describeCockHead(cock: Cock): string {
+        switch (cock.cockType) {
             case CockType.CAT:
                 return Utils.randomChoice(
                     "ponumber",
@@ -553,7 +563,7 @@ export default class CockDescriptor {
         }
     }
 
-    public describeCockSheath(cock: Cock): string {
+    public static describeCockSheath(cock: Cock): string {
         return cock.hasSheath() ? "sheath" : "base";
     }
 
@@ -596,14 +606,14 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCockShort(body: CreatureBody): string {
+    public static describeMultiCockShort(body: Creature): string {
         let description: string = "";
         let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
-        let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
+        let cocksSameType: boolean = cockCount == cocks.countType(cocks.get(0).cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.describeCock(player, body, cocks.list[0]);
+            return CockDescriptor.describeCock(body, cocks.get(0));
 
         if (cockCount == 2) {
             if (cocksSameType)
@@ -630,14 +640,14 @@ export default class CockDescriptor {
         return description;
     }
 
-    public static describeMultiCock(body: CreatureBody): string {
+    public static describeMultiCock(body: Creature): string {
         let description: string = "";
         let cocks: CockSpot = body.lowerBody.cockSpot;
         let cockCount: number = cocks.count();
-        let cocksSameType: boolean = cockCount == cocks.countType(cocks.list[0].cockType);
+        let cocksSameType: boolean = cockCount == cocks.countType(cocks.get(0).cockType);
 
         if (cockCount == 1)
-            return CockDescriptor.describeCock(player, body, cocks.list[0]);
+            return CockDescriptor.describeCock(body, cocks.get(0));
 
         if (cockCount == 2) {
             if (cocksSameType)

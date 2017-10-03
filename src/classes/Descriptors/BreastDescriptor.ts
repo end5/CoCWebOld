@@ -1,8 +1,9 @@
 ﻿import Utils from "../Utilities/Utils";
-import CreatureBody from "../Body/Body";
+import Creature from "../Body/Creature";
 import BreastRow, { BreastCup } from "../Body/BreastRow";
 import Chest from "../Body/Chest";
-import MainScreen from "../Game/Render";
+import MainScreen from "../display/MainScreen";
+import Player from "../Player";
 
 export default class BreastDescriptor {
     public static describeBreastRow(breastRow: BreastRow): string {
@@ -37,7 +38,7 @@ export default class BreastDescriptor {
         return description + "breasts";
     }
 
-    public static describeNipple(body: CreatureBody, breastRow: BreastRow): string {
+    public static describeNipple(body: Creature, breastRow: BreastRow): string {
         let haveDescription: boolean = false;
         let description: string = "";
         let options: string[] = [];
@@ -305,7 +306,7 @@ export default class BreastDescriptor {
         return description;
     }
 
-    public static describeAllBreasts(body: CreatureBody): string {
+    public static describeAllBreasts(body: Creature): string {
         let chest: Chest = body.upperBody.chest;
         let desciption: string = "";
         switch (chest.count() / 2) {
@@ -326,7 +327,7 @@ export default class BreastDescriptor {
     }
 
 
-    public static describeBreastGrowth(amount: number, chest: Chest) {
+    public static describeBreastGrowth(player: Player, amount: number, chest: Chest) {
         if (amount <= 2) {
             if (chest.count() > 1) MainScreen.text("Your rows of " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight, growing a bit larger.", false);
             if (chest.count() == 1) MainScreen.text("Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.", false);
@@ -357,7 +358,7 @@ export default class BreastDescriptor {
         }
     }
 
-    public static describeTopRowBreastGrowth(amount: number, body: CreatureBody, chest: Chest) {
+    public static describeTopRowBreastGrowth(amount: number, body: Creature, chest: Chest) {
         let topBreastRow: BreastRow = chest.get(0);
         if (amount <= 2) {
             if (chest.count() > 1) MainScreen.text("Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.", false);

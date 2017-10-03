@@ -1,6 +1,6 @@
 ﻿import Player from "../Player";
-import RaceScore from "../BodyTypeScore";
 import GenderDescriptor from "./GenderDescriptor";
+import RaceScore from "../RaceScore";
 
 export default class PlayerDescriptor {
     public static describeBody(player: Player): string {

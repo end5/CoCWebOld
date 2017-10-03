@@ -1,4 +1,4 @@
-﻿import CreatureBody from "../Body/Body";
+﻿import Creature from "../Body/Creature";
 
 export default class OtherDescriptors {
     /*public static inverseMap(x: object): object {
