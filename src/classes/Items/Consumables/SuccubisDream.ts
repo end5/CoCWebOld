@@ -2,10 +2,12 @@ import Consumable from "./Consumable";
 import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
+import BallsDescriptor from "../../Descriptors/BallsDescriptor";
+import CockDescriptor from "../../Descriptors/CockDescriptor";
 
 export default class SuccubisDream extends Consumable {
     public constructor() {
-        super("S.Dream", "S.Dream", "a bottle of 'Succubus' Dream'", 0, "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency.");
+        super("S.Dream", "S.Dream", "a bottle of 'Succubus' Dream'", SuccubisDream.DefaultValue, "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency.");
     }
 
     public use(player: Player) {
@@ -28,25 +30,25 @@ export default class SuccubisDream extends Consumable {
         //Corruption increase
         if (player.stats.cor < 50 || Utils.rand(2)) {
             MainScreen.text("\n\nThe drink makes you feel... dirty.", false);
-            temp = 1;
+            let corruptionChange: number = 1;
             //Corrupts the uncorrupted faster
-            if (player.stats.cor < 50) temp++;
-            if (player.stats.cor < 40) temp++;
-            if (player.stats.cor < 30) temp++;
+            if (player.stats.cor < 50) corruptionChange++;
+            if (player.stats.cor < 40) corruptionChange++;
+            if (player.stats.cor < 30) corruptionChange++;
             //Corrupts the very corrupt slower
-            if (player.stats.cor >= 90) temp = .5;
-            dynStats("cor", temp + 2);
+            if (player.stats.cor >= 90) corruptionChange = .5;
+            player.stats.cor += corruptionChange + 2;
             changes++;
         }
         //NEW BALLZ
         if (player.lowerBody.balls < 4) {
             if (player.lowerBody.balls > 0) {
                 player.lowerBody.balls = 4;
-                MainScreen.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + player.armorName + ".  In shock, you barely register the sight before your eyes: <b>You have four balls.</b>", false);
+                MainScreen.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + player.inventory.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have four balls.</b>", false);
             }
             if (player.lowerBody.balls == 0) {
                 player.lowerBody.balls = 2;
-                MainScreen.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + player.armorName + ".  In shock, you barely register the sight before your eyes: <b>You have balls!</b>", false);
+                MainScreen.text("\n\nIncredible pain scythes through your crotch, doubling you over.  You stagger around, struggling to pull open your " + player.inventory.armor.displayName + ".  In shock, you barely register the sight before your eyes: <b>You have balls!</b>", false);
                 player.lowerBody.ballSize = 1;
             }
             changes++;
@@ -57,27 +59,28 @@ export default class SuccubisDream extends Consumable {
             //They grow slower as they get bigger...
             if (player.lowerBody.ballSize > 10) player.lowerBody.ballSize -= .5;
             //Texts
-            if (player.lowerBody.ballSize <= 2) MainScreen.text("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + simpleBallsDescript() + " have grown larger than a human's.", false);
-            if (player.lowerBody.ballSize > 2) MainScreen.text("\n\nA sudden onset of heat envelops your groin, focusing on your " + sackDescript() + ".  Walking becomes difficult as you discover your " + simpleBallsDescript() + " have enlarged again.", false);
-            dynStats("lib", 1, "lus", 3);
+            if (player.lowerBody.ballSize <= 2) MainScreen.text("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + BallsDescriptor.describeBalls(false, true, player) + " have grown larger than a human's.", false);
+            if (player.lowerBody.ballSize > 2) MainScreen.text("\n\nA sudden onset of heat envelops your groin, focusing on your " + BallsDescriptor.describeSack(player) + ".  Walking becomes difficult as you discover your " + BallsDescriptor.describeBalls(false, true, player) + " have enlarged again.", false);
+            player.stats.lib += 1;
+            player.stats.lust += 3;
         }
         //Boost cum multiplier
         if (changes < changeLimit && Utils.rand(2) == 0 && player.lowerBody.cockSpot.count() > 0) {
             if (player.cumMultiplier < 6 && Utils.rand(2) == 0 && changes < changeLimit) {
                 //Temp is the max it can be raised to
-                temp = 3;
+                let maxCumMultiplier: number = 3;
                 //Lots of cum raises cum multiplier cap to 6 instead of 3
-                if (player.perks.has("MessyOrgasms")) temp = 6;
-                if (temp < player.cumMultiplier + .4 * crit) {
+                if (player.perks.has("MessyOrgasms")) maxCumMultiplier = 6;
+                if (maxCumMultiplier < player.cumMultiplier + .4 * crit) {
                     changes--;
                 }
                 else {
                     player.cumMultiplier += .4 * crit;
                     //Flavor text
                     if (player.lowerBody.balls == 0) MainScreen.text("\n\nYou feel a churning inside your body as something inside you changes.", false);
-                    if (player.lowerBody.balls > 0) MainScreen.text("\n\nYou feel a churning in your " + ballsDescriptLight() + ".  It quickly settles, leaving them feeling somewhat more dense.", false);
-                    if (crit > 1) MainScreen.text("  A bit of milky pre dribbles from your " + multiCockDescriptLight() + ", pushed out by the change.", false);
-                    dynStats("lib", 1);
+                    if (player.lowerBody.balls > 0) MainScreen.text("\n\nYou feel a churning in your " + BallsDescriptor.describeBalls(true, true, player) + ".  It quickly settles, leaving them feeling somewhat more dense.", false);
+                    if (crit > 1) MainScreen.text("  A bit of milky pre dribbles from your " + CockDescriptor.describeMultiCockShort(player) + ", pushed out by the change.", false);
+                    player.stats.lib += 1;
                 }
                 changes++;
             }

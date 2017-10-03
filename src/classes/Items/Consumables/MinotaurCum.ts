@@ -40,9 +40,9 @@ export default class MinotaurCum extends Consumable {
             MainScreen.text("our " + CockDescriptor.describeMultiCockShort(player) + " aches, flooding with blood until it's bloating and trembling.", false);
         }
         if (player.lowerBody.vaginaSpot.hasVagina()) {
-            let vagina: Vagina = player.lowerBody.vaginaSpot.list[0];
+            let vagina: Vagina = player.lowerBody.vaginaSpot.get(0);
             MainScreen.text("  Your " + VaginaDescriptor.describeClit(player, vagina) + " engorges, ", false);
-            if (player.lowerBody.vaginaSpot.list[0].clitLength < 3) MainScreen.text("parting your lips.", false);
+            if (player.lowerBody.vaginaSpot.get(0).clitLength < 3) MainScreen.text("parting your lips.", false);
             else MainScreen.text("bursting free of your lips and bobbing under its own weight.", false);
             if (vagina.vaginalWetness <= VaginaWetness.NORMAL) MainScreen.text("  Wetness builds inside you as your " + VaginaDescriptor.describeVagina(player, vagina) + " tingles and aches to be filled.", false);
             else if (vagina.vaginalWetness <= VaginaWetness.SLICK) MainScreen.text("  A trickle of wetness escapes your " + VaginaDescriptor.describeVagina(player, vagina) + " as your body reacts to the desire burning inside you.", false);
@@ -56,9 +56,9 @@ export default class MinotaurCum extends Consumable {
             player.stats.lust += Utils.rand(5) + player.stats.cor / 20 + Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER) / 5;
         }
         //(Healing – if hurt and uber-addicted (hasperk))
-        if (player.stats.HP < player.maxHP() && player.perks.has("MinotaurCumAddict")) {
+        if (player.stats.HP < player.stats.maxHP() && player.perks.has("MinotaurCumAddict")) {
             MainScreen.text("\n\nThe fire of your arousal consumes your body, leaving vitality in its wake.  You feel much better!", false);
-            HPChange(Math.floor(player.maxHP() / 4), false);
+            player.stats.HPChange(Math.floor(player.stats.maxHP() / 4));
         }
         //Uber-addicted status!
         if (player.perks.has("MinotaurCumAddict") && Flags.get(FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE) <= 0) {

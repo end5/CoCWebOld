@@ -5,6 +5,7 @@ import Utils from "../../Utilities/Utils";
 import CockDescriptor from "../../Descriptors/CockDescriptor";
 import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
 import Game from "../../Game/Game";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export default class LustDraft extends Consumable {
     private enhanced: boolean;
@@ -28,9 +29,9 @@ export default class LustDraft extends Consumable {
         //Heat/Rut for those that can have them if "fuck draft"
         if (this.enhanced) {
             //Try to go into intense heat.
-            player.goIntoHeat(true, 2);
+            BodyChangeDisplay.goIntoHeat(player, 2);
             //Males go into rut
-            player.goIntoRut(true);
+            BodyChangeDisplay.goIntoRut(player);
         }
         //ORGAZMO
         if (player.stats.lust >= 100 && !Game.inCombat) {

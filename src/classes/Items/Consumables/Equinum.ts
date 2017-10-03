@@ -20,6 +20,7 @@ import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
 import BreastDescriptor from "../../Descriptors/BreastDescriptor";
 import ButtDescriptor from "../../Descriptors/ButtDescriptor";
 import StatChangeDisplay from "../../display/StatChangeDisplay";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export default class Equinum extends Consumable {
     public constructor() {
@@ -363,7 +364,7 @@ export default class Equinum extends Consumable {
                 }
             }
             if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(2) == 0 && changes < changeLimit) {
-                if (player.goIntoHeat(true)) {
+                if (BodyChangeDisplay.goIntoHeat(player)) {
                     changes++;
                 }
             }

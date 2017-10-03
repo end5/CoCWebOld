@@ -26,8 +26,8 @@ export default class Reducto extends Consumable {
         let rdtBalls: ClickFunction = (player.lowerBody.balls > 0 && player.lowerBody.ballSize > 1 ? this.reductoBalls : null);
         let rdtBreasts: ClickFunction = (player.upperBody.chest.count() > 0 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0 ? this.reductoBreasts : null);
         let rdtButt: ClickFunction = (player.lowerBody.butt.buttRating > 1 ? this.reductoButt : null);
-        let rdtClit: ClickFunction = (player.lowerBody.vaginaSpot.count() > 0 && player.lowerBody.vaginaSpot.list[0].clitLength > 0.25 ? this.reductoClit : null);
-        let rdtCock: ClickFunction = (player.lowerBody.cockSpot.count() > 0 && player.lowerBody.cockSpot.biggestCocks[0].cockArea() > 6 ? this.reductoCock : null);
+        let rdtClit: ClickFunction = (player.lowerBody.vaginaSpot.count() > 0 && player.lowerBody.vaginaSpot.get(0).clitLength > 0.25 ? this.reductoClit : null);
+        let rdtCock: ClickFunction = (player.lowerBody.cockSpot.count() > 0 && player.lowerBody.cockSpot.listLargestCockArea[0].cockArea() > 6 ? this.reductoCock : null);
         let rdtHips: ClickFunction = (player.lowerBody.hipRating > 2 ? this.reductoHips : null);
         let rdtNipples: ClickFunction = (player.upperBody.chest.count() > 0 && player.upperBody.chest.BreastRatingLargest[0].nippleLength > 0.25 ? this.reductoNipples : null);
         MainScreen.clearText();
@@ -87,8 +87,8 @@ export default class Reducto extends Consumable {
 
     private reductoClit(player: Player): void {
         MainScreen.clearText();
-        let vagina = player.lowerBody.vaginaSpot.list[0];
-        MainScreen.text("You carefully apply the paste to your " + VaginaDescriptor.describeClit(player, vagina) + ", being very careful to avoid getting it on your " + player.vaginaDescript(0) + ".  It burns with heat as it begins to make its effects known...\n\n");
+        let vagina = player.lowerBody.vaginaSpot.get(0);
+        MainScreen.text("You carefully apply the paste to your " + VaginaDescriptor.describeClit(player, vagina) + ", being very careful to avoid getting it on your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  It burns with heat as it begins to make its effects known...\n\n");
         vagina.clitLength /= 1.7;
         //Set clitlength down to 2 digits in length
         vagina.clitLength = Math.floor(vagina.clitLength * 100) / 100;
@@ -100,13 +100,13 @@ export default class Reducto extends Consumable {
 
     private reductoCock(player: Player): void {
         MainScreen.clearText();
-        let cock = player.lowerBody.cockSpot.list[0];
+        let cock = player.lowerBody.cockSpot.get(0);
         if (cock.cockType == CockType.BEE) {
-            MainScreen.text("The gel produces an odd effect when you rub it into your " + CockDescriptor.describeCock(player, cock) + ".  It actually seems to calm the need that usually fills you.  In fact, as your " + player.cockDescript(0) + " shrinks, its skin tone changes to be more in line with yours and the bee hair that covered it falls out.  <b>You now have a human cock!</b>");
-            player.lowerBody.cockSpot.list[0].cockType = CockType.HUMAN;
+            MainScreen.text("The gel produces an odd effect when you rub it into your " + CockDescriptor.describeCock(player, cock) + ".  It actually seems to calm the need that usually fills you.  In fact, as your " + CockDescriptor.describeCock(player, cock) + " shrinks, its skin tone changes to be more in line with yours and the bee hair that covered it falls out.  <b>You now have a human cock!</b>");
+            cock.cockType = CockType.HUMAN;
         }
         else {
-            MainScreen.text("You smear the repulsive smelling paste over your " + CockDescriptor.describeMultiCockShort(player) + ".  It immediately begins to grow warm, almost uncomfortably so, as your " + player.multiCockDescriptLight() + " begins to shrink.\n\n");
+            MainScreen.text("You smear the repulsive smelling paste over your " + CockDescriptor.describeMultiCockShort(player) + ".  It immediately begins to grow warm, almost uncomfortably so, as your " + CockDescriptor.describeMultiCockShort(player) + " begins to shrink.\n\n");
             if (player.lowerBody.cockSpot.count() == 1) {
                 MainScreen.text("Your " + CockDescriptor.describeCock(player, cock) + " twitches as it shrinks, disappearing steadily into your " + (cock.hasSheath() ? "sheath" : "crotch") + " until it has lost about a third of its old size.");
                 cock.cockLength *= 2 / 3;
@@ -115,8 +115,8 @@ export default class Reducto extends Consumable {
             else { //MULTI
                 MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(player) + " twitch and shrink, each member steadily disappearing into your " + (player.lowerBody.cockSpot.hasSheath() ? "sheath" : "crotch") + " until they've lost about a third of their old size.");
                 for (let index: number = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                    player.lowerBody.cockSpot.list[index].cockLength *= 2 / 3;
-                    player.lowerBody.cockSpot.list[index].cockThickness *= 2 / 3;
+                    player.lowerBody.cockSpot.get(index).cockLength *= 2 / 3;
+                    player.lowerBody.cockSpot.get(index).cockThickness *= 2 / 3;
                 }
             }
         }

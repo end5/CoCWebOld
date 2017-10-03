@@ -17,7 +17,6 @@ export default class RizzaRoot extends Consumable {
         MainScreen.clearText();
         let changes: number = 0;
         let changeLimit: number = 1;
-        let counter: number = 0;
         if (Utils.rand(2) == 0) changeLimit++;
         if (Utils.rand(3) == 0) changeLimit++;
         if (Utils.rand(4) == 0) changeLimit++;

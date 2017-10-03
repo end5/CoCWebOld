@@ -4,6 +4,7 @@ import MainScreen from "../../display/MainScreen";
 import Utils from "../../Utilities/Utils";
 import StatusAffect from "../../Effects/StatusAffect";
 import ButtDescriptor from "../../Descriptors/ButtDescriptor";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export default class Coal extends Consumable {
     public constructor() {
@@ -15,11 +16,11 @@ export default class Coal extends Consumable {
         MainScreen.text("", true);
         MainScreen.text("You handle the coal rocks experimentally and they crumble to dust in your hands!  You cough as you breathe in the cloud, sputtering and wheezing.  After a minute of terrible coughing, you recover and realize there's no remaining trace of the rocks, not even a sooty stain on your hands!", false);
         //Try to go into intense heat
-        if (player.goIntoHeat(true, 2)) {
+        if (BodyChangeDisplay.goIntoHeat(player, 2)) {
             changes++;
         }
         //Males go into rut
-        else if (player.goIntoRut(true)) {
+        else if (BodyChangeDisplay.goIntoRut(player)) {
             changes++;
         }
         else {

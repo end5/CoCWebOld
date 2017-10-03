@@ -10,6 +10,7 @@ import { HairType, EarType } from "../../Body/Head";
 import { EyeType, FaceType } from "../../Body/Face";
 import { SkinType } from "../../Body/Body";
 import { TailType, LowerBodyType } from "../../Body/LowerBody";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export default class FerretFruit extends Consumable {
     public constructor() {
@@ -108,7 +109,7 @@ export default class FerretFruit extends Consumable {
             let longestCock = cockSpot.listLongestCocks[0];
             if (Utils.rand(2) == 0 && changes < changeLimit) {
                 if (longestCock.cockLength > 6 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
-                    MainScreen.text("\n\nA pinching sensation racks the entire length of your " + CockDescriptor.describeCock(player, player, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
+                    MainScreen.text("\n\nA pinching sensation racks the entire length of your " + CockDescriptor.describeCock(player, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
                     longestCock.cockLength--;
                     if (Utils.rand(2) == 0)
                         longestCock.cockLength--;
@@ -160,7 +161,7 @@ export default class FerretFruit extends Consumable {
         }
         //Go into heat
         if (Utils.rand(3) == 0 && changes < changeLimit) {
-            if (player.goIntoHeat(true)) {
+            if (BodyChangeDisplay.goIntoHeat(player)) {
                 changes++;
             }
         }

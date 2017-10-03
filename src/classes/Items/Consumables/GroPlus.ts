@@ -54,7 +54,7 @@ export default class GroPlus extends Consumable {
     private growPlusBreasts(player: Player): void {
         MainScreen.clearText();
         player.slimeFeed();
-        MainScreen.text("You sink the needle into the flesh of your " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " injecting each with a portion of the needle.\n\n");
+        MainScreen.text("You sink the needle into the flesh of your " + BreastDescriptor.describeAllBreasts(player) + " injecting each with a portion of the needle.\n\n");
         if (player.upperBody.chest.count() == 1)
             BreastModifier.growSmallestBreastRow(player, Utils.rand(5) + 1, 1, true);
         else
@@ -120,7 +120,7 @@ export default class GroPlus extends Consumable {
                 }
             }
             //Talk about if anything was changed.
-            if (nowFuckable) MainScreen.text("Your " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>\n\n");
+            if (nowFuckable) MainScreen.text("Your " + BreastDescriptor.describeAllBreasts(player) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>\n\n");
         }
         MainScreen.doNext(PlayerInventoryMenu.display);
     }

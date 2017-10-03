@@ -95,7 +95,7 @@ export default class BroBrew extends Consumable {
                 MainScreen.text("A tingle starts in your " + BreastDescriptor.describeNipple(player, topBreastRow) + "s before the tight buds grow warm, hot even.  ", false);
                 if (topBreastRow.lactationMultiplier >= 1)
                     MainScreen.text("Somehow, you know that the milk you had been producing is gone, reabsorbed by your body.  ", false);
-                MainScreen.text("They pinch in towards your core, shrinking along with your flattening " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + ".  You shudder and flex in response.  Your chest isn't just shrinking, it's reforming, sculping itself into a massive pair of chiseled pecs.  ", false);
+                MainScreen.text("They pinch in towards your core, shrinking along with your flattening " + BreastDescriptor.describeAllBreasts(player) + ".  You shudder and flex in response.  Your chest isn't just shrinking, it's reforming, sculping itself into a massive pair of chiseled pecs.  ", false);
                 if (player.upperBody.chest.count() > 1) {
                     MainScreen.text("The breasts below vanish entirely.  ", false);
                     let chestCount: number = player.upperBody.chest.count();
@@ -127,7 +127,7 @@ export default class BroBrew extends Consumable {
         if (player.lowerBody.cockSpot.hasCock()) {
             let cock: Cock = player.lowerBody.cockSpot.get(0);
             if (cock.cockLength < 10) {
-                MainScreen.text("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + CockDescriptor.describeCock(player, player, cock) + " swells in size, ", false);
+                MainScreen.text("As if on cue, the familiar tingling gathers in your groin, and you dimly remember you have one muscle left to enlarge.  If only you had the intelligence left to realize that your penis is not a muscle.  In any event, your " + CockDescriptor.describeCock(player, cock) + " swells in size, ", false);
                 if (cock.cockThickness < 2.75) {
                     MainScreen.text("thickening and ", false);
                     cock.cockThickness = 2.75;

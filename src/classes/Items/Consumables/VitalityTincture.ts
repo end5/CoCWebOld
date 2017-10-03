@@ -5,7 +5,7 @@ import Utils from "../../Utilities/Utils";
 
 export default class VitalityTincture extends Consumable {
     public constructor() {
-        super("Vital T", "Vitality T.", "a vitality tincture", 0, "This potent tea is supposedly good for strengthening the body.");
+        super("Vital T", "Vitality T.", "a vitality tincture", VitalityTincture.DefaultValue, "This potent tea is supposedly good for strengthening the body.");
     }
 
     public use(player: Player) {
@@ -25,9 +25,9 @@ export default class VitalityTincture extends Consumable {
         //tou change
         player.stats.tou = strChange;
         //Chance of fitness change
-        if (HPChange(50, false))
+        if (player.stats.HPChange(50))
             MainScreen.text("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.", false);
-        if (Utils.chance(33))
+        if (Utils.rand(3) == 0)
             MainScreen.text(player.modTone(95, 3), false);
     }
 }

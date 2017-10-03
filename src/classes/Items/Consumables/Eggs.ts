@@ -394,7 +394,7 @@ export default class Eggs extends Consumable {
             }
             //Talk about if anything was changed.
             if (gainedNippleCunts)
-                MainScreen.text("\n\nYour " + BreastDescriptor.describeAllBreasts(player.upperBody.chest) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>", false);
+                MainScreen.text("\n\nYour " + BreastDescriptor.describeAllBreasts(player) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>", false);
         }
     }
 

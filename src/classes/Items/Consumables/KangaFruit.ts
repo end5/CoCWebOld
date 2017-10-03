@@ -171,15 +171,13 @@ export default class KangaFruit extends Consumable {
                 if (player.lowerBody.cockSpot.hasSheath()) MainScreen.text("your sheath", false);
                 else MainScreen.text("a sheath that forms at the base of it", false);
                 MainScreen.text(".  <b>You now have a kangaroo-penis!</b>", false);
-                let cockIdx: number = 0;
                 //Find first non-roocock!
-                while (cockIdx < player.lowerBody.cockSpot.count()) {
-                    if (player.lowerBody.cockSpot.get(cockIdx).cockType != CockType.KANGAROO) {
-                        player.lowerBody.cockSpot.get(cockIdx).cockType = CockType.KANGAROO;
-                        player.lowerBody.cockSpot.get(cockIdx).knotMultiplier = 1;
+                for (let index: number = 0; index < player.lowerBody.cockSpot.count(); index++) {
+                    if (player.lowerBody.cockSpot.get(index).cockType != CockType.KANGAROO) {
+                        player.lowerBody.cockSpot.get(index).cockType = CockType.KANGAROO;
+                        player.lowerBody.cockSpot.get(index).knotMultiplier = 1;
                         break;
                     }
-                    cockIdx++;
                 }
                 changes++;
             }
@@ -214,7 +212,7 @@ export default class KangaFruit extends Consumable {
             else if (player.lowerBody.type == LowerBodyType.GOO) MainScreen.text("\n\nYour mounds of goo shrink and part involuntarily, exposing your crotch.  Modesty overwhelms you and you try to pull them together, but the shrinkage is continuing faster than you can shift your gooey body around.  Before long you've run out of goo to move, and your lower body now ends in a pair of slippery digitigrade legs with long narrow feet.  They dry in the air and a bit of fur begins to sprout as you look for something to cover up with.  <b>You now have kangaroo legs!</b> You sigh.  Guess this means it's back to wearing underpants again.", false);
             //gain roo feet from human/bee/demon/paw/lizard:
             else MainScreen.text("\n\nYour feet begin to crack and shift as the metatarsal bones lengthen.  Your knees buckle from the pain of your bones rearranging themselves, and you fall over.  After fifteen seconds of what feels like your feet being racked, the sensation stops.  You look down at your legs; they've taken a roughly dog-leg shape, but they have extremely long feet with a prominent middle toe!  As you stand up you find that you're equally comfortable standing flat on your feet as you are on the balls of them!  <b>You now have kangaroo legs!</b>", false);
-            player.lowerBody.this.enhanced = LowerBodyType.KANGAROO;
+            player.lowerBody.type = LowerBodyType.KANGAROO;
             changes++;
         }
         //-Roo tail (Req: Ears)

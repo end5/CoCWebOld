@@ -19,6 +19,7 @@ import RaceScore from "../../RaceScore";
 import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
 import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
 import StatChangeDisplay from "../../display/StatChangeDisplay";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export enum CaninePepperType {
     Normal,
@@ -155,7 +156,7 @@ export default class CaninePepper extends Consumable {
                 }
                 //2 dicks+ - convert first 2 to doggie-dom
                 else {
-                    MainScreen.text("\n\nYour crotch twitches, and you pull open your " + player.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " and " + CockDescriptor.describeCock(player, player, player.lowerBody.cockSpot.get(1)) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.", false);
+                    MainScreen.text("\n\nYour crotch twitches, and you pull open your " + player.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " and " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(1)) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.", false);
                     player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
                     player.lowerBody.cockSpot.get(1).cockType = CockType.DOG;
                     player.lowerBody.cockSpot.get(0).knotMultiplier = 1.4;
@@ -179,7 +180,7 @@ export default class CaninePepper extends Consumable {
                 if (player.lowerBody.cockSpot.count() >= 1) {
                     //if first dick is already doggi'ed
                     if (player.lowerBody.cockSpot.get(0).cockType == CockType.DOG) {
-                        MainScreen.text("\n\nYour crotch twitches, and you pull open your " + player.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(player, player, player.lowerBody.cockSpot.get(1)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.", false);
+                        MainScreen.text("\n\nYour crotch twitches, and you pull open your " + player.inventory.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(1)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.", false);
                         player.lowerBody.cockSpot.get(1).cockType = CockType.DOG;
                         player.lowerBody.cockSpot.get(1).knotMultiplier = 1.4;
                     }
@@ -373,9 +374,9 @@ export default class CaninePepper extends Consumable {
                 if (smallestKnottedDogCock.knotMultiplier >= 1.75) growth /= 2;
                 if (smallestKnottedDogCock.knotMultiplier >= 2) growth /= 5;
                 smallestKnottedDogCock.knotMultiplier += (growth);
-                if (growth < .06) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, smallestKnottedDogCock) + " feels unusually tight in your sheath as your knot grows.", false);
-                if (growth >= .06 && growth <= .12) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, smallestKnottedDogCock) + " pops free of your sheath, thickening nicely into a bigger knot.", false);
-                if (growth > .12) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, smallestKnottedDogCock) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.", false);
+                if (growth < .06) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, smallestKnottedDogCock) + " feels unusually tight in your sheath as your knot grows.", false);
+                if (growth >= .06 && growth <= .12) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, smallestKnottedDogCock) + " pops free of your sheath, thickening nicely into a bigger knot.", false);
+                if (growth > .12) MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, smallestKnottedDogCock) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.", false);
                 player.stats.sens += 0.5;
                 player.stats.lust += 5 * crit;
                 changes++;
@@ -392,7 +393,7 @@ export default class CaninePepper extends Consumable {
                 //Talk about it
                 //Hooooman
                 if (firstNotDogCock.cockType == CockType.HUMAN) {
-                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, firstNotDogCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + CockDescriptor.describeCock(player, player, firstNotDogCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + CockDescriptor.nounCock(firstNotDogCock.cockType) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>", false);
+                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, firstNotDogCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + CockDescriptor.describeCock(player, firstNotDogCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + CockDescriptor.nounCock(firstNotDogCock.cockType) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>", false);
                     player.stats.sens += 10;
                     player.stats.lust += 5 * crit;
                 }
@@ -411,19 +412,19 @@ export default class CaninePepper extends Consumable {
                 }
                 //Tentacular Tuesday!
                 else if (firstNotDogCock.cockType == CockType.TENTACLE) {
-                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, firstNotDogCock) + " coils in on itself, reshaping and losing its plant-like coloration as it thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>", false);
+                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, firstNotDogCock) + " coils in on itself, reshaping and losing its plant-like coloration as it thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>", false);
                     player.stats.sens += 4;
                     player.stats.lust += 5 * crit;
                 }
                 //Demon
                 else if (firstNotDogCock.cockType == CockType.DEMON) {
-                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, firstNotDogCock) + " color shifts red for a moment and begins to swell at the base, but within moments it smooths out, retaining its distinctive demonic shape, only perhaps a bit thicker.", false);
+                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, firstNotDogCock) + " color shifts red for a moment and begins to swell at the base, but within moments it smooths out, retaining its distinctive demonic shape, only perhaps a bit thicker.", false);
                     player.stats.sens += 1;
                     player.stats.lust += 2 * crit;
                 }
                 //Misc
                 else {
-                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, firstNotDogCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>", false);
+                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, firstNotDogCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>", false);
                     player.stats.sens += 4;
                     player.stats.lust += 5 * crit;
                 }
@@ -468,11 +469,11 @@ export default class CaninePepper extends Consumable {
                     CockModifiers.thickenCock(shortestCock, 1);
 
                 if (cockGrowthAmount > 2)
-                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, player, shortestCock) + " tightens painfully, inches of bulging dick-flesh pouring out from your crotch as it grows longer.  Thick pre forms at the pointed tip, drawn out from the pleasure of the change.", false);
+                    MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, shortestCock) + " tightens painfully, inches of bulging dick-flesh pouring out from your crotch as it grows longer.  Thick pre forms at the pointed tip, drawn out from the pleasure of the change.", false);
                 if (cockGrowthAmount > 1 && cockGrowthAmount <= 2)
-                    MainScreen.text("\n\nAching pressure builds within your crotch, suddenly releasing as an inch or more of extra dick-flesh spills out.  A dollop of pre beads on the head of your enlarged " + CockDescriptor.describeCock(player, player, shortestCock) + " from the pleasure of the growth.", false);
+                    MainScreen.text("\n\nAching pressure builds within your crotch, suddenly releasing as an inch or more of extra dick-flesh spills out.  A dollop of pre beads on the head of your enlarged " + CockDescriptor.describeCock(player, shortestCock) + " from the pleasure of the growth.", false);
                 if (cockGrowthAmount <= 1)
-                    MainScreen.text("\n\nA slight pressure builds and releases as your " + CockDescriptor.describeCock(player, player, shortestCock) + " pushes a bit further out of your crotch.", false);
+                    MainScreen.text("\n\nA slight pressure builds and releases as your " + CockDescriptor.describeCock(player, shortestCock) + " pushes a bit further out of your crotch.", false);
             }
         }
         //Female Stuff
@@ -585,7 +586,7 @@ export default class CaninePepper extends Consumable {
         }
         //Go into heat
         if (Utils.rand(2) == 0 && changes < changeLimit) {
-            if (player.goIntoHeat(true)) {
+            if (BodyChangeDisplay.goIntoHeat(player)) {
                 changes++;
             }
         }

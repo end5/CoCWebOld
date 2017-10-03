@@ -5,7 +5,7 @@ import Utils from "../../Utilities/Utils";
 
 export default class PrincessPucker extends Consumable {
     public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", 0, "This powerful brew supposedly has mind-strengthening effects.");
+        super("PrnsPkr", "PrnsPkr", "a vial of pinkish fluid", PrincessPucker.DefaultValue, "A vial filled with a viscous pink liquid.");
     }
 
     public use(player: Player) {
@@ -18,16 +18,20 @@ export default class PrincessPucker extends Consumable {
         MainScreen.text("Echoing the sensation in your head is an answering tingle in your body.  The sudden shock of citrusy sour has left you slightly less inclined to fuck, a little more focused on your priorities.\n\n");
 
         if (Utils.rand(2) == 0) {
-            dynStats("lus-", 20, "lib-", 2);
+            player.stats.lust -= 20;
+            player.stats.lib -= 2;
+            //dynStats("lus-", 20, "lib-", 2);
         }
         else {
-            dynStats("lus-", 20, "sen-", 2);
+            player.stats.lust -= 20;
+            player.stats.sens -= 2;
+            //dynStats("lus-", 20, "sen-", 2);
         }
 
-        if (player.hairColor != "pink") {
+        if (player.upperBody.head.hairColor != "pink") {
             if (Utils.rand(5) == 0) {
-                MainScreen.text("A slight tingle across your scalp draws your attention to your hair.  It seems your " + player.hairColor + " is rapidly gaining a distinctly pink hue, growing in from the roots!\n\n");
-                player.hairColor = "pink";
+                MainScreen.text("A slight tingle across your scalp draws your attention to your hair.  It seems your " + player.upperBody.head.hairColor + " is rapidly gaining a distinctly pink hue, growing in from the roots!\n\n");
+                player.upperBody.head.hairColor = "pink";
             }
         }
     }

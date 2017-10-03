@@ -63,10 +63,6 @@ export default class LaBova extends Consumable {
         if (Utils.rand(3) == 0) changeLimit++;
         if (player.perks.has("HistoryAlchemist")) changeLimit++;
         if (this.enhanced) changeLimit += 2;
-        //Temporary storage
-        let temp: number = 0;
-        let temp2: number = 0;
-        let temp3: number = 0;
         //LaBova:
         //ItemDesc: "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off.  "
         //ItemUseText:
@@ -78,23 +74,23 @@ export default class LaBova extends Consumable {
         //STATS
         //Increase player str:
         if (changes < changeLimit && Utils.rand(3) == 0) {
-            temp = 60 - player.stats.str;
-            if (temp <= 0) temp = 0;
+            let strengthGain = 60 - player.stats.str;
+            if (strengthGain <= 0) strengthGain = 0;
             else {
                 if (Utils.rand(2) == 0) MainScreen.text("\n\nThere is a slight pain as you feel your muscles shift somewhat.  Their appearance does not change much, but you feel much stronger.", false);
                 else MainScreen.text("\n\nYou feel your muscles tighten and clench as they become slightly more pronounced.", false);
-                player.stats.str += temp / 10;
+                player.stats.str += strengthGain / 10;
                 changes++;
             }
         }
-        //Increase player tou:
+        //Increase player.stats.tou:
         if (changes < changeLimit && Utils.rand(3) == 0) {
-            temp = 60 - player.stats.tou;
-            if (temp <= 0) temp = 0;
+            let toughGain = 60 - player.stats.tou;
+            if (toughGain <= 0) toughGain = 0;
             else {
                 if (Utils.rand(2) == 0) MainScreen.text("\n\nYou feel your insides toughening up; it feels like you could stand up to almost any blow.", false);
                 else MainScreen.text("\n\nYour bones and joints feel sore for a moment, and before long you realize they've gotten more durable.", false);
-                player.stats.tou += temp / 10;
+                player.stats.tou += toughGain / 10;
                 changes++;
 
             }
@@ -104,21 +100,20 @@ export default class LaBova extends Consumable {
             if (player.stats.spe > 30) {
                 MainScreen.text("\n\nThe body mass you've gained is making your movements more sluggish.", false);
                 changes++;
-                temp = (player.stats.spe - 30) / 10;
-                player.stats.spe += -temp;
+                player.stats.spe += -((player.stats.spe - 30) / 10);
             }
         }
         //Increase Corr, up to a max of 50.
         if (this.tainted) {
-            temp = 50 - player.stats.cor;
-            if (temp < 0) temp = 0;
-            player.stats.cor += temp / 10;
+            let corruptionGain = 50 - player.stats.cor;
+            if (corruptionGain < 0) corruptionGain = 0;
+            player.stats.cor += corruptionGain / 10;
         }
         //Sex bits - Duderiffic
         if (player.lowerBody.cockSpot.count() > 0 && Utils.rand(2) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
             //If the player has at least one dick, decrease the size of each slightly,
             MainScreen.text("\n\n", false);
-            let biggestCock = player.lowerBody.cockSpot.listLargestCockArea[0];
+            const biggestCock = player.lowerBody.cockSpot.listLargestCockArea[0];
             let cockGrowth: number = 0;
             //Shrink said cock
             if (biggestCock.cockLength < 6 && biggestCock.cockLength >= 2.9) {
@@ -136,7 +131,7 @@ export default class LaBova extends Consumable {
                     MainScreen.text("  Curious, you touch around down there, to find you don't have any exterior organs left.  All of it got swallowed into the gash you now have running between two fleshy folds, like sensitive lips.  It suddenly occurs to you; <b>you now have a vagina!</b>", false);
                     player.lowerBody.balls = 0;
                     player.lowerBody.ballSize = 1;
-                    let newVagina = new Vagina();
+                    const newVagina = new Vagina();
                     newVagina.clitLength = .25;
                     player.lowerBody.vaginaSpot.add(newVagina);
                     player.lowerBody.cockSpot.remove(player, biggestCock);
@@ -148,7 +143,7 @@ export default class LaBova extends Consumable {
             }
             //if the last of the player's dicks are eliminated this way, they gain a virgin vagina;
             if (player.lowerBody.cockSpot.count() == 0 && !player.lowerBody.vaginaSpot.hasVagina()) {
-                let newVagina = new Vagina();
+                const newVagina = new Vagina();
                 newVagina.vaginalLooseness = VaginaLooseness.TIGHT;
                 newVagina.vaginalWetness = VaginaWetness.NORMAL;
                 newVagina.virgin = true;
@@ -334,16 +329,16 @@ export default class LaBova extends Consumable {
         }
         //If the player is under 7 feet in height, increase their height, similar to the minotaur
         if (((this.enhanced && player.tallness < 96) || player.tallness < 84) && changes < changeLimit && Utils.rand(2) == 0) {
-            temp = Utils.rand(5) + 3;
+            let heightGain = Utils.rand(5) + 3;
             //Slow rate of growth near ceiling
-            if (player.tallness > 74) temp = Math.floor(temp / 2);
+            if (player.tallness > 74) heightGain = Math.floor(heightGain / 2);
             //Never 0
-            if (temp == 0) temp = 1;
+            if (heightGain == 0) heightGain = 1;
             //Flavor texts.  Flavored like 1950's cigarettes. Yum.
-            if (temp < 5) MainScreen.text("\n\nYou shift uncomfortably as you realize you feel off balance.  Gazing down, you realize you have grown SLIGHTLY taller.", false);
-            if (temp >= 5 && temp < 7) MainScreen.text("\n\nYou feel dizzy and slightly off, but quickly realize it's due to a sudden increase in height.", false);
-            if (temp == 7) MainScreen.text("\n\nStaggering forwards, you clutch at your head dizzily.  You spend a moment getting your balance, and stand up, feeling noticeably taller.", false);
-            player.tallness += temp;
+            if (heightGain < 5) MainScreen.text("\n\nYou shift uncomfortably as you realize you feel off balance.  Gazing down, you realize you have grown SLIGHTLY taller.", false);
+            if (heightGain >= 5 && heightGain < 7) MainScreen.text("\n\nYou feel dizzy and slightly off, but quickly realize it's due to a sudden increase in height.", false);
+            if (heightGain == 7) MainScreen.text("\n\nStaggering forwards, you clutch at your head dizzily.  You spend a moment getting your balance, and stand up, feeling noticeably taller.", false);
+            player.tallness += heightGain;
             changes++;
         }
         //Give the player hoofs, if the player already has hoofs STRIP FUR
