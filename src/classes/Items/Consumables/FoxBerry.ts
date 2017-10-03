@@ -1,16 +1,20 @@
 import Consumable from "./Consumable";
 import Player from "../../Player";
 import MainScreen from "../../display/MainScreen";
-import { VaginaType } from "../../Body/Vagina";
+import Game from "../../Game/Game";
 import Utils from "../../Utilities/Utils";
 import Flags, { FlagEnum } from "../../Game/Flags";
+import Cock, { CockType } from "../../Body/Cock";
+import BreastRow from "../../Body/BreastRow";
+import { VaginaType } from "../../Body/Vagina";
 import { FaceType } from "../../Body/Face";
 import { LowerBodyType, TailType } from "../../Body/LowerBody";
 import { EarType } from "../../Body/Head";
 import { SkinType } from "../../Body/Creature";
-import Game from "../../Game/Game";
-import { CockType, Cock } from "../../Body/Cock";
 import CockDescriptor from "../../Descriptors/CockDescriptor";
+import BallsDescriptor from "../../Descriptors/BallsDescriptor";
+import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import BodyChangeDisplay from "../../display/BodyChangeDisplay";
 
 export default class FoxBerry extends Consumable {
     private enhanced: boolean;
@@ -31,8 +35,6 @@ export default class FoxBerry extends Consumable {
         if (this.enhanced) changeLimit += 2;
         if (Utils.rand(2) == 0) changeLimit++;
         if (Utils.rand(2) == 0) changeLimit++;
-        //Used for dick and boob TFs
-        let counter: number = 0;
 
         if (player.upperBody.head.face.faceType == FaceType.FOX && player.lowerBody.tailType == TailType.FOX && player.upperBody.head.earType == EarType.FOX && player.lowerBody.type == LowerBodyType.FOX && player.skinType == SkinType.FUR && Utils.rand(3) == 0) {
             if (Flags.get(FlagEnum.FOX_BAD_END_WARNING) == 0) {
@@ -177,11 +179,11 @@ export default class FoxBerry extends Consumable {
 
         }
         //Cum Multiplier Xform
-        if (player.cumQ() < 5000 < 2 && Utils.rand(3) == 0 && changes < changeLimit && player.lowerBody.cockSpot.hasCock()) {
-            temp = 2 + Utils.rand(4);
+        if (player.cumQ() < 5000 && Utils.rand(3) == 0 && changes < changeLimit && player.lowerBody.cockSpot.hasCock()) {
+            let cumMultiplierChange: number = 2 + Utils.rand(4);
             //Lots of cum raises cum multiplier cap to 2 instead of 1.5
-            if (player.perks.has("MessyOrgasms")) temp += Utils.rand(10);
-            player.cumMultiplier += temp;
+            if (player.perks.has("MessyOrgasms")) cumMultiplierChange += Utils.rand(10);
+            player.cumMultiplier += cumMultiplierChange;
             //Flavor text
             if (player.lowerBody.balls == 0) MainScreen.text("\n\nYou feel a churning inside your gut as something inside you changes.", false);
             if (player.lowerBody.balls > 0) MainScreen.text("\n\nYou feel a churning in your " + BallsDescriptor.describeBalls(true, true, player) + ".  It quickly settles, leaving them feeling somewhat more dense.", false);
@@ -201,67 +203,76 @@ export default class FoxBerry extends Consumable {
             MainScreen.text("  You now have a [balls].");
         }
         //Sprouting more!
-        if (changes < changeLimit && enhanced && player.upperBody.chest.count() < 4 && player.upperBody.chest.list[player.upperBody.chest.count() - 1].breastRating > 1) {
+        if (changes < changeLimit && this.enhanced && player.upperBody.chest.count() < 4 && player.upperBody.chest.get(player.upperBody.chest.count() - 1).breastRating > 1) {
+            let bottomBreastRow: BreastRow = player.upperBody.chest.get(player.upperBody.chest.count() - 1);
             MainScreen.text("\n\nYour belly rumbles unpleasantly for a second as the ");
-            if (!enhanced) MainScreen.text("berry ");
+            if (!this.enhanced) MainScreen.text("berry ");
             else MainScreen.text("drink ");
-            MainScreen.text("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + allChestDesc() + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + player.inventory.armor.displayName + " to inspect the unwholesome itch, ");
+            MainScreen.text("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + BreastDescriptor.describeAllBreasts(player) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + player.inventory.armor.displayName + " to inspect the unwholesome itch, ");
             if (player.upperBody.chest.BreastRatingLargest[0].breastRating >= 8) MainScreen.text("it's difficult to see past the wall of tits obscuring your view.");
             else MainScreen.text("it's hard to get a good look at.");
             MainScreen.text("  A few gentle prods draw a pleasant gasp from your lips, and you realize that you didn't have an itch - you were growing new nipples!");
             MainScreen.text("\n\nA closer examination reveals your new nipples to be just like the ones above in size and shape");
-            if (player.upperBody.chest.list[player.upperBody.chest.count() - 1].nipplesPerBreast > 1) MainScreen.text(", not to mention number");
+            if (bottomBreastRow.nipplesPerBreast > 1) MainScreen.text(", not to mention number");
             else if (player.upperBody.chest.hasFuckableNipples()) MainScreen.text(", not to mention penetrability");
-            MainScreen.text(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + player.breastCup(player.upperBody.chest.count() - 1) + "s.  <b>You have " + num2Text(player.upperBody.chest.count() + 1) + " rows of breasts!</b>");
-            player.createBreastRow();
-            player.upperBody.chest.list[player.upperBody.chest.count() - 1].breastRating = player.upperBody.chest.list[player.upperBody.chest.count() - 2].breastRating;
-            player.upperBody.chest.list[player.upperBody.chest.count() - 1].nipplesPerBreast = player.upperBody.chest.list[player.upperBody.chest.count() - 2].nipplesPerBreast;
-            if (player.upperBody.chest.hasFuckableNipples()) player.upperBody.chest.list[player.upperBody.chest.count() - 1].fuckable = true;
-            player.upperBody.chest.list[player.upperBody.chest.count() - 1].lactationMultiplier = player.upperBody.chest.list[player.upperBody.chest.count() - 2].lactationMultiplier;
+            MainScreen.text(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + BreastDescriptor.breastCup(bottomBreastRow.breastRating) + "s.  <b>You have " + Utils.numToCardinalText(player.upperBody.chest.count() + 1) + " rows of breasts!</b>");
+            let newBreastRow: BreastRow = new BreastRow();
+            newBreastRow.breastRating = bottomBreastRow.breastRating;
+            newBreastRow.nipplesPerBreast = bottomBreastRow.nipplesPerBreast;
+            if (player.upperBody.chest.hasFuckableNipples())
+                newBreastRow.fuckable = true;
+            newBreastRow.lactationMultiplier = bottomBreastRow.lactationMultiplier;
+            player.upperBody.chest.add(newBreastRow);
             player.stats.sens += 2;
             player.stats.lust += 30;
             changes++;
         }
-        //Find out if tits are eligible for evening
-        let tits: boolean = false;
-        counter = player.upperBody.chest.count();
-        while (counter > 1) {
-            counter--;
-            //If the row above is 1 size above, can be grown!
-            if (player.upperBody.chest.get(counter).breastRating <= (player.upperBody.chest.get(counter - 1).breastRating - 1) && changes < changeLimit && Utils.rand(2) == 0) {
-                if (tits) MainScreen.text("\n\nThey aren't the only pair to go through a change!  Another row of growing bosom goes through the process with its sisters, getting larger.");
-                else {
-                    let select2: number = Utils.rand(3);
-                    if (select2 == 1) MainScreen.text("\n\nA faint warmth buzzes to the surface of your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(counter)) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + player.skin() + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + BreastDescriptor.describeNipple(counter) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
-                    else if (select2 == 2) MainScreen.text("\n\nA faintly muffled gurgle emanates from your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(counter)) + " for a split-second, just before your flesh shudders and shakes, stretching your " + player.skinFurScales() + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
+        if (player.upperBody.chest.count() > 1) {
+            let tits: boolean = false;
+            let currentRow: BreastRow;
+            let rowAboveCurrentRow: BreastRow;
+            let chance: number;
+            for (let indexReverseChestCompare: number = player.upperBody.chest.count() - 1; indexReverseChestCompare > 1; indexReverseChestCompare--) {
+                currentRow = player.upperBody.chest.get(indexReverseChestCompare);
+                rowAboveCurrentRow = player.upperBody.chest.get(indexReverseChestCompare - 1);
+                if (currentRow.breastRating <= rowAboveCurrentRow.breastRating - 1 && changes < changeLimit && Utils.rand(2) == 0) {
+                    if (tits)
+                        MainScreen.text("\n\nThey aren't the only pair to go through a change!  Another row of growing bosom goes through the process with its sisters, getting larger.");
                     else {
-                        MainScreen.text("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(counter)) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + player.skin() + " growing flushed with arousal and your " + BreastDescriptor.describeNipple(counter) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.")
+                        chance = Utils.rand(3);
+                        if (chance == 1)
+                            MainScreen.text("\n\nA faint warmth buzzes to the surface of your " + BreastDescriptor.describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + player.skin() + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + BreastDescriptor.describeNipple(player, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
+                        else if (chance == 2)
+                            MainScreen.text("\n\nA faintly muffled gurgle emanates from your " + BreastDescriptor.describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + player.skinFurScales() + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
+                        else {
+                            MainScreen.text("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + BreastDescriptor.describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + player.skin() + " growing flushed with arousal and your " + BreastDescriptor.describeNipple(player, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.")
+                        }
                     }
-                }
-                //Bigger change!
-                if (player.upperBody.chest.get(counter).breastRating <= (player.upperBody.chest.get(counter - 1).breastRating - 3))
-                    player.upperBody.chest.get(counter).breastRating += 2 + Utils.rand(2);
-                //Smallish change.
-                else player.upperBody.chest.get(counter).breastRating++;
-                MainScreen.text("  You do a quick measurement and determine that your " + num2Text2(counter + 1) + " row of breasts are now " + BreastDescriptor.breastCup(player.upperBody.chest.get(counter)) + "s.");
+                    //Bigger change!
+                    if (currentRow.breastRating <= rowAboveCurrentRow.breastRating - 3)
+                        currentRow.breastRating += 2 + Utils.rand(2);
+                    //Smallish change.
+                    else currentRow.breastRating++;
+                    MainScreen.text("  You do a quick measurement and determine that your " + Utils.numToOrdinalText(indexReverseChestCompare + 1) + " row of breasts are now " + BreastDescriptor.breastCup(currentRow.breastRating) + "s.");
 
-                if (!tits) {
-                    tits = true;
-                    changes++;
+                    if (!tits) {
+                        tits = true;
+                        changes++;
+                    }
+                    player.stats.sens += 2;
+                    player.stats.lust += 10;
                 }
-                player.stats.sens += 2;
-                player.stats.lust += 10;
             }
         }
         //HEAT!
         if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(6) == 0 && changes < changeLimit) {
-            if (player.goIntoHeat(true)) {
+            if (BodyChangeDisplay.goIntoHeat(player)) {
                 changes++;
             }
         }
         //[Grow Fur]
         //FOURTH
-        if ((enhanced || player.lowerBody == LowerBodyType.FOX) && player.skinType != SkinType.FUR && changes < changeLimit && Utils.rand(4) == 0) {
+        if ((this.enhanced || player.lowerBody.type == LowerBodyType.FOX) && player.skinType != SkinType.FUR && changes < changeLimit && Utils.rand(4) == 0) {
             //from scales
             if (player.skinType == SkinType.SCALES) MainScreen.text("\n\nYour skin shifts and every scale stands on end, sending you into a mild panic.  No matter how you tense, you can't seem to flatten them again.  The uncomfortable sensation continues for some minutes until, as one, every scale falls from your body and a fine coat of fur pushes out.  You briefly consider collecting them, but when you pick one up, it's already as dry and brittle as if it were hundreds of years old.  <b>Oh well; at least you won't need to sun yourself as much with your new fur.</b>");
             //from skin
@@ -273,30 +284,30 @@ export default class FoxBerry extends Consumable {
         }
         //[Grow Fox Legs]
         //THIRD
-        if ((enhanced || player.upperBody.head.earType == EarType.FOX) && player.lowerBody != LowerBodyType.FOX && changes < changeLimit && Utils.rand(5) == 0) {
+        if ((this.enhanced || player.upperBody.head.earType == EarType.FOX) && player.lowerBody.type != LowerBodyType.FOX && changes < changeLimit && Utils.rand(5) == 0) {
             //4 legs good, 2 legs better
             if (player.lowerBody.isTaur()) MainScreen.text("\n\nYou shiver as the strength drains from your back legs.  Shaken, you sit on your haunches, forelegs braced wide to stop you from tipping over;  their hooves scrape the dirt as your lower body shrinks, dragging them backward until you can feel the upper surfaces of your hindlegs with their undersides.  A wave of nausea and vertigo overtakes you, and you close your eyes to shut out the sensations.  When they reopen, what greets them are not four legs, but only two... and those roughly in the shape of your old hindleg, except for the furry toes where your hooves used to be.  <b>You now have fox legs!</b>");
             //n*ga please
             else if (player.lowerBody.isNaga()) MainScreen.text("\n\nYour scales split at the waistline and begin to peel, shedding like old snakeskin.  If that weren't curious enough, the flesh - not scales - underneath is pink and new, and the legs it covers crooked into the hocks and elongated feet of a field animal.  As the scaly coating falls and you step out of it, walking of necessity on your toes, a fine powder blows from the dry skin.  Within minutes, it crumbles completely and is taken by the ever-moving wind.  <b>Your legs are now those of a fox!</b>");
             //other digitigrade
-            else if (player.lowerBody == LowerBodyType.HOOFED || player.lowerBody == LowerBodyType.DOG || player.lowerBody == LowerBodyType.CAT || player.lowerBody == LowerBodyType.BUNNY || player.lowerBody == LowerBodyType.KANGAROO)
+            else if (player.lowerBody.type == LowerBodyType.HOOFED || player.lowerBody.type == LowerBodyType.DOG || player.lowerBody.type == LowerBodyType.CAT || player.lowerBody.type == LowerBodyType.BUNNY || player.lowerBody.type == LowerBodyType.KANGAROO)
                 MainScreen.text("\n\nYour legs twitch and quiver, forcing you to your seat.  As you watch, the ends shape themselves into furry, padded toes.  <b>You now have fox feet!</b>  Rather cute ones, actually.");
             //red drider bb gone
-            else if (player.lowerBody == LowerBodyType.DRIDER_LOWER_BODY) MainScreen.text("\n\nYour legs buckle under you and you fall, smashing your abdomen on the ground.  Though your control deserts and you cannot see behind you, still you feel the disgusting sensation of chitin loosening and sloughing off your body, and the dry breeze on your exposed nerves.  Reflexively, your legs cling together to protect as much of their now-sensitive surface as possible.  When you try to part them, you find you cannot.  Several minutes pass uncomforably until you can again bend your legs, and when you do, you find that all the legs of a side bend together - <b>in the shape of a fox's leg!</b>");
+            else if (player.lowerBody.type == LowerBodyType.DRIDER_LOWER_BODY) MainScreen.text("\n\nYour legs buckle under you and you fall, smashing your abdomen on the ground.  Though your control deserts and you cannot see behind you, still you feel the disgusting sensation of chitin loosening and sloughing off your body, and the dry breeze on your exposed nerves.  Reflexively, your legs cling together to protect as much of their now-sensitive surface as possible.  When you try to part them, you find you cannot.  Several minutes pass uncomforably until you can again bend your legs, and when you do, you find that all the legs of a side bend together - <b>in the shape of a fox's leg!</b>");
             //goo home and goo to bed
             else if (player.lowerBody.isGoo()) MainScreen.text("\n\nIt takes a while before you notice that your gooey mounds have something more defined in them.  As you crane your body and shift them around to look, you can just make out a semi-solid mass in the shape of a crooked, animalistic leg.  You don't think much of it until, a few minutes later, you step right out of your swishing gooey undercarriage and onto the new foot.  The goo covering it quickly dries up, as does the part you left behind, <b>revealing a pair of dog-like fox legs!</b>");
             //reg legs, not digitigrade
             else {
                 MainScreen.text("\n\nYour hamstrings tense painfully and begin to pull, sending you onto your face.  As you writhe on the ground, you can feel your thighs shortening and your feet stretching");
-                if (player.lowerBody == LowerBodyType.BEE) MainScreen.text(", while a hideous cracking fills the air");
+                if (player.lowerBody.type == LowerBodyType.BEE) MainScreen.text(", while a hideous cracking fills the air");
                 MainScreen.text(".  When the spasms subside and you can once again stand, <b>you find that your legs have been changed to those of a fox!</b>");
             }
-            player.lowerBody = LowerBodyType.FOX;
+            player.lowerBody.type = LowerBodyType.FOX;
             changes++;
         }
         //Grow Fox Ears]
         //SECOND
-        if ((enhanced || player.lowerBody.tailType == TailType.FOX) && player.upperBody.head.earType != EarType.FOX && changes < changeLimit && Utils.rand(4) == 0) {
+        if ((this.enhanced || player.lowerBody.tailType == TailType.FOX) && player.upperBody.head.earType != EarType.FOX && changes < changeLimit && Utils.rand(4) == 0) {
             //from human/gob/liz ears
             if (player.upperBody.head.earType == EarType.HUMAN || player.upperBody.head.earType == EarType.ELFIN || player.upperBody.head.earType == EarType.LIZARD) {
                 MainScreen.text("\n\nThe sides of your face painfully stretch as your ears elongate and begin to push past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  <b>You now have fox ears.</b>");
@@ -324,7 +335,7 @@ export default class FoxBerry extends Consumable {
         //should work from any face, including other muzzles
         if (player.skinType == SkinType.FUR && player.upperBody.head.face.faceType != FaceType.FOX && changes < changeLimit && Utils.rand(5) == 0) {
             MainScreen.text("\n\nYour face pinches and you clap your hands to it.  Within seconds, your nose is poking through those hands, pushing them slightly to the side as new flesh and bone build and shift behind it, until it stops in a clearly defined, tapered, and familiar point you can see even without the aid of a mirror.  <b>Looks like you now have a fox's face.</b>");
-            if (silly()) MainScreen.text("  And they called you crazy...");
+            if (Game.silly()) MainScreen.text("  And they called you crazy...");
             changes++;
             player.upperBody.head.face.faceType = FaceType.FOX;
         }
@@ -334,19 +345,19 @@ export default class FoxBerry extends Consumable {
         }
         //Nipples Turn Back:
         if (player.statusAffects.has("BlackNipples") && changes < changeLimit && Utils.rand(3) == 0) {
-            MainScreen.text("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(0) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            MainScreen.text("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             player.statusAffects.remove("BlackNipples");
         }
         //Debugcunt
         if (changes < changeLimit && Utils.rand(3) == 0 && player.lowerBody.vaginaSpot.get(0).vaginaType == VaginaType.BLACK_SAND_TRAP && player.lowerBody.vaginaSpot.hasVagina()) {
             MainScreen.text("\n\nSomething invisible brushes against your sex, making you twinge.  Undoing your clothes, you take a look at your vagina and find that it has turned back to its natural flesh colour.");
-            player.vaginaType(0);
+            player.lowerBody.vaginaSpot.get(0).vaginaType = VaginaType.HUMAN;
             changes++;
         }
         if (changes == 0) {
             MainScreen.text("\n\nWell that didn't do much, but you do feel a little refreshed!");
-            fatigue(-5);
+            player.stats.fatigueChange(-5);
         }
 
     }
