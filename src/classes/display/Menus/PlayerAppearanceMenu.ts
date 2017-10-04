@@ -9,31 +9,31 @@ export default class PlayerAppearanceMenu {
         if (race != "human") MainScreen.text("You began your journey as a human, but gave that up as you explored the dangers of this realm.  ", false);
         //Height and race.
         MainScreen.text("You are a " + Math.floor(player.tallness / 12) + " foot " + player.tallness % 12 + " inch tall " + race + ", with " + player.bodyType() + ".", false);
-        if (player.armorName == "comfortable clothes")
-            MainScreen.text("  <b>You are currently wearing " + player.armorName + " and using your " + player.weaponName + " as a weapon.</b>", false);
-        else MainScreen.text("  <b>You are currently wearing your " + player.armorName + " and using your " + player.weaponName + " as a weapon.</b>", false);
+        if (player.inventory.armor.displayName == "comfortable clothes")
+            MainScreen.text("  <b>You are currently wearing " + player.inventory.armor.displayName + " and using your " + player.weaponName + " as a weapon.</b>", false);
+        else MainScreen.text("  <b>You are currently wearing your " + player.inventory.armor.displayName + " and using your " + player.weaponName + " as a weapon.</b>", false);
         //Face
-        if (player.faceType == Face.HUMAN || player.faceType == Face.SHARK_TEETH || player.faceType == Face.BUNNY || player.faceType == Face.SPIDER_FANGS || player.faceType == Face.FERRET_MASK) {
+        if (player.upperBody.head.face.faceType == Face.HUMAN || player.upperBody.head.face.faceType == Face.SHARK_TEETH || player.upperBody.head.face.faceType == Face.BUNNY || player.upperBody.head.face.faceType == Face.SPIDER_FANGS || player.upperBody.head.face.faceType == Face.FERRET_MASK) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  Your face is human in shape and structure, with " + player.skin() + ".", false);
             if (player.skinType == Skin.FUR)
                 MainScreen.text("  Under your " + player.skinFurScales() + " you have a human-shaped head with " + player.skin(true, false) + ".", false);
             if (player.skinType == Skin.SCALES)
                 MainScreen.text("  Your face is fairly human in shape, but is covered in " + player.skin() + ".", false);
-            if (player.faceType == Face.SHARK_TEETH)
+            if (player.upperBody.head.face.faceType == Face.SHARK_TEETH)
                 MainScreen.text("  A set of razor-sharp, retractable shark-teeth fill your mouth and gives your visage a slightly angular appearance.", false);
-            else if (player.faceType == Face.BUNNY)
+            else if (player.upperBody.head.face.faceType == Face.BUNNY)
                 MainScreen.text("  The constant twitches of your nose and the length of your incisors gives your visage a hint of bunny-like cuteness.", false);
-            else if (player.faceType == Face.SPIDER_FANGS)
+            else if (player.upperBody.head.face.faceType == Face.SPIDER_FANGS)
                 MainScreen.text("  A set of retractable, needle-like fangs sit in place of your canines and are ready to dispense their venom.", false);
-            else if (player.faceType == Face.FERRET_MASK)
+            else if (player.upperBody.head.face.faceType == Face.FERRET_MASK)
                 MainScreen.text("  The [skinFurScales] around your eyes is significantly darker than the rest of your face, giving you a cute little ferret mask.", false);
         }
-        else if (player.faceType == Face.FERRET) {
+        else if (player.upperBody.head.face.faceType == Face.FERRET) {
             if (player.skinType == Skin.PLAIN) MainScreen.text("  Your face is an adorable cross between human and ferret features, complete with a wet nose and whiskers.  The only oddity is your lack of fur, leaving only [skin] visible on your ferret-like face.", false);
-            else MainScreen.text("  Your face is coated in " + player.hairColor + " fur with [skin] underneath, an adorable cross between human and ferret features.  It is complete with a wet nose and whiskers.");
+            else MainScreen.text("  Your face is coated in " + player.upperBody.head.hairColor + " fur with [skin] underneath, an adorable cross between human and ferret features.  It is complete with a wet nose and whiskers.");
         }
-        else if (player.faceType == Face.RACCOON_MASK) {
+        else if (player.upperBody.head.face.faceType == Face.RACCOON_MASK) {
             //appearance for skinheads
             if (player.skinType != Skin.FUR && player.skinType != Skin.SCALES) {
                 MainScreen.text("  Your face is human in shape and structure, with " + player.skin());
@@ -44,13 +44,13 @@ export default class PlayerAppearanceMenu {
             //appearance furscales
             else {
                 //(black/midnight furscales)
-                if (((player.hairColor == "black" || player.hairColor == "midnight") && (player.skinType == Skin.FUR || player.skinType == Skin.SCALES)))
+                if (((player.upperBody.head.hairColor == "black" || player.upperBody.head.hairColor == "midnight") && (player.skinType == Skin.FUR || player.skinType == Skin.SCALES)))
                     MainScreen.text("  Under your " + player.skinFurScales() + " hides a black raccoon mask, barely visible due to your inky hue, and");
                 else MainScreen.text("  Your " + player.skinFurScales() + " are decorated with a sly-looking raccoon mask, and under them");
                 MainScreen.text(" you have a human-shaped head with " + player.skin(true, false) + ".");
             }
         }
-        else if (player.faceType == Face.RACCOON) {
+        else if (player.upperBody.head.face.faceType == Face.RACCOON) {
             MainScreen.text("  You have a triangular raccoon face, replete with sensitive whiskers and a little black nose; a mask shades the space around your eyes, set apart from your " + player.skinFurScales() + " by a band of white.");
             //(if skin)
             if (player.skinType == Skin.PLAIN)
@@ -58,7 +58,7 @@ export default class PlayerAppearanceMenu {
             else if (player.skinType == Skin.SCALES)
                 MainScreen.text("  The presence of said scales gives your visage an eerie look, more reptile than mammal.");
         }
-        else if (player.faceType == Face.FOX) {
+        else if (player.upperBody.head.face.faceType == Face.FOX) {
             MainScreen.text("  You have a tapered, shrewd-looking vulpine face with a speckling of downward-curved whiskers just behind the nose.");
             if (player.skinType == Skin.PLAIN)
                 MainScreen.text("  Oddly enough, there's no fur on your animalistic muzzle, just " + player.skinFurScales() + ".");
@@ -67,14 +67,14 @@ export default class PlayerAppearanceMenu {
             else if (player.skinType == Skin.SCALES)
                 MainScreen.text("  Strangely, " + player.skinFurScales() + " adorn every inch of your animalistic visage.");
         }
-        else if (player.faceType == Face.BUCKTEETH) {
+        else if (player.upperBody.head.face.faceType == Face.BUCKTEETH) {
             //appearance
             MainScreen.text("  Your face is generally human in shape and structure, with " + player.skin());
             if (player.skinType == Skin.FUR || player.skinType == Skin.SCALES)
                 MainScreen.text(" under your " + player.skinFurScales());
             MainScreen.text(" and mousey buckteeth.");
         }
-        else if (player.faceType == Face.MOUSE) {
+        else if (player.upperBody.head.face.faceType == Face.MOUSE) {
             //appearance
             MainScreen.text("  You have a snubby, tapered mouse's face, with whiskers, a little pink nose, and ");
             if (player.skinType != Skin.FUR && player.skinType != Skin.SCALES)
@@ -83,7 +83,7 @@ export default class PlayerAppearanceMenu {
             MainScreen.text(".  Two large incisors complete it.");
         }
         //Naga
-        if (player.faceType == Face.SNAKE_FANGS) {
+        if (player.upperBody.head.face.faceType == Face.SNAKE_FANGS) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  You have a fairly normal face, with " + player.skin() + ".  The only oddity is your pair of dripping fangs which often hang over your lower lip.", false);
             if (player.skinType == Skin.FUR)
@@ -92,7 +92,7 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("  Your face is fairly human in shape, but is covered in " + player.skinFurScales() + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.", false);
         }
         //horse-face
-        if (player.faceType == Face.HORSE) {
+        if (player.upperBody.head.face.faceType == Face.HORSE) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  Your face is equine in shape and structure.  The odd visage is hairless and covered with " + player.skinFurScales() + ".", false);
             if (player.skinType == Skin.FUR)
@@ -101,7 +101,7 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("  You have the face and head structure of a horse, overlaid with glittering " + player.skinFurScales() + ".", false);
         }
         //dog-face
-        if (player.faceType == Face.DOG) {
+        if (player.upperBody.head.face.faceType == Face.DOG) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  You have a dog-like face, complete with a wet nose.  The odd visage is hairless and covered with " + player.skinFurScales() + ".", false);
             if (player.skinType == Skin.FUR)
@@ -110,27 +110,27 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("  You have the facial structure of a dog, wet nose and all, but overlaid with glittering " + player.skinFurScales() + ".", false);
         }
         //cat-face
-        if (player.faceType == Face.CAT) {
+        if (player.upperBody.head.face.faceType == Face.CAT) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  You have a cat-like face, complete with a cute, moist nose and whiskers.  The " + player.skin() + " that is revealed by your lack of fur looks quite unusual on so feline a face.", false);
             if (player.skinType == Skin.FUR)
-                MainScreen.text("  You have a cat-like face, complete with moist nose and whiskers.  Your " + player.skinDesc + " is " + player.hairColor + ", hiding your " + player.skin(true, false) + " underneath.", false);
+                MainScreen.text("  You have a cat-like face, complete with moist nose and whiskers.  Your " + player.skinDesc + " is " + player.upperBody.head.hairColor + ", hiding your " + player.skin(true, false) + " underneath.", false);
             if (player.skinType == Skin.SCALES)
                 MainScreen.text("  Your facial structure blends humanoid features with those of a cat.  A moist nose and whiskers are included, but overlaid with glittering " + player.skinFurScales() + ".", false);
-            if (player.eyeType != Eyes.BLACK_EYES_SAND_TRAP)
+            if (player.upperBody.head.face.eyeType != Eyes.BLACK_EYES_SAND_TRAP)
                 MainScreen.text("  Of course, no feline face would be complete without vertically slit eyes.");
         }
         //Minotaaaauuuur-face
-        if (player.faceType == Face.COW_MINOTAUR) {
+        if (player.upperBody.head.face.faceType == Face.COW_MINOTAUR) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
-                MainScreen.text("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Despite your lack of fur elsewhere, your visage does have a short layer of " + player.hairColor + " fuzz.", false);
+                MainScreen.text("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Despite your lack of fur elsewhere, your visage does have a short layer of " + player.upperBody.head.hairColor + " fuzz.", false);
             if (player.skinType == Skin.FUR)
                 MainScreen.text("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Your " + player.skinFurScales() + " thickens noticably on your head, looking shaggy and more than a little monstrous once laid over your visage.", false);
             if (player.skinType == Skin.SCALES)
                 MainScreen.text("  Your face resembles a minotaur's, though strangely it is covered in shimmering scales, right up to the flat cow-like nose that protrudes from your face.", false);
         }
         //Lizard-face
-        if (player.faceType == Face.LIZARD) {
+        if (player.upperBody.head.face.faceType == Face.LIZARD) {
             if (player.skinType == Skin.PLAIN || player.skinType == Skin.GOO)
                 MainScreen.text("  You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage.  The reptilian visage does look a little odd with just " + player.skin() + ".", false);
             if (player.skinType == Skin.FUR)
@@ -138,10 +138,10 @@ export default class PlayerAppearanceMenu {
             if (player.skinType == Skin.SCALES)
                 MainScreen.text("  Your face is that of a lizard, complete with a toothy maw and pointed snout.  Reflective " + player.skinFurScales() + " complete the look, making you look quite fearsome.", false);
         }
-        if (player.faceType == Face.DRAGON) {
+        if (player.upperBody.head.face.faceType == Face.DRAGON) {
             MainScreen.text("  Your face is a narrow, reptilian muzzle.  It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw.  It gives you a regal but fierce visage.  Opening your mouth reveals several rows of dagger-like sharp teeth.  The fearsome visage is decorated by " + player.skinFurScales() + ".");
         }
-        if (player.faceType == Face.KANGAROO) {
+        if (player.upperBody.head.face.faceType == Face.KANGAROO) {
             MainScreen.text("  Your face is ", false);
             if (player.skinType == Skin.PLAIN)
                 MainScreen.text("bald", false);
@@ -151,14 +151,14 @@ export default class PlayerAppearanceMenu {
         //M/F stuff!
         MainScreen.text("  It has " + player.faceDesc() + ".", false);
         //Eyes
-        if (player.eyeType == Eyes.FOUR_SPIDER_EYES)
+        if (player.upperBody.head.face.eyeType == Eyes.FOUR_SPIDER_EYES)
             MainScreen.text("  In addition to your primary two eyes, you have a second, smaller pair on your forehead.", false);
-        else if (player.eyeType == Eyes.BLACK_EYES_SAND_TRAP)
+        else if (player.upperBody.head.face.eyeType == Eyes.BLACK_EYES_SAND_TRAP)
             MainScreen.text("  Your eyes are solid spheres of inky, alien darkness.");
 
         //Hair
         //if bald
-        if (player.hairLength == 0) {
+        if (player.upperBody.head.hairLength == 0) {
             if (player.skinType == Skin.FUR)
                 MainScreen.text("  You have no hair, only a thin layer of fur atop of your head.  ", false);
             else MainScreen.text("  You are totally bald, showing only shiny " + player.skinTone + " " + player.skinDesc + " where your hair should be.", false);
@@ -186,89 +186,89 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("  A pair of vaguely egg-shaped, furry raccoon ears adorns your head.");
             else if (player.upperBody.head.earType == Ears.MOUSE)
                 MainScreen.text("  A pair of large, dish-shaped mouse ears tops your head.");
-            if (player.antennae == Antennae.BEE)
+            if (player.upperBody.head.antennae == Antennae.BEE)
                 MainScreen.text("  Floppy antennae also appear on your skull, bouncing and swaying in the breeze.", false);
         }
         //not bald
         else {
             if (player.upperBody.head.earType == Ears.HUMAN)
-                MainScreen.text("  Your " + hairDescript() + " looks good on you, accentuating your features well.", false);
+                MainScreen.text("  Your " + HeadDescriptor.describeHair(player) + " looks good on you, accentuating your features well.", false);
             else if (player.upperBody.head.earType == Ears.FERRET)
-                MainScreen.text("  A pair of small, rounded ferret ears burst through the top of your " + hairDescript() + ".", false);
+                MainScreen.text("  A pair of small, rounded ferret ears burst through the top of your " + HeadDescriptor.describeHair(player) + ".", false);
             else if (player.upperBody.head.earType == Ears.HORSE)
-                MainScreen.text("  The " + hairDescript() + " on your head parts around a pair of very horse-like ears that grow up from your head.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head parts around a pair of very horse-like ears that grow up from your head.", false);
             else if (player.upperBody.head.earType == Ears.DOG)
-                MainScreen.text("  The " + hairDescript() + " on your head is overlapped by a pair of pointed dog ears.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head is overlapped by a pair of pointed dog ears.", false);
             else if (player.upperBody.head.earType == Ears.COW)
-                MainScreen.text("  The " + hairDescript() + " on your head is parted by a pair of rounded cow ears that stick out sideways.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head is parted by a pair of rounded cow ears that stick out sideways.", false);
             else if (player.upperBody.head.earType == Ears.ELFIN)
-                MainScreen.text("  The " + hairDescript() + " on your head is parted by a pair of cute pointed ears, bigger than your old human ones.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head is parted by a pair of cute pointed ears, bigger than your old human ones.", false);
             else if (player.upperBody.head.earType == Ears.CAT)
-                MainScreen.text("  The " + hairDescript() + " on your head is parted by a pair of cute, fuzzy cat ears, sprouting from atop your head and pivoting towards any sudden noises.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head is parted by a pair of cute, fuzzy cat ears, sprouting from atop your head and pivoting towards any sudden noises.", false);
             else if (player.upperBody.head.earType == Ears.LIZARD)
-                MainScreen.text("  The " + hairDescript() + " atop your head makes it nigh-impossible to notice the two small rounded openings that are your ears.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " atop your head makes it nigh-impossible to notice the two small rounded openings that are your ears.", false);
             else if (player.upperBody.head.earType == Ears.BUNNY)
-                MainScreen.text("  A pair of floppy rabbit ears stick up out of your " + hairDescript() + ", bouncing around as you walk.", false);
+                MainScreen.text("  A pair of floppy rabbit ears stick up out of your " + HeadDescriptor.describeHair(player) + ", bouncing around as you walk.", false);
             else if (player.upperBody.head.earType == Ears.KANGAROO)
-                MainScreen.text("  The " + hairDescript() + " atop your head is parted by a pair of long, furred kangaroo ears that stick out at an angle.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " atop your head is parted by a pair of long, furred kangaroo ears that stick out at an angle.", false);
             else if (player.upperBody.head.earType == Ears.FOX)
-                MainScreen.text("  The " + hairDescript() + " atop your head is parted by a pair of large, adept fox ears that always seem to be listening.");
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " atop your head is parted by a pair of large, adept fox ears that always seem to be listening.");
             else if (player.upperBody.head.earType == Ears.DRAGON)
-                MainScreen.text("  The " + hairDescript() + " atop your head is parted by a pair of rounded protrusions with small holes on the sides of your head serve as your ears.  Bony fins sprout behind them.", false);
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " atop your head is parted by a pair of rounded protrusions with small holes on the sides of your head serve as your ears.  Bony fins sprout behind them.", false);
             else if (player.upperBody.head.earType == Ears.RACCOON)
-                MainScreen.text("  The " + hairDescript() + " on your head parts around a pair of egg-shaped, furry raccoon ears.");
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " on your head parts around a pair of egg-shaped, furry raccoon ears.");
             else if (player.upperBody.head.earType == Ears.MOUSE)
-                MainScreen.text("  The " + hairDescript() + " atop your head is funneled between and around a pair of large, dish-shaped mouse ears that stick up prominently.");
-            if (player.antennae == Antennae.BEE) {
+                MainScreen.text("  The " + HeadDescriptor.describeHair(player) + " atop your head is funneled between and around a pair of large, dish-shaped mouse ears that stick up prominently.");
+            if (player.upperBody.head.antennae == Antennae.BEE) {
                 if (player.upperBody.head.earType == Ears.BUNNY)
                     MainScreen.text("  Limp antennae also grow from just behind your hairline, waving and swaying in the breeze with your ears.", false);
                 else MainScreen.text("  Floppy antennae also grow from just behind your hairline, bouncing and swaying in the breeze.", false);
             }
         }
         //Tongue
-        if (player.tongueType == Tongue.SNAKE)
+        if (player.upperBody.head.face.tongueType == Tongue.SNAKE)
             MainScreen.text("  A snake-like tongue occasionally flits between your lips, tasting the air.", false);
-        else if (player.tongueType == Tongue.DEMONIC)
+        else if (player.upperBody.head.face.tongueType == Tongue.DEMONIC)
             MainScreen.text("  A slowly undulating tongue occasionally slips from between your lips.  It hangs nearly two feet long when you let the whole thing slide out, though you can retract it to appear normal.", false);
-        else if (player.tongueType == Tongue.DRACONIC)
+        else if (player.upperBody.head.face.tongueType == Tongue.DRACONIC)
             MainScreen.text("  Your mouth contains a thick, fleshy tongue that, if you so desire, can telescope to a distance of about four feet.  It has sufficient manual dexterity that you can use it almost like a third arm.");
 
         //Horns
         //Demonic horns
-        if (player.hornType == Horns.DEMON) {
-            if (player.horns == 2)
+        if (player.upperBody.head.hornType == Horns.DEMON) {
+            if (player.upperBody.head.horns == 2)
                 MainScreen.text("  A small pair of pointed horns has broken through the " + player.skinDesc + " on your forehead, proclaiming some demonic taint to any who see them.", false);
-            if (player.horns == 4)
+            if (player.upperBody.head.horns == 4)
                 MainScreen.text("  A quartet of prominent horns has broken through your " + player.skinDesc + ".  The back pair are longer, and curve back along your head.  The front pair protrude forward demonically.", false);
-            if (player.horns == 6)
+            if (player.upperBody.head.horns == 6)
                 MainScreen.text("  Six horns have sprouted through your " + player.skinDesc + ", the back two pairs curve backwards over your head and down towards your neck, while the front two horns stand almost eight inches long upwards and a little forward.", false);
-            if (player.horns >= 8)
-                MainScreen.text("  A large number of thick demonic horns sprout through your " + player.skinDesc + ", each pair sprouting behind the ones before.  The front jut forwards nearly ten inches while the rest curve back over your head, some of the points ending just below your ears.  You estimate you have a total of " + Utils.numToCardinalText(player.horns) + " horns.", false);
+            if (player.upperBody.head.horns >= 8)
+                MainScreen.text("  A large number of thick demonic horns sprout through your " + player.skinDesc + ", each pair sprouting behind the ones before.  The front jut forwards nearly ten inches while the rest curve back over your head, some of the points ending just below your ears.  You estimate you have a total of " + Utils.numToCardinalText(player.upperBody.head.horns) + " horns.", false);
         }
         //Minotaur horns
-        if (player.hornType == Horns.COW_MINOTAUR) {
-            if (player.horns < 3)
+        if (player.upperBody.head.hornType == Horns.COW_MINOTAUR) {
+            if (player.upperBody.head.horns < 3)
                 MainScreen.text("  Two tiny horn-like nubs protrude from your forehead, resembling the horns of the young livestock kept by your village.", false);
-            if (player.horns >= 3 && player.horns < 6)
+            if (player.upperBody.head.horns >= 3 && player.upperBody.head.horns < 6)
                 MainScreen.text("  Two moderately sized horns grow from your forehead, similar in size to those on a young bovine.", false);
-            if (player.horns >= 6 && player.horns < 12)
+            if (player.upperBody.head.horns >= 6 && player.upperBody.head.horns < 12)
                 MainScreen.text("  Two large horns sprout from your forehead, curving forwards like those of a bull.", false);
-            if (player.horns >= 12 && player.horns < 20)
+            if (player.upperBody.head.horns >= 12 && player.upperBody.head.horns < 20)
                 MainScreen.text("  Two very large and dangerous looking horns sprout from your head, curving forward and over a foot long.  They have dangerous looking points.", false);
-            if (player.horns >= 20)
+            if (player.upperBody.head.horns >= 20)
                 MainScreen.text("  Two huge horns erupt from your forehead, curving outward at first, then forwards.  The weight of them is heavy, and they end in dangerous looking points.", false);
         }
         //Lizard horns
-        if (player.hornType == Horns.DRACONIC_X2) {
-            MainScreen.text("  A pair of " + Utils.numToCardinalText(player.horns) + " inch horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.", false);
+        if (player.upperBody.head.hornType == Horns.DRACONIC_X2) {
+            MainScreen.text("  A pair of " + Utils.numToCardinalText(player.upperBody.head.horns) + " inch horns grow from the sides of your head, sweeping backwards and adding to your imposing visage.", false);
         }
         //Super lizard horns
-        if (player.hornType == Horns.DRACONIC_X4_12_INCH_LONG)
+        if (player.upperBody.head.hornType == Horns.DRACONIC_X4_12_INCH_LONG)
             MainScreen.text("  Two pairs of horns, roughly a foot long, sprout from the sides of your head.  They sweep back and give you a fearsome look, almost like the dragons from your village's legends.", false);
         //Antlers!
-        if (player.hornType == Horns.ANTLERS) {
-            if (player.horns > 0)
-                MainScreen.text("  Two antlers, forking into " + Utils.numToCardinalText(player.horns) + " points, have sprouted from the top of your head, forming a spiky, regal crown of bone.");
+        if (player.upperBody.head.hornType == Horns.ANTLERS) {
+            if (player.upperBody.head.horns > 0)
+                MainScreen.text("  Two antlers, forking into " + Utils.numToCardinalText(player.upperBody.head.horns) + " points, have sprouted from the top of your head, forming a spiky, regal crown of bone.");
         }
         //BODY PG HERE
         MainScreen.text("\n\nYou have a humanoid shape with the usual torso, arms, hands, and fingers.", false);
@@ -284,7 +284,7 @@ export default class PlayerAppearanceMenu {
         if (player.upperBody.wingType == Wings.SHARK_FIN)
             MainScreen.text("  A large shark-like fin has sprouted between your shoulder blades.  With it you have far more control over swimming underwater.", false);
         if (player.upperBody.wingType == Wings.FEATHERED_LARGE)
-            MainScreen.text("  A pair of large, feathery wings sprout from your back.  Though you usually keep the " + player.hairColor + "-colored wings folded close, they can unfurl to allow you to soar as gracefully as a harpy.", false);
+            MainScreen.text("  A pair of large, feathery wings sprout from your back.  Though you usually keep the " + player.upperBody.head.hairColor + "-colored wings folded close, they can unfurl to allow you to soar as gracefully as a harpy.", false);
         if (player.upperBody.wingType == Wings.DRACONIC_SMALL)
             MainScreen.text("  Small, vestigial wings sprout from your shoulders.  They might look like bat's wings, but the membranes are covered in fine, delicate scales.");
         else if (player.upperBody.wingType == Wings.DRACONIC_LARGE)
@@ -293,18 +293,18 @@ export default class PlayerAppearanceMenu {
             MainScreen.text("  Giant dragonfly wings hang from your shoulders.  At a whim, you could twist them into a whirring rhythm fast enough to lift you off the ground and allow you to fly.");
 
         //Wing arms
-        if (player.armType == Arm.HARPY)
+        if (player.upperBody.armType == Arm.HARPY)
             MainScreen.text("  Feathers hang off your arms from shoulder to wrist, giving them a slightly wing-like look.", false);
-        else if (player.armType == Arm.SPIDER)
+        else if (player.upperBody.armType == Arm.SPIDER)
             MainScreen.text("  Shining black exoskeleton  covers your arms from the biceps down, resembling a pair of long black gloves from a distance.", false);
         //Done with head bits. Move on to body stuff
         //Horse lowerbody, other lowerbody texts appear lower
         if (player.lowerBody == LowerBody.PONY)
             MainScreen.text("  From the waist down you have an incredibly cute and cartoonish parody of a horse's body, with all four legs ending in flat, rounded feet.", false);
-        else if (player.isTaur())
+        else if (player.lowerBody.isTaur())
             MainScreen.text("  From the waist down you have the body of a horse, with all four legs capped by hooves.", false);
         //Hip info only displays if you aren't a centaur. 
-        if (!player.isTaur()) {
+        if (!player.lowerBody.isTaur()) {
             if (player.thickness > 70) {
                 MainScreen.text("  You have " + hipDescript(), false);
                 if (player.lowerBody.hipRating < 6) {
@@ -361,9 +361,9 @@ export default class PlayerAppearanceMenu {
                         if (player.lowerBody.balls > 0)
                             MainScreen.text("balls plenty of room to breathe", false);
                         else if (player.lowerBody.cockSpot.hasCock())
-                            MainScreen.text(player.multiCockDescript() + " plenty of room to swing", false);
+                            MainScreen.text(player.CockDescriptor.describeMultiCock(player) + " plenty of room to swing", false);
                         else if (player.lowerBody.vaginaSpot.hasVagina())
-                            MainScreen.text(vaginaDescript() + " a nice, wide berth", false);
+                            MainScreen.text(            VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " a nice, wide berth", false);
                         else MainScreen.text("vacant groin plenty of room", false);
                         MainScreen.text(", and", false);
                     }
@@ -372,10 +372,10 @@ export default class PlayerAppearanceMenu {
         }
         //ASS
         //Horse version
-        if (player.isTaur()) {
+        if (player.lowerBody.isTaur()) {
             //FATBUTT
             if (player.tone < 65) {
-                MainScreen.text("  Your " + buttDescript(), false);
+                MainScreen.text("  Your " + ButtDescriptor.describeButt(player), false);
                 if (player.lowerBody.butt.buttRating < 4)
                     MainScreen.text(" is lean, from what you can see of it.", false);
                 if (player.lowerBody.butt.buttRating >= 4 && player.lowerBody.butt.buttRating < 6)
@@ -391,7 +391,7 @@ export default class PlayerAppearanceMenu {
             }
             //GIRL LOOK AT DAT BOOTY
             else {
-                MainScreen.text("  Your " + buttDescript(), false);
+                MainScreen.text("  Your " + ButtDescriptor.describeButt(player), false);
                 if (player.lowerBody.butt.buttRating < 4)
                     MainScreen.text(" is barely noticable, showing off the muscles of your haunches.", false);
                 if (player.lowerBody.butt.buttRating >= 4 && player.lowerBody.butt.buttRating < 6)
@@ -410,7 +410,7 @@ export default class PlayerAppearanceMenu {
         else {
             //TUBBY ASS
             if (player.tone < 60) {
-                MainScreen.text(" your " + buttDescript(), false);
+                MainScreen.text(" your " + ButtDescriptor.describeButt(player), false);
                 if (player.lowerBody.butt.buttRating < 4)
                     MainScreen.text(" looks great under your gear.", false);
                 if (player.lowerBody.butt.buttRating >= 4 && player.lowerBody.butt.buttRating < 6)
@@ -426,7 +426,7 @@ export default class PlayerAppearanceMenu {
             }
             //FITBUTT
             else {
-                MainScreen.text(" your " + buttDescript(), false);
+                MainScreen.text(" your " + ButtDescriptor.describeButt(player), false);
                 if (player.lowerBody.butt.buttRating < 4)
                     MainScreen.text(" molds closely against your form.", false);
                 if (player.lowerBody.butt.buttRating >= 4 && player.lowerBody.butt.buttRating < 6)
@@ -442,17 +442,17 @@ export default class PlayerAppearanceMenu {
             }
         }
         //TAILS
-        if (player.tailType == Tail.Horse)
-            MainScreen.text("  A long " + player.hairColor + " horsetail hangs from your " + buttDescript() + ", smooth and shiny.", false);
-        if (player.tailType == Tail.Ferret)
-            MainScreen.text("  A long ferret tail sprouts from above your [butt].  It is thin, tapered, and covered in shaggy " + player.hairColor + " fur.", false);
-        if (player.tailType == Tail.Dog)
-            MainScreen.text("  A fuzzy " + player.hairColor + " dogtail sprouts just above your " + buttDescript() + ", wagging to and fro whenever you are happy.", false);
-        if (player.tailType == Tail.Demonic)
-            MainScreen.text("  A narrow tail ending in a spaded tip curls down from your " + buttDescript() + ", wrapping around your " + player.leg() + " sensually at every opportunity.", false);
-        if (player.tailType == Tail.Cow)
+        if (player.lowerBody.tailType == Tail.Horse)
+            MainScreen.text("  A long " + player.upperBody.head.hairColor + " horsetail hangs from your " + ButtDescriptor.describeButt(player) + ", smooth and shiny.", false);
+        if (player.lowerBody.tailType == Tail.Ferret)
+            MainScreen.text("  A long ferret tail sprouts from above your [butt].  It is thin, tapered, and covered in shaggy " + player.upperBody.head.hairColor + " fur.", false);
+        if (player.lowerBody.tailType == Tail.Dog)
+            MainScreen.text("  A fuzzy " + player.upperBody.head.hairColor + " dogtail sprouts just above your " + ButtDescriptor.describeButt(player) + ", wagging to and fro whenever you are happy.", false);
+        if (player.lowerBody.tailType == Tail.Demonic)
+            MainScreen.text("  A narrow tail ending in a spaded tip curls down from your " + ButtDescriptor.describeButt(player) + ", wrapping around your " + LowerBodyDescriptor.describeLeg(player) + " sensually at every opportunity.", false);
+        if (player.lowerBody.tailType == Tail.Cow)
             MainScreen.text("  A long cowtail with a puffy tip swishes back and forth as if swatting at flies.", false);
-        if (player.tailType == Tail.SpiderAbdomen) {
+        if (player.lowerBody.tailType == Tail.SpiderAbdomen) {
             MainScreen.text("  A large, spherical spider-abdomen has grown out from your backside, covered in shiny black chitin.  Though it's heavy and bobs with every motion, it doesn't seem to slow you down.", false);
             if (player.lowerBody.tailVenom > 50 && player.lowerBody.tailVenom < 80)
                 MainScreen.text("  Your bulging arachnid posterior feels fairly full of webbing.", false);
@@ -461,7 +461,7 @@ export default class PlayerAppearanceMenu {
             if (player.lowerBody.tailVenom == 100)
                 MainScreen.text("  Your swollen spider-butt is distended with the sheer amount of webbing it's holding.", false);
         }
-        if (player.tailType == Tail.BeeAbdomen) {
+        if (player.lowerBody.tailType == Tail.BeeAbdomen) {
             MainScreen.text("  A large insectile bee-abdomen dangles from just above your backside, bobbing with its own weight as you shift.  It is covered in hard chitin with black and yellow stripes, and tipped with a dagger-like stinger.", false);
             if (player.lowerBody.tailVenom > 50 && player.lowerBody.tailVenom < 80)
                 MainScreen.text("  A single drop of poison hangs from your exposed stinger.", false);
@@ -470,39 +470,39 @@ export default class PlayerAppearanceMenu {
             if (player.lowerBody.tailVenom == 100)
                 MainScreen.text("  Venom drips from your poisoned stinger regularly.", false);
         }
-        if (player.tailType == Tail.Shark) {
+        if (player.lowerBody.tailType == Tail.Shark) {
             MainScreen.text("  A long shark-tail trails down from your backside, swaying to and fro while giving you a dangerous air.", false);
         }
-        if (player.tailType == Tail.Cat) {
-            MainScreen.text("  A soft " + player.hairColor + " cat-tail sprouts just above your " + buttDescript() + ", curling and twisting with every step to maintain perfect balance.", false);
+        if (player.lowerBody.tailType == Tail.Cat) {
+            MainScreen.text("  A soft " + player.upperBody.head.hairColor + " cat-tail sprouts just above your " + ButtDescriptor.describeButt(player) + ", curling and twisting with every step to maintain perfect balance.", false);
         }
-        if (player.tailType == Tail.Lizard) {
-            MainScreen.text("  A tapered tail hangs down from just above your " + assDescript() + ".  It sways back and forth, assisting you with keeping your balance.", false);
+        if (player.lowerBody.tailType == Tail.Lizard) {
+            MainScreen.text("  A tapered tail hangs down from just above your " + ButtDescriptor.describeButt(player) + ".  It sways back and forth, assisting you with keeping your balance.", false);
         }
-        if (player.tailType == Tail.Rabbit)
-            MainScreen.text("  A short, soft bunny tail sprouts just above your " + assDescript() + ", twitching constantly whenever you don't think about it.", false);
-        else if (player.tailType == Tail.Harpy)
-            MainScreen.text("  A tail of feathers fans out from just above your " + assDescript() + ", twitching instinctively to help guide you if you were to take flight.", false);
-        else if (player.tailType == Tail.Kangaroo) {
+        if (player.lowerBody.tailType == Tail.Rabbit)
+            MainScreen.text("  A short, soft bunny tail sprouts just above your " + ButtDescriptor.describeButt(player) + ", twitching constantly whenever you don't think about it.", false);
+        else if (player.lowerBody.tailType == Tail.Harpy)
+            MainScreen.text("  A tail of feathers fans out from just above your " + ButtDescriptor.describeButt(player) + ", twitching instinctively to help guide you if you were to take flight.", false);
+        else if (player.lowerBody.tailType == Tail.Kangaroo) {
             MainScreen.text("  A conical, ", false);
             if (player.skinType == Skin.GOO)
                 MainScreen.text("gooey, " + player.skinTone, false);
-            else MainScreen.text("furry, " + player.hairColor, false);
-            MainScreen.text(", tail extends from your " + assDescript() + ", bouncing up and down as you move and helping to counterbalance you.", false);
+            else MainScreen.text("furry, " + player.upperBody.head.hairColor, false);
+            MainScreen.text(", tail extends from your " + ButtDescriptor.describeButt(player) + ", bouncing up and down as you move and helping to counterbalance you.", false);
         }
-        else if (player.tailType == Tail.Fox) {
+        else if (player.lowerBody.tailType == Tail.Fox) {
             if (player.lowerBody.tailVenom == 1)
-                MainScreen.text("  A swishing " + player.hairColor + " fox's brush extends from your " + assDescript() + ", curling around your body - the soft fur feels lovely.");
-            else MainScreen.text("  " + Utils.numToCardinalCapText(player.lowerBody.tailVenom) + " swishing " + player.hairColor + " fox's tails extend from your " + assDescript() + ", curling around your body - the soft fur feels lovely.");
+                MainScreen.text("  A swishing " + player.upperBody.head.hairColor + " fox's brush extends from your " + ButtDescriptor.describeButt(player) + ", curling around your body - the soft fur feels lovely.");
+            else MainScreen.text("  " + Utils.numToCardinalCapText(player.lowerBody.tailVenom) + " swishing " + player.upperBody.head.hairColor + " fox's tails extend from your " + ButtDescriptor.describeButt(player) + ", curling around your body - the soft fur feels lovely.");
         }
-        else if (player.tailType == Tail.Draconic) {
+        else if (player.lowerBody.tailType == Tail.Draconic) {
             MainScreen.text("  A thin, scaly, prehensile reptilian tail, almost as long as you are tall, swings behind you like a living bullwhip.  Its tip menaces with spikes of bone, meant to deliver painful blows.");
         }
         //appearance
-        else if (player.tailType == Tail.Raccoon) {
-            MainScreen.text("  A black-and-" + player.hairColor + "-ringed raccoon tail waves behind you.");
+        else if (player.lowerBody.tailType == Tail.Raccoon) {
+            MainScreen.text("  A black-and-" + player.upperBody.head.hairColor + "-ringed raccoon tail waves behind you.");
         }
-        else if (player.tailType == Tail.Mouse) {
+        else if (player.lowerBody.tailType == Tail.Mouse) {
             //appearance
             MainScreen.text("  A naked, " + player.skinTone + " mouse tail pokes from your butt, dragging on the ground and twitching occasionally.");
         }
@@ -524,7 +524,7 @@ export default class PlayerAppearanceMenu {
         else if (player.lowerBody == LowerBody.BEE)
             MainScreen.text("  Your legs are covered in a shimmering insectile carapace up to mid-thigh, looking more like a pair of 'fuck-me-boots' than exoskeleton.  A bit of downy yellow and black fur fuzzes your upper thighs, just like a bee.", false);
         else if (player.lowerBody == LowerBody.GOO)
-            MainScreen.text("  In place of legs you have a shifting amorphous blob.  Thankfully it's quite easy to propel yourself around on.  The lowest portions of your " + player.armorName + " float around inside you, bringing you no discomfort.", false);
+            MainScreen.text("  In place of legs you have a shifting amorphous blob.  Thankfully it's quite easy to propel yourself around on.  The lowest portions of your " + player.inventory.armor.displayName + " float around inside you, bringing you no discomfort.", false);
         else if (player.lowerBody == LowerBody.CAT)
             MainScreen.text("  Two digitigrade legs grow downwards from your waist, ending in soft, padded cat-paws.", false);
         else if (player.lowerBody == LowerBody.LIZARD)
@@ -532,7 +532,7 @@ export default class PlayerAppearanceMenu {
         else if (player.lowerBody == LowerBody.BUNNY)
             MainScreen.text("  Your legs thicken below the waist as they turn into soft-furred rabbit-like legs.  You even have large bunny feet that make hopping around a little easier than walking.", false);
         else if (player.lowerBody == LowerBody.HARPY)
-            MainScreen.text("  Your legs are covered with " + player.hairColor + " plumage.  Thankfully the thick, powerful thighs are perfect for launching you into the air, and your feet remain mostly human, even if they are two-toed and tipped with talons.", false);
+            MainScreen.text("  Your legs are covered with " + player.upperBody.head.hairColor + " plumage.  Thankfully the thick, powerful thighs are perfect for launching you into the air, and your feet remain mostly human, even if they are two-toed and tipped with talons.", false);
         else if (player.lowerBody == LowerBody.KANGAROO)
             MainScreen.text("  Your furry legs have short thighs and long calves, with even longer feet ending in prominently-nailed toes.", false);
         else if (player.lowerBody == LowerBody.CHITINOUS_SPIDER_LEGS)
@@ -546,7 +546,7 @@ export default class PlayerAppearanceMenu {
         else if (player.lowerBody == LowerBody.RACCOON)
             MainScreen.text("  Your legs, though covered in fur, are humanlike.  Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.");
         if (player.perks.has("Incorporeality"))
-            MainScreen.text("  Of course, your " + player.legs() + " are partially transparent due to their ghostly nature.", false);
+            MainScreen.text("  Of course, your " + LowerBodyDescriptor.describeLegs(player) + " are partially transparent due to their ghostly nature.", false);
 
         MainScreen.text("\n", false);
         if (player.statusAffects.has("GooStuffed")) {
@@ -669,14 +669,14 @@ export default class PlayerAppearanceMenu {
             MainScreen.text("A pair of feathery gills are growing out just below your neck, spreading out horizontally and draping down your chest.  They allow you to stay in the water for quite a long time.  ", false);
         //Chesticles..I mean bewbz.
         if (player.upperBody.chest.count() == 1) {
-            MainScreen.text("You have " + Utils.numToCardinalText(player.upperBody.chest.list[temp].breasts) + " " + breastDescript(temp) + ", each supporting ", false);
-            if (player.upperBody.chest.list[0].nipplesPerBreast == 1)
-                MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.list[temp].nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + nippleDescript(temp) + ".", false);
-            else MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.list[temp].nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + nippleDescript(temp) + "s.", false);
-            if (player.upperBody.chest.list[0].milkFullness > 75)
-                MainScreen.text("  Your " + breastDescript(temp) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.", false);
-            if (player.upperBody.chest.list[0].breastRating >= 1)
-                MainScreen.text("  You could easily fill a " + player.breastCup(temp) + " bra.", false);
+            MainScreen.text("You have " + Utils.numToCardinalText(player.upperBody.chest.get(temp).breasts) + " " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(temp)) + ", each supporting ", false);
+            if (player.upperBody.chest.get(0).nipplesPerBreast == 1)
+                MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.get(temp).nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + BreastDescriptor.describeNipple(temp) + ".", false);
+            else MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.get(temp).nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + BreastDescriptor.describeNipple(temp) + "s.", false);
+            if (player.upperBody.chest.get(0).milkFullness > 75)
+                MainScreen.text("  Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(temp)) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.", false);
+            if (player.upperBody.chest.get(0).breastRating >= 1)
+                MainScreen.text("  You could easily fill a " + BreastDescriptor.breastCup(player.upperBody.chest.get(temp)) + " bra.", false);
             //Done with tits.  Move on.
             MainScreen.text("\n", false);
         }
@@ -694,14 +694,14 @@ export default class PlayerAppearanceMenu {
                     MainScreen.text("\n--Your fourth set of tits cradles ", false);
                 if (temp == 4)
                     MainScreen.text("\n--Your fifth and final mammory grouping swells with ", false);
-                MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.list[temp].breasts) + " " + breastDescript(temp) + " with ", false);
-                if (player.upperBody.chest.list[temp].nipplesPerBreast == 1)
-                    MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.list[temp].nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + nippleDescript(temp) + " each.", false);
-                else MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.list[temp].nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + nippleDescript(temp) + "s each.", false);
-                if (player.upperBody.chest.list[temp].breastRating >= 1)
-                    MainScreen.text("  They could easily fill a " + player.breastCup(temp) + " bra.", false);
-                if (player.upperBody.chest.list[temp].milkFullness > 75)
-                    MainScreen.text("  Your " + breastDescript(temp) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.", false);
+                MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.get(temp).breasts) + " " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(temp)) + " with ", false);
+                if (player.upperBody.chest.get(temp).nipplesPerBreast == 1)
+                    MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.get(temp).nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + BreastDescriptor.describeNipple(temp) + " each.", false);
+                else MainScreen.text(Utils.numToCardinalText(player.upperBody.chest.get(temp).nipplesPerBreast) + " " + player.upperBody.chest.BreastRatingLargest[0].nippleLength + "-inch " + BreastDescriptor.describeNipple(temp) + "s each.", false);
+                if (player.upperBody.chest.get(temp).breastRating >= 1)
+                    MainScreen.text("  They could easily fill a " + BreastDescriptor.breastCup(player.upperBody.chest.get(temp)) + " bra.", false);
+                if (player.upperBody.chest.get(temp).milkFullness > 75)
+                    MainScreen.text("  Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(temp)) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.", false);
                 temp++;
             }
             //Done with tits.  Move on.
@@ -710,7 +710,7 @@ export default class PlayerAppearanceMenu {
         //Crotchial stuff - mention snake
         if (player.lowerBody == LowerBody.NAGA && player.gender > 0) {
             MainScreen.text("\nYour sex", false);
-            if (player.gender == 3 || player.totalCocks() > 1)
+            if (player.gender == 3 || player.lowerBody.cockSpot.count() > 1)
                 MainScreen.text("es are ", false);
             else MainScreen.text(" is ", false);
             MainScreen.text("concealed within a cavity in your tail when not in use, though when the need arises, you can part your concealing slit and reveal your true self.\n", false);
@@ -720,65 +720,65 @@ export default class PlayerAppearanceMenu {
         if (player.lowerBody.cockSpot.count() == 1) {
             if (player.lowerBody == LowerBody.CENTAUR)
                 MainScreen.text("\nEver since becoming a centaur, your equipment has shifted to lie between your rear legs, like a horse.", false);
-            MainScreen.text("\nYour " + player.cockDescript(temp) + " is " + player.lowerBody.cockSpot.list[temp].cockLength + " inches long and ", false);
-            if (Math.round(10 * player.lowerBody.cockSpot.list[temp].cockThickness) / 10 < 2) {
-                if (Math.round(10 * player.lowerBody.cockSpot.list[temp].cockThickness) / 10 == 1)
-                    MainScreen.text(player.lowerBody.cockSpot.list[temp].cockThickness + " inch thick.", false);
+            MainScreen.text("\nYour " + player.CockDescriptor.describeCock(player, temp) + " is " + player.lowerBody.cockSpot.get(temp).cockLength + " inches long and ", false);
+            if (Math.round(10 * player.lowerBody.cockSpot.get(temp).cockThickness) / 10 < 2) {
+                if (Math.round(10 * player.lowerBody.cockSpot.get(temp).cockThickness) / 10 == 1)
+                    MainScreen.text(player.lowerBody.cockSpot.get(temp).cockThickness + " inch thick.", false);
                 else
-                    MainScreen.text(Math.round(10 * player.lowerBody.cockSpot.list[temp].cockThickness) / 10 + " inches thick.", false);
+                    MainScreen.text(Math.round(10 * player.lowerBody.cockSpot.get(temp).cockThickness) / 10 + " inches thick.", false);
             }
             else
-                MainScreen.text(Utils.numToCardinalText(Math.round(10 * player.lowerBody.cockSpot.list[temp].cockThickness) / 10) + " inches wide.", false);
+                MainScreen.text(Utils.numToCardinalText(Math.round(10 * player.lowerBody.cockSpot.get(temp).cockThickness) / 10) + " inches wide.", false);
             //Horsecock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.HORSE) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.HORSE) {
                 MainScreen.text("  It's mottled black and brown in a very animalistic pattern.  The 'head' of your shaft flares proudly, just like a horse's.", false);
             }
             //dog cock flavor
-            if (((player.lowerBody.cockSpot.list[temp].cockType == Cock.DOG) || (player.lowerBody.cockSpot.list[temp].cockType == Cock.FOX)) || (player.lowerBody.cockSpot.list[temp].cockType == Cock.FOX)) {
-                if (player.lowerBody.cockSpot.list[temp].knotMultiplier >= 1.8)
-                    MainScreen.text("  The obscenely swollen lump of flesh near the base of your " + player.cockDescript(temp) + " looks almost too big for your cock.", false);
-                else if (player.lowerBody.cockSpot.list[temp].knotMultiplier >= 1.4)
-                    MainScreen.text("  A large bulge of flesh nestles just above the bottom of your " + player.cockDescript(temp) + ", to ensure it stays where it belongs during mating.", false);
-                else if (player.lowerBody.cockSpot.list[temp].knotMultiplier > 1)
-                    MainScreen.text("  A small knot of thicker flesh is near the base of your " + player.cockDescript(temp) + ", ready to expand to help you lodge it inside a female.", false);
+            if (((player.lowerBody.cockSpot.get(temp).cockType == Cock.DOG) || (player.lowerBody.cockSpot.get(temp).cockType == Cock.FOX)) || (player.lowerBody.cockSpot.get(temp).cockType == Cock.FOX)) {
+                if (player.lowerBody.cockSpot.get(temp).knotMultiplier >= 1.8)
+                    MainScreen.text("  The obscenely swollen lump of flesh near the base of your " + player.CockDescriptor.describeCock(player, temp) + " looks almost too big for your cock.", false);
+                else if (player.lowerBody.cockSpot.get(temp).knotMultiplier >= 1.4)
+                    MainScreen.text("  A large bulge of flesh nestles just above the bottom of your " + player.CockDescriptor.describeCock(player, temp) + ", to ensure it stays where it belongs during mating.", false);
+                else if (player.lowerBody.cockSpot.get(temp).knotMultiplier > 1)
+                    MainScreen.text("  A small knot of thicker flesh is near the base of your " + player.CockDescriptor.describeCock(player, temp) + ", ready to expand to help you lodge it inside a female.", false);
                 //List thickness
-                MainScreen.text("  The knot is " + Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * player.lowerBody.cockSpot.list[temp].knotMultiplier * 10) / 10 + " inches wide when at full size.", false);
+                MainScreen.text("  The knot is " + Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * player.lowerBody.cockSpot.get(temp).knotMultiplier * 10) / 10 + " inches wide when at full size.", false);
             }
             //Demon cock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.DEMON) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.DEMON) {
                 MainScreen.text("  The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused.  The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.", false);
             }
             //Tentacle cock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.TENTACLE) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.TENTACLE) {
                 MainScreen.text("  The entirety of its green surface is covered in perspiring beads of slick moisture.  It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused.", false);
             }
             //Cat cock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.CAT) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.CAT) {
                 MainScreen.text("  It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip.  Each of the spines is soft and flexible, and shouldn't be painful for any of your partners.", false);
             }
             //Snake cock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.LIZARD) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.LIZARD) {
                 MainScreen.text("  It's a deep, iridescent purple in color.  Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.", false);
             }
             //Anemone cock flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.ANEMONE) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.ANEMONE) {
                 MainScreen.text("  The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload.  At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.", false);
             }
             //Kangawang flavor
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.KANGAROO) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.KANGAROO) {
                 MainScreen.text("  It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.", false);
             }
             //Draconic Cawk Flava flav
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.DRAGON) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.DRAGON) {
                 MainScreen.text("  With its tapered tip, there are few holes you wouldn't be able to get into.  It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.");
             }
-            if (player.lowerBody.cockSpot.list[temp].cockType == Cock.BEE) {
+            if (player.lowerBody.cockSpot.get(temp).cockType == Cock.BEE) {
                 MainScreen.text("  It's a long, smooth black shaft that's rigid to the touch.  Its base is ringed with a layer of four inch long soft bee hair.  The tip has a much finer layer of short yellow hairs.  The tip is very sensitive, and it hurts constantly if you don’t have bee honey on it.");
             }
             //Worm flavor
             if (player.statusAffects.has("Infested"))
-                MainScreen.text("  Every now and again a slimy worm coated in spunk slips partway out of your " + player.cockDescript(0) + ", tasting the air like a snake's tongue.", false);
-            if (player.lowerBody.cockSpot.list[temp].sock)
+                MainScreen.text("  Every now and again a slimy worm coated in spunk slips partway out of your " + player.CockDescriptor.describeCock(player, 0) + ", tasting the air like a snake's tongue.", false);
+            if (player.lowerBody.cockSpot.get(temp).sock)
                 PlayerAppearanceMenu.sockDescript(temp);
             //DONE WITH COCKS, moving on!
             MainScreen.text("\n", false);
@@ -787,114 +787,114 @@ export default class PlayerAppearanceMenu {
             temp = 0;
             rando = Utils.rand(4);
             if (player.lowerBody == LowerBody.CENTAUR)
-                MainScreen.text("\nWhere a horse's penis would usually be located, you have instead grown " + player.multiCockDescript() + "!\n", false);
-            else MainScreen.text("\nWhere a penis would normally be located, you have instead grown " + player.multiCockDescript() + "!\n", false);
+                MainScreen.text("\nWhere a horse's penis would usually be located, you have instead grown " + player.CockDescriptor.describeMultiCock(player) + "!\n", false);
+            else MainScreen.text("\nWhere a penis would normally be located, you have instead grown " + player.CockDescriptor.describeMultiCock(player) + "!\n", false);
             while (temp < player.lowerBody.cockSpot.count()) {
 
                 //middle cock description
                 if (rando == 0) {
                     if (temp == 0) MainScreen.text("--Your first ", false);
                     else MainScreen.text("--Your next ", false);
-                    MainScreen.text(player.cockDescript(temp), false);
+                    MainScreen.text(player.CockDescriptor.describeCock(player, temp), false);
                     MainScreen.text(" is ", false);
-                    MainScreen.text(player.lowerBody.cockSpot.list[temp].cockLength + " inches long and ", false);
-                    if (Math.floor(player.lowerBody.cockSpot.list[temp].cockThickness) >= 2)
-                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10) + " inches wide.", false);
+                    MainScreen.text(player.lowerBody.cockSpot.get(temp).cockLength + " inches long and ", false);
+                    if (Math.floor(player.lowerBody.cockSpot.get(temp).cockThickness) >= 2)
+                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10) + " inches wide.", false);
                     else {
-                        if (player.lowerBody.cockSpot.list[temp].cockThickness == 1)
+                        if (player.lowerBody.cockSpot.get(temp).cockThickness == 1)
                             MainScreen.text("one inch wide.", false);
-                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10 + " inches wide.", false);
+                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10 + " inches wide.", false);
                     }
                 }
                 if (rando == 1) {
                     MainScreen.text("--One of your ", false);
-                    MainScreen.text(player.cockDescript(temp) + "s is " + Math.round(10 * player.lowerBody.cockSpot.list[temp].cockLength) / 10 + " inches long and ", false);
-                    if (Math.floor(player.lowerBody.cockSpot.list[temp].cockThickness) >= 2)
-                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10) + " inches thick.", false);
+                    MainScreen.text(player.CockDescriptor.describeCock(player, temp) + "s is " + Math.round(10 * player.lowerBody.cockSpot.get(temp).cockLength) / 10 + " inches long and ", false);
+                    if (Math.floor(player.lowerBody.cockSpot.get(temp).cockThickness) >= 2)
+                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10) + " inches thick.", false);
                     else {
-                        if (player.lowerBody.cockSpot.list[temp].cockThickness == 1)
+                        if (player.lowerBody.cockSpot.get(temp).cockThickness == 1)
                             MainScreen.text("one inch thick.", false);
-                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10 + " inches thick.", false);
+                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10 + " inches thick.", false);
                     }
                 }
                 if (rando == 2) {
                     if (temp > 0)
                         MainScreen.text("--Another of your ", false);
                     else MainScreen.text("--One of your ", false);
-                    MainScreen.text(player.cockDescript(temp) + "s is " + Math.round(10 * player.lowerBody.cockSpot.list[temp].cockLength) / 10 + " inches long and ", false);
-                    if (Math.floor(player.lowerBody.cockSpot.list[temp].cockThickness) >= 2)
-                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10) + " inches thick.", false);
+                    MainScreen.text(player.CockDescriptor.describeCock(player, temp) + "s is " + Math.round(10 * player.lowerBody.cockSpot.get(temp).cockLength) / 10 + " inches long and ", false);
+                    if (Math.floor(player.lowerBody.cockSpot.get(temp).cockThickness) >= 2)
+                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10) + " inches thick.", false);
                     else {
-                        if (player.lowerBody.cockSpot.list[temp].cockThickness == 1)
+                        if (player.lowerBody.cockSpot.get(temp).cockThickness == 1)
                             MainScreen.text("one inch thick.", false);
-                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10 + " inches thick.", false);
+                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10 + " inches thick.", false);
                     }
                 }
                 if (rando == 3) {
                     if (temp > 0)
                         MainScreen.text("--Your next ", false);
                     else MainScreen.text("--Your first ", false);
-                    MainScreen.text(player.cockDescript(temp) + " is " + Math.round(10 * player.lowerBody.cockSpot.list[temp].cockLength) / 10 + " inches long and ", false);
-                    if (Math.floor(player.lowerBody.cockSpot.list[temp].cockThickness) >= 2)
-                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10) + " inches in diameter.", false);
+                    MainScreen.text(player.CockDescriptor.describeCock(player, temp) + " is " + Math.round(10 * player.lowerBody.cockSpot.get(temp).cockLength) / 10 + " inches long and ", false);
+                    if (Math.floor(player.lowerBody.cockSpot.get(temp).cockThickness) >= 2)
+                        MainScreen.text(Utils.numToCardinalText(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10) + " inches in diameter.", false);
                     else {
-                        if (Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10 == 1)
+                        if (Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10 == 1)
                             MainScreen.text("one inch in diameter.", false);
-                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.list[temp].cockThickness * 10) / 10 + " inches in diameter.", false);
+                        else MainScreen.text(Math.round(player.lowerBody.cockSpot.get(temp).cockThickness * 10) / 10 + " inches in diameter.", false);
                     }
                 }
                 //horse cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.HORSE) {
-                    MainScreen.text("  It's mottled black and brown in a very animalistic pattern.  The 'head' of your " + player.cockDescript(temp) + " flares proudly, just like a horse's.", false);
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.HORSE) {
+                    MainScreen.text("  It's mottled black and brown in a very animalistic pattern.  The 'head' of your " + player.CockDescriptor.describeCock(player, temp) + " flares proudly, just like a horse's.", false);
                 }
                 //dog cock flavor
-                if ((player.lowerBody.cockSpot.list[temp].cockType == Cock.DOG) || (player.lowerBody.cockSpot.list[temp].cockType == Cock.FOX)) {
+                if ((player.lowerBody.cockSpot.get(temp).cockType == Cock.DOG) || (player.lowerBody.cockSpot.get(temp).cockType == Cock.FOX)) {
                     MainScreen.text("  It is shiny, pointed, and covered in veins, just like a large ");
-                    if (player.lowerBody.cockSpot.list[temp].cockType == Cock.DOG)
+                    if (player.lowerBody.cockSpot.get(temp).cockType == Cock.DOG)
                         MainScreen.text("dog's cock.");
                     else
                         MainScreen.text("fox's cock.");
 
-                    if (player.lowerBody.cockSpot.list[temp].knotMultiplier >= 1.8)
-                        MainScreen.text("  The obscenely swollen lump of flesh near the base of your " + player.cockDescript(temp) + " looks almost comically mismatched for your " + player.cockDescript(temp) + ".", false);
-                    else if (player.lowerBody.cockSpot.list[temp].knotMultiplier >= 1.4)
-                        MainScreen.text("  A large bulge of flesh nestles just above the bottom of your " + player.cockDescript(temp) + ", to ensure it stays where it belongs during mating.", false);
-                    else if (player.lowerBody.cockSpot.list[temp].knotMultiplier > 1)
-                        MainScreen.text("  A small knot of thicker flesh is near the base of your " + player.cockDescript(temp) + ", ready to expand to help you lodge your " + player.cockDescript(temp) + " inside a female.", false);
+                    if (player.lowerBody.cockSpot.get(temp).knotMultiplier >= 1.8)
+                        MainScreen.text("  The obscenely swollen lump of flesh near the base of your " + player.CockDescriptor.describeCock(player, temp) + " looks almost comically mismatched for your " + player.CockDescriptor.describeCock(player, temp) + ".", false);
+                    else if (player.lowerBody.cockSpot.get(temp).knotMultiplier >= 1.4)
+                        MainScreen.text("  A large bulge of flesh nestles just above the bottom of your " + player.CockDescriptor.describeCock(player, temp) + ", to ensure it stays where it belongs during mating.", false);
+                    else if (player.lowerBody.cockSpot.get(temp).knotMultiplier > 1)
+                        MainScreen.text("  A small knot of thicker flesh is near the base of your " + player.CockDescriptor.describeCock(player, temp) + ", ready to expand to help you lodge your " + player.CockDescriptor.describeCock(player, temp) + " inside a female.", false);
                     //List knot thickness
-                    MainScreen.text("  The knot is " + Math.floor(player.lowerBody.cockSpot.list[temp].cockThickness * player.lowerBody.cockSpot.list[temp].knotMultiplier * 10) / 10 + " inches thick when at full size.", false);
+                    MainScreen.text("  The knot is " + Math.floor(player.lowerBody.cockSpot.get(temp).cockThickness * player.lowerBody.cockSpot.get(temp).knotMultiplier * 10) / 10 + " inches thick when at full size.", false);
                 }
                 //Demon cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.DEMON) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.DEMON) {
                     MainScreen.text("  The crown is ringed with a circle of rubbery protrusions that grow larger as you get more aroused.  The entire thing is shiny and covered with tiny, sensitive nodules that leave no doubt about its demonic origins.", false);
                 }
                 //Tentacle cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.TENTACLE) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.TENTACLE) {
                     MainScreen.text("  The entirety of its green surface is covered in perspiring beads of slick moisture.  It frequently shifts and moves of its own volition, the slightly oversized and mushroom-like head shifting in coloration to purplish-red whenever you become aroused.", false);
                 }
                 //Cat cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.CAT) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.CAT) {
                     MainScreen.text("  It ends in a single point, much like a spike, and is covered in small, fleshy barbs. The barbs are larger at the base and shrink in size as they get closer to the tip.  Each of the spines is soft and flexible, and shouldn't be painful for any of your partners.", false);
                 }
                 //Snake cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.LIZARD) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.LIZARD) {
                     MainScreen.text("  It's a deep, iridescent purple in color.  Unlike a human penis, the shaft is not smooth, and is instead patterned with multiple bulbous bumps.", false);
                 }
                 //Anemone cock flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.ANEMONE) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.ANEMONE) {
                     MainScreen.text("  The crown is surrounded by tiny tentacles with a venomous, aphrodisiac payload.  At its base a number of similar, longer tentacles have formed, guaranteeing that pleasure will be forced upon your partners.", false);
                 }
                 //Kangwang flavor
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.KANGAROO) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.KANGAROO) {
                     MainScreen.text("  It usually lies coiled inside a sheath, but undulates gently and tapers to a point when erect, somewhat like a taproot.", false);
                 }
                 //Draconic Cawk Flava flav
-                if (player.lowerBody.cockSpot.list[temp].cockType == Cock.DRAGON) {
+                if (player.lowerBody.cockSpot.get(temp).cockType == Cock.DRAGON) {
                     MainScreen.text("  With its tapered tip, there are few holes you wouldn't be able to get into.  It has a strange, knot-like bulb at its base, but doesn't usually flare during arousal as a dog's knot would.");
                 }
-                if (player.lowerBody.cockSpot.list[temp].sock != "" && player.lowerBody.cockSpot.list[temp].sock != null)	// I dunno what was happening, but it looks like .sock is null, as it doesn't exist. I guess this is probably more left over from some of the restucturing.
+                if (player.lowerBody.cockSpot.get(temp).sock != "" && player.lowerBody.cockSpot.get(temp).sock != null)	// I dunno what was happening, but it looks like .sock is null, as it doesn't exist. I guess this is probably more left over from some of the restucturing.
                 {																		// Anyways, check against null values, and stuff works again.
-                    throw new Error("Found a sock description (WTF even is a sock?)", player.lowerBody.cockSpot.list[temp].sock);
+                    throw new Error("Found a sock description (WTF even is a sock?)", player.lowerBody.cockSpot.get(temp).sock);
                     PlayerAppearanceMenu.sockDescript(temp);
                 }
                 temp++;
@@ -904,36 +904,36 @@ export default class PlayerAppearanceMenu {
             }
             //Worm flavor
             if (player.statusAffects.has("Infested"))
-                MainScreen.text("Every now and again slimy worms coated in spunk slip partway out of your " + player.multiCockDescriptLight() + ", tasting the air like tongues of snakes.\n", false);
+                MainScreen.text("Every now and again slimy worms coated in spunk slip partway out of your " + player.CockDescriptor.describeMultiCockShort(player) + ", tasting the air like tongues of snakes.\n", false);
             //DONE WITH COCKS, moving on!
         }
         //Of Balls and Sacks!
         if (player.lowerBody.balls > 0) {
             if (player.statusAffects.has("Uniball")) {
                 if (player.skinType != Skin.GOO)
-                    MainScreen.text("Your [sack] clings tightly to your groin, holding " + ballsDescript() + " snugly against you.");
+                    MainScreen.text("Your [sack] clings tightly to your groin, holding " + BallsDescriptor.describeBalls(false, true, player, true) + " snugly against you.");
                 else if (player.skinType == Skin.GOO)
-                    MainScreen.text("Your [sack] clings tightly to your groin, dripping and holding " + ballsDescript() + " snugly against you.");
+                    MainScreen.text("Your [sack] clings tightly to your groin, dripping and holding " + BallsDescriptor.describeBalls(false, true, player, true) + " snugly against you.");
             }
             else if (player.lowerBody.cockSpot.count() == 0) {
                 if (player.skinType == Skin.PLAIN)
-                    MainScreen.text("A " + sackDescript() + " with " + ballsDescript() + " swings heavily under where a penis would normally grow.", false);
+                    MainScreen.text("A " + BallsDescriptor.describeSack(player) + " with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings heavily under where a penis would normally grow.", false);
                 if (player.skinType == Skin.FUR)
-                    MainScreen.text("A fuzzy " + sackDescript() + " filled with " + ballsDescript() + " swings low under where a penis would normally grow.", false);
+                    MainScreen.text("A fuzzy " + BallsDescriptor.describeSack(player) + " filled with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings low under where a penis would normally grow.", false);
                 if (player.skinType == Skin.SCALES)
-                    MainScreen.text("A scaley " + sackDescript() + " hugs your " + ballsDescript() + " tightly against your body.", false);
+                    MainScreen.text("A scaley " + BallsDescriptor.describeSack(player) + " hugs your " + BallsDescriptor.describeBalls(false, true, player, true) + " tightly against your body.", false);
                 if (player.skinType == Skin.GOO)
-                    MainScreen.text("An oozing, semi-solid sack with " + ballsDescript() + " swings heavily under where a penis would normally grow.", false);
+                    MainScreen.text("An oozing, semi-solid sack with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings heavily under where a penis would normally grow.", false);
             }
             else {
                 if (player.skinType == Skin.PLAIN)
-                    MainScreen.text("A " + sackDescript() + " with " + ballsDescript() + " swings heavily beneath your " + player.multiCockDescriptLight() + ".", false);
+                    MainScreen.text("A " + BallsDescriptor.describeSack(player) + " with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings heavily beneath your " + player.CockDescriptor.describeMultiCockShort(player) + ".", false);
                 if (player.skinType == Skin.FUR)
-                    MainScreen.text("A fuzzy " + sackDescript() + " filled with " + ballsDescript() + " swings low under your " + player.multiCockDescriptLight() + ".", false);
+                    MainScreen.text("A fuzzy " + BallsDescriptor.describeSack(player) + " filled with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings low under your " + player.CockDescriptor.describeMultiCockShort(player) + ".", false);
                 if (player.skinType == Skin.SCALES)
-                    MainScreen.text("A scaley " + sackDescript() + " hugs your " + ballsDescript() + " tightly against your body.", false);
+                    MainScreen.text("A scaley " + BallsDescriptor.describeSack(player) + " hugs your " + BallsDescriptor.describeBalls(false, true, player, true) + " tightly against your body.", false);
                 if (player.skinType == Skin.GOO)
-                    MainScreen.text("An oozing, semi-solid sack with " + ballsDescript() + " swings heavily beneath your " + player.multiCockDescriptLight() + ".", false);
+                    MainScreen.text("An oozing, semi-solid sack with " + BallsDescriptor.describeBalls(false, true, player, true) + " swings heavily beneath your " + player.CockDescriptor.describeMultiCockShort(player) + ".", false);
             }
             MainScreen.text("  You estimate each of them to be about " + Utils.numToCardinalText(Math.round(player.lowerBody.ballSize)) + " ", false);
             if (Math.round(player.lowerBody.ballSize) == 1)
@@ -947,76 +947,76 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("\nEver since becoming a centaur, your womanly parts have shifted to lie between your rear legs, in a rather equine fashion.", false);
             MainScreen.text("\n", false);
             if (player.lowerBody.vaginaSpot.count() == 1)
-                MainScreen.text("You have a " + vaginaDescript(0) + ", with a " + player.lowerBody.vaginaSpot.list[0].clitLength + "-inch clit", false);
-            if (player.vaginas[0].virgin)
+                MainScreen.text("You have a " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", with a " + player.lowerBody.vaginaSpot.get(0).clitLength + "-inch clit", false);
+            if (player.lowerBody.vaginaSpot.get(0).virgin)
                 MainScreen.text(" and an intact hymen", false);
             MainScreen.text(".  ", false);
             if (player.lowerBody.vaginaSpot.count() > 1)
-                MainScreen.text("You have " + player.lowerBody.vaginaSpot.count() + " " + vaginaDescript(0) + "s, with " + player.lowerBody.vaginaSpot.list[0].clitLength + "-inch clits each.  ", false);
-            if (player.stats.lib < 50 && player.lust < 50) //not particularly horny
+                MainScreen.text("You have " + player.lowerBody.vaginaSpot.count() + " " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s, with " + player.lowerBody.vaginaSpot.get(0).clitLength + "-inch clits each.  ", false);
+            if (player.stats.lib < 50 && player.stats.lust < 50) //not particularly horny
 
             {
                 //Wetness
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.WET && player.vaginas[0].vaginalWetness < VaginaWetness.DROOLING)
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.WET && player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.DROOLING)
                     MainScreen.text("Moisture gleams in ", false);
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.DROOLING) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.DROOLING) {
                     MainScreen.text("Occasional beads of ", false);
                     MainScreen.text("lubricant drip from ", false);
                 }
                 //Different description based on vag looseness
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.WET) {
-                    if (player.vaginas[0].vaginalLooseness < VaginaLooseness.LOOSE)
-                        MainScreen.text("your " + vaginaDescript(0) + ". ", false);
-                    if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.LOOSE && player.vaginas[0].vaginalLooseness < VaginaLooseness.GAPING_WIDE)
-                        MainScreen.text("your " + vaginaDescript(0) + ", its lips slightly parted. ", false);
-                    if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
-                        MainScreen.text("the massive hole that is your " + vaginaDescript(0) + ".  ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.WET) {
+                    if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.LOOSE)
+                        MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ". ", false);
+                    if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LOOSE && player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.GAPING_WIDE)
+                        MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", its lips slightly parted. ", false);
+                    if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
+                        MainScreen.text("the massive hole that is your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  ", false);
                 }
             }
-            if ((player.stats.lib >= 50 || player.lust >= 50) && (player.stats.lib < 80 && player.lust < 80)) //kinda horny
+            if ((player.stats.lib >= 50 || player.stats.lust >= 50) && (player.stats.lib < 80 && player.stats.lust < 80)) //kinda horny
 
             {
                 //Wetness
-                if (player.vaginas[0].vaginalWetness < VaginaWetness.WET)
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.WET)
                     MainScreen.text("Moisture gleams in ", false);
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.WET && player.vaginas[0].vaginalWetness < VaginaWetness.DROOLING) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.WET && player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.DROOLING) {
                     MainScreen.text("Occasional beads of ", false);
                     MainScreen.text("lubricant drip from ", false);
                 }
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.DROOLING) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.DROOLING) {
                     MainScreen.text("Thin streams of ", false);
                     MainScreen.text("lubricant occasionally dribble from ", false);
                 }
                 //Different description based on vag looseness
-                if (player.vaginas[0].vaginalLooseness < VaginaLooseness.LOOSE)
-                    MainScreen.text("your " + vaginaDescript(0) + ". ", false);
-                if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.LOOSE && player.vaginas[0].vaginalLooseness < VaginaLooseness.GAPING_WIDE)
-                    MainScreen.text("your " + vaginaDescript(0) + ", its lips slightly parted. ", false);
-                if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
-                    MainScreen.text("the massive hole that is your " + vaginaDescript(0) + ".  ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.LOOSE)
+                    MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ". ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LOOSE && player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.GAPING_WIDE)
+                    MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", its lips slightly parted. ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
+                    MainScreen.text("the massive hole that is your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  ", false);
             }
-            if ((player.stats.lib > 80 || player.lust > 80)) //WTF horny!
+            if ((player.stats.lib > 80 || player.stats.lust > 80)) //WTF horny!
 
             {
                 //Wetness
-                if (player.vaginas[0].vaginalWetness < VaginaWetness.WET) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.WET) {
                     MainScreen.text("Occasional beads of ", false);
                     MainScreen.text("lubricant drip from ", false);
                 }
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.WET && player.vaginas[0].vaginalWetness < VaginaWetness.DROOLING) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.WET && player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.DROOLING) {
                     MainScreen.text("Thin streams of ", false);
                     MainScreen.text("lubricant occasionally dribble from ", false);
                 }
-                if (player.vaginas[0].vaginalWetness >= VaginaWetness.DROOLING) {
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.DROOLING) {
                     MainScreen.text("Thick streams of ", false);
                     MainScreen.text("lubricant drool constantly from ", false);
                 }
                 //Different description based on vag looseness
-                if (player.vaginas[0].vaginalLooseness < VaginaLooseness.LOOSE)
-                    MainScreen.text("your " + vaginaDescript(0) + ". ", false);
-                if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.LOOSE && player.vaginas[0].vaginalLooseness < VaginaLooseness.GAPING_WIDE)
-                    MainScreen.text("your " + vaginaDescript(0) + ", its lips slightly parted. ", false);
-                if (player.vaginas[0].vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.LOOSE)
+                    MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ". ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LOOSE && player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.GAPING_WIDE)
+                    MainScreen.text("your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", its lips slightly parted. ", false);
+                if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.GAPING_WIDE)
                     MainScreen.text("the massive hole that is your cunt.  ", false);
             }
             //Line Drop for next descript!
@@ -1028,9 +1028,9 @@ export default class PlayerAppearanceMenu {
 
 
         //BUNGHOLIO
-        if (player.ass) {
+        if (player.lowerBody.butt) {
             MainScreen.text("\n", false);
-            MainScreen.text("You have one " + assholeDescript() + ", placed between your butt-cheeks where it belongs.\n", false);
+            MainScreen.text("You have one " + ButtDescriptor.describeButthole(player) + ", placed between your butt-cheeks where it belongs.\n", false);
         }
         //Piercings!
         if (player.eyebrowPierced > 0)
@@ -1044,21 +1044,21 @@ export default class PlayerAppearanceMenu {
         if (player.tonguePierced > 0)
             MainScreen.text("\nThough not visible, you can plainly feel your " + player.tonguePShort + " secured in your tongue.", false);
         if (player.nipplesPierced == 3)
-            MainScreen.text("\nYour " + nippleDescript(0) + "s ache and tingle with every step, as your heavy " + player.nipplesPShort + " swings back and forth.", false);
+            MainScreen.text("\nYour " + BreastDescriptor.describeNipple(0) + "s ache and tingle with every step, as your heavy " + player.nipplesPShort + " swings back and forth.", false);
         else if (player.nipplesPierced > 0)
-            MainScreen.text("\nYour " + nippleDescript(0) + "s are pierced with " + player.nipplesPShort + ".", false);
-        if (player.totalCocks() > 0) {
-            if (player.lowerBody.cockSpot.list[0].pierced > 0) {
-                MainScreen.text("\nLooking positively perverse, a " + player.lowerBody.cockSpot.list[0].pShortDesc + " adorns your " + player.cockDescript(0) + ".", false);
+            MainScreen.text("\nYour " + BreastDescriptor.describeNipple(0) + "s are pierced with " + player.nipplesPShort + ".", false);
+        if (player.lowerBody.cockSpot.count() > 0) {
+            if (player.lowerBody.cockSpot.get(0).pierced > 0) {
+                MainScreen.text("\nLooking positively perverse, a " + player.lowerBody.cockSpot.get(0).pShortDesc + " adorns your " + player.CockDescriptor.describeCock(player, 0) + ".", false);
             }
         }
         if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00286) == 1)
             MainScreen.text("\nA magical, ruby-studded bar pierces your belly button, allowing you to summon Ceraph on a whim.", false);
         if (player.lowerBody.vaginaSpot.hasVagina()) {
-            if (player.vaginas[0].labiaPierced > 0)
-                MainScreen.text("\nYour " + vaginaDescript(0) + " glitters with the " + player.vaginas[0].labiaPShort + " hanging from your lips.", false);
-            if (player.vaginas[0].clitPierced > 0)
-                MainScreen.text("\nImpossible to ignore, your " + clitDescript() + " glitters with its " + player.vaginas[0].clitPShort + ".", false);
+            if (player.lowerBody.vaginaSpot.get(0).labiaPierced > 0)
+                MainScreen.text("\nYour " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " glitters with the " + player.lowerBody.vaginaSpot.get(0).labiaPShort + " hanging from your lips.", false);
+            if (player.lowerBody.vaginaSpot.get(0).clitPierced > 0)
+                MainScreen.text("\nImpossible to ignore, your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + " glitters with its " + player.lowerBody.vaginaSpot.get(0).clitPShort + ".", false);
         }
         //MONEY!
         if (player.stats.gems == 0)
@@ -1075,23 +1075,23 @@ export default class PlayerAppearanceMenu {
 
     public static sockDescript(index: number): void {
         MainScreen.text("  ");
-        if (player.lowerBody.cockSpot.list[index].sock == "wool")
+        if (player.lowerBody.cockSpot.get(index).sock == "wool")
             MainScreen.text("It's covered by a wooly white cock-sock, keeping it snug and warm despite how cold it might get.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "alabaster")
+        else if (player.lowerBody.cockSpot.get(index).sock == "alabaster")
             MainScreen.text("It's covered by a white, lacey cock-sock, snugly wrapping around it like a bridal dress around a bride.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "cockring")
+        else if (player.lowerBody.cockSpot.get(index).sock == "cockring")
             MainScreen.text("It's covered by a black latex cock-sock with two attached metal rings, keeping your cock just a little harder and [balls] aching for release.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "viridian")
+        else if (player.lowerBody.cockSpot.get(index).sock == "viridian")
             MainScreen.text("It's covered by a lacey dark green cock-sock accented with red rose-like patterns.  Just wearing it makes your body, especially your cock, tingle.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "scarlet")
+        else if (player.lowerBody.cockSpot.get(index).sock == "scarlet")
             MainScreen.text("It's covered by a lacey red cock-sock that clings tightly to your member.  Just wearing it makes your cock throb, as if it yearns to be larger...");
-        else if (player.lowerBody.cockSpot.list[index].sock == "cobalt")
+        else if (player.lowerBody.cockSpot.get(index).sock == "cobalt")
             MainScreen.text("It's covered by a lacey blue cock-sock that clings tightly to your member... really tightly.  It's so tight it's almost uncomfortable, and you wonder if any growth might be inhibited.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "gilded")
+        else if (player.lowerBody.cockSpot.get(index).sock == "gilded")
             MainScreen.text("It's covered by a metallic gold cock-sock that clings tightly to you, its surface covered in glittering gems.  Despite the warmth of your body, the cock-sock remains cool.");
-        else if (player.lowerBody.cockSpot.list[index].sock == "amaranthine") {
+        else if (player.lowerBody.cockSpot.get(index).sock == "amaranthine") {
             MainScreen.text("It's covered by a lacey purple cock-sock");
-            if (player.lowerBody.cockSpot.list[index].cockType != CockType.DISPLACER)
+            if (player.lowerBody.cockSpot.get(index).cockType != CockType.DISPLACER)
                 MainScreen.text(" that fits somewhat awkwardly on your member");
             else
                 MainScreen.text(" that fits your coeurl cock perfectly");

@@ -118,7 +118,7 @@ export default class CharCreationMenu {
         }
         //Clear vaginas
         while (Game.player.lowerBody.vaginaSpot.count() > 0) {
-            Game.player.removeVagina(0, 1);
+            Game.player.lowerBody.vaginaSpot.remove(0, 1);
             trace("1 vagina purged.");
         }
         //Clear breasts
@@ -248,23 +248,23 @@ return specialName(arg); //Must check against the special name list as well
 }
 		
 	private static isAMan():void {
-    Game.player.str += 3;
-    Game.player.tou += 2;
+    Game.player.stats.str += 3;
+    Game.player.stats.tou += 2;
 			
     Game.player.lowerBody.balls = 2;
     Game.player.lowerBody.ballSize = 1;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0;
     Game.player.fertility = 5;
-    Game.player.hairLength = 1;
+    Game.player.upperBody.head.hairLength = 1;
     Game.player.tallness = 71;
     Game.player.tone = 60;
 			
     Game.player.createBreastRow();
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 5.5;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 1;
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.HUMAN;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 1;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 5.5;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 1;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.HUMAN;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 1;
     Game.player.gender = GENDER.MALE;
     MainScreen.clearText();
     MainScreen.text("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
@@ -277,9 +277,9 @@ return specialName(arg); //Must check against the special name list as well
 			
     Game.player.lowerBody.balls = 0;
     Game.player.lowerBody.ballSize = 0;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.5;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.5;
     Game.player.fertility = 10;
-    Game.player.hairLength = 10;
+    Game.player.upperBody.head.hairLength = 10;
     Game.player.tallness = 67;
     Game.player.tone = 30;
 			
@@ -292,28 +292,28 @@ return specialName(arg); //Must check against the special name list as well
 }
 
 	private static buildLeanMale():void {
-    Game.player.str -= 1;
+    Game.player.stats.str -= 1;
     Game.player.stats.spe += 1;
 			
     Game.player.femininity = 34;
     Game.player.thickness = 30;
     Game.player.tone += 5;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.FLAT;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.FLAT;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.TIGHT;
     Game.player.lowerBody.hipRating = HIP_RATING.SLENDER;
     chooseComplexion();
 }
 
 	private static buildSlenderFemale():void {
-    Game.player.str -= 1;
+    Game.player.stats.str -= 1;
     Game.player.stats.spe += 1;
 			
     Game.player.femininity = 66;
     Game.player.thickness = 30;
     Game.player.tone += 5;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.B;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.B;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.TIGHT;
     Game.player.lowerBody.hipRating = HIP_RATING.AMPLE;
     chooseComplexion();
@@ -323,7 +323,7 @@ return specialName(arg); //Must check against the special name list as well
     Game.player.femininity = 30;
     Game.player.thickness = 50;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.FLAT;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.FLAT;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.AVERAGE;
     Game.player.lowerBody.hipRating = HIP_RATING.AVERAGE;
     chooseComplexion();
@@ -333,7 +333,7 @@ return specialName(arg); //Must check against the special name list as well
     Game.player.femininity = 70;
     Game.player.thickness = 50;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.C;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.C;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.NOTICEABLE;
     Game.player.lowerBody.hipRating = HIP_RATING.AMPLE;
     chooseComplexion();
@@ -341,14 +341,14 @@ return specialName(arg); //Must check against the special name list as well
 
 	private static buildThickMale():void {
     Game.player.stats.spe -= 4;
-    Game.player.str += 2;
-    Game.player.tou += 2;
+    Game.player.stats.str += 2;
+    Game.player.stats.tou += 2;
 			
     Game.player.femininity = 29;
     Game.player.thickness = 70;
     Game.player.tone -= 5;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.FLAT;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.FLAT;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.NOTICEABLE;
     Game.player.lowerBody.hipRating = HIP_RATING.AVERAGE;
     chooseComplexion();
@@ -356,41 +356,41 @@ return specialName(arg); //Must check against the special name list as well
 
 	private static buildCurvyFemale():void {
     Game.player.stats.spe -= 2;
-    Game.player.str += 1;
-    Game.player.tou += 1;
+    Game.player.stats.str += 1;
+    Game.player.stats.tou += 1;
 			
     Game.player.femininity = 71;
     Game.player.thickness = 70;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.D;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.D;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.LARGE;
     Game.player.lowerBody.hipRating = HIP_RATING.CURVY;
     chooseComplexion();
 }
 
 	private static buildGirlyMale():void {
-    Game.player.str -= 2;
+    Game.player.stats.str -= 2;
     Game.player.stats.spe += 2;
 			
     Game.player.femininity = 50;
     Game.player.thickness = 50;
     Game.player.tone = 26;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.A;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.A;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.NOTICEABLE;
     Game.player.lowerBody.hipRating = HIP_RATING.SLENDER;
     chooseComplexion();
 }
 
 	private static buildTomboyishFemale():void {
-    Game.player.str += 1;
+    Game.player.stats.str += 1;
     Game.player.stats.spe -= 1;
 			
     Game.player.femininity = 56;
     Game.player.thickness = 50;
     Game.player.tone = 50;
 			
-    Game.player.upperBody.chest.list[0].breastRating = BREAST_CUP.A;
+    Game.player.upperBody.chest.get(0).breastRating = BREAST_CUP.A;
     Game.player.lowerBody.butt.buttRating = BUTT_RATING.TIGHT;
     Game.player.lowerBody.hipRating = HIP_RATING.SLENDER;
     chooseComplexion();
@@ -421,9 +421,9 @@ return specialName(arg); //Must check against the special name list as well
 }
 
 	private static setHair(choice:string):void {
-    Game.player.hairColor = choice;
+    Game.player.upperBody.head.hairColor = choice;
     MainScreen.clearText();
-    MainScreen.text("You have " + hairDescript() + ".");
+    MainScreen.text("You have " + HeadDescriptor.describeHair(player) + ".");
     chooseEndowment(false);
 }
 
@@ -546,19 +546,19 @@ return specialName(arg); //Must check against the special name list as well
 }
 
 	private static setEndowmentStrength():void {
-    Game.player.str += 5;
+    Game.player.stats.str += 5;
     Game.player.tone += 7;
     Game.player.thickness += 3;
     //Add bonus +25% strength gain
-    Game.player.createPerk(PerkLib.Strong, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Strong", 0.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentToughness():void {
-    Game.player.tou += 5;
+    Game.player.stats.tou += 5;
     Game.player.tone += 5;
     Game.player.thickness += 5;
-    Game.player.createPerk(PerkLib.Tough, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Tough", 0.25, 0, 0, 0));
     Game.player.HP = kGAMECLASS.maxHP();
     chooseHistory();
 }
@@ -566,56 +566,56 @@ return specialName(arg); //Must check against the special name list as well
 	private static setEndowmentSpeed():void {
     Game.player.stats.spe += 5;
     Game.player.tone += 10;
-    Game.player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Fast", 0.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentSmarts():void {
     Game.player.stats.int += 5;
     Game.player.thickness -= 5;
-    Game.player.createPerk(PerkLib.Smart, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Smart", 0.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentLibido():void {
     Game.player.stats.lib += 5;
-    Game.player.createPerk(PerkLib.Lusty, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Lusty", 0.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentTouch():void {
     Game.player.stats.sens += 5;
-    Game.player.createPerk(PerkLib.Sensitive, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Sensitive", 0.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentBigCock():void {
     Game.player.femininity -= 5;
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 8;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 1.5;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 8;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 1.5;
     trace("Creation - cock modded to 8inches");
-		Game.player.createPerk(PerkLib.BigCock, 1.25, 0, 0, 0);
+		Game.player.perks.add(new Perk("BigCock", 1.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentMessyOrgasms():void {
     Game.player.femininity -= 2;
     Game.player.cumMultiplier = 1.5;
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentBigBreasts():void {
     Game.player.femininity += 5;
-    Game.player.upperBody.chest.list[0].breastRating += 2;
-    Game.player.createPerk(PerkLib.BigTits, 1.5, 0, 0, 0);
+    Game.player.upperBody.chest.get(0).breastRating += 2;
+    Game.player.perks.add(new Perk("BigTits", 1.5, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentBigClit():void {
     Game.player.femininity -= 5;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 1;
-    Game.player.createPerk(PerkLib.BigClit, 1.25, 0, 0, 0);
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 1;
+    Game.player.perks.add(new Perk("BigClit", 1.25, 0, 0, 0));
     chooseHistory();
 }
 		
@@ -623,14 +623,14 @@ return specialName(arg); //Must check against the special name list as well
     Game.player.femininity += 5;
     Game.player.fertility += 25;
     Game.player.lowerBody.hipRating += 2;
-    Game.player.createPerk(PerkLib.Fertile, 1.5, 0, 0, 0);
+    Game.player.perks.add(new Perk("Fertile", 1.5, 0, 0, 0));
     chooseHistory();
 }
 		
 	private static setEndowmentWetVagina():void {
     Game.player.femininity += 7;
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.WET;
-    Game.player.createPerk(PerkLib.WetPussy, 2, 0, 0, 0);
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.WET;
+    Game.player.perks.add(new Perk("WetPussy", 2, 0, 0, 0));
     chooseHistory();
 }
 		
@@ -691,10 +691,10 @@ MainScreen.addButton(1, "No", chooseHistory);
     Game.player.createPerk(choice, 0, 0, 0, 0);
     if(choice == PerkLib.HistorySlut || choice == PerkLib.HistoryWhore) {
         if (Game.player.lowerBody.vaginaSpot.hasVagina()) {
-            Game.player.vaginas[0].virgin = false;
-            Game.player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LOOSE;
+            Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
+            Game.player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.LOOSE;
         }
-        Game.player.ass.analLooseness = 1;
+        Game.player.lowerBody.butt.analLooseness = 1;
     }
 		if (Flags.get(FlagEnum.HISTORY_PERK_SELECTED)) {
         Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 1);
@@ -729,14 +729,15 @@ MainScreen.addButton(1, "No", chooseHistory);
     else MainScreen.text("and your body reacts with a sense of growing warmth focusing in your groin, your manhood hardening for no apparent reason. ");
     MainScreen.text("You were warned of this and press forward, ignoring your body's growing needs.  A glowing purple-pink portal swirls and flares with demonic light along the back wall.  Cringing, you press forward, keenly aware that your body seems to be anticipating coming in contact with the tainted magical construct.  Closing your eyes, you gather your resolve and leap forwards.  Vertigo overwhelms you and you black out...");
     showStats();
-		dynStats("lus", 15);
+		player.stats.lust += 15;
 		MainScreen.doNext(arrivalPartTwo);
 }
 		
 	private static arrivalPartTwo():void {
     MainScreen.clearText();
     hideUpDown();
-		dynStats("lus", 40, "cor", 2);
+		player.stats.lust += 40;
+player.stats.cor += 2;
 		model.time.hours = 18;
     MainScreen.text("You wake with a splitting headache and a body full of burning desire.  A shadow darkens your view momentarily and your training kicks in.  You roll to the side across the bare ground and leap to your feet.  A surprised looking imp stands a few feet away, holding an empty vial.  He's completely naked, an improbably sized pulsing red cock hanging between his spindly legs.  You flush with desire as a wave of lust washes over you, your mind reeling as you fight ");
     if(Game.player.gender == GENDER.FEMALE)
@@ -750,7 +751,7 @@ MainScreen.addButton(1, "No", chooseHistory);
 	private static arrivalPartThree():void {
     MainScreen.clearText();
     hideUpDown();
-		dynStats("lus", -30);
+		player.stats.lust += -30;
 		MainScreen.text("The imp shakes the empty vial to emphasize his point.  You reel in shock at this revelation - you've just entered the demon realm and you've already been drugged!  You tremble with the aching need in your groin, but resist, righteous anger lending you strength.\n\nIn desperation you leap towards the imp, watching with glee as his cocky smile changes to an expression of sheer terror.  The smaller creature is no match for your brute strength as you pummel him mercilessly.  You pick up the diminutive demon and punt him into the air, frowning grimly as he spreads his wings and begins speeding into the distance.\n\n");
     MainScreen.text("The imp says, \"<i>FOOL!  You could have had pleasure unending... but should we ever cross paths again you will regret humiliating me!  Remember the name Zetaz, as you'll soon face the wrath of my master!</i>\"\n\n");
     MainScreen.text("Your pleasure at defeating the demon ebbs as you consider how you've already been defiled.  You swear to yourself you will find the demon responsible for doing this to you and the other Champions, and destroy him AND his pet imp.");
@@ -773,41 +774,41 @@ MainScreen.addButton(1, "No", chooseHistory);
     Game.player.createVagina();
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.createBreastRow();
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.5;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.5;
     Game.player.tallness = 67;
     Game.player.femininity = 90;
     Game.player.lowerBody.balls = 2;
     Game.player.lowerBody.ballSize = 5;
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 13;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 3;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 2.2;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 13;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 3;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 2.2;
     //Butt: Loose"	"Skin: Purple
-    Game.player.ass.analLooseness = 3;
+    Game.player.lowerBody.butt.analLooseness = 3;
     Game.player.skinTone = "purple";
     //Hair: Back length orange
-    Game.player.hairLength = 30;
-    Game.player.hairColor = "orange";
+    Game.player.upperBody.head.hairLength = 30;
+    Game.player.upperBody.head.hairColor = "orange";
     //Face: Elf ears, 4x demonic horns
-    Game.player.upperBody.head.earType = EARS.ELFIN;
-    Game.player.horns = 4;
-    Game.player.hornType = HORNS.DEMON;
+    Game.player.upperBody.head.earType = EarType.ELFIN;
+    Game.player.upperBody.head.horns = 4;
+    Game.player.upperBody.head.hornType = HornType.DEMON;
     //Body: Plump, no muscle tone, wide thighs, badonkulous ass, demon tail, demonic high heels
     Game.player.thickness = 75;
     Game.player.tone = 0;
     Game.player.lowerBody.hipRating = 17;
     Game.player.lowerBody.butt.buttRating = 17;
-    Game.player.tailType = TAIL.DEMONIC;
-    Game.player.lowerBody = LOWER_BODY.DEMONIC_HIGH_HEELS;
+    Game.player.lowerBody.tailType = TailType.DEMONIC;
+    Game.player.lowerBody = LowerBodyType.DEMONIC_HIGH_HEELS;
     //Breasts: J-cups with 5 inch fuckable nipples, leaking milk
-    Game.player.upperBody.chest.list[0].breastRating = 28;
+    Game.player.upperBody.chest.get(0).breastRating = 28;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 5;
-    Game.player.upperBody.chest.list[0].lactationMultiplier += 20;
+    Game.player.upperBody.chest.get(0).lactationMultiplier += 20;
 			
     //Equipment: Starts with spiked fist
     Game.player.setWeapon(weapons.S_GAUNT);
     //Perks: Fighter and Lotsa Jizz"	Annetta
-    Game.player.createPerk(PerkLib.HistoryFighter, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryFighter", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
     Game.player.cumMultiplier = 20;
     Game.player.gender = 3;
 }
@@ -818,19 +819,19 @@ MainScreen.addButton(1, "No", chooseHistory);
     //(on a side note how much do you think it would cost to add bell nipple,labia and clit piercings as well as an option for belly button piercings would like to see belly button piecings with a few different options as well.  Also would love to have handcuff ear piercings.)"	Would like the bimbo brain and bimbo body perks as well as the nine tail PerkLib.  demonic high heels, pink skin, obscenely long pink hair  would like her to be a kitsune with the nine tails.  pink fur.  starting equipment would like to be the succubus whip and nurse's outfit.  Also would like the xmas perk and all three Vday perks	Aria
     if(!Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.createVagina();
 if (Game.player.femininity < 80) Game.player.femininity = 80;
-Game.player.createPerk(PerkLib.BimboBody, 0, 0, 0, 0);
-Game.player.createPerk(PerkLib.BimboBrains, 0, 0, 0, 0);
-Game.player.tailType = TAIL.FOX;
+Game.player.perks.add(new Perk("BimboBody", 0, 0, 0, 0));
+Game.player.perks.add(new Perk("BimboBrains", 0, 0, 0, 0));
+Game.player.lowerBody.tailType = TailType.FOX;
 Game.player.lowerBody.tailVenom = 9;
-Game.player.createPerk(PerkLib.EnlightenedNinetails, 0, 0, 0, 0);
-Game.player.upperBody.chest.list[0].breastRating = 5;
+Game.player.perks.add(new Perk("EnlightenedNinetails", 0, 0, 0, 0));
+Game.player.upperBody.chest.get(0).breastRating = 5;
 Game.player.femininity = 100;
-Game.player.lowerBody = LOWER_BODY.DEMONIC_HIGH_HEELS;
+Game.player.lowerBody = LowerBodyType.DEMONIC_HIGH_HEELS;
 Game.player.skinTone = "pink";
-Game.player.skinType = SKIN.FUR;
+Game.player.skinType = SkinType.FUR;
 Game.player.skinDesc = "fur";
-Game.player.hairColor = "pink";
-Game.player.hairLength = 50;
+Game.player.upperBody.head.hairColor = "pink";
+Game.player.upperBody.head.hairLength = 50;
 Game.player.lowerBody.hipRating = 5;
 Game.player.lowerBody.butt.buttRating = 5;
 Game.player.thickness = 10;
@@ -842,16 +843,16 @@ Game.player.nipplesPierced = 1;
 Game.player.nipplesPShort = "seamless black nipple-studs";
 Game.player.nipplesPLong = "Seamless black nipple-studs";
 Flags.set(FlagEnum.PC_FETISH, 2);
-Game.player.vaginas[0].clitPierced = 1;
-Game.player.vaginas[0].clitPShort = "emerald clit-stud";
-Game.player.vaginas[0].clitPLong = "Emerald clit-stud";
-Game.player.vaginas[0].labiaPierced = 2;
-Game.player.vaginas[0].labiaPShort = "ruby labia-rings";
-Game.player.vaginas[0].labiaPLong = "Ruby labia-rings";
-Game.player.createPerk(PerkLib.ElvenBounty, 0, 15, 0, 0);
-Game.player.createPerk(PerkLib.PureAndLoving, 0, 0, 0, 0);
-Game.player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
-Game.player.createPerk(PerkLib.OneTrackMind, 0, 0, 0, 0);
+Game.player.lowerBody.vaginaSpot.get(0).clitPierced = 1;
+Game.player.lowerBody.vaginaSpot.get(0).clitPShort = "emerald clit-stud";
+Game.player.lowerBody.vaginaSpot.get(0).clitPLong = "Emerald clit-stud";
+Game.player.lowerBody.vaginaSpot.get(0).labiaPierced = 2;
+Game.player.lowerBody.vaginaSpot.get(0).labiaPShort = "ruby labia-rings";
+Game.player.lowerBody.vaginaSpot.get(0).labiaPLong = "Ruby labia-rings";
+Game.player.perks.add(new Perk("ElvenBounty", 0, 15, 0, 0));
+Game.player.perks.add(new Perk("PureAndLoving", 0, 0, 0, 0));
+Game.player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
+Game.player.perks.add(new Perk("OneTrackMind", 0, 0, 0, 0));
 Game.player.setWeapon(weapons.SUCWHIP);
 Game.player.setArmor(armors.NURSECL);
 	}
@@ -860,21 +861,21 @@ Game.player.setArmor(armors.NURSECL);
     //Character Creation	
     //herm, canine cock - 8", virgin, tight, wet	
     //fox ears, tails, A cup breasts with normal nipples	Betram															
-    Game.player.upperBody.head.earType = EARS.FOX;
-    Game.player.tailType = TAIL.FOX;
+    Game.player.upperBody.head.earType = EarType.FOX;
+    Game.player.lowerBody.tailType = TailType.FOX;
     Game.player.lowerBody.tailVenom = 1;
-    if(Game.player.upperBody.chest.BreastRatingLargest[0].breastRating > 1) Game.player.upperBody.chest.list[0].breastRating = 1;
+    if(Game.player.upperBody.chest.BreastRatingLargest[0].breastRating > 1) Game.player.upperBody.chest.get(0).breastRating = 1;
     if(!Game.player.lowerBody.cockSpot.hasCock()) {
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.DOG;
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 8;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 1;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 1.4;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 8;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 1;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 1.4;
 }
 if (!Game.player.lowerBody.vaginaSpot.hasVagina()) {
     Game.player.createVagina();
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.WET;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.WET;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
 }
 Game.player.gender = 3;
 MainScreen.text("You're quite the foxy herm, and as different as you were compared to the rest of Ingnam, it's no suprise you were sent through first.");
@@ -886,22 +887,22 @@ MainScreen.text("You're quite the foxy herm, and as different as you were compar
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.balls = 4;
     Game.player.lowerBody.ballSize = 3;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 5.5;
-    Game.player.lowerBody.cockSpot.list[1].cockThickness = 5.5;
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 12;
-    Game.player.lowerBody.cockSpot.list[1].cockLength = 12;
-    Game.player.lowerBody.cockSpot.list[0].pierced = 2;
-    Game.player.lowerBody.cockSpot.list[1].pierced = 2;
-    Game.player.lowerBody.cockSpot.list[0].pShortDesc = "silver cock-ring";
-    Game.player.lowerBody.cockSpot.list[1].pShortDesc = "silver cock-ring";
-    Game.player.lowerBody.cockSpot.list[0].pLongDesc = "Silver cock-ring";
-    Game.player.lowerBody.cockSpot.list[1].pLongDesc = "Silver cock-ring";
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 5.5;
+    Game.player.lowerBody.cockSpot.get(1).cockThickness = 5.5;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 12;
+    Game.player.lowerBody.cockSpot.get(1).cockLength = 12;
+    Game.player.lowerBody.cockSpot.get(0).pierced = 2;
+    Game.player.lowerBody.cockSpot.get(1).pierced = 2;
+    Game.player.lowerBody.cockSpot.get(0).pShortDesc = "silver cock-ring";
+    Game.player.lowerBody.cockSpot.get(1).pShortDesc = "silver cock-ring";
+    Game.player.lowerBody.cockSpot.get(0).pLongDesc = "Silver cock-ring";
+    Game.player.lowerBody.cockSpot.get(1).pLongDesc = "Silver cock-ring";
     //"Androgynous face, large brown eyes, long black hair down to about ass level, full lips, pirced with one silver ring ass itself is round and thick, chest is flat, only two nipples, about nickle sized pierced with silver studs, skin of a pale ghostly transparent complexion, rest of the body is not notably muscular or chubby in any definite way, feet seem to taper off into full transparency. Full body housed in the lewd Inquisitor Armor, wielding a Wizard Staff. Starting at level 5 with tank, regeneration, healing, smarts, channeling, mage and incorperability perks, a full knowledge of 
     Game.player.gender = 1;
     Game.player.tallness = 72;
     Game.player.femininity = 50;
-    Game.player.hairLength = 35;
-    Game.player.hairColor = "black";
+    Game.player.upperBody.head.hairLength = 35;
+    Game.player.upperBody.head.hairColor = "black";
     Game.player.lipPierced = 2;
     Game.player.lipPShort = "silver lip-ring";
     Game.player.lipPLong = "Silver lip-ring";
@@ -913,17 +914,17 @@ MainScreen.text("You're quite the foxy herm, and as different as you were compar
     Game.player.nipplesPLong = "Silver studs";
 				
     Game.player.skinTone = "ghostly pale";
-    Game.player.createPerk(PerkLib.Incorporeality, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Incorporeality", 0, 0, 0, 0));
     Game.player.setArmor(armors.I_CORST);
     Game.player.level = 5;
     Game.player.setWeapon(weapons.W_STAFF);
 	
-    Game.player.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Smart, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Channeling, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Mage, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryHealer, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Tank, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Regeneration", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Smart", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Channeling", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Mage", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryHealer", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Tank", 0, 0, 0, 0));
     Game.player.statusAffects.add(new StatusAffect("KnowsArouse", 0, 0, 0, 0)));
     Game.player.statusAffects.add(new StatusAffect("KnowsHeal", 0, 0, 0, 0)));
     Game.player.statusAffects.add(new StatusAffect("KnowsMight", 0, 0, 0, 0)));
@@ -932,9 +933,9 @@ MainScreen.text("You're quite the foxy herm, and as different as you were compar
     Game.player.statusAffects.add(new StatusAffect("KnowsWhitefire", 0, 0, 0, 0)));
     //magic, 50 Int, 50 tough, Speed 15, Str 10, 30 corruption, 30 libido, 10 sensitivity.
     Game.player.stats.int = 50;
-    Game.player.tou = 50;
+    Game.player.stats.tou = 50;
     Game.player.stats.spe = 15;
-    Game.player.str = 10;
+    Game.player.stats.str = 10;
     Game.player.stats.cor = 30;
     Game.player.stats.lib = 30;
     Game.player.stats.sens = 10;
@@ -947,22 +948,22 @@ MainScreen.text("You're quite the foxy herm, and as different as you were compar
     if(!Game.player.lowerBody.cockSpot.hasCock()) Game.player.lowerBody.cockSpot.add(new Cock());
 if (!Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.createVagina();
 Game.player.gender = 3;
-Game.player.lowerBody.cockSpot.list[0].cockLength = 27;
-Game.player.lowerBody.cockSpot.list[0].cockThickness = 1.4;
-Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 3.6;
-Game.player.lowerBody.cockSpot.list[0].cockType = CockType.DOG;
+Game.player.lowerBody.cockSpot.get(0).cockLength = 27;
+Game.player.lowerBody.cockSpot.get(0).cockThickness = 1.4;
+Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 3.6;
+Game.player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
 Game.player.lowerBody.balls = 0;
 Game.player.lowerBody.ballSize = 2;
 Game.player.cumMultiplier = 7500;
-Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLAVERING;
-Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.5;
+Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLAVERING;
+Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.5;
 Game.player.fertility = 15;
-Game.player.tailType = TAIL.FOX;
+Game.player.lowerBody.tailType = TailType.FOX;
 Game.player.lowerBody.tailVenom = 9;
-Game.player.createPerk(PerkLib.EnlightenedNinetails, 0, 0, 0, 0);
+Game.player.perks.add(new Perk("EnlightenedNinetails", 0, 0, 0, 0));
 //if possible with fur, Hair color: "midnight black", Skin/Fur color: "ashen grayish-blue",  Height: 65", Tone: 100, Thickness: 0, Hip rating: 6, Butt rating: 3,Feminimity: 50,  ( 4 rows of breasts (Descending from the top ones: D,C,B,A), nipple length: 0.1", Fuckable, 1 nipple per breast, Tongue type: demon
-Game.player.hairColor = "midnight black";
-Game.player.skinType = SKIN.FUR;
+Game.player.upperBody.head.hairColor = "midnight black";
+Game.player.skinType = SkinType.FUR;
 Game.player.skinDesc = "fur";
 Game.player.skinTone = "ashen grayish-blue";
 Game.player.tallness = 65;
@@ -974,15 +975,15 @@ Game.player.femininity = 50;
 Game.player.createBreastRow();
 Game.player.createBreastRow();
 Game.player.createBreastRow();
-Game.player.upperBody.chest.list[0].breastRating = 4;
-Game.player.upperBody.chest.list[0].fuckable = true;
-Game.player.upperBody.chest.list[1].breastRating = 3;
-Game.player.upperBody.chest.list[1].fuckable = true;
-Game.player.upperBody.chest.list[2].breastRating = 2;
-Game.player.upperBody.chest.list[2].fuckable = true;
-Game.player.upperBody.chest.list[3].breastRating = 1;
-Game.player.upperBody.chest.list[3].fuckable = true;
-Game.player.tongueType = TONUGE.DEMONIC;
+Game.player.upperBody.chest.get(0).breastRating = 4;
+Game.player.upperBody.chest.get(0).fuckable = true;
+Game.player.upperBody.chest.get(1).breastRating = 3;
+Game.player.upperBody.chest.get(1).fuckable = true;
+Game.player.upperBody.chest.get(2).breastRating = 2;
+Game.player.upperBody.chest.get(2).fuckable = true;
+Game.player.upperBody.chest.get(3).breastRating = 1;
+Game.player.upperBody.chest.get(3).fuckable = true;
+Game.player.upperBody.head.face.tongueType = TongueType.DEMONIC;
 Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.1;
 //Starting with an Inscribed Spellblade and Bondage Straps.	Charaun
 Game.player.setArmor(armors.BONSTRP);
@@ -992,15 +993,15 @@ Game.player.setWeapon(weapons.S_BLADE);
 	private static customCharlie():void {
     MainScreen.text("You're strong, smart, fast, and tough.  It also helps that you've got four dongs well beyond what others have lurking in their trousers.  With your wings, bow, weapon, and tough armor, you're a natural for protecting the town.");
     Game.player.gender = 1;
-    Game.player.tou += 2;
-    Game.player.str += 3;
+    Game.player.stats.tou += 2;
+    Game.player.stats.str += 3;
     Game.player.fertility = 5;
-    Game.player.hairLength = 26;
-    Game.player.hairColor = "blond";
+    Game.player.upperBody.head.hairLength = 26;
+    Game.player.upperBody.head.hairColor = "blond";
     Game.player.skinTone = "light";
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.2;
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 0;
+    Game.player.upperBody.chest.get(0).breastRating = 0;
     Game.player.lowerBody.balls = 2;
     Game.player.lowerBody.ballSize = 3;
     Game.player.tallness = 113;
@@ -1011,7 +1012,7 @@ Game.player.setWeapon(weapons.S_BLADE);
     Game.player.lowerBody.butt.buttRating = 5;
     Game.player.teaseLevel = 1;
     //Large feathered wings (Any chance in heck I could get 'angel' as the race descriptor? Just asking. I'm fine if the answer is 'no')
-    Game.player.upperBody.wingType = WING.FEATHERED_LARGE;
+    Game.player.upperBody.wingType = WingType.FEATHERED_LARGE;
     Game.player.upperBody.wingDesc = "large, feathered";
 			
     //While we're on the subject, would glowing eyes be possible? I'll take normal eyes if not.
@@ -1031,8 +1032,8 @@ Game.player.setWeapon(weapons.S_BLADE);
     //Int 50 (if possible)
     Game.player.stats.int = 50;
     //Str/Tou/Spd 25 (if possible)
-    Game.player.str = 25;
-    Game.player.tou = 25;
+    Game.player.stats.str = 25;
+    Game.player.stats.tou = 25;
     Game.player.stats.spe = 25;
     //Bow
     Game.player.createKeyItem("Bow", 0, 0, 0, 0);
@@ -1050,18 +1051,18 @@ Game.player.setWeapon(weapons.S_BLADE);
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 24;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 3;
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.HORSE;
-    Game.player.lowerBody.cockSpot.list[1].cockLength = 24;
-    Game.player.lowerBody.cockSpot.list[1].cockThickness = 3;
-    Game.player.lowerBody.cockSpot.list[1].cockType = CockType.DRAGON;
-    Game.player.lowerBody.cockSpot.list[2].cockLength = 12;
-    Game.player.lowerBody.cockSpot.list[2].cockThickness = 2;
-    Game.player.lowerBody.cockSpot.list[2].cockType = CockType.DOG;
-    Game.player.lowerBody.cockSpot.list[3].cockLength = 12;
-    Game.player.lowerBody.cockSpot.list[3].cockThickness = 2;
-    Game.player.lowerBody.cockSpot.list[3].cockType = CockType.CAT;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 24;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 3;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.HORSE;
+    Game.player.lowerBody.cockSpot.get(1).cockLength = 24;
+    Game.player.lowerBody.cockSpot.get(1).cockThickness = 3;
+    Game.player.lowerBody.cockSpot.get(1).cockType = CockType.DRAGON;
+    Game.player.lowerBody.cockSpot.get(2).cockLength = 12;
+    Game.player.lowerBody.cockSpot.get(2).cockThickness = 2;
+    Game.player.lowerBody.cockSpot.get(2).cockType = CockType.DOG;
+    Game.player.lowerBody.cockSpot.get(3).cockLength = 12;
+    Game.player.lowerBody.cockSpot.get(3).cockThickness = 2;
+    Game.player.lowerBody.cockSpot.get(3).cockType = CockType.CAT;
 	
     //A pair of 8-inch balls
     Game.player.lowerBody.balls = 2;
@@ -1074,13 +1075,13 @@ Game.player.setWeapon(weapons.S_BLADE);
     MainScreen.text("Your orange and black tiger stripes make you cut a more imposing visage than normal, and with your great strength, armor, and claymore, you're a natural pick for champion.");
     //well to start off the name would be Cody
     //-Cat with (black and orange tiger fur if possible) if not just Orange fur
-    Game.player.hairColor = "black and orange";
-    Game.player.skinType = SKIN.FUR;
+    Game.player.upperBody.head.hairColor = "black and orange";
+    Game.player.skinType = SkinType.FUR;
     Game.player.skinDesc = "fur";
     //-Chainmail armor
     Game.player.setArmor(armors.FULLCHN);
     //-Large Claymore (i understand 40 Strength is need so if he could start with that would be great if not hit the gyms)"
-    Game.player.str = 41;
+    Game.player.stats.str = 41;
     Game.player.setWeapon(weapons.CLAYMOR);
 }
 		
@@ -1089,13 +1090,13 @@ Game.player.setWeapon(weapons.S_BLADE);
     //Other:
     if(!Game.player.lowerBody.vaginaSpot.hasVagina()) {
     Game.player.createVagina();
-    if (Game.player.lowerBody.vaginaSpot.list[0].clitLength == 0) Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+    if (Game.player.lowerBody.vaginaSpot.get(0).clitLength == 0) Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
 }
 kGAMECLASS.genderCheck();
 //Hair length: Very long
-Game.player.hairLength = 22;
+Game.player.upperBody.head.hairLength = 22;
 //Breast size: HH
-Game.player.upperBody.chest.list[0].breastRating = 21;
+Game.player.upperBody.chest.get(0).breastRating = 21;
 //Femininity/Beauty: Very high
 Game.player.femininity = 90;
 // Height: 5'4
@@ -1103,21 +1104,21 @@ Game.player.tallness = 64;
 
 //Perks: Feeder, Strong Back, Strong Back 2
 Game.player.statusAffects.add(new StatusAffect("Feeder", 0, 0, 0, 0)));
-Game.player.createPerk(PerkLib.Feeder, 0, 0, 0, 0);
+Game.player.perks.add(new Perk("Feeder", 0, 0, 0, 0));
 
-Game.player.createPerk(PerkLib.StrongBack, 0, 0, 0, 0);
-Game.player.createPerk(PerkLib.StrongBack2, 0, 0, 0, 0);
+Game.player.perks.add(new Perk("StrongBack", 0, 0, 0, 0));
+Game.player.perks.add(new Perk("StrongBack2", 0, 0, 0, 0));
 
 //Equipment: 
 //Weapon: Warhammer
 Game.player.setWeapon(weapons.WARHAMR);
 //Armor: Lusty shit
 Game.player.setArmor(armors.LMARMOR);
-//Game.player.createPerk(PerkLib.SluttySeduction, 10 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS), 0, 0, 0);
+//Game.player.perks.add(new Perk("SluttySeduction", 10 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS), 0, 0, 0));
 
 //Stats: (if possible)
 //Strength: 90
-Game.player.str = 90;
+Game.player.stats.str = 90;
 //Fertility: 100
 Game.player.fertility = 100;
 Game.player.stats.cor = 25;
@@ -1141,12 +1142,12 @@ MainScreen.text("You've got large breasts prone to lactation.  You aren't sure W
     //Character Creation	If possible I would like a herm with a cat cock that is 10 inches by 4 inches. Anything else is up to you.	I would like a herm catmorph with two large d breasts and shoulder length hair. Also if possible I would like to start with some gel armor. Everything else is fair game.	Hikari
     MainScreen.text("As a herm with a super-thick cat-cock, D-cup breasts, and out-of-this-world armor, you're a natural pick for champion.");
     if(!Game.player.lowerBody.cockSpot.hasCock()) Game.player.lowerBody.cockSpot.add(new Cock());
-Game.player.lowerBody.cockSpot.list[0].cockType = CockType.CAT;
-Game.player.lowerBody.cockSpot.list[0].cockLength = 10;
-Game.player.lowerBody.cockSpot.list[0].cockThickness = 4;
+Game.player.lowerBody.cockSpot.get(0).cockType = CockType.CAT;
+Game.player.lowerBody.cockSpot.get(0).cockLength = 10;
+Game.player.lowerBody.cockSpot.get(0).cockThickness = 4;
 if (!Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.createVagina();
-Game.player.upperBody.chest.list[0].breastRating = 4;
-Game.player.hairLength = 10;
+Game.player.upperBody.chest.get(0).breastRating = 4;
+Game.player.upperBody.head.hairLength = 10;
 Game.player.setArmor(armors.GELARMR);
 Game.player.gender = 3;
 	}
@@ -1156,14 +1157,14 @@ Game.player.gender = 3;
     //- gift: fast
     Game.player.stats.spe += 5;
     Game.player.tone += 10;
-    Game.player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("Fast", 0.25, 0, 0, 0));
     //- history: religion 
-    Game.player.createPerk(PerkLib.HistoryReligious, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryReligious", 0, 0, 0, 0));
     //(and if possible)
     //- history: fighter
-    Game.player.createPerk(PerkLib.HistoryFighter, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryFighter", 0, 0, 0, 0));
     //- history: smith
-    Game.player.createPerk(PerkLib.HistorySmith, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistorySmith", 0, 0, 0, 0));
     //in my ar, Issac was born to a disgraced priestess (she was raped by marauders) and raised by her alone until she died from an illness and was pretty much left to fend for and earn a living for himself (hence the fighter and smith background's too) until, years later he was chosen as 'champion'~
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //sex - male
@@ -1177,30 +1178,30 @@ Game.player.gender = 3;
     //heh, ribbed for their pleasure ;d lol
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 12;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 2.8;
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.DOG;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 1.8;
-    Game.player.lowerBody.cockSpot.list[1].cockLength = 10;
-    Game.player.lowerBody.cockSpot.list[1].cockThickness = 2.5;
-    Game.player.lowerBody.cockSpot.list[1].cockType = CockType.TENTACLE;
-    Game.player.lowerBody.cockSpot.list[0].pierced = 3;
-    Game.player.lowerBody.cockSpot.list[0].pShortDesc = "fertite cock-jacob's ladder";
-    Game.player.lowerBody.cockSpot.list[0].pLongDesc = "Fertite cock-jacob's ladder";
-    Game.player.createPerk(PerkLib.PiercedFertite, 5, 0, 0, 0);
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 12;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 2.8;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 1.8;
+    Game.player.lowerBody.cockSpot.get(1).cockLength = 10;
+    Game.player.lowerBody.cockSpot.get(1).cockThickness = 2.5;
+    Game.player.lowerBody.cockSpot.get(1).cockType = CockType.TENTACLE;
+    Game.player.lowerBody.cockSpot.get(0).pierced = 3;
+    Game.player.lowerBody.cockSpot.get(0).pShortDesc = "fertite cock-jacob's ladder";
+    Game.player.lowerBody.cockSpot.get(0).pLongDesc = "Fertite cock-jacob's ladder";
+    Game.player.perks.add(new Perk("PiercedFertite", 5, 0, 0, 0));
     //- and one tight asshole
-    Game.player.ass.analLooseness = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
     //- kitsune
     //- moderately long white hair (9 inches)
-    Game.player.hairLength = 9;
-    Game.player.hairColor = "silver-white";
+    Game.player.upperBody.head.hairLength = 9;
+    Game.player.upperBody.head.hairColor = "silver-white";
     //- human face
     //- fox ears 
-    Game.player.upperBody.head.earType = EARS.FOX;
+    Game.player.upperBody.head.earType = EarType.FOX;
     //- olive complexion
     Game.player.skinTone = "olive";
     //- demon tongue (oral fetish ;d)
-    Game.player.tongueType = TONUGE.DEMONIC;
+    Game.player.upperBody.head.face.tongueType = TongueType.DEMONIC;
     //- 5 foot 9 inch tall
     Game.player.tallness = 69;
     //- average build
@@ -1212,7 +1213,7 @@ Game.player.gender = 3;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.2;
     Game.player.createBreastRow();
     //- three fox tails
-    Game.player.tailType = TAIL.FOX;
+    Game.player.lowerBody.tailType = TailType.FOX;
     Game.player.lowerBody.tailVenom = 3;
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //equipment;
@@ -1231,14 +1232,14 @@ Game.player.gender = 3;
     kGAMECLASS.genderCheck();
 }
 //"Ears: Bunny
-Game.player.upperBody.head.earType = EARS.BUNNY;
+Game.player.upperBody.head.earType = EarType.BUNNY;
 //Tail: Bunny
-Game.player.tailType = TAIL.RABBIT;
+Game.player.lowerBody.tailType = TailType.RABBIT;
 //Face: Human
 //Breasts: H-cup with 4.5 inch fuckable nipples"
-Game.player.upperBody.chest.list[0].breastRating = 19;
+Game.player.upperBody.chest.get(0).breastRating = 19;
 Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 4.5;
-Game.player.upperBody.chest.list[0].fuckable = true;
+Game.player.upperBody.chest.get(0).fuckable = true;
 	}
 		
 	private static customLeah():void {
@@ -1250,14 +1251,14 @@ Game.player.upperBody.chest.list[0].fuckable = true;
 	
     Game.player.createBreastRow();
     Game.player.createVagina();
-    Game.player.upperBody.chest.list[0].breastRating = 4;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+    Game.player.upperBody.chest.get(0).breastRating = 4;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = .5;
     Game.player.fertility = 10;
     Game.player.gender = 2;
     Game.player.lowerBody.hipRating = 8;
     Game.player.lowerBody.butt.buttRating = 8;
-    Game.player.str = 15;
-    Game.player.tou = 15;
+    Game.player.stats.str = 15;
+    Game.player.stats.tou = 15;
     Game.player.stats.spe = 18;
     Game.player.stats.int = 17;
     Game.player.stats.sens = 15;
@@ -1265,11 +1266,11 @@ Game.player.upperBody.chest.list[0].fuckable = true;
     Game.player.stats.cor = 0;
     kGAMECLASS.notes = "No Notes Available.";
     Game.player.HP = kGAMECLASS.maxHP();
-    Game.player.hairLength = 13;
-    Game.player.skinType = SKIN.PLAIN;
-    Game.player.faceType = FACE.HUMAN;
-    Game.player.tailType = TAIL.NONE;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.upperBody.head.hairLength = 13;
+    Game.player.skinType = SkinType.PLAIN;
+    Game.player.upperBody.head.face.faceType = FaceType.HUMAN;
+    Game.player.lowerBody.tailType = TailType.NONE;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
     Game.player.femininity = 85;
     Game.player.beardLength = 0;
     Game.player.beardStyle = 0;
@@ -1277,22 +1278,22 @@ Game.player.upperBody.chest.list[0].fuckable = true;
     Game.player.thickness = 50;
     Game.player.skinDesc = "skin";
     Game.player.skinTone = "olive";
-    Game.player.hairColor = "black";
+    Game.player.upperBody.head.hairColor = "black";
     Game.player.lowerBody.balls = 0;
     Game.player.cumMultiplier = 1;
     Game.player.lowerBody.ballSize = 0;
     Game.player.hoursSinceCum = 0;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0;
-    Game.player.ass.analLooseness = 0;
-    Game.player.ass.analWetness = 0;
-    Game.player.ass.fullness = 0;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
+    Game.player.lowerBody.butt.analWetness = 0;
+    Game.player.lowerBody.butt.fullness = 0;
     Game.player.fertility = 5;
     Game.player.fatigue = 0;
-    Game.player.horns = 0;
+    Game.player.upperBody.head.horns = 0;
     Game.player.tallness = 67;
     Game.player.lowerBody.tailVenom = 0;
     Game.player.lowerBody.tailRecharge = 0;
-    Game.player.upperBody.wingType = WING.NONE;
+    Game.player.upperBody.wingType = WingType.NONE;
     Game.player.upperBody.wingDesc = "non-existant";
     Game.player.tone = 30;
     Game.player.thickness = 65;
@@ -1302,17 +1303,17 @@ Game.player.upperBody.chest.list[0].fuckable = true;
     //428347355782040	Character Creation	Female,wetness=wet, Looseness=normal,not a virgin, Fertility high i guess i dont really care can be up to you.	for her face normal human, ears i want Elvin, no tails, just normal skin, body thickness i want to be slender, body tone kinda athletic but not too much, hair i want really long i think like a 30 on the codex number i think and her hair color light blonde, i want her to have normal D size breast with you can choose how you want them really though i dont think i really care, nipple size i dont care, her skin color a fair light light color but not too pale, for her starting equipment i want im not sure what i want her to wear but basically i want a Elvin archer with a bow. so maybe you can do something about the clothing. i just want a Elvin character in the game since theres goblins plus another archer besides kelt a female one add to that.	Lucina
     MainScreen.text("You're a blond, fair-skinned lass with a well-made bow and the skills to use it.  You have D-cup breasts and a very moist cunt that's seen a little action.  You're fit and trim, but not too thin, nor too well-muscled.  All in all, you're a good fit for championing your village's cause.");
     if(!Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.createVagina();
-Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
-Game.player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LOOSE;
-Game.player.vaginas[0].virgin = false;
+Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+Game.player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.LOOSE;
+Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
 if (Game.player.femininity < 80) Game.player.femininity = 80;
 Game.player.fertility = 40;
-Game.player.upperBody.head.earType = EARS.ELFIN;
+Game.player.upperBody.head.earType = EarType.ELFIN;
 Game.player.thickness = 25;
 Game.player.tone = 60;
-Game.player.hairLength = 30;
-Game.player.hairColor = "light blonde";
-Game.player.upperBody.chest.list[0].breastRating = 4;
+Game.player.upperBody.head.hairLength = 30;
+Game.player.upperBody.head.hairColor = "light blonde";
+Game.player.upperBody.chest.get(0).breastRating = 4;
 Game.player.skinTone = "light";
 //Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
 Game.player.statusAffects.add(new StatusAffect("Kelt", 100, 0, 0, 0)));
@@ -1323,12 +1324,12 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //Specific Character	
     //Male. 11.5 inch dog dick, 4 balls, 2 inches in diameter.	
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 11.5;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 2;
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.DOG;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 1.5;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 11.5;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 2;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 1.5;
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 0;
+    Game.player.upperBody.chest.get(0).breastRating = 0;
     Game.player.gender = 1;
     Game.player.tallness = 71;
     Game.player.lowerBody.hipRating = 4;
@@ -1338,8 +1339,8 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     Game.player.lowerBody.balls = 4;
     Game.player.cumMultiplier = 4;
     Game.player.lowerBody.ballSize = 2;
-    Game.player.str = 18;
-    Game.player.tou = 17;
+    Game.player.stats.str = 18;
+    Game.player.stats.tou = 17;
     Game.player.stats.spe = 15;
     Game.player.stats.int = 15;
     Game.player.stats.sens = 15;
@@ -1347,42 +1348,42 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     Game.player.stats.cor = 0;
     kGAMECLASS.notes = "No Notes Available.";
     Game.player.HP = kGAMECLASS.maxHP();
-    Game.player.hairLength = 1;
-    Game.player.skinType = SKIN.PLAIN;
+    Game.player.upperBody.head.hairLength = 1;
+    Game.player.skinType = SkinType.PLAIN;
     Game.player.skinTone = "light";
-    Game.player.hairColor = "brown";
-    Game.player.faceType = FACE.HUMAN;
-    Game.player.tailType = TAIL.NONE;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.upperBody.head.hairColor = "brown";
+    Game.player.upperBody.head.face.faceType = FaceType.HUMAN;
+    Game.player.lowerBody.tailType = TailType.NONE;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
     Game.player.femininity = 50;
     Game.player.beardLength = 0;
     Game.player.beardStyle = 0;
     Game.player.thickness = 50;
     Game.player.skinDesc = "skin";
     Game.player.hoursSinceCum = 0;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0;
-    Game.player.ass.analLooseness = 0;
-    Game.player.ass.analWetness = 0;
-    Game.player.ass.fullness = 0;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
+    Game.player.lowerBody.butt.analWetness = 0;
+    Game.player.lowerBody.butt.fullness = 0;
     Game.player.fertility = 5;
     Game.player.fatigue = 0;
-    Game.player.horns = 0;
+    Game.player.upperBody.head.horns = 0;
     Game.player.lowerBody.tailVenom = 0;
     Game.player.lowerBody.tailRecharge = 0;
-    Game.player.upperBody.wingType = WING.NONE;
+    Game.player.upperBody.wingType = WingType.NONE;
     Game.player.upperBody.wingDesc = "non-existant";
     //"dog face, dog ears, draconic tail, blue fur.
-    Game.player.faceType = FACE.DOG;
-    Game.player.upperBody.head.earType = EARS.DOG;
-    Game.player.tailType = TAIL.DRACONIC;
-    Game.player.skinType = SKIN.FUR;
-    Game.player.hairColor = "blue";
+    Game.player.upperBody.head.face.faceType = FaceType.DOG;
+    Game.player.upperBody.head.earType = EarType.DOG;
+    Game.player.lowerBody.tailType = TailType.DRACONIC;
+    Game.player.skinType = SkinType.FUR;
+    Game.player.upperBody.head.hairColor = "blue";
     Game.player.skinDesc = "fur";
     Game.player.tone = 88;
-    Game.player.tongueType = TONUGE.DRACONIC;
+    Game.player.upperBody.head.face.tongueType = TongueType.DRACONIC;
     //gel plate armor, warhammer, 88 body tone, 1 breast row, flat manly breasts, 0.2 inch nipples, 1 on each breast, draconic tongue, short hair-blue, light skin."	Lukaz
-    Game.player.createPerk(PerkLib.HistoryFighter, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryFighter", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
 }
 		
 	private static customMara():void {
@@ -1392,29 +1393,29 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     Game.player.gender = 2;
     Game.player.stats.spe += 3;
     Game.player.stats.int += 2;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = .5;
     Game.player.tone = 30;
     Game.player.fertility = 10;
-    Game.player.hairLength = 15;
+    Game.player.upperBody.head.hairLength = 15;
     Game.player.createBreastRow();
     Game.player.createVagina();
     Game.player.tallness = 67;
-    Game.player.upperBody.chest.list[0].breastRating = 7;
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
-    Game.player.vaginas[0].virgin = false;
+    Game.player.upperBody.chest.get(0).breastRating = 7;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+    Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
     Game.player.tone = 20;
     Game.player.lowerBody.hipRating = 12;
     Game.player.lowerBody.butt.buttRating = 12;
     Game.player.femininity = 100;
     Game.player.thickness = 33;
-    Game.player.createPerk(PerkLib.HistorySlut, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.BimboBody, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.BimboBrains, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.BigTits, 1.5, 0, 0, 0);
-    Game.player.upperBody.head.earType = EARS.BUNNY;
-    Game.player.tailType = TAIL.RABBIT;
+    Game.player.perks.add(new Perk("HistorySlut", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("BimboBody", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("BimboBrains", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("BigTits", 1.5, 0, 0, 0));
+    Game.player.upperBody.head.earType = EarType.BUNNY;
+    Game.player.lowerBody.tailType = TailType.RABBIT;
     Game.player.skinTone = "tan";
-    Game.player.hairColor = "platinum blonde";
+    Game.player.upperBody.head.hairColor = "platinum blonde";
     Game.player.teaseLevel = 3;
 }
 		
@@ -1423,8 +1424,8 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //I'm kinda going under the assumption you are letting us go hog wild if not, take what's allowed and do what you wish out of what's below
     MainScreen.text("The portal is not something you fear, not with your imposing armor and inscribed spellblade.  You're much faster and stronger than every champion that came before you, but will it be enough?");
     //Core Stats:
-    Game.player.str = 40;
-    Game.player.tou = 20;
+    Game.player.stats.str = 40;
+    Game.player.stats.tou = 20;
     Game.player.stats.spe = 100;
     Game.player.stats.int = 80;
     Game.player.stats.lib = 25;
@@ -1436,41 +1437,41 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //-breastRating: 5
     //-breasts: 2
     //-nipplesPerBreast: 1
-    Game.player.upperBody.chest.list[0].breastRating = 5;
+    Game.player.upperBody.chest.get(0).breastRating = 5;
     Game.player.lowerBody.butt.buttRating = 2;
     Game.player.createVagina();
-    Game.player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.TIGHT;
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLAVERING;
-    Game.player.vaginas[0].virgin = true;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.2;
-    Game.player.upperBody.head.earType = EARS.CAT;
-    Game.player.faceType = FACE.CAT;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.TIGHT;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLAVERING;
+    Game.player.lowerBody.vaginaSpot.get(0).virgin = true;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.2;
+    Game.player.upperBody.head.earType = EarType.CAT;
+    Game.player.upperBody.head.face.faceType = FaceType.CAT;
     Game.player.femininity = 100;
     Game.player.fertility = 85;
     Game.player.gender = 2;
-    Game.player.hairColor = "blonde";
-    Game.player.hairLength = 24;
+    Game.player.upperBody.head.hairColor = "blonde";
+    Game.player.upperBody.head.hairLength = 24;
     Game.player.lowerBody.hipRating = 6;
-    Game.player.lowerBody = LOWER_BODY.CAT;
+    Game.player.lowerBody = LowerBodyType.CAT;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.5;
     //perks:
-    Game.player.createPerk(PerkLib.Agility, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Evade, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Runner, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fertile, 1.5, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Flexibility, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryScholar, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Agility", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Evade", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Runner", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fast", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fertile", 1.5, 0, 0, 0));
+    Game.player.perks.add(new Perk("Flexibility", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryScholar", 0, 0, 0, 0));
 	
     Game.player.skinDesc = "fur";
     Game.player.skinTone = "ashen";
-    Game.player.skinType = SKIN.FUR;
-    Game.player.tailType = TAIL.CAT;
+    Game.player.skinType = SkinType.FUR;
+    Game.player.lowerBody.tailType = TailType.CAT;
     Game.player.tallness = 55;
     Game.player.teaseLevel = 4;
     Game.player.thickness = 10;
     Game.player.tone = 75;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
 			
     //Posted everything above sorry if it wasn't supposed to go there.
     //starting equipment: black leather armor surrounded by voluminous robes
@@ -1485,50 +1486,50 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     Game.player.gender = 3;
     Game.player.stats.spe += 3;
     Game.player.stats.int += 2;
-    Game.player.str += 3;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+    Game.player.stats.str += 3;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = .5;
     Game.player.fertility = 20;
-    Game.player.hairLength = 15;
+    Game.player.upperBody.head.hairLength = 15;
     Game.player.createBreastRow();
     Game.player.createVagina();
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.tallness = 73;
-    Game.player.upperBody.chest.list[0].breastRating = 5;
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
-    Game.player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LOOSE;
-    Game.player.vaginas[0].virgin = false;
+    Game.player.upperBody.chest.get(0).breastRating = 5;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.LOOSE;
+    Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
     Game.player.tone = 20;
     Game.player.lowerBody.hipRating = 8;
     Game.player.lowerBody.butt.buttRating = 8;
     Game.player.femininity = 75;
     Game.player.thickness = 33;
-    Game.player.hairColor = "platinum blonde";
+    Game.player.upperBody.head.hairColor = "platinum blonde";
     Game.player.teaseLevel = 1;
     //Mirvanna;
     //Gender = Herm
     //Ears = Horse
-    Game.player.upperBody.head.earType = EARS.HORSE;
+    Game.player.upperBody.head.earType = EarType.HORSE;
     //Horns = Dragon
-    Game.player.hornType = HORNS.DRACONIC_X4_12_INCH_LONG;
-    Game.player.horns = 12;
+    Game.player.upperBody.head.hornType = HornType.DRACONIC_X4_12_INCH_LONG;
+    Game.player.upperBody.head.horns = 12;
     //Face = Horse
-    Game.player.faceType = FACE.HORSE;
+    Game.player.upperBody.head.face.faceType = FaceType.HORSE;
     //Skin type = Black Fur
     Game.player.skinTone = "brown";
-    Game.player.skinType = SKIN.FUR;
-    Game.player.hairColor = "black";
+    Game.player.skinType = SkinType.FUR;
+    Game.player.upperBody.head.hairColor = "black";
     Game.player.skinDesc = "fur";
     //Legs/Feet = Digigrade hooved 
-    Game.player.lowerBody = LOWER_BODY.HOOFED;
+    Game.player.lowerBody = LowerBodyType.HOOFED;
     //Wing type = Dragon
-    Game.player.upperBody.wingType = WING.DRACONIC_LARGE;
+    Game.player.upperBody.wingType = WingType.DRACONIC_LARGE;
     Game.player.upperBody.wingDesc = "large, draconic";
     //Tail type = Dragon
-    Game.player.tailType = TAIL.DRACONIC;
+    Game.player.lowerBody.tailType = TailType.DRACONIC;
     //Cock type = Equine
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.HORSE;
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 14;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 2.5;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.HORSE;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 14;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 2.5;
     //Vulva Type = Equine
 
     //Beautiful Sword & Wizard Robe
@@ -1537,8 +1538,8 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //Herm, lots of jizz.
     Game.player.femininity -= 2;
     Game.player.cumMultiplier = 5.5;
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryWhore, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryWhore", 0, 0, 0, 0));
 }
 		
 	private static customNami():void {
@@ -1549,32 +1550,32 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //Looseness- Normal Starting Value
     //Clit-size- Normal Value"
     Game.player.createVagina();
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
-    Game.player.vaginas[0].type = 5;
-    Game.player.vaginas[0].virgin = false;
-    Game.player.ass.analLooseness = 1;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
+    Game.player.lowerBody.vaginaSpot.get(0).type = 5;
+    Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
+    Game.player.lowerBody.butt.analLooseness = 1;
     //Face- Canine
-    Game.player.faceType = FACE.DOG;
+    Game.player.upperBody.head.face.faceType = FaceType.DOG;
     //Ears- Canine
-    Game.player.upperBody.head.earType = EARS.DOG;
+    Game.player.upperBody.head.earType = EarType.DOG;
     //Tail- Canine
-    Game.player.tailType = TAIL.DOG;
+    Game.player.lowerBody.tailType = TailType.DOG;
     //Lower body- Canine
-    Game.player.lowerBody = LOWER_BODY.DOG;
+    Game.player.lowerBody = LowerBodyType.DOG;
     //White Fur (if possible)
-    Game.player.skinType = SKIN.FUR;
-    Game.player.hairColor = "white";
+    Game.player.skinType = SkinType.FUR;
+    Game.player.upperBody.head.hairColor = "white";
     Game.player.skinDesc = "fur";
     //Body Thickness/breastsize/- As if I had selected the ""Average"" body type from the start.
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 3;
+    Game.player.upperBody.chest.get(0).breastRating = 3;
     //Muscle Tone- A bit above average enough to trigger a mention of it in the desc.
     Game.player.tone = 55;
     //Nipples-  As above on size but the black sand trap nipples.
     Game.player.statusAffects.add(new StatusAffect("BlackNipples", 0, 0, 0, 0)));
     //Hair Length- Long
-    Game.player.hairLength = 16;
+    Game.player.upperBody.head.hairLength = 16;
     //Hair Color- Black
     //Skin Color- Light
     Game.player.skinTone = "light";
@@ -1584,9 +1585,9 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
 	
     Game.player.setWeapon(weapons.W_STAFF);
     //Gift Perk- Smarts
-    Game.player.createPerk(PerkLib.Smart, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Smart", 0, 0, 0, 0));
     //History- Schooling
-    Game.player.createPerk(PerkLib.HistoryScholar, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryScholar", 0, 0, 0, 0));
     Game.player.itemSlot1.setItemAndQty(consumables.W__BOOK, 1);
     Game.player.itemSlot2.setItemAndQty(consumables.B__BOOK, 1);
 				
@@ -1596,9 +1597,9 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     Game.player.lowerBody.butt.buttRating = 7;
     Game.player.lowerBody.hipRating = 7;
     Game.player.stats.int = 40;
-    Game.player.str = 20;
+    Game.player.stats.str = 20;
     Game.player.stats.spe = 25;
-    Game.player.tou = 15;
+    Game.player.stats.tou = 15;
 			
     MainScreen.clearText();
     MainScreen.text("Your exotic appearance caused you some trouble growing up, but you buried your nose in books until it came time to go through the portal.");
@@ -1608,14 +1609,14 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     MainScreen.text("There's been something special about you since day one, whether it's your numerous sexual endowments or your supernatural abilities.  You're a natural pick for champion.");
     //Character Creation	"Herm same number and types of cocks from email sent earlier. 
     //Special abilities: Fire breath, fox fire?
-    Game.player.createPerk(PerkLib.Dragonfire, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Dragonfire", 0, 0, 0, 0));
     //equipment: Large claymore, and platemail
     //-Chainmail armor
     Game.player.setArmor(armors.FULLPLT);
     //-Large Claymore (i understand 40 Strength is need so if he could start with that would be great if not hit the gyms)"
     Game.player.setWeapon(weapons.CLAYMOR);
 	
-    Game.player.str = 41;
+    Game.player.stats.str = 41;
     //femininity: 95
     Game.player.femininity = 95;
     //(0 lust cum production: 10000)
@@ -1625,56 +1626,56 @@ Game.player.createKeyItem("Bow", 0, 0, 0, 0);
     //Appearence: 7ft 9in tall covered in thick shining silver fur, has a vulpine head and ears, eight breast all the same size at DD, dragon like wings, tail, and legs. With a large mare like pussy, 6 dicks, two equine, two dragon, two vulpine, all 15in long and 3 in wide, and four nuts 5 in across
     Game.player.tallness = 93;
     Game.player.skinTone = "black";
-    Game.player.skinType = SKIN.FUR;
+    Game.player.skinType = SkinType.FUR;
     Game.player.skinDesc = "fur";
-    Game.player.hairColor = "silver";
-    Game.player.faceType = FACE.FOX;
-    Game.player.upperBody.head.earType = EARS.FOX;
+    Game.player.upperBody.head.hairColor = "silver";
+    Game.player.upperBody.head.face.faceType = FaceType.FOX;
+    Game.player.upperBody.head.earType = EarType.FOX;
     Game.player.createBreastRow();
     Game.player.createBreastRow();
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 5;
-    Game.player.upperBody.chest.list[0].nipplesPerBreast = 4;
-    Game.player.upperBody.chest.list[0].fuckable = true;
-    Game.player.upperBody.chest.list[1].breastRating = 5;
-    Game.player.upperBody.chest.list[1].nipplesPerBreast = 4;
-    Game.player.upperBody.chest.list[1].fuckable = true;
-    Game.player.upperBody.chest.list[2].breastRating = 5;
-    Game.player.upperBody.chest.list[2].nipplesPerBreast = 4;
-    Game.player.upperBody.chest.list[2].fuckable = true;
-    Game.player.upperBody.chest.list[3].breastRating = 5;
-    Game.player.upperBody.chest.list[3].nipplesPerBreast = 4;
-    Game.player.upperBody.chest.list[3].fuckable = true;
+    Game.player.upperBody.chest.get(0).breastRating = 5;
+    Game.player.upperBody.chest.get(0).nipplesPerBreast = 4;
+    Game.player.upperBody.chest.get(0).fuckable = true;
+    Game.player.upperBody.chest.get(1).breastRating = 5;
+    Game.player.upperBody.chest.get(1).nipplesPerBreast = 4;
+    Game.player.upperBody.chest.get(1).fuckable = true;
+    Game.player.upperBody.chest.get(2).breastRating = 5;
+    Game.player.upperBody.chest.get(2).nipplesPerBreast = 4;
+    Game.player.upperBody.chest.get(2).fuckable = true;
+    Game.player.upperBody.chest.get(3).breastRating = 5;
+    Game.player.upperBody.chest.get(3).nipplesPerBreast = 4;
+    Game.player.upperBody.chest.get(3).fuckable = true;
     if(!Game.player.lowerBody.cockSpot.hasCock()) Game.player.lowerBody.cockSpot.add(new Cock());
 Game.player.lowerBody.cockSpot.add(new Cock());
 Game.player.lowerBody.cockSpot.add(new Cock());
 Game.player.lowerBody.cockSpot.add(new Cock());
 Game.player.lowerBody.cockSpot.add(new Cock());
 Game.player.lowerBody.cockSpot.add(new Cock());
-Game.player.lowerBody.cockSpot.list[0].cockType = CockType.HORSE;
-Game.player.lowerBody.cockSpot.list[0].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[0].cockThickness = 3;
-Game.player.lowerBody.cockSpot.list[1].cockType = CockType.HORSE;
-Game.player.lowerBody.cockSpot.list[1].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[1].cockThickness = 3;
-Game.player.lowerBody.cockSpot.list[2].cockType = CockType.DOG;
-Game.player.lowerBody.cockSpot.list[2].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[2].cockThickness = 3;
-Game.player.lowerBody.cockSpot.list[2].knotMultiplier = 2;
-Game.player.lowerBody.cockSpot.list[3].cockType = CockType.DOG;
-Game.player.lowerBody.cockSpot.list[3].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[3].cockThickness = 3;
-Game.player.lowerBody.cockSpot.list[3].knotMultiplier = 2;
-Game.player.lowerBody.cockSpot.list[4].cockType = CockType.DRAGON;
-Game.player.lowerBody.cockSpot.list[4].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[4].cockThickness = 3;
-Game.player.lowerBody.cockSpot.list[5].cockType = CockType.DRAGON;
-Game.player.lowerBody.cockSpot.list[5].cockLength = 15;
-Game.player.lowerBody.cockSpot.list[5].cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(0).cockType = CockType.HORSE;
+Game.player.lowerBody.cockSpot.get(0).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(0).cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(1).cockType = CockType.HORSE;
+Game.player.lowerBody.cockSpot.get(1).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(1).cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(2).cockType = CockType.DOG;
+Game.player.lowerBody.cockSpot.get(2).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(2).cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(2).knotMultiplier = 2;
+Game.player.lowerBody.cockSpot.get(3).cockType = CockType.DOG;
+Game.player.lowerBody.cockSpot.get(3).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(3).cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(3).knotMultiplier = 2;
+Game.player.lowerBody.cockSpot.get(4).cockType = CockType.DRAGON;
+Game.player.lowerBody.cockSpot.get(4).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(4).cockThickness = 3;
+Game.player.lowerBody.cockSpot.get(5).cockType = CockType.DRAGON;
+Game.player.lowerBody.cockSpot.get(5).cockLength = 15;
+Game.player.lowerBody.cockSpot.get(5).cockThickness = 3;
 Game.player.lowerBody.balls = 4;
 Game.player.lowerBody.ballSize = 5;
 //hair length: 15 in
-Game.player.hairLength = 15;
+Game.player.upperBody.head.hairLength = 15;
 //hip size: 15/20
 Game.player.lowerBody.hipRating = 15;
 //butt size: 15/20
@@ -1685,27 +1686,27 @@ Game.player.thickness = 50;
 Game.player.tone = 75;
 //for wetness a squirter, looseness a 2 and capacity at 140.
 if (!Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.createVagina();
-Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLAVERING;
+Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLAVERING;
 Game.player.statusAffects.add(new StatusAffect("BonusVCapacity", 132, 0, 0, 0)));
 //Virgin, high fertility like in the email I sent before.  dragon wings, nine fox tails,  dragon legs, eight DD breasts with four fuckable nipples each, dragon tongue, waist length hair, large dragon wings.
-Game.player.upperBody.wingType = WING.DRACONIC_LARGE;
+Game.player.upperBody.wingType = WingType.DRACONIC_LARGE;
 Game.player.upperBody.wingDesc = "large, draconic";
-Game.player.tailType = TAIL.FOX;
+Game.player.lowerBody.tailType = TailType.FOX;
 Game.player.lowerBody.tailVenom = 9;
-Game.player.lowerBody = LOWER_BODY.DRAGON;
-Game.player.tongueType = TONUGE.DRACONIC;
-Game.player.hairLength = 45;
-Game.player.createPerk(PerkLib.EnlightenedNinetails, 0, 0, 0, 0);
+Game.player.lowerBody = LowerBodyType.DRAGON;
+Game.player.upperBody.head.face.tongueType = TongueType.DRACONIC;
+Game.player.upperBody.head.hairLength = 45;
+Game.player.perks.add(new Perk("EnlightenedNinetails", 0, 0, 0, 0));
 Game.player.gender = 3;
 	}
 		
 	private static customNixi():void {
     //-Perks
     //fertility AND messy orgasm (hope that's not pushing it)
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fertile, 1.5, 0, 0, 0);
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fertile", 1.5, 0, 0, 0));
     //fighting history
-    Game.player.createPerk(PerkLib.HistoryFighter, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryFighter", 0, 0, 0, 0));
     //3 starting perk points
     Game.player.perkPoints = 3;
     //some starting gems (just go ahead and surprise me on the amount)
@@ -1719,26 +1720,26 @@ Game.player.gender = 3;
     //fertility 30 
     //virgin bum
     //anal wetness 1
-    Game.player.ass.analWetness = 2;
+    Game.player.lowerBody.butt.analWetness = 2;
     Game.player.gender = 3;
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 11;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 2;
-    Game.player.lowerBody.cockSpot.list[0].knotMultiplier = 1.2;
-    Game.player.lowerBody.cockSpot.list[0].cockType = CockType.DOG;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 11;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 2;
+    Game.player.lowerBody.cockSpot.get(0).knotMultiplier = 1.2;
+    Game.player.lowerBody.cockSpot.get(0).cockType = CockType.DOG;
     Game.player.lowerBody.balls = 0;
     Game.player.createBreastRow();
     Game.player.createVagina();
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.WET;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.WET;
     //1 pair DD's, 0.5"" nipples"
-    Game.player.upperBody.chest.list[0].breastRating = 5;
+    Game.player.upperBody.chest.get(0).breastRating = 5;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.5;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = .5;
     Game.player.fertility = 30;
     Game.player.lowerBody.hipRating = 6;
     Game.player.lowerBody.butt.buttRating = 6;
-    Game.player.str = 15;
-    Game.player.tou = 15;
+    Game.player.stats.str = 15;
+    Game.player.stats.tou = 15;
     Game.player.stats.spe = 18;
     Game.player.stats.int = 17;
     Game.player.stats.sens = 15;
@@ -1747,10 +1748,10 @@ Game.player.gender = 3;
     kGAMECLASS.notes = "No Notes Available.";
     Game.player.HP = kGAMECLASS.maxHP();
 			
-    Game.player.skinType = SKIN.PLAIN;
-    Game.player.faceType = FACE.HUMAN;
-    Game.player.tailType = TAIL.NONE;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.skinType = SkinType.PLAIN;
+    Game.player.upperBody.head.face.faceType = FaceType.HUMAN;
+    Game.player.lowerBody.tailType = TailType.NONE;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
     Game.player.femininity = 85;
     Game.player.beardLength = 0;
     Game.player.beardStyle = 0;
@@ -1759,37 +1760,37 @@ Game.player.gender = 3;
     //25 thickness
     Game.player.thickness = 25;
     Game.player.skinDesc = "fur";
-    Game.player.skinType = SKIN.FUR;
+    Game.player.skinType = SkinType.FUR;
     Game.player.skinTone = "light";
-    Game.player.hairColor = "silver";
-    Game.player.hairLength = 10;
+    Game.player.upperBody.head.hairColor = "silver";
+    Game.player.upperBody.head.hairLength = 10;
     //shoulder length silver hair
 
     Game.player.lowerBody.balls = 0;
     Game.player.cumMultiplier = 1;
     Game.player.lowerBody.ballSize = 0;
     Game.player.hoursSinceCum = 0;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0;
-    Game.player.ass.analLooseness = 0;
-    Game.player.ass.analWetness = 0;
-    Game.player.ass.fullness = 0;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
+    Game.player.lowerBody.butt.analWetness = 0;
+    Game.player.lowerBody.butt.fullness = 0;
     Game.player.fertility = 5;
     Game.player.fatigue = 0;
-    Game.player.horns = 0;
+    Game.player.upperBody.head.horns = 0;
     Game.player.tallness = 82;
     Game.player.lowerBody.tailVenom = 0;
     Game.player.lowerBody.tailRecharge = 0;
-    Game.player.upperBody.wingType = WING.NONE;
+    Game.player.upperBody.wingType = WingType.NONE;
     Game.player.upperBody.wingDesc = "non-existant";
     //6' 10"" german-shepherd morph, face ears hands feet tail, the whole nine yards
-    Game.player.faceType = FACE.DOG;
-    Game.player.lowerBody = LOWER_BODY.DOG;
-    Game.player.tailType = TAIL.DOG;
-    Game.player.upperBody.head.earType = EARS.DOG;
+    Game.player.upperBody.head.face.faceType = FaceType.DOG;
+    Game.player.lowerBody = LowerBodyType.DOG;
+    Game.player.lowerBody.tailType = TailType.DOG;
+    Game.player.upperBody.head.earType = EarType.DOG;
     ////"	"I'm picturing a tall, feminine German-Shepherd morph, solid white and gorgeous. She has both sets of genitals, with no balls, and a large set of breasts. She wields a large claymore and is dressed in a full chain vest and pants. 
     //large claymore (and the strength to use it)
     Game.player.setWeapon(weapons.CLAYMOR);
-    Game.player.str = 40;
+    Game.player.stats.str = 40;
     //full chain
     Game.player.setArmor(armors.FULLCHN);
     MainScreen.text("As a German-Shepherd morph, the rest of the village never really knew what to do with you... until they sent you through the portal to face whatever's on the other side...");
@@ -1798,31 +1799,31 @@ Game.player.gender = 3;
 	private static customPrismere():void {
     //Specific Character	Female, virgin, high fertility, tight with standard wetness and clit.
     Game.player.createVagina();
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
     Game.player.fertility = 4;
     Game.player.stats.spe += 20;
     MainScreen.text("You're more of a scout than a fighter, but you still feel confident you can handle your responsibilities as champion.  After all, what's to worry about when you can outrun everything you encounter?  You have olive skin, deep red hair, and a demonic tail and wings to blend in with the locals.");
     //Perk is speed, she was a scout, and it'd be neat (if possible) to give her something akin to the Runner perk. She might not start out very strong or tough, but at least she's fast.
-    Game.player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Runner, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Fast", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Runner", 0, 0, 0, 0));
     //In the human world, Prismere began as a scout, helping patrol areas with portals to make sure demonspawn and corruption didn't reach the human homeland. She's gotten herself into a few tight spots because of it, but she's hard to keep pinned down. She has a fiance back in her village whom she fully intends to get back to, so her libido isn't especially high. 
     //As of the time the PC takes her on, she has some signs of demonic taint, so Corruption might start at 5 to 10 points."	"Breasts at E, height at 5'0, a curvy build with a more narrow waist and substantial hips and butt. Skin is olive, like a mocha, hair is long and wildly wavy, a deep red, and eyes are a stormy blue. Muscles are barely visible; what muscle she has is the lean build of a runner, not a fighter. Nipples aren't especially long, but more soft. 
     Game.player.stats.cor = 5;
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 7;
+    Game.player.upperBody.chest.get(0).breastRating = 7;
     Game.player.tallness = 60;
     Game.player.lowerBody.hipRating = 8;
     Game.player.lowerBody.butt.buttRating = 8;
     Game.player.thickness = 25;
     Game.player.tone = 40;
     Game.player.skinTone = "olive";
-    Game.player.hairLength = 30;
-    Game.player.hairColor = "deep red";
+    Game.player.upperBody.head.hairLength = 30;
+    Game.player.upperBody.head.hairColor = "deep red";
     Game.player.femininity = 90;
     //She has a demonic tail and small demonic wings thanks to some encounters early on with succubus milk (that stuff is delicious!) but is otherwise still human.
-    Game.player.upperBody.wingType = WING.BAT_LIKE_LARGE;
+    Game.player.upperBody.wingType = WingType.BAT_LIKE_LARGE;
     Game.player.upperBody.wingDesc = "large, bat-like";
-    Game.player.tailType = TAIL.DEMONIC;
+    Game.player.lowerBody.tailType = TailType.DEMONIC;
     //I feel really weird talking about all this, so if there's anything you need to change or can't do, or if I totally misinterpreted this, just shoot me an email! jordie.wierenga@gmail.com . Thanks in advance... I'm a big fan. "	Prismere
 }
 		
@@ -1830,15 +1831,15 @@ Game.player.gender = 3;
     //Specific Character	Virgin female.	Max femininity. Thin with a little muscle. Size C breasts. Long red hair. Light colored skin. 5'5" tall. 	Rann Rayla
     MainScreen.text("You're a young, fiery redhead who\'s utterly feminine.  You've got C-cup breasts and long red hair.  Being a champion can\'t be that bad, right?");
     Game.player.createVagina();
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 3;
+    Game.player.upperBody.chest.get(0).breastRating = 3;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.5;
-    Game.player.hairLength = 22;
-    Game.player.hairColor = "red";
+    Game.player.upperBody.head.hairLength = 22;
+    Game.player.upperBody.head.hairColor = "red";
     Game.player.skinTone = "light";
     Game.player.skinDesc = "skin";
-    Game.player.skinType = SKIN.PLAIN;
+    Game.player.skinType = SkinType.PLAIN;
     Game.player.femininity = 100;
     Game.player.thickness = 25;
     Game.player.tone = 65;
@@ -1849,37 +1850,37 @@ Game.player.gender = 3;
     //529315025394020	Character Creation	Neuter (no genitals) "50-50 masculine-feminine ratio. Shark teeth."	Rope
     MainScreen.text("Despite outward appearances, you're actually something of a neuter, with shark-like teeth, an androgynous face, and a complete lack of genitalia.");
     if(Game.player.lowerBody.cockSpot.hasCock()) Game.player.lowerBody.cockSpot.remove(0, 1);
-    if(Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.removeVagina();
+    if(Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.lowerBody.vaginaSpot.remove();
     Game.player.gender = 0;
     Game.player.femininity = 50;
-    Game.player.faceType = FACE.SHARK_TEETH;
+    Game.player.upperBody.head.face.faceType = FaceType.SHARK_TEETH;
 }
 		
 	private static customSera():void {
     MainScreen.text("You're something of a shemale - three rows of C-cup breasts matched with three, plump, juicy cocks.  Some decent sized balls, bat wings, and cat-like ears round out the package.");
     Game.player.gender = 1;
-    Game.player.tou += 2;
-    Game.player.str += 3;
+    Game.player.stats.tou += 2;
+    Game.player.stats.str += 3;
     Game.player.fertility = 5;
-    Game.player.hairLength = 26;
-    Game.player.hairColor = "white";
+    Game.player.upperBody.head.hairLength = 26;
+    Game.player.upperBody.head.hairColor = "white";
     Game.player.skinTone = "light";
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 0.2;
     Game.player.createBreastRow();
     Game.player.createBreastRow();
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 3;
-    Game.player.upperBody.chest.list[1].breastRating = 3;
-    Game.player.upperBody.chest.list[2].breastRating = 3;
+    Game.player.upperBody.chest.get(0).breastRating = 3;
+    Game.player.upperBody.chest.get(1).breastRating = 3;
+    Game.player.upperBody.chest.get(2).breastRating = 3;
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.cockSpot.add(new Cock());
     Game.player.lowerBody.cockSpot.add(new Cock());
-    Game.player.lowerBody.cockSpot.list[0].cockLength = 8;
-    Game.player.lowerBody.cockSpot.list[0].cockThickness = 1.6;
-    Game.player.lowerBody.cockSpot.list[1].cockLength = 8;
-    Game.player.lowerBody.cockSpot.list[1].cockThickness = 1.6;
-    Game.player.lowerBody.cockSpot.list[2].cockLength = 8;
-    Game.player.lowerBody.cockSpot.list[2].cockThickness = 1.6;
+    Game.player.lowerBody.cockSpot.get(0).cockLength = 8;
+    Game.player.lowerBody.cockSpot.get(0).cockThickness = 1.6;
+    Game.player.lowerBody.cockSpot.get(1).cockLength = 8;
+    Game.player.lowerBody.cockSpot.get(1).cockThickness = 1.6;
+    Game.player.lowerBody.cockSpot.get(2).cockLength = 8;
+    Game.player.lowerBody.cockSpot.get(2).cockThickness = 1.6;
     Game.player.lowerBody.balls = 2;
     Game.player.lowerBody.ballSize = 3;
     Game.player.tallness = 113;
@@ -1897,11 +1898,11 @@ Game.player.gender = 3;
     //History: Schooling
     Game.player.cumMultiplier = 5.5;
 	
-    Game.player.createPerk(PerkLib.MessyOrgasms, 1.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryScholar, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("MessyOrgasms", 1.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryScholar", 0, 0, 0, 0));
     //Apperance: Cat Ears, Large Bat Like Wings, 3 Rows of breasts (C cub, 0,2 nipples)
-    Game.player.upperBody.head.earType = EARS.CAT;
-    Game.player.upperBody.wingType = WING.BAT_LIKE_LARGE;
+    Game.player.upperBody.head.earType = EarType.CAT;
+    Game.player.upperBody.wingType = WingType.BAT_LIKE_LARGE;
     Game.player.upperBody.wingDesc = "large, bat-like";
     //Items: Katana, Leather Armor
     Game.player.setWeapon(weapons.KATANA);
@@ -1915,21 +1916,21 @@ Game.player.gender = 3;
     //Virgin
     Game.player.gender = 2;
     Game.player.createVagina();
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.25;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.25;
     //has a self-repairing hymen in her cunt"	"Angel
     //(means feathered wings on her back)
-    Game.player.upperBody.wingType = WING.HARPY;
+    Game.player.upperBody.wingType = WingType.HARPY;
     //Halo (Flaming)
     //D-cups
     Game.player.createBreastRow();
-    Game.player.upperBody.chest.list[0].breastRating = 4;
+    Game.player.upperBody.chest.get(0).breastRating = 4;
     //human skin
     //heart-shaped ass
     Game.player.lowerBody.butt.buttRating = 9;
     Game.player.lowerBody.hipRating = 6;
     //Ass-length white and black hair
-    Game.player.hairLength = 30;
-    Game.player.hairColor = "white and black";
+    Game.player.upperBody.head.hairLength = 30;
+    Game.player.upperBody.head.hairColor = "white and black";
     //heterochromia (one blue eye one red eye)
     //7"" nips
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 7;
@@ -1941,14 +1942,14 @@ Game.player.gender = 3;
     Game.player.setWeapon(weapons.S_BLADE);
 	
     //Elfin ears
-    Game.player.upperBody.head.earType = EARS.ELFIN;
+    Game.player.upperBody.head.earType = EarType.ELFIN;
     //tight asshole
     //human tongue
     //human face
     //no tail, fur, or scales"
     Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 0);
-    Game.player.str = 25;
-    Game.player.tou = 25;
+    Game.player.stats.str = 25;
+    Game.player.stats.tou = 25;
     Game.player.stats.int = 25;
     Game.player.stats.spe = 25;
     MainScreen.text("You are a literal angel from beyond, and you take the place of a vilage's champion for your own reasons...");
@@ -1956,13 +1957,13 @@ Game.player.gender = 3;
 		
 	private static customSora():void {
     //Character Creation	Female,virgin	A kitsune with a snake-like tongue	Sora
-    if(Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.vaginas[0].virgin = true;
-    Game.player.tongueType = TONUGE.SNAKE;
-    Game.player.upperBody.head.earType = EARS.FOX;
-    Game.player.tailType = TAIL.FOX;
+    if(Game.player.lowerBody.vaginaSpot.hasVagina()) Game.player.lowerBody.vaginaSpot.get(0).virgin = true;
+    Game.player.upperBody.head.face.tongueType = TongueType.SNAKE;
+    Game.player.upperBody.head.earType = EarType.FOX;
+    Game.player.lowerBody.tailType = TailType.FOX;
     Game.player.lowerBody.tailVenom = 2;
     Game.player.stats.int = 30;
-    if(Game.player.findStatusAffect(StatusAffects.BonusVCapacity) < 0) Game.player.statusAffects.add(new StatusAffect("BonusVCapacity", 0, 0, 0, 0)));
+    if(Game.!player.statusAffects.has("BonusVCapacity")) Game.player.statusAffects.add(new StatusAffect("BonusVCapacity", 0, 0, 0, 0)));
     else Game.player.addStatusValue(StatusAffects.BonusVCapacity, 1, 5 + Utils.rand(10));
     MainScreen.text("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 }
@@ -1972,16 +1973,16 @@ Game.player.gender = 3;
     Game.player.level = 20;
     Game.player.createBreastRow();
     Game.player.createVagina();
-    Game.player.upperBody.chest.list[0].breastRating = 5;
-    Game.player.upperBody.chest.list[0].lactationMultiplier = 2;
+    Game.player.upperBody.chest.get(0).breastRating = 5;
+    Game.player.upperBody.chest.get(0).lactationMultiplier = 2;
 		
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.5;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.5;
     Game.player.fertility = 50;
     Game.player.gender = 2;
     Game.player.lowerBody.hipRating = 6;
     Game.player.lowerBody.butt.buttRating = 6;
-    Game.player.str = 100;
-    Game.player.tou = 100;
+    Game.player.stats.str = 100;
+    Game.player.stats.tou = 100;
     Game.player.stats.spe = 100;
     Game.player.stats.int = 100;
     Game.player.stats.sens = 100;
@@ -1989,12 +1990,12 @@ Game.player.gender = 3;
     Game.player.stats.cor = 71;
     kGAMECLASS.notes = "Cheater!";
     Game.player.HP = kGAMECLASS.maxHP();
-    Game.player.hairLength = 10;
-    Game.player.skinType = SKIN.PLAIN;
-    Game.player.faceType = FACE.HUMAN;
-    Game.player.tailType = TAIL.FOX;
+    Game.player.upperBody.head.hairLength = 10;
+    Game.player.skinType = SkinType.PLAIN;
+    Game.player.upperBody.head.face.faceType = FaceType.HUMAN;
+    Game.player.lowerBody.tailType = TailType.FOX;
     Game.player.lowerBody.tailVenom = 4;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
     Game.player.femininity = 90;
     Game.player.beardLength = 0;
     Game.player.beardStyle = 0;
@@ -2002,27 +2003,27 @@ Game.player.gender = 3;
     Game.player.thickness = 100;
     Game.player.skinDesc = "skin";
     Game.player.skinTone = "pale";
-    Game.player.hairColor = "black";
+    Game.player.upperBody.head.hairColor = "black";
     Game.player.lowerBody.balls = 2;
     Game.player.cumMultiplier = 1;
     Game.player.lowerBody.ballSize = 3;
     Game.player.hoursSinceCum = 0;
-    Game.player.ass.analLooseness = 0;
-    Game.player.ass.analWetness = 0;
-    Game.player.ass.fullness = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
+    Game.player.lowerBody.butt.analWetness = 0;
+    Game.player.lowerBody.butt.fullness = 0;
     Game.player.fertility = 50;
     Game.player.fatigue = 0;
-    Game.player.horns = 0;
-    Game.player.hornType = HORNS.NONE;
+    Game.player.upperBody.head.horns = 0;
+    Game.player.upperBody.head.hornType = HornType.NONE;
     Game.player.tallness = 109;
     Game.player.lowerBody.tailVenom = 0;
     Game.player.lowerBody.tailRecharge = 0;
-    Game.player.upperBody.wingType = WING.DRACONIC_LARGE;
+    Game.player.upperBody.wingType = WingType.DRACONIC_LARGE;
     Game.player.upperBody.wingDesc = "non-existant";
-    Game.player.upperBody.head.earType = EARS.HUMAN;
-    Game.player.lowerBody = LOWER_BODY.HUMAN;
-    Game.player.armType = ARM.HUMAN;
-    Game.player.hairLength = 69.2;
+    Game.player.upperBody.head.earType = EarType.HUMAN;
+    Game.player.lowerBody = LowerBodyType.HUMAN;
+    Game.player.upperBody.armType = ArmType.HUMAN;
+    Game.player.upperBody.head.hairLength = 69.2;
     Game.player.upperBody.head.hairType = 4;
     //Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
     Game.player.statusAffects.add(new StatusAffect("Kelt", 100, 0, 0, 0)));
@@ -2044,29 +2045,29 @@ Game.player.gender = 3;
 		
     Game.player.statusAffects.add(new StatusAffect("KnowsWhitefire", 0, 0, 0, 0)));
 			
-    Game.player.createPerk(PerkLib.HistoryFighter, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Acclimation, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Berzerker, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.BrutalBlows, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.DoubleAttack, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.ImmovableObject, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.LightningStrikes, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.LungingAttacks, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Precision, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Regeneration, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Regeneration2, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Resistance, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Resolute, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.SpeedyRecovery, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Tactician, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Tank, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Tank2, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.ThunderousStrikes, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.WeaponMastery, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.WellAdjusted, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistoryFighter", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Acclimation", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Berzerker", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("BrutalBlows", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("DoubleAttack", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("ImmovableObject", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("LightningStrikes", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("LungingAttacks", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Precision", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Regeneration", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Regeneration2", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Resistance", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Resolute", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("SpeedyRecovery", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Tactician", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Tank", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Tank2", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("ThunderousStrikes", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("WeaponMastery", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("WellAdjusted", 0, 0, 0, 0));
 			
-    Game.player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
 			
     Flags.set(FlagEnum.VALARIA_AT_CAMP, 1);
 			
@@ -2144,59 +2145,59 @@ Game.player.gender = 3;
     Game.player.gender = 2;
     //Vagina: Ridiculously loose, 3 inch clitoris, dripping constantly, fertile like a bunny on steroids and non-virgin
     Game.player.createVagina();
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 3;
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.DROOLING;
-    Game.player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LEVEL_CLOWN_CAR;
-    Game.player.vaginas[0].virgin = false;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 3;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.DROOLING;
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.LEVEL_CLOWN_CAR;
+    Game.player.lowerBody.vaginaSpot.get(0).virgin = false;
     Game.player.fertility = 50;
     //Butt: Just as loose
-    Game.player.ass.analLooseness = 5;
+    Game.player.lowerBody.butt.analLooseness = 5;
     //"Skin: Tanned
     Game.player.skinTone = "tan";
     //Hair: Ridiculously long red
-    Game.player.hairLength = 80;
-    Game.player.hairColor = "red";
+    Game.player.upperBody.head.hairLength = 80;
+    Game.player.upperBody.head.hairColor = "red";
     //Face: Gorgeous Feminine, long demonic tongue, cat ears
     Game.player.femininity = 100;
-    Game.player.tongueType = TONUGE.DEMONIC;
-    Game.player.upperBody.head.earType = EARS.CAT;
+    Game.player.upperBody.head.face.tongueType = TongueType.DEMONIC;
+    Game.player.upperBody.head.earType = EarType.CAT;
     //Body: Very muscular, average weight, plump ass, above average thighs, cat tail and cat paws
     Game.player.tone = 80;
     Game.player.thickness = 50;
     Game.player.lowerBody.butt.buttRating = 12;
     Game.player.lowerBody.hipRating = 10;
-    Game.player.tailType = TAIL.CAT;
-    Game.player.lowerBody = LOWER_BODY.CAT;
+    Game.player.lowerBody.tailType = TailType.CAT;
+    Game.player.lowerBody = LowerBodyType.CAT;
     //Breasts: 2 E-cups on top, 2 DD-cups mid, 2 D-cups bottom, 3.5 inch nipples
     Game.player.createBreastRow();
     Game.player.createBreastRow();
     Game.player.createBreastRow();
     Game.player.tallness = 67;
-    Game.player.upperBody.chest.list[0].breastRating = 7;
-    Game.player.upperBody.chest.list[1].breastRating = 5;
-    Game.player.upperBody.chest.list[2].breastRating = 4;
+    Game.player.upperBody.chest.get(0).breastRating = 7;
+    Game.player.upperBody.chest.get(1).breastRating = 5;
+    Game.player.upperBody.chest.get(2).breastRating = 4;
     Game.player.upperBody.chest.BreastRatingLargest[0].nippleLength = 3.5;
     //Perks: Slut and Fertile"	
 
     Game.player.stats.spe += 3;
     Game.player.stats.int += 2;
 	
-    Game.player.createPerk(PerkLib.HistorySlut, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fertile, 1.5, 0, 0, 0);
+    Game.player.perks.add(new Perk("HistorySlut", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fertile", 1.5, 0, 0, 0));
     Game.player.teaseLevel = 3;
 }
 		
 	private static customVahdunbrii():void {
     Game.player.createBreastRow();
     Game.player.createVagina();
-    Game.player.upperBody.chest.list[0].breastRating = 3;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = .5;
+    Game.player.upperBody.chest.get(0).breastRating = 3;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = .5;
     Game.player.fertility = 10;
     Game.player.gender = 2;
     Game.player.lowerBody.hipRating = 6;
     Game.player.lowerBody.butt.buttRating = 6;
-    Game.player.str = 15;
-    Game.player.tou = 15;
+    Game.player.stats.str = 15;
+    Game.player.stats.tou = 15;
     Game.player.stats.spe = 18;
     Game.player.stats.int = 17;
     Game.player.stats.sens = 15;
@@ -2204,11 +2205,11 @@ Game.player.gender = 3;
     Game.player.stats.cor = 0;
     kGAMECLASS.notes = "No Notes Available.";
     Game.player.HP = kGAMECLASS.maxHP();
-    Game.player.hairLength = 10;
-    Game.player.skinType = SKIN.PLAIN;
-    Game.player.faceType = FACE.HUMAN;
-    Game.player.tailType = TAIL.NONE;
-    Game.player.tongueType = TONUGE.HUMAN;
+    Game.player.upperBody.head.hairLength = 10;
+    Game.player.skinType = SkinType.PLAIN;
+    Game.player.upperBody.head.face.faceType = FaceType.HUMAN;
+    Game.player.lowerBody.tailType = TailType.NONE;
+    Game.player.upperBody.head.face.tongueType = TongueType.HUMAN;
     Game.player.femininity = 70;
     Game.player.beardLength = 0;
     Game.player.beardStyle = 0;
@@ -2216,34 +2217,34 @@ Game.player.gender = 3;
     Game.player.thickness = 50;
     Game.player.skinDesc = "skin";
     Game.player.skinTone = "light";
-    Game.player.hairColor = "brown";
+    Game.player.upperBody.head.hairColor = "brown";
     Game.player.lowerBody.balls = 0;
     Game.player.cumMultiplier = 1;
     Game.player.lowerBody.ballSize = 0;
     Game.player.hoursSinceCum = 0;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0;
-    Game.player.ass.analLooseness = 0;
-    Game.player.ass.analWetness = 0;
-    Game.player.ass.fullness = 0;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0;
+    Game.player.lowerBody.butt.analLooseness = 0;
+    Game.player.lowerBody.butt.analWetness = 0;
+    Game.player.lowerBody.butt.fullness = 0;
     Game.player.fertility = 5;
     Game.player.fatigue = 0;
-    Game.player.horns = 0;
+    Game.player.upperBody.head.horns = 0;
     Game.player.tallness = 67;
     Game.player.lowerBody.tailVenom = 0;
     Game.player.lowerBody.tailRecharge = 0;
-    Game.player.upperBody.wingType = WING.NONE;
+    Game.player.upperBody.wingType = WingType.NONE;
     Game.player.upperBody.wingDesc = "non-existant";
-    Game.player.upperBody.head.earType = EARS.CAT;
-    Game.player.lowerBody = LOWER_BODY.CAT;
-    Game.player.tailType = TAIL.CAT;
-    Game.player.createPerk(PerkLib.Incorporeality, 0, 0, 0, 0);
-    Game.player.upperBody.wingType = WING.FEATHERED_LARGE;
-    Game.player.armType = ARM.HARPY;
-    Game.player.hornType = HORNS.DRACONIC_X2;
-    Game.player.horns = 4;
-    Game.player.faceType = FACE.SPIDER_FANGS;
-    Game.player.hairLength = 69.2;
-    Game.player.hairColor = "dark blue";
+    Game.player.upperBody.head.earType = EarType.CAT;
+    Game.player.lowerBody = LowerBodyType.CAT;
+    Game.player.lowerBody.tailType = TailType.CAT;
+    Game.player.perks.add(new Perk("Incorporeality", 0, 0, 0, 0));
+    Game.player.upperBody.wingType = WingType.FEATHERED_LARGE;
+    Game.player.upperBody.armType = ArmType.HARPY;
+    Game.player.upperBody.head.hornType = HornType.DRACONIC_X2;
+    Game.player.upperBody.head.horns = 4;
+    Game.player.upperBody.head.face.faceType = FaceType.SPIDER_FANGS;
+    Game.player.upperBody.head.hairLength = 69.2;
+    Game.player.upperBody.head.hairColor = "dark blue";
     Game.player.upperBody.head.hairType = 2;
     Game.player.skinAdj = "smooth";
     Game.player.skinTone = "sanguine";
@@ -2252,8 +2253,8 @@ Game.player.gender = 3;
     Game.player.lowerBody.butt.buttRating = 6;
     Game.player.thickness = 4;
     Game.player.tone = 98;
-    Game.player.upperBody.chest.list[0].breastRating = 3;
-    Game.player.lowerBody.vaginaSpot.list[0].clitLength = 0.2;
+    Game.player.upperBody.chest.get(0).breastRating = 3;
+    Game.player.lowerBody.vaginaSpot.get(0).clitLength = 0.2;
     Game.player.femininity = 85;
     //Beautiful Sword
     Game.player.setWeapon(weapons.B_SWORD);
@@ -2273,25 +2274,25 @@ Game.player.gender = 3;
     Game.player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0);
     Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00255, 1);
     //(Flexibility), (Incorporeality), History: Religious, Dragonfire, Brood Mother, Magical Fertility, Wet Pussy, Tough, Strong, Fast, Smart, History: Scholar, History: Slacker, Strong Back, Strong Back 2: Stronger Harder
-    Game.player.createPerk(PerkLib.Flexibility, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryReligious, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Dragonfire, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.BroodMother, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fertile, 1.5, 0, 0, 0);
-    Game.player.vaginas[0].vaginalWetness = VAGINA_WETNESS.WET;
-    Game.player.createPerk(PerkLib.WetPussy, 2, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Tough, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Strong, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Fast, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.Smart, 0.25, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistoryScholar, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.StrongBack, 0, 0, 0, 0);
+    Game.player.perks.add(new Perk("Flexibility", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryReligious", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Dragonfire", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("BroodMother", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fertile", 1.5, 0, 0, 0));
+    Game.player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.WET;
+    Game.player.perks.add(new Perk("WetPussy", 2, 0, 0, 0));
+    Game.player.perks.add(new Perk("Tough", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Strong", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Fast", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("Smart", 0.25, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistoryScholar", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("StrongBack", 0, 0, 0, 0));
     Game.player.itemSlot4.unlocked = true;
     Game.player.itemSlot5.unlocked = true;
-    Game.player.createPerk(PerkLib.StrongBack2, 0, 0, 0, 0);
-    Game.player.createPerk(PerkLib.HistorySlacker, 0, 0, 0, 0);
-    Game.player.str += 4;
-    Game.player.tou += 4;
+    Game.player.perks.add(new Perk("StrongBack2", 0, 0, 0, 0));
+    Game.player.perks.add(new Perk("HistorySlacker", 0, 0, 0, 0));
+    Game.player.stats.str += 4;
+    Game.player.stats.tou += 4;
     Game.player.stats.int += 2;
     Game.player.stats.spe += 2;
     Game.player.stats.gems += 300;

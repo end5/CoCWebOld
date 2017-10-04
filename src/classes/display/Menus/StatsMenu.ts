@@ -159,7 +159,7 @@ export default class StatsMenu {
         }
 
         if (player.lowerBody.vaginaSpot.count() > 0)
-            bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.looseness()) + "\n";
+            bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.lowerBody.vaginaSpot.get(0).vaginalLooseness) + "\n";
 
         if (player.perks.has("SpiderOvipositor") || player.perks.has("BeeOvipositor"))
             bodyStats += "<b>Ovipositor Total Egg Count: " + player.eggs() + "\nOvipositor Fertilized Egg Count: " + player.fertilizedEggs() + "</b>\n";
