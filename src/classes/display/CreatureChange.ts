@@ -1,20 +1,24 @@
 import Flags, { FlagEnum } from "../Game/Flags";
-import Creature from "../Body/Body";
+import Creature from "../Body/Creature";
 import MainScreen from "./MainScreen";
 import CockDescriptor from "../Descriptors/CockDescriptor";
 import Utils from "../Utilities/Utils";
 import { BreastCup } from "../Body/BreastRow";
-import StatusAffect from "../Effects/StatusAffect";
 import VaginaDescriptor from "../Descriptors/VaginaDescriptor";
+import StatusAffect from "../Effects/StatusAffect";
+import BallsDescriptor from "../Descriptors/BallsDescriptor";
+import ButtDescriptor from "../Descriptors/ButtDescriptor";
+import HeadDescriptor from "../Descriptors/HeadDescriptor";
+import Player from "../Player";
 
-export default class BodyChangeDisplay {
+export default class CreatureChange {
     public static lengthChange(body: Creature, lengthChange: number, ncocks: number): void {
 
-        if (lengthChange < 0 && Flags.get[FlagEnum.HYPER_HAPPY]) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
+        if (lengthChange < 0 && Flags.get(FlagEnum.HYPER_HAPPY)) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
             return;
         }
 
-        let cocks = body.lowerBody.cockSpot;
+        const cocks = body.lowerBody.cockSpot;
 
         //DIsplay the degree of length change.
         if (lengthChange <= 1 && lengthChange > 0) {
@@ -158,7 +162,7 @@ export default class BodyChangeDisplay {
         //Already in heat, intensify further.
         if (body.inHeat) {
             MainScreen.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
-            let statusAffectHeat: StatusAffect = body.statusAffects.get("Heat");
+            const statusAffectHeat: StatusAffect = body.statusAffects.get("Heat");
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
@@ -185,7 +189,7 @@ export default class BodyChangeDisplay {
         //Has rut, intensify it!
         if (body.inRut) {
             MainScreen.text("\n\nYour " + CockDescriptor.describeCock(body, body.lowerBody.cockSpot.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);
-            let statusAffectRut: StatusAffect = body.statusAffects.get("Rut");
+            const statusAffectRut: StatusAffect = body.statusAffects.get("Rut");
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
@@ -201,6 +205,133 @@ export default class BodyChangeDisplay {
             body.stats.bimboIntReduction = true;
             body.stats.lib += 5 * intensity;
         }
+    }
+
+    public static ballsRemovalDescription(creature: Creature) {
+        MainScreen.text("  <b>Your " + BallsDescriptor.describeSack(creature) + " and " + BallsDescriptor.describeSack(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
+    }
+
+    public static buttChangeDisplay(body: Creature): void {	//Allows the test for stretching and the text output to be separated
+        if (body.lowerBody.butt.analLooseness == 5) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
+        if (body.lowerBody.butt.analLooseness == 4) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " becomes so stretched that it gapes continually.</b>", false);
+        if (body.lowerBody.butt.analLooseness == 3) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is now very loose.</b>");
+        if (body.lowerBody.butt.analLooseness == 2) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is now a little loose.</b>");
+        if (body.lowerBody.butt.analLooseness == 1) MainScreen.text("<b>You have lost your anal virginity.</b>", false);
+    }
+
+    public static removeCocksDescriptor(creature: Creature, removed: number) {
+        let cocks = creature.lowerBody.cockSpot;
+        //Texts
+        if (removed == 1) {
+            if (cocks.count() == 0) {
+                MainScreen.text("<b>Your manhood shrinks into your body, disappearing completely.</b>", false);
+                if (creature.statusAffects.has("Infested")) MainScreen.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.", false);
+            }
+            if (cocks.count() == 1) {
+                MainScreen.text("<b>Your smallest penis disappears, shrinking into your body and leaving you with just one " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".</b>", false);
+            }
+            if (cocks.count() > 1) {
+                MainScreen.text("<b>Your smallest penis disappears forever, leaving you with just your " + CockDescriptor.describeMultiCockShort(creature) + ".</b>", false);
+            }
+        }
+        if (removed > 1) {
+            if (cocks.count() == 0) {
+                MainScreen.text("<b>All your male endowments shrink smaller and smaller, disappearing one at a time.</b>", false);
+                if (creature.statusAffects.has("Infested")) MainScreen.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.", false);
+            }
+            if (cocks.count() == 1) {
+                MainScreen.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with just your " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".", false);
+            }
+            if (cocks.count() > 1) {
+                MainScreen.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with " + CockDescriptor.describeMultiCockShort(creature) + ".", false);
+            }
+        }
+        //remove infestation if cockless
+        if (cocks.count() == 0 && creature.statusAffects.has("Infested"))
+            creature.statusAffects.remove("Infested");
+        if (cocks.count() == 0 && creature.lowerBody.balls > 0) {
+            MainScreen.text("  <b>Your " + BallsDescriptor.describeSack(creature) + " and " + BallsDescriptor.describeBallsShort(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
+            creature.lowerBody.balls = 0;
+            creature.lowerBody.ballSize = 1;
+        }
+    }
+
+    public static growHair(creature: Creature, amount: number = .1): boolean {
+        //Grow hair!
+        const hairLength: number = creature.upperBody.head.hairLength;
+        creature.upperBody.head.hairLength += amount;
+        if (creature.upperBody.head.hairLength > 0 && hairLength == 0) {
+            MainScreen.text("\n<b>You are no longer bald.  You now have " + HeadDescriptor.describeHair(creature) + " coating your head.\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 1 && hairLength < 1) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 3 && hairLength < 3) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 6 && hairLength < 6) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 10 && hairLength < 10) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 16 && hairLength < 16) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 26 && hairLength < 26) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 40 && hairLength < 40) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        else if (creature.upperBody.head.hairLength >= 40 && creature.upperBody.head.hairLength >= creature.tallness && hairLength < creature.tallness) {
+            MainScreen.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>", false);
+            return true;
+        }
+        return false;
+    }
+
+    public static HPChange(player: Player, changeAmount: number) {
+        if (changeAmount == 0) return;
+        if (changeAmount > 0) {
+            //Increase by 20%!
+            if (player.perks.has("HistoryHealer"))
+                changeAmount *= 1.2;
+            if (player.stats.HP + Math.floor(changeAmount) > player.stats.maxHP()) {
+                if (player.stats.HP >= player.stats.maxHP()) {
+                    MainScreen.text("You're as healthy as you can be.\n", false);
+                    return;
+                }
+                MainScreen.text("Your HP maxes out at " + player.stats.maxHP() + ".\n", false);
+                player.stats.HP = player.stats.maxHP();
+            }
+            else {
+                MainScreen.text("You gain " + Math.floor(changeAmount) + " HP.\n", false);
+                player.stats.HP += Math.floor(changeAmount);
+                // mainView.statsView.showStatUp('hp');
+                // hpUp.visible = true;
+            }
+        }
+        //Negative HP
+        else {
+            if (player.stats.HP + changeAmount <= 0) {
+                MainScreen.text("You take " + Math.floor(changeAmount * -1) + " damage, dropping your HP to 0.\n", false);
+                player.stats.HP = 0;
+            }
+            else {
+                MainScreen.text("You take " + Math.floor(changeAmount * -1) + " damage.\n", false);
+                player.stats.HP += changeAmount;
+            }
+        }
+        MainScreen.updateStats(player);
     }
 
 }
