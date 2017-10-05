@@ -1,9 +1,9 @@
-﻿import Utils from "../Utilities/Utils";
-import Creature from "../Body/Creature";
-import BreastRow, { BreastCup } from "../Body/BreastRow";
-import Chest from "../Body/Chest";
-import MainScreen from "../display/MainScreen";
-import Player from "../Player";
+﻿import BreastRow, { BreastCup } from '../Body/BreastRow';
+import Chest from '../Body/Chest';
+import Creature from '../Body/Creature';
+import MainScreen from '../display/MainScreen';
+import Player from '../Player';
+import Utils from '../Utilities/Utils';
 
 export default class BreastDescriptor {
     public static describeBreastRow(breastRow: BreastRow): string {
@@ -240,9 +240,9 @@ export default class BreastDescriptor {
         return defaultValue;
     }
 
-    public static describeBiggestBreastRow(chest: Chest): string {
+    public static describeBiggestBreastRow(creature: Creature): string {
         let description: string = "";
-        let biggestBreastRow: BreastRow = chest.BreastRatingLargest[0];
+        let biggestBreastRow: BreastRow = creature.upperBody.chest.BreastRatingLargest[0];
 
         if (biggestBreastRow.breastRating < 1)
             return "flat breasts";
@@ -390,4 +390,13 @@ export default class BreastDescriptor {
         }
     }
 
+    public static describeChest(creature: Creature) {
+        if (creature.upperBody.chest.BreastRatingLargest[0].breastRating < 1) return "chest";
+        return BreastDescriptor.describeBiggestBreastRow(creature);
+    }
+
+    public static describeAllChest(creature: Creature) {
+        if (creature.upperBody.chest.BreastRatingLargest[0].breastRating < 1) return "chest";
+        return BreastDescriptor.describeAllBreasts(creature);
+    }
 }

@@ -1,15 +1,18 @@
-import Flags, { FlagEnum } from "../Game/Flags";
-import Creature from "../Body/Creature";
-import MainScreen from "./MainScreen";
-import CockDescriptor from "../Descriptors/CockDescriptor";
-import Utils from "../Utilities/Utils";
-import { BreastCup } from "../Body/BreastRow";
-import VaginaDescriptor from "../Descriptors/VaginaDescriptor";
-import StatusAffect from "../Effects/StatusAffect";
-import BallsDescriptor from "../Descriptors/BallsDescriptor";
-import ButtDescriptor from "../Descriptors/ButtDescriptor";
-import HeadDescriptor from "../Descriptors/HeadDescriptor";
-import Player from "../Player";
+import MainScreen from './MainScreen';
+import { BreastCup } from '../Body/BreastRow';
+import Cock from '../Body/Cock';
+import CockSpot from '../Body/CockSpot';
+import Creature from '../Body/Creature';
+import Vagina, { VaginaLooseness } from '../Body/Vagina';
+import BallsDescriptor from '../Descriptors/BallsDescriptor';
+import ButtDescriptor from '../Descriptors/ButtDescriptor';
+import CockDescriptor from '../Descriptors/CockDescriptor';
+import HeadDescriptor from '../Descriptors/HeadDescriptor';
+import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import StatusAffect from '../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../Game/Flags';
+import Player from '../Player';
+import Utils from '../Utilities/Utils';
 
 export default class CreatureChange {
     public static lengthChange(body: Creature, lengthChange: number, ncocks: number): void {
@@ -18,12 +21,13 @@ export default class CreatureChange {
             return;
         }
 
-        const cocks = body.lowerBody.cockSpot;
+        const cocks: CockSpot = body.lowerBody.cockSpot;
+        const firstCock: Cock = cocks.get(0);
 
         //DIsplay the degree of length change.
         if (lengthChange <= 1 && lengthChange > 0) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeCock(body, cocks.get(0)) + " has grown slightly longer.", false);
+                MainScreen.text("Your " + CockDescriptor.describeCock(body, firstCock) + " has grown slightly longer.", false);
             if (cocks.count() > 1) {
                 if (ncocks == 1)
                     MainScreen.text("One of your " + CockDescriptor.describeMultiCockShort(body) + " grows slightly longer.", false);
@@ -35,7 +39,7 @@ export default class CreatureChange {
         }
         if (lengthChange > 1 && lengthChange < 3) {
             if (cocks.count() == 1)
-                MainScreen.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeCock(body, cocks.get(0)) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.", false);
+                MainScreen.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeCock(body, firstCock) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.", false);
             if (cocks.count() > 1) {
                 if (ncocks == cocks.count())
                     MainScreen.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeMultiCockShort(body) + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.", false);
@@ -47,7 +51,7 @@ export default class CreatureChange {
         }
         if (lengthChange >= 3) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeCock(body, cocks.get(0)) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.", false);
+                MainScreen.text("Your " + CockDescriptor.describeCock(body, firstCock) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.", false);
             if (cocks.count() > 1) {
                 if (ncocks == 1)
                     MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly tight as one of their number begins to grow inch after inch of length.", false);
@@ -59,39 +63,39 @@ export default class CreatureChange {
         }
         //Display LengthChange
         if (lengthChange > 0) {
-            if (cocks[0].cockLength >= 8 && cocks[0].cockLength - lengthChange < 8) {
+            if (firstCock.cockLength >= 8 && firstCock.cockLength - lengthChange < 8) {
                 if (cocks.count() == 1)
                     MainScreen.text("  <b>Most men would be overly proud to have a tool as long as yours.</b>", false);
                 if (cocks.count() > 1)
                     MainScreen.text("  <b>Most men would be overly proud to have one cock as long as yours, let alone " + CockDescriptor.describeMultiCock(body) + ".</b>", false);
             }
-            if (cocks[0].cockLength >= 12 && cocks[0].cockLength - lengthChange < 12) {
+            if (firstCock.cockLength >= 12 && firstCock.cockLength - lengthChange < 12) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, cocks.get(0)) + " is so long it nearly swings to your knee at its full length.</b>", false);
+                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it nearly swings to your knee at its full length.</b>", false);
                 if (cocks.count() > 1)
                     MainScreen.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they nearly reach your knees when at full length.</b>", false);
             }
-            if (cocks[0].cockLength >= 16 && cocks[0].cockLength - lengthChange < 16) {
+            if (firstCock.cockLength >= 16 && firstCock.cockLength - lengthChange < 16) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, cocks.get(0)) + " would look more at home on a large horse than you.</b>", false);
+                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " would look more at home on a large horse than you.</b>", false);
                 if (cocks.count() > 1)
                     MainScreen.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " would look more at home on a large horse than on your body.</b>", false);
                 if (body.upperBody.chest.BreastRatingLargest[0].breastRating >= BreastCup.C) {
                     if (cocks.count() == 1)
-                        MainScreen.text("  You could easily stuff your " + CockDescriptor.describeCock(body, cocks.get(0)) + " between your breasts and give yourself the titty-fuck of a lifetime.", false);
+                        MainScreen.text("  You could easily stuff your " + CockDescriptor.describeCock(body, firstCock) + " between your breasts and give yourself the titty-fuck of a lifetime.", false);
                     if (cocks.count() > 1)
                         MainScreen.text("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.", false);
                 }
                 else {
                     if (cocks.count() == 1)
-                        MainScreen.text("  Your " + CockDescriptor.describeCock(body, cocks.get(0)) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.", false);
+                        MainScreen.text("  Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.", false);
                     if (cocks.count() > 1)
                         MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they easily reach your chest.  Autofellatio would be about as hard as looking down.", false);
                 }
             }
-            if (cocks[0].cockLength >= 20 && cocks[0].cockLength - lengthChange < 20) {
+            if (firstCock.cockLength >= 20 && firstCock.cockLength - lengthChange < 20) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeCock(body, cocks.get(0)) + " wasn't enough, the tip of your " + CockDescriptor.describeCock(body, cocks.get(0)) + " keeps poking its way into your view every time you get hard.</b>", false);
+                    MainScreen.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeCock(body, firstCock) + " wasn't enough, the tip of your " + CockDescriptor.describeCock(body, firstCock) + " keeps poking its way into your view every time you get hard.</b>", false);
                 if (cocks.count() > 1)
                     MainScreen.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeMultiCockShort(body) + " wasn't bad enough, every time you get hard, the tips of your " + CockDescriptor.describeMultiCockShort(body) + " wave before you, obscuring the lower portions of your vision.</b>", false);
                 if (body.stats.cor > 40 && body.stats.cor <= 60) {
@@ -104,7 +108,7 @@ export default class CreatureChange {
                     if (cocks.count() > 1)
                         MainScreen.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeMultiCockShort(body) + " to their hilts, milking you dry.\n\nYou smile at the pleasant thought.", false);
                     if (cocks.count() == 1)
-                        MainScreen.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeCock(body, cocks.get(0)) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.", false);
+                        MainScreen.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeCock(body, firstCock) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.", false);
                 }
                 if (body.stats.cor > 80) {
                     if (cocks.count() > 1)
@@ -209,14 +213,6 @@ export default class CreatureChange {
 
     public static ballsRemovalDescription(creature: Creature) {
         MainScreen.text("  <b>Your " + BallsDescriptor.describeSack(creature) + " and " + BallsDescriptor.describeSack(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
-    }
-
-    public static buttChangeDisplay(body: Creature): void {	//Allows the test for stretching and the text output to be separated
-        if (body.lowerBody.butt.analLooseness == 5) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
-        if (body.lowerBody.butt.analLooseness == 4) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " becomes so stretched that it gapes continually.</b>", false);
-        if (body.lowerBody.butt.analLooseness == 3) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is now very loose.</b>");
-        if (body.lowerBody.butt.analLooseness == 2) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(body) + " is now a little loose.</b>");
-        if (body.lowerBody.butt.analLooseness == 1) MainScreen.text("<b>You have lost your anal virginity.</b>", false);
     }
 
     public static removeCocksDescriptor(creature: Creature, removed: number) {
@@ -334,4 +330,54 @@ export default class CreatureChange {
         MainScreen.updateStats(player);
     }
 
+    public static stretchVagina(creature: Creature, cArea: number, display: boolean, spacingsF: boolean = false, spacingsB: boolean = true): boolean {
+        if (!creature.lowerBody.vaginaSpot.hasVagina()) return false;
+        const firstVagina: Vagina = creature.lowerBody.vaginaSpot.get(0);
+        let wasVirgin: boolean = firstVagina.virgin;
+        let stretched: boolean = creature.stretchVagina(cArea);
+        let devirgined: boolean = wasVirgin && !firstVagina.virgin;
+        if (devirgined) {
+            if (spacingsF) MainScreen.text("  ");
+            MainScreen.text("<b>Your hymen is torn, robbing you of your virginity.</b>", false);
+            if (spacingsB) MainScreen.text("  ");
+        }
+        //STRETCH SUCCESSFUL - begin flavor text if outputting it!
+        if (display && stretched) {
+            //Virgins get different formatting
+            if (devirgined) {
+                //If no spaces after virgin loss
+                if (!spacingsB) MainScreen.text("  ");
+            }
+            //Non virgins as usual
+            else if (spacingsF) MainScreen.text("  ");
+            if (firstVagina.vaginalLooseness == VaginaLooseness.LEVEL_CLOWN_CAR)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
+            if (firstVagina.vaginalLooseness == VaginaLooseness.GAPING_WIDE)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched so wide that it gapes continually.</b>");
+            if (firstVagina.vaginalLooseness == VaginaLooseness.GAPING)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
+            if (firstVagina.vaginalLooseness == VaginaLooseness.LOOSE)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now very loose.</b>", false);
+            if (firstVagina.vaginalLooseness == VaginaLooseness.NORMAL)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now a little loose.</b>", false);
+            if (firstVagina.vaginalLooseness == VaginaLooseness.TIGHT)
+                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched out to a more normal size.</b>");
+            if (spacingsB) MainScreen.text("  ");
+        }
+        return stretched;
+    }
+    public static stretchButt(creature: Creature, cArea: number, display: boolean, spacingsF: boolean = true, spacingsB: boolean = true): boolean {
+        var stretched: boolean = creature.stretchButt(cArea);
+        //STRETCH SUCCESSFUL - begin flavor text if outputting it!
+        if (stretched && display) {
+            if (spacingsF) MainScreen.text("  ");
+            if (creature.lowerBody.butt.analLooseness == 5) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(creature) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
+            if (creature.lowerBody.butt.analLooseness == 4) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(creature) + " becomes so stretched that it gapes continually.</b>", false);
+            if (creature.lowerBody.butt.analLooseness == 3) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(creature) + " is now very loose.</b>");
+            if (creature.lowerBody.butt.analLooseness == 2) MainScreen.text("<b>Your " + ButtDescriptor.describeButthole(creature) + " is now a little loose.</b>");
+            if (creature.lowerBody.butt.analLooseness == 1) MainScreen.text("<b>You have lost your anal virginity.</b>", false);
+            if (spacingsB) MainScreen.text("  ");
+        }
+        return stretched;
+    }
 }
