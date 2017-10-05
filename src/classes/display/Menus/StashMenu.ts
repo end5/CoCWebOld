@@ -11,7 +11,7 @@ export default class StashMenu {
         MainScreen.clearText();
         spriteSelect(-1);
         MainScreen.hideButtons();
-        if (Flags.get(FlagEnum.ANEMONE_KID) > 0) {
+        if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
             Game.sceneManager.anemoneScene.anemoneBarrelDescription();
             if (model.time.hours >= 6)
                 MainScreen.addButton(4, "Anemone", Game.sceneManager.anemoneScene.approachAnemoneBarrel);
@@ -23,7 +23,7 @@ export default class StashMenu {
                 MainScreen.addButton(1, "Chest Take", pickItemToTakeFromStorage);
         }
         //Weapon Rack
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00254) > 0) {
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
             MainScreen.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
             MainScreen.addButton(2, "W.Rack Put", pickItemToTakeFromStorage);
             if (!Game.campStorage.weaponRack.isEmpty())
@@ -31,7 +31,7 @@ export default class StashMenu {
             MainScreen.text("\n\n");
         }
         //Armor Rack
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00255) > 0) {
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
             MainScreen.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
             MainScreen.addButton(5, "A.Rack Put", pickItemToTakeFromStorage);
             if (!Game.campStorage.armorRack.isEmpty())

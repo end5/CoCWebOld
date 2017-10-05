@@ -18,7 +18,7 @@ export default class AmilyPreg implements IPregnancyEvent {
         }
         if (incubationTime == 216) {
             MainScreen.text("\n<b>There is no question you're pregnant; your belly is already as big as that of any pregnant woman back home.", false);
-            if (Flags.get(FlagEnum.AMILY_FOLLOWER) == 1)
+            if (Flags.list[FlagEnum.AMILY_FOLLOWER] == 1)
                 MainScreen.text("  Amily smiles at you reassuringly. \"<i>We do have litters, dear, this is normal.</i>\"", false);
             MainScreen.text("</b>", false);
             MainScreen.text("\n", false);

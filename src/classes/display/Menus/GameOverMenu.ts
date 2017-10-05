@@ -9,7 +9,7 @@ export default class GameOverMenu {
             MainScreen.hideButtons();
             MainScreen.addButton(0, "Game Over", gameOverMenuOverride);
             MainScreen.addButton(3, "NewGamePlus", charCreation.newGamePlus);
-            if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG) == 1 || debug) MainScreen.addButton(4, "Debug Cheat", playerMenu);
+            if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 || debug) MainScreen.addButton(4, "Debug Cheat", playerMenu);
             gameOverMenuOverride();
 
         }

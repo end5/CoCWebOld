@@ -33,16 +33,16 @@ export default class PlayerInventoryMenu {
         }
 
         if (!Game.inCombat && inDungeon == false && inRoomedDungeon == false) {
-            if (Game.sceneManager.nieveHoliday() && Flags.get(FlagEnum.NIEVE_STAGE) > 0 && Flags.get(FlagEnum.NIEVE_STAGE) < 5) {
-                if (Flags.get(FlagEnum.NIEVE_STAGE) == 1)
+            if (Game.sceneManager.nieveHoliday() && Flags.list[FlagEnum.NIEVE_STAGE] > 0 && Flags.list[FlagEnum.NIEVE_STAGE] < 5) {
+                if (Flags.list[FlagEnum.NIEVE_STAGE] == 1)
                     MainScreen.text("\nThere's some odd snow here that you could do something with...\n");
                 else MainScreen.text("\nYou have a snow" + Game.sceneManager.nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
                 MainScreen.addButton(6, "Snow", Game.sceneManager.nieveBuilding);
                 foundItem = true;
             }
-            if (Flags.get(FlagEnum.FUCK_FLOWER_KILLED) == 0 && Flags.get(FlagEnum.FUCK_FLOWER_LEVEL) >= 1) {
-                if (Flags.get(FlagEnum.FUCK_FLOWER_LEVEL) == 4) MainScreen.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
-                MainScreen.addButton(7, (Flags.get(FlagEnum.FUCK_FLOWER_LEVEL) >= 3 ? "Tree" : "Plant"), Game.sceneManager.holliScene.treeMenu);
+            if (Flags.list[FlagEnum.FUCK_FLOWER_KILLED] == 0 && Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
+                if (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] == 4) MainScreen.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
+                MainScreen.addButton(7, (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), Game.sceneManager.holliScene.treeMenu);
                 foundItem = true;
             }
             if (player.hasKeyItem("Dragon Egg")) {

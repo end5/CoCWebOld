@@ -90,7 +90,7 @@ export default class MarblePreg implements IPregnancyEvent {
     public birth(player: Player) {
         player.boostLactation(.01);
         //if you like terrible outcomes
-        if (Flags.get(FlagEnum.MARBLE_NURSERY_CONSTRUCTION) < 100) {
+        if (Flags.list[FlagEnum.MARBLE_NURSERY_CONSTRUCTION] < 100) {
             MainScreen.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble doesn't seem to be around right now, so you can do nothing but push.\n\n", false);
 
             MainScreen.text("You push and heave with all your might, little else going through your mind. You somehow register when the head comes out, and soon the shoulders along with the rest of the body follow.  You lean back and pant for a while before feeling a pair of hands grab a hold of you. They slowly and clumsily feel up your body before finding your " + BreastDescriptor.describeChest(player) + " and a mouth quickly closes down on a " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + ".  You sigh softly, and drift off to sleep.", false);
@@ -105,7 +105,7 @@ export default class MarblePreg implements IPregnancyEvent {
 
             MainScreen.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble rushes over and sees that it's time for you to give birth, so she picks you up and supports you as you continue pushing the child out of your now-gaping " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".", false);
             // 50% chance of it being a boy if Marble has been purified
-            if (Flags.get(FlagEnum.MARBLE_PURIFIED) > 0 && Utils.rand(2) == 0)
+            if (Flags.list[FlagEnum.MARBLE_PURIFIED] > 0 && Utils.rand(2) == 0)
             // it's a boy!
             {
                 MainScreen.text("\n\nFor the next few minutes, you can�t do much else but squeeze the large form inside your belly out.  Marble tries to help a little, pulling your nether lips open even further to make room for the head.  You gasp as you push the head out, and you hear Marble give a little cry of joy.  \"<i>It�s a son of mine!</i>\" she tells you, but you can barely hear her due to the focus you�re putting into the task of bringing this child out.", false);
@@ -119,14 +119,14 @@ export default class MarblePreg implements IPregnancyEvent {
                     player.lowerBody.hipRating++;
                     MainScreen.text("After the birth your " + player.inventory.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
                 }
-                if (Flags.get(FlagEnum.MARBLE_BOYS) == 0)
+                if (Flags.list[FlagEnum.MARBLE_BOYS] == 0)
                 // has Marble had male kids before?
                 {
                     MainScreen.text("You notice that Marble seems to be deep in thought, and you ask her what is wrong.  She starts after a moment and says, \"<i>Oh sweetie, no, it's nothing really.  I just never thought that I'd actually be able to father a son is all.  The thought never occurred to me.", false);
                 }
                 //add to marble-kids:
-                Flags.increase(FlagEnum.MARBLE_KIDS);
-                Flags.increase(FlagEnum.MARBLE_BOYS); // increase the number of male kids with Marble
+                Flags.list[FlagEnum.MARBLE_KIDS]++;
+                Flags.list[FlagEnum.MARBLE_BOYS]++; // increase the number of male kids with Marble
             }
             else // end of new content
             // it's a girl!
@@ -143,7 +143,7 @@ export default class MarblePreg implements IPregnancyEvent {
                 }
                 MainScreen.text("The little girl is already starting to look like she is a few years old; she's trotting around on her little hooves.", false);
                 //add to marble-kids:
-                Flags.increase(FlagEnum.MARBLE_KIDS);
+                Flags.list[FlagEnum.MARBLE_KIDS]++;
             }
             //increase the size of the PC's hips, as per normal for pregnancies, increase birth counter
             if (player.lowerBody.hipRating < 10) {

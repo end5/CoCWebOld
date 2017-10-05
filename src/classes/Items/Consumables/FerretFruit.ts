@@ -21,8 +21,8 @@ export default class FerretFruit extends Consumable {
         //CoC Ferret TF (Ferret Fruit)
         //Finding Ferret Fruit
         //- Ferret Fruit may be Utils.randomly found while exploring the plains.
-        //- Upon finding Ferret Fruit: “While searching the plains, you find an odd little tree with a curved trunk. The shape of its fruit appears to mimic that of the tree. A few of the fruits seem to have fallen off. You brush the dirt off of one of the fruits before placing in in your (x) pouch. (if there is no room in your inventory, you get the generic option to use now or abandon)
-        //- If you hover over the fruit in your inventory, this is its description:  “This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach.”
+        //- Upon finding Ferret Fruit: ï¿½While searching the plains, you find an odd little tree with a curved trunk. The shape of its fruit appears to mimic that of the tree. A few of the fruits seem to have fallen off. You brush the dirt off of one of the fruits before placing in in your (x) pouch. (if there is no room in your inventory, you get the generic option to use now or abandon)
+        //- If you hover over the fruit in your inventory, this is its description:  ï¿½This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach.ï¿½
         //-Upon eating the fruit:
         MainScreen.clearText();
         MainScreen.text("Feeling parched, you gobble down the fruit without much hesitation. Despite the skin being fuzzy like a peach, the inside is relatively hard, and its taste reminds you of that of an apple.  It even has a core like an apple. Finished, you toss the core aside.");
@@ -33,23 +33,23 @@ export default class FerretFruit extends Consumable {
         //BAD END:
         if (RaceScore.ferretScore(player) >= 6) {
             //Get warned!
-            if (Flags.get(FlagEnum.FERRET_BAD_END_WARNING) == 0) {
+            if (Flags.list[FlagEnum.FERRET_BAD_END_WARNING] == 0) {
                 MainScreen.text("\n\nYou find yourself staring off into the distance, dreaming idly of chasing rabbits through a warren.  You shake your head, returning to reality.  <b>Perhaps you should cut back on all the Ferret Fruit?</b>");
                 player.stats.int -= 5 + Utils.rand(3);
                 if (player.stats.int < 5) player.stats.int = 5;
-                Flags.set(FlagEnum.FERRET_BAD_END_WARNING, 1);
+                Flags.list[FlagEnum.FERRET_BAD_END_WARNING] = 1;
             }
             //BEEN WARNED! BAD END! DUN DUN DUN
             else if (Utils.rand(3) == 0) {
-                //-If you fail to heed the warning, it’s game over:
-                MainScreen.text("\n\nAs you down the fruit, you begin to feel all warm and fuzzy inside.  You flop over on your back, eagerly removing your clothes.  You laugh giddily, wanting nothing more than to roll about happily in the grass.  Finally finished, you attempt to get up, but something feels...  different.  Try as you may, you find yourself completely unable to stand upright for a long period of time.  You only manage to move about comfortably on all fours.  Your body now resembles that of a regular ferret.  That can’t be good!  As you attempt to comprehend your situation, you find yourself less and less able to focus on the problem.  Your attention eventually drifts to a rabbit in the distance.  You lick your lips. Nevermind that, you have warrens to raid!");
+                //-If you fail to heed the warning, itï¿½s game over:
+                MainScreen.text("\n\nAs you down the fruit, you begin to feel all warm and fuzzy inside.  You flop over on your back, eagerly removing your clothes.  You laugh giddily, wanting nothing more than to roll about happily in the grass.  Finally finished, you attempt to get up, but something feels...  different.  Try as you may, you find yourself completely unable to stand upright for a long period of time.  You only manage to move about comfortably on all fours.  Your body now resembles that of a regular ferret.  That canï¿½t be good!  As you attempt to comprehend your situation, you find yourself less and less able to focus on the problem.  Your attention eventually drifts to a rabbit in the distance.  You lick your lips. Nevermind that, you have warrens to raid!");
                 Game.gameOver();
                 return;
             }
         }
         //Reset the warning if ferret score drops.
         else {
-            Flags.set(FlagEnum.FERRET_BAD_END_WARNING, 0);
+            Flags.list[FlagEnum.FERRET_BAD_END_WARNING] = 0;
         }
 
         let changes: number = 0;
@@ -83,7 +83,7 @@ export default class FerretFruit extends Consumable {
             if (player.lowerBody.hipRating > 23) player.lowerBody.hipRating--;
             changes++;
         }
-        //- If butt rating is greater than “petite”:
+        //- If butt rating is greater than ï¿½petiteï¿½:
         if (player.lowerBody.butt.buttRating >= 8 && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYou cringe as your [butt] begins to feel uncomfortably tight.  Once the sensation passes, you look over your shoulder, inspecting yourself.  It would appear that your ass has become smaller!");
             player.lowerBody.butt.buttRating--;
@@ -95,7 +95,7 @@ export default class FerretFruit extends Consumable {
         }
 
         //-If male with breasts or female/herm with breasts > B cup:
-        if (!Flags.get(FlagEnum.HYPER_HAPPY) && (chest.BreastRatingLargest[0].breastRating > 2 || (cockSpot.hasCock() && chest.BreastRatingLargest[0].breastRating >= 1)) && Utils.rand(2) == 0 && changes < changeLimit) {
+        if (!Flags.list[FlagEnum.HYPER_HAPPY] && (chest.BreastRatingLargest[0].breastRating > 2 || (cockSpot.hasCock() && chest.BreastRatingLargest[0].breastRating >= 1)) && Utils.rand(2) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYou cup your tits as they begin to tingle strangely.  You can actually feel them getting smaller in your hands!");
             for (index = 0; index < chest.count(); index++)
                 if (chest.get(index).breastRating > 2 || (cockSpot.hasCock() && chest.get(index).breastRating >= 1))
@@ -108,7 +108,7 @@ export default class FerretFruit extends Consumable {
             //Find longest cock
             let longestCock = cockSpot.listLongestCocks[0];
             if (Utils.rand(2) == 0 && changes < changeLimit) {
-                if (longestCock.cockLength > 6 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+                if (longestCock.cockLength > 6 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
                     MainScreen.text("\n\nA pinching sensation racks the entire length of your " + CockDescriptor.describeCock(player, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
                     longestCock.cockLength--;
                     if (Utils.rand(2) == 0)
@@ -116,7 +116,7 @@ export default class FerretFruit extends Consumable {
                     if (longestCock.cockLength >= 9)
                         longestCock.cockLength -= Utils.rand(3) + 1;
                     if (longestCock.cockLength / 6 >= longestCock.cockThickness)
-                        MainScreen.text("  Luckily, it doen’t seem to have lost its previous thickness.");
+                        MainScreen.text("  Luckily, it doenï¿½t seem to have lost its previous thickness.");
                     else
                         longestCock.cockThickness = longestCock.cockLength / 6;
                     changes++;
@@ -141,7 +141,7 @@ export default class FerretFruit extends Consumable {
         if (player.upperBody.head.hairType == HairType.ANEMONE && Utils.rand(4) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYour head feels strange as the tentacles you have for hair begin to recede back into your scalp, eventually leaving you with a bald head.  Your head is not left bald for long, though.  Within moments, a full head of hair sprouts from the skin of your scalp.  <b>Your hair is normal again!</b>");
             //Turn hair growth on.
-            Flags.set(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD, 0);
+            Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
             player.upperBody.head.hairType = 0;
             changes++;
         }
@@ -149,7 +149,7 @@ export default class FerretFruit extends Consumable {
         if (player.upperBody.head.hairType == HairType.GOO && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYour gooey hair begins to fall out in globs, eventually leaving you with a bald head.  Your head is not left bald for long, though.  Within moments, a full head of hair sprouts from the skin of your scalp.  <b>Your hair is normal again!</b>");
             //Turn hair growth on.
-            Flags.set(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD, 0);
+            Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 0;
             player.upperBody.head.hairType = 0;
             changes++;
         }
@@ -237,14 +237,14 @@ export default class FerretFruit extends Consumable {
         //If naga, has ferret ears:
         //(NOTE: this is the only exception to the legs coming after the tail, as the ferret tail will only go away right after it appears because of your snake lower half)
         else if (player.lowerBody.isNaga() && player.upperBody.head.earType == EarType.FERRET && Utils.rand(4) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nYou scream in agony as a horrible pain racks the entire length of your snake-like coils.  Unable to take it anymore, you pass out.  When you wake up, you’re shocked to find that you no longer have the lower body of a snake.  Instead, you have soft, furry legs that resemble that of a ferret’s.  <b>You now have ferret legs!</b>");
+            MainScreen.text("\n\nYou scream in agony as a horrible pain racks the entire length of your snake-like coils.  Unable to take it anymore, you pass out.  When you wake up, youï¿½re shocked to find that you no longer have the lower body of a snake.  Instead, you have soft, furry legs that resemble that of a ferretï¿½s.  <b>You now have ferret legs!</b>");
             changes++;
             player.lowerBody.type = LowerBodyType.FERRET;
         }
         //If legs are not ferret, has ferret ears and tail
         if (player.lowerBody.type != LowerBodyType.FERRET && player.upperBody.head.earType == EarType.FERRET && player.lowerBody.tailType == TailType.FERRET && Utils.rand(4) == 0 && changes < changeLimit) {
             //-If centaur, has ferret ears and tail:
-            if (player.lowerBody.isTaur()) MainScreen.text("\n\nYou scream in agony as a horrible pain racks your entire horse lower half.  Unable to take it anymore, you pass out.  When you wake up, you’re shocked to find that you no longer have the lower body of a horse.  Instead, you have soft, furry legs that resemble that of a ferret’s.  <b>You now have ferret legs!</b>");
+            if (player.lowerBody.isTaur()) MainScreen.text("\n\nYou scream in agony as a horrible pain racks your entire horse lower half.  Unable to take it anymore, you pass out.  When you wake up, youï¿½re shocked to find that you no longer have the lower body of a horse.  Instead, you have soft, furry legs that resemble that of a ferretï¿½s.  <b>You now have ferret legs!</b>");
 
             MainScreen.text("\n\nYou scream in agony as the bones in your legs begin to break and rearrange.  Even as the pain passes, an uncomfortable combination of heat and throbbing continues even after the transformation is over.  You rest for a moment, allowing the sensations to subside.  Now feeling more comfortable, <b>you stand up, ready to try out your new ferret legs!</b>");
             changes++;
@@ -252,13 +252,13 @@ export default class FerretFruit extends Consumable {
         }
         //If ears are not ferret:
         if (player.upperBody.head.earType != EarType.FERRET && Utils.rand(4) == 0 && changes < changeLimit && Utils.rand(2.5) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nYou squint as you feel a change in your ears.  Inspecting your reflection in a nearby puddle you find that <b>your ears have become small, fuzzy, and rounded, just like a ferret’s!</b>");
+            MainScreen.text("\n\nYou squint as you feel a change in your ears.  Inspecting your reflection in a nearby puddle you find that <b>your ears have become small, fuzzy, and rounded, just like a ferretï¿½s!</b>");
             player.upperBody.head.earType = EarType.FERRET;
             changes++;
         }
         //If no other effect occurred, fatigue decreases:
         if (changes == 0) {
-            MainScreen.text("\n\nYour eyes widen.  With the consumption of the fruit, you feel much more energetic.  You’re wide awake now!");
+            MainScreen.text("\n\nYour eyes widen.  With the consumption of the fruit, you feel much more energetic.  Youï¿½re wide awake now!");
             changes++;
             player.stats.fatigueChange(-10);
         }

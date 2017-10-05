@@ -13,10 +13,10 @@ export default class CeruleanPotion extends Consumable {
     public use(player: Player) {
         player.slimeFeed();
         //Repeat genderless encounters
-        if (player.gender == Gender.NONE && Flags.get(FlagEnum.CERULEAN_POTION_NEUTER_ATTEMPTED) > 0) {
+        if (player.gender == Gender.NONE && Flags.list[FlagEnum.CERULEAN_POTION_NEUTER_ATTEMPTED] > 0) {
             MainScreen.text("You take another sip of the Cerulean Potion.  You find it soothing and become very excited about the possibility of another visit from the succubus.", true);
         }
-        else if (player.gender == Gender.HERM && Flags.get(FlagEnum.CERULEAN_POTION_HERM_USED) > 0) {
+        else if (player.gender == Gender.HERM && Flags.list[FlagEnum.CERULEAN_POTION_HERM_USED] > 0) {
             MainScreen.text("With anticipation, you chug down another bottle of the Cerulean Potion. A warm sensation radiates out from your stomach as you feel the potion course through your body.", true);
         }
         //All else

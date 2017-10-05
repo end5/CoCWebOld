@@ -141,7 +141,7 @@ export default class IncubusDraft extends Consumable {
         }
         //TIT CHANGE 25% chance of shrinkage
         if (Utils.rand(4) == 0) {
-            if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+            if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
                 BreastModifier.shrinkTits(player);
             }
         }
@@ -222,7 +222,7 @@ export default class IncubusDraft extends Consumable {
         //Shrink breasts a more
         //TIT CHANGE 50% chance of shrinkage
         if (Utils.rand(2) == 0) {
-            if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+            if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
                 BreastModifier.shrinkTits(player);
             }
         }
@@ -242,7 +242,7 @@ export default class IncubusDraft extends Consumable {
                 this.growDemonCock(player, 1);
             }
         }
-        if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             BreastModifier.shrinkTits(player);
             BreastModifier.shrinkTits(player);
         }

@@ -37,9 +37,9 @@ export default class FoxBerry extends Consumable {
         if (Utils.rand(2) == 0) changeLimit++;
 
         if (player.upperBody.head.face.faceType == FaceType.FOX && player.lowerBody.tailType == TailType.FOX && player.upperBody.head.earType == EarType.FOX && player.lowerBody.type == LowerBodyType.FOX && player.skinType == SkinType.FUR && Utils.rand(3) == 0) {
-            if (Flags.get(FlagEnum.FOX_BAD_END_WARNING) == 0) {
+            if (Flags.list[FlagEnum.FOX_BAD_END_WARNING] == 0) {
                 MainScreen.text("\n\nYou get a massive headache and a craving to raid a henhouse.  Thankfully, both pass in seconds, but <b>maybe you should cut back on the vulpine items...</b>");
-                Flags.set(FlagEnum.FOX_BAD_END_WARNING, 1);
+                Flags.list[FlagEnum.FOX_BAD_END_WARNING] = 1;
             }
             else {
                 MainScreen.text("\n\nYou scarf down the ");
@@ -94,7 +94,7 @@ export default class FoxBerry extends Consumable {
             else player.upperBody.head.hairColor = "black";
             MainScreen.text("\n\nYour scalp begins to tingle, and you gently grasp a stUtils.Utils.rand of hair, pulling it out to check it.  Your hair has become " + player.upperBody.head.hairColor + "!");
         }
-        //[Adjust hips toward 10 – wide/curvy/flared]
+        //[Adjust hips toward 10 ï¿½ wide/curvy/flared]
         if (changes < changeLimit && Utils.rand(3) == 0 && player.lowerBody.hipRating != 10) {
             //from narrow to wide
             if (player.lowerBody.hipRating < 10) {
@@ -118,7 +118,7 @@ export default class FoxBerry extends Consumable {
             player.upperBody.head.hairType = 0;
             changes++;
         }
-        //[Adjust hair length toward range of 16-26 – very long to ass-length]
+        //[Adjust hair length toward range of 16-26 ï¿½ very long to ass-length]
         if (player.upperBody.head.hairType != 4 && (player.upperBody.head.hairLength > 26 || player.upperBody.head.hairLength < 16) && changes < changeLimit && Utils.rand(4) == 0) {
             if (player.upperBody.head.hairLength < 16) {
                 player.upperBody.head.hairLength += 1 + Utils.rand(4);

@@ -7,7 +7,7 @@ export default class JeweledRapier extends Weapon {
     }
 
     public get attack(): number {
-        return (13 + Flags.get(FlagEnum.RAPHAEL_RAPIER_TRANING) * 2);
+        return (13 + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] * 2);
     }
 }
 

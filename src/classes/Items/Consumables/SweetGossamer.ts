@@ -175,7 +175,7 @@ export default class SweetGossamer extends Consumable {
             changes++;
         }
         //-Remove breast rows over 2.
-        if (changes < changeLimit && player.upperBody.chest.count() > 2 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (changes < changeLimit && player.upperBody.chest.count() > 2 && Utils.rand(3) == 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             changes++;
             const bottomBreastRow: BreastRow = player.upperBody.chest.get(player.upperBody.chest.count() - 1);
             MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ", false);

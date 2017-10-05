@@ -23,9 +23,9 @@ export default class GooArmor extends Armor {
             MainScreen.text("groin");
         MainScreen.text(", encasing your loins in case you need a little mid-battle release, she says.");
         MainScreen.text("\n\nAfter a few minutes, you and your armor-friend are settled and ready to go.");
-        if (Flags.get(FlagEnum.MET_VALERIA)) {
+        if (Flags.list[FlagEnum.MET_VALERIA]) {
             MainScreen.text("  As you ready yourself for the dungeon ahead, the goo giggles into your ear.  \"<i>Oh shit, silly me.  I forgot, my name's Valeria.  Ser Valeria, if you're feeling fancy.</i>\"  You introduce yourself, awkwardly shaking your own hand by way of pleasantries.");
-            Flags.increase(FlagEnum.MET_VALERIA);
+            Flags.list[FlagEnum.MET_VALERIA]++;
         }
         MainScreen.text("\n\n\"<i>Well alright then, [name]!</i>\" Valeria says excitedly, \"<i>Let's go!</i>\"\n\n");
     }
@@ -35,12 +35,12 @@ export default class GooArmor extends Armor {
     }
 
     public equip(player: Player): Armor { //This item is being equipped by the player. Add any perks, etc.
-        Flags.set(FlagEnum.VALARIA_AT_CAMP, 0);
+        Flags.list[FlagEnum.VALARIA_AT_CAMP] = 0;
         return super.equip(player);
     }
 
     public unequip(player: Player): Armor { //This item is being removed by the player. Remove any perks, etc.
-        Flags.set(FlagEnum.VALARIA_AT_CAMP, 1);
+        Flags.list[FlagEnum.VALARIA_AT_CAMP] = 1;
         return null; //Can't put Valaria in your inventory
     }
 }

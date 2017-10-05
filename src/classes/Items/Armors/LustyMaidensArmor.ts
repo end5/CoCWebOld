@@ -16,8 +16,8 @@ export default class LustyMaidensArmor extends Armor {
 
     public get defense(): number {
         if (Game.player.lowerBody.vaginaSpot.isVirgin())
-            return 9 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS);
-        return 6 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS);
+            return 9 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS];
+        return 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS];
     }
 
     public canUse(player: Player): boolean {
@@ -74,10 +74,10 @@ export default class LustyMaidensArmor extends Armor {
         while (player.perks.has("SluttySeduction"))
             player.perks.remove("SluttySeduction");
         if (player.lowerBody.vaginaSpot.NotVirgin.length > 0) {
-            player.perks.add(new Perk("SluttySeduction", 10 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS), 0, 0, 0));
+            player.perks.add(new Perk("SluttySeduction", 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
         }
         else {
-            player.perks.add(new Perk("SluttySeduction", 6 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS), 0, 0, 0));
+            player.perks.add(new Perk("SluttySeduction", 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
         }
         return super.equip(player);
     }
@@ -135,9 +135,9 @@ export default class LustyMaidensArmor extends Armor {
 
         //Slimefeed, minus slight corruption if PC is a virgin, raise sensitivity
         player.slimeFeed();
-        Flags.increase(FlagEnum.BIKINI_ARMOR_BONUS, 2);
-        if (Flags.get(FlagEnum.BIKINI_ARMOR_BONUS) > 8)
-            Flags.set(FlagEnum.BIKINI_ARMOR_BONUS, 8);
+        Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] += 2;
+        if (Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] > 8)
+            Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] = 8;
         player.orgasm();
         player.stats.sens += 2;
 
@@ -149,7 +149,7 @@ export default class LustyMaidensArmor extends Armor {
             player.minoCumAddiction(3);
 
         if (monster.short == "Ceraph")
-            Flags.increase(FlagEnum.UNKNOWN_FLAG_NUMBER_00291);
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00291]++;
         //Usable on: Imps, Minotaurs, Satyrs, Incubus Mechanic, Anemones, Spider Guys, Akbal, Drider, Fetish Zealot, Sand Trap, Very Corrupt Jojo (Maybe slight decorruption to him), Ceraph, Red Kitsune if cock out.
         if (Game.state == GameState.InCombat)
             Game.cleanupAfterCombat();

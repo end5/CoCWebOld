@@ -23,7 +23,7 @@ export default class PlayerMenu {
             if (inRoomedDungeonResume != null) inRoomedDungeonResume();
             return;
         }
-        Flags.set(FlagEnum.PLAYER_PREGGO_WITH_WORMS, 0);
+        Flags.list[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;
         doCamp();
     }
 }

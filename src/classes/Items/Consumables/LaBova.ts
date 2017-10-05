@@ -110,7 +110,7 @@ export default class LaBova extends Consumable {
             player.stats.cor += corruptionGain / 10;
         }
         //Sex bits - Duderiffic
-        if (player.lowerBody.cockSpot.count() > 0 && Utils.rand(2) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (player.lowerBody.cockSpot.count() > 0 && Utils.rand(2) == 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             //If the player has at least one dick, decrease the size of each slightly,
             MainScreen.text("\n\n", false);
             const biggestCock = player.lowerBody.cockSpot.listLargestCockArea[0];

@@ -17,21 +17,21 @@ export default class SettingsMenu {
 
         MainScreen.text("\n\n");
 
-        if (Flags.get(FlagEnum.SHOW_SPRITES_FLAG) == 0)
+        if (Flags.list[FlagEnum.SHOW_SPRITES_FLAG] == 0)
             MainScreen.text("Sprites enabled: <b>Yes</b>.\n	You like to look at pretty pictures.");
         else
             MainScreen.text("Sprites enabled: <b>No</b>.\n	There are only words. Nothing else.");
 
         MainScreen.text("\n\n");
 
-        if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG))
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG])
             MainScreen.text("Easy Mode <b>On</b>\n	Bad-ends can be ignored and combat is easier.");
         else
             MainScreen.text("Easy Mode <b>Off</b>\n	Bad-ends can ruin your game and combat is challenging.");
 
         MainScreen.text("\n\n");
 
-        if (Flags.get(FlagEnum.SILLY_MODE_ENABLE_FLAG))
+        if (Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG])
             MainScreen.text("Silly Mode <b>On</b>\n	Crazy, nonsensical, and possibly hilarious things may occur.");
         else
             MainScreen.text("Silly Mode <b>Off</b>\n	You're an incorrigable stick-in-the-mud with no sense of humor.");
@@ -41,7 +41,7 @@ export default class SettingsMenu {
         MainScreen.text("Additional note: You <b>must</b> be <i>in a game session</i> (e.g. load your save, hit \"Main Menu\", change the flag settings, and then hit \"Resume\") to change these flags. They're saved into the saveGame file, so if you load a save, it will clear them to the state in that save.");
         MainScreen.text("\n\n");
 
-        if (Flags.get(FlagEnum.LOW_STANDARDS_FOR_ALL)) {
+        if (Flags.list[FlagEnum.LOW_STANDARDS_FOR_ALL]) {
             MainScreen.text("Low standards Mode <b>On</b>\n	NPCs ignore body type preferences.");
             MainScreen.text("\n	(Not gender preferences though. You still need the right hole.)");
         }
@@ -51,7 +51,7 @@ export default class SettingsMenu {
 
         MainScreen.text("\n\n");
 
-        if (Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (Flags.list[FlagEnum.HYPER_HAPPY]) {
             MainScreen.text("Hyper Happy mode <b>On</b>\n	Only reducto and humus shrink endowments.");
             MainScreen.text("\n	Incubus draft doesn't affect breasts, and succubi milk doesn't affect cocks.")
         }
@@ -85,18 +85,18 @@ export default class SettingsMenu {
 
     public static toggleStandards(): void {
         //toggle debug
-        if (Flags.get(FlagEnum.LOW_STANDARDS_FOR_ALL))
-            Flags.set(FlagEnum.LOW_STANDARDS_FOR_ALL, 0);
+        if (Flags.list[FlagEnum.LOW_STANDARDS_FOR_ALL])
+            Flags.list[FlagEnum.LOW_STANDARDS_FOR_ALL] = 0;
         else
-            Flags.set(FlagEnum.LOW_STANDARDS_FOR_ALL, 1);
+            Flags.list[FlagEnum.LOW_STANDARDS_FOR_ALL] = 1;
     }
 
     public static toggleHyperHappy(): void {
         //toggle debug
-        if (Flags.get(FlagEnum.HYPER_HAPPY))
-            Flags.set(FlagEnum.HYPER_HAPPY, 0);
+        if (Flags.list[FlagEnum.HYPER_HAPPY])
+            Flags.list[FlagEnum.HYPER_HAPPY] = 0;
         else
-            Flags.set(FlagEnum.HYPER_HAPPY, 1);
+            Flags.list[FlagEnum.HYPER_HAPPY] = 1;
     }
 
     public static toggleDebug(): void {
@@ -108,25 +108,25 @@ export default class SettingsMenu {
     }
 
     public static toggleEasyModeFlag(): void {
-        if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG) == 0)
-            Flags.set(FlagEnum.EASY_MODE_ENABLE_FLAG, 1);
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 0)
+            Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] = 1;
         else
-            Flags.set(FlagEnum.EASY_MODE_ENABLE_FLAG, 0);
+            Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] = 0;
     }
 
     public static toggleSpritesFlag(): void {
-        if (Flags.get(FlagEnum.SHOW_SPRITES_FLAG))
-            Flags.set(FlagEnum.SHOW_SPRITES_FLAG, 0);
+        if (Flags.list[FlagEnum.SHOW_SPRITES_FLAG])
+            Flags.list[FlagEnum.SHOW_SPRITES_FLAG] = 0;
         else
-            Flags.set(FlagEnum.SHOW_SPRITES_FLAG, 1);
+            Flags.list[FlagEnum.SHOW_SPRITES_FLAG] = 1;
     }
 
     public static toggleSillyFlag(): void {
 
-        if (Flags.get(FlagEnum.SILLY_MODE_ENABLE_FLAG))
-            Flags.set(FlagEnum.SILLY_MODE_ENABLE_FLAG, 0);
+        if (Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG])
+            Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG] = 0;
         else
-            Flags.set(FlagEnum.SILLY_MODE_ENABLE_FLAG, 1);
+            Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG] = 1;
     }
 
 }

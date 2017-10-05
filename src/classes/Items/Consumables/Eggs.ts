@@ -449,7 +449,7 @@ export default class Eggs extends Consumable {
                     player.skinAdj = "rubber";
                     MainScreen.text("a layer of sensitive rubber.  ", false);
                 }
-                Flags.set(FlagEnum.PC_KNOWS_ABOUT_BLACK_EGGS, 1);
+                Flags.list[FlagEnum.PC_KNOWS_ABOUT_BLACK_EGGS] = 1;
                 if (player.stats.cor < 66) MainScreen.text("You feel like some kind of freak.", false);
                 else MainScreen.text("You feel like some kind of sexy " + player.skinDesc + " love-doll.", false);
                 player.stats.spe -= 3;

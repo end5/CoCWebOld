@@ -17,7 +17,7 @@ import Utils from '../Utilities/Utils';
 export default class CreatureChange {
     public static lengthChange(body: Creature, lengthChange: number, ncocks: number): void {
 
-        if (lengthChange < 0 && Flags.get(FlagEnum.HYPER_HAPPY)) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
+        if (lengthChange < 0 && Flags.list[FlagEnum.HYPER_HAPPY]) {  // Early return for hyper-happy cheat if the call was *supposed* to shrink a cock.
             return;
         }
 

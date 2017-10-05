@@ -19,9 +19,9 @@ export default class MinotaurCum extends Consumable {
         player.minoCumAddiction(7);
         MainScreen.text("", true);
         MainScreen.text("As soon as you crack the seal on the bottled white fluid, a ", false);
-        if (Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_STATE) == 0) MainScreen.text("potent musk washes over you.", false);
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] == 0) MainScreen.text("potent musk washes over you.", false);
         else MainScreen.text("heavenly scent fills your nostrils.", false);
-        if (Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER) < 50) MainScreen.text("  It makes you feel dizzy, ditzy, and placid.", false);
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] < 50) MainScreen.text("  It makes you feel dizzy, ditzy, and placid.", false);
         else MainScreen.text("  It makes you feel euphoric, happy, and willing to do ANYTHING to keep feeling this way.", false);
         MainScreen.text("  Unbidden, your hand brings the bottle to your lips, and the heady taste fills your mouth as you convulsively swallow the entire bottle.", false);
         //-Raises lust by 10.
@@ -53,15 +53,15 @@ export default class MinotaurCum extends Consumable {
         if (!Game.inCombat && Utils.rand(10) == 1) {
             MainScreen.text("\n\nYour eyes flutter closed for a second as a fantasy violates your mind.  You're on your knees, prostrate before a minotaur.  Its narcotic scent fills the air around you, and you're swaying back and forth with your belly already sloshing and full of spunk.  Its equine-like member is rubbing over your face, and you submit to the beast, stretching your jaw wide to take its sweaty, glistening girth inside you.  Your tongue quivers happily as you begin sucking and slurping, swallowing each drop of pre-cum you entice from the beastly erection.  Gurgling happily, you give yourself to your inhuman master for a chance to swallow into unthinking bliss.", false);
             player.stats.lib += 1;
-            player.stats.lust += Utils.rand(5) + player.stats.cor / 20 + Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER) / 5;
+            player.stats.lust += Utils.rand(5) + player.stats.cor / 20 + Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] / 5;
         }
-        //(Healing – if hurt and uber-addicted (hasperk))
+        //(Healing ï¿½ if hurt and uber-addicted (hasperk))
         if (player.stats.HP < player.stats.maxHP() && player.perks.has("MinotaurCumAddict")) {
             MainScreen.text("\n\nThe fire of your arousal consumes your body, leaving vitality in its wake.  You feel much better!", false);
             player.stats.HPChange(Math.floor(player.stats.maxHP() / 4));
         }
         //Uber-addicted status!
-        if (player.perks.has("MinotaurCumAddict") && Flags.get(FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE) <= 0) {
+        if (player.perks.has("MinotaurCumAddict") && Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] <= 0) {
             Flags.set(FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE, 3 + Utils.rand(2));
             MainScreen.text("\n\n<b>Your body feels so amazing and sensitive.  Experimentally you pinch yourself and discover that even pain is turning you on!</b>", false);
         }

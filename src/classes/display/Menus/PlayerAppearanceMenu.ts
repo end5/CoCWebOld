@@ -1,4 +1,4 @@
-﻿import MainScreen from "../display/MainScreen";
+﻿import MainScreen from '../display/MainScreen';
 
 export default class PlayerAppearanceMenu {
     public static display(): void {
@@ -306,7 +306,7 @@ export default class PlayerAppearanceMenu {
         //Hip info only displays if you aren't a centaur. 
         if (!player.lowerBody.isTaur()) {
             if (player.thickness > 70) {
-                MainScreen.text("  You have " + hipDescript(), false);
+                MainScreen.text("  You have " + LowerBodyDescriptor.describeHips(player), false);
                 if (player.lowerBody.hipRating < 6) {
                     if (player.tone < 65)
                         MainScreen.text(" buried under a noticeable muffin-top, and", false);
@@ -322,7 +322,7 @@ export default class PlayerAppearanceMenu {
                     MainScreen.text(" that sway hypnotically on your extra-curvy frame, and", false);
             }
             else if (player.thickness < 30) {
-                MainScreen.text("  You have " + hipDescript(), false);
+                MainScreen.text("  You have " + LowerBodyDescriptor.describeHips(player), false);
                 if (player.lowerBody.hipRating < 6)
                     MainScreen.text(" that match your trim, lithe body, and", false);
                 if (player.lowerBody.hipRating >= 6 && player.lowerBody.hipRating < 10)
@@ -336,7 +336,7 @@ export default class PlayerAppearanceMenu {
             }
             //STANDARD
             else {
-                MainScreen.text("  You have " + hipDescript(), false);
+                MainScreen.text("  You have " + LowerBodyDescriptor.describeHips(player), false);
                 if (player.lowerBody.hipRating < 6)
                     MainScreen.text(", and", false);
                 if (player.femininity > 50) {
@@ -528,7 +528,7 @@ export default class PlayerAppearanceMenu {
         else if (player.lowerBody == LowerBody.CAT)
             MainScreen.text("  Two digitigrade legs grow downwards from your waist, ending in soft, padded cat-paws.", false);
         else if (player.lowerBody == LowerBody.LIZARD)
-            MainScreen.text("  Two digitigrade legs grow down from your " + hipDescript() + ", ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.", false);
+            MainScreen.text("  Two digitigrade legs grow down from your " + LowerBodyDescriptor.describeHips(player) + ", ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.", false);
         else if (player.lowerBody == LowerBody.BUNNY)
             MainScreen.text("  Your legs thicken below the waist as they turn into soft-furred rabbit-like legs.  You even have large bunny feet that make hopping around a little easier than walking.", false);
         else if (player.lowerBody == LowerBody.HARPY)
@@ -542,7 +542,7 @@ export default class PlayerAppearanceMenu {
         else if (player.lowerBody == LowerBody.FOX)
             MainScreen.text("  Your legs are crooked into high knees with hocks and long feet, like those of a fox; cute bulbous toes decorate the ends.");
         else if (player.lowerBody == LowerBody.DRAGON)
-            MainScreen.text("  Two human-like legs grow down from your " + hipDescript() + ", sheathed in scales and ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.", false);
+            MainScreen.text("  Two human-like legs grow down from your " + LowerBodyDescriptor.describeHips(player) + ", sheathed in scales and ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.", false);
         else if (player.lowerBody == LowerBody.RACCOON)
             MainScreen.text("  Your legs, though covered in fur, are humanlike.  Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.");
         if (player.perks.has("Incorporeality"))
@@ -1052,7 +1052,7 @@ export default class PlayerAppearanceMenu {
                 MainScreen.text("\nLooking positively perverse, a " + player.lowerBody.cockSpot.get(0).pShortDesc + " adorns your " + player.CockDescriptor.describeCock(player, 0) + ".", false);
             }
         }
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00286) == 1)
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00286] == 1)
             MainScreen.text("\nA magical, ruby-studded bar pierces your belly button, allowing you to summon Ceraph on a whim.", false);
         if (player.lowerBody.vaginaSpot.hasVagina()) {
             if (player.lowerBody.vaginaSpot.get(0).labiaPierced > 0)

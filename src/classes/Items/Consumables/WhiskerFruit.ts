@@ -101,7 +101,7 @@ export default class WhiskerFruit extends Consumable {
                 else if (player.stats.cor < 66) MainScreen.text("You're not sure how you feel about the fantasy.", false);
                 else MainScreen.text("You hope to find a willing partner to make this a reality.", false);
             }
-            //Else –
+            //Else ï¿½
             else {
                 MainScreen.text("\n\nA rush of tingling warmth spreads through your body as it digests the fruit.  You can feel your blood pumping through your extremities, making them feel sensitive and surprisingly sensual.  It's going to be hard to resist getting ", false);
                 if (player.stats.lust > 60) MainScreen.text("even more ", false);
@@ -135,7 +135,7 @@ export default class WhiskerFruit extends Consumable {
         }
 
         //Shrink the boobalies down to A for men or C for girls.
-        if (player.upperBody.chest.count() > 0 && changes < changeLimit && Utils.rand(4) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (player.upperBody.chest.count() > 0 && changes < changeLimit && Utils.rand(4) == 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             let breastShrinkageThreshold: number = 0;
             let shrinkingHappened: boolean = false;
             //Determine if shrinkage is required
@@ -189,7 +189,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         //Cat penorz shrink
-        if (player.lowerBody.cockSpot.countType(CockType.CAT) > 0 && Utils.rand(3) == 0 && changes < changeLimit && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (player.lowerBody.cockSpot.countType(CockType.CAT) > 0 && Utils.rand(3) == 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             //loop through and find a cat wang.
             let selectedCock: Cock = null;
             let changedCock: number = 0;
@@ -214,7 +214,7 @@ export default class WhiskerFruit extends Consumable {
                 }
             }
             //(big sensitivity boost)
-            MainScreen.text("  Although the package is smaller, it feels even more sensitive – as if it retained all sensation of its larger size in its smaller form.", false);
+            MainScreen.text("  Although the package is smaller, it feels even more sensitive ï¿½ as if it retained all sensation of its larger size in its smaller form.", false);
             player.stats.sens += 5;
             //Make note of other dicks changing
             if (changedCock > 1) MainScreen.text("  Upon further inspection, all your " + CockDescriptor.nounCock(CockType.CAT) + "s have shrunk!", false);

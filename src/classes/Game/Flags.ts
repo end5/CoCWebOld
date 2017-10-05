@@ -2,25 +2,12 @@ import { SaveInterface } from "../SaveInterface";
 
 export default class Flags implements SaveInterface {
     private static flags: object = {};
-    public static get(flagEnum: FlagEnum): number {
-        if (this.flags[flagEnum] == undefined)
-            this.flags[flagEnum] = 0;
-        return this.flags[flagEnum];
+
+    public static get list(): object {
+        return Flags.flags;
     }
 
-    public static set(flagEnum: FlagEnum, number: number) {
-        this.flags[flagEnum] = number;
-    }
-
-    public static increase(flagEnum: FlagEnum, number: number = 1) {
-        this.flags[flagEnum] += number;
-    }
-
-    public static decrease(flagEnum: FlagEnum, number: number = 1) {
-        this.flags[flagEnum] -= number;
-    }
-
-    public static clear() {
+    private static clear() {
         this.flags = {};
     }
 

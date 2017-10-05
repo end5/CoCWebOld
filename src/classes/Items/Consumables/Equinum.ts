@@ -369,7 +369,7 @@ export default class Equinum extends Consumable {
                 }
             }
 
-            if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+            if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
                 if (Utils.rand(2) == 0 && changes < changeLimit) {
                     //Shrink B's!
                     //Single row

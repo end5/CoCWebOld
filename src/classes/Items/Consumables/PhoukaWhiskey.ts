@@ -48,7 +48,7 @@ export default class PhoukaWhiskey extends Consumable {
             case 3: //Child is a faerie, hates phouka whiskey
                 MainScreen.text("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
         }
-        Flags.increase(FlagEnum.PREGNANCY_CORRUPTION); //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
+        Flags.list[FlagEnum.PREGNANCY_CORRUPTION]++; //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
         this.phoukaWhiskeyAddStatus(player);
     }
 
@@ -80,8 +80,8 @@ export default class PhoukaWhiskey extends Consumable {
         //			3 = Player is pregnant with a faerie that will remain a faerie after this drink
         if (!player.pregnancy.isPregnant() && !player.pregnancy.isPregnant()) return 0;
         if (player.pregnancy.isPregnantWith(PregnancyType.FAERIE)) {
-            if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) == 0) return 2;
-            if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) < 0) return 3;
+            if (Flags.list[FlagEnum.PREGNANCY_CORRUPTION] == 0) return 2;
+            if (Flags.list[FlagEnum.PREGNANCY_CORRUPTION] < 0) return 3;
         }
         return 1; //Pregnancy has to be either a satyr or a phouka
     }

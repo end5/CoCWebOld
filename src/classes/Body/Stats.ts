@@ -318,7 +318,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set lust(value: number) {
-        if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG) == 1 && value > 0 && this.lustResisted)
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 && value > 0 && this.lustResisted)
             value /= 2;
         if (value > 0 && this.lustResisted)
             value *= this.lustPercent() / 100;
@@ -386,9 +386,9 @@ export default class Stats implements SaveInterface {
         if (min < 50 && this.body.statusAffects.has("Luststick")) min = 50;
         //SHOULDRA BOOSTS
         //+20
-        if (Flags.get(FlagEnum.SHOULDRA_SLEEP_TIMER) <= -168) {
+        if (Flags.list[FlagEnum.SHOULDRA_SLEEP_TIMER] <= -168) {
             min += 20;
-            if (Flags.get(FlagEnum.SHOULDRA_SLEEP_TIMER) <= -216)
+            if (Flags.list[FlagEnum.SHOULDRA_SLEEP_TIMER] <= -216)
                 min += 30;
         }
         //SPOIDAH BOOSTS

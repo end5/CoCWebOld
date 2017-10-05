@@ -63,9 +63,9 @@ export default class ShriveledTentacle extends Consumable {
             MainScreen.text("\n\nYour balance slides way off, and you plop down on the ground as mass concentrates on your head.  Reaching up, you give a little shriek as you feel a disturbingly thick, squirming thing where your hair should be.  Pulling it down in front of your eyes, you notice it's still attached to your head; what's more, it's the same color as your hair used to be.  <b>You now have squirming tentacles in place of hair!</b>  As you gaze at it, a gentle heat starts to suffuse your hand.  The tentacles must be developing their characteristic stingers!  You quickly let go; you'll have to take care to keep them from rubbing on your skin at all hours.  On the other hand, they're quite short and you find you can now flex and extend them as you would any other muscle, so that shouldn't be too hard.  You settle on a daring, windswept look for now.", false);
             player.upperBody.head.hairType = 4;
             player.upperBody.head.hairLength = 5;
-            if (Flags.get(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD) == 0) {
+            if (Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] == 0) {
                 MainScreen.text("  <b>(Your hair has stopped growing.)</b>", false);
-                Flags.set(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD, 1);
+                Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] = 1;
             }
             changes++;
             changes++;

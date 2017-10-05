@@ -83,16 +83,16 @@ export default class BeeHoney extends Consumable {
         }
 
         if ((pure || special) && this.isPregnantWithFaerie(player)) { //Pure or special honey can reduce the corruption of a phouka baby
-            if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) > 1) { //Child is phouka, hates pure honey
+            if (Flags.list[FlagEnum.PREGNANCY_CORRUPTION] > 1) { //Child is phouka, hates pure honey
                 MainScreen.text("\n\nYou feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.  Then again, maybe pure honey is good for it.");
             }
-            else if (Flags.get(FlagEnum.PREGNANCY_CORRUPTION) < 1) { //Child is faerie, loves pure honey
+            else if (Flags.list[FlagEnum.PREGNANCY_CORRUPTION] < 1) { //Child is faerie, loves pure honey
                 MainScreen.text("\n\nA warm sensation starts in your belly and runs all through your body.  It's almost as if you're feeling music and you guess your passenger enjoyed the meal.");
             }
             else { //Child is on the line, will become a faerie with this drink
                 MainScreen.text("\n\nAt first you feel your baby struggle against the honey, then it seems to grow content and enjoy it.");
             }
-            Flags.decrease(FlagEnum.PREGNANCY_CORRUPTION, 1);
+            Flags.list[FlagEnum.PREGNANCY_CORRUPTION]--;
             if (pure)
                 return; //No transformative effects for the player because the pure honey was absorbed by the baby - Special honey will keep on giving
         }
@@ -149,7 +149,7 @@ export default class BeeHoney extends Consumable {
             changes++;
         }
         //-Remove extra breast rows
-        if (changes < changeLimit && chest.count() > 2 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (changes < changeLimit && chest.count() > 2 && Utils.rand(3) == 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             changes++;
             let lastBreastRow = chest.get(chest.count() - 1);
             MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");

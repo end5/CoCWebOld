@@ -51,11 +51,11 @@ export default class MainMenu {
 
         if (debug)
             MainScreen.text("\n\n<b>DEBUG MODE ENABLED:  ITEMS WILL NOT BE CONSUMED BY USE.</b>");
-        if (Flags.get(FlagEnum.SHOW_SPRITES_FLAG))
+        if (Flags.list[FlagEnum.SHOW_SPRITES_FLAG])
             MainScreen.text("\n\n<b>Sprites disabled.</b>");
-        if (Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG))
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG])
             MainScreen.text("\n\n<b>Easy Mode On:  Bad-ends can be ignored.</b>");
-        if (Flags.get(FlagEnum.SILLY_MODE_ENABLE_FLAG))
+        if (Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG])
             MainScreen.text("\n\n<b>SILLY MODE ENGAGED: Crazy, nonsensical, and possibly hilarious things may occur.</b>");
         if (isEaster())
             MainScreen.text("\n\n<b>It's Easter!  Enjoy the eggs!</b>");

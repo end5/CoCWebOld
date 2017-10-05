@@ -27,10 +27,10 @@ export default class Player extends Character {
         this.stats.lust = 15;
 
         //kGAMECLASS.notes = "No Notes Available.";
-        this.stats.XP = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP);
+        this.stats.XP = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP];
         this.stats.level = 1;
         this.stats.HP = this.stats.maxHP();
-        this.stats.gems = Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS);
+        this.stats.gems = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS];
         this.skinType = SkinType.PLAIN;
         this.upperBody.head.face.faceType = FaceType.HUMAN;
         this.lowerBody.tailType = TailType.NONE;
@@ -210,7 +210,7 @@ export default class Player extends Character {
     }
 
     public hasSpells(): boolean {
-        return spellCount() > 0;
+        return this.spellCount() > 0;
     }
 
     public spellCount(): number {

@@ -92,7 +92,7 @@ export default class SuccubiMilk extends Consumable {
             else
                 BreastModifier.growTopBreastRow(player, breastGrowth, player.upperBody.chest.count(), true);
 
-            if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+            if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
                 // Shrink cocks if you have them.
                 if (player.lowerBody.cockSpot.count() > 0) {
                     const longestCock: Cock = player.lowerBody.cockSpot.listLongestCocks[0];
@@ -128,7 +128,7 @@ export default class SuccubiMilk extends Consumable {
         //Increase pussy wetness or grow one!!
         else if (chance > 75 && chance < 90) {
             //Shrink cawk
-            if (player.lowerBody.cockSpot.count() > 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+            if (player.lowerBody.cockSpot.count() > 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
                 MainScreen.text("\n\n", false);
                 const longestCock: Cock = player.lowerBody.cockSpot.listLongestCocks[0];
                 //Shrink said cock

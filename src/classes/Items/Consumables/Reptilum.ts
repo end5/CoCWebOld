@@ -122,7 +122,7 @@ export default class Reptilum extends Consumable {
             if (player.lowerBody.cockSpot.hasSheath()) {
                 nonLizzyDick.cockType = CockType.LIZARD;
                 if (!player.lowerBody.cockSpot.hasSheath())
-                    MainScreen.text("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(player, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic – the sheath is gone.</b>", false);
+                    MainScreen.text("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(player, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic ï¿½ the sheath is gone.</b>", false);
             }
             else nonLizzyDick.cockType = CockType.LIZARD;
             changes++;
@@ -145,7 +145,7 @@ export default class Reptilum extends Consumable {
             if (player.lowerBody.cockSpot.hasSheath()) {
                 nonLizzyDick.cockType = CockType.LIZARD;
                 if (!player.lowerBody.cockSpot.hasSheath())
-                    MainScreen.text("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(player, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic – the sheath is gone.</b>", false);
+                    MainScreen.text("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(player, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic ï¿½ the sheath is gone.</b>", false);
             }
             else nonLizzyDick.cockType = CockType.LIZARD;
             changes++;
@@ -187,7 +187,7 @@ export default class Reptilum extends Consumable {
             }
             //(NOT HUEG < 4)
             else MainScreen.text("\n\nIn an instant, your chest compacts in on itself, consuming every ounce of breast-flesh.  You're left with a  smooth, masculine torso, though your nipples remain.", false);
-            //(BOTH – no new PG)
+            //(BOTH ï¿½ no new PG)
             MainScreen.text("  With the change in weight and gravity, you find it's gotten much easier to move about.", false);
             //Loop through behind the scenes and adjust all tits.
             for (let index: number = 0; index < player.upperBody.chest.count(); index++) {
@@ -298,14 +298,14 @@ export default class Reptilum extends Consumable {
             }
         }
         //-Hair stops growing!
-        if (Flags.get(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD) == 0 && changes < changeLimit && Utils.rand(4) == 0) {
+        if (Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD] == 0 && changes < changeLimit && Utils.rand(4) == 0) {
             MainScreen.text("\n\nYour scalp tingles oddly.  In a panic, you reach up to your " + HeadDescriptor.describeHair(player) + ", but thankfully it appears unchanged.\n\n", false);
             MainScreen.text("(<b>Your hair has stopped growing.</b>)", false);
             changes++;
-            Flags.increase(FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD);
+            Flags.list[FlagEnum.HAIR_GROWTH_STOPPED_BECAUSE_LIZARD]++;
         }
         //Big physical changes:
-        //-Legs – Draconic, clawed feet
+        //-Legs ï¿½ Draconic, clawed feet
         if (player.lowerBody.type != LowerBodyType.LIZARD && changes < changeLimit && Utils.rand(5) == 0) {
             //Hooves -
             if (player.lowerBody.type == LowerBodyType.HOOFED) MainScreen.text("\n\nYou scream in agony as you feel your hooves crack and break apart, beginning to rearrange.  Your legs change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.", false);
@@ -313,13 +313,13 @@ export default class Reptilum extends Consumable {
             else if (player.lowerBody.type == LowerBodyType.CENTAUR) MainScreen.text("\n\nYour lower body is wracked by pain!  Once it passes, you discover that you're standing on digitigrade legs with lizard-like claws.", false);
             //feet types -
             else if (player.lowerBody.type == LowerBodyType.HUMAN || player.lowerBody.type == LowerBodyType.DOG || player.lowerBody.type == LowerBodyType.DEMONIC_HIGH_HEELS || player.lowerBody.type == LowerBodyType.DEMONIC_CLAWS || player.lowerBody.type == LowerBodyType.BEE || player.lowerBody.type == LowerBodyType.CAT) MainScreen.text("\n\nYou scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.", false);
-            //Else –
+            //Else ï¿½
             else MainScreen.text("\n\nPain rips through your " + LowerBodyDescriptor.describeLegs(player) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.", false);
             MainScreen.text("  <b>You have reptilian legs and claws!</b>", false);
             player.lowerBody.type = LowerBodyType.LIZARD;
             changes++;
         }
-        //-Tail – sinuous lizard tail
+        //-Tail ï¿½ sinuous lizard tail
         if (player.lowerBody.tailType != TailType.LIZARD && player.lowerBody.type == LowerBodyType.LIZARD && changes < changeLimit && Utils.rand(5) == 0) {
             //No tail
             if (player.lowerBody.tailType == TailType.NONE) MainScreen.text("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + ButtDescriptor.describeButt(player) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>", false);
@@ -347,7 +347,7 @@ export default class Reptilum extends Consumable {
             player.upperBody.head.earType = EarType.LIZARD;
             changes++;
         }
-        //-Scales – color changes to red, green, white, blue, or black.  Rarely: purple or silver.
+        //-Scales ï¿½ color changes to red, green, white, blue, or black.  Rarely: purple or silver.
         if (player.skinType != SkinType.SCALES && player.upperBody.head.earType == EarType.LIZARD && player.lowerBody.tailType == TailType.LIZARD && player.lowerBody.type == LowerBodyType.LIZARD && changes < changeLimit && Utils.rand(5) == 0) {
             //(fur)
             if (player.skinType == SkinType.FUR) {

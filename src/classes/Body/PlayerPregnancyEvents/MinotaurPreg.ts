@@ -92,8 +92,8 @@ export default class MinotaurPreg implements IPregnancyEvent {
         //326 Number of sons grown
         //327 Number of sons pending
         //328 growup countdown
-        Flags.increase(FlagEnum.UNKNOWN_FLAG_NUMBER_00327);
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00328) == 0)
-            Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00328, 150);
+        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00327]++;
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00328] == 0)
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00328] = 150;
     }
 }

@@ -7,7 +7,7 @@ export default class EmberPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
         //Pregnancy notes: Egg Laying 
         let pregText: string;
-        if (Flags.get(FlagEnum.EMBER_OVIPOSITION) > 0) {
+        if (Flags.list[FlagEnum.EMBER_OVIPOSITION] > 0) {
             if (incubationTime == 330) pregText = "Your belly has swollen, becoming larger - proof that Ember's seed did its work.  The dragon seems to be constantly checking you out, as if looking for the signs of weight gain.";
             if (incubationTime == 250) pregText = "Your belly grows ever bigger, making your pregnancy noticeable; your belly also feels somewhat solid.  Ember casts pleased glances in your direction, whenever " + emberScene.emberMF("he", "she") + " thinks you're not looking.";
             if (incubationTime == 170) {
@@ -65,7 +65,7 @@ export default class EmberPreg implements IPregnancyEvent {
                 pregText += "\n\nEmber approaches you, and casually asks, \"<i>So... is it kicking already?</i>\"";
                 pregText += "\n\nYou admit that it is, stroking your stomach.  Casually, you ask if Ember would maybe like to touch your belly, wondering if " + emberScene.emberMF("he", "she") + " will be able to bring " + emberScene.emberMF("him", "her") + "self to do it.";
                 pregText += "\n\n\"<i>Yes! Of course!</i>\" Ember replies";
-                if (Flags.get(FlagEnum.EMBER_ROUNDFACE) == 1) pregText += ", blush at " + emberScene.emberMF("his", "her") + " own over-enthusiastic reply";
+                if (Flags.list[FlagEnum.EMBER_ROUNDFACE] == 1) pregText += ", blush at " + emberScene.emberMF("his", "her") + " own over-enthusiastic reply";
                 pregText += ".  You just smile encouragingly at the dragon " + emberScene.emberMF("-boy", "herm") + " and lean back slightly, sticking out your gravid midriff in open encouragement to its " + emberScene.emberMF("father", "mother") + " to try and connect with " + emberScene.emberMF("his", "her") + " unborn child.";
                 pregText += "\n\nEmber sets a clawed hand on your belly, careful not to hurt you with " + emberScene.emberMF("his", "her") + " claws.  Slowly " + emberScene.emberMF("he", "she") + " rubs your belly, until " + emberScene.emberMF("he", "she") + " feels a small kick and smiles in glee.  You smile at the look of joy on " + emberScene.emberMF("his", "her") + " face, even as " + emberScene.emberMF("he", "she") + " realizes what " + emberScene.emberMF("he", "she") + "'s doing and embarrassedly mumbles an excuse and walks away.";
             }
@@ -81,10 +81,10 @@ export default class EmberPreg implements IPregnancyEvent {
                 //High Corruptio
                 else pregText += "You  already thought up a perfect way for this sexy dragon to help you, but it's best not to rush.  It's not everyday that Ember says " + emberScene.emberMF("he", "she") + "'ll do 'anything' for you.  A quick jab on your belly from your unborn child makes you recoil a bit though.  Maybe it would be better to wait until this little one is out of you, just so you can have another.  You ponder what to ask of " + emberScene.emberMF("him", "her") + " a while longer.";
                 pregText += "\n\nFinally, you decide there really isn't anything Ember can help you with, and tell " + emberScene.emberMF("him", "her") + " so.  Though " + emberScene.emberMF("he", "she") + " had better be ready to do " + emberScene.emberMF("his", "her") + " part when the baby is born and needs caring.";
-                if (Flags.get(FlagEnum.EMBER_GENDER) == 1 && Flags.get(FlagEnum.EMBER_MILK) > 0) pregText += "  You can't resist smirking and patting one of your shemale dragon's bountiful breasts, noting that maybe you should let him do all the breast-feeding.";
+                if (Flags.list[FlagEnum.EMBER_GENDER] == 1 && Flags.list[FlagEnum.EMBER_MILK] > 0) pregText += "  You can't resist smirking and patting one of your shemale dragon's bountiful breasts, noting that maybe you should let him do all the breast-feeding.";
 
                 pregText += "\n\n";
-                if (Flags.get(FlagEnum.EMBER_ROUNDFACE) > 0) pregText += "Ember blushes.  ";
+                if (Flags.list[FlagEnum.EMBER_ROUNDFACE] > 0) pregText += "Ember blushes.  ";
                 pregText += "\"<i>O-of course I'll do my part.  If you don't need me for anything, I'll be going then.</i>\" " + emberScene.emberMF("He", "She") + " turns on " + emberScene.emberMF("his", "her") + " heels and walks away.  You watch " + emberScene.emberMF("him", "her") + " go, pat yourself on the stomach, then painstakingly hoist yourself back upright and go on your way.";
             }
             if (incubationTime == 60) {

@@ -20,7 +20,7 @@ export default class SeductiveArmor extends Armor {
             player.upperBody.chest.get(0).nipplesPierced = 1;
             player.upperBody.chest.get(0).nipplesPiercedShort = "seamless black nipple-studs";
             player.upperBody.chest.get(0).nipplesPiercedLong = "Seamless black nipple-studs";
-            Flags.set(FlagEnum.PC_FETISH, 2);
+            Flags.list[FlagEnum.PC_FETISH] = 2;
         }
         else {
             MainScreen.text("As you're trying to put on the armor, Ceraph appears from nowhere, apologizing profusely and stopping you before you can slide the last strap into place.  \"<i>Please don't put that on, " + GenderDescriptor.mf(player, "Master", "Mistress") + ".  I trapped that armor to pierce new fetishes the unwary so that I could add them to my harem.  I'd hate to garner your anger.</i>\"  She wrings her hands nervously.  \"<i>If you'll hand it here, I'll get rid of it for you. Noone would buy it anyway.</i>\"");

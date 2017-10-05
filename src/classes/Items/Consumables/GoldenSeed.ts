@@ -75,7 +75,7 @@ export default class GoldenSeed extends Consumable {
             changes++;
             //(low str)
             if (player.stats.str < 40) MainScreen.text("\n\nShivering, you feel a feverish sensation that reminds you of the last time you got sick. Thankfully, it passes swiftly, leaving slightly enhanced strength in its wake.", false);
-            //(hi str – 50+)
+            //(hi str ï¿½ 50+)
             else MainScreen.text("\n\nHeat builds in your muscles, their already-potent mass shifting slightly as they gain even more strength.", false);
             //Faster until 40 str.
             if (player.stats.str < 40) player.stats.str += .5;
@@ -101,7 +101,7 @@ export default class GoldenSeed extends Consumable {
             //(fork to fantasy)
             if (player.stats.lib >= 40) {
                 player.stats.lust += player.stats.lib / 5 + 10;
-                //(herm – either or!)
+                //(herm ï¿½ either or!)
                 //Cocks!
                 if (player.lowerBody.cockSpot.hasCock() && (player.gender != 3 || Utils.rand(2) == 0)) {
                     //(male 1)
@@ -132,7 +132,7 @@ export default class GoldenSeed extends Consumable {
                     }
                     //(female 2)
                     else {
-                        MainScreen.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males – mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s pull you out of the fantasy as they rub inside your " + player.inventory.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.", false);
+                        MainScreen.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males ï¿½ mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s pull you out of the fantasy as they rub inside your " + player.inventory.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.", false);
                     }
                 }
             }
@@ -156,7 +156,7 @@ export default class GoldenSeed extends Consumable {
             player.updateGender();
         }
         //-Remove extra breast rows
-        if (changes < changeLimit && player.upperBody.chest.count() > 1 && Utils.rand(3) == 0 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (changes < changeLimit && player.upperBody.chest.count() > 1 && Utils.rand(3) == 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             changes++;
             let bottomBreastRow = player.upperBody.chest.get(player.upperBody.chest.count() - 1);
             MainScreen.text("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ", false);
@@ -171,7 +171,7 @@ export default class GoldenSeed extends Consumable {
         }
         //-Shrink tits if above DDs.
         //Cannot happen at same time as row removal
-        else if (changes < changeLimit && player.upperBody.chest.count() == 1 && Utils.rand(3) == 0 && player.upperBody.chest.get(0).breastRating >= 7 && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        else if (changes < changeLimit && player.upperBody.chest.count() == 1 && Utils.rand(3) == 0 && player.upperBody.chest.get(0).breastRating >= 7 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             changes++;
             //(Use standard breast shrinking mechanism if breasts are under 'h')
             if (player.upperBody.chest.get(0).breastRating < 19) {
@@ -198,7 +198,7 @@ export default class GoldenSeed extends Consumable {
             changes++;
             MainScreen.text(player.modFem(85, 3 + Utils.rand(5)), false);
         }
-        //-Skin color change – tan, olive, dark, light
+        //-Skin color change ï¿½ tan, olive, dark, light
         if ((player.skinTone != "tan" && player.skinTone != "olive" && player.skinTone != "dark" && player.skinTone != "light") && changes < changeLimit && Utils.rand(5) == 0) {
             changes++;
             MainScreen.text("\n\nIt takes a while for you to notice, but <b>", false);
@@ -322,7 +322,7 @@ export default class GoldenSeed extends Consumable {
             changes++;
         }
         //SPECIAL:
-        //Harpy Womb – All eggs are automatically upgraded to large, requires legs + tail to be harpy.
+        //Harpy Womb ï¿½ All eggs are automatically upgraded to large, requires legs + tail to be harpy.
         if (!player.perks.has("HarpyWomb") && player.lowerBody.type == LowerBodyType.HARPY && player.lowerBody.tailType == TailType.HARPY && Utils.rand(4) == 0 && changes < changeLimit) {
             player.perks.add(new Perk("HarpyWomb", 0, 0, 0, 0));
             MainScreen.text("\n\nThere's a rumbling in your womb, signifying that some strange change has taken place in your most feminine area. No doubt something in it has changed to be more like a harpy. (<b>You've gained the Harpy Womb perk! All the eggs you lay will always be large so long as you have harpy legs and a harpy tail.</b>)", false);

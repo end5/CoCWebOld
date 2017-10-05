@@ -153,7 +153,7 @@ export default class MinotaurBlood extends Consumable {
                 changes++;
             }
         }
-        if (!Flags.get(FlagEnum.HYPER_HAPPY)) {
+        if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             //Kills vagina size (and eventually the whole vagina)
             if (vaginaSpot.count() > 0) {
                 let topVagina: Vagina = vaginaSpot.get(0);

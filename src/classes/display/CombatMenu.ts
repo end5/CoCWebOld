@@ -8,7 +8,7 @@ export default class CombatMenu {
 
     public static display(player: Player): void { //If returning from a sub menu set newRound to false
         MainScreen.clearText();
-        Flags.set(FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG, 0);
+        Flags.list[FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG] = 0;
         MainScreen.hideTopButton(TopButton.MainMenu);
         MainScreen.hideTopButton(TopButton.Appearance);
         MainScreen.hideTopButton(TopButton.Perks);

@@ -14,8 +14,8 @@ export default class StatsMenu {
 
         combatStats += "<b>Spell Cost:</b> " + spellCost(100) + "%\n";
 
-        if (Flags.get(FlagEnum.RAPHAEL_RAPIER_TRANING) > 0)
-            combatStats += "<b>Rapier Skill (Out of 4):</b> " + Flags.get(FlagEnum.RAPHAEL_RAPIER_TRANING) + "\n";
+        if (Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] > 0)
+            combatStats += "<b>Rapier Skill (Out of 4):</b> " + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] + "\n";
 
         combatStats += "<b>Tease Skill (Out of 5):</b>  " + player.teaseLevel + "\n";
 
@@ -29,79 +29,79 @@ export default class StatsMenu {
         if (player.statusAffects.get("Birthed").value1 > 0)
             childStats += "<b>Times Given Birth:</b> " + player.statusAffects.get("Birthed").value1 + "\n";
 
-        if (Flags.get(FlagEnum.AMILY_MET) > 0)
-            childStats += "<b>Litters With Amily:</b> " + (Flags.get(FlagEnum.AMILY_BIRTH_TOTAL) + Flags.get(FlagEnum.PC_TIMES_BIRTHED_AMILYKIDS)) + "\n";
+        if (Flags.list[FlagEnum.AMILY_MET] > 0)
+            childStats += "<b>Litters With Amily:</b> " + (Flags.list[FlagEnum.AMILY_BIRTH_TOTAL] + Flags.list[FlagEnum.PC_TIMES_BIRTHED_AMILYKIDS]) + "\n";
 
-        if (Flags.get(FlagEnum.BENOIT_EGGS) > 0)
-            childStats += "<b>Benoit Eggs Laid:</b> " + Flags.get(FlagEnum.BENOIT_EGGS) + "\n";
+        if (Flags.list[FlagEnum.BENOIT_EGGS] > 0)
+            childStats += "<b>Benoit Eggs Laid:</b> " + Flags.list[FlagEnum.BENOIT_EGGS] + "\n";
 
-        if (Flags.get(FlagEnum.COTTON_KID_COUNT) > 0)
-            childStats += "<b>Children With Cotton:</b> " + Flags.get(FlagEnum.COTTON_KID_COUNT) + "\n";
+        if (Flags.list[FlagEnum.COTTON_KID_COUNT] > 0)
+            childStats += "<b>Children With Cotton:</b> " + Flags.list[FlagEnum.COTTON_KID_COUNT] + "\n";
 
-        if (Flags.get(FlagEnum.EDRYN_NUMBER_OF_KIDS) > 0)
-            childStats += "<b>Children With Edryn:</b> " + Flags.get(FlagEnum.EDRYN_NUMBER_OF_KIDS) + "\n";
+        if (Flags.list[FlagEnum.EDRYN_NUMBER_OF_KIDS] > 0)
+            childStats += "<b>Children With Edryn:</b> " + Flags.list[FlagEnum.EDRYN_NUMBER_OF_KIDS] + "\n";
 
-        if (Flags.get(FlagEnum.EMBER_CHILDREN_MALES) > 0)
-            childStats += "<b>Ember Offspring (Males):</b> " + Flags.get(FlagEnum.EMBER_CHILDREN_MALES) + "\n";
-        if (Flags.get(FlagEnum.EMBER_CHILDREN_FEMALES) > 0)
-            childStats += "<b>Ember Offspring (Females):</b> " + Flags.get(FlagEnum.EMBER_CHILDREN_FEMALES) + "\n";
-        if (Flags.get(FlagEnum.EMBER_CHILDREN_HERMS) > 0)
-            childStats += "<b>Ember Offspring (Herms):</b> " + Flags.get(FlagEnum.EMBER_CHILDREN_HERMS) + "\n";
+        if (Flags.list[FlagEnum.EMBER_CHILDREN_MALES] > 0)
+            childStats += "<b>Ember Offspring (Males):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_MALES] + "\n";
+        if (Flags.list[FlagEnum.EMBER_CHILDREN_FEMALES] > 0)
+            childStats += "<b>Ember Offspring (Females):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_FEMALES] + "\n";
+        if (Flags.list[FlagEnum.EMBER_CHILDREN_HERMS] > 0)
+            childStats += "<b>Ember Offspring (Herms):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_HERMS] + "\n";
 
-        if (Flags.get(FlagEnum.EMBER_EGGS) > 0)
-            childStats += "<b>Ember Eggs Produced:</b> " + Flags.get(FlagEnum.EMBER_EGGS) + "\n";
+        if (Flags.list[FlagEnum.EMBER_EGGS] > 0)
+            childStats += "<b>Ember Eggs Produced:</b> " + Flags.list[FlagEnum.EMBER_EGGS] + "\n";
 
-        if (Flags.get(FlagEnum.IZMA_CHILDREN_SHARKGIRLS) > 0)
-            childStats += "<b>Children With Izma (Sharkgirls):</b> " + Flags.get(FlagEnum.IZMA_CHILDREN_SHARKGIRLS) + "\n";
+        if (Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS] > 0)
+            childStats += "<b>Children With Izma (Sharkgirls):</b> " + Flags.list[FlagEnum.IZMA_CHILDREN_SHARKGIRLS] + "\n";
 
-        if (Flags.get(FlagEnum.IZMA_CHILDREN_TIGERSHARKS) > 0)
-            childStats += "<b>Children With Izma (Tigersharks):</b> " + Flags.get(FlagEnum.IZMA_CHILDREN_TIGERSHARKS) + "\n";
+        if (Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS] > 0)
+            childStats += "<b>Children With Izma (Tigersharks):</b> " + Flags.list[FlagEnum.IZMA_CHILDREN_TIGERSHARKS] + "\n";
 
-        if (Flags.get(FlagEnum.KELLY_KIDS_MALE) > 0)
-            childStats += "<b>Children With Kelly (Males):</b> " + Flags.get(FlagEnum.KELLY_KIDS_MALE) + "\n";
+        if (Flags.list[FlagEnum.KELLY_KIDS_MALE] > 0)
+            childStats += "<b>Children With Kelly (Males):</b> " + Flags.list[FlagEnum.KELLY_KIDS_MALE] + "\n";
 
-        if (Flags.get(FlagEnum.KELLY_KIDS) - Flags.get(FlagEnum.KELLY_KIDS_MALE) > 0)
-            childStats += "<b>Children With Kelly (Females):</b> " + (Flags.get(FlagEnum.KELLY_KIDS) - Flags.get(FlagEnum.KELLY_KIDS_MALE)) + "\n";
+        if (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE] > 0)
+            childStats += "<b>Children With Kelly (Females):</b> " + (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE]) + "\n";
 
         if (mountain.salon.lynnetteApproval() != 0)
-            childStats += "<b>Lynnette Children:</b> " + Flags.get(FlagEnum.LYNNETTE_BABY_COUNT) + "\n";
+            childStats += "<b>Lynnette Children:</b> " + Flags.list[FlagEnum.LYNNETTE_BABY_COUNT] + "\n";
 
-        if (Flags.get(FlagEnum.MARBLE_KIDS) > 0)
-            childStats += "<b>Children With Marble:</b> " + Flags.get(FlagEnum.MARBLE_KIDS) + "\n";
+        if (Flags.list[FlagEnum.MARBLE_KIDS] > 0)
+            childStats += "<b>Children With Marble:</b> " + Flags.list[FlagEnum.MARBLE_KIDS] + "\n";
 
-        if (Flags.get(FlagEnum.ANT_KIDS) > 0)
-            childStats += "<b>Ant Children With Phylla:</b> " + Flags.get(FlagEnum.ANT_KIDS) + "\n";
+        if (Flags.list[FlagEnum.ANT_KIDS] > 0)
+            childStats += "<b>Ant Children With Phylla:</b> " + Flags.list[FlagEnum.ANT_KIDS] + "\n";
 
-        if (Flags.get(FlagEnum.PHYLLA_DRIDER_BABIES_COUNT) > 0)
-            childStats += "<b>Drider Children With Phylla:</b> " + Flags.get(FlagEnum.PHYLLA_DRIDER_BABIES_COUNT) + "\n";
+        if (Flags.list[FlagEnum.PHYLLA_DRIDER_BABIES_COUNT] > 0)
+            childStats += "<b>Drider Children With Phylla:</b> " + Flags.list[FlagEnum.PHYLLA_DRIDER_BABIES_COUNT] + "\n";
 
-        if (Flags.get(FlagEnum.SHEILA_JOEYS) > 0)
-            childStats += "<b>Children With Sheila (Joeys):</b> " + Flags.get(FlagEnum.SHEILA_JOEYS) + "\n";
+        if (Flags.list[FlagEnum.SHEILA_JOEYS] > 0)
+            childStats += "<b>Children With Sheila (Joeys):</b> " + Flags.list[FlagEnum.SHEILA_JOEYS] + "\n";
 
-        if (Flags.get(FlagEnum.SHEILA_IMPS) > 0)
-            childStats += "<b>Children With Sheila (Imps):</b> " + Flags.get(FlagEnum.SHEILA_IMPS) + "\n";
+        if (Flags.list[FlagEnum.SHEILA_IMPS] > 0)
+            childStats += "<b>Children With Sheila (Imps):</b> " + Flags.list[FlagEnum.SHEILA_IMPS] + "\n";
 
-        if (Flags.get(FlagEnum.SOPHIE_ADULT_KID_COUNT) > 0 || Flags.get(FlagEnum.SOPHIE_DAUGHTER_MATURITY_COUNTER) > 0) {
+        if (Flags.list[FlagEnum.SOPHIE_ADULT_KID_COUNT] > 0 || Flags.list[FlagEnum.SOPHIE_DAUGHTER_MATURITY_COUNTER] > 0) {
             childStats += "<b>Children With Sophie:</b> ";
             let sophie: number = 0;
-            if (Flags.get(FlagEnum.SOPHIE_DAUGHTER_MATURITY_COUNTER) > 0) sophie++;
-            sophie += Flags.get(FlagEnum.SOPHIE_ADULT_KID_COUNT);
-            if (Flags.get(FlagEnum.SOPHIE_CAMP_EGG_COUNTDOWN) > 0) sophie++;
+            if (Flags.list[FlagEnum.SOPHIE_DAUGHTER_MATURITY_COUNTER] > 0) sophie++;
+            sophie += Flags.list[FlagEnum.SOPHIE_ADULT_KID_COUNT];
+            if (Flags.list[FlagEnum.SOPHIE_CAMP_EGG_COUNTDOWN] > 0) sophie++;
             childStats += sophie + "\n";
         }
 
-        if (Flags.get(FlagEnum.SOPHIE_EGGS_LAID) > 0)
-            childStats += "<b>Eggs Fertilized For Sophie:</b> " + (Flags.get(FlagEnum.SOPHIE_EGGS_LAID) + sophie) + "\n";
+        if (Flags.list[FlagEnum.SOPHIE_EGGS_LAID] > 0)
+            childStats += "<b>Eggs Fertilized For Sophie:</b> " + (Flags.list[FlagEnum.SOPHIE_EGGS_LAID] + sophie) + "\n";
 
-        if (Flags.get(FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS) > 0)
-            childStats += "<b>Children With Tamani:</b> " + Flags.get(FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS) + " (after all forms of natural selection)\n";
+        if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] > 0)
+            childStats += "<b>Children With Tamani:</b> " + Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] + " (after all forms of natural selection)\n";
 
         if (urtaPregs.urtaKids() > 0)
             childStats += "<b>Children With Urta:</b> " + urtaPregs.urtaKids() + "\n";
 
         //Mino sons
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00326) > 0)
-            childStats += "<b>Number of Adult Minotaur Offspring:</b> " + Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00326) + "\n";
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 0)
+            childStats += "<b>Number of Adult Minotaur Offspring:</b> " + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] + "\n";
 
         if (childStats != "")
             MainScreen.text("\n<b><u>Children</u></b>\n" + childStats, false);
@@ -182,17 +182,17 @@ export default class StatsMenu {
         // Begin Misc Stats
         let miscStats: string = "";
 
-        if (Flags.get(FlagEnum.EGGS_BOUGHT) > 0)
-            miscStats += "<b>Eggs Traded For:</b> " + Flags.get(FlagEnum.EGGS_BOUGHT) + "\n";
+        if (Flags.list[FlagEnum.EGGS_BOUGHT] > 0)
+            miscStats += "<b>Eggs Traded For:</b> " + Flags.list[FlagEnum.EGGS_BOUGHT] + "\n";
 
-        if (Flags.get(FlagEnum.TIMES_AUTOFELLATIO_DUE_TO_CAT_FLEXABILITY) > 0)
-            miscStats += "<b>Times Had Fun with Feline Flexibility:</b> " + Flags.get(FlagEnum.TIMES_AUTOFELLATIO_DUE_TO_CAT_FLEXABILITY) + "\n";
+        if (Flags.list[FlagEnum.TIMES_AUTOFELLATIO_DUE_TO_CAT_FLEXABILITY] > 0)
+            miscStats += "<b>Times Had Fun with Feline Flexibility:</b> " + Flags.list[FlagEnum.TIMES_AUTOFELLATIO_DUE_TO_CAT_FLEXABILITY] + "\n";
 
-        if (Flags.get(FlagEnum.FAP_ARENA_SESSIONS) > 0)
-            miscStats += "<b>Times Circle Jerked in the Arena:</b> " + Flags.get(FlagEnum.FAP_ARENA_SESSIONS) + "\n<b>Victories in the Arena:</b> " + Flags.get(FlagEnum.FAP_ARENA_VICTORIES) + "\n";
+        if (Flags.list[FlagEnum.FAP_ARENA_SESSIONS] > 0)
+            miscStats += "<b>Times Circle Jerked in the Arena:</b> " + Flags.list[FlagEnum.FAP_ARENA_SESSIONS] + "\n<b>Victories in the Arena:</b> " + Flags.list[FlagEnum.FAP_ARENA_VICTORIES] + "\n";
 
-        if (Flags.get(FlagEnum.SPELLS_CAST) > 0)
-            miscStats += "<b>Spells Cast:</b> " + Flags.get(FlagEnum.SPELLS_CAST) + "\n";
+        if (Flags.list[FlagEnum.SPELLS_CAST] > 0)
+            miscStats += "<b>Spells Cast:</b> " + Flags.list[FlagEnum.SPELLS_CAST] + "\n";
 
         if (miscStats != "")
             MainScreen.text("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
@@ -212,9 +212,9 @@ export default class StatsMenu {
         }
 
         // Mino Cum Addiction
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00340) > 0 || Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER) > 0 || player.perks.has("MinotaurCumAddict")) {
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00340] > 0 || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 0 || player.perks.has("MinotaurCumAddict")) {
             if (!player.perks.has("MinotaurCumAddict"))
-                addictStats += "<b>Minotaur Cum:</b> " + Math.round(Flags.get(FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER) * 10) / 10 + "%\n";
+                addictStats += "<b>Minotaur Cum:</b> " + Math.round(Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] * 10) / 10 + "%\n";
             else
                 addictStats += "<b>Minotaur Cum:</b> 100+%\n";
         }
@@ -226,20 +226,20 @@ export default class StatsMenu {
         // Begin Interpersonal Stats
         let interpersonStats: string = "";
 
-        if (Flags.get(FlagEnum.ARIAN_PARK) > 0)
+        if (Flags.list[FlagEnum.ARIAN_PARK] > 0)
             interpersonStats += "<b>Arian's Health:</b> " + Math.round(arianScene.arianHealth()) + "\n";
 
-        if (Flags.get(FlagEnum.ARIAN_VIRGIN) > 0)
-            interpersonStats += "<b>Arian Sex Counter:</b> " + Math.round(Flags.get(FlagEnum.ARIAN_VIRGIN)) + "\n";
+        if (Flags.list[FlagEnum.ARIAN_VIRGIN] > 0)
+            interpersonStats += "<b>Arian Sex Counter:</b> " + Math.round(Flags.list[FlagEnum.ARIAN_VIRGIN]) + "\n";
 
         if (bazaar.benoit.benoitAffection() > 0)
             interpersonStats += "<b>" + bazaar.benoit.benoitMF("Benoit", "Benoite") + " Affection:</b> " + Math.round(bazaar.benoit.benoitAffection()) + "%\n";
 
-        if (Flags.get(FlagEnum.BROOKE_MET) > 0)
+        if (Flags.list[FlagEnum.BROOKE_MET] > 0)
             interpersonStats += "<b>Brooke Affection:</b> " + Math.round(telAdre.brooke.brookeAffection()) + "\n";
 
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00218) + Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00219) + Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00220) > 0)
-            interpersonStats += "<b>Body Parts Taken By Ceraph:</b> " + (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00218) + Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00219) + Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00220)) + "\n";
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00218] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00219] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00220] > 0)
+            interpersonStats += "<b>Body Parts Taken By Ceraph:</b> " + (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00218] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00219] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00220]) + "\n";
 
         if (emberScene.emberAffection() > 0)
             interpersonStats += "<b>Ember Affection:</b> " + Math.round(emberScene.emberAffection()) + "%\n";
@@ -247,64 +247,64 @@ export default class StatsMenu {
         if (helFollower.helAffection() > 0)
             interpersonStats += "<b>Helia Affection:</b> " + Math.round(helFollower.helAffection()) + "%\n";
         if (helFollower.helAffection() >= 100)
-            interpersonStats += "<b>Helia Bonus Points:</b> " + Math.round(Flags.get(FlagEnum.HEL_BONUS_POINTS)) + "\n";
+            interpersonStats += "<b>Helia Bonus Points:</b> " + Math.round(Flags.list[FlagEnum.HEL_BONUS_POINTS]) + "\n";
 
-        if (Flags.get(FlagEnum.ISABELLA_AFFECTION) > 0) {
+        if (Flags.list[FlagEnum.ISABELLA_AFFECTION] > 0) {
             interpersonStats += "<b>Isabella Affection:</b> ";
 
             if (!isabellaFollowerScene.isabellaFollower())
-                interpersonStats += Math.round(Flags.get(FlagEnum.ISABELLA_AFFECTION)) + "%\n", false;
+                interpersonStats += Math.round(Flags.list[FlagEnum.ISABELLA_AFFECTION]) + "%\n", false;
             else
                 interpersonStats += "100%\n";
         }
 
-        if (Flags.get(FlagEnum.KATHERINE_UNLOCKED) >= 4) {
+        if (Flags.list[FlagEnum.KATHERINE_UNLOCKED] >= 4) {
             interpersonStats += "<b>Katherine Submissiveness:</b> " + telAdre.katherine.submissiveness() + "\n";
         }
 
-        if (player.statusAffects.has("Kelt") && Flags.get(FlagEnum.KELT_BREAK_LEVEL) == 0) {
+        if (player.statusAffects.has("Kelt") && Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) {
             if (player.statusAffects.get("Kelt").value2 >= 130)
                 interpersonStats += "<b>Submissiveness To Kelt:</b> " + 100 + "%\n";
             else
                 interpersonStats += "<b>Submissiveness To Kelt:</b> " + Math.round(player.statusAffects.get("Kelt").value2 / 130 * 100) + "%\n";
         }
 
-        if (Flags.get(FlagEnum.ANEMONE_KID) > 0)
+        if (Flags.list[FlagEnum.ANEMONE_KID] > 0)
             interpersonStats += "<b>Kid A's Confidence:</b> " + anemoneScene.kidAXP() + "%\n";
 
-        if (Flags.get(FlagEnum.KIHA_AFFECTION_LEVEL) == 2) {
+        if (Flags.list[FlagEnum.KIHA_AFFECTION_LEVEL] == 2) {
             if (kihaFollower.followerKiha())
                 interpersonStats += "<b>Kiha Affection:</b> " + 100 + "%\n";
             else
-                interpersonStats += "<b>Kiha Affection:</b> " + Math.round(Flags.get(FlagEnum.KIHA_AFFECTION)) + "%\n";
+                interpersonStats += "<b>Kiha Affection:</b> " + Math.round(Flags.list[FlagEnum.KIHA_AFFECTION]) + "%\n";
         }
         //Lottie stuff
-        if (Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00281) > 0)
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00281] > 0)
             interpersonStats += "<b>Lottie's Encouragement:</b> " + telAdre.lottie.lottieMorale() + " (higher is better)\n" + "<b>Lottie's Figure:</b> " + telAdre.lottie.lottieTone() + " (higher is better)\n";
 
         if (mountain.salon.lynnetteApproval() != 0)
             interpersonStats += "<b>Lynnette's Approval:</b> " + mountain.salon.lynnetteApproval() + "\n";
 
-        if (Flags.get(FlagEnum.OWCAS_ATTITUDE) > 0)
-            interpersonStats += "<b>Owca's Attitude:</b> " + Flags.get(FlagEnum.OWCAS_ATTITUDE) + "\n";
+        if (Flags.list[FlagEnum.OWCAS_ATTITUDE] > 0)
+            interpersonStats += "<b>Owca's Attitude:</b> " + Flags.list[FlagEnum.OWCAS_ATTITUDE] + "\n";
 
         if (telAdre.rubi.rubiAffection() > 0)
             interpersonStats += "<b>Rubi's Affection:</b> " + Math.round(telAdre.rubi.rubiAffection()) + "%\n" + "<b>Rubi's Orifice Capacity:</b> " + Math.round(telAdre.rubi.rubiCapacity()) + "%\n";
 
-        if (Flags.get(FlagEnum.SHEILA_XP) != 0) {
+        if (Flags.list[FlagEnum.SHEILA_XP] != 0) {
             interpersonStats += "<b>Sheila's Corruption:</b> " + sheilaScene.sheilaCorruption();
             if (sheilaScene.sheilaCorruption() > 100)
                 interpersonStats += " (Yes, it can go above 100)";
             interpersonStats += "\n";
         }
 
-        if (Flags.get(FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY) != 0) {
+        if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] != 0) {
             if (urta.urtaLove())
                 interpersonStats += "<b>Urta Status:</b> Lover\n";
-            else if (Flags.get(FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY) == -1)
+            else if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] == -1)
                 interpersonStats += "<b>Urta Status:</b> Ashamed\n";
-            else if (Flags.get(FlagEnum.URTA_PC_AFFECTION_COUNTER) < 30)
-                interpersonStats += "<b>Urta's Affection:</b> " + Math.round(Flags.get(FlagEnum.URTA_PC_AFFECTION_COUNTER) * 3.3333) + "%\n";
+            else if (Flags.list[FlagEnum.URTA_PC_AFFECTION_COUNTER] < 30)
+                interpersonStats += "<b>Urta's Affection:</b> " + Math.round(Flags.list[FlagEnum.URTA_PC_AFFECTION_COUNTER] * 3.3333) + "%\n";
             else
                 interpersonStats += "<b>Urta Status:</b> Ready To Confess Love\n";
         }

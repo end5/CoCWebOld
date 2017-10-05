@@ -10,7 +10,7 @@ export default class CharCreationMenu {
 
     public static newGamePlus(): void {
         Flags.set(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, Game.player.XP);
-        if (Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP)) Flags.set(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, 1);
+        if (Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP]) Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP] = 1;
         while (Game.player.level > 1) {
             Flags.increase(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, Game.player.level * 100);;
             Game.player.level--;
@@ -26,9 +26,9 @@ export default class CharCreationMenu {
         MainScreen.hideTopButton(TopButton.Stats);
         MainScreen.hideTopButton(TopButton.Perks);
         //If first PC, track status of EZ mode and other such nonsense.
-        let silly: number = Flags.get(FlagEnum.SILLY_MODE_ENABLE_FLAG);
-        let easy: number = Flags.get(FlagEnum.EASY_MODE_ENABLE_FLAG);
-        let sprite: number = Flags.get(FlagEnum.SHOW_SPRITES_FLAG);
+        let silly: number = Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG];
+        let easy: number = Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG];
+        let sprite: number = Flags.list[FlagEnum.SHOW_SPRITES_FLAG];
 
         MainScreen.clearText();
         MainScreen.text("You grew up in the small village of Ingnam, a remote village with rich traditions, buried deep in the wilds.  Every year for as long as you can remember, your village has chosen a champion to send to the cursed Demon Realm.  Legend has it that in years Ingnam has failed to produce a champion, chaos has reigned over the countryside.  Children disappear, crops wilt, and disease spreads like wildfire.  This year, <b>you</b> have been selected to be the champion.\n\nWhat is your name?");
@@ -64,12 +64,12 @@ export default class CharCreationMenu {
         Flags.clear();
 
         //Remember silly/sprite/etc
-        if (sprite) Flags.set(FlagEnum.SHOW_SPRITES_FLAG, 1);
-        if (easy) Flags.set(FlagEnum.EASY_MODE_ENABLE_FLAG, 1);
-        if (silly) Flags.set(FlagEnum.SILLY_MODE_ENABLE_FLAG, 1);
+        if (sprite) Flags.list[FlagEnum.SHOW_SPRITES_FLAG] = 1;
+        if (easy) Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] = 1;
+        if (silly) Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG] = 1;
         //Set that jojo debug doesn't need to run
-        Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00102, 1);
-        Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_02999, 3);
+        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00102] = 1;
+        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_02999] = 3;
         //Time reset
         Time.days = 0;
         model.time.hours = 0;
@@ -90,10 +90,10 @@ export default class CharCreationMenu {
         //Lets get this bitch started
         kGAMECLASS.inCombat = false;
         //NG+ Clothes reset
-        if (Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS) != 0) {
+        if (Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS] != 0) {
             //Clear Raphael's training variable so it does not effect
             //Weapon strength post-newgame.
-            Flags.set(FlagEnum.RAPHAEL_RAPIER_TRANING, 0);
+            Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] = 0;
 
             // check for goo armor
             if (!(oldPlayer.armor)) {
@@ -146,7 +146,7 @@ export default class CharCreationMenu {
             //If part of newgame+, don't fully wipe.
             if (Game.player.XP > 0 && Game.player.explored == 0) {
                 Flags.set(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, Game.player.XP);
-                if (Flags.get(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP)) Flags.set(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, 1);
+                if (Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP]) Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP] = 1;
                 while (Game.player.level > 1) {
                     Flags.increase(FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP, Game.player.level * 100);;
                     Game.player.level--;
@@ -179,7 +179,7 @@ export default class CharCreationMenu {
         if (specialName(MainScreen.nameBox.text) != null) {
             MainScreen.clearText();
             MainScreen.text("Your name defines everything about you, and as such, it is time to wake...\n\n");
-            Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 1);
+            Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 1;
             completeCharacterCreation(); //Skip character creation, customPlayerProfile will be called in completeCharacterCreation
         }
         else {
@@ -636,7 +636,7 @@ return specialName(arg); //Must check against the special name list as well
 		
 	public static chooseHistory():void {
     MainScreen.clearText();
-    if(Flags.get(FlagEnum.HISTORY_PERK_SELECTED) != 0) { //This flag can only be non-zero if chooseHistory is called from camp.as
+    if(Flags.list[FlagEnum.HISTORY_PERK_SELECTED] != 0) { //This flag can only be non-zero if chooseHistory is called from camp.as
         MainScreen.text("<b>New history perks are available during creation.  Since this character was created before they were available, you may choose one now!</b>\n\n");
     }
 		MainScreen.text("Before you became a champion, you had other plans for your life.  What were you doing before?");
@@ -696,12 +696,12 @@ MainScreen.addButton(1, "No", chooseHistory);
         }
         Game.player.lowerBody.butt.analLooseness = 1;
     }
-		if (Flags.get(FlagEnum.HISTORY_PERK_SELECTED)) {
-        Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 1);
+		if (Flags.list[FlagEnum.HISTORY_PERK_SELECTED]) {
+        Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 1;
         completeCharacterCreation();
     }
 		else { //Special escape clause for very old saves that do not have a history perk. This is used to allow them the chance to select a perk at camp on load.
-        Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 1);
+        Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 1;
         Game.playerMenu();
     }
 
@@ -835,14 +835,14 @@ Game.player.upperBody.head.hairLength = 50;
 Game.player.lowerBody.hipRating = 5;
 Game.player.lowerBody.butt.buttRating = 5;
 Game.player.thickness = 10;
-Flags.set(FlagEnum.PC_FETISH, 2);
+Flags.list[FlagEnum.PC_FETISH] = 2;
 Game.player.earsPierced = 1;
 Game.player.earsPShort = "green gem-stone handcuffs";
 Game.player.earsPLong = "Green gem-stone handcuffs";
 Game.player.nipplesPierced = 1;
 Game.player.nipplesPShort = "seamless black nipple-studs";
 Game.player.nipplesPLong = "Seamless black nipple-studs";
-Flags.set(FlagEnum.PC_FETISH, 2);
+Flags.list[FlagEnum.PC_FETISH] = 2;
 Game.player.lowerBody.vaginaSpot.get(0).clitPierced = 1;
 Game.player.lowerBody.vaginaSpot.get(0).clitPShort = "emerald clit-stud";
 Game.player.lowerBody.vaginaSpot.get(0).clitPLong = "Emerald clit-stud";
@@ -1114,7 +1114,7 @@ Game.player.perks.add(new Perk("StrongBack2", 0, 0, 0, 0));
 Game.player.setWeapon(weapons.WARHAMR);
 //Armor: Lusty shit
 Game.player.setArmor(armors.LMARMOR);
-//Game.player.perks.add(new Perk("SluttySeduction", 10 + Flags.get(FlagEnum.BIKINI_ARMOR_BONUS), 0, 0, 0));
+//Game.player.perks.add(new Perk("SluttySeduction", 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
 
 //Stats: (if possible)
 //Strength: 90
@@ -1947,7 +1947,7 @@ Game.player.gender = 3;
     //human tongue
     //human face
     //no tail, fur, or scales"
-    Flags.set(FlagEnum.HISTORY_PERK_SELECTED, 0);
+    Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 0;
     Game.player.stats.str = 25;
     Game.player.stats.tou = 25;
     Game.player.stats.int = 25;
@@ -2039,9 +2039,9 @@ Game.player.gender = 3;
     inventory.createStorage();
     Game.player.createKeyItem("Camp - Chest", 0, 0, 0, 0);
     Game.player.createKeyItem("Equipment Rack - Weapons", 0, 0, 0, 0);
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00254, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
     Game.player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0);
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00255, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;
 		
     Game.player.statusAffects.add(new StatusAffect("KnowsWhitefire", 0, 0, 0, 0)));
 			
@@ -2069,7 +2069,7 @@ Game.player.gender = 3;
     Game.player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
     Game.player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
 			
-    Flags.set(FlagEnum.VALARIA_AT_CAMP, 1);
+    Flags.list[FlagEnum.VALARIA_AT_CAMP] = 1;
 			
     Game.player.stats.gems += 30000;
     MainScreen.text("You're something of a powerhouse, and you wager that between your odd mutations, power strong enough to threaten the village order, and talents, you're the natural choice to send through the portal.");
@@ -2085,58 +2085,58 @@ Game.player.gender = 3;
     //Game.player.statusAffects.add(new StatusAffect("MetWhitney", 2, 0, 0, 0)));
 
     // Izma
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00238, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00238] = 1;
 			
     // Vapula
-    Flags.set(FlagEnum.VAPULA_FOLLOWER, 1);
+    Flags.list[FlagEnum.VAPULA_FOLLOWER] = 1;
 			
     // Amily
-    Flags.set(FlagEnum.AMILY_FOLLOWER, 2);
+    Flags.list[FlagEnum.AMILY_FOLLOWER] = 2;
 			
     // Jojo
     kGAMECLASS.monk = 5;
 			
     // Bimbo Sophie
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00282, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00282] = 1;
 			
     // Isabella
-    Flags.set(FlagEnum.ISABELLA_FOLLOWER_ACCEPTED, 1);
+    Flags.list[FlagEnum.ISABELLA_FOLLOWER_ACCEPTED] = 1;
 			
     // Latexy
-    Flags.set(FlagEnum.GOO_SLAVE_RECRUITED, 1);
+    Flags.list[FlagEnum.GOO_SLAVE_RECRUITED] = 1;
     Flags.set(FlagEnum.GOO_NAME, "Latexy");
-    Flags.set(FlagEnum.GOO_FLUID_AMOUNT, 100);
-    Flags.set(FlagEnum.GOO_HAPPINESS, 100);
-    Flags.set(FlagEnum.GOO_OBEDIENCE, 100);
+    Flags.list[FlagEnum.GOO_FLUID_AMOUNT] = 100;
+    Flags.list[FlagEnum.GOO_HAPPINESS] = 100;
+    Flags.list[FlagEnum.GOO_OBEDIENCE] = 100;
 			
     // Ceraph
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00286, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00286] = 1;
 			
     // Holli
-    Flags.set(FlagEnum.FUCK_FLOWER_LEVEL, 4);
+    Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] = 4;
 			
     // Milky
     Flags.set(FlagEnum.MILK_NAME, "Milky");
-    Flags.set(FlagEnum.MILK_SIZE, 2);
+    Flags.list[FlagEnum.MILK_SIZE] = 2;
 			
     // Rubi Testing
-    //Flags.set(FlagEnum.RUBI_SUITCLOTHES, 1);
-    //Flags.set(FlagEnum.RUBI_FETISH_CLOTHES, 1);
-    //Flags.set(FlagEnum.RUBI_GREEN_ADVENTURER, 1);
-    //Flags.set(FlagEnum.RUBI_TUBE_TOP, 1);
-    //Flags.set(FlagEnum.RUBI_BODYSUIT, 1);
-    //Flags.set(FlagEnum.RUBI_LONGDRESS, 1);
-    //Flags.set(FlagEnum.RUBI_TIGHT_PANTS, 1);
-    //Flags.set(FlagEnum.RUBI_NURSE_CLOTHES, 1);
-    //Flags.set(FlagEnum.RUBI_SWIMWEAR, 1);
-    //Flags.set(FlagEnum.RUBI_BIMBO_MINIDRESS, 1);
-    //Flags.set(FlagEnum.RUBI_BONDAGE_STRAPS, 1);
-    //Flags.set(FlagEnum.RUBI_INQUISITORS_CORSET, 1);
-    Flags.set(FlagEnum.RUBI_AFFECTION, 75);
-    Flags.set(FlagEnum.RUBI_INTRODUCED, 1);
+    //Flags.list[FlagEnum.RUBI_SUITCLOTHES] = 1;
+    //Flags.list[FlagEnum.RUBI_FETISH_CLOTHES] = 1;
+    //Flags.list[FlagEnum.RUBI_GREEN_ADVENTURER] = 1;
+    //Flags.list[FlagEnum.RUBI_TUBE_TOP] = 1;
+    //Flags.list[FlagEnum.RUBI_BODYSUIT] = 1;
+    //Flags.list[FlagEnum.RUBI_LONGDRESS] = 1;
+    //Flags.list[FlagEnum.RUBI_TIGHT_PANTS] = 1;
+    //Flags.list[FlagEnum.RUBI_NURSE_CLOTHES] = 1;
+    //Flags.list[FlagEnum.RUBI_SWIMWEAR] = 1;
+    //Flags.list[FlagEnum.RUBI_BIMBO_MINIDRESS] = 1;
+    //Flags.list[FlagEnum.RUBI_BONDAGE_STRAPS] = 1;
+    //Flags.list[FlagEnum.RUBI_INQUISITORS_CORSET] = 1;
+    Flags.list[FlagEnum.RUBI_AFFECTION] = 75;
+    Flags.list[FlagEnum.RUBI_INTRODUCED] = 1;
 			
     // Bazaar
-    Flags.set(FlagEnum.BAZAAR_ENTERED, 1);
+    Flags.list[FlagEnum.BAZAAR_ENTERED] = 1;
 }
 		
 	private static customTyriana():void {
@@ -2270,9 +2270,9 @@ Game.player.gender = 3;
     inventory.createStorage();
     Game.player.createKeyItem("Camp - Chest", 0, 0, 0, 0);
     Game.player.createKeyItem("Equipment Rack - Weapons", 0, 0, 0, 0);
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00254, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
     Game.player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0);
-    Flags.set(FlagEnum.UNKNOWN_FLAG_NUMBER_00255, 1);
+    Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;
     //(Flexibility), (Incorporeality), History: Religious, Dragonfire, Brood Mother, Magical Fertility, Wet Pussy, Tough, Strong, Fast, Smart, History: Scholar, History: Slacker, Strong Back, Strong Back 2: Stronger Harder
     Game.player.perks.add(new Perk("Flexibility", 0, 0, 0, 0));
     Game.player.perks.add(new Perk("HistoryReligious", 0, 0, 0, 0));

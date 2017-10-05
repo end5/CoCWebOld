@@ -98,7 +98,7 @@ export default class GoblinAle extends Consumable {
             MainScreen.text("\n\nYou feel strange.  Fertile... somehow.  You don't know how else to think of it, but you're ready to be a mother.", false);
         }
         //Shrink primary dick to no longer than 12 inches
-        else if (player.lowerBody.cockSpot.count() == 1 && Utils.rand(2) == 0 && changes < changeLimit && !Flags.get(FlagEnum.HYPER_HAPPY)) {
+        else if (player.lowerBody.cockSpot.count() == 1 && Utils.rand(2) == 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             if (player.lowerBody.cockSpot.get(0).cockLength > 12) {
                 changes++;
                 let temp3: number = 0;

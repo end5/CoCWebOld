@@ -7,7 +7,7 @@ export default class RaphaelsRapier extends Weapon {
     }
 
     public get attack(): number {
-        return 8 + Flags.get(FlagEnum.RAPHAEL_RAPIER_TRANING) * 2;
+        return 8 + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] * 2;
     }
 }
 
