@@ -1,5 +1,9 @@
-﻿//Pregancy types. Both butt and normal. Each type represents the father of this baby.
+﻿import Creature from "./Creature";
+import Game from "../Game/Game";
+import IPregnancyEvent from "./IPregnancyEvent";
+import MainScreen from "../display/MainScreen";
 import { SaveInterface } from "../SaveInterface";
+import Vagina from "./Vagina";
 
 export enum PregnancyType {
     IMP,
@@ -82,59 +86,39 @@ export enum IncubationTime {
 }
 
 export default class Pregnancy implements SaveInterface {
-    saveKey: string = "Pregnancy";
-    save(): object {
-        return {};
-    }
-    load(saveObject: object) {
-
-    }
-    public readonly type: PregnancyType;
+    public type: PregnancyType;
     public incubation: IncubationTime;
-    private stages: number[];
-    private stageFunc: (incubation: number) => void;
+    protected event: IPregnancyEvent;
 
-	/* Using this adds a series of events which happen during the pregnancy. They must be added in descending order (ex. 500, 450, 350, 225, 100, 25)
-		to work properly. For NPCs who have multiple pregnancy types each type has its own set of events. Events can be used to see how far along the NPC
-		is in her pregnancy with the event property. They can also be checked using the eventTriggered() function. This checks to see which was the latest event
-		the player noticed. The eventTriggered() only triggers once per event per pregnancy. */
-    /**
-     * 
-     * @param pregType The pregnancy type.
-     * @param incubation The beginning incubation time.
-     * @param pregnancyStages Series of incubation times that trigger stages of the pregnancy.
-     * @param pregnancyStageFunc The function to call at each stage of the pregnancy.
-     */
-    public constructor(pregType: PregnancyType, incubation: number, pregnancyStages: number[], pregnancyStageFunc: (incubation: number) => void) {
+    public constructor(pregType: PregnancyType, incubation: number, pregnancyEvent: IPregnancyEvent) {
         this.type = pregType;
         this.incubation = incubation;
-        this.stages = pregnancyStages;
-        this.stageFunc = pregnancyStageFunc;
+        this.event = pregnancyEvent;
     }
 
-    public getCurrentStage(): number {
-        for (let index: number = 0; index < this.stages.length; index++)
-            if (this.incubation > this.stages[index])
-                return index;
-        return 0;
+    public incubationDisplay(creature: Creature) {
+        this.event.incubationDisplay(creature, this.incubation);
     }
 
-
-    private checkStages() {
-        for (let index: number = 0; index < this.stages.length; index++) {
-            if (this.incubation == this.stages[index]) {
-                this.stageFunc(this.incubation);
-            }
-        }
+    public canBirth(creature: Creature) {
+        this.event.canBirth(creature, this.incubation);
     }
 
-    //The containing class is responsible for calling pregnancyAdvance, usually once per timeChange()
-    public pregnancyAdvance() {
-        if (this.incubation != 0) {
-            this.incubation--;
-            if (this.incubation < 0)
-                this.incubation = 0;
-            this.checkStages();
-        }
+    public birth(creature: Creature) {
+        this.event.birth(creature);
+    }
+
+    public saveKey: string = "Pregnancy";
+    public save(): object {
+        return {
+            "type": this.type,
+            "incubation": this.incubation,
+            "event": this.event
+        };
+    }
+    public load(saveObject: object) {
+        this.type = saveObject["type"];
+        this.incubation = saveObject["incubation"];
+        this.event = saveObject["event"];
     }
 }

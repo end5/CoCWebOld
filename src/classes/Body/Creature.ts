@@ -1,18 +1,19 @@
-﻿import UpperBody, { WingType } from "./UpperBody";
-import LowerBody, { LowerBodyType } from "./LowerBody";
-import Stats from "./Stats";
-import ComponentList from "../Utilities/ComponentList";
-import Utils from "../Utilities/Utils";
-import BreastRow from "./BreastRow";
-import Vagina, { VaginaLooseness } from "./Vagina";
-import { PregnancyType } from "./Pregnancy";
-import Butt, { ButtLooseness } from "./Butt";
-import Cock from "./Cock";
-import { SaveInterface } from "../SaveInterface";
-import MainScreen from "../display/MainScreen";
-import StatusAffect from "../Effects/StatusAffect";
-import CockDescriptor from "../Descriptors/CockDescriptor";
-import PregnancyManager from "./PregnancyManager";
+﻿import BreastRow from './BreastRow';
+import Butt, { ButtLooseness } from './Butt';
+import Cock from './Cock';
+import LowerBody, { LowerBodyType } from './LowerBody';
+import { PregnancyType } from './Pregnancy';
+import PregnancyManager from './PregnancyManager';
+import Stats from './Stats';
+import UpperBody, { WingType } from './UpperBody';
+import Vagina, { VaginaLooseness } from './Vagina';
+import CockDescriptor from '../Descriptors/CockDescriptor';
+import MainScreen from '../display/MainScreen';
+import StatusAffect from '../Effects/StatusAffect';
+import { SaveInterface } from '../SaveInterface';
+import ComponentList from '../Utilities/ComponentList';
+import Utils from '../Utilities/Utils';
+
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -74,7 +75,7 @@ export default class Creature implements SaveInterface {
         this.upperBody = new UpperBody();
         this.lowerBody = new LowerBody();
 
-        this.pregnancy = new PregnancyManager();
+        this.pregnancy = new PregnancyManager(this);
 
         this.stats = new Stats(this);
         this.statusAffects = new ComponentList<StatusAffect>();
@@ -177,7 +178,7 @@ export default class Creature implements SaveInterface {
         return changes;
     }
 
-    public vaginaChangeNoDisplay(vaginaArea: number): boolean {
+    public stretchVagina(vaginaArea: number): boolean {
         if (!this.lowerBody.vaginaSpot.hasVagina)
             return false;
         let stretched: boolean = false;
@@ -391,8 +392,6 @@ export default class Creature implements SaveInterface {
         return this.lactationQ() > 0 ? true : false;
     }
 
-
-
     //PC can fly?
     public canFly(): boolean {
         //web also makes false!
@@ -421,8 +420,7 @@ export default class Creature implements SaveInterface {
             this.gender = Gender.NONE;
     }
 
-
-    public buttChangeNoDisplay(buttArea: number): boolean {
+    public stretchButt(buttArea: number): boolean {
         let stretched: boolean = false;
         //cArea > capacity = autostreeeeetch half the time.
         if (buttArea >= this.analCapacity() && Utils.chance(50)) {

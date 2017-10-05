@@ -1,16 +1,19 @@
-import Creature from "./Creature";
-import Vagina from "./Vagina";
 import Pregnancy, { PregnancyType } from "./Pregnancy";
-import VaginaSpot from "./VaginaSpot";
+
 import Butt from "./Butt";
-import Utils from "../Utilities/Utils";
+import Creature from "./Creature";
+import MainScreen from "../display/MainScreen";
+import Player from "../Player";
 import UpdateInterface from "../UpdateInterface";
+import Utils from "../Utilities/Utils";
+import Vagina from "./Vagina";
+import VaginaSpot from "./VaginaSpot";
 
 export default class PregnancyManager implements UpdateInterface {
-    private body: Creature;
-    private vaginaSpot: VaginaSpot;
-    private wombs: Pregnancy[];
-    private buttWomb: Pregnancy;
+    protected body: Creature;
+    protected vaginaSpot: VaginaSpot;
+    protected wombs: Pregnancy[];
+    protected buttWomb: Pregnancy;
 
     public constructor(body: Creature) {
         this.body = body;
@@ -20,10 +23,36 @@ export default class PregnancyManager implements UpdateInterface {
     }
 
     public update(hours: number) {
-        if (this.buttWomb != null)
-            this.buttWomb.pregnancyAdvance();
-        for (let index: number = 0; index < this.wombs.length; index++)
-            this.wombs[index].pregnancyAdvance();
+        for (let timeCountdown: number = 0; timeCountdown < hours; timeCountdown++) {
+            if (this.buttWomb != null) {
+                this.buttWomb.incubation -= this.buttWomb.incubation == 0 ? 0 : 1;
+                if (this.buttWomb.canBirth(this.body)) {
+                    this.buttWomb.birth(this.body);
+                    this.buttWomb = null;
+                }
+                else {
+                    this.buttWomb.incubationDisplay(this.body);
+                }
+            }
+            for (let index: number = 0; index < this.wombs.length; index++) {
+                if (this.wombs[index] != null) {
+                    this.wombs[index].incubation -= this.wombs[index].incubation == 0 ? 0 : 1;
+                    if (this.wombs[index].canBirth(this.body)) {
+                        if (!this.body.lowerBody.vaginaSpot.hasVagina()) {
+                            if (this.body instanceof Player)
+                                MainScreen.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ", false);
+                            this.body.lowerBody.vaginaSpot.add(new Vagina());
+                            this.body.updateGender();
+                        }                
+                        this.wombs[index].birth(this.body);
+                        this.wombs.splice(index, 1);
+                    }
+                    else {
+                        this.wombs[index].incubationDisplay(this.body);
+                    }
+                }
+            }
+        }
     }
 
     public isPregnant(): boolean {
