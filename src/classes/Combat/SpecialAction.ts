@@ -3,7 +3,7 @@ import Monster from '../Monster';
 import Player from '../Player';
 
 export default interface SpecialAction {
-    canUse(player: Player): boolean;
+    canUse(player: Player, monster: Monster): boolean;
     reasonCannotUse(): string;
     use(player: Player, monster: Monster);
 }

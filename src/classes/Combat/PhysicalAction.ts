@@ -4,12 +4,13 @@ import Monster from '../Monster';
 import Player from '../Player';
 
 export abstract class PhysicalAction implements SpecialAction {
-    abstract canUse(player: Player): boolean;
+    abstract canUse(player: Player, monster: Monster): boolean;
     abstract reasonCannotUse(): string;
     abstract use(player: Player, monster: Monster);
     
-    public readonly cost: number;
-    public physicalCost(creature: Creature, mod: number): number {
+    public readonly baseCost: number;
+    public physicalCost(creature: Creature): number {
+        let mod: number = this.baseCost;
         let costPercent: number = 100;
         if (creature.perks.has("IronMan")) 
             costPercent -= 50;
