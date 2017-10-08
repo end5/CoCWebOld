@@ -264,3 +264,6 @@ __pycache__/
 *.js
 *.map
 src/resource/
+
+# Visual Studio Code
+.vscode/
