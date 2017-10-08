@@ -1,16 +1,26 @@
 import CombatActions from './CombatActions';
+import * as MagicalAttack from './PlayerMagicalAttacks';
+import * as PhysicalAttack from './PlayerPhysicalAttacks';
 import SpecialAction from './SpecialAction';
+import Tease from './Tease';
+import { FaceType } from '../Body/Face';
+import { HornType } from '../Body/Head';
+import { LowerBodyType, TailType } from '../Body/LowerBody';
 import MainScreen from '../display/MainScreen';
 import Perk from '../Effects/Perk';
 import StatusAffect from '../Effects/StatusAffect';
+import Monster from '../Monster';
+import Player from '../Player';
 import Utils from '../Utilities/Utils';
 
 export default class PlayerCombatActions implements CombatActions {
+    private _tease = new Tease();
+
     attack(): number {
         throw new Error("Method not implemented.");
     }
-    tease() {
-        throw new Error("Method not implemented.");
+    tease(player: Player, monster: Monster) {
+        this._tease.use(player, monster, true);
     }
     spells() {
         throw new Error("Method not implemented.");
@@ -19,7 +29,7 @@ export default class PlayerCombatActions implements CombatActions {
         throw new Error("Method not implemented.");
     }
 
-    public run(success: boolean) {
+    public run(player: Player, monster: Monster, success: boolean) {
         //ANEMONE OVERRULES NORMAL RUN
         if (monster.short == "anemone") {
             //Autosuccess - less than 60 lust
@@ -139,36 +149,36 @@ export default class PlayerCombatActions implements CombatActions {
         }
     }
 
-    public physicalAttacks(): SpecialAction[] {
+    public physicalAttacks(player: Player): SpecialAction[] {
         let list: SpecialAction[] = [];
         if (player.upperBody.head.hairType == 4) {
-            list.push(this.anemoneSting);
+            list.push(new PhysicalAttack.AnomoneSting());
         }
         //Bitez
         if (player.upperBody.head.face.faceType == FaceType.SHARK_TEETH) {
-            list.push(this.bite);
+            list.push(new PhysicalAttack.Bite());
         }
         else if (player.upperBody.head.face.faceType == FaceType.SNAKE_FANGS) {
-            list.push(this.nagaBiteAttack);
+            list.push(new PhysicalAttack.NagaBiteAttack());
         }
         else if (player.upperBody.head.face.faceType == FaceType.SPIDER_FANGS) {
-            list.push(this.spiderBiteAttack);
+            list.push(new PhysicalAttack.SpiderBiteAttack());
         }
         //Bow attack
-        if (player.hasKeyItem("Bow") >= 0) {
-            list.push(this.fireBow);
+        if (player.hasKeyItem("Bow")) {
+            list.push(new PhysicalAttack.FireBow());
         }
         //Constrict
-        if (player.lowerBody == LowerBodyType.NAGA) {
+        if (player.lowerBody.type == LowerBodyType.NAGA) {
             list.push(desert.nagaScene.nagaPlayerConstrict);
         }
         //Kick attackuuuu
-        else if (player.lowerBody.isTaur() || player.lowerBody == LowerBodyType.HOOFED || player.lowerBody == LowerBodyType.BUNNY || player.lowerBody == LowerBodyType.KANGAROO) {
-            list.push(this.kick);
+        else if (player.lowerBody.isTaur() || player.lowerBody.type == LowerBodyType.HOOFED || player.lowerBody.type == LowerBodyType.BUNNY || player.lowerBody.type == LowerBodyType.KANGAROO) {
+            list.push(new PhysicalAttack.Kick());
         }
         //Gore if mino horns
         if (player.upperBody.head.hornType == HornType.COW_MINOTAUR && player.upperBody.head.horns >= 6) {
-            list.push(this.goreAttack);
+            list.push(new PhysicalAttack.Gore());
         }
         //Infest if infested
         if (player.statusAffects.has("Infested") && player.statusAffects.get("Infested").value1 == 5 && player.lowerBody.cockSpot.hasCock()) {
@@ -176,58 +186,58 @@ export default class PlayerCombatActions implements CombatActions {
         }
         //Kiss supercedes bite.
         if (player.statusAffects.has("LustStickApplied")) {
-            list.push(this.kissAttack);
+            list.push(new PhysicalAttack.Kiss());
         }
         switch (player.lowerBody.tailType) {
             case TailType.BEE_ABDOMEN:
-                list.push(this.playerStinger);
+                list.push(new PhysicalAttack.Sting());
                 break;
             case TailType.SPIDER_ABDOMEN:
-                list.push(this.PCWebAttack);
+                list.push(new PhysicalAttack.Web());
                 break;
             case TailType.SHARK:
             case TailType.LIZARD:
             case TailType.KANGAROO:
             case TailType.DRACONIC:
             case TailType.RACCOON:
-                list.push(this.tailWhipAttack);
+                list.push(new PhysicalAttack.TailWhip());
             default:
         }
         return list;
     }
 
-    public magicAttacks(): SpecialAction[] {
+    public magicAttacks(player: Player): SpecialAction[] {
         let list: SpecialAction[] = [];
         if (player.perks.has("Berzerker")) {
-            list.push(new Berzerk());
+            list.push(new MagicalAttack.Berserk());
         }
         if (player.perks.has("Dragonfire")) {
-            list.push(this.dragonBreath);
+            list.push(new MagicalAttack.DragonBreath());
         }
         if (player.perks.has("FireLord")) {
-            list.push(this.fireballuuuuu);
+            list.push(new MagicalAttack.Fireball());
         }
         if (player.perks.has("Hellfire")) {
-            list.push(this.hellFire);
+            list.push(new MagicalAttack.Hellfire());
         }
         if (player.perks.has("Incorporeality")) {
-            list.push(this.possess);
+            list.push(new MagicalAttack.Possess());
         }
         if (player.perks.has("Whispered")) {
-            list.push(this.superWhisperAttack);
+            list.push(new MagicalAttack.SuperWhisperAttack());
         }
         if (player.perks.has("CorruptedNinetails")) {
-            list.push(this.corruptedFoxFire);
-            list.push(this.kitsuneTerror);
+            list.push(new MagicalAttack.CorruptedFoxFire());
+            list.push(new MagicalAttack.KitsuneTerror());
         }
         if (player.perks.has("EnlightenedNinetails")) {
-            list.push(this.foxFire);
-            list.push(this.kitsuneIllusion);
+            list.push(new MagicalAttack.FoxFire());
+            list.push(new MagicalAttack.KitsuneTerror());
         }
         if (player.statusAffects.has("ShieldingSpell"))
-            list.push(this.shieldingSpell);
+            list.push(new MagicalAttack.ShieldingSpell());
         if (player.statusAffects.has("ImmolationSpell"))
-            list.push(this.immolationSpell);
+            list.push(new MagicalAttack.ImmolationSpell());
 
         return list;
     }

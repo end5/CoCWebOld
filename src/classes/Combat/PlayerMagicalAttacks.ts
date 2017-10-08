@@ -240,7 +240,7 @@ export class Fireball implements SpecialAction {
     }
 }
 
-export class HellFire extends SpellAction {
+export class Hellfire extends SpellAction {
     public readonly baseCost: number = 20;
     public reasonCannotUse(): string {
         return "You are too tired to breathe fire.\n";
