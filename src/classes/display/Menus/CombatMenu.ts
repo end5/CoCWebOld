@@ -1,7 +1,7 @@
-import MainScreen, { TopButton } from "./MainScreen";
-import Flags, { FlagEnum } from "../Game/Flags";
-import Player from "../Player";
-import Game from "../Game/Game";
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import MainScreen, { TopButton } from '../MainScreen';
 
 export default class CombatMenu {
     private static newRound = true;
@@ -105,67 +105,5 @@ export default class CombatMenu {
             if (CoC_Settings.debugBuild && !debug) MainScreen.addButton(9, "Inspect", debugInspect);
         }
     }
-
-    public static physicalCost(mod: number): number {
-        let costPercent: number = 100;
-        if (player.perks.has("IronMan")) costPercent -= 50;
-        mod *= costPercent / 100;
-        return mod;
-    }
-
-    public static spellCost(player: Player, mod: number): number {
-        //Addiditive mods
-        let costPercent: number = 100;
-        if (player.perks.has("SpellcastingAffinity")) costPercent -= player.perks.get("SpellcastingAffinity").value1;
-        if (player.perks.has("WizardsEndurance")) costPercent -= player.perks.get("WizardsEndurance").value1;
-
-        //Limiting it and multiplicative mods
-        if (player.perks.has("BloodMage") && costPercent < 50) costPercent = 50;
-
-        mod *= costPercent / 100;
-
-        if (player.perks.has("HistoryScholar")) {
-            if (mod > 2) mod *= .8;
-        }
-        if (player.perks.has("BloodMage") && mod < 5) mod = 5;
-        else if (mod < 2) mod = 2;
-
-        mod = Math.round(mod * 100) / 100;
-        return mod;
-    }
-    /*
-    public HPChange(changeNum: number, display: boolean): void {
-        if (changeNum == 0) return;
-        if (changeNum > 0) {
-            //Increase by 20%!
-            if (player.perks.has("HistoryHealer")) changeNum *= 1.2;
-            if (player.HP + int(changeNum) > maxHP()) {
-                if (player.HP >= maxHP()) {
-                    if (display) MainScreen.text("You're as healthy as you can be.\n", false);
-                    return;
-                }
-                if (display) MainScreen.text("Your HP maxes out at " + maxHP() + ".\n", false);
-                player.HP = maxHP();
-            }
-            else {
-                if (display) MainScreen.text("You gain " + int(changeNum) + " HP.\n", false);
-                player.HP += int(changeNum);
-                mainView.statsView.showStatUp('hp');
-                // hpUp.visible = true;
-            }
-        }
-        //Negative HP
-        else {
-            if (player.HP + changeNum <= 0) {
-                if (display) MainScreen.text("You take " + int(changeNum * -1) + " damage, dropping your HP to 0.\n", false);
-                player.HP = 0;
-            }
-            else {
-                if (display) MainScreen.text("You take " + int(changeNum * -1) + " damage.\n", false);
-                player.HP += changeNum;
-            }
-        }
-        updateStats(player);
-    }*/
 
 }
