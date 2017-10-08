@@ -1,13 +1,13 @@
-import Pregnancy, { PregnancyType } from "./Pregnancy";
+import Butt from './Butt';
+import Creature from './Creature';
+import Pregnancy, { PregnancyType } from './Pregnancy';
+import Vagina from './Vagina';
+import VaginaSpot from './VaginaSpot';
+import MainScreen from '../display/MainScreen';
+import Player from '../Player';
+import UpdateInterface from '../UpdateInterface';
+import Utils from '../Utilities/Utils';
 
-import Butt from "./Butt";
-import Creature from "./Creature";
-import MainScreen from "../display/MainScreen";
-import Player from "../Player";
-import UpdateInterface from "../UpdateInterface";
-import Utils from "../Utilities/Utils";
-import Vagina from "./Vagina";
-import VaginaSpot from "./VaginaSpot";
 
 export default class PregnancyManager implements UpdateInterface {
     protected body: Creature;
@@ -20,6 +20,20 @@ export default class PregnancyManager implements UpdateInterface {
         this.vaginaSpot = body.lowerBody.vaginaSpot;
         this.wombs = [];
         this.buttWomb = null;
+    }
+
+    public count(): number {
+        return this.wombs.length;
+    }
+
+    public vaginaPregnancy(index: number): Pregnancy {
+        if (index < this.wombs.length)
+            return this.wombs[index];
+        return null;
+    }
+
+    public get buttPregnancy(): Pregnancy {
+        return this.buttWomb;
     }
 
     public update(hours: number) {
@@ -43,7 +57,7 @@ export default class PregnancyManager implements UpdateInterface {
                                 MainScreen.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ", false);
                             this.body.lowerBody.vaginaSpot.add(new Vagina());
                             this.body.updateGender();
-                        }                
+                        }
                         this.wombs[index].birth(this.body);
                         this.wombs.splice(index, 1);
                     }
@@ -95,6 +109,12 @@ export default class PregnancyManager implements UpdateInterface {
         return null;
     }
 
+    public get listLargestIncubationTime: Pregnancy[] {
+        return this.wombs.slice().sort((first: Pregnancy, second: Pregnancy) => {
+            return second.incubation - first.incubation;
+        });
+    }
+
     public canKnockUp(): boolean {
         return this.wombs.length < this.vaginaSpot.count();
     }
@@ -121,7 +141,7 @@ export default class PregnancyManager implements UpdateInterface {
                 console.trace("PC Knocked up with pregnancy type: " + pregnancy.type + " for " + pregnancy.incubation + " incubation.");
             }
             //Chance for eggs fertilization - ovi elixir and imps excluded!
-            if (pregnancy.type != (PregnancyType.IMP && PregnancyType.OVIELIXIR_EGGS && PregnancyType.ANEMONE) && 
+            if (pregnancy.type != (PregnancyType.IMP && PregnancyType.OVIELIXIR_EGGS && PregnancyType.ANEMONE) &&
                 (this.body.perks.has("SpiderOvipositor") || this.body.perks.has("BeeOvipositor")) &&
                 (this.body.totalFertility() + bonus > Utils.rand(beat)))
                 this.body.lowerBody.ovipositor.fertilizeEggs();

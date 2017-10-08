@@ -1,8 +1,8 @@
-import MainScreen from "./MainScreen";
-import SaveManager from "../SaveManager";
-import SaveDisplay from "./SaveDisplay";
-import DataMenu from "./DataMenu";
-import Flags, { FlagEnum } from "../Game/Flags";
+import DataMenu from './DataMenu';
+import MainScreen from './MainScreen';
+import SaveDisplay from './SaveDisplay';
+import Flags, { FlagEnum } from '../Game/Flags';
+import SaveManager from '../SaveManager';
 
 export default class SaveMenu {
     public static display(): void {
@@ -30,7 +30,7 @@ export default class SaveMenu {
     }
 
     private static confirmOverwrite(slotNumber: number) {
-        MainScreen.text("You are about to overwrite the following save: <b>" + Flags.get[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
+        MainScreen.text("You are about to overwrite the following save: <b>" + Flags.list[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
         MainScreen.displayChoices(["No", "Yes"], [SaveMenu.display, function () { SaveManager.save(slotNumber) }]);
     }
 }

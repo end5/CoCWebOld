@@ -1,8 +1,8 @@
-﻿import Utils from "../Utilities/Utils";
-import Flags, { FlagEnum } from "../Game/Flags";
-import Creature from "../Body/Body";
-import MainScreen from "../display/MainScreen";
-import BreastDescriptor from "../Descriptors/BreastDescriptor";
+﻿import Creature from '../Body/Body';
+import BreastDescriptor from '../Descriptors/BreastDescriptor';
+import MainScreen from '../display/MainScreen';
+import Flags, { FlagEnum } from '../Game/Flags';
+import Utils from '../Utilities/Utils';
 
 export default class BreastModifier {
     public static growSmallestBreastRow(body: Creature, amount: number, rowsGrown: number, display: boolean) {
@@ -16,7 +16,7 @@ export default class BreastModifier {
         //Select smallest breast, grow it, move on
         while (rowsGrown > 0) {
             let growthAmount: number = amount;
-            if (!Flags.get[FlagEnum.HYPER_HAPPY]) {
+            if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
                 let smallestBreastRating: number = chest.BreastRatingSmallest[0].breastRating;
 
                 //Diminishing returns!
@@ -43,7 +43,7 @@ export default class BreastModifier {
         if (body.perks.has("BigTits") && Utils.chance(33) && amount < 1)
             amount = 1;
 
-        if (!Flags.get[FlagEnum.HYPER_HAPPY]) {
+        if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
@@ -76,7 +76,7 @@ export default class BreastModifier {
         if (body.perks.has("BigTits") && Utils.chance(33) && amount < 1)
             amount = 1;
 
-        if (!Flags.get[FlagEnum.HYPER_HAPPY]) {
+        if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
@@ -111,7 +111,7 @@ export default class BreastModifier {
 
 
     public static shrinkTits(body: Creature, ignore_hyper_happy: boolean = false): void {
-        if (Flags.get[FlagEnum.HYPER_HAPPY] && !ignore_hyper_happy) {
+        if (Flags.list[FlagEnum.HYPER_HAPPY] && !ignore_hyper_happy) {
             return;
         }
         if (body.upperBody.chest.count() == 1) {

@@ -1,15 +1,15 @@
-﻿import Character from "./Character"
-import Utils from "./Utilities/Utils";
-import { SkinType } from "./Body/Creature";
-import Item from "./Items/Item";
-import Flags, { FlagEnum } from "./Game/Flags";
-import { FaceType, TongueType } from "./Body/Face";
-import { TailType } from "./Body/LowerBody";
-import { ButtLooseness, ButtWetness } from "./Body/Butt";
-import { HornType } from "./Body/Head";
-import { WingType } from "./Body/UpperBody";
-import KeyItem from "./Items/KeyItem";
-import StatusAffect from "./Effects/StatusAffect";
+﻿import { ButtLooseness, ButtWetness } from './Body/Butt';
+import { SkinType } from './Body/Creature';
+import { FaceType, TongueType } from './Body/Face';
+import { HornType } from './Body/Head';
+import { TailType } from './Body/LowerBody';
+import { WingType } from './Body/UpperBody';
+import Character from './Character';
+import StatusAffect from './Effects/StatusAffect';
+import Flags, { FlagEnum } from './Game/Flags';
+import Item from './Items/Item';
+import KeyItem from './Items/KeyItem';
+import Utils from './Utilities/Utils';
 
 export default class Player extends Character {
     public keyItems: KeyItem[];
@@ -85,7 +85,7 @@ export default class Player extends Character {
     public reduceDamage(damage: number): number {
         damage = damage - Utils.rand(this.stats.tou) - this.armorDef;
         //EZ MOAD half damage
-        if (Flags.get[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
             damage /= 2;
         if (this.statusAffects.has("Shielding")) {
             damage -= 30;
@@ -137,7 +137,7 @@ export default class Player extends Character {
         if (damage > 0) {
             this.stats.HP -= damage;
             game.mainView.statsView.showStatDown('hp');
-            if (Flags.get[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
+            if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
                 this.stats.lus = damage / 2;
             }
             //Prevent negatives
@@ -173,59 +173,47 @@ export default class Player extends Character {
             }
         }
         if (this.perks.has("Diapause")) {
-            Flags.get[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] += 3 + Utils.rand(33);
-            Flags.get[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 1;
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] += 3 + Utils.rand(33);
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 1;
         }
 
     }
 
     public minoCumAddiction(raw: number = 10): void {
         //Increment minotaur cum intake count
-        Flags.get[FlagEnum.UNKNOWN_FLAG_NUMBER_00340]++;
+        Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00340]++;
         //Fix if variables go out of range.
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] < 0) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] = 0;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] < 0) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] = 0;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
 
         //Turn off withdrawal
-        //if(Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] = 1;
+        //if(Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] = 1;
         //Reset counter
-        Flags.get[FlagEnum.TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0;
+        Flags.list[FlagEnum.TIME_SINCE_LAST_CONSUMED_MINOTAUR_CUM] = 0;
         //If highly addicted, rises slower
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 60) raw /= 2;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 80) raw /= 2;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 90) raw /= 2;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 60) raw /= 2;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 80) raw /= 2;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] >= 90) raw /= 2;
         //If in withdrawl, readdiction is potent!
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] == 3) raw += 10;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] == 2) raw += 5;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] == 3) raw += 10;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] == 2) raw += 5;
         raw = Math.round(raw * 100) / 100;
         //PUT SOME CAPS ON DAT' SHIT
         if (raw > 50) raw = 50;
         if (raw < -50) raw = -50;
-        Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] += raw;
+        Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] += raw;
         //Recheck to make sure shit didn't break
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
-        if (Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 120) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 120;
+        if (Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] < 0) Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] = 0;
 
-    }
-
-    public hasSpells(): boolean {
-        return this.spellCount() > 0;
-    }
-
-    public spellCount(): number {
-        return ["KnowsArouse", "KnowsHeal", "KnowsMight", "KnowsCharge", "KnowsBlind", "KnowsWhitefire"]
-            .filter((name: string) => {
-                return this.statusAffects.has(name);
-            })
-            .length;
     }
 
     public minotaurAddicted(): boolean {
-        return this.perks.has("MinotaurCumAddict") || Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] >= 1;
+        return this.perks.has("MinotaurCumAddict") || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] >= 1;
     }
     public minotaurNeed(): boolean {
-        return Flags.get[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1;
+        return Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1;
     }
 
     public modCumMultiplier(delta: number): number {

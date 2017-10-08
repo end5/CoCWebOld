@@ -1,8 +1,8 @@
-import MainScreen from "./MainScreen";
-import SaveManager from "../SaveManager";
-import SaveDisplay from "./SaveDisplay";
-import Flags, { FlagEnum } from "../Game/Flags";
-import DataMenu from "./DataMenu";
+import DataMenu from './DataMenu';
+import MainScreen from './MainScreen';
+import SaveDisplay from './SaveDisplay';
+import Flags, { FlagEnum } from '../Game/Flags';
+import SaveManager from '../SaveManager';
 
 export default class DeleteMenu {
     public static display(): void {
@@ -23,7 +23,7 @@ export default class DeleteMenu {
     }
 
     private static confirmDelete(slotNumber: number): void {
-        MainScreen.text("You are about to delete the following save: <b>" + Flags.get[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
+        MainScreen.text("You are about to delete the following save: <b>" + Flags.list[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
         MainScreen.displayChoices(["No", "Yes"], [DeleteMenu.display, function () { SaveManager.delete(slotNumber) }]);
     }
 

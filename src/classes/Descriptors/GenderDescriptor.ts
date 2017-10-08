@@ -1,4 +1,4 @@
-﻿import Creature, { Gender } from "../Body/Creature";
+﻿import Creature, { Gender } from '../Body/Creature';
 
 export default class GenderDescriptor {
     public static genderText(gender: Gender, male: string = "man", female: string = "woman", futa: string = "herm", eunuch: string = "eunuch"): string {
@@ -10,6 +10,15 @@ export default class GenderDescriptor {
             return female;
         else if (gender == Gender.NONE)
             return eunuch;
+    }
+
+    public static mfn(gender: Gender, male: string, female: string, neuter: string): string {
+        if (gender == Gender.NONE)
+            return neuter;
+        else if (gender == Gender.FEMALE)
+            return female;
+        else if (gender == Gender.MALE)
+            return male;
     }
 
     public static mf(body: Creature, male: string, female: string) {
