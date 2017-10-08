@@ -266,4 +266,4 @@ __pycache__/
 src/resource/
 
 # Visual Studio Code
-.vscode/
+**/.vscode/
