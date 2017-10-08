@@ -2,12 +2,12 @@
 export default class AprilFools {
     // Encounter Chance 1 out of 40 and only if you're a centaur
     public poniesYN(): boolean {
-        if (player.lowerBody == LOWER_BODY.CENTAUR && date.date == 1 && date.month == 3 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00118] == 0) {
+        if (player.lowerBody == LowerBodyType.CENTAUR && date.date == 1 && date.month == 3 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00118] == 0) {
             MainScreen.text("", true);
             MainScreen.text("While walking around the lake, you hear the sound of feminine voices laughing and talking, accompanied by the distinctive clip-clop of hooves. Stepping lightly through the overgrowth you stumble across a group of small brightly colored ponies. The strange part about them isn't so much their size, but rather the shape of their bodies.  They almost look cartoonish in nature, a few even sport fluttery, feathery looking wings.\n\n", false);
             //(option: Approach? Leave them Be?)
             simpleChoices("Approach", approachPonies, "", null, "", null, "", null, "Leave", leavePonies);
-            flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00118]++;
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00118]++;
             return true;
         }
         return false;
@@ -63,10 +63,10 @@ export default class AprilFools {
         MainScreen.text("", true);
         MainScreen.text("You watch in amazement as the flying horses string up banners, while the purple one sets a table with snacks and drinks using glowy powers coming from the horn on her head.  Whilst they set up, you discuss your home village with the orange one who compares it with working on an apple farm and you try to ignore  the white one as she primps and fusses around you, obviously unwilling to let you stay in, to quote her own words, \"<i>Hideous attire, lacking any grace or style.</i>\"\n\n", false);
 
-        MainScreen.text("Time passed, and the rest of the day was a blur, mostly caused by, you assume, the large quantity of Pony Punch you drank.  As you shakily attempt to get up, snippets of the evening's events flash through your mind: a funny joke told by the pink one; the yellow one coming out of hiding to orchestrate an impromptu concerto sung by a choir of songbirds; losing a race to the blue one, (flying is definitely cheating): a derpy looking grey one who was knocking over everything in a two meter radius around her.  Your mind slowly returns to the present and as it does you take a look at yourself.  A first glance at your attire shows the magical 'improvements' the white one made are already fading away, crumbling into a cloud of pink dust that blows away, leaving you back in your " + player.armorName + ".  Watching your clothes change was rather distracting, but now that you are up, and ooh what a headache THAT caused, you see your clothes weren't the only thing that changed!!\n\n", false);
+        MainScreen.text("Time passed, and the rest of the day was a blur, mostly caused by, you assume, the large quantity of Pony Punch you drank.  As you shakily attempt to get up, snippets of the evening's events flash through your mind: a funny joke told by the pink one; the yellow one coming out of hiding to orchestrate an impromptu concerto sung by a choir of songbirds; losing a race to the blue one, (flying is definitely cheating): a derpy looking grey one who was knocking over everything in a two meter radius around her.  Your mind slowly returns to the present and as it does you take a look at yourself.  A first glance at your attire shows the magical 'improvements' the white one made are already fading away, crumbling into a cloud of pink dust that blows away, leaving you back in your " + player.inventory.armor.displayName + ".  Watching your clothes change was rather distracting, but now that you are up, and ooh what a headache THAT caused, you see your clothes weren't the only thing that changed!!\n\n", false);
 
         MainScreen.text("Your strong lower body has shrunk, the firm musculature replaced by an oddly cartoonish looking form.  In fact, from the waist down you look just like one of the ponies!  Everything looks to still be in the same general place, and a quick test of your new lower body proves it still functions somewhat the same. The new shape of your hooves takes a little while to get used to, but other than that you get used to your new lower body almost with no effort\n\n(<i>*Note:You should really check the character viewer</i>)", false);
-        player.lowerBody = LOWER_BODY.PONY;
+        player.lowerBody = LowerBodyType.PONY;
         doNext(camp.returnToCampUseEightHours);
     }
     /*Notes:

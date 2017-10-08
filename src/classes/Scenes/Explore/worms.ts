@@ -24,17 +24,16 @@ THIRD PARTY USAGE
 As Fenoxo has made his game code open source, this license DOES NOT transfer to a third party developer. The events created by Dxasmodeus may not be used in whole or in part without permission and license from Dxasmodeus. Dxasmodeus reserves the sole and exclusive right to grant third party licenses of copyrighted scenarios.
 
 For further information and license requests, Dxasmodeus may be contacted through private message at the Futanari Palace. http://www.futanaripalace.com/forum.php. */
-import MainScreen from "../classes/display/MainScreen";
 
 export default class Worms {
     public wormEncounter(): void {
         spriteSelect(76);
         MainScreen.clearText();
-        if (player.findStatusAffect(StatusAffects.MetWorms) < 0) { //First encounter
+        if (!player.statusAffects.has("MetWorms")) { //First encounter
             MainScreen.text("As you are exploring, a rather pungent, peaty smell assails your nostrils. You hear a strange rustling and an off-kilter squishing noise in the distance. As you explore the area you come upon a most grotesque sight. Before you is a cohesive mass of writhing, wriggling worms! While normally solitary creatures, these appear to have coalesced into a monstrous living colony!\n\n");
             MainScreen.text("You have never before seen such a bizarre freak of nature. You see the mass of annelids creep about across your path. It stops and spreads slightly in your direction before halting. The stench of the mass is indescribable and a thick, viscous slime covers each of the countless worms forming the collective.\n\n");
             MainScreen.text("You stop dead in your tracks, wondering what this swarm will do. After a few tense moments, the mass crawls away in a direction opposite of both you and your current path. You breathe a sigh of relief as you are confident that no good could have come from confronting such a zoological travesty.");
-            dynStats("lus", -10);
+            player.stats.lust += -10;
             player.statusAffects.add(new StatusAffect("MetWorms", 0, 0, 0, 0)));
             doNext(camp.returnToCampUseOneHour);
         }
@@ -99,7 +98,7 @@ export default class Worms {
             doNext(camp.returnToCampUseOneHour);
         }
         else {
-            MainScreen.text("You turn to run, but before your " + player.feet() + " can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.");
+            MainScreen.text("You turn to run, but before your " + LowerBodyDescriptor.describeFeet(player) + " can get you away, the worms are upon you!  You turn to face them, lest they launch onto your unprotected back.");
             startCombat(new WormMass());
         }
     }
@@ -110,15 +109,15 @@ export default class Worms {
         MainScreen.text("Crying out in shock, you feel the fat worm push its way, inch by inch, into your urethra. Your nerves light up like a Christmas tree as each individual cell tells you of the creature's presence and movement deeper into your body. The fat beast easily finds its way into your prostate and settles within the organ. As it settles, it begins flailing inside your sex. The sensations shift from shock to grotesque pleasure as your body only senses the stimulation conductive to orgasmic response. Your groin cramps and bloats quickly by the torrent of semen building within you and the invader's presence. Obviously sensitive to your fluids, you feel the worm thrash around some more, causing your body to respond by making more semen. The flopping creature quickly erodes any orgasmic discipline you are capable of and with a great shrill cry, you force lances of cum into the air, launching goo and worms alike in a sick display of forced pleasure. After you empty your body of spunk, the remaining worms become hyperaggressive.\n\n", false);
         MainScreen.text("Excited by the feel of your fluids on them, many smaller worms push their way into your penis. Your cock distends as the worms fight to get inside you and to the source of the milk that has so excited them. Your prostate quickly fills up with the squirming creatures. The discomfort in your bloated bludgeon and the ceaseless stimulation of your organs causes your body to produce more cum. However, you find yourself unable to climax as the invaders rest inside your body submerged in your salty lust. The rest of the colony disperses, having accomplished its true goal of infesting your body.\n\n", false);
         if (player.stats.cor < 25) {
-            dynStats("cor", 1);
+            player.stats.cor += 1;
             player.stats.cor = 25;
         }
         trace("GET INFESTED HERE");
         if (player.statusAffects.has("Infested")) { trace("BWUH?"); }
         else {
-            if (flags[FlagEnum.EVER_INFESTED] == 0) flags[FlagEnum.EVER_INFESTED] = 1;
+            if (Flags.list[FlagEnum.EVER_INFESTED] == 0) Flags.list[FlagEnum.EVER_INFESTED] = 1;
             player.statusAffects.add(new StatusAffect("Infested", 0, 0, 0, 0)));
-            dynStats("cor", 0);
+            player.stats.cor += 0;
         }
         cleanupAfterCombat();
     }
@@ -167,7 +166,7 @@ export default class Worms {
             combatRoundOver();
             return;
         }
-        temp = int((monster.str + monster.weaponAttack) - Math.random() * (player.tou + player.armorDef));
+        temp = int((monster.str + monster.weaponAttack) - Math.random() * (player.stats.tou + player.armorDef));
         if (temp <= 0) temp = 1;
         if (temp > 0) takeDamage(temp);
         MainScreen.text("The worm colony strikes at you with its makeshift limbs. It strikes you for ", false);
@@ -183,14 +182,14 @@ export default class Worms {
         spriteSelect(76);
         //FAIL
         if (rand(2) == 0) {
-            if (player.lust < 50) MainScreen.text("The worm colony stands before you and begins secreting a significant amount of slime. You are perplexed as to why the worms have done this. You shrug your shoulders and remain on guard.\n", false);
+            if (player.stats.lust < 50) MainScreen.text("The worm colony stands before you and begins secreting a significant amount of slime. You are perplexed as to why the worms have done this. You shrug your shoulders and remain on guard.\n", false);
             else MainScreen.text("The worm colony shambles over to you and attempts to grapple you. Quickly sidestepping the clumsy movements of the creature, you avoid what could have been a horrible fate as the mass falls over and splatters in its failed attempt to engulf you.\n", false);
             combatRoundOver();
             return;
         }
         //SUCCESS
-        if (player.lust < 50) {
-            MainScreen.text("The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your " + cockDescript(0) + " is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.\n", false);
+        if (player.stats.lust < 50) {
+            MainScreen.text("The worm colony stands before you and begins secreting a significant amount of slime. Inexplicably, you find that your " + CockDescriptor.describeCock(player, 0) + " is already erect and is throbbing. The erection is quite meddlesome and you find yourself distracted by the unwanted arousal.\n", false);
             dynStats("lus", 10 + player.stats.lib / 20 + player.stats.cor / 20);
         }
         else {
@@ -226,8 +225,8 @@ export default class Worms {
             fatigue(40, 2);
             MainScreen.text("With a great squeeze, you will your body to push out a load of semen filled with worms.  Izma's eyes widen in shock as she dives and rolls away from the torrent.  \"<i>What the fuck!</i>\" she yells. \"<i>Is that what that smell was?  That's disgusting!  Get away from me " + player.short + ", I DON'T want what you've got.  Don't talk to me again while you've got those nasty things!</i>\"  Izma grabs her locker between her hands and wades into the lake, swimming away by means of her tail while holding the books out of the water.", true);
             //(set Izmacounter to 0)
-            flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] = 0;
-            flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00233] = 1;
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] = 0;
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00233] = 1;
             //clear status
             inCombat = false;
             clearStatuses(false);
@@ -266,7 +265,7 @@ export default class Worms {
         else {
             MainScreen.text("While your fluids bathe the " + monster.short + " in your salty lust, the worms take no interest in your foe and scurry off.\n", true);
         }
-        dynStats("lus", -20);
+        player.stats.lust += -20;
         enemyAI();
     }
 
@@ -320,10 +319,10 @@ export default class Worms {
         if (player.statusAffects.has("Infested")) { trace("BWUH?"); }
         else {
             player.statusAffects.add(new StatusAffect("Infested", 0, 0, 0, 0)));
-            dynStats("cor", 0);
+            player.stats.cor += 0;
         }
         if (player.stats.cor < 25) {
-            dynStats("cor", 2);
+            player.stats.cor += 2;
             player.stats.cor = 25;
         }
         doNext(playerMenu);

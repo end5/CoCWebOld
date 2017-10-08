@@ -37,7 +37,7 @@ export default class Valentines {
 
     public crazyVDayShenanigansByVenithil(): void {
         MainScreen.clearText();
-        flags[FlagEnum.VALENTINES_EVENT_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.VALENTINES_EVENT_YEAR] = date.fullYear;
         MainScreen.text("Moving through the streets of Tel'Adre, you turn your steps towards the Wet Bitch, only to find that there's some odd event going on nearby.  Deciding the town is a safe enough place to let yourself be led astray by curiosity, you decide to investigate a bit closer.");
 
         MainScreen.text("\n\nNext to the tavern, there's a stall that's filled with flowers and many heart-shaped things; there's cards, chocolates, boxes of sweets, clothes with hearts sewn into them, mascots with the same, and even a sculpture of a heart and two lockets.  You'd say this was a shopping booth of sorts, but then, you're surprised by the sight of a goblin nearby, looking at you and waving.");
@@ -138,7 +138,7 @@ export default class Valentines {
         MainScreen.text("You decide your work here is done, and bid the three girls goodbye.  Scylla in particular seems grateful for your help, locking you in a smooshy hug for a few seconds before letting you go, and again expressing her gratitude for your help.  Well, that last gratitude almost made it worth it, though on the other hand, you find yourself a bit aroused by it...");
         //With no other things to do, you go back to camp to rest.
         //{Small Lust Increase, return to camp, go to sleep}
-        dynStats("lus", 10);
+        player.stats.lust += 10;
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -199,7 +199,7 @@ export default class Valentines {
         MainScreen.text("\n\nLater, when you move through the desert around Tel'Adre towards your own camp, looking back at Scylla waving towards you, you're somehow glad things turned out that way, and feel more determined than ever to not only defeat the demons, but also spread the good will and positive feelings through any world you may call your own.");
 
         MainScreen.text("\n\n(<b>You have gained the Pure and Loving perk!</b>");
-        player.createPerk(PerkLib.PureAndLoving, 0, 0, 0, 0);
+        player.perks.add(new Perk("PureAndLoving", 0, 0, 0, 0));
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -255,7 +255,7 @@ export default class Valentines {
         // Only add the perk if the player doesn't already have it.
         if (!player.perks.has("SensualLover")) {
             MainScreen.text("\n\n(<b>You have gained the Sensual Lover perk!</b>)");
-            player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
+            player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
         }
 
         doNext(camp.returnToCampUseTwoHours);
@@ -269,7 +269,7 @@ export default class Valentines {
         MainScreen.text("You feed Scylla what feels like a gallon of jizz!");
         player.orgasm();
         MainScreen.text("\n\n(<b>You have gained the One Track Mind perk.</b>");
-        player.createPerk(PerkLib.OneTrackMind, 0, 0, 0, 0);
+        player.perks.add(new Perk("OneTrackMind", 0, 0, 0, 0));
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -342,19 +342,19 @@ export default class Valentines {
 
         MainScreen.text("\n\nBut, at the end of the day, she's still wet and waiting - her plump rump wiggling against the throbbing thickness resting between her cheeks.  With a crooked smile, you draw back and brace yourself at the goblin paladin's moist lips.  She's no virgin, but the way she blushes and bites her lower lip in anticipation strikes you as positively demure.  Digging your fingers into her yielding hips, you slowly drag the girl onto your [cock], the tip slipping into her viridian folds with lubricated ease.  The proud woman lets out a shuddering moan as you fill the oft-neglected slit with your pulsing girth, her inner walls clenching around you as tight as a lover's embrace.  Resting her chin on the table she's bent over, Abylon closes her eyes, a smile flickering over her face as her hands restlessly toy with her long braid.");
 
-        MainScreen.text("\n\nTaking your time, you slowly feed inch after inch into your quivering companion, her body remarkably accommodating for one who normally avoids sex.  Her mother's legacy, you suppose.  When you finally bottom out inside of her, Abby picks her legs up and hooks her feet around your waist.  With her flat, unremarkable chest laying atop the small table, she begins to rock back and forth, dragging every fold of her pussy across your " + cockDescript(x) + ".  You match her motions, thrusting slowly at first, before gradually speeding up. Her tight interior suckles at the rod spearing her while the table beneath her rocks back and forth at the rising tempo.  Shifting one palm from her hip to the distended swell of her belly, you use your other hand to gather up a few feet of her hair and coil it around your arm, pulling her head back just enough to let you see the gathering ecstasy flushing her olive cheeks.");
+        MainScreen.text("\n\nTaking your time, you slowly feed inch after inch into your quivering companion, her body remarkably accommodating for one who normally avoids sex.  Her mother's legacy, you suppose.  When you finally bottom out inside of her, Abby picks her legs up and hooks her feet around your waist.  With her flat, unremarkable chest laying atop the small table, she begins to rock back and forth, dragging every fold of her pussy across your " + CockDescriptor.describeCock(player, x) + ".  You match her motions, thrusting slowly at first, before gradually speeding up. Her tight interior suckles at the rod spearing her while the table beneath her rocks back and forth at the rising tempo.  Shifting one palm from her hip to the distended swell of her belly, you use your other hand to gather up a few feet of her hair and coil it around your arm, pulling her head back just enough to let you see the gathering ecstasy flushing her olive cheeks.");
 
-        MainScreen.text("\n\nUnable to hold back any further, you pick up your pace, from tender strokes to urgent thrusts, pounding into the goblin paladin with deep, hard motions.  The force of your efforts sends the table toppling to its side, Abylon suspended in the air by her legs tightly wrapped around your back, your hand on her muscled abdomen, and her burnished crimson braid wrapped around your arm.  Clinging to your " + cockDescript(x) + " with single-minded bliss, the goblin girl doesn't even seem to notice the ruckus your love-making is causing.  Impassioned loins united by mutual delight, the cavalier rides her champion until the cold tickle of your climax rushes down your spine and through your core.  With a cry of joy, Abylon tightens the grip of her athletic legs on your [hips] and hugs you close as the first spurt of your cum lances into her belly.  Succumbing to her racial needs, the gallant orgasms from the touch of your seed, her tongue hanging from the side of her mouth as her eyes roll up in her head.  You fill her with your hot loads until the spunk gushes out of her quivering pussy and she weakly mutters a word of thanks to Scylla that you suspect she hadn't meant to say aloud.");
+        MainScreen.text("\n\nUnable to hold back any further, you pick up your pace, from tender strokes to urgent thrusts, pounding into the goblin paladin with deep, hard motions.  The force of your efforts sends the table toppling to its side, Abylon suspended in the air by her legs tightly wrapped around your back, your hand on her muscled abdomen, and her burnished crimson braid wrapped around your arm.  Clinging to your " + CockDescriptor.describeCock(player, x) + " with single-minded bliss, the goblin girl doesn't even seem to notice the ruckus your love-making is causing.  Impassioned loins united by mutual delight, the cavalier rides her champion until the cold tickle of your climax rushes down your spine and through your core.  With a cry of joy, Abylon tightens the grip of her athletic legs on your [hips] and hugs you close as the first spurt of your cum lances into her belly.  Succumbing to her racial needs, the gallant orgasms from the touch of your seed, her tongue hanging from the side of her mouth as her eyes roll up in her head.  You fill her with your hot loads until the spunk gushes out of her quivering pussy and she weakly mutters a word of thanks to Scylla that you suspect she hadn't meant to say aloud.");
 
         MainScreen.text("\n\nSated, you disentangle yourself from the clinging girl and lay her into her bed, with a kiss on her sweat-slick forehead.  She absently strokes between her legs, feeling the oozing jizz dribbling out of her stuffed snatch.  Maybe, for her, this is the meaning of the holiday: not just a casual fuck, but taking the time to really savor the body of someone who's important to you.  Even if it isn't love, in the strictest sense, being close to the people who impact your life is reason enough to find joy in your days.  You wish the little paladin a good night and, blowing out her candles, you take your leave.");
 
         if (!player.perks.has("SensualLover")) {
             MainScreen.text("\n\n(<b>You've received the Sensual Lover Perk!</b>)");
-            player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
+            player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
         }
 
         player.orgasm();
-        dynStats("sen", -3);
+        player.stats.sens += -3;
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -370,9 +370,9 @@ export default class Valentines {
 
         MainScreen.text("\n\nAfter a while of doing this, you're pretty sure Abylon starts approaching her second orgasm, and you intent to fill her as much as you can for the occasion.");
         //([Naga tongue]
-        if (player.tongueType == TONUGE.SNAKE) MainScreen.text("  Your fingers make it into her pussy alongside your tongue, and the prehensile thing, longer and more flexible than a human's, ravages the insides of her pussy, tasting everywhere as Abby shakes in her orgasm.  Her pussy eagerly tries to milk both your fingers and your tongue, clenching and gripping at them as it drips her pussy juices all over your face.  Abby screams out in a loud, uninhibited orgasm at last, expressing her ecstasy.");
+        if (player.upperBody.head.face.tongueType == TongueType.SNAKE) MainScreen.text("  Your fingers make it into her pussy alongside your tongue, and the prehensile thing, longer and more flexible than a human's, ravages the insides of her pussy, tasting everywhere as Abby shakes in her orgasm.  Her pussy eagerly tries to milk both your fingers and your tongue, clenching and gripping at them as it drips her pussy juices all over your face.  Abby screams out in a loud, uninhibited orgasm at last, expressing her ecstasy.");
         //([Demon/Dragon Tongue]
-        else if (player.tongueType == TONUGE.DEMONIC) MainScreen.text("  Abylon shakes in excitement, pleasure, and fear as you extend your inhuman tongue to reach deep into the recesses of her pussy.  She cannot hold out a moment longer, her cunt gripping your inhuman muscle tightly, the hole and muscles inside quivering as you can taster her orgasmic juices with every single point of your tongue.  She screams, shudders and moans, tongue lolling out from the intense pleasure as you force your own tongue to roll around inside her and stretch her in multiple ways. Only you holding her stops Abylon from slumping forward, it seems...");
+        else if (player.upperBody.head.face.tongueType == TongueType.DEMONIC) MainScreen.text("  Abylon shakes in excitement, pleasure, and fear as you extend your inhuman tongue to reach deep into the recesses of her pussy.  She cannot hold out a moment longer, her cunt gripping your inhuman muscle tightly, the hole and muscles inside quivering as you can taster her orgasmic juices with every single point of your tongue.  She screams, shudders and moans, tongue lolling out from the intense pleasure as you force your own tongue to roll around inside her and stretch her in multiple ways. Only you holding her stops Abylon from slumping forward, it seems...");
         //([Human tongue]
         else MainScreen.text("  Hooking your fingers at the front and back of her cunny, you plunge your tongue in and wiggle it eagerly.  Abby clamps down on all three invaders and loudly moans out, screaming to her content at last, as your face is flooded with pussy juice.");
 
@@ -383,8 +383,8 @@ export default class Valentines {
         MainScreen.text("\n\nAll in all, you're pleased that perhaps you've managed to show a goblin that real affection does exist... not to mention get somebody off twice on a new Mareth holiday!");
 
         MainScreen.text("\n\n(<b>You've received the Pure and Loving Perk!</b>)");
-        player.createPerk(PerkLib.PureAndLoving, 0, 0, 0, 0);
-        dynStats("lus", 80);
+        player.perks.add(new Perk("PureAndLoving", 0, 0, 0, 0));
+        player.stats.lust += 80;
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -396,11 +396,11 @@ export default class Valentines {
 
         //Check inventory for Goblin Ale, Black Cat Beer, Bimbo Champagne; failing this, check if PC has female genitalia.
         //[BCBeer] [BimboCham][GoblinAle][vagina]
-        if (player.hasItem(consumables.BIMBOCH) || player.hasItem(consumables.BC_BEER) || player.hasItem(consumables.GOB_ALE) || player.lowerBody.vaginaSpot.hasVagina()) {
+        if (player.inventory.items.has(consumables.BIMBOCH) || player.inventory.items.has(consumables.BC_BEER) || player.inventory.items.has(consumables.GOB_ALE) || player.lowerBody.vaginaSpot.hasVagina()) {
             menu();
-            if (player.hasItem(consumables.BIMBOCH)) MainScreen.addButton(0, "BimboCham", pastieValentineIntro, consumables.BIMBOCH.id);
-            if (player.hasItem(consumables.BC_BEER)) MainScreen.addButton(1, "B.Cat Beer ", pastieValentineIntro, consumables.BC_BEER.id);
-            if (player.hasItem(consumables.GOB_ALE)) MainScreen.addButton(2, "Gob. Ale", pastieValentineIntro, consumables.GOB_ALE.id);
+            if (player.inventory.items.has(consumables.BIMBOCH)) MainScreen.addButton(0, "BimboCham", pastieValentineIntro, consumables.BIMBOCH.id);
+            if (player.inventory.items.has(consumables.BC_BEER)) MainScreen.addButton(1, "B.Cat Beer ", pastieValentineIntro, consumables.BC_BEER.id);
+            if (player.inventory.items.has(consumables.GOB_ALE)) MainScreen.addButton(2, "Gob. Ale", pastieValentineIntro, consumables.GOB_ALE.id);
             if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.addButton(3, "Pussy", pastieValentineIntro, "vag");
         }
         else {
@@ -421,7 +421,7 @@ export default class Valentines {
         //({Any other drink}. 
         else {
             let itype: ItemType = ItemType.lookupItem(choice);
-            player.consumeItem(itype, 1);
+            player.inventory.items.consumeItem(itype, 1);
             MainScreen.text("You present the drink to Pastie and she flashes you a grin as she flies up and away, leading you into an alley.  \"<i>Well, lemme at it!  A drink sure as hell sounds good right now and none of this seems like it'd be really bad.</i>\"");
             menu();
             MainScreen.addButton(0, "Next", Utils.curry(valentineDrinkPastie, itype));
@@ -483,12 +483,12 @@ export default class Valentines {
     public fuckPastieForVDay(): void {
         MainScreen.clearText();
         let x: number = player.smallestCockIndex();
-        MainScreen.text("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + cockDescript(x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
+        MainScreen.text("With a semi-sadistic grin, you watch Pastie saunter towards you, clearly allured by the scent of your genitals.  You stroke your " + CockDescriptor.describeCock(player, x) + ", quickly bringing it to an erection, imagining how tight even this little thing will feel inside Pastie's small, but now unnaturaly stretchable body.");
 
-        MainScreen.text("\n\nBeing able to resist no longer, you grab her little bum and direct her towards your cock, not really hearing whether she's cheering, complaining, or asking you to stop; honestly, you could care less when you press your " + cockDescript(x) + " against the entrance to her diminutive vagina and start pushing.");
+        MainScreen.text("\n\nBeing able to resist no longer, you grab her little bum and direct her towards your cock, not really hearing whether she's cheering, complaining, or asking you to stop; honestly, you could care less when you press your " + CockDescriptor.describeCock(player, x) + " against the entrance to her diminutive vagina and start pushing.");
         MainScreen.text("\n\nAfter a while of fruitless pressing against her little legs, bum, and clit, Pastie finally gives way. Even your " + player.cockHead(x) + " is enough to stretch her already, but there's not much else to do now other than pushing it in deeper.");
 
-        MainScreen.text("\n\nThe tightness of Pastie's confines is amazing, even as her body balloons out to more than twice its usual thickness, stretching and quivering around you, trying to either accommodate your " + cockDescript(x) + " or push it out completely.  It almost borders on painful, but also feels like a divine cum milking machine meant to draw your seed out of you.  You gently press Pastie down and pull her up your erection, essentially using her body as a masturbation aid, moaning all the while...");
+        MainScreen.text("\n\nThe tightness of Pastie's confines is amazing, even as her body balloons out to more than twice its usual thickness, stretching and quivering around you, trying to either accommodate your " + CockDescriptor.describeCock(player, x) + " or push it out completely.  It almost borders on painful, but also feels like a divine cum milking machine meant to draw your seed out of you.  You gently press Pastie down and pull her up your erection, essentially using her body as a masturbation aid, moaning all the while...");
 
         MainScreen.text("\n\nThat tight snatch is definitely made to make your cock spurt, and it won't be long, but for now you're enjoying the confines and twitches of a body stretched to beyond its limits only so it could accommodate your cock and cum, licking your lips at the thought.  Yes, you'll definitely give that little fairy bitch a good \"<i>shot</i>\".");
 
@@ -511,9 +511,9 @@ export default class Valentines {
         MainScreen.text("\n\nYou grin and lick your lips as you return to camp.");
 
         MainScreen.text("\n\n(<b>You have gained the One Track Mind perk!</b>)");
-        player.createPerk(PerkLib.OneTrackMind, 0, 0, 0, 0);
+        player.perks.add(new Perk("OneTrackMind", 0, 0, 0, 0));
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -534,7 +534,7 @@ export default class Valentines {
 
         MainScreen.text("\n\nPolishing your mast with the amorous drunk has been fun, but you think you've teased her enough. Raising the tempo of your fey massage, you can feel your release building up just behind your [cock biggest] in a heavy pressure that floods your loins with urgency.  Gritting your teeth, you wrap your other hand around the first and bounce her faster and faster along your meat.  Eager caresses become frantic friction as Pastie feels your flesh swelling against her.");
         if (player.lowerBody.balls > 0) MainScreen.text("  Your [balls] lurch, " + player.skin() + " contracting as liquid passion rises within you.");
-        MainScreen.text("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your " + player.multiCockDescriptLight() + " while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
+        MainScreen.text("  Your [ass] clenches in anticipation, heralding your climax, so you slide the fairy up your shaft, pulling free from the grip of her arms and legs, holding the confused girl directly in front of your " + player.CockDescriptor.describeMultiCockShort(player) + " while loosing your grasp to bear her entire, curvaceous form to the open air.  With a shuddering gasp, you erupt your intoxicating cream directly into the fey girl, your orgasm");
         //low cum production:
         if (player.cumQ() < 250) MainScreen.text(" easily drenching the tiny fairy, in plump pearls up and down her naked flesh.");
         else if (player.cumQ() < 750) MainScreen.text(" leaving her and the arm you're holding her in dripping with a sticky alabaster lacquer.");
@@ -547,9 +547,9 @@ export default class Valentines {
         MainScreen.text("\n\nYou grin and whistle a spritely tune as you return to camp.");
         // (You have gained the One Track Mind perk!)
         MainScreen.text("\n\n(<b>You have gained the One Track Mind perk!</b>)");
-        player.createPerk(PerkLib.OneTrackMind, 0, 0, 0, 0);
+        player.perks.add(new Perk("OneTrackMind", 0, 0, 0, 0));
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseTwoHours);
     }
 
@@ -573,7 +573,7 @@ export default class Valentines {
         //[if (hascock = true)]
         if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("  At the same time, your cock deposits its own load onto the ground as your hermaphrodite genitals achieve a simultaneous orgasm.");
         //[if (isSquirter = true)
-        if (player.wetness() >= 4) MainScreen.text("  She doesn't have much to say in the matter when your female ejaculation truly shoots in, though, sending her rolling out of your [vagina] and onto the ground.");
+        if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= 4) MainScreen.text("  She doesn't have much to say in the matter when your female ejaculation truly shoots in, though, sending her rolling out of your [vagina] and onto the ground.");
 
         MainScreen.text("\n\nPastie giggles as she flies onto the nearby wall, heavily, completely soaked in your secretions.  As you look to her, she answers.  \"<i>I'm fine!  It's all okay.  Justtt.... too much to drink.  Feels gooood, though, hehe!  We should try that again.</i>\"  You nod and smile at her, gently wiping her with a finger and letting her taste your pussy juice off it before going back to camp.");
 
@@ -581,11 +581,11 @@ export default class Valentines {
 
         if (!player.perks.has("SensualLover")) {
             MainScreen.text("\n\n(<b>You have gained the Sensual Lover perk!</b>)");
-            player.createPerk(PerkLib.SensualLover, 0, 0, 0, 0);
+            player.perks.add(new Perk("SensualLover", 0, 0, 0, 0));
         }
 
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseTwoHours);
     }
 }

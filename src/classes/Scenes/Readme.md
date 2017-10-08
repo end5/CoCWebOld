@@ -353,10 +353,10 @@ So I've added more functions, (`curry` is enough for most cases):
     `func` and dig into result's properties specified by `args`:
     `lazyCallIndex(func,arg1,...,argN)() = func()["arg1"]..["argN"]`.
     Let us enhance previous example and suppose that we need to access same function reference `game.telAdre.doSomething`,
-    but even `game` is not initialized. So we make `function getGame(){return game}` and use `lazyCallIndex`:
+    but even `game` is not initialized. So we make `function Game{return game}` and use `lazyCallIndex`:
     `lazyCallindex(getGame,"telAdre","doSomething")`.
 * `lazyCallIndexCall(func,...args1)` is the ultimate case when the returned function accepts arguments:
     `lazyCallIndexCall(func,args1_1,...,args1_N)(args2_1,...args2_M) = func()["args1_1"]...["args1_N"](args2_1,...,args2_M)`.
     Example how to use this monstrosity. Previous example, suppose `game.telAdre.doSomething` accepts argument.
-    So we can do `f=lazyCallIndexCall(getGame,telAdre,doSomething)` and then `f(bar)` will call `getGame().telAdre.doSomething(bar)`.
+    So we can do `f=lazyCallIndexCall(getGame,telAdre,doSomething)` and then `f(bar)` will call `Game.telAdre.doSomething(bar)`.
 * That above example is not type-safe or any kind of safe, so I prefer to use `f=function(bar:Bar){game.telAdre.doSomething(bar)}`

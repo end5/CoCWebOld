@@ -21,19 +21,19 @@ Note on progression:
    The PC has, after each scene (Baste, Stuff, Spitroast) the option to say \"<i>That's Enough</i>\" or continue on to the next scene -- the scenes must be done in order, however.*/
 
 //const TURKEY_FUCK_YEAR_DONE: number = 566;
-default export class Thanksgiving {
+export default class Thanksgiving {
     public isThanksgiving(): boolean {
         return ((date.date >= 21 && date.month == 10) && (date.date < 30 && date.month == 10));
     }
 
     //Introduction: -McGirt
     public datTurkeyRumpMeeting(): void {
-        if (flags[FlagEnum.TURKEY_FUCK_YEAR_DONE] > 0) {
+        if (Flags.list[FlagEnum.TURKEY_FUCK_YEAR_DONE] > 0) {
             turkeyGirlTwoTheTurkeningBySavinWhatADickInAButt();
-            flags[FlagEnum.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
+            Flags.list[FlagEnum.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
             return;
         }
-        flags[FlagEnum.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
+        Flags.list[FlagEnum.TURKEY_FUCK_YEAR_DONE] = date.fullYear;
         MainScreen.text("\nYou sit down by your fire pit, looking at the meager provisions you've managed to gather up in the days leading up to the Feast for the Thankful, your village's largest annual feast day.  Right now through the portal, your friends and loved ones from Ingnam are sitting down to a mighty banquet, holding hands in prayer before devouring more food than they can possibly stand.  A pang of homesickness sweeps through you as you look at the small meal before you.  With a sigh, you pick up your fork and prepare to dig in.");
         MainScreen.text("\n\nSomething stirs at the edge of camp.");
 
@@ -101,7 +101,7 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\nThe turkey-girl smiles at you and flops onto her back, spreading her meaty thighs to give you a good look at the trimmed red bush between her legs, and the glistening slit of her vagina.  It looks like she wants some stuffing....");
         player.orgasm();
-        dynStats("sen", -1);
+        player.stats.sens += -1;
         simpleChoices("Stuff Her", stuffDatTurkeyWithSpoo, "", null, "", null, "", null, "That'll Do", thatllDoTurkey);
     }
 
@@ -134,8 +134,8 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\nSoon, between your kneading out the thick gravy from her breasts and the spunk leaking out from her loins, mixing with what you splattered across her minutes earlier, the poor turkey is absolutely filthy, covered in the remnants of your rough fucking.  Slowly, languidly, you pull out from inside her, your cock still dribbling little rivulets of cum onto the musky girl's thighs.  The air around you now reeks of sex and a warm meal, her strange breastmilk creating a strong aroma of its own below that of drying spooge.");
         player.orgasm();
-        dynStats("sen", -1);
-        if (flags[FlagEnum.HEL_FUCKBUDDY] == 1 && flags[FlagEnum.HEL_REDUCED_ENCOUNTER_RATE] == 0) {
+        player.stats.sens += -1;
+        if (Flags.list[FlagEnum.HEL_FUCKBUDDY] == 1 && Flags.list[FlagEnum.HEL_REDUCED_ENCOUNTER_RATE] == 0) {
             MainScreen.text("\n\nAs you lay atop the turkey, you hear a faint, almost pleading, \"<i>Gobble?</i>\"  from her. Furrowing your brow, you pick yourself up to look at the cum-slathered turkey.  As soon as you're off her, she rolls over onto her hands and knees, her big bubble butt sticking up in the air for you, her plume of feathers tickling your cheeks.  She... still wants more?</i>\"");
             simpleChoices("Spit-Roast", spitRoastThatTurkey, "", null, "", null, "", null, "That's Enough", thatllDoTurkey);
         }
@@ -170,7 +170,7 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\nYou pull out of her with a wet squelch, grinning as a flood of your spunk starts to pour from her abused asshole, mixing in with the titgravy and two other loads you blew on her previously.  Supported by her huge tits, the turkey-girl goes limp, finally contented by the third fucking, her body stained and completely covered in your cum.  Looking around her, you see Hel lying on her back, snoring quietly after her own tail-based orgasm, her own body coated liberally with femcum and globs of your own spunk that rubbed off on her.");
         player.orgasm();
-        dynStats("sen", -1);
+        player.stats.sens += -1;
         doNext(thatllDoTurkey);
     }
 
@@ -180,7 +180,7 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\n\"<i>That'll do, turkey,</i>\" you say, patting her jiggling tit. \"<i>That'll do.</i>\"");
         if (!player.perks.has("PilgrimsBounty")) {
-            player.createPerk(PerkLib.PilgrimsBounty, 0, 0, 0, 0);
+            player.perks.add(new Perk("PilgrimsBounty", 0, 0, 0, 0));
             MainScreen.text("\n\n(<b>Perk Gained: Pilgrim's Bounty - Lower lust values no longer reduce the size of your orgasm.</b>)");
         }
         doNext(camp.returnToCampUseTwoHours);
@@ -252,7 +252,7 @@ default export class Thanksgiving {
         MainScreen.text("\n\nFinally though, her climax begins to die down.  She holds you close for a few moments, gulping down air after her body-shaking finish.  You continue to drain her breast, though you feel your [vagina] starting to leave a damp patch on the inside of your armour, dripping down your thighs to soak into the log beneath you.  The hand on your head begins to move its way out of your hair, trailing down your neck almost lovingly as her breathing starts to return to normal.  Her touch is almost electric against your skin and you suddenly find yourself very aware of how much your body has been reacting whilst your brain was fixated on her mind-numbingly good goo.");
 
         MainScreen.text("\n\nFinally, unable to withstand it any longer, you break your lips away from her teat and push the girl to the ground, your hunger for her body finally having overcome your hunger for her gravy.  She looks up at you with a confused expression to begin with, but once she sees your hands darting to the clasps of your armor, a much more sultry look crosses her features.");
-        dynStats("lus", 30);
+        player.stats.lust += 30;
         doNext(haveTurkeyGirlDesertInYourCunt);
     }
 
@@ -294,7 +294,7 @@ default export class Thanksgiving {
         MainScreen.text("\n\nThen again, you have to admit that it would also class as one of the most fun...");
         if (!player.perks.has("Cornucopia")) {
             MainScreen.text("\n\n(<b>Gained Perk: Cornucopia - increases vaginal and anal capacities by 30.</b>)");
-            player.createPerk(PerkLib.Cornucopia, 0, 0, 0, 0);
+            player.perks.add(new Perk("Cornucopia", 0, 0, 0, 0));
         }
         //HP set to full, fatigue to 0?
         fatigue(-100);
@@ -316,14 +316,14 @@ default export class Thanksgiving {
         //[Shoo Off] [Let her Come] [Hello again!]
         menu();
         if (player.lowerBody.cockSpot.hasCock()) {
-            if (player.hasKeyItem("Deluxe Dildo") >= 0 || player.hasItem(consumables.L_DRAFT) || player.hasItem(consumables.F_DRAFT)) {
+            if (player.hasKeyItem("Deluxe Dildo") >= 0 || player.inventory.items.has(consumables.L_DRAFT) || player.inventory.items.has(consumables.F_DRAFT)) {
                 MainScreen.text("\n\n<b>You could let her come, like last year, or great her in a whole new way (by clicking 'Hello Again')</b>");
                 MainScreen.addButton(2, "Hello Again", helloAgain);
-                flags[FlagEnum.MORE_TURKEY] = 0;
+                Flags.list[FlagEnum.MORE_TURKEY] = 0;
             }
             else {
                 MainScreen.text("\n\n<b>You might be able to have some new, kinky fun with Gobbles this year if you had something lusty on you...</b>.");
-                flags[FlagEnum.MORE_TURKEY] = 1;
+                Flags.list[FlagEnum.MORE_TURKEY] = 1;
             }
         }
         MainScreen.addButton(0, "Shoo Off", shooTurkeyAway);
@@ -338,7 +338,7 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\n\"<i>Gobble?</i>\" Gobbles asks cheerily, big blue eyes staring intently at your crotch.");
 
-        MainScreen.text("\n\n\"<i>Gobble,</i>\" you answer, pushing her head down toward your [cock].  She giggles giddily as you free your prick, already hard enough to bop her on the nose as she buries her face in your groin.  The turkey takes a deep breath, wallowing in the potent musk of your " + player.multiCockDescriptLight() + ", venturing to lick along the side of your shaft.  You let out a soft moan, stroking her auburn locks as the turkey happily suckles on your prick, taking the head ");
+        MainScreen.text("\n\n\"<i>Gobble,</i>\" you answer, pushing her head down toward your [cock].  She giggles giddily as you free your prick, already hard enough to bop her on the nose as she buries her face in your groin.  The turkey takes a deep breath, wallowing in the potent musk of your " + player.CockDescriptor.describeMultiCockShort(player) + ", venturing to lick along the side of your shaft.  You let out a soft moan, stroking her auburn locks as the turkey happily suckles on your prick, taking the head ");
         if (player.cockArea(0) <= 60) MainScreen.text("and down to the base");
         else MainScreen.text("and swallowing your shaft until her throat is bulging with your massive manhood");
         MainScreen.text(".  She bobs up and down your length, hefting up her huge rack when she's at the peak to rub your sensitive underside, trying to titfuck you but just too damn big to get them into the action.  You suppose you'll have to take care of that...");
@@ -363,7 +363,7 @@ default export class Thanksgiving {
         MainScreen.text("\n\nThe smell is almost overwhelming, so potent and familiar that you can't help but feel homesick and hungry.  But her cock-rubbing legs keep you from getting too down; she's going at it with wild abandon, happily humping against your cock's length.  Her cunt is drooling fem-slime almost as much as her tits now, slathering your [cock] in her warm slickness, her nether lips reaching out to gently caress your prick, almost inviting you to penetrate her.  You hold her still just a moment, long enough to shift your [hips] and slide right on in.  Gobbles' back arches, voice turning into a giddy cry of pleasure as your [cock] enters her, spearing her on your length as you hold her dripping tits over the hearth, cooking her gravy as you spitroast Gobbles once again.");
 
         MainScreen.text("\n\n\"<i>Gobble!</i>\" she declares triumphantly as your prick slides home, pushing into her until her hips are nestled back into your lap");
-        if (player.lowerBody.cockSpot.list[0].cockThickness >= 5) MainScreen.text(", her stomach bulging obscenely with your inhuman girth");
+        if (player.lowerBody.cockSpot.get(0).cockThickness >= 5) MainScreen.text(", her stomach bulging obscenely with your inhuman girth");
         MainScreen.text(".");
 
         MainScreen.text("\n\n\"<i>Gobble indeed,</i>\" you laugh, planting your arms back on the dry ground, letting the turkey adjust herself.  Her tits are practically empty by now; not quite, but enough that her once immense rack is down to something you can quantify - maybe G-cups.  A pair of perfectly round, bouncy G-cups that are still dripping with spattered gravy, her big red nips erect and still leaking even without your hands to spur them on.  The turkey shifts around on your pole to face you, leaning back in your lap against your [legs], content for the moment to grind her cunt on the [cock] buried deep inside her.");
@@ -382,7 +382,7 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\nLooks like she wants you to return the favor!");
         player.orgasm();
-        dynStats("lib", 1);
+        player.stats.lib += 1;
         menu();
         MainScreen.addButton(0, "Next", seasonHerDatTurkeyBitch);
     }
@@ -392,22 +392,22 @@ default export class Thanksgiving {
         MainScreen.clearText();
         MainScreen.text("You plant your hands on the busty bird's broad, breeder's hips, spreading her cheeks to get a good look at her slit.  Still agape after taking your cock earlier, she's liberally leaking fem-slime onto your face, eagerly awaiting your lusty touch.  You venture your tongue out to taste her, and instantly draw back even as she flutters excitedly - does she...  of course she tastes like turkey.  What else? But it's a damn fine turkey, oh so sweet and juicy; you don't hesitate to dig in, tongue probing deep into the giddy fowel's slit.  She wiggles her tremendous tush happily as you spread her nethers wide, her vibrant brown plumage standing straight up, as erect as your own [cock] as Gobbles' tits bounce and jiggle around it.  Tongueing your tasty turkey, you slip a few fingers up between her luscious thighs, brushing the tender flesh just enough to make her arch her back, dragging her tits right along the length of your shaft to bury the crown in the jiggly bottom of her rack.  You trace your fingers higher, brushing the silky lips of her sodden box and circling up to the prominent little bud of her clit.");
 
-        MainScreen.text("\n\n\"<i>GOBBLE!</i>\" she cries as your digits brush her sensitive point, arching her back and squirting gravy onto your crotch, lactating from pleasure alone.  You shudder as the warm, creamy gravy slathers onto your " + player.multiCockDescriptLight() + " pinned between her tits, her pleasured motions getting her boobs bouncing like a regular titfucking.  At your touch, her quivering quim lets loose a torrent of excited fem-slime, smearing your face in turkey-tasting juices faster than your hard-working tongue can lap it up.  She's a fine tasting turkey if ever you saw one, her sweet juices practically compelling you to eat her out, pushing your tongue as deep into her juicy slit as you can to harvest her delicious bounty.");
+        MainScreen.text("\n\n\"<i>GOBBLE!</i>\" she cries as your digits brush her sensitive point, arching her back and squirting gravy onto your crotch, lactating from pleasure alone.  You shudder as the warm, creamy gravy slathers onto your " + player.CockDescriptor.describeMultiCockShort(player) + " pinned between her tits, her pleasured motions getting her boobs bouncing like a regular titfucking.  At your touch, her quivering quim lets loose a torrent of excited fem-slime, smearing your face in turkey-tasting juices faster than your hard-working tongue can lap it up.  She's a fine tasting turkey if ever you saw one, her sweet juices practically compelling you to eat her out, pushing your tongue as deep into her juicy slit as you can to harvest her delicious bounty.");
 
         MainScreen.text("\n\nBut what's a turkey without a little seasoning, hmm? Sweet as she is, and as eager to gobble your cock as can be, things could still turn up a notch.  Still servicing her box, you reach an arm out to your discarded pack, searching through it until you feel the familiar shape of ");
         if (player.hasKeyItem("Deluxe Dildo") >= 0) MainScreen.text("Tamani's dildo");
-        else if (player.hasItem(consumables.L_DRAFT)) MainScreen.text("a bottle of Lust draft");
-        else if (player.hasItem(consumables.F_DRAFT)) MainScreen.text("a bottle of Fuck draft");
+        else if (player.inventory.items.has(consumables.L_DRAFT)) MainScreen.text("a bottle of Lust draft");
+        else if (player.inventory.items.has(consumables.F_DRAFT)) MainScreen.text("a bottle of Fuck draft");
         else MainScreen.text("A FUCKIN ERROR");
-        MainScreen.text(".  You pull it out and squeeze a copious load of the bubblegum pink aphrodisiac out into your hand.  The second it touches your skin, you feel a palpable warmth spreading out through your nerves, skin burning with sensitivity as the roiling, viscous substance pools in your cupped hand.  You can't help but shudder as the pink veno's effect reaches out through your body, setting your whole person to tingling - and especially your " + player.multiCockDescriptLight() + ", which rises to an almost painful hardness.");
+        MainScreen.text(".  You pull it out and squeeze a copious load of the bubblegum pink aphrodisiac out into your hand.  The second it touches your skin, you feel a palpable warmth spreading out through your nerves, skin burning with sensitivity as the roiling, viscous substance pools in your cupped hand.  You can't help but shudder as the pink veno's effect reaches out through your body, setting your whole person to tingling - and especially your " + player.CockDescriptor.describeMultiCockShort(player) + ", which rises to an almost painful hardness.");
 
         MainScreen.text("\n\n\"<i>Gobble!</i>\" Gobbles giddily cries, sucking up the head of your turgid [cock] when its crown peeks out from between her teats, clearly pleased with your oral attentions.  She's got no idea what's coming! You slip one hand out of her cunny, and push another in, fingers sliding easily into her sodden hole.  \"<i>G-gobble!?</i>\" she whines as your lust-coated digits probe her, swirling around her quivering walls, making sure to spread the pink venom it out nice and even, coating every inch of her channel.");
 
-        MainScreen.text("\n\nInstantly, you can see her pale flesh reddening, burning with desire.  Her fem-slime practically pours out of her over-excited pussy as her breath quickens, chest heaving her tits up and around your " + player.multiCockDescriptLight() + ".  Perfect! You pull your hand back out of her love-tunnel, slapping both her butt cheeks to wipe off the last of the lusty cream on her bare derriere, which flushes as red as her hair.  \"<i>Gobble!</i>\" she screams as you swat her ass, slamming her big hips down on your face, trying to get you to eat her needy box again even as she's panting and twitching, playing with her tits and your cock with shameless abandon.");
+        MainScreen.text("\n\nInstantly, you can see her pale flesh reddening, burning with desire.  Her fem-slime practically pours out of her over-excited pussy as her breath quickens, chest heaving her tits up and around your " + player.CockDescriptor.describeMultiCockShort(player) + ".  Perfect! You pull your hand back out of her love-tunnel, slapping both her butt cheeks to wipe off the last of the lusty cream on her bare derriere, which flushes as red as her hair.  \"<i>Gobble!</i>\" she screams as you swat her ass, slamming her big hips down on your face, trying to get you to eat her needy box again even as she's panting and twitching, playing with her tits and your cock with shameless abandon.");
 
         MainScreen.text("\n\n\"<i>Gobbles, gobble,</i>\" you command, poking a finger into her drooling slit.");
 
-        MainScreen.text("\n\n\"<i>Gobble!</i>\" she answers, rolling off of you and hiking her legs up, knees sinking into her bust to show off her slit for you, so eager and inviting.  You rise to your [feet], grabbing the lusty fowl behind her hooked knees and pulling her in to line up with your " + player.multiCockDescriptLight() + ".  \"<i>G-gobble!</i>\" she begs, fluttering her plumage against your [legs], staring up at you imploringly as her skin further reddens, so hot with desperate lust you can practically feel the sexual hunger radiating off of her.  Time to finish this turkey off in style!");
+        MainScreen.text("\n\n\"<i>Gobble!</i>\" she answers, rolling off of you and hiking her legs up, knees sinking into her bust to show off her slit for you, so eager and inviting.  You rise to your [feet], grabbing the lusty fowl behind her hooked knees and pulling her in to line up with your " + player.CockDescriptor.describeMultiCockShort(player) + ".  \"<i>G-gobble!</i>\" she begs, fluttering her plumage against your [legs], staring up at you imploringly as her skin further reddens, so hot with desperate lust you can practically feel the sexual hunger radiating off of her.  Time to finish this turkey off in style!");
         dynStats("lus=", 100, "resisted", false);
         menu();
         MainScreen.addButton(0, "Next", turkeyDesertBitches);
@@ -416,7 +416,7 @@ default export class Thanksgiving {
     //Dessert
     public turkeyDesertBitches(): void {
         MainScreen.clearText();
-        MainScreen.text("\"<i>G-gobble!?</i>\" Gobbles whines at your moment of hesitation, wiggling her upraised botty at you enticingly, hot flesh jiggling just close enough to brush your " + player.multiCockDescriptLight() + " with her lust-coated cheeks.");
+        MainScreen.text("\"<i>G-gobble!?</i>\" Gobbles whines at your moment of hesitation, wiggling her upraised botty at you enticingly, hot flesh jiggling just close enough to brush your " + player.CockDescriptor.describeMultiCockShort(player) + " with her lust-coated cheeks.");
 
         MainScreen.text("\n\n\"<i>Fuck!</i>\" you groan as the venom drips off your [cock], a small droplet vanishing into your dilated urethra.  Your heart skips a beat as the lusty cream works its magic, pounding through your sex.  Well, that backfired! You clutch at your [chest]");
         if (player.upperBody.chest.BreastRatingLargest[0].breastRating > 1) MainScreen.text(", cupping a tit");
@@ -429,7 +429,7 @@ default export class Thanksgiving {
         if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
         MainScreen.text(", drenching your [hips] and [legs] in creamy girl-spunk, tinged pink by the poison you fist-fucked up her cunt.");
 
-        MainScreen.text("\n\nThe squawking turkey seems to be depthless, easily swallowing up every inch of your " + player.multiCockDescriptLight() + " until ");
+        MainScreen.text("\n\nThe squawking turkey seems to be depthless, easily swallowing up every inch of your " + player.CockDescriptor.describeMultiCockShort(player) + " until ");
         if (player.cockArea(0) >= 50) {
             MainScreen.text("her stomach is bulging obscenely with the sheer volume of cockflesh rammed up her cunt");
             if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("and ass");
@@ -459,7 +459,7 @@ default export class Thanksgiving {
         if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("and ass ");
         MainScreen.text("squirm around your cock");
         if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
-        MainScreen.text(", wringing the cum from you with powerful spastic contraction.  Her arms pull you down into the valley of her gravy-laden bosom, squeezing your face between her massive mounds as she cums, drawing the spunk right out of you.  With a potent, feral roar, you cum, " + player.multiCockDescriptLight() + " blasting its salty load deep into Gobbles' womb");
+        MainScreen.text(", wringing the cum from you with powerful spastic contraction.  Her arms pull you down into the valley of her gravy-laden bosom, squeezing your face between her massive mounds as she cums, drawing the spunk right out of you.  With a potent, feral roar, you cum, " + player.CockDescriptor.describeMultiCockShort(player) + " blasting its salty load deep into Gobbles' womb");
         if (player.lowerBody.cockSpot.count() > 1) MainScreen.text(" and bowels");
         MainScreen.text("; her back arches, teats wobbling around your head as she takes your cum, squawking and gobbling gaily as more and more of your virile spunk pours into her, mixing with her own fem-cum and the remnants of the lusty draft your fucked into her.");
 
@@ -497,7 +497,7 @@ default export class Thanksgiving {
         MainScreen.text("\n\nYou grin. You could really go for a wild night right about now and a cheap whore sounds like just the right thing to ease your... stress.");
 
         //{Lust = lust + 10}
-        dynStats("lus", 5);
+        player.stats.lust += 5;
         menu();
         if (player.stats.gems >= 1) MainScreen.addButton(0, "Throw gem", getARoastPiggueOinkOinkOinkMotherfucker);
         MainScreen.addButton(1, "Nah", telAdre.barTelAdre);
@@ -562,13 +562,14 @@ default export class Thanksgiving {
         MainScreen.text("\n\n\"<i>Oink...</i>\" she moans, lustily as you manhandle her backside. The dirty little slut! She likes it! Well, you're not one to deprive a sexy strumpet of her pleasure.");
 
         MainScreen.text("\n\nYou begin to rapid-fire spank her ass, alternating your strikes between her two cheeks. ");
-        if (player.tailType > TAIL.NONE) MainScreen.text("You even bring your tail from behind your back to join in, the unfamiliar texture causing the sausage slut to let out surprised, high-pitched squeaks. ");
+        if (player.lowerBody.tailType > TailType.NONE) MainScreen.text("You even bring your tail from behind your back to join in, the unfamiliar texture causing the sausage slut to let out surprised, high-pitched squeaks. ");
         MainScreen.text("You notice the pigslut moving backwards, her ass being pushed into the air as she attempts to feel the full power of your spanking, her pussy spraying juices onto the soaked sheets.");
 
         MainScreen.text("\n\nYour hands are a blur as they play some unknown rhythm on her bouncing booty, as if they were acting on their own. The piggy slut has her hands clenching down on a nearby pillow, teeth gritted as you have your way with her colossal ass. Tears streak down onto the pillow, staining the fabric wet. The sight of her weeping sex is all you need to know to continue; the desperately oinking whore turns out to be a bit of a masochist...");
 
         MainScreen.text("\n\nYou look around the room for a more fitting tool to use on this pain-loving slut, even as you turn the whore's jiggling butt cheeks into a pair of booty bongos.");
-        dynStats("lus", 25, "resisted", false);
+        player.stats.lust += 25;
+player.stats.resisted += false;
         //[ Hardcore ] [ Softcore ]
         menu();
         MainScreen.addButton(0, "Softcore", hamRoastTenderizeHerSoftcore);
@@ -591,7 +592,8 @@ default export class Thanksgiving {
         MainScreen.text("\n\n\"<i>Oink! OINK! <b>OINK!</b></i>\" her pathetic squealing only excites you more, the sounds of loud strikes from your whip filling the room.");
 
         MainScreen.text("\n\nYou lose yourself in the excitement, your own [vagOrAss] twitching with delight each time your whip comes down on her bubbly buttocks.");
-        dynStats("lus", 25, "resisted", false);
+        player.stats.lust += 25;
+player.stats.resisted += false;
         //[ Next ]
         menu();
         MainScreen.addButton(0, "Next", spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl);
@@ -619,7 +621,8 @@ default export class Thanksgiving {
 
         MainScreen.text("\n\nYou lose yourself in the excitement, your own [vagOrAss] twitching with delight each time your paddle comes down on her bubbly buttocks.");
 
-        dynStats("lus", 25, "resisted", false);
+        player.stats.lust += 25;
+player.stats.resisted += false;
         menu();
         MainScreen.addButton(0, "Next", spankEpilogueColonYoureAHorriblePersonForAbusingADumbPigGirl);
         //[ Next ]
@@ -709,10 +712,10 @@ default export class Thanksgiving {
         }
         if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 20) {
             MainScreen.text(" Your boobs also grow, gaining size as it seems that every part of your body wants to join in on the growth.");
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 3) player.growTits(3, player.bRows(), false, 1);
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 6) player.growTits(2, player.bRows(), false, 1);
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 12) player.growTits(2, player.bRows(), false, 1);
-            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 20) player.growTits(2, player.bRows(), false, 1);
+            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 3) player.growTits(3, player.upperBody.chest.count(), false, 1);
+            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 6) player.growTits(2, player.upperBody.chest.count(), false, 1);
+            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 12) player.growTits(2, player.upperBody.chest.count(), false, 1);
+            if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 20) player.growTits(2, player.upperBody.chest.count(), false, 1);
             changed = true;
         }
         MainScreen.text("\n\nYou sigh");

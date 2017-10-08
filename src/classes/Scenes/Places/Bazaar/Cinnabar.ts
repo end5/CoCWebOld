@@ -107,9 +107,9 @@ private cinnabarNonHugeDickings():void {
 	//(Enough cash)
 	player.stats.gems -= 50;
 	statScreenRefresh();
-	MainScreen.text("Once you give your assent, Cinnabar's paws dive into your " + player.armorName + ", gliding over your " + player.skinDesc + " before re-emerging above your gem-pouch.  She deftly grabs her payment and snakes back through, tickling your belly with her soft, well-groomed fur.  You look at her, then yourself, then her again.  How the hell was she flexible enough to do that?  Cinnabar giggles and curls her tail around your " + player.legs() + ", looping it like a long, flexible rope.  She hugs you and murmurs, \"<i>Where will my " + player.mf("master","mistress") + " take " + player.mf("his","her") + " slutty, fuck-hungry companion?</i>\"  Her tongue flicks your ear like a snake tasting its prey, and though her attitude sounds submissive and weak, your horny 'companion' is clearly hiding a fiery, aggressive streak.\n\n", false);
+	MainScreen.text("Once you give your assent, Cinnabar's paws dive into your " + player.inventory.armor.displayName + ", gliding over your " + player.skinDesc + " before re-emerging above your gem-pouch.  She deftly grabs her payment and snakes back through, tickling your belly with her soft, well-groomed fur.  You look at her, then yourself, then her again.  How the hell was she flexible enough to do that?  Cinnabar giggles and curls her tail around your " + LowerBodyDescriptor.describeLegs(player) + ", looping it like a long, flexible rope.  She hugs you and murmurs, \"<i>Where will my " + player.mf("master","mistress") + " take " + player.mf("his","her") + " slutty, fuck-hungry companion?</i>\"  Her tongue flicks your ear like a snake tasting its prey, and though her attitude sounds submissive and weak, your horny 'companion' is clearly hiding a fiery, aggressive streak.\n\n", false);
 	
-	MainScreen.text("Before you can make an answer, Cinnabar's hands are back inside your " + player.armorName + ", tugging your " + nippleDescript(0) + " towards an unmarked wagon that's clearly her home.  You smirk and rub her between her legs, feeling the moistness of her sloppy cunt through her now-dampened dress.  Before she can tease you any more, you hook a finger up, pushing her dress into her hungry snatch.  It's easy to lead the giggling rat-whore like this, and when you reach the door she slides her tail into the lock, clicking it open with ease.\n\n", false);
+	MainScreen.text("Before you can make an answer, Cinnabar's hands are back inside your " + player.inventory.armor.displayName + ", tugging your " + BreastDescriptor.describeNipple(0) + " towards an unmarked wagon that's clearly her home.  You smirk and rub her between her legs, feeling the moistness of her sloppy cunt through her now-dampened dress.  Before she can tease you any more, you hook a finger up, pushing her dress into her hungry snatch.  It's easy to lead the giggling rat-whore like this, and when you reach the door she slides her tail into the lock, clicking it open with ease.\n\n", false);
 	
 	MainScreen.text("With surprising strength, she drags you inside, kicking the door shut.   She hurredly strips, struggling a little with the tight dress, and you take the cue to disrobe as well.  You get done first, just in time to notice she's stopped with the wet patch on her nose.  She's sniffing and tweaking a nipple, masturbating herself as if she's completely forgotten about you.  A crimson eye peeks through the upraised dress-slit, and you realize she's imploring you to take advantage.\n\n", false);
 	
@@ -120,13 +120,13 @@ private cinnabarNonHugeDickings():void {
 	MainScreen.text("Cinnabar coos happily, in spite of the pain, and she begs, \"<i>Please " + player.mf("master","mistress") + ", look at the mirrors.  Your slut is trying to be good, but she needs to be filled so badly.</i>\"  You turn to look, but hold on to her tortured tits, just in case.  Amazingly, a pair of the mirrors have changed.  They no longer reflect your own image back – they show her gaping, girlcum-dripping gash and twitching, black-skinned anus.  You can even smell her feral musk and feel the heat pouring from her horny genitalia hitting you in a wave.\n\n", false);
 	
 	MainScreen.text("Too shocked to keep your grip, you listen dumbly as Cinnabar groans, \"<i>" + player.mf("Master","Mistress") + " is pleased?  This one knows how to use portals for their intended purpose.  Watch slut make more sexy portals.</i>\"  True to her words, many of the other mirrors change, showing both sets of nipples", false);
-	if(!player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(" and your " + assholeDescript(), false);
-	else MainScreen.text(", your " + vaginaDescript() + ", and your " + assholeDescript(), false);
+	if(!player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(" and your " + ButtDescriptor.describeButthole(player), false);
+	else MainScreen.text(", your " +             VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", and your " + ButtDescriptor.describeButthole(player), false);
 	MainScreen.text(" just inches away.  Without any prompting, you reach through to touch her arousal engorged lips, slipping fingertips through the needy gash and marveling at how large it feels.  You push forward, burying one, two, three, and finally four fingers inside her hungry nethers.\n\n", false);
 	
 	MainScreen.text("Cinnabar pants, \"<i>Ungh... more.  Stuff this whore's cunt,</i>\" all while she wiggles her backside against the mirror, clearly enjoying the attention.  You pull back to tease her, but the horny whore groans and reaches through another portal to ", false);
-	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("grab your " + clitDescript() + ", rolling it between her thumb-pads with a hair too much pressure", false);
-	else MainScreen.text("slip two digits into your " + assholeDescript() + ", pulling it apart far enough to cause you discomfort", false);
+	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("grab your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + ", rolling it between her thumb-pads with a hair too much pressure", false);
+	else MainScreen.text("slip two digits into your " + ButtDescriptor.describeButthole(player) + ", pulling it apart far enough to cause you discomfort", false);
 	MainScreen.text(".  She wants to be penetrated?  Fine.  You ball your fingers and push forward.  Amazingly, you push through a gossamer curtain of femcum and bury your whole hand inside her cunt with ease.  Her silky-smooth walls tremble and squeeze, caressing your hand like a long-lost lover.\n\n", false);
 	
 	MainScreen.text("Satisfied with your display of power, her fingers ", false);
@@ -136,9 +136,9 @@ private cinnabarNonHugeDickings():void {
 	//Finger poke
 	if(player.lowerBody.vaginaSpot.hasVagina()) player.cuntChange(8,true,true,false);
 	else player.buttChange(8,true,true,false);
-	if(player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Unbidden, " + sMultiCockDesc() + " begins to harden, stiffening with every brush against your prostate.", false);
+	if(player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Unbidden, " + CockDescriptor.describeMultiCockSimpleOne(player) + " begins to harden, stiffening with every brush against your prostate.", false);
 	else if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Femcum begins to soak the rat's practiced fingers, drenching her finger-pads with liquid lust.", false);
-	MainScreen.text("  You rock back, slamming your " + buttDescript() + " against the wall and moaning with need.  She's quite skilled, and ", false);
+	MainScreen.text("  You rock back, slamming your " + ButtDescriptor.describeButt(player) + " against the wall and moaning with need.  She's quite skilled, and ", false);
 	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("caresses your passage in ways that ", false);
 	else MainScreen.text("works your body in ways that ", false);
 	MainScreen.text("leave you panting like a bitch in heat.  She urges you on, practically begging, \"<i>Yes!  Stuff my hole!  Fist me, " + player.mf("master","mistress") + "; stretch me with your hand until I'm too loose for a minotaur!  Please... please... fist my ass too.  Ruin my holes, " + player.mf("master","mistress") + "!  Break fuck-toy's body!</i>\"\n\n", false);
@@ -154,7 +154,7 @@ private cinnabarNonHugeDickings():void {
 		else MainScreen.text("her fist", false);
 		MainScreen.text(" into your asshole, leaning on you in the same way and locking your bodies together through the portals.  ", false);
 	}
-	if(player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("You gasp and moan when you feel her other hand wrap around your " + cockDescript(0) + ", pulling and tugging on it until it starts to leak a trail of squeezed-out man-slime on the mattress.  ", false);
+	if(player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("You gasp and moan when you feel her other hand wrap around your " + CockDescriptor.describeCock(player, 0) + ", pulling and tugging on it until it starts to leak a trail of squeezed-out man-slime on the mattress.  ", false);
 	MainScreen.text("Growing more and more aroused, hotter and hotter, you pick up the pace, pistoning your forearms in and out of Cinnabar's lewdly squelching holes.\n\n", false);
 	
 	MainScreen.text("She squeaks, the first rodent-like sound she's made all evening, and you take that as your cue to work her even more brutally, pounding her now-gaped holes with hard, fast strokes.  Each time it seems like she swallows more of your arm, and after a few particularly violent poundings, you've sunk inside the rat up to the elbow.  From where you're kneeling, you can see her belly, and it isn't distended in the slightest.  Just how much can she handle?\n\n", false);
@@ -173,7 +173,7 @@ private cinnabarNonHugeDickings():void {
 	}
 	MainScreen.text(" plunge further inside you, violating you far more gently, but still hard enough to get you off.", false);
 	if(player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) {
-		MainScreen.text("  Her soft pads grip your " + cockDescript(0) + " tightly while she  presses on your prostate, milking your cum from you with professional skill.  Rather than coming in its usual spurts, it drips in a long, liquid chain of white-goo that drops into a submissive puddle on the bed.", false);
+		MainScreen.text("  Her soft pads grip your " + CockDescriptor.describeCock(player, 0) + " tightly while she  presses on your prostate, milking your cum from you with professional skill.  Rather than coming in its usual spurts, it drips in a long, liquid chain of white-goo that drops into a submissive puddle on the bed.", false);
 		if(player.cumQ() >= 250) {
 			MainScreen.text("  Not content with that, your body keeps going, thickening the stream into a torrent that soaks the sheets", false);
 			if(player.cumQ() >= 1000) MainScreen.text(" and puddles on the floor", false);
@@ -181,16 +181,16 @@ private cinnabarNonHugeDickings():void {
 		}
 	}
 	if(player.lowerBody.vaginaSpot.hasVagina()) {
-		MainScreen.text("  She licks your " + clitDescript() + ", and your " + vaginaDescript(0) + " convulses around the intruding digits, making you shiver and moan.  Not wanting to be left out, your " + assholeDescript() + " clamps and puckers with it, wringing the rat's ", false);
+		MainScreen.text("  She licks your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + ", and your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " convulses around the intruding digits, making you shiver and moan.  Not wanting to be left out, your " + ButtDescriptor.describeButthole(player) + " clamps and puckers with it, wringing the rat's ", false);
 		if(player.vaginalCapacity() < 30) MainScreen.text("fingers", false);
 		else MainScreen.text("hand", false);
 		MainScreen.text(" in its hungry embrace.", false);
 	}
 	//(No dick/cunt:
-	if(player.gender == 0) MainScreen.text("  Her soft pads rub your " + assholeDescript() + " just right, setting off your climax with professional skill.  You grunt and squeeze, wringing her fingers inside your hungry hole as if you could milk cum from them.", false);
+	if(player.gender == 0) MainScreen.text("  Her soft pads rub your " + ButtDescriptor.describeButthole(player) + " just right, setting off your climax with professional skill.  You grunt and squeeze, wringing her fingers inside your hungry hole as if you could milk cum from them.", false);
 	MainScreen.text("  The orgasm is intense, and as you both succumb to exhaustion, two sets of limbs slip from abused orifices.  Cinnabar and you fall into each other, collapsing in a puddle of sexual juices and sweaty limbs.", false);
-	if(player.wetness() < 3) {}
-	else if(player.wetness() < 5) MainScreen.text("  Her arm seems quite soaked with your leavings.", false);
+	if(player.lowerBody.vaginaSpot.get(0).vaginalWetness < 3) {}
+	else if(player.lowerBody.vaginaSpot.get(0).vaginalWetness < 5) MainScreen.text("  Her arm seems quite soaked with your leavings.", false);
 	else MainScreen.text("  Her arm and chest are left splattered from your explosive, squirting orgasm.", false);
 	MainScreen.text("\n\n", false);
 	
@@ -199,7 +199,7 @@ private cinnabarNonHugeDickings():void {
 	MainScreen.text(" before I can get my next customer.</i>\"\n\n", false);
 	
 	player.orgasm();
-	dynStats("sen", -2);
+	player.stats.sens += -2;
 	doNext(camp.returnToCampUseOneHour);
 }
 	
@@ -212,26 +212,26 @@ private cinnabarGetsFUKKKKED():void {
 	let x:number = player.biggestCockIndex();
 	spriteSelect(91);
 	
-	MainScreen.text("As soon as you give your assent, Cinnabar's hands are flying through your " + player.armorName + " to clutch and grab at your " + cockDescript(x) + ", squeezing the hefty member with her soft pads.  She coos happily, grinning wide enough to expose her teeth while your dick fills up in her palm, gradually spreading her fingers wide.  The turgid, burgeoning mass rubs against your " + player.armorName + " near-painfully before she stops, and Cinnabar licks her lips appreciatively, knowing you're not even the whole way hard.\n\n", false);
+	MainScreen.text("As soon as you give your assent, Cinnabar's hands are flying through your " + player.inventory.armor.displayName + " to clutch and grab at your " + CockDescriptor.describeCock(player, x) + ", squeezing the hefty member with her soft pads.  She coos happily, grinning wide enough to expose her teeth while your dick fills up in her palm, gradually spreading her fingers wide.  The turgid, burgeoning mass rubs against your " + player.inventory.armor.displayName + " near-painfully before she stops, and Cinnabar licks her lips appreciatively, knowing you're not even the whole way hard.\n\n", false);
 	
-	MainScreen.text("Though your " + player.legs() + " have grown wobbly and your gear tight, you stand up, straight as a fencepost, and pull the slut's arms away from your kit.  Cinnabar grunts with displeasure, but you grab her dress and spin her into your arms, letting your bulge dig into her back while your hands cup the heavy swells of her breasts.  Her nipples are hard and ready, easily as large as the tips of your fingers, which you waste no time in securing around the swollen buds. The skank's displeased grunt morphs into a loud squeak, then trails off into a low, eager moan.\n\n", false);
+	MainScreen.text("Though your " + LowerBodyDescriptor.describeLegs(player) + " have grown wobbly and your gear tight, you stand up, straight as a fencepost, and pull the slut's arms away from your kit.  Cinnabar grunts with displeasure, but you grab her dress and spin her into your arms, letting your bulge dig into her back while your hands cup the heavy swells of her breasts.  Her nipples are hard and ready, easily as large as the tips of your fingers, which you waste no time in securing around the swollen buds. The skank's displeased grunt morphs into a loud squeak, then trails off into a low, eager moan.\n\n", false);
 	
 	MainScreen.text("\"<i>Please, bend me over and fuck me; stuff that fat cock in my juicy cunt.  Stuff me, rut me, bang me here in front of everyone!", false);
 	if(flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] > 0) MainScreen.text("  Just be gentler than last time, okay " + player.mf("stud","baby") + "?", false);
 	MainScreen.text("</i>\"  Cinnabar cries, but the stares your little encounter has attracted warn you that continuing in the open would be a very bad idea.  You pinch on one of Cinnabar's hard nips and bite her to shush her incessant yammering, but all it does it make her squeak even louder.  You growl into her ear, telling the horny cunt that if she wants your dick inside her, she had better be a good pet and find you some privacy.\n\n", false);
 	
 	MainScreen.text("The eager rodent spins, pulling her nipples from your fingers and planting a heavy, wet kiss on your lips hard enough to rock you back ", false);
-	if(player.str >= 60 || player.tallness >= 72) MainScreen.text("a little", false);
+	if(player.stats.str >= 60 || player.tallness >= 72) MainScreen.text("a little", false);
 	else MainScreen.text("on your heels", false);
 	MainScreen.text(".  You sway, woozy from the passionate lip-lock, and then you're being dragged through the crowd up to a brightly-painted wagon.  The thick door is clearly locked, but the ingenuous rat's tail lifts in front of your nose, wiggling like a snake-charmer's viper.  It brushes your cheek before plunging into the vacant keyhole with the enthusiasm of a mating stallion.  An audible *click* reveals just how fine Cinnabar's tail-control is, but as you ponder that, you're dragged through the door by soft, insistent tugs.\n\n", false);
 	
-	MainScreen.text("Flexible, determined fingertips are buried deep into your crotch before the entry has closed behind.  Cinnabar's eyes fixate on the massive, tenting bulge between your " + player.legs() + ", her soft finger-pads shaking while they try to set you free.  You appreciate her efforts, but she nearly got you into some trouble out there.  She needs to settle down, or at least be a little more mindful of your wishes.  You yank her arms away from your bouncing, newly-freed " + cockDescript(x) + ", groaning from sensation while you wrestle to deny Cinnabar her desire.\n\n", false);
+	MainScreen.text("Flexible, determined fingertips are buried deep into your crotch before the entry has closed behind.  Cinnabar's eyes fixate on the massive, tenting bulge between your " + LowerBodyDescriptor.describeLegs(player) + ", her soft finger-pads shaking while they try to set you free.  You appreciate her efforts, but she nearly got you into some trouble out there.  She needs to settle down, or at least be a little more mindful of your wishes.  You yank her arms away from your bouncing, newly-freed " + CockDescriptor.describeCock(player, x) + ", groaning from sensation while you wrestle to deny Cinnabar her desire.\n\n", false);
 	
 	MainScreen.text("The rat squirms and kicks, but you twist away from each vicious blow.  She growls, \"<i>You've got that fucking huge dick and you won't let me give it a hug?  Seriously, what are you, some cunt-shy freak?  I thought you'd be a good fuck, but if you're this scared of a woman's pussy, maybe I should go find a " + player.mf("real man","horse-herm") + " to shack up with!</i>\"  She's got a mouth on her, but she needs to be taken down a peg.  You sweep her legs out from under her and push, slamming her into the bed hard enough to make her tits quake from the impact.\n\n", false);
 	
 	MainScreen.text("Cinnabar smiles and spreads her legs, lifting the hem of her dress while a finger tweaks her clit.  She coos, \"<i>Mmmmm, so dominant, but I'm not sure you know how to use that beast.  Your cock is bouncing, fucking rock hard, and I've got this wet, hot hole begging you plug it.  Yet you're standing there, watching me try to squirm out of this tight, sexy dress.</i>\"  To emphasize her point, she releases a zipper and begins to undulate, shedding the dress like a snake discards old skin.  You climb into bed after her, smiling when you see the hundreds of mirrors that hang from the walls around you.\n\n", false);
 	
-	MainScreen.text("The rodent follows your gaze and wraps her arms around your neck.  She whispers, \"<i>Does my big, hard " + player.mf("stud","bitch") + " want to fuck now?</i>\"  You nod and rock forwards, pressing the turgid " + player.cockHead(x) + " of your " + cockDescript(x) + " against her dripping cunny, but while her lips give somewhat, you can't quite breach her slippery gateway.  Cinnabar grunts from the aborted penetration and pulls back with a cat's grace and a contortionist's flexibility, uncoiling from beneath you in one, liquid motion.  She kisses your nose, pressing her curvacious bottom back against the wall while her tail loops over her shoulder to tussle your hair.\n\n", false);  
+	MainScreen.text("The rodent follows your gaze and wraps her arms around your neck.  She whispers, \"<i>Does my big, hard " + player.mf("stud","bitch") + " want to fuck now?</i>\"  You nod and rock forwards, pressing the turgid " + player.cockHead(x) + " of your " + CockDescriptor.describeCock(player, x) + " against her dripping cunny, but while her lips give somewhat, you can't quite breach her slippery gateway.  Cinnabar grunts from the aborted penetration and pulls back with a cat's grace and a contortionist's flexibility, uncoiling from beneath you in one, liquid motion.  She kisses your nose, pressing her curvacious bottom back against the wall while her tail loops over her shoulder to tussle your hair.\n\n", false);  
 	
 	MainScreen.text("\"<i>It's been a while since this horny slut has had a dick too big for her snatch, but we're going to make that fucker fit in me.  You're going to split me hard enough to make a ", false);
 	if(player.cockArea(x) < 200) MainScreen.text("centaur mare wince", false);
@@ -249,14 +249,14 @@ private cinnabarGetsFUKKKKED():void {
 	MainScreen.text("Her tunnel squeezes tight, massaging your forearm as if it was some massive beast's member, but you pull back, extricating your limb along with an accompanying gush of girl-cum.  Cinnabar groans, \"<i>Ohhh baby, you were filling me up so good.  Look at what a mess I'm making for you!  Oooh, are you gonna fuck me now?  You got me stretched, but I don't know if I'm big enough... fuck it! Split me like a log, baby!</i>\"\n\n", false);
 	
 	MainScreen.text("As if you needed any encouragement!  She flips around to present her ass to you, her tail looping around your ", false);
-	if(player.lowerBody.balls > 0) MainScreen.text(sackDescript() + " and ", false);
-	MainScreen.text(cockDescript(x) + " before pulling tight.  You ignore the onslaught of pressure and line your fat prick up with her inviting, fist-gaped hole.  It still doesn't look like it'll fit, but you press forwards anyway – she wanted it inside her and you've got way too much blood in your dick to do any logical thinking.\n\n", false);
+	if(player.lowerBody.balls > 0) MainScreen.text(BallsDescriptor.describeSack(player) + " and ", false);
+	MainScreen.text(CockDescriptor.describeCock(player, x) + " before pulling tight.  You ignore the onslaught of pressure and line your fat prick up with her inviting, fist-gaped hole.  It still doesn't look like it'll fit, but you press forwards anyway – she wanted it inside her and you've got way too much blood in your dick to do any logical thinking.\n\n", false);
 	
 	MainScreen.text("Your " + player.cockHead(x) + " hits those plush, juice-gushing lips and forces them wide.  She's tight, so goddamned tight, but you've only got the barest portion of your tip inside.  Cinnabar squeaks in pleasure and pain, rocking her ass up and down to try and loosen up her poor, abused entrance.\n\n", false);
 	
 	MainScreen.text("\"<i>Fucking cram that dick in there.  Can't you feel how hot I am?  Gods, it's so BIG... fuck me... just, fuck me!</i>\" she cries.\n\n", false);
 	
-	MainScreen.text("Throughout her prompting you continue the onslaught, firmly moving your " + hipDescript() + " onward to push your " + cockDescript(x) + " against the sloppy, cum-dripping hole.  Those black, puffy cunt-lips give one agonizing, convulsing tremble, and then they relax, stretched around the thickness of your shaft like a condom.  Her walls feel so much better on your fuck-stick than on your arm; the slippery walls contract involuntarily, the abused body's instincts trying their best to remove the intruder.\n\n", false);
+	MainScreen.text("Throughout her prompting you continue the onslaught, firmly moving your " + LowerBodyDescriptor.describeHips(player) + " onward to push your " + CockDescriptor.describeCock(player, x) + " against the sloppy, cum-dripping hole.  Those black, puffy cunt-lips give one agonizing, convulsing tremble, and then they relax, stretched around the thickness of your shaft like a condom.  Her walls feel so much better on your fuck-stick than on your arm; the slippery walls contract involuntarily, the abused body's instincts trying their best to remove the intruder.\n\n", false);
 	
 	MainScreen.text("You slap her ass and watch it jiggle, grunting with pleasure when the ripples work their way from her reddened butt-cheek into her taut, brutalized cunt.  Cinnabar is watching you through one of her portals, mouth parted and eyes rolled partway back as she struggles to keep it together.  Somehow she manages to keep talking.  \"<i>Ungh... I can feel it stretching me... stretching me so good.  Fuck... my – ung – hips... oh gods look how wide my hips are!  You're gonna gape me so fucking good!  I'm gonna be your stretched out cock-sleeve, are you happy?  I'm gonna – ooooohhh... look like your broken, fucked-out brood-rat.</i>\"\n\n", false);
 	
@@ -280,7 +280,7 @@ private fuckCinnabarHugerAndCorruptedEr():void {
 	if(flags[FlagEnum.CINNABAR_FUCKED_CORRUPT_PREVIOUSLY] > 0) MainScreen.text("  You're doing it again – turning her into a cum-sleeve without a care for her pleasure, but you don't fucking care.  You're too horny and she's too sexy not to abuse.", false);
 	MainScreen.text("\n\n", false);
 	
-	MainScreen.text("That one push sent nearly two feet of cock into the violated vermin, and you don't intend to stop until you've buried all " + num2Text(int(player.lowerBody.cockSpot.list[x].cockLength/12)) + " turgid feet inside her.  Cinnabar feels so light in comparison to your " + cockDescript(x) + ", barely dragging it down at all.  You get a wicked idea and lean back, letting your iron-hard member shift with you, pulling the rust-red rat completely off the bed and into the air.  With nothing to grab on to and no way to reach the ground, her entire weight is supported entirely by the friction of her over-burdened walls, and with how juicy this bitch is, she's already sliding down, accelerating her gravity-fed violation with her unintentionally well-lubricated fuck-hole.\n\n", false);
+	MainScreen.text("That one push sent nearly two feet of cock into the violated vermin, and you don't intend to stop until you've buried all " + num2Text(int(player.lowerBody.cockSpot.get(x).cockLength/12)) + " turgid feet inside her.  Cinnabar feels so light in comparison to your " + CockDescriptor.describeCock(player, x) + ", barely dragging it down at all.  You get a wicked idea and lean back, letting your iron-hard member shift with you, pulling the rust-red rat completely off the bed and into the air.  With nothing to grab on to and no way to reach the ground, her entire weight is supported entirely by the friction of her over-burdened walls, and with how juicy this bitch is, she's already sliding down, accelerating her gravity-fed violation with her unintentionally well-lubricated fuck-hole.\n\n", false);
 	
 	MainScreen.text("\"<i>T-too fast... " + player.mf("Master","Mistress") + ", too fast!  Please go slower... please... ungghhAAAHHH... Godda-ah-aH-AH-AMNIT!</i>\" she protests.\n\n", false);
 	
@@ -289,23 +289,23 @@ private fuckCinnabarHugerAndCorruptedEr():void {
 	MainScreen.text("The rat – no, cum-sleeve – gets even tighter, and as you watch, her breasts bulge and jiggle, shifted from the rock-hard post that's pushing through her body.  They look almost tiny in compared to the cylindrical, veiny bulge, like cum-filled bubbles hanging from a moaning furry condom.  Impatient, you snag her ankles and give a hard tug, adding your strength to gravity's inexorable pull.  Warm, pulsating cunt-flesh hugs your ", false);
 	if(!player.lowerBody.cockSpot.hasSheath()) MainScreen.text("crotch", false);
 	else MainScreen.text("sheath", false);
-	MainScreen.text(", squirting juices from the callous, cunt-piercing thrust.  The " + player.cockHead(x) + " of your " + cockDescript(x) + " can be seen just below her neck", false);
-	if(player.lowerBody.cockSpot.list[x].cockLength >= 60) MainScreen.text(", and only now do you realize that you're long enough that you should've gone the whole way through her.  Just what kinds of magics is she capable of!?", false);
-	else MainScreen.text(", and only now do you realize you blew past her cervix long ago, the tight ring hugging your " + cockDescript(x) + " in a clutching embrace.", false);
+	MainScreen.text(", squirting juices from the callous, cunt-piercing thrust.  The " + player.cockHead(x) + " of your " + CockDescriptor.describeCock(player, x) + " can be seen just below her neck", false);
+	if(player.lowerBody.cockSpot.get(x).cockLength >= 60) MainScreen.text(", and only now do you realize that you're long enough that you should've gone the whole way through her.  Just what kinds of magics is she capable of!?", false);
+	else MainScreen.text(", and only now do you realize you blew past her cervix long ago, the tight ring hugging your " + CockDescriptor.describeCock(player, x) + " in a clutching embrace.", false);
 	MainScreen.text("\n\n", false);
 	
 	MainScreen.text("Cinnabar's head looks absurdly tiny, perched as it is above her bloated belly.  She moans, \"<i>F-fucking asshole!  You went t-too f-ah-ahhh-st...</i>\"  Her voice trails off as her eyes narrow.  Somehow, even with her broken body, she's managed to get it together enough to yell at you.\n\n", false);
 	
-	MainScreen.text("\"<i>Fuck you!  You can't wait to get inside and then you sit there smirking?  Fuck that.  If you won't fill me right, I'll make you!</i>\" screams the red rat.  Her already-crimson eyes glow with eldritch light and her hand lifts, radiating with the same unholy power.  Cinnabar's hand punches through one of the mirrors on the wall, disappearing for the tiniest fraction of a second before punching through the ring of your " + assholeDescript() + ", HARD.  You scream, completely and utterly violated, just like Cinnabar.", false);
+	MainScreen.text("\"<i>Fuck you!  You can't wait to get inside and then you sit there smirking?  Fuck that.  If you won't fill me right, I'll make you!</i>\" screams the red rat.  Her already-crimson eyes glow with eldritch light and her hand lifts, radiating with the same unholy power.  Cinnabar's hand punches through one of the mirrors on the wall, disappearing for the tiniest fraction of a second before punching through the ring of your " + ButtDescriptor.describeButthole(player) + ", HARD.  You scream, completely and utterly violated, just like Cinnabar.", false);
 	player.buttChange(30,true,true,false);
 	MainScreen.text("\n\n", false);
 	
 	MainScreen.text("She twists her fist inside you and reaches up to palm the tender lump of your prostate as she says, \"<i>Payback's a bitch.</i>\"  Her eyes flare, the magic exploding inside you, worming through your prostate and into your mind.  ", false);
 	if(player.stats.int >= 50) MainScreen.text("You dimly register it as an arousal spell, but you were already on edge, and your poor prostate is practically wringing itself dry in an effort to cum.", false);
 	else MainScreen.text("It's too much for your utterly encapsulated member and violated anus, and your poor prostate practically wrings itself dry as it tries to unload.", false);
-	MainScreen.text("  A half-second later your " + cockDescript(x) + " joins it, your internal muscles clenching and convulsing, heaving the jizz from your body in one huge, gooey blast.\n\n", false);
+	MainScreen.text("  A half-second later your " + CockDescriptor.describeCock(player, x) + " joins it, your internal muscles clenching and convulsing, heaving the jizz from your body in one huge, gooey blast.\n\n", false);
 	
-	MainScreen.text("Cinnabar pulls her dirty paw out and grins like a mouse with a chunk of cheese, massaging her distorting neck while you empty every ounce of cum from your " + ballsDescriptLight() + " into her over-stretched womb-filled body.  She squeaks, \"<i>No-ohhhh-ormally I LIKE being a mewling slut for " + player.mf("studs","bitches") + " like you, but if you won't treat a cum-sleeve like me with respect, then I'm going to teach it to you.</i>\"  You nod dumbly, still locked in an climax that ", false);
+	MainScreen.text("Cinnabar pulls her dirty paw out and grins like a mouse with a chunk of cheese, massaging her distorting neck while you empty every ounce of cum from your " + BallsDescriptor.describeBalls(true, true, player) + " into her over-stretched womb-filled body.  She squeaks, \"<i>No-ohhhh-ormally I LIKE being a mewling slut for " + player.mf("studs","bitches") + " like you, but if you won't treat a cum-sleeve like me with respect, then I'm going to teach it to you.</i>\"  You nod dumbly, still locked in an climax that ", false);
 	if(player.cumQ() < 250) MainScreen.text("makes your body churn well after you're empty.", false);
 	else if(player.cumQ() < 500) MainScreen.text("causes her hugely-stretched lips to glaze white.", false);
 	else if(player.cumQ() < 1000) MainScreen.text("causes her lips to glaze and her belly to bloat.", false);
@@ -315,14 +315,14 @@ private fuckCinnabarHugerAndCorruptedEr():void {
 	
 	MainScreen.text("The now-dominant, living onahole squeals with pleasure, yammering incessant, half-thought pleasure-words as she gets off.  \"<i>Fu-fu... cum... somuchcum... ohhh gods yes... stuff my broken cunt! More!  Gimme more!  I want to feel it – no, I want to bubble with it, be it.  I want to be so full of cum... YES! OoooooooooooooOOOO – sssqeeEAAAAAAAAAAAK!</i>\"\n\n", false);
 	
-	MainScreen.text("You collapse under her, still twitching weakly while her magic courses through your veins.  Somehow your " + ballsDescriptLight() + " are still twitching, but it's a painful, empty feeling, and you just want it to end.  You groan, nearly crying while your abused shaft is milked by orgasm-fueled rat-cunt contractions.  It makes you delirious and light-headed, and after a seeming eternity of torture, your brain shuts down, unable to cope with it anymore.\n\n", false);
+	MainScreen.text("You collapse under her, still twitching weakly while her magic courses through your veins.  Somehow your " + BallsDescriptor.describeBalls(true, true, player) + " are still twitching, but it's a painful, empty feeling, and you just want it to end.  You groan, nearly crying while your abused shaft is milked by orgasm-fueled rat-cunt contractions.  It makes you delirious and light-headed, and after a seeming eternity of torture, your brain shuts down, unable to cope with it anymore.\n\n", false);
 	
 	MainScreen.text("<b>Some time later...</b>\n", false);
 	MainScreen.text("Cinnabar slaps you hard, stirring you from your unnatural slumber.  You look up at her, blinking dumbly for a moment.  Her lips press against yours, crushing them with the force of her passion.  The rodent's soft, padded hands continue hitting you, slapping your face, boxing your ears, and smacking lamely into your chest.  Yet throughout the beating she's tonguing your mouth, groaning into your lips and smearing herself over your still-huge cock.  At last the rat seems satisfied, and she pulls of you with a panting, confused-looking smirk on her face.\n\n", false);
 	
 	MainScreen.text("You sit up, completely and totally awake thanks to your abusive lover, who's just smirking at you.  \"<i>Goddamn you, you huge-cocked " + player.mf("stud","fucker") + ".  I'm STILL sore, but Marae's tits, did you ever get me off!  Don't get the wrong impression, it hurt like a BITCH.  I pity the girls you meet who can't stretch themselves like I can.  I truly do.  If you try that shit with me again, I'll give you another lesson in empathy – I hope you don't forget this one.</i>\"\n\n", false);
 		
-	MainScreen.text("Cinnabar tosses your " + player.armorName + " and you realize the nude rat doesn't show any signs of your tryst", false);
+	MainScreen.text("Cinnabar tosses your " + player.inventory.armor.displayName + " and you realize the nude rat doesn't show any signs of your tryst", false);
 	if(player.cumQ() >= 500) MainScreen.text(", save for her pregnant belly and ", false);
 	else MainScreen.text(", save for her ", false);
 	MainScreen.text("huge, slightly parted pussy-lips.  Chances are she'll have those back to normal before long anyway.  You get dressed and turn to leave, but before you do a tail taps your shoulder, the length curling to squeeze your neck.  It stops you cold while the hooker's voice whispers, \"<i>Don't wait too long to come back.</i>\"\n\n", false);
@@ -330,7 +330,8 @@ private fuckCinnabarHugerAndCorruptedEr():void {
 	MainScreen.text("Once she lets you go, you leave, and you find yourself mulling over her statement about empathy for some time.", false);
 	//(-2 corruption!)
 	player.orgasm();
-	dynStats("sen", 3, "cor", -2);
+	player.stats.sens += 3;
+player.stats.cor += -2;
 	player.takeDamage(25);
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -347,21 +348,21 @@ private cinnabarHuger():void {
 	
 	MainScreen.text("The rest of you sinks in, plowing through her surprisingly spongy cervix to violate the very core of her womb.  It pushes out far enough that she looks like a ruddy cock-sleeve, with two bouncing tits hanging off your " + player.cockHead(x) + ".  Incredibly, Cinnabar doesn't seem to mind that her body is being stretched in impossible ways, distended completely beyond the limits of reason.  Instead, she starts murmering, \"<i>Oooh yeah, feel how fucking tight my womb is.  Can't you feel my cervix clamping down, squeezing tight like a cock-ring you couldn't get the whole way down?  ..hahahaha I'm broken aren't I?  Look at me, I'm your furry condom.  My pussy's completely broken... I'm so gaped I'll never walk right again, and I can - I can jerk you off through my belly and womb!</i>\"\n\n", false);
 	
-	MainScreen.text("True to her words, she starts squeezing you through her fur, massaging your " + cockDescript(x) + " by dragging her stretchy puss along your length with her fingertips.  It's too much, her body is fucking perfect for your " + cockDescript(x) + ", and you feel warmth building inside you.  Her tail twists around your ", false);
-	if(player.lowerBody.balls > 0) MainScreen.text(ballsDescriptLight(), false);
+	MainScreen.text("True to her words, she starts squeezing you through her fur, massaging your " + CockDescriptor.describeCock(player, x) + " by dragging her stretchy puss along your length with her fingertips.  It's too much, her body is fucking perfect for your " + CockDescriptor.describeCock(player, x) + ", and you feel warmth building inside you.  Her tail twists around your ", false);
+	if(player.lowerBody.balls > 0) MainScreen.text(BallsDescriptor.describeBalls(true, true, player), false);
 	else MainScreen.text("base", false);
-	MainScreen.text(" to prod at your " + assholeDescript() + ", sliding in to push your prostate.  She hits it hard enough to make you pump cum with enough force to distort her already-ballooned body, and you go into an orgasmic frenzy, dragging your " + cockDescript(x) + " back to her entrance before jamming in all ", false);
-	if(player.lowerBody.cockSpot.list[x].cockLength < 24) MainScreen.text(num2Text(Math.round(player.lowerBody.cockSpot.list[x].cockLength)) + " inches", false);
-	else MainScreen.text(num2Text(Math.round(player.lowerBody.cockSpot.list[x].cockLength/12)) + " feet", false);
+	MainScreen.text(" to prod at your " + ButtDescriptor.describeButthole(player) + ", sliding in to push your prostate.  She hits it hard enough to make you pump cum with enough force to distort her already-ballooned body, and you go into an orgasmic frenzy, dragging your " + CockDescriptor.describeCock(player, x) + " back to her entrance before jamming in all ", false);
+	if(player.lowerBody.cockSpot.get(x).cockLength < 24) MainScreen.text(num2Text(Math.round(player.lowerBody.cockSpot.get(x).cockLength)) + " inches", false);
+	else MainScreen.text(num2Text(Math.round(player.lowerBody.cockSpot.get(x).cockLength/12)) + " feet", false);
 	MainScreen.text(" all over again.", false);
-	if(player.lowerBody.cockSpot.list[x].cockLength >= 60) MainScreen.text("  There's no way this should be possible, but it's happening and you couldn't be happier.", false);
+	if(player.lowerBody.cockSpot.get(x).cockLength >= 60) MainScreen.text("  There's no way this should be possible, but it's happening and you couldn't be happier.", false);
 	MainScreen.text("\n\n", false);
 	
-	MainScreen.text("Her body is squirming, writhing from the complete and total dick-domination.  You push her hands off your " + cockDescript(x) + ", and jack yourself off while you cum inside her, watching with fascination as each blast bulges her belly before it vanishes inside her with a wet slosh.  Her huge, stretched lips leak like a sieve, splattering girlcum everywhere while your " + ballsDescriptLight() + " pack", false);
+	MainScreen.text("Her body is squirming, writhing from the complete and total dick-domination.  You push her hands off your " + CockDescriptor.describeCock(player, x) + ", and jack yourself off while you cum inside her, watching with fascination as each blast bulges her belly before it vanishes inside her with a wet slosh.  Her huge, stretched lips leak like a sieve, splattering girlcum everywhere while your " + BallsDescriptor.describeBalls(true, true, player) + " pack", false);
 	if(player.lowerBody.balls == 0) MainScreen.text("s", false);
 	MainScreen.text(" her with goo, claiming her ruined body.  Cinnabar pants and screams in between pleasure-squeaks, \"<i>F-fuck... fuck your fuck-toy!  Stuff her cunt... YES!  S-slut is so fucked... Cum, " + player.mf("master","mistress") + ", then toss slut aside l-l-like a discarded, broken toy.  YOU'VE RUINED ME " + player.mf("MASTER","MISTRESS") + "!</i>\"\n\n", false);
 	
-	MainScreen.text("Those wonderful, perverse words milk your " + ballsDescriptLight() + " dry as effectively as her massively-gaped cunt and broken body, but you keep pumping until you're sore and completely emptied.  ", false);
+	MainScreen.text("Those wonderful, perverse words milk your " + BallsDescriptor.describeBalls(true, true, player) + " dry as effectively as her massively-gaped cunt and broken body, but you keep pumping until you're sore and completely emptied.  ", false);
 	if(player.cumQ() >= 500) {
 		MainScreen.text("The rat-girl has gained a nice ", false);
 		if(player.cumQ() < 1000) MainScreen.text("spooge-paunch from all the cum.", false);
@@ -372,7 +373,7 @@ private cinnabarHuger():void {
 	MainScreen.text("Cinnabar goes limp, but speared as she is, her near-unconscious body just hangs on you like a sock for your cock.  You shift position, and gently slide her off, shivering from how tightly her interior grips you as she's peeled off.\n\n", false);
 	
 	MainScreen.text("At last, your " + player.cockHead(x) + " pops from her pussy, showing just how completely you've worked over her body.  Her hips are stretched damn near a foot apart, and you can see deep enough inside her ", false);
-	if(player.lowerBody.cockSpot.list[x].cockLength >= 60) MainScreen.text("that it should be sticking up past her head, yet somehow isn't.", false);
+	if(player.lowerBody.cockSpot.get(x).cockLength >= 60) MainScreen.text("that it should be sticking up past her head, yet somehow isn't.", false);
 	else MainScreen.text("to know that she must be some kind of magical to take a fucking like that without damage.", false);
 	MainScreen.text("  Starting from her abused cervix, Cinnabar's pussy slowly begins to change, narrowing until it closes off your view of her womb.  The whole canal draws closed in one long motion that squeezes fuck-juices all over the bed, and then you hear her hips pop back into place.\n\n", false);
 	
@@ -382,7 +383,7 @@ private cinnabarHuger():void {
 	if(player.cumQ() >= 1000) MainScreen.text(", the sloshing in her belly still quite audible", false);
 	MainScreen.text(".", false);
 	player.orgasm();
-	dynStats("sen", -4);
+	player.stats.sens += -4;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -393,8 +394,8 @@ private cinnabarHuge():void {
 
 	MainScreen.text("", true);
 	spriteSelect(91);
-	MainScreen.text("You're almost there, and though you can feel the burgeoning warmth growing underneath your " + cockDescript(x) + ", you're determined to push the whole way inside her before you blow.  Cinnabar crams her muzzle through a particularly large mirror and locks onto your lips, ramming her tongue deeper into your throat, pushing harder with each inch of tightly-packed cock you shove inside her.  At last you bottom out, your " + player.cockHead(x) + " bumps the tight ring of her cervix while her tail pulls tight about your ", false);
-	if(player.lowerBody.balls > 0) MainScreen.text(ballsDescriptLight(), false);
+	MainScreen.text("You're almost there, and though you can feel the burgeoning warmth growing underneath your " + CockDescriptor.describeCock(player, x) + ", you're determined to push the whole way inside her before you blow.  Cinnabar crams her muzzle through a particularly large mirror and locks onto your lips, ramming her tongue deeper into your throat, pushing harder with each inch of tightly-packed cock you shove inside her.  At last you bottom out, your " + player.cockHead(x) + " bumps the tight ring of her cervix while her tail pulls tight about your ", false);
+	if(player.lowerBody.balls > 0) MainScreen.text(BallsDescriptor.describeBalls(true, true, player), false);
 	else if(player.lowerBody.cockSpot.hasSheath()) MainScreen.text("sheath", false);
 	else MainScreen.text("base", false);
 	MainScreen.text(".\n\n", false);
@@ -402,14 +403,14 @@ private cinnabarHuge():void {
 	MainScreen.text("The kiss is broken abruptly, the suddenly invigorated rat-girl's lips pressing close to your ear as she murmurs, \"<i>Oh yes... feel how tight my poor, abused cunt is... so very tight, clutching you like a swimsuit two sizes too small... Mmm, I can feel you twitching; are you going to cum in this slut's womb?  You've fucked me so hard, gaped me and ruined me... will you finish me off?  Do it " + player.mf("stud","bitch") + ", fuck this horny slut's womb full, mark her as your bitch - no, your fucking property!</i>\"\n\n", false);
 	
 	MainScreen.text("Gods, she's so fucking perverse, and she's squeezing you so tight; fuck, even her tail is working you.  It twists around your ", false);
-	if(player.lowerBody.balls > 0) MainScreen.text(ballsDescriptLight(), false);
+	if(player.lowerBody.balls > 0) MainScreen.text(BallsDescriptor.describeBalls(true, true, player), false);
 	else if(player.lowerBody.cockSpot.hasSheath()) MainScreen.text("sheath", false);
 	else MainScreen.text("shaft", false);
-	MainScreen.text(" to prod at your " + assholeDescript() + ", sliding in to push your prostate, pressing on it hard enough to make you pump a jet of cum past the rat's relaxing cervix and into her womb.  You go into an orgasmic frenzy, utterly, completely dominating the size-queen with your massive, cum-bloated fuck-stick.  Her ass shakes and wobbles as you pull back roughly, dragging your cock through that over-tightened velvet cunt-sleeve, but before you can slip out, you push back in, fucking her hard enough to make a loud slap from your hips slamming into one another.\n\n", false);
+	MainScreen.text(" to prod at your " + ButtDescriptor.describeButthole(player) + ", sliding in to push your prostate, pressing on it hard enough to make you pump a jet of cum past the rat's relaxing cervix and into her womb.  You go into an orgasmic frenzy, utterly, completely dominating the size-queen with your massive, cum-bloated fuck-stick.  Her ass shakes and wobbles as you pull back roughly, dragging your cock through that over-tightened velvet cunt-sleeve, but before you can slip out, you push back in, fucking her hard enough to make a loud slap from your hips slamming into one another.\n\n", false);
 	
 	MainScreen.text("Her juices fall like rain, soaking the sheets, ", false);
 	if(player.lowerBody.balls > 0) MainScreen.text("your balls, ", false);
-	MainScreen.text("your " + player.legs() + ", and ", false);
+	MainScreen.text("your " + LowerBodyDescriptor.describeLegs(player) + ", and ", false);
 	if(!player.lowerBody.cockSpot.hasSheath()) MainScreen.text("the base of your twitching cock", false);
 	else MainScreen.text("your twitching cock-sheath", false);
 	MainScreen.text(".  You rub your hand over her belly, feeling your " + player.cockHead(x) + " through her distended, dick-dominated fur.  Each fiery, pumping load of cum boils underneath the rat's fur, bubbling between your fingers as it sloshes into her womb.  Cinnabar is thrashing, squeaking and crying, though it's quite clear her tears are tears of joy.  She gasps, \"<i>So big", false);
@@ -418,7 +419,7 @@ private cinnabarHuge():void {
 	
 	MainScreen.text("You don't hold back, and you fuck her raw, jerking yourself off through her stretched hide until your ", false);
 	if(player.lowerBody.balls == 0) MainScreen.text("prostate has been squeezed dry.", false);
-	else MainScreen.text(ballsDescriptLight() + " feel sore and empty, completely drained.", false);
+	else MainScreen.text(BallsDescriptor.describeBalls(true, true, player) + " feel sore and empty, completely drained.", false);
 	if(player.cumQ() > 500) {
 		MainScreen.text("  The rat-girl has gained a nice, ", false);
 		if(player.cumQ() < 1000) MainScreen.text("jiggling spooge-paunch from all the cum.", false);
@@ -433,7 +434,7 @@ private cinnabarHuge():void {
 	if(player.cumQ() > 500) MainScreen.text(", the sloshing in her belly still quite audible", false);
 	MainScreen.text(".", false);
 	player.orgasm();
-	dynStats("sen", -3);
+	player.stats.sens += -3;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -452,16 +453,16 @@ private cinnabarMultiCockPortalFuckFest():void {
 	let x:number = player.biggestCockIndex();
 	let y:number = player.biggestCockIndex2();
 	let z:number = player.biggestCockIndex3();
-	MainScreen.text("Cinnabar's hands fly through your " + player.armorName + ", diving through your undergarments to squeeze " + sMultiCockDesc() + ".  ", false);
-	if(player.lust >= 70) MainScreen.text("She groans when she feels the full, turgid masses in her fingers, shivering as her padded finger-tips become slippery with your dripping pre-cum.", false);
+	MainScreen.text("Cinnabar's hands fly through your " + player.inventory.armor.displayName + ", diving through your undergarments to squeeze " + CockDescriptor.describeMultiCockSimpleOne(player) + ".  ", false);
+	if(player.stats.lust >= 70) MainScreen.text("She groans when she feels the full, turgid masses in her fingers, shivering as her padded finger-tips become slippery with your dripping pre-cum.", false);
 	else MainScreen.text("She sighs blissfully when she feels the size and number of your half-hard members, squeezing them with gentle pressure until they start to expand, engulfing her hand.", false);
-	MainScreen.text("  Your " + player.legs() + " go wobbly from the delicate touches dancing through your " + multiCockDescriptLight() + ", making it hard to stand.  Cinnabar slides ", false);
+	MainScreen.text("  Your " + LowerBodyDescriptor.describeLegs(player) + " go wobbly from the delicate touches dancing through your " + CockDescriptor.describeMultiCockShort(player) + ", making it hard to stand.  Cinnabar slides ", false);
 	if(player.tallness >= 72) MainScreen.text("under your arm", false);
 	else MainScreen.text("up against you", false);
 	MainScreen.text(", supporting you while she asks, \"<i>Do we need to get inside and get these taken care of, big " + player.mf("boy","girl") + "?  Ohhh, that's just too bad.  I think I'll just play with you in the street until you're ready to pop, and then leave you like that until you go soft.  Then we can start over.</i>\"\n\n", false);
 	
 	MainScreen.text("Red, mirthful eyes watch your reaction, the cruel, toothy smile growing broader as she teases you.   You grunt and push back, pulling yourself up straight and inadvertently displaying the huge, many-pronged bulge", false);
-	if(player.lust >= 70) MainScreen.text(" you have", false);
+	if(player.stats.lust >= 70) MainScreen.text(" you have", false);
 	else MainScreen.text(" she's given you", false);
 	MainScreen.text(".  She's teasing you, but it's clear she's no dominatrix.  No, she wants you to take charge, and if you're going to get off, you'll need to.  You hook your hand in between her cleavage, feeling the tight, silky embrace of her fur and the gentle, pounding beat of her heart.  It beats faster as soon as you start tugging her, dragging her towards the wagons.  ", false);
 	if(flags[FlagEnum.CINNABAR_HOUSE_VISITED] == 0) MainScreen.text("She leans, guiding you towards her home even as she lets herself be led.", false);
@@ -472,39 +473,39 @@ private cinnabarMultiCockPortalFuckFest():void {
 	
 	MainScreen.text("The rodent's long tail hovers before the lock, shaking uncontrollably while you diddle her poor pussy.  She grinds her plump ass against your groin, shivering each time your bulges press her dampening dress into the pucker of her backdoor.  You laugh in her ear, pulling the puffy, wet lips of her sex wide and penetrating her with your middle finger while you tease her about her inability to even open a door.  A soft click breaks the tension, and before the rat can squirm loose, you push her through the entry, step in, and slam it shut behind you.\n\n", false);
 	
-	MainScreen.text("Cinnabar has already started struggling out of her crimson mini-dress, but as soon as the wet patch hits her nose you see her entire demeanor change.  The material pulls tight to her nose, vacuumed by sudden inhalations.  The rat leans back against the wall, one hand diving to her muff while she grabs her dress and smears it over her face.  Her lewdness triggers a further hardening in your groin, reminding you that you're still crammed inside your " + player.armorName + ".  You take it off as quickly as you can and toss it to the side.\n\n", false);
+	MainScreen.text("Cinnabar has already started struggling out of her crimson mini-dress, but as soon as the wet patch hits her nose you see her entire demeanor change.  The material pulls tight to her nose, vacuumed by sudden inhalations.  The rat leans back against the wall, one hand diving to her muff while she grabs her dress and smears it over her face.  Her lewdness triggers a further hardening in your groin, reminding you that you're still crammed inside your " + player.inventory.armor.displayName + ".  You take it off as quickly as you can and toss it to the side.\n\n", false);
 	
 	MainScreen.text("Loud, horny snorts and squelching noises radiate from Cinnabar, and you reach over to yank her soaked dress from her head.  It slides off with ease, leaving strands of girl-cum to hang over the intervening distance for a few seconds before they collapse on her exposed fur.  She looks up at you, mouth gaping, panting with lust as she asks, \"<i>Can slut have more pussy smell?  Slut is so horny and her holes need plugged with cock for her little fuck-crazy mind to work.</i>\"\n\n", false);
 	
-	MainScreen.text("You slap her face with your " + cockDescript(x) + ", smearing her pussy-juice across her cheek and mixing a bit of your pre-cum into it.  She groans and jumps onto her bed, but before you can close the distance she asks, \"<i>Can slut show " + player.mf("master","mistress") + " her tricks?  She has so many sexy tricks to help " + player.mf("master","mistress") + " fuck her needy, achy fuck-holes.</i>\"\n\n", false);
+	MainScreen.text("You slap her face with your " + CockDescriptor.describeCock(player, x) + ", smearing her pussy-juice across her cheek and mixing a bit of your pre-cum into it.  She groans and jumps onto her bed, but before you can close the distance she asks, \"<i>Can slut show " + player.mf("master","mistress") + " her tricks?  She has so many sexy tricks to help " + player.mf("master","mistress") + " fuck her needy, achy fuck-holes.</i>\"\n\n", false);
 	
 	MainScreen.text("She bounces her ample tits in her hands, pink tongue darting over supple lips.  Your eyes lock onto her chest, watching in awe as the rodent's largish orbs start to jiggle more and more with every bounce.  They heave and swell, turning her modest cleavage into a massive canyon, the bulging mammaries oozing over her too-small arms to drag her torso up on top of them.  It almost looks like she's lying down on a pair of soft bean-bag chairs.  Her ass actually hangs up in the air, wiggling to and fro to smear the mirrors lining the walls around the bed with fresh pussy-juice.\n\n", false);
 	
-	MainScreen.text("\"<i>Does " + player.mf("master","mistress") + " like slut's first trick?  Ooooh, yes " + player.mf("he","she") + " does! Look at those behemoths twitching!  Mmmm, I know you'll love this slut's next trick, " + player.mf("master","mistress") + ",</i>\" she says, pointing towards a few dozen mirrors on the far wall.  You drag your tit-mesmerized eyes from her heaving breasts and follow her finger to the reflective circles.  They flicker once, and suddenly images and shapes replace the reflections, showing the slutty, sex-obsessed rat from a myriad of directions.  There's a huge concentration of portals at waist height, and you realize that they're all positioned for you to thread your " + multiCockDescriptLight() + " through.\n\n", false);
+	MainScreen.text("\"<i>Does " + player.mf("master","mistress") + " like slut's first trick?  Ooooh, yes " + player.mf("he","she") + " does! Look at those behemoths twitching!  Mmmm, I know you'll love this slut's next trick, " + player.mf("master","mistress") + ",</i>\" she says, pointing towards a few dozen mirrors on the far wall.  You drag your tit-mesmerized eyes from her heaving breasts and follow her finger to the reflective circles.  They flicker once, and suddenly images and shapes replace the reflections, showing the slutty, sex-obsessed rat from a myriad of directions.  There's a huge concentration of portals at waist height, and you realize that they're all positioned for you to thread your " + CockDescriptor.describeMultiCockShort(player) + " through.\n\n", false);
 	
 	MainScreen.text("Cinnabar's puffy, drippy lips are pressed tight against the central aperture, bulging through just enough to drool girl-cum down the frame to the floor.  Just above are her puckered asshole and juice-matted ass-cheeks, practically winking at you.  Through another, you can see her panting, drooling tongue and lips.  Finally, all the other crotch-high mirrors are all arranged to point towards the skank's heaving, unnaturally-large fuck-bags.  Even as you watch, her spittle drops onto their curvy, jiggling surface, runnels of spit rolling towards the cushion while the rat works herself into a frenzy of need.\n\n", false);
 	
 	MainScreen.text("\"<i>D-does " + player.mf("master","mistress") + " like?  Ohhhh, fuck this slut " + player.mf("master","mistress") + "... shit, come fuck me!  That fucking breast enlargement spell makes my cunt ache and drool for a big, hard cock.  Plug me " + player.mf("stud","baby") + ", you can fill me so good!  Do it!  FUCK ME NOW!</i>\" she screams, rocking and grinding into the portals, her tongue thrashing wildly while her lips arch into a needy 'o'.\n\n", false);
 	
-	MainScreen.text("Your " + hipDescript() + " rock forwards of their own volition.  There's no way your " + multiCockDescriptLight() + " can resist such a lewd, needy specimen, or the chance to fuck her in so many different ways simultaneously.  First, your " + cockDescript(x) + " hits her swollen pussy, and as you batter your way inside the slippery entrance, her body rewards you with a gush of girl-cum that soaks your manhood and drips over your " + cockDescript(y) + ".  A split-second later that second member is pressing at her anus, forcing through the clenched star in a violent, animalistic thrust.\n\n", false);
+	MainScreen.text("Your " + LowerBodyDescriptor.describeHips(player) + " rock forwards of their own volition.  There's no way your " + CockDescriptor.describeMultiCockShort(player) + " can resist such a lewd, needy specimen, or the chance to fuck her in so many different ways simultaneously.  First, your " + CockDescriptor.describeCock(player, x) + " hits her swollen pussy, and as you batter your way inside the slippery entrance, her body rewards you with a gush of girl-cum that soaks your manhood and drips over your " + CockDescriptor.describeCock(player, y) + ".  A split-second later that second member is pressing at her anus, forcing through the clenched star in a violent, animalistic thrust.\n\n", false);
 	
-	MainScreen.text("Cinnabar moans, utterly and completely delighted, but you muffle those moans by spearing her throat on your " + cockDescript(z) + ", filling her oral orifice completely.  You reach through a pair of portals at arm height to squeeze her spread ass-cheeks, holding tight while you push forwards to completely bury your three lucky members in furry fuck-sleeves.", false);
+	MainScreen.text("Cinnabar moans, utterly and completely delighted, but you muffle those moans by spearing her throat on your " + CockDescriptor.describeCock(player, z) + ", filling her oral orifice completely.  You reach through a pair of portals at arm height to squeeze her spread ass-cheeks, holding tight while you push forwards to completely bury your three lucky members in furry fuck-sleeves.", false);
 	if(player.lowerBody.cockSpot.count() == 4) MainScreen.text("  The extra dick dives into the pillowy mounds, smearing a streamer of pre-cum over the tit's surface before it slides into that warm, welcoming cleavage.", false);
 	else if(player.lowerBody.cockSpot.count() > 4) MainScreen.text("  The extra dicks dive into the pillowy mounds, smearing streamers of pre-cum all over the tits' surfaces before they slide home into that warm, welcoming cleavage.", false);
 	MainScreen.text("\n\n", false);
 	
-	MainScreen.text("The sensation is absolutely divine, but primal need takes over.  You begin to rock your " +  hipDescript() + " in and out, triple-penetrating the whore", false);
+	MainScreen.text("The sensation is absolutely divine, but primal need takes over.  You begin to rock your " +  LowerBodyDescriptor.describeHips(player) + " in and out, triple-penetrating the whore", false);
 	if(player.lowerBody.cockSpot.count() >= 4) MainScreen.text(" while you tit-fuck her swollen breasts", false);
-	MainScreen.text(".  Slippery-soft warmth wreathes your " + cockDescript(x) + ", the plush black love-tunnel contracting slightly to happily squeeze you every few seconds.  The darker, sinfully tight star of Cinnabar's anus glazes with your pre-cum, her ass-cheeks wobbling perfectly in your hands with each rhythmic penetration.", false);
+	MainScreen.text(".  Slippery-soft warmth wreathes your " + CockDescriptor.describeCock(player, x) + ", the plush black love-tunnel contracting slightly to happily squeeze you every few seconds.  The darker, sinfully tight star of Cinnabar's anus glazes with your pre-cum, her ass-cheeks wobbling perfectly in your hands with each rhythmic penetration.", false);
 	if(player.lowerBody.cockSpot.count() >= 4) {
 		MainScreen.text("  Meanwhile, the soft, downy fur on the rat's chest is starting to mat against her skin, coated with the slick leavings from your " , false);
 		if(player.lowerBody.cockSpot.count() == 4) MainScreen.text("extra dick", false);
 		else MainScreen.text("remaining dicks", false);
 		MainScreen.text(".", false);
 	}
-	MainScreen.text("  The " + cockDescript(z) + " in her mouth feels so good it nearly makes you jump, the long pink tongue licking around it while a wet muzzle buries itself in your crotch.  Gods, it's too much!\n\n", false);
+	MainScreen.text("  The " + CockDescriptor.describeCock(player, z) + " in her mouth feels so good it nearly makes you jump, the long pink tongue licking around it while a wet muzzle buries itself in your crotch.  Gods, it's too much!\n\n", false);
 	
-	MainScreen.text("You feel yourself cumming, that tell-tale warmth in your gut mixing with a few involuntary muscle-contractions that bounce your " + multiCockDescriptLight() + " inside Cinnabar.  You turn your head to watch her, " + num2Text(player.lowerBody.cockSpot.count()) + " penises pumping from holes in the wall to ravage her body completely and totally, her eyes rolled back in complete bliss.   Heat blooms in your " + multiCockDescriptLight() + ", the pumping gouts of seed deep into all of the slut's holes simultaneously.  She screams into your " + cockDescript(z) + ", vibrations making your orgasm that much stronger.  It drags on and on, the spit-roasted rat shaking while she's completely taken in every way", false);
+	MainScreen.text("You feel yourself cumming, that tell-tale warmth in your gut mixing with a few involuntary muscle-contractions that bounce your " + CockDescriptor.describeMultiCockShort(player) + " inside Cinnabar.  You turn your head to watch her, " + num2Text(player.lowerBody.cockSpot.count()) + " penises pumping from holes in the wall to ravage her body completely and totally, her eyes rolled back in complete bliss.   Heat blooms in your " + CockDescriptor.describeMultiCockShort(player) + ", the pumping gouts of seed deep into all of the slut's holes simultaneously.  She screams into your " + CockDescriptor.describeCock(player, z) + ", vibrations making your orgasm that much stronger.  It drags on and on, the spit-roasted rat shaking while she's completely taken in every way", false);
 	if(player.lowerBody.cockSpot.count() >= 4) MainScreen.text(", her tits shining white from all the spooge you dump on to them", false);
 	MainScreen.text(".\n\n", false);
 	
@@ -521,17 +522,17 @@ private cinnabarMultiCockPortalFuckFest():void {
 		MainScreen.text("\n\n", false);
 	}
 	
-	MainScreen.text("The slut-rat gargles in irritation around your sensitive, cummed-out cock, clearly displeased that you're still inside her.  You step back from the wall, your " + player.legs() + " giving out from the sensory overload of unsheathing your " + multiCockDescriptLight() + " simultaneously to drop you flat on your " + assDescript() + ".  At the same time, Cinnabar starts coughing and groaning, clearly exhausted from the one-" + player.mf("man","woman") + " gangbang.  You understand how that feels; just touching " + sMultiCockDesc() + " makes your head swoon.\n\n", false);
+	MainScreen.text("The slut-rat gargles in irritation around your sensitive, cummed-out cock, clearly displeased that you're still inside her.  You step back from the wall, your " + LowerBodyDescriptor.describeLegs(player) + " giving out from the sensory overload of unsheathing your " + CockDescriptor.describeMultiCockShort(player) + " simultaneously to drop you flat on your " + ButtDescriptor.describeButt(player) + ".  At the same time, Cinnabar starts coughing and groaning, clearly exhausted from the one-" + player.mf("man","woman") + " gangbang.  You understand how that feels; just touching " + CockDescriptor.describeMultiCockSimpleOne(player) + " makes your head swoon.\n\n", false);
 	
-	MainScreen.text("An incessant licking reaches your ears, getting your attention.  You stand up, careful about your " + multiCockDescriptLight() + " while you look towards the bed.  The portals are closed down, and Cinnabar is bent double, folded in half like a contortionist", false);
+	MainScreen.text("An incessant licking reaches your ears, getting your attention.  You stand up, careful about your " + CockDescriptor.describeMultiCockShort(player) + " while you look towards the bed.  The portals are closed down, and Cinnabar is bent double, folded in half like a contortionist", false);
 	if(player.cumQ() >= 1000) MainScreen.text(" while her huge, cum-filled belly bulges out to the sides", false);
 	MainScreen.text(".  Her long, pink tongue is lashing over her swollen, black cunt-lips, hungrily cleaning the dirty twat and even licking at her asshole.  It's almost enough to get you hard again, but she eventually breaks from her auto-cunnilingus long enough to glance your way.\n\n", false);
 	
-	MainScreen.text("\"<i>You're still here?  Go on, I've got a lot of cleaning up to do before my next customer!</i>\" grunts Cinnabar before returning to her task.  You run your hand through your " + hairDescript() + ", exasperated, but quite satisfied.  You'll definitely have to visit her again sometime.\n\n", false);
+	MainScreen.text("\"<i>You're still here?  Go on, I've got a lot of cleaning up to do before my next customer!</i>\" grunts Cinnabar before returning to her task.  You run your hand through your " + HeadDescriptor.describeHair(player) + ", exasperated, but quite satisfied.  You'll definitely have to visit her again sometime.\n\n", false);
 	
 	MainScreen.text("While you're getting dressed, the repeated slurps and moans pause enough for Cinnabar to say, \"<i>I didn't mean to be rude... those dicks... those wonderful, plump cocks... they're a gift.  Come back soon " + player.mf("stud","baby") + ", your cream filling tastes gooood.</i>\"  She goes back to licking herself, and you can't help but have a huge grin as you walk out.", false);
 	player.orgasm();
-	dynStats("sen", -6);
+	player.stats.sens += -6;
 	doNext(camp.returnToCampUseOneHour);
 }
 }

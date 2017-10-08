@@ -53,8 +53,8 @@ Every encounter raises corruption by 5, except the last one that raises corrupti
 			pregnancy.pregnancyAdvance();
 			trace("\nKelly time change: Time is " + model.time.hours + ", incubation: " + pregnancy.incubation + ", event: " + pregnancy.event);
 			if (model.time.hours > 23) {
-				if (flags[FlagEnum.KELLY_REWARD_COOLDOWN] > 0 && model.time.days % 3 == 0) flags[FlagEnum.KELLY_REWARD_COOLDOWN] = 0;
-				if (flags[FlagEnum.KELT_BREAK_LEVEL] >= 4) flags[FlagEnum.KELLY_DISOBEYING_COUNTER]++;
+				if (Flags.list[FlagEnum.KELLY_REWARD_COOLDOWN] > 0 && model.time.days % 3 == 0) Flags.list[FlagEnum.KELLY_REWARD_COOLDOWN] = 0;
+				if (Flags.list[FlagEnum.KELT_BREAK_LEVEL] >= 4) Flags.list[FlagEnum.KELLY_DISOBEYING_COUNTER]++;
 			}
 			if (pregnancy.isPregnant && pregnancy.incubation == 0) {
 				kellyPopsOutARunt();
@@ -70,7 +70,7 @@ Every encounter raises corruption by 5, except the last one that raises corrupti
 		//End of Interface Implementation
 		
 private hasPinkEgg():boolean {
-	return (player.hasItem(consumables.PINKEGG) || player.hasItem(consumables.L_PNKEG));
+	return (player.inventory.items.has(consumables.PINKEGG) || player.inventory.items.has(consumables.L_PNKEG));
 }
 
 //Encounters
@@ -78,11 +78,11 @@ private hasPinkEgg():boolean {
 public breakingKeltOptions():void {
 	MainScreen.clearText();
 	spriteSelect(35);
-	if((!player.lowerBody.cockSpot.hasCock() && flags[FlagEnum.KELT_BREAK_LEVEL] == 0) ||flags[FlagEnum.NEVER_RESIST_KELT] == 1 || player.statusAffects.get("Kelt").value2 >= 40 || player.findStatusAffect(StatusAffects.Kelt) < 0) {
+	if((!player.lowerBody.cockSpot.hasCock() && Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) ||Flags.list[FlagEnum.NEVER_RESIST_KELT] == 1 || player.statusAffects.get("Kelt").value2 >= 40 || !player.statusAffects.has("Kelt")) {
 		farm.keltScene.keltEncounter();
 		return;
 	}
-	if(flags[FlagEnum.KELT_BREAK_LEVEL] > 0) {
+	if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] > 0) {
 		if(!player.lowerBody.cockSpot.hasCock()) {
 			MainScreen.text("You can't keep trying to break Kelt without the proper tool to do it with.");
 			menu();
@@ -103,10 +103,10 @@ public breakingKeltOptions():void {
 private resistKeltsBSBreakHimIntro():void {
 	MainScreen.clearText();
 	spriteSelect(35);
-	if(flags[FlagEnum.KELT_BREAK_LEVEL] == 0) {
+	if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) {
 		MainScreen.text("You are more and more annoyed by Kelt's rudeness and dick-waving.  The centaur may be imposing at first and his archery skills are impressive, but you're sure that behind his false display of virility, there's nothing an experienced champion like you can't deal with.  With your superior strength and speed, you could probably take him by surprise and teach him a good lesson.  Of course, you won't ever be able to learn archery from him after that.");
 		//[if (PC doesn't have items)
-		if(!(player.hasItem(consumables.SUCMILK,15) || (player.hasItem(consumables.SUCMILK,10) && hasPinkEgg()) || (player.hasItem(consumables.P_S_MLK,10) && hasPinkEgg()) || player.hasItem(consumables.P_S_MLK,15))) {
+		if(!(player.inventory.items.has(consumables.SUCMILK,15) || (player.inventory.items.has(consumables.SUCMILK,10) && hasPinkEgg()) || (player.inventory.items.has(consumables.P_S_MLK,10) && hasPinkEgg()) || player.inventory.items.has(consumables.P_S_MLK,15))) {
 			MainScreen.text(" Unfortunately, you don't have anything that could be useful to tame his arrogant maleness.  You want items that would make his disgracious horsecock and balls shrink.  A nice set of breasts on his human chest would be fine, too.  You know you're going to need A LOT of such items - or very potent ones.");
 			menu();
 			MainScreen.addButton(0,"Next",farm.farmExploreEncounter);
@@ -120,11 +120,11 @@ private resistKeltsBSBreakHimIntro():void {
 			MainScreen.addButton(2,"Never",neverBreakKeltIntoKelly);
 		}
 	}
-	else if(flags[FlagEnum.KELT_BREAK_LEVEL] == 1) {
+	else if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 1) {
 		MainScreen.text("You set out to go get Kelt, eager to teach this slut another lesson of your own.  You explore the farm for a bit before spotting the centaur behind the barn.  However, Kelt seems to have changed since last time: he somehow changed back his gender.  That rebellious little bitch!  Although he doesn't look as aggressively masculine as before, and his chest still bears some man-tits, he has gotten back his stern, rude face and you can clearly see a fat prick hanging from his backside.  It doesn't seem to be as big as it was before, though.  He must have grown it in a hurry.");
 		//back to farm]
 		//[if you don't have the items:
-		if(!(player.hasItem(consumables.SUCMILK,10) || player.hasItem(consumables.P_S_MLK,10) || (player.hasItem(consumables.SUCMILK,5) && hasPinkEgg()) || (player.hasItem(consumables.P_S_MLK,5) && hasPinkEgg()))) {
+		if(!(player.inventory.items.has(consumables.SUCMILK,10) || player.inventory.items.has(consumables.P_S_MLK,10) || (player.inventory.items.has(consumables.SUCMILK,5) && hasPinkEgg()) || (player.inventory.items.has(consumables.P_S_MLK,5) && hasPinkEgg()))) {
 			MainScreen.text("\n\nYou'd gladly teach him another lesson so he can keep his true gender and learn his place, but you don't have anything to turn him female again.  You should fetch appropriate items to begin the 'lesson'.</i>\"");
 			//back to farm]
 			menu();
@@ -135,10 +135,10 @@ private resistKeltsBSBreakHimIntro():void {
 		MainScreen.addButton(0,"Next",secondKeltBreaking);
 	}
 	//Third encounter
-	else if(flags[FlagEnum.KELT_BREAK_LEVEL] == 2) {
+	else if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 2) {
 		MainScreen.text("You saunter up to the back of the farm, eager to meet the centaur-slut for another 'lesson'.  The creature is quite a weird sight when you spot her: instead of the gorgeous woman whose face you had splattered with spooge, what you see is an androgynous hybrid sporting a tiny, ridiculous microdick and a little pair of tits that can't fill more than a B-cup bra.  Even the face is ambiguous about its gender.  Although Kelly is now strong in the centaur's body, Kelt seems to have regained a little control.  You have to fix this.");
 		//[if (less than 5 succubi milk)
-		if(!(player.hasItem(consumables.SUCMILK,5) || player.hasItem(consumables.P_S_MLK,5)))
+		if(!(player.inventory.items.has(consumables.SUCMILK,5) || player.inventory.items.has(consumables.P_S_MLK,5)))
 		{
 			MainScreen.text("You must acquire enough Succubi Milk to remove any male remnants off Kelly's body before confronting 'him' again.");
 			menu();
@@ -151,7 +151,7 @@ private resistKeltsBSBreakHimIntro():void {
 		startCombat(new Kelt());
 		spriteSelect(35);
 	}
-	else if(flags[FlagEnum.KELT_BREAK_LEVEL] == 3) {
+	else if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 3) {
 		spriteSelect(-1);
 		finalKeltBreaking();
 	}
@@ -168,7 +168,7 @@ private resistKeltsBSBreakHimIntro():void {
 private neverBreakKeltIntoKelly():void {
 	MainScreen.clearText();
 	spriteSelect(35);
-	flags[FlagEnum.NEVER_RESIST_KELT] = 1;
+	Flags.list[FlagEnum.NEVER_RESIST_KELT] = 1;
 	MainScreen.text("You decide that trying to break Kelt is something you'd never want to do.  Besides, he's teaching you a useful skill, and there's just something charming about that bastard...");
 	menu();
 	MainScreen.addButton(0,"Go To Kelt",farm.keltScene.keltEncounter);
@@ -214,7 +214,7 @@ private breakKeltGo():void {
 	
 	//Skip ()s if PC was naked before engaging in the mindbreaking quest
 	MainScreen.text("\n\nYou keep stirring the ivory fluid, ");
-	if(!player.isTaur()) MainScreen.text("pulling [eachCock] out of your [armor] and stroking yourself with your free hand");
+	if(!player.lowerBody.isTaur()) MainScreen.text("pulling [eachCock] out of your [armor] and stroking yourself with your free hand");
 	else {
 		MainScreen.text("slapping your hardening dick");
 		if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
@@ -224,9 +224,9 @@ private breakKeltGo():void {
 	
 	MainScreen.text("\n\n\"<i>You can't just tie me up and make me swallow a bunch of shit.  That's just... not the way it works - not here.  I'm serious, don't do it.  You will regret it.</i>\"");
 	
-	if(player.isTaur()) MainScreen.text("\n\nAs you masturbate the way only a half-horse can,");
+	if(player.lowerBody.isTaur()) MainScreen.text("\n\nAs you masturbate the way only a half-horse can,");
 	else MainScreen.text("\n\nAs you touch yourself,");
-	MainScreen.text(" small droplets of pre-cum begin dripping out of your " + multiCockDescriptLight() + " before being swallowed by the potent, feminine mixture down below.  The white spots are drowning in that milky goo, but you're confident that Kelt will be able to recognize the taste.");
+	MainScreen.text(" small droplets of pre-cum begin dripping out of your " + CockDescriptor.describeMultiCockShort(player) + " before being swallowed by the potent, feminine mixture down below.  The white spots are drowning in that milky goo, but you're confident that Kelt will be able to recognize the taste.");
 	
 	MainScreen.text("\n\n\"<i>Hey dipshit - I have a job here, and if you do this, you're going to fuck shit up for everybody.  Not to mention, I'm gonna come back and kick your ass once I get loose!  Besides, I've got a few sluts that need tending to.</i>\"");
 	
@@ -250,20 +250,20 @@ private breakKeltGo():void {
 	MainScreen.text("\n\n\"<i>Shh... it's for your own good.</i>\"");
 	
 	MainScreen.text("\n\nWith a disarming smirk, you ");
-	if(!player.isTaur()) MainScreen.text("fully whip out your [cock biggest] and shove it between her busty tits and slowly start grinding");
+	if(!player.lowerBody.isTaur()) MainScreen.text("fully whip out your [cock biggest] and shove it between her busty tits and slowly start grinding");
 	else MainScreen.text("step over her, shoving your [cock biggest] between her busty tits, grinding it through that smooth valley");
 	MainScreen.text(".");
 	
 	MainScreen.text("\n\n\"<i>Get... get your junk away from me!</i>\"  Her voice sounds so girlish and cute now, and you can't help but laugh at her protests.  You stare at her incredulously.  \"<i>You say that as if you weren't going to suck it right now.</i>\"");
 	
 	MainScreen.text("\n\nThe slut breaks eye-contact uncomfortably, before looking ");
-	if(player.isTaur()) MainScreen.text("back ");
+	if(player.lowerBody.isTaur()) MainScreen.text("back ");
 	MainScreen.text("down ");
-	if(player.isTaur()) MainScreen.text("under you ");
+	if(player.lowerBody.isTaur()) MainScreen.text("under you ");
 	MainScreen.text("at your [cock biggest], still pressing against her heavy chest. She looks back up, fear and shame in her eyes, then back at your [cock biggest].  She then sticks her tongue out, understanding she has no choice but to endure this, and whimpers as she gets closer to your tip, giving it only a very quick lick.  Some time passes before she gives it another timid one.  Then another one, this time longer than the last.  Then a fourth one, bolder.  She goes little by little, but you can tell she's gradually getting accustomed to your own dick-scent.  You soon lose count of how often she licks your [cock biggest], and she never stops, as if she were somehow drawn to it - maybe that succubi milk was just what she needed.");
 	
 	MainScreen.text("\n\nA few minutes later, she wraps her tongue around your length like a proper cocksucker, never daring to make eye-contact as she blows you.  Her tongue was tickling at first, but now you're starting to enjoy her tongue-fondling on your dick.  You encourage her, telling her to use her whole mouth.  She nods and sobs before holding her breath and trying to deepthroat you.  The first attempt fails pathetically: not used to dick-flesh knocking at the back of her throat, she drools helplessly as she spits back your meaty rod.  Annoyed at her clumsiness, you ");
-	if(player.isTaur()) MainScreen.text("dance your hindlegs about in order to ");
+	if(player.lowerBody.isTaur()) MainScreen.text("dance your hindlegs about in order to ");
 	MainScreen.text("cockslap her.");
 	
 	MainScreen.text("\n\n\"<i>You bitch!  That's not how it's done!  How can you be of any use as a cocksucker if you can't even suck cock right?</i>\"");
@@ -273,7 +273,7 @@ private breakKeltGo():void {
 	MainScreen.text("\n\n\"<i>No.  Since you can't suck cock to save your life, you are unfit to receive my cum.  Use these instead,</i>\" you suggest, pointing at her luxurious chest.  \"<i>You left me unsatisfied with your failed deepthroat, and the gods know I could use a proper tit-job.</i>\"");
 	
 	MainScreen.text("\n\nThe centauress nods weakly and proceeds to wrap her bountiful flesh orbs around your [cock biggest].  She is as awkward as she was with her mouth, but you don't actually need her to fuck her tits.  Groaning in frustrated lust, you ");
-	if(player.isTaur()) MainScreen.text("step over her, moving your hips back and forth to thrust through her more-than-ample cleavage.");
+	if(player.lowerBody.isTaur()) MainScreen.text("step over her, moving your hips back and forth to thrust through her more-than-ample cleavage.");
 	else MainScreen.text("grab her nipples and begin to thrust your pecker against her boob valley.");
 	MainScreen.text("  She occasionally gives your tip a wet kiss, trying to make up for her mistakes.  You ignore her and thrust harder, her round melons squeezing your shaft rhythmically.");
 	
@@ -284,25 +284,25 @@ private breakKeltGo():void {
 	MainScreen.text("\n\nYou walk away before she can uncover her eyes; you don't have any business here now that you've used her.");
 	//consume items for 1x scene.
 	if(hasPinkEgg()) {
-		if(player.hasItem(consumables.PINKEGG)) player.consumeItem(consumables.PINKEGG);
-		else player.consumeItem(consumables.L_PNKEG);
-		if (player.hasItem(consumables.SUCMILK,10))
-			player.consumeItem(consumables.SUCMILK,10);
+		if(player.inventory.items.has(consumables.PINKEGG)) player.inventory.items.consumeItem(consumables.PINKEGG);
+		else player.inventory.items.consumeItem(consumables.L_PNKEG);
+		if (player.inventory.items.has(consumables.SUCMILK,10))
+			player.inventory.items.consumeItem(consumables.SUCMILK,10);
 		else 
-			player.consumeItem(consumables.P_S_MLK,10);
+			player.inventory.items.consumeItem(consumables.P_S_MLK,10);
 
 	}
 	else
 	{
-		if (player.hasItem(consumables.SUCMILK,15))
-			player.consumeItem(consumables.SUCMILK,15);
+		if (player.inventory.items.has(consumables.SUCMILK,15))
+			player.inventory.items.consumeItem(consumables.SUCMILK,15);
 		else 
-			player.consumeItem(consumables.P_S_MLK,15);
+			player.inventory.items.consumeItem(consumables.P_S_MLK,15);
 	}
 		
 	player.orgasm();
-	dynStats("cor", 5);
-	flags[FlagEnum.KELT_BREAK_LEVEL] = 1;
+	player.stats.cor += 5;
+	Flags.list[FlagEnum.KELT_BREAK_LEVEL] = 1;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -344,7 +344,7 @@ internal function defeatKellyNDBREAKHIM():void {
 	MainScreen.text("\n\nLike hell! You aren't going to let him slip away like that.  ");
 	//NO NEW PG.  FORK FOR CENTAURS AND NON}
 	//NON CENTAURS}
-	if(!player.isTaur()) {
+	if(!player.lowerBody.isTaur()) {
 		MainScreen.text("Of course, your speed is no match to that of a four-legged warrior, but you don't actually need to outrun him.  You rush to Kelt's hindquarters and lunge at him, managing to get a good grip on his flanks.  You wriggle a bit in order to adopt a more comfortable position but a few seconds later you're on his back, effectively mounting him.");
 		MainScreen.text("\n\nNeedless to say, Kelt doesn't like this at all.  He arches his back, rears back, and fidgets repeatedly in desperate attempts to get you off him, but you latch on firmly.  Seeing that he won't get rid of you easily, he becomes enraged.  He snorts, whinnies and shakes his back like a horse gone crazy.  You do your best to cling to his neck and never let go of him, determined to tame the beast.  You let him exhaust himself, riding him out as his fits of rage become less and less violent.  At last he drops on his legs, yielding to you.");
 		
@@ -379,9 +379,9 @@ internal function defeatKellyNDBREAKHIM():void {
 	MainScreen.text("\n\n\"<i>Good.  Kelly it is, then.</i>\"");
 	
 	MainScreen.text("\n\nWith a smile, you grab her head and ");
-	if(player.isTaur()) MainScreen.text("push her underneath you towards");
+	if(player.lowerBody.isTaur()) MainScreen.text("push her underneath you towards");
 	else MainScreen.text("pull her close to");
-	MainScreen.text(" your erect " + multiCockDescriptLight() + ".");
+	MainScreen.text(" your erect " + CockDescriptor.describeMultiCockShort(player) + ".");
 	
 	MainScreen.text("\n\n\"<i>The first time I let you get accustomed to the taste, now you know how it's done.  Get to work, bitch.</i>\"");
 	
@@ -392,46 +392,46 @@ internal function defeatKellyNDBREAKHIM():void {
 	MainScreen.text("\n\nGroaning an encouragement, you pull her head closer and pin it against your groin, putting the cocksucker to the test.  Amazingly, she manages to keep your wang inside for a few seconds.  You close your eyes and moan, your whole body receiving rippling waves of pleasure from your deepthroated meat.  This heavenly moment doesn't last long, unfortunately; unable to take any more dick-flesh, the whore coughs again and withdraws from your length.  Your pulsating [cock biggest] suddenly feels cold, even as the centauress slavers on it.");
 	
 	MainScreen.text("\n\n\"<i>Better, but still not enough.</i>\"  You ");
-	if(!player.isTaur()) MainScreen.text("cock-");
+	if(!player.lowerBody.isTaur()) MainScreen.text("cock-");
 	MainScreen.text("slap the bitch for good measure, but you don't really mean it, as you are still feeling the last tingles of pleasure from her deepthroating.  Kelly mumbles a nervous apology before taking you again in her mouth, trying to compensate by giving the sweetest dick-licking she can.  Unable to take you whole, she focuses on your tip, kissing it and caressing it with her tongue.  You can tell she's somewhat enjoying it too: her whining seems to have stopped somewhat and she is a little more passionate in her tongue slurps.");
 	
 	MainScreen.text("\n\nHer ministrations have a certain effect on you, but you need more than a few tickles from a cocksucker apprentice.  You pull ");
-	if(player.isTaur()) MainScreen.text("your genitals and equine body back ");
+	if(player.lowerBody.isTaur()) MainScreen.text("your genitals and equine body back ");
 	MainScreen.text("out of her mouth and grope her tits; since she couldn't deepthroat you for more than a few seconds, you won't give her your cum this time either.  However, as your hands knead the girl's soft melons, you can feel her nipples are noticeably stiffening.  Amused, you toy with them for a moment, twisting and tweaking them until you can hear Kelly sigh.  The sorrow on her face is gradually replaced by an expression of repressed, violent lust.  She's more than ready for her boob-job.");
 	
 	MainScreen.text("\n\nA ");
-	if(player.isTaur()) MainScreen.text("quick step and ");
+	if(player.lowerBody.isTaur()) MainScreen.text("quick step and ");
 	MainScreen.text("heavy thrust");
-	if(player.isTaur()) MainScreen.text(" later");
+	if(player.lowerBody.isTaur()) MainScreen.text(" later");
 	MainScreen.text(", and your [cock biggest] is entrapped within Kelly's breast valley.  You grind against her chest, your tip repeatedly poking her mouth and forcing her to suck it.  However, the centauress does show a little more enthusiasm this time; she sometimes squeezes her tits on her own, and her lips are avidly clinging to your rod at every occasion they get.  You know the slut is starting to get off to it, even though she would never acknowledge it - for now.  This only makes you harder and hornier.");
 	
 	MainScreen.text("\n\nYou fuck her tits faster and faster until your [cock biggest] can't take any more boobflesh: it quivers on its own, the ultimate signal of your incoming climax.  Before you know it, you blast Kelly's face with your spooge.  A seemingly endless stream pours from your dong and paints the centaur-slut white, even moreso than before.  The few ropes that make it into her mouth are quickly swallowed down by the eager whore, and her tongue shamelessly slurps all the cum she can reach from her mouth.  She's getting addicted to your juices, wherever they come from.  A couple more days with this treatment and she'll turn into a complete cumslut, only craving your baby-batter.  This sure would be a nice change from the arrogant dick you used to see before, you think to yourself as you squeeze out the last drops of goo onto her face.");
 	
 	MainScreen.text("\n\nYou don't bother to speak anymore, just walking away as you pick up your [armor] and consider the future possibilities.  The bitch obviously enjoyed this 'lesson' more than she did last time.  Could it be that she's finally learning her true place?  Now all you need is another bunch of succubi milk, just in case the old Kelt within her stirs up in your absence...");
 	player.orgasm();
-	dynStats("cor", 5);
+	player.stats.cor += 5;
 	//consume items for 1x scene.
 	if(hasPinkEgg()) {
-		if(player.hasItem(consumables.PINKEGG)) player.consumeItem(consumables.PINKEGG);
-		else player.consumeItem(consumables.L_PNKEG);
-		if (player.hasItem(consumables.SUCMILK,5))
-			player.consumeItem(consumables.SUCMILK,5);
+		if(player.inventory.items.has(consumables.PINKEGG)) player.inventory.items.consumeItem(consumables.PINKEGG);
+		else player.inventory.items.consumeItem(consumables.L_PNKEG);
+		if (player.inventory.items.has(consumables.SUCMILK,5))
+			player.inventory.items.consumeItem(consumables.SUCMILK,5);
 		else 
-			player.consumeItem(consumables.P_S_MLK,5);
+			player.inventory.items.consumeItem(consumables.P_S_MLK,5);
 
 	}
 	else 
 	{
 
-		if (player.hasItem(consumables.SUCMILK,10))
-			player.consumeItem(consumables.SUCMILK,10);
+		if (player.inventory.items.has(consumables.SUCMILK,10))
+			player.inventory.items.consumeItem(consumables.SUCMILK,10);
 		else 
-			player.consumeItem(consumables.P_S_MLK,10);
+			player.inventory.items.consumeItem(consumables.P_S_MLK,10);
 	}
 
 	player.orgasm();
-	dynStats("cor", 5);
-	flags[FlagEnum.KELT_BREAK_LEVEL] = 2;
+	player.stats.cor += 5;
+	Flags.list[FlagEnum.KELT_BREAK_LEVEL] = 2;
 	cleanupAfterCombat();
 }
 
@@ -455,7 +455,7 @@ internal function breakingKeltNumeroThree():void {
 	MainScreen.text("\n\nYou look back at her and ask bluntly: \"<i>What's your name?</i>\"");
 	
 	MainScreen.text("\n\nShe remains silent.  She hasn't said a word since you spotted her, you remark.  But this time she's going to speak.  You pull her hair, slap her a few times - sometimes with your free hand");
-	if(!player.isTaur()) MainScreen.text(", sometimes with your [cock] -");
+	if(!player.lowerBody.isTaur()) MainScreen.text(", sometimes with your [cock] -");
 	MainScreen.text(" and yell: \"<i>What's your name?</i>\"");
 	
 	MainScreen.text("\n\nThe slut finally gives in after a few slaps and screams.");
@@ -475,7 +475,7 @@ internal function breakingKeltNumeroThree():void {
 	MainScreen.text("\n\nShe tries to grip your [cock biggest] with her thin hands but you've grown too impatient: you vigorously force it through her lips and begin to fuck her face ruthlessly.  She coughs, drools and tries to scream, but you don't let her have any say in the matter.  You pump away, treating her mouth like a warm and wet onahole.  Your pecker is soon coated with her saliva and twitching with lust, but you don't care.  Besides, the slut is rapidly adapting to your [cock biggest].  Her tongue fondles you carefully, and her lips squeeze you as tightly as they can.  You can definitely tell her recent dick sucking experience made her skillful as a fellatrix. She'll make a good cumslut, you idly think as you move her head up and down your length.");
 	
 	MainScreen.text("\n\nYou decide to test Kelly once more; with a mighty ");
-	if(player.isTaur()) MainScreen.text("push from behind");
+	if(player.lowerBody.isTaur()) MainScreen.text("push from behind");
 	else MainScreen.text("pull");
 	MainScreen.text(", you pin her head against your groin and shove your wang down her throat.  This time, the centauress doesn't seem to be hindered or about to choke.  She takes the entirety of your length and sucks you up like the good little whore she is.  Your entrapped cock is squeezed so tightly that you feel like it's about to explode; not willing to reach your climax so soon, you swiftly pull out of her mouth.");
 	
@@ -488,20 +488,20 @@ MainScreen.text("\n\nKelly remains quiet for a couple of seconds before slowly m
 	MainScreen.text("\n\nYou move [oneCock] toward her face as you speak.  The centaur girl nods silently before seizing a handful of your junk and slowly stroking it.  Her hands move along your length, rubbing and massaging all the sensitive points.  She tries to use her mouth too but you don't let her; instead, you have her point your meat toward the old keg you used before.  Kelly's eyes widen slightly as she understands what you have in mind, but she doesn't slow down the dick-stroking pace.  You close your eyes and enjoy the sensation of Kelly's delicate palm and fingers handling your dick-flesh with great care.");
 	
 	MainScreen.text("\n\nYou briskly reach ");
-	if(player.isTaur()) MainScreen.text("down, pushing her");
+	if(player.lowerBody.isTaur()) MainScreen.text("down, pushing her");
 	else MainScreen.text("forward to grab one of her tits and grope it");
 	MainScreen.text(" convulsively as you feel your lust rise.  ");
-	if(!player.isTaur()) MainScreen.text("Soon one breast isn't enough to contain your lust-driven energy and you reach for the other one with your free hand.  Your constant nipple-teasing has an effect on");
+	if(!player.lowerBody.isTaur()) MainScreen.text("Soon one breast isn't enough to contain your lust-driven energy and you reach for the other one with your free hand.  Your constant nipple-teasing has an effect on");
 	else MainScreen.text("Soon, you cannot contain your lust, and you begin to buck against her hands, whinnying with delight.  The rigid, pulsing dick-flesh in her mouth has an effect on");
-	MainScreen.text(" Kelly at last: you can hear her moan and sigh, and her hands move erratically on your " + multiCockDescriptLight() + ", sometimes violently yanking it as she loses control.  This brings all kinds of painful yet pleasurable tingles to your body, and only entices you to feel her up even more.");
+	MainScreen.text(" Kelly at last: you can hear her moan and sigh, and her hands move erratically on your " + CockDescriptor.describeMultiCockShort(player) + ", sometimes violently yanking it as she loses control.  This brings all kinds of painful yet pleasurable tingles to your body, and only entices you to feel her up even more.");
 	
 	MainScreen.text("\n\nA familiar warmth builds in your loins ");
 	if(player.lowerBody.balls > 0) MainScreen.text("and your [balls] churn ");
 	MainScreen.text("as you feel your climax coming.  ");
-	if(!player.isTaur()) MainScreen.text("You squeeze Kelly's boobs so harshly she screams in pain, and y");
+	if(!player.lowerBody.isTaur()) MainScreen.text("You squeeze Kelly's boobs so harshly she screams in pain, and y");
 	else MainScreen.text("Y");
 	MainScreen.text("ou release a loud groan yourself.  You cum hard, your quivering [cock biggest] spraying spooge in steady jets directly into the keg.  You maintain your grip on the centauress");
-	if(!player.isTaur()) MainScreen.text("' breasts");
+	if(!player.lowerBody.isTaur()) MainScreen.text("' breasts");
 	MainScreen.text(", heedless of her pain and only caring about your own orgasm.  You feel her soft hands squeezing your junk there and there in order to milk the last drop of cum and making sure none of it remains stuck in your urethra.  When you're done riding out your orgasm, you walk up to the keg and pour down the two bottles of Succubi Milk you have left.  The copious amount of baby-batter mixes with the alright-alabaster fluid to form a bubbling ivory mixture that you bring close to Kelly's lips.");
 	
 	MainScreen.text("\n\n\"<i>Drink.</i>\"");
@@ -511,14 +511,14 @@ MainScreen.text("\n\nKelly remains quiet for a couple of seconds before slowly m
 	MainScreen.text("\n\n\"<i>Ohhh...</i>\" Her breasts expand further, her pussy drips even more rivulets in sheer arousal.  Her eyes roll back and her breath grows short as she stares longingly at you.  You marvel at the effects: she's finally being turned into a horny cumslut!  Now all you have to do is wait for her to digest the hefty potion and come back to deliver the last dose.");
 	//consume items for 1x scene.
 
-	if (player.hasItem(consumables.SUCMILK,5))
-		player.consumeItem(consumables.SUCMILK,5);
+	if (player.inventory.items.has(consumables.SUCMILK,5))
+		player.inventory.items.consumeItem(consumables.SUCMILK,5);
 	else 
-		player.consumeItem(consumables.P_S_MLK,5);
+		player.inventory.items.consumeItem(consumables.P_S_MLK,5);
 
 	player.orgasm();
-	dynStats("cor", 5);
-	flags[FlagEnum.KELT_BREAK_LEVEL] = 3;
+	player.stats.cor += 5;
+	Flags.list[FlagEnum.KELT_BREAK_LEVEL] = 3;
 	cleanupAfterCombat();
 }
 
@@ -533,27 +533,27 @@ private finalKeltBreaking():void {
 	
 	MainScreen.text("\n\n\"<i>I want... I want your cum!  When you made me drink that potion, it felt like the most wonderful thing in the world, and I'd rather die than not be allowed to taste it ever again.  Please let me drink from you.  Fuck, I want your dick so bad!  Let me suck it, I promise I'll make you feel so good you'll give it all to me.</i>\"");
 	
-	MainScreen.text("\n\nYou laugh triumphantly as you whip your " + multiCockDescriptLight() + " out of your [armor]; the slut is more than ready!");
+	MainScreen.text("\n\nYou laugh triumphantly as you whip your " + CockDescriptor.describeMultiCockShort(player) + " out of your [armor]; the slut is more than ready!");
 	
 	MainScreen.text("\n\n\"<i>While you were busy whining like a whore my junk has been aching for a good blowjob; how about you stop talking and start sucking?</i>\"");
 	
 	MainScreen.text("\n\nThe centauress cries in excitement and ");
-	if(player.isTaur()) MainScreen.text("kneels down");
+	if(player.lowerBody.isTaur()) MainScreen.text("kneels down");
 	else MainScreen.text("bends over");
 	MainScreen.text(" to reach for your [cock biggest].  She sucks with eagerness and passion; you don't even need to pull her head as it moves on its own around your length.  ");
 	if(player.lowerBody.balls > 0) MainScreen.text("Her free hands moves down on your groin and caresses your [balls] with expert care and precision; obviously her previous experience in groping has had an effect on her current skills.  ");
 	MainScreen.text("Her hunger for your meaty junk seems to be insatiable, for after moments of dick kissing and licking, she decides to take the entirety of your length.  Her eyes are voracious as her fat lips swallow inch after inch of dick-flesh.");
 	
 	MainScreen.text("\n\nYou savor this moment; your [cock biggest] is literally radiating with pleasure, and you find yourself staggering multiple times, your body almost unable to bear the sheer pleasure provided by the needy centaur-slut.  Her fingers cling to your ");
-	if(player.isTaur()) MainScreen.text("hindleg haunches");
+	if(player.lowerBody.isTaur()) MainScreen.text("hindleg haunches");
 	else MainScreen.text("[butt]");
 	MainScreen.text(", always pulling your groin closer to her avid mouth as she relentlessly throatfucks herself on you.  Your [cock biggest] is being squeezed and massaged in the most divine way as it knocks against her warm esophagus, and you're tempted to cum in her right now, right here. But you need to finish the 'lesson'; with great regret, you softly ");
-	if(player.isTaur()) MainScreen.text("back away");
+	if(player.lowerBody.isTaur()) MainScreen.text("back away");
 	else MainScreen.text("push the centaur girl away");
 	MainScreen.text(" and pull out of her mouth. Wailing with displeasure, the cock-slut decides to give your meat a couple of sad licks, disappointed to see her phallic prize withdrawing from her.  She quickly regains her enthusiasm, however.");
 	
 	MainScreen.text("\n\nYou don't even need to tell her to use her boobs; after a while of dick slurping, she wraps them around your rod and pumps ferociously, her eyes filled with raw need.  After being slathered with hot saliva from the long deepthroating, her breasts make all kind of squelching noises as they repeatedly squeeze your [cock biggest].");
-	if(!player.isTaur()) MainScreen.text("You grope her bountiful tits and pull them closer to you as you fuck them.  ");
+	if(!player.lowerBody.isTaur()) MainScreen.text("You grope her bountiful tits and pull them closer to you as you fuck them.  ");
 	MainScreen.text("Her breast valley feels almost as tight as a vagina; and due to the generous amounts of drool coating your lance, it is almost as wet.  Moreover, Kelly is now openly moaning from the tit-job, as if you were actually fucking her.  She obviously has no shame anymore in letting everyone in the farm know how much she enjoys grinding her soft melons against a stranger's junk.  These thoughts make you dreamingly wonder what her virgin pussy feels like, and make you even stiffer.  With a lust-filled grunt, you thrust deeper, your dick-flesh fighting for every inch between the girl's busty tits.  Your genitals are now dangerously pulsating in arousal, threatening to cum at any time.");
 	
 	MainScreen.text("\n\nKelly is more than ready to be baptized as your personal centaur cumslut.  A pressure builds in your crotch, unmistakingly the signal of a coming orgasm.  Somehow you know this one is going to be much more powerful than usual, as it seems to boil furiously deep in your loins.  You're going to blast this bitch so full of spooge she'll be forever marked as yours. In the heat of impending climax, you yell, \"<i>What's your name, slut?</i>\"");
@@ -574,7 +574,7 @@ private finalKeltBreaking():void {
 	
 	MainScreen.text("\n\nA mighty fountain of spunk erupts from [eachCock].  Powered by your corruption, it rains down on Kelly's body and finds its way through every pore of her body.  You find yourself spraying more spooge jets than you thought yourself capable of, and somehow the entirety of Kelly is soon painted white and sticky with goo.  The slut raises her hands as if she wanted to gather some more, smiling beatifically as you baptize her.  You cum and cum, not even feeling the flow of seed at this point; you only ride out the endless orgasm as you turn the former archer into your eager personal slut.  Kelly lets out a very high-pitched screech, ecstasy taking over her body as it fully distorts into that of a female, utterly submissive creature.  You can actually feel the creature's already weakened aura shriveling and disappearing into oblivion.  The old Kelt is thoroughly erased from her; perhaps that cry was an ultimate protest against an unavoidable fate?  There's no way to know, as the newborn Kelly is now totally in control and screaming to the world how much she enjoys her orgasm.  The only thing you see is a busty centauress covered in ever-flowing white spunk; the only thing you hear is her loud and constant moaning.");
 	
-	MainScreen.text("\n\nThe cum-flow eventually starts to ebb; less and less goo pours from your " + multiCockDescriptLight() + " and your orgasm gradually fades out.  When your euphoric pleasure wears off, you finally get a good look at the creature standing before you.");
+	MainScreen.text("\n\nThe cum-flow eventually starts to ebb; less and less goo pours from your " + CockDescriptor.describeMultiCockShort(player) + " and your orgasm gradually fades out.  When your euphoric pleasure wears off, you finally get a good look at the creature standing before you.");
 
 	MainScreen.text("\n\nShe doesn't seem to have changed much in appearance: she still sports the same nice pair of bouncy tits that seem to ask you to cup them with your hands, and her face is even more cutely feminine than ever.  Nevertheless, you can tell by subtle modifications of her body language that corruption has taken a good hold in her: the way her eyes glow with craving need, her moist pussy that drips seemingly unnatural amounts of juices, and her tail adopts shapes that remind you that of a demon.  Even the way she smiles shows that she feels more than meek pleasure in serving you.");
 	
@@ -596,8 +596,8 @@ private finalKeltBreaking():void {
 	
 	MainScreen.text("\n\nSatisfied, you pat Kelly's butt and walk away, still recovering from the supernatural orgasm.  Now that you've acquired a new pet, there's a whole new range of possibilities that are open for you...");
 	player.orgasm();
-	dynStats("cor", 8);
-	flags[FlagEnum.KELT_BREAK_LEVEL] = 4;
+	player.stats.cor += 8;
+	Flags.list[FlagEnum.KELT_BREAK_LEVEL] = 4;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -613,11 +613,11 @@ internal function keltFucksShitUp():void {
 private keltFucksShitUpII():void {
 	MainScreen.clearText();
 	MainScreen.text("You awaken at the periphery of the farm, thankful to be alive.  Kelt is nowhere to be seen.  You have to wonder if Whitney saved you or the dumb beast was too stupid to finish you off.  Whatever the case, you head back to camp to lick your wounds.  <b>The worst indignity of all is that he broke a lot of your succubi milks.</b>  He'll likely have regained some more of his maleness by the time you're ready to attempt teaching him another lesson.");
-	player.consumeItem(consumables.SUCMILK,5);
+	player.inventory.items.consumeItem(consumables.SUCMILK,5);
 	
 	//Roll Kelt back one obedience level - at the worst he drops to the level of the first fight
-	flags[FlagEnum.KELT_BREAK_LEVEL]--;
-	if(flags[FlagEnum.KELT_BREAK_LEVEL] < 1) flags[FlagEnum.KELT_BREAK_LEVEL] = 1;
+	Flags.list[FlagEnum.KELT_BREAK_LEVEL]--;
+	if(Flags.list[FlagEnum.KELT_BREAK_LEVEL] < 1) Flags.list[FlagEnum.KELT_BREAK_LEVEL] = 1;
 	cleanupAfterCombat();
 }
 
@@ -631,16 +631,16 @@ private kellyAppearance():void {
 	//[chestnut brown/sable black/garish purple/bright pink/slutty blonde]
 	
 	MainScreen.text("\n\nShe sports a pair of soft DD-cup breasts.  Each one is ornate with a 0.5 inch nipple, often rock-hard in arousal.");
-	if (flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("  Beneath those, she has a second row of jiggly tits, just aching to be squeezed.");
+	if (Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("  Beneath those, she has a second row of jiggly tits, just aching to be squeezed.");
 	if (pregnancy.isPregnant) MainScreen.text("  Drops of milk often dribble from her tits, betraying her potent lactation.");
 	//[enter vagina text] 
 	MainScreen.text("\n\nKelly has a ");
 	//[virgin]
-	if(flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] == 0) MainScreen.text("virgin, ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("pink pussy");
+	if(Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] == 0) MainScreen.text("virgin, ");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("pink pussy");
 	else MainScreen.text("puffy, black mare-cunt");
 	MainScreen.text(" placed below her hindquarters.  It is almost constantly dripping rivulets of moisture when you're around.  Its shining openness seems to welcome you in her warmth.");
-	if (flags[FlagEnum.KELLY_HEAT_TIME] > 0 && !pregnancy.isPregnant) MainScreen.text("<b>  There is so much leaking from her that you think she might be in heat, rendering her more receptive to impregnation.</b>");
+	if (Flags.list[FlagEnum.KELLY_HEAT_TIME] > 0 && !pregnancy.isPregnant) MainScreen.text("<b>  There is so much leaking from her that you think she might be in heat, rendering her more receptive to impregnation.</b>");
 	MainScreen.text("\n\nShe has a human-like asshole, placed right between her horse butt-cheeks where it belongs.");
 	
 	switch (pregnancy.event) {
@@ -666,26 +666,26 @@ private kellyAppearance():void {
 			if (farm.farmCorruption.numTattoos("kelly") > 1) MainScreen.text("She has the following tattoos emblazoned across her body:\n");
 			else MainScreen.text("She has ");
 
-			if (flags[FlagEnum.KELLY_TATTOO_COLLARBONE] != 0) MainScreen.text(flags[FlagEnum.KELLY_TATTOO_COLLARBONE] + "\n");
-			if (flags[FlagEnum.KELLY_TATTOO_SHOULDERS] != 0) MainScreen.text(flags[FlagEnum.KELLY_TATTOO_SHOULDERS] + "\n");
-			if (flags[FlagEnum.KELLY_TATTOO_LOWERBACK] != 0) MainScreen.text(flags[FlagEnum.KELLY_TATTOO_LOWERBACK] + "\n");
-			if (flags[FlagEnum.KELLY_TATTOO_BUTT] != 0) MainScreen.text(flags[FlagEnum.KELLY_TATTOO_BUTT] + "\n");
+			if (Flags.list[FlagEnum.KELLY_TATTOO_COLLARBONE] != 0) MainScreen.text(Flags.list[FlagEnum.KELLY_TATTOO_COLLARBONE] + "\n");
+			if (Flags.list[FlagEnum.KELLY_TATTOO_SHOULDERS] != 0) MainScreen.text(Flags.list[FlagEnum.KELLY_TATTOO_SHOULDERS] + "\n");
+			if (Flags.list[FlagEnum.KELLY_TATTOO_LOWERBACK] != 0) MainScreen.text(Flags.list[FlagEnum.KELLY_TATTOO_LOWERBACK] + "\n");
+			if (Flags.list[FlagEnum.KELLY_TATTOO_BUTT] != 0) MainScreen.text(Flags.list[FlagEnum.KELLY_TATTOO_BUTT] + "\n");
 			MainScreen.text("\n");
 		}
 	}
 
 	//Kids flavour text
-	if(flags[FlagEnum.KELLY_KIDS] > 0) {
-		if(flags[FlagEnum.KELLY_KIDS] == 1) {
+	if(Flags.list[FlagEnum.KELLY_KIDS] > 0) {
+		if(Flags.list[FlagEnum.KELLY_KIDS] == 1) {
 			MainScreen.text("\nKelly's ");
-			if(flags[FlagEnum.KELLY_FIRST_KID_GENDER] == 1) MainScreen.text("son");
+			if(Flags.list[FlagEnum.KELLY_FIRST_KID_GENDER] == 1) MainScreen.text("son");
 			else MainScreen.text("daughter");
 			MainScreen.text(" is off in a separate field; still very young, you can see ");
-			if(flags[FlagEnum.KELLY_FIRST_KID_GENDER] == 1) MainScreen.text("him playing in the distance, lost in his own little world.");
+			if(Flags.list[FlagEnum.KELLY_FIRST_KID_GENDER] == 1) MainScreen.text("him playing in the distance, lost in his own little world.");
 			else MainScreen.text("her playing in the distance, lost in her own little world.");
 		}
-		else if(flags[FlagEnum.KELLY_KIDS] == 2) MainScreen.text("\n\nThe " + num2Text(flags[FlagEnum.KELLY_KIDS]) + " children you have had with Kelly are off in a separate field; the sound of their play drifts over the grasslands to your ears.  Kelly evidently prefers to keep her brood away from what you do with her, a remarkably sensible attitude coming from a centauress cumslut.  Maybe motherhood genuinely suits her?");
-		else MainScreen.text("\n\nThe " + num2Text(flags[FlagEnum.KELLY_KIDS]) + " children you have had with Kelly are as ever off in a separate field, the distance sounds of their acting out the wars and drama of childhood drifting out over the grasslands to your ears.");
+		else if(Flags.list[FlagEnum.KELLY_KIDS] == 2) MainScreen.text("\n\nThe " + num2Text(Flags.list[FlagEnum.KELLY_KIDS]) + " children you have had with Kelly are off in a separate field; the sound of their play drifts over the grasslands to your ears.  Kelly evidently prefers to keep her brood away from what you do with her, a remarkably sensible attitude coming from a centauress cumslut.  Maybe motherhood genuinely suits her?");
+		else MainScreen.text("\n\nThe " + num2Text(Flags.list[FlagEnum.KELLY_KIDS]) + " children you have had with Kelly are as ever off in a separate field, the distance sounds of their acting out the wars and drama of childhood drifting out over the grasslands to your ears.");
 		MainScreen.text("\n");
 	}
 	menu();
@@ -696,26 +696,26 @@ private approachKelly():void {
 	//Fix hair color!
 	if(flags[FlagEnum.KELLY_HAIR.COLOR] == 0) flags[FlagEnum.KELLY_HAIR.COLOR] = "chestnut brown";
 	//PUNISH SCENES IF APPROPRIATE
-	if(flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] > 0 && flags[FlagEnum.TIMES_PUNISHED_KELLY] == 0 && rand(3) == 0 && player.lowerBody.cockSpot.hasCock()) {
-		flags[FlagEnum.KELLY_DISOBEYING_COUNTER] = 0;
+	if(Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] > 0 && Flags.list[FlagEnum.TIMES_PUNISHED_KELLY] == 0 && rand(3) == 0 && player.lowerBody.cockSpot.hasCock()) {
+		Flags.list[FlagEnum.KELLY_DISOBEYING_COUNTER] = 0;
 		punishKelly();
 		return;
 	}
 	
 	//Descriptions and Flavour Text
-	if (flags[FlagEnum.FARM_CORRUPTION_STARTED] == 0) MainScreen.text("You aren't welcome on the farm proper, but you can go visit Kelly's field.");
+	if (Flags.list[FlagEnum.FARM_CORRUPTION_STARTED] == 0) MainScreen.text("You aren't welcome on the farm proper, but you can go visit Kelly's field.");
 	
 	//09:00-11:00, 2 or more children:
-	if(model.time.hours >= 9 && model.time.hours <= 11 && flags[FlagEnum.KELLY_KIDS] >= 2) {
+	if(model.time.hours >= 9 && model.time.hours <= 11 && Flags.list[FlagEnum.KELLY_KIDS] >= 2) {
 		MainScreen.text("\n\nKelly is standing in the shadow of her barn, an expression of blissful contentment on her face as she nurses your ");
-		if(flags[FlagEnum.KELLY_KIDS] > 2) MainScreen.text("two youngest ");
+		if(Flags.list[FlagEnum.KELLY_KIDS] > 2) MainScreen.text("two youngest ");
 		MainScreen.text("children with ");
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("the top row of ");
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("the top row of ");
 		MainScreen.text("her milk-laden tits.  When she dreamily opens her eyes and sees you standing there, she nudges them off gently.");
 		MainScreen.text("\n\n\"<i>That's enough, little ones.  Mommy needs her daddy time now.</i>\"  Your two centaur children make grumpy 'awww's as they are pulled away from her oozing nipples, but they freeze when they turn around and see you, their milk slathered mouths open in a kind of awe.  They clop off in a hurry as Kelly rearranges her hair and gets up to greet you, the peace in her emerald eyes slowly burnt away by desire.");
 	}
 	//15:00-16:00, 4 or more children:
-	else if(model.time.hours >= 15 && model.time.hours <= 16 && flags[FlagEnum.KELLY_KIDS] >= 4) {
+	else if(model.time.hours >= 15 && model.time.hours <= 16 && Flags.list[FlagEnum.KELLY_KIDS] >= 4) {
 		MainScreen.text("\n\nYou see Kelly standing in the middle of her field, surrounded by her children.  She has the butts set up and, judging by the way she is talking and gesturing with the bow in her hand, is teaching your brood how to shoot.  Trying to, anyway: her big, bare boobs make things a bit difficult.  You see she's actually gone to the trouble of constructing adorable little mini-bows, which the group of centaur children are all threading mini-arrows on as she points, and with expressions of deep concentration, pulling tight, taking aim, and... there's a cacophony of whistling, and arrows wind up everywhere but the target.  The sound of shouting and crying echoes across the field as Kelly begins to ball out the one who somehow managed to shoot an arrow through her braid.");
 		MainScreen.text("\n\nYou decide to come back a bit later.  Your kids need all the help they can get.");
 		doNext(camp.returnToCampUseOneHour);
@@ -728,59 +728,59 @@ private approachKelly():void {
 	}	
 	menu();
 	MainScreen.addButton(0,"Appearance",kellyAppearance);
-	if(player.lust < 33) MainScreen.text("\n<b>You aren't aroused enough to pursue sex with your toy right now.</b>");
+	if(player.stats.lust < 33) MainScreen.text("\n<b>You aren't aroused enough to pursue sex with your toy right now.</b>");
 	else MainScreen.addButton(1,"Sex",kellySexMenu);
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 0) {
-		if(player.hasItem(consumables.EQUINUM)) {
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 0) {
+		if(player.inventory.items.has(consumables.EQUINUM)) {
 			MainScreen.addButton(5,"Give Equinum",giveKellyEquinum);
 			MainScreen.text("\nYou could give her equinum to gift her with a proper horse-cunt.");
 		}
 		else MainScreen.text("\nIf you had equinum, you could give her a proper horse-cunt.");
 	}
-	else if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) {
-		if(player.hasItem(consumables.SUCMILK)) {
+	else if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) {
+		if(player.inventory.items.has(consumables.SUCMILK)) {
 			MainScreen.addButton(5,"Give SucMilk",giveKellySuccubiMilk);
 			MainScreen.text("\nYou could give her a succubi milk to get rid of that horse-pussy you gave her before.");
 		}
 		else MainScreen.text("\nIf you had succubi milk, you could use that to give her a more human-like vagina.");
 	}
-	if(player.hasItem(consumables.CANINEP)) {
+	if(player.inventory.items.has(consumables.CANINEP)) {
 		MainScreen.text("\nYou could give her a canine pepper");
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) MainScreen.text(", but who knows how it will change her");
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) MainScreen.text(", but who knows how it will change her");
 		MainScreen.text(".");
 		MainScreen.addButton(6,"Give CanineP",giveKellyAPepper);
 	}
-	if(flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] > 0 && flags[FlagEnum.KELLY_DISOBEYING_COUNTER] >= 3 && player.lowerBody.cockSpot.hasCock()) {
+	if(Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] > 0 && Flags.list[FlagEnum.KELLY_DISOBEYING_COUNTER] >= 3 && player.lowerBody.cockSpot.hasCock()) {
 		MainScreen.text("\n<b>It looks like Kelly has taken to pleasuring herself again in your absense.  Do you want to take care of that?</b>");
 		MainScreen.addButton(7,"Punish",punishKelly);
 	}
-	if(flags[FlagEnum.TIMES_PUNISHED_KELLY] > 0 && flags[FlagEnum.KELLY_REWARD_COOLDOWN] == 0 && rand(3) == 0) {
+	if(Flags.list[FlagEnum.TIMES_PUNISHED_KELLY] > 0 && Flags.list[FlagEnum.KELLY_REWARD_COOLDOWN] == 0 && rand(3) == 0) {
 		MainScreen.text("\n<b>Kelly looks in fine spirits today. Perhaps she's done something worth getting a reward?</b>\n");
 		MainScreen.addButton(8,"Reward",rewardKelly);
 	}
 	
 	//Showing up resets Kelly's desire not to fap without you
-	flags[FlagEnum.KELLY_DISOBEYING_COUNTER] = 0;
+	Flags.list[FlagEnum.KELLY_DISOBEYING_COUNTER] = 0;
 
-	if (flags[FlagEnum.FARM_CORRUPTION_STARTED] == 0)	MainScreen.addButton(9, "Leave", camp.returnToCampUseOneHour);
+	if (Flags.list[FlagEnum.FARM_CORRUPTION_STARTED] == 0)	MainScreen.addButton(9, "Leave", camp.returnToCampUseOneHour);
 	else MainScreen.addButton(9, "Back", farm.farmCorruption.rootScene);
 }
 
 private kellySexMenu():void {
 	menu();
-	if (player.lowerBody.cockSpot.hasCock() && player.lust >= 33) {
-		if (player.cockThatFits(300) >= 0 || flags[FlagEnum.KELLY_CUNT_TYPE] == 1) {
+	if (player.lowerBody.cockSpot.hasCock() && player.stats.lust >= 33) {
+		if (player.cockThatFits(300) >= 0 || Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) {
 			if (pregnancy.isPregnant) MainScreen.addButton(0,"Preg Fuck",kellyPregSex);
-			else if (!player.isTaur()) MainScreen.addButton(0,"Fuck Cunt",fuckKellysCunt);
+			else if (!player.lowerBody.isTaur()) MainScreen.addButton(0,"Fuck Cunt",fuckKellysCunt);
 			else MainScreen.addButton(0,"Fuck Cunt",taurOnTaurSexKelly);
-			if (flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] == 0) MainScreen.addButton(0,"VirginFuck",takeKellysVirginity);
-			if (player.tentacleCocks() >= 2) MainScreen.addButton(1,"TentaFuck",tentaFuckKelly);
+			if (Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT] == 0) MainScreen.addButton(0,"VirginFuck",takeKellysVirginity);
+			if (player.lowerBody.cockSpot.countType(CockType.TENTACLE) >= 2) MainScreen.addButton(1,"TentaFuck",tentaFuckKelly);
 		}
 		else MainScreen.text("\n<b>You're too big to fuck her vagina.</b>");
-		if (flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0 && player.cockThatFits(18,"length") < 0 && !player.isTaur()) {
+		if (Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0 && player.cockThatFits(18,"length") < 0 && !player.lowerBody.isTaur()) {
 			MainScreen.text("\n<b>You're too big to fuck her tits.  Maybe if you gave her something to make her grow more...</b>");
 		}
-		else if (!player.isTaur()) MainScreen.addButton(2,"Titfuck",kellyTitJob);
+		else if (!player.lowerBody.isTaur()) MainScreen.addButton(2,"Titfuck",kellyTitJob);
 		MainScreen.addButton(3,"Blowjob",kellyBJsAhoy);
 		MainScreen.addButton(4,"Talk And HJ",talkNHandToKelly);
 	}
@@ -793,7 +793,7 @@ private kellySexMenu():void {
 //[Not Virginal]
 private fuckKellysCunt():void {
 	MainScreen.clearText();
-	flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
+	Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	MainScreen.text("You strip out of your [armor] in a hurry, intent on claiming your equine slut from behind.  As soon as [eachCock] flops free, Kelly takes notice, her hand coming in front of her mouth in surprise.");
@@ -814,28 +814,28 @@ private fuckKellysCunt():void {
 		if(player.tallness < 52) MainScreen.text("diminutive ");
 		MainScreen.text("height makes reaching her pussy a difficult task.  ");
 	}
-	MainScreen.text("Holding your " + cockDescript(x) + " in one hand, you press your " + player.cockHead(x) + " against her entrance.   The steamy cunt pulses wetly around your girth, slowly spreading its thick lips to accept your rigid endowment.");
+	MainScreen.text("Holding your " + CockDescriptor.describeCock(player, x) + " in one hand, you press your " + player.cockHead(x) + " against her entrance.   The steamy cunt pulses wetly around your girth, slowly spreading its thick lips to accept your rigid endowment.");
 	if(player.lowerBody.cockSpot.count() > 1) {
 		MainScreen.text("  Your other erection");
 		if(player.lowerBody.cockSpot.count() > 2) MainScreen.text("s hang");
 		else MainScreen.text(" hangs");
 		MainScreen.text(" down below, collecting her drippings and smearing across her belly.");
 	}
-	MainScreen.text("  You slowly slide inside the tight tunnel, feeling Kelly's powerful muscles squeeze delightfully around you, massaging your " + cockDescript(x) + " with slow undulations.");
+	MainScreen.text("  You slowly slide inside the tight tunnel, feeling Kelly's powerful muscles squeeze delightfully around you, massaging your " + CockDescriptor.describeCock(player, x) + " with slow undulations.");
 	
 	MainScreen.text("\n\nKelly moans unrepentantly, loud enough for anyone nearby to hear.  Her hands move to her nipples and pinch at the tight buds, tugging and squeezing the only erogenous zones she can reach.  You ");
 	if(player.cockArea(x) >= 300) MainScreen.text("bottom out inside her");
 	else MainScreen.text("slide as far into her as she can handle");
 	MainScreen.text(" and smack her ass for good measure.  She's so fucking warm!  You sit there for a moment, just to revel in the hot, slippery heat.  Then, you draw back, exposing yourself to the cool air - but only for a moment.  You slam your hips back into the tight centaur-twat without hesitation, the force of the impact jolting the larger woman's body forward.");
-	MainScreen.text("\n\n\"<i>Yessss,</i>\" Kelly moans as she's impaled, her breasts jiggling as she paws at them.  \"<i>Ple-ooohhhh... please don't stop, [Master]!</i>\"  She begins to push her body against you, the silken tunnel she calls a cunt twitching rhythmically around your " + cockDescript(x) + " each time you hit the apex of your strokes.  You squeeze her haunches as you 'ride' her.  She loves every moment of it, even when you slap her butt for good measure, spurring her to bounce herself atop your rod faster and faster.");
+	MainScreen.text("\n\n\"<i>Yessss,</i>\" Kelly moans as she's impaled, her breasts jiggling as she paws at them.  \"<i>Ple-ooohhhh... please don't stop, [Master]!</i>\"  She begins to push her body against you, the silken tunnel she calls a cunt twitching rhythmically around your " + CockDescriptor.describeCock(player, x) + " each time you hit the apex of your strokes.  You squeeze her haunches as you 'ride' her.  She loves every moment of it, even when you slap her butt for good measure, spurring her to bounce herself atop your rod faster and faster.");
 	
 	MainScreen.text("\n\nKelly's moans are getting louder and more passionate with every thrust.  Indeed, the contractions in her horse-like channel are more powerful each time you hit bottom, and tiny squirts of lube are escaping with each squeeze.  Bending over her back, you focus your attention completely on the feel of her velvety cock-sleeve, closing your eyes as you begin to jackhammer your hips in earnest.  Wet slaps echo out from each bone-jarring impact, the pleasure too great for you to slow now.");
 	
 	MainScreen.text("\n\nA familiar throb of excitement in your loins");
 	if(player.lowerBody.balls > 0) MainScreen.text(" and roiling balls");
 	MainScreen.text(" leaves no doubt that climax is fast approaching.  Kelly cums first, splattering your [hips] with her ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] > 0) MainScreen.text("fragrant ");
-	MainScreen.text("centaur-cum, soaking your [legs] immediately.  Her pussy goes wild, the once-ordered spasms going wild, wringing your " + cockDescript(x) + " with uncoordinated motions.  A moment later, all those wild contractions sync up into intense, dick-massaging waves.  The power of her equine lower half becomes obvious when her twat seems to suck you inside, squeezing you off to orgasm.");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] > 0) MainScreen.text("fragrant ");
+	MainScreen.text("centaur-cum, soaking your [legs] immediately.  Her pussy goes wild, the once-ordered spasms going wild, wringing your " + CockDescriptor.describeCock(player, x) + " with uncoordinated motions.  A moment later, all those wild contractions sync up into intense, dick-massaging waves.  The power of her equine lower half becomes obvious when her twat seems to suck you inside, squeezing you off to orgasm.");
 	
 	MainScreen.text("\n\nJism sprays from your cock almost immediately, and you throw back your head and swat her ass again in your excitement, barely feeling her pussy-juices as they continue to squirt out in smaller sprays.  All of your attention is focused on the iron-hard, ecstatic tool between your legs as it pulses out fresh squirts of jism, one after another.");
 	if(player.cumQ() >= 500) MainScreen.text("  Her pussy seems like a soggy, cum-soaked sex-toy before you're even halfway done.");
@@ -861,7 +861,7 @@ private fuckKellysCunt():void {
 /*Requires a centaur lower body.*/
 private taurOnTaurSexKelly():void {
 	MainScreen.clearText();
-	flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
+	Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	MainScreen.text("Admiring your [armor], you slowly remove the portions that cover your animal-like bottom half, wondering how you could ever handle having to wear pants.  Letting [eachCock] swing free below you, smacking against your belly when erect - now that's life.  That's how you were meant to be!  You go ahead and undo the top parts of your gear as well, not wanting anything to come between you and the slutty fem-centaur just a few feet away.  She's keeping her eyes down submissively, but she keeps casting glances under your lower half, licking her lips whenever she gets a good look at [oneCock].");
@@ -878,10 +878,10 @@ private taurOnTaurSexKelly():void {
 	MainScreen.text(".  You gesture for her to rise and turn around, which she does");
 	if(player.tallness < 60) MainScreen.text(" before sitting back down (she's too tall to take standing up) and lifting her tail");
 	else MainScreen.text(" before lifting her tail");
-	MainScreen.text(".  You prance forward, and with a mighty lurch, you mount your mare, climbing atop her, wrapping your hands around her middle for leverage.  She wiggles under your weight, but tries to hold her back-end still while you try to align yourself with her.  Getting in position isn't as easy as it was when you had a humanoid lower body, but when you do finally feel your " + cockDescript(x) + " butting up against that warm, wet orifice, the satisfaction is many times greater.");
+	MainScreen.text(".  You prance forward, and with a mighty lurch, you mount your mare, climbing atop her, wrapping your hands around her middle for leverage.  She wiggles under your weight, but tries to hold her back-end still while you try to align yourself with her.  Getting in position isn't as easy as it was when you had a humanoid lower body, but when you do finally feel your " + CockDescriptor.describeCock(player, x) + " butting up against that warm, wet orifice, the satisfaction is many times greater.");
 	
 	MainScreen.text("\n\nYou lurch forward, plunging yourself deep inside the engorged, ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("pink pussy");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("pink pussy");
 	else MainScreen.text("black horse-cunt");
 	MainScreen.text(", sheathing yourself in that muscular, deep canal.  The lips cling snugly about your [sheath] as you slide into Kelly's velvet pussy, her inner walls squeezing rhythmically around you.  You adjust position, getting accustomed to mounting her like the mare she is, and get a handhold on her big, rounded breasts, squeezing her pebbly nipples between your thumb and forefinger.  She moans, placing her palms over your hands and pressing your harder into her chest, begging, \"<i>Yes!  Fuck me, [Master]!  Give me your cum!</i>\"");
 	
@@ -889,10 +889,10 @@ private taurOnTaurSexKelly():void {
 	if(player.lowerBody.balls > 0) MainScreen.text("[sack]");
 	else MainScreen.text("hindlegs");
 	MainScreen.text(", splattering out in fresh waves from Kelly's ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] > 0) MainScreen.text("musky ");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] > 0) MainScreen.text("musky ");
 	MainScreen.text("womanhood.  With her body firmly under your own, where it belongs, you firmly assert your control, grabbing her hair in one hand and yanking.  You tug her head back as you bottom out, your body filled with the pleasure of mating like the beasts that you are.");
 	
-	MainScreen.text("\n\nKelly groans through her pain, \"<i>Ooohh, yes, give me your foal, [Master]!  My pussy needs it!</i>\"  True to her words, her walls begin to tug at your " + cockDescript(x) + " with familiar, milking contractions, squeezing you from base to " + player.cockHead(x) + " again and again.  Her fluids gush out everywhere, turning the ground underneath her to mud as she climaxes.  You pinch her nipples as the heat builds within you, and when you can take it no more, you reward your cum-slut with the liquid orgasm she so craved.  Jism basts her inner walls when you explode.  Again and again, your muscles clench with ecstatic blast, ejaculating thick flows of your lust straight into the cum-dumpster's spasming cunny.  ");
+	MainScreen.text("\n\nKelly groans through her pain, \"<i>Ooohh, yes, give me your foal, [Master]!  My pussy needs it!</i>\"  True to her words, her walls begin to tug at your " + CockDescriptor.describeCock(player, x) + " with familiar, milking contractions, squeezing you from base to " + player.cockHead(x) + " again and again.  Her fluids gush out everywhere, turning the ground underneath her to mud as she climaxes.  You pinch her nipples as the heat builds within you, and when you can take it no more, you reward your cum-slut with the liquid orgasm she so craved.  Jism basts her inner walls when you explode.  Again and again, your muscles clench with ecstatic blast, ejaculating thick flows of your lust straight into the cum-dumpster's spasming cunny.  ");
 	if(player.cumQ() >= 1000) {
 		MainScreen.text("  Her belly grows round with the liquid weight of your spunk");
 		if(player.cumQ() >= 4000) MainScreen.text(", and when she grows too full to hold any more, waves of alabaster spooge roll out of her abused nether-lips, adding to the messy sex-puddle below");
@@ -913,7 +913,7 @@ private taurOnTaurSexKelly():void {
 
 private tentaFuckKelly():void {
 	MainScreen.clearText();
-	MainScreen.text("With a mischievous grin, you remove your [armor], fully revealing your " + multiCockDescriptLight() + ".  The plant-like appendages wriggle around the horny centauress, inspecting her body from every angle.  You feel your own lust rising as the tentacle peckers grow harder, their green heads turning pink in arousal.  Kelly stammers, confused: \"<i>W-what are you-</i>\"");
+	MainScreen.text("With a mischievous grin, you remove your [armor], fully revealing your " + CockDescriptor.describeMultiCockShort(player) + ".  The plant-like appendages wriggle around the horny centauress, inspecting her body from every angle.  You feel your own lust rising as the tentacle peckers grow harder, their green heads turning pink in arousal.  Kelly stammers, confused: \"<i>W-what are you-</i>\"");
 	
 	let one: number = -1;
 	let two: number = -2;
@@ -921,8 +921,8 @@ private tentaFuckKelly():void {
 	let four: number = -4;
 	let five: number = -5;
 	let temp: number = 0;
-	while(temp < player.totalCocks()) {
-		if(player.lowerBody.cockSpot.list[temp].cockType == CockType.TENTACLE) {
+	while(temp < player.lowerBody.cockSpot.count()) {
+		if(player.lowerBody.cockSpot.get(temp).cockType == CockType.TENTACLE) {
 			if(one < 0) one = temp;
 			else if(two < 0) two = temp;
 			else if(three < 0) three = temp;
@@ -932,28 +932,28 @@ private tentaFuckKelly():void {
 		temp++;
 	}
 	
-	MainScreen.text("\n\nSLAM!  You profit from the slut's babbling to shove your " + cockDescript(one) + " right into her gaping mouth, forcefully filling her throat with dick-flesh.  Her lips instinctively cling to your shaft, sucking it like a popsicle.  Drops of pre-cum are quickly swallowed and ingested by the hungry whore as they escape your urethra.  You begin thrusting in and out of her warm mouth, but her lips squeeze your rod so tight that you have to fight for every inch.  As you stuff her full of your " + cockDescript(one) + ", you can hear her endless muffled moans; the slut is obviously getting off to the taste of your meaty junk.  Completely driven with lust, the green tentacle prick is vibrating on its own as it fucks Kelly's throat, sending you soft, prickling sensations.  You can't help but release a grunt as the centaur slut fellates you so expertly.");
-	MainScreen.text("\n\nKelly is doing an incredible job with her mouth, teasing you into oblivion.  Your " + cockDescript(two) + " is convulsing recklessly in frustration, begging to be stuffed into some warm hole.  Therefore, you naturally direct it toward the centauress' wet snatch; it is easily spottable due to the regular streams of juices that ooze from it.  Moreover, the slut is incredibly turned on from sucking you off, and the fem-spunk trails are even thicker than usual.  It doesn't take long for your secondary tentacle dong to reach the entrance of her moist love-tunnel.  You grind the tip of your " + cockDescript(two) + " against it, using her genitals as a masturbation aid.  When it is hard as bark and ready to go, you ram it through Kelly's fuck-hole, utterly piercing her from behind.");
+	MainScreen.text("\n\nSLAM!  You profit from the slut's babbling to shove your " + CockDescriptor.describeCock(player, one) + " right into her gaping mouth, forcefully filling her throat with dick-flesh.  Her lips instinctively cling to your shaft, sucking it like a popsicle.  Drops of pre-cum are quickly swallowed and ingested by the hungry whore as they escape your urethra.  You begin thrusting in and out of her warm mouth, but her lips squeeze your rod so tight that you have to fight for every inch.  As you stuff her full of your " + CockDescriptor.describeCock(player, one) + ", you can hear her endless muffled moans; the slut is obviously getting off to the taste of your meaty junk.  Completely driven with lust, the green tentacle prick is vibrating on its own as it fucks Kelly's throat, sending you soft, prickling sensations.  You can't help but release a grunt as the centaur slut fellates you so expertly.");
+	MainScreen.text("\n\nKelly is doing an incredible job with her mouth, teasing you into oblivion.  Your " + CockDescriptor.describeCock(player, two) + " is convulsing recklessly in frustration, begging to be stuffed into some warm hole.  Therefore, you naturally direct it toward the centauress' wet snatch; it is easily spottable due to the regular streams of juices that ooze from it.  Moreover, the slut is incredibly turned on from sucking you off, and the fem-spunk trails are even thicker than usual.  It doesn't take long for your secondary tentacle dong to reach the entrance of her moist love-tunnel.  You grind the tip of your " + CockDescriptor.describeCock(player, two) + " against it, using her genitals as a masturbation aid.  When it is hard as bark and ready to go, you ram it through Kelly's fuck-hole, utterly piercing her from behind.");
 	
-	MainScreen.text("\n\nYou ream the centaur slut from both sides, making her whinny and thrash violently.  She tramples the floor with her hooves, arches her back and screams in ecstasy through the inches of dick-flesh blocking her throat; she is completely heedless of the world beside the two hard vegetal poles fully impaling her on either end.  You pump away in rhythm, synchronizing each thrust in both holes.  Her twat is almost inhumanly hot, and gloriously tight.  However, the slut tries her best to wrap her lips even tighter around your main flexible pecker, and her tongue is teasing your " + cockDescript(one) + " in the most excruciating way.  You stuff the mare slut full of your green appendages, treating her body like a bipolar cocksleeve.");
+	MainScreen.text("\n\nYou ream the centaur slut from both sides, making her whinny and thrash violently.  She tramples the floor with her hooves, arches her back and screams in ecstasy through the inches of dick-flesh blocking her throat; she is completely heedless of the world beside the two hard vegetal poles fully impaling her on either end.  You pump away in rhythm, synchronizing each thrust in both holes.  Her twat is almost inhumanly hot, and gloriously tight.  However, the slut tries her best to wrap her lips even tighter around your main flexible pecker, and her tongue is teasing your " + CockDescriptor.describeCock(player, one) + " in the most excruciating way.  You stuff the mare slut full of your green appendages, treating her body like a bipolar cocksleeve.");
 	
 	//[if (cocks > 2)
 	if(three >= 0) {
-		MainScreen.text("\n\nThe display of Kelly trembling in pleasure as you spit her like a pig on your duo of plant-like pricks is enticing, and your " + cockDescript(three) + " is aching with need.  It almost moves on its own volition toward the woman's perky tits, ready for a good boobjob.  The supple green wang lodges itself between the busty melons; the slut instantly begins to squeeze her heavy globes around the rod of dick-flesh, fully entrapping it in her bosom.  Her tits are so tender and soft you feel like your tentacle pecker is about to melt.  Groaning in pleasure, you thrust your " + cockDescript(three) + " up and down as the titty-fucked whore accompanies your motion.  You grind in rhythm so the slut doesn't forget your other tentacle dongs.  Fortunately, Kelly quickly picks up your intention and soon you can't tell which member is providing you with the most pleasure; her mouth, vagina and soft tits are all working in conjunction, and you are fully lost in a never-ending spiral of ecstasy.");
+		MainScreen.text("\n\nThe display of Kelly trembling in pleasure as you spit her like a pig on your duo of plant-like pricks is enticing, and your " + CockDescriptor.describeCock(player, three) + " is aching with need.  It almost moves on its own volition toward the woman's perky tits, ready for a good boobjob.  The supple green wang lodges itself between the busty melons; the slut instantly begins to squeeze her heavy globes around the rod of dick-flesh, fully entrapping it in her bosom.  Her tits are so tender and soft you feel like your tentacle pecker is about to melt.  Groaning in pleasure, you thrust your " + CockDescriptor.describeCock(player, three) + " up and down as the titty-fucked whore accompanies your motion.  You grind in rhythm so the slut doesn't forget your other tentacle dongs.  Fortunately, Kelly quickly picks up your intention and soon you can't tell which member is providing you with the most pleasure; her mouth, vagina and soft tits are all working in conjunction, and you are fully lost in a never-ending spiral of ecstasy.");
 	}
 	//if (cocks > 3)
 	if(four >= 0) {
-		MainScreen.text("\n\nYour " + cockDescript(four) + " trembles furiously, unable to find some body part that isn't taken by its colleagues.  You grin wickedly as an idea comes to your mind.  The protruding appendage writhes as it threads its way toward Kelly's right hand; the slut is still focusing on your " + cockDescript(three) + ", squeezing her tits as tightly as she can.  Needless to say, she is surprised when another tentacle shoves itself in the way, right under her palm.  She doesn't lose her composure, though; using her forearm to press on her chest, her hand quickly grabs hold of your tree-like pecker and begins stroking your length.  Although her handjob doesn't feel as warm and tight as the wet depths of her love-tunnel or her throat, or even the squelching contact of her tender boob-flesh, she teases you efficiently with her fingers.  Her hand massages your " + cockDescript(four) + " and clutches it like a vice, milking some drops of pre-cum out of your shaft.  She takes care of the most sensitive points and often makes you moan when she squeezes the towering rod.");
+		MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, four) + " trembles furiously, unable to find some body part that isn't taken by its colleagues.  You grin wickedly as an idea comes to your mind.  The protruding appendage writhes as it threads its way toward Kelly's right hand; the slut is still focusing on your " + CockDescriptor.describeCock(player, three) + ", squeezing her tits as tightly as she can.  Needless to say, she is surprised when another tentacle shoves itself in the way, right under her palm.  She doesn't lose her composure, though; using her forearm to press on her chest, her hand quickly grabs hold of your tree-like pecker and begins stroking your length.  Although her handjob doesn't feel as warm and tight as the wet depths of her love-tunnel or her throat, or even the squelching contact of her tender boob-flesh, she teases you efficiently with her fingers.  Her hand massages your " + CockDescriptor.describeCock(player, four) + " and clutches it like a vice, milking some drops of pre-cum out of your shaft.  She takes care of the most sensitive points and often makes you moan when she squeezes the towering rod.");
 	}
 	//[if (cocks > 4)
 	if(five >= 0) {
-		MainScreen.text("\n\nKelly still has a free hand, and your " + cockDescript(five) + " is left alone, flustered.  The squirming tentacle quickly finds a comfortable spot near her boob, but this time you don't need to do anything; the eager slut catches the vegetal rod and begins to stroke it furiously.  Her hands pump along your lengths in turn; both pricks are so hard that you don't know which one will cum first.  Her fingers move across the surface of your meaty green dongs with expert care, teasing you more and more.  You enjoy the double handjob, your duo of plant-like dongs ready to explode in a mess of cum.");
+		MainScreen.text("\n\nKelly still has a free hand, and your " + CockDescriptor.describeCock(player, five) + " is left alone, flustered.  The squirming tentacle quickly finds a comfortable spot near her boob, but this time you don't need to do anything; the eager slut catches the vegetal rod and begins to stroke it furiously.  Her hands pump along your lengths in turn; both pricks are so hard that you don't know which one will cum first.  Her fingers move across the surface of your meaty green dongs with expert care, teasing you more and more.  You enjoy the double handjob, your duo of plant-like dongs ready to explode in a mess of cum.");
 	}
 	//[if (cocks > 5)
-	if(player.tentacleCocks() > 5) {
+	if(player.lowerBody.cockSpot.countType(CockType.TENTACLE) > 5) {
 		MainScreen.text("\n\nSadly, there is no body part to fill or grind against for your remaining tentacle junk; you just wrap it around her horny body, crawling against every spot of skin that isn't occupied by some tentacle dong.");
 	}
-	MainScreen.text("\n\nEventually the slutty mare's holes and flesh are starting to drain your stamina; a pressure builds in your crotch as the imminent release arrives. With a raging grunt, you pump harder and faster, not caring in the least about the fuck-toy within your tentacle embrace.  [EachCock] jiggles in extreme arousal as they have their way with the quivering lump of horny flesh that you call Kelly.  At last the pressure is too much to bear, and you blast her with everything you have.  Torrents of spunk boil as they find their way up your urethras and utterly fill the centauress' holes.  Her lips contract lewdly around your " + cockDescript(one) + ", ready to swallow everything it squirts.  At the same time, her tight twat seems to be crunching your " + cockDescript(two) + " like a vice; you can't help but pump more and more ropes of jism into the slut's waiting womb.");
+	MainScreen.text("\n\nEventually the slutty mare's holes and flesh are starting to drain your stamina; a pressure builds in your crotch as the imminent release arrives. With a raging grunt, you pump harder and faster, not caring in the least about the fuck-toy within your tentacle embrace.  [EachCock] jiggles in extreme arousal as they have their way with the quivering lump of horny flesh that you call Kelly.  At last the pressure is too much to bear, and you blast her with everything you have.  Torrents of spunk boil as they find their way up your urethras and utterly fill the centauress' holes.  Her lips contract lewdly around your " + CockDescriptor.describeCock(player, one) + ", ready to swallow everything it squirts.  At the same time, her tight twat seems to be crunching your " + CockDescriptor.describeCock(player, two) + " like a vice; you can't help but pump more and more ropes of jism into the slut's waiting womb.");
 	if(three >= 0) {
 		MainScreen.text("  The remainding tentacle");
 		if(four >= 0) MainScreen.text("s erupt");
@@ -969,7 +969,7 @@ private tentaFuckKelly():void {
 	MainScreen.text("you walk away, letting the slut enjoy herself.");
 	kellyPreggers();
 	player.orgasm();
-	dynStats("sen", -3);
+	player.stats.sens += -3;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -987,9 +987,9 @@ private giveKellyEquinum():void {
 	MainScreen.text("\n\nSmiling cruelly, you give her bodacious rump a smack followed by a rough squeeze.  Kelly moans, shimmying her hindlegs and juicy bottom closer to you in response.  You immediately uncork the vial, place the flared bottle into that welcome honey-hole, and push it deep inside her.  Your centaur toy whinnies in delight, her wide-spread cunt rippling around the vial as it empties, convulsively milking it as if it was a tiny horse-cock.  You guess that even with a human cunt, some instincts must stay the same.  A trickle of her feminine ooze dripples out from her clenching snatch, mixed with a tiny amount of the potion.  Most of it seems to travel deeper inside her, and you can tell from the clear end of the bottle that it's fully emptied.  There's nothing to do now but pull it out and enjoy the changes as they happen.  You do so with a smile.");
 	
 	MainScreen.text("\n\nAt first, all you observe is a disappointed moan.  Kelly backs up, hooves stamping impatiently as she tries to bring her pussy closer to you, eager for more.  \"<i>What did you put in me, [Master]?  That didn't feel like cum,</i>\"  she dares to ask.  You swat her square across her equine ass, sending her scampering a few feet away, still trailing dripping fem-slime.  She moans immediately, her plump pussy lips shining with a reflective sheen.  Her feminine odor gets slightly stronger as well, though each time you catch a whiff of it, it's a little bit different - less human and somehow more... potent.  Her glossy pink lips begin to bulge, thickening before your eyes.  Her slit lengthens as well, the clit growing bigger and harder than before to match the larger curtains that are her labia.  Bigger and bigger, her vulvae swell, until those plump, soaked outer lips leave you no doubt that they were designed to part for the biggest, fattest erections possible.  Their coloration darkens to purple, then jet black, a sloppy onyx veil just begging for a cock.");
-	flags[FlagEnum.KELLY_CUNT_TYPE] = 1;
+	Flags.list[FlagEnum.KELLY_CUNT_TYPE] = 1;
 	MainScreen.text("\n\n<b>Kelly has now has a soaking-wet horsecunt!</b>");
-	player.consumeItem(consumables.EQUINUM);
+	player.inventory.items.consumeItem(consumables.EQUINUM);
 	menu();
 	MainScreen.addButton(0,"Next",approachKelly);
 }
@@ -1005,9 +1005,9 @@ private giveKellySuccubiMilk():void {
 	MainScreen.text("\n\nKelly finishes the drink with a self-satisfied smile, and she cheerful says, \"<i>Thank you for the treat, [Master].</i>\"");
 	
 	MainScreen.text("\n\nYou swat her rump affectionately and nod, not deigning to give her the pleasure of your praise.");
-	flags[FlagEnum.KELLY_CUNT_TYPE] = 0;
+	Flags.list[FlagEnum.KELLY_CUNT_TYPE] = 0;
 	MainScreen.text("\n\n<b>Kelly now has a human-like pussy.</i>");
-	player.consumeItem(consumables.SUCMILK);
+	player.inventory.items.consumeItem(consumables.SUCMILK);
 	menu();
 	MainScreen.addButton(0,"Next",approachKelly);
 }
@@ -1015,9 +1015,9 @@ private giveKellySuccubiMilk():void {
 //Punish(C)
 private punishKelly():void {
 	MainScreen.clearText();
-	flags[FlagEnum.TIMES_PUNISHED_KELLY]++;
+	Flags.list[FlagEnum.TIMES_PUNISHED_KELLY]++;
 	//First time: 
-	if(flags[FlagEnum.TIMES_PUNISHED_KELLY] == 1) {
+	if(Flags.list[FlagEnum.TIMES_PUNISHED_KELLY] == 1) {
 		MainScreen.text("You don't say anything immediately when Kelly prances to a bouncing halt in front of you; instead, you take your time to do a slow circuit around her, taking her in as if she were a piece of property, which of course she is.  You know the effect you have upon the centauress and you grin quietly to yourself as you draw in close to her without touching; your aura presses upon her and her breath quickens, her always-ready pussy moistening even further.  You pause next to her back end and gently press a finger against her labia.");
 		MainScreen.text("\n\n\"<i>It must be difficult,</i>\" you say as you gently trace the line of her wet opening, \"<i>being this turned on and not being able to do anything about it.</i>\"");
 		
@@ -1047,7 +1047,7 @@ private punishKelly():void {
 		MainScreen.text("\n\n\"<i>Yes, [Master], I do,</i>\" she says, slightly louder and straightening her back.  You smile softly.  Such a good girl.");
 	}
 	menu();
-	if(flags[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] > 0 && player.statusAffects.get("TelAdre").value1 < 1) {
+	if(Flags.list[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] > 0 && player.statusAffects.get("TelAdre").value1 < 1) {
 		MainScreen.text("You'd like to take Kelly for a ride, but you don't have any good ideas for public places to humiliate her.");
 	}
 	else MainScreen.addButton(1,"Ride",rideKellyForPunishment);
@@ -1062,38 +1062,38 @@ private getARimjobFromKelly():void {
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	MainScreen.clearText();
-	flags[FlagEnum.TIMES_RIM_JOBBED_BY_KELLY]++;
+	Flags.list[FlagEnum.TIMES_RIM_JOBBED_BY_KELLY]++;
 	MainScreen.text("\"<i>You aren't worthy of my dick,</i>\" you say, as you slowly peel off your [armor]; you do it facing away from Kelly so that she can take in your [butt] as you slowly wriggle free of your underclothing.  \"<i>But I still need servicing.  So...</i>\"");
 	
 	//[Naga: 
-	if(player.isNaga()) MainScreen.text("\n\nYou slither into her and, wriggling upwards, beginning the process of wrapping your long, patterned tail around her powerful form.  Kelly murmurs disquietly but stays still as you weave under and over her; you stop level to her face, her entire frame swaddled in your coils.  You trace the line of her chin with your hand as you take a moment to enjoy the sensation of this big, soft creature against your warm scales, at your mercy; then you slowly rise above her until her face is level with your genital slit before, with sinuous grace, twisting your body so that her mouth is now facing your [butt].");
+	if(player.lowerBody.isNaga()) MainScreen.text("\n\nYou slither into her and, wriggling upwards, beginning the process of wrapping your long, patterned tail around her powerful form.  Kelly murmurs disquietly but stays still as you weave under and over her; you stop level to her face, her entire frame swaddled in your coils.  You trace the line of her chin with your hand as you take a moment to enjoy the sensation of this big, soft creature against your warm scales, at your mercy; then you slowly rise above her until her face is level with your genital slit before, with sinuous grace, twisting your body so that her mouth is now facing your [butt].");
 	
 	//[Centaur:]
-	else if(player.isTaur()) MainScreen.text("\n\nYou gesture at the ground.  \"<i>Lie down,</i>\" you command.  Kelly carefully folds her body up to do so, until her horse half is prostrate and only her human half is propped up.  You lead yourself back until your rear end is near to her face; grinning to yourself, you slowly brush your semi-erect " + cockDescript(x) + " against her soft face, teasing her with the idea that you've changed your mind; you cannot see her but from the small bitten off grunts and moans you know she's struggling with the urge to wrap her lips around it.  Finally, you carefully lean downwards, so that instead of your dick she's faced with your [butt].");
+	else if(player.lowerBody.isTaur()) MainScreen.text("\n\nYou gesture at the ground.  \"<i>Lie down,</i>\" you command.  Kelly carefully folds her body up to do so, until her horse half is prostrate and only her human half is propped up.  You lead yourself back until your rear end is near to her face; grinning to yourself, you slowly brush your semi-erect " + CockDescriptor.describeCock(player, x) + " against her soft face, teasing her with the idea that you've changed your mind; you cannot see her but from the small bitten off grunts and moans you know she's struggling with the urge to wrap her lips around it.  Finally, you carefully lean downwards, so that instead of your dick she's faced with your [butt].");
 	
 	//[Biped/Other:
-	else MainScreen.text("\n\nYou gesture at the ground.  \"<i>Lie down,</i>\" you command.  Carefully Kelly folds her body up to do so, until her horse half is prostrate and only her human half is propped up.  You step forwards and for a few moments slowly brush your semi-erect " + cockDescript(x) + " against her soft face, teasing her with the idea that you've changed your mind; she struggles with the urge to wrap her lips around it, emitting small bitten off grunts and moans to your ministrations.  Finally, with a grin you pull away and turn around, so that her mouth is now facing your [butt].");
+	else MainScreen.text("\n\nYou gesture at the ground.  \"<i>Lie down,</i>\" you command.  Carefully Kelly folds her body up to do so, until her horse half is prostrate and only her human half is propped up.  You step forwards and for a few moments slowly brush your semi-erect " + CockDescriptor.describeCock(player, x) + " against her soft face, teasing her with the idea that you've changed your mind; she struggles with the urge to wrap her lips around it, emitting small bitten off grunts and moans to your ministrations.  Finally, with a grin you pull away and turn around, so that her mouth is now facing your [butt].");
 	
 	MainScreen.text("\n\nYou flare your [hips] and present your [asshole] to her.  \"<i>So service me.</i>\"  Without waiting for a response you press your butthole onto her mouth.");
 	
 	MainScreen.text("\n\nShe is unpracticed at first; you feel her teeth rub against your hole and you hiss.  The mere sound of your annoyance makes her whimper around your [ass] and her teeth seem to vanish, replaced with a sucking, eager wetness.  ");
-	if(player.isNaga()) MainScreen.text("With reptilian litheness, you slowly lean backwards and press your hands onto the back of her head, pushing her face further between your cheeks.  ");
-	else if(!player.isTaur()) MainScreen.text("You lean backwards and press your hands onto the back of her head, pushing her face further between your cheeks.  ");
+	if(player.lowerBody.isNaga()) MainScreen.text("With reptilian litheness, you slowly lean backwards and press your hands onto the back of her head, pushing her face further between your cheeks.  ");
+	else if(!player.lowerBody.isTaur()) MainScreen.text("You lean backwards and press your hands onto the back of her head, pushing her face further between your cheeks.  ");
 	MainScreen.text("You laugh at the sensation of her tongue as it pushes into your anal passage, slathering it with worshipful attention, perhaps hoping the sooner she gets you off the sooner this can end.");
 	//[Not Centaur: 
-	if(!player.isTaur()) MainScreen.text("  You smirk and grip her hair, moving her head in rhythm with your own movements.");
+	if(!player.lowerBody.isTaur()) MainScreen.text("  You smirk and grip her hair, moving her head in rhythm with your own movements.");
 	else MainScreen.text("  You gyrate your [butt] this way and that, moving her head in rhythm with your own movements.");
 	
 	//[Pussy: 
 	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("\n\nYou feel thin fingers brush against your [vagina], slowly rubbing against the sensitive folds of your labia before circling your [clit] in virtually the same motion you used upon her earlier.  You decide to allow this; she's learnt a valuable lesson you weren't even aware you were teaching, and the dual movements of her tongue in your ass and her warm fingers slicking across your wet pussy are delightful.");
 	
-	MainScreen.text("\n\nHer tongue probes deeper and deeper into you, her plump lips pressing into your [asshole] until she touches something sensitive.  Your " + cockDescript(x) + " immediately reacts, twitching upwards restlessly.");
+	MainScreen.text("\n\nHer tongue probes deeper and deeper into you, her plump lips pressing into your [asshole] until she touches something sensitive.  Your " + CockDescriptor.describeCock(player, x) + " immediately reacts, twitching upwards restlessly.");
 	
 	MainScreen.text("\n\n\"<i>That's it,</i>\" you breathe. \"<i>Good girl.  Keep doing that...</i>\"  As she gently pushes and flicks her warm mouth muscle against your prostate, your dick");
 	if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s harden");
 	else MainScreen.text(" hardens");
 	MainScreen.text(" until after minutes of blissful pleasure you are bulging with need.  Her saliva coats your opening as you clench your muscles and trap her tongue deep in you before roughly rubbing your [ass] against her, face fucking her for all you are worth; the soft, slippery sensation inside you is immense and you pick up the pace.");
-	if(player.isNaga()) MainScreen.text("  You clench her almost bone crushingly tight in your coils as rut overtakes you.");
+	if(player.lowerBody.isNaga()) MainScreen.text("  You clench her almost bone crushingly tight in your coils as rut overtakes you.");
 	
 	MainScreen.text("\n\n\"<i>Oh, you're soooo good at that,</i>\" you sigh.  \"<i>You are just as good an asslicker as you are a cocksucker.  Maybe we'll do it this way every time from now on.  Would you like that? Worshipping your [Master]'s ass for your cumfix?  Should I keep you around just for when I need the sweat cleaned from my crack");
 	if(player.lowerBody.balls > 0) MainScreen.text(" and balls");
@@ -1102,14 +1102,14 @@ private getARimjobFromKelly():void {
 	
 	MainScreen.text("\n\nIf anything your harsh words make Kelly work harder; she wriggles her tongue this way and that with your rough movements and moans, the vibrations translating straight down your cock");
 	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("; she slides as many fingers as she can into your [vagina] and frigs you as best she can");
-	MainScreen.text(".  Grunting, you reach your peak.  Your " + cockDescript(x) + " opens wide and you ejaculate streams of cum, splattering into the dust in front of you, your whole body clenching and seizing around the warm, wet muscle wedged in your [butt].");
+	MainScreen.text(".  Grunting, you reach your peak.  Your " + CockDescriptor.describeCock(player, x) + " opens wide and you ejaculate streams of cum, splattering into the dust in front of you, your whole body clenching and seizing around the warm, wet muscle wedged in your [butt].");
 	//[Pussy:]
 	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your female sex orgasms in tandem, your wet flesh seizing up around Kelly's fingers and spattering her arm and chest with girl juices.");
 	
 	MainScreen.text("\n\nYou give three final thrusts against Kelly's face to work out every last drop and then, spent, you slowly pull away, spit trailing from your ass to your slave's lips.  You insouciantly flare your cheeks in front of her after she has withdrawn, waiting, and grin when you feel a hesitant lick against one.  You turn around to take a good look at her.  She is panting for breath, her pupils dilated as she stares back up at you; her own arousal, of course, is unabated.  Finally, she finds some words.");
 	
 	//[First time: 
-	if(flags[FlagEnum.TIMES_RIM_JOBBED_BY_KELLY] == 1) {
+	if(Flags.list[FlagEnum.TIMES_RIM_JOBBED_BY_KELLY] == 1) {
 		MainScreen.text("\n\n\"<i>Th- thank you for the lesson, [Master],</i>\" she says.  You shake your head, smiling at her ignorance.");
 		
 		MainScreen.text("\n\n\"<i>That wasn't the lesson.</i>\"  You wave at the rivulets of your own cum in front of you casually.  ");
@@ -1120,11 +1120,12 @@ private getARimjobFromKelly():void {
 	}
 	//[Repeat: 
 	else {
-		MainScreen.text("\n\n\"<i>Th-thank you for the lesson, [Master],</i>\" she says.  She knows the drill by now; she quickly gets to her feet and then trots over to the off-white slimy mess you have created.  What a good girl.  Before she can get started you present your " + cockDescript(x) + "; she murmurs thanks for the gift and licks your oozing head spotless first before getting on with the main meal.  You rub her behind the ear as she licks away at the spent seed at your feet and then leave her to it.");
+		MainScreen.text("\n\n\"<i>Th-thank you for the lesson, [Master],</i>\" she says.  She knows the drill by now; she quickly gets to her feet and then trots over to the off-white slimy mess you have created.  What a good girl.  Before she can get started you present your " + CockDescriptor.describeCock(player, x) + "; she murmurs thanks for the gift and licks your oozing head spotless first before getting on with the main meal.  You rub her behind the ear as she licks away at the spent seed at your feet and then leave her to it.");
 		if(player.cumQ() >= 1000) MainScreen.text("  She is, after all, going to be here for a while.");
 	}
 	player.orgasm();
-	dynStats("sen", 3, "cor", 1);
+	player.stats.sens += 3;
+player.stats.cor += 1;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1134,25 +1135,25 @@ private rideKellyForPunishment():void {
 	let x: number = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	MainScreen.clearText();
-	flags[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT]++;
+	Flags.list[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT]++;
 	//First Time: 
-	if(flags[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] == 1) 
+	if(Flags.list[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] == 1) 
 	{
 		MainScreen.text("You stroke Kelly's side thoughtfully.  What would be a good punishment for a centaur? Several ideas immediately occur, but all require... equipment.  You tap your chin as a plan of action falls into place.");
 		//[PC is 6'5</i>\" or less, not a centaur:
-		if(player.tallness < 78 && !player.isTaur()) 
+		if(player.tallness < 78 && !player.lowerBody.isTaur()) 
 		{
 			MainScreen.text("\n\nWithout warning you suddenly swing yourself onto Kelly's back.  She squawks in surprise and almost rears, but you put a firm but comforting hand on her shoulder as you settle yourself and she calms down.");
 			//[Naga:]
-			if(player.isNaga()) MainScreen.text("  Your reptilian half is hardly ideal for riding a horse but eventually you reach a happy compromise; you perch upon her with your long tail wrapped around her barrel-like lower body.");
+			if(player.lowerBody.isNaga()) MainScreen.text("  Your reptilian half is hardly ideal for riding a horse but eventually you reach a happy compromise; you perch upon her with your long tail wrapped around her barrel-like lower body.");
 			//[Drider:]
-			else if(player.isDrider()) MainScreen.text("  Your spider half is hardly ideal for riding a horse but eventually you reach a happy compromise; you perch upon her with your long, chitinous legs wrapped carefully around her barrel-like lower body.  You must look utterly bizarre but feel reasonably comfortable.");
+			else if(player.lowerBody.isDrider()) MainScreen.text("  Your spider half is hardly ideal for riding a horse but eventually you reach a happy compromise; you perch upon her with your long, chitinous legs wrapped carefully around her barrel-like lower body.  You must look utterly bizarre but feel reasonably comfortable.");
 			MainScreen.text("  You lean in close to her human half and wrap your arms around her waist, drinking in the sweet scent of her pale skin; you know your own smell and power is pressing upon her senses and she whimpers softly as you slide your hands up her stomach until they are clutching her ");
-			if(flags[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("top row of ");
+			if(Flags.list[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("top row of ");
 			MainScreen.text("breasts.");
 			
 			MainScreen.text("\n\n\"<i>All right, pony slut,</i>\" you sigh into her ear.  \"<i>I want you to ride us to the farm.  You remember where that is, don't you?  It's where I taught you who you really are.  We're going to learn some more lessons there.  Won't that be fun? Go gently because...</i>\" you grip her breasts tighter, squeezing her nipples between your fingers");
-			if(flags[FlagEnum.KELLY_LACTATING] > 0) MainScreen.text(" hard enough to produce thin arcs of milk");
+			if(Flags.list[FlagEnum.KELLY_LACTATING] > 0) MainScreen.text(" hard enough to produce thin arcs of milk");
 			MainScreen.text(".  The centauress gasps, her breath already ragged. \"<i>...I've got to hold onto something.  Now, giddy up!</i>\" Kelly jolts into action, stumbles slightly at the extra weight, before righting and trotting in the direction of the farm; you keep yourself steady by maintaining a firm grip upon her breasts.");
 			//[PC is riding: 
 			MainScreen.text("\n\nAlthough it's only a short trip, your [butt] is plenty sore by the time you get to the farm, and you KNOW you're going to need better equipment if you're to do this properly.  You bring Kelly to a halt with a \"<i>woah there</i>\" and a tug upon her ponytail.  Then, you leave her behind the barn as you search the barn for what you need, hoping Whitney doesn't find you.");
@@ -1163,14 +1164,14 @@ private rideKellyForPunishment():void {
 			MainScreen.text("\n\nYou consider for a moment making her ride you where you need to go; but no, your size makes that impossible.  Instead you sigh and slide an arm around her waist, breathing in her sweet scent.");
 			
 			MainScreen.text("\n\n\"<i>You're useless to me as a steed,</i>\" you breathe into her ear, knowing your own smell and power are inundating her senses.  The centauress's breath comes ragged as your hand slides up and down her front, across her smooth stomach to lazily cup a breast and hold a nipple.  ");
-			if(flags[FlagEnum.KELLY_LACTATING] > 0) 
+			if(Flags.list[FlagEnum.KELLY_LACTATING] > 0) 
 			{
-				if(flags[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("All four of h");
+				if(Flags.list[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("All four of h");
 				else MainScreen.text("H");
 				MainScreen.text("er swollen teats immediately begin to dribble milk, and she moans.  ");
 			}
 			MainScreen.text("\"<i>So we will have to find some other way you can serve me.  We're going to go across to the farm.  You remember where that is, don't you?  It's where I taught you who you really are.  We're going to learn some more lessons there.  Won't that be fun?</i>\" You let go and set off at a ");
-			if(!player.isTaur()) MainScreen.text("march");
+			if(!player.lowerBody.isTaur()) MainScreen.text("march");
 			else MainScreen.text("canter");
 			MainScreen.text(" and after a pause she follows; deliberately led towards your destination.");
 			
@@ -1191,7 +1192,7 @@ private rideKellyForPunishment():void {
 		MainScreen.text("\n\n\"<i>How very appropriate.  Open wide.</i>\" Tremblingly she does so, and you place the bit between her teeth.  It says a lot about Mareth, you think as you walk to her side, that it is shaped rather like a ball gag, holes and all.  You aren't quite finished; with some long, leather straps you take her arms and bind them tightly behind her back.");
 	
 		//[PC rider:]
-		if(player.tallness < 78 && !player.isTaur()) 
+		if(player.tallness < 78 && !player.lowerBody.isTaur()) 
 		{
 			MainScreen.text("\n\nYou take a moment to admire your bound and gagged slut, replete with saddle, harness, reigns and blinkers.  There are a number of other things you found in Whitney's stable, but you'll save them for another day.  She gasps as you jump onto her back, but stays level; already she's learning.  You crack the reigns and she emits a muffled whimper.");
 			
@@ -1201,9 +1202,9 @@ private rideKellyForPunishment():void {
 			if(player.isBiped()) MainScreen.text(", set your feet into the stirrups");
 			MainScreen.text(" and enjoy the ride.  The experience is greatly more comfortable and you luxuriate in the breeze upon your " + player.skinFurScales() + ", the gentle, comforting undulation of the farm and grasslands around you, and increasingly the smell of sweat and horniness rising off the rosy skin of your pony bitch.  Her boobs bounce up and down with her own movements, accentuated by having her arms tied behind her, and although she seems to resolve to suffer in silence to begin with, the air in front of you is soon full of muffled whines and moans.  You make a 'tchk-tchk' noise and dig into her side, urging her to go faster.  Cows raise their heads from their grazing to stare at you incuriously as you gallop past; an utterly stunned Whitney watches you from her place underneath the tree, her book forgotten in her hands.  You wonder if she can recognise your mount, and you grin at the thought.");
 			
-			MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, and the sight of her hot, moist skin has you practically chomping at the bit yourself.  You slide off her, stagger slightly as you rip off your [armor], and then without any further ado grip her hindquarters and sink your straining " + cockDescript(x) + " straight into her cunt.  It is absolutely soaked with arousal, and you encounter virtually no resistance as you thrust your hips into her soft butt, immediately beginning to fuck her as hard as you can.  In your sex-daze you realize you are still clutching the reigns; you pull at them intermittently as you push as much of yourself into the centauress's hot, grasping warmth as you can, making her rear, squeal, and then scream around her gag to the dual sensation of her [master]'s dick burying itself into her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
+			MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, and the sight of her hot, moist skin has you practically chomping at the bit yourself.  You slide off her, stagger slightly as you rip off your [armor], and then without any further ado grip her hindquarters and sink your straining " + CockDescriptor.describeCock(player, x) + " straight into her cunt.  It is absolutely soaked with arousal, and you encounter virtually no resistance as you thrust your hips into her soft butt, immediately beginning to fuck her as hard as you can.  In your sex-daze you realize you are still clutching the reigns; you pull at them intermittently as you push as much of yourself into the centauress's hot, grasping warmth as you can, making her rear, squeal, and then scream around her gag to the dual sensation of her [master]'s dick burying itself into her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
 			
-			MainScreen.text("\n\nNeither of you are in any condition to keep this up for long, and after five minutes of fevered fucking, you groan as you clutch Kelly's ass hard, clenching and pouring yourself into her, your " + cockDescript(x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were in her.");
+			MainScreen.text("\n\nNeither of you are in any condition to keep this up for long, and after five minutes of fevered fucking, you groan as you clutch Kelly's ass hard, clenching and pouring yourself into her, your " + CockDescriptor.describeCock(player, x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were in her.");
 		}
 		//[PC not rider:
 		else 
@@ -1214,16 +1215,16 @@ private rideKellyForPunishment():void {
 			
 			MainScreen.text("\n\nIt's a lovely day and you luxuriate in the breeze upon the skin, the gentle, comforting undulation of the farm and grasslands around you, and increasingly the smell of sweat and horniness rising off the rosy skin of your pony bitch.  Her boobs bounce up and down with her own movements, accentuated by having her arms tied behind her, and although she seems to resolve to suffer in silence to begin with, the air behind you is soon full of muffled whines and moans.  You make a tchk tchk noise and urge her to go faster; such is your own size you are easily able to keep up with her as she begins a light gallop.  Cows raise their heads from their grazing to stare at you incuriously as you race past; an absolutely stunned Whitney watches you from her place underneath the tree, her book forgotten in her hands.  You wonder if she can recognise your mount and you grin at the thought.");
 			
-			if(!player.isTaur()) 
+			if(!player.lowerBody.isTaur()) 
 			{
-				MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, the sight of her hot, moist skin and you are practically champing at the bit yourself.  You bring her to a halt, rip off your [armor], and then without any further ado grip her hindquarters and sink your straining " + cockDescript(x) + " straight into her cunt.  It is absolutely soaked with arousal and you encounter virtually no resistance as you thrust your hips into her soft butt and immediately begin to fuck her as hard as you can.  In your sex daze, you realize you are still clutching the reins; you pull at them intermittently as you push as much of yourself in the centauress hot, grasping warmth as you can, the force making her rear.  She squeals, then screams around her gag to the dual sensation of her [master]'s dick burying itself in her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
-				MainScreen.text("\n\nNeither of you are in any condition to keep this up for long, and after five minutes of fevered fucking, you groan as you clutch Kelly's ass firmly and pour yourself into her, your " + cockDescript(x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were inside her.");
+				MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, the sight of her hot, moist skin and you are practically champing at the bit yourself.  You bring her to a halt, rip off your [armor], and then without any further ado grip her hindquarters and sink your straining " + CockDescriptor.describeCock(player, x) + " straight into her cunt.  It is absolutely soaked with arousal and you encounter virtually no resistance as you thrust your hips into her soft butt and immediately begin to fuck her as hard as you can.  In your sex daze, you realize you are still clutching the reins; you pull at them intermittently as you push as much of yourself in the centauress hot, grasping warmth as you can, the force making her rear.  She squeals, then screams around her gag to the dual sensation of her [master]'s dick burying itself in her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
+				MainScreen.text("\n\nNeither of you are in any condition to keep this up for long, and after five minutes of fevered fucking, you groan as you clutch Kelly's ass firmly and pour yourself into her, your " + CockDescriptor.describeCock(player, x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were inside her.");
 			}
 			//Centaur: 
 			else 
 			{
-				MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, the sight of her hot, moist skin and you are practically champing at the bit yourself; even her rippling horse body speaks directly to your own, urging you irresistibly to mount her.  You bring her to a shuddering halt, rip off your [armor], and then without any further ado rear onto her back and sink your straining " + cockDescript(x) + " straight into her cunt.  It is absolutely soaked with arousal and you encounter virtually no resistance as you thrust your hips into her soft butt and immediately begin to fuck her as hard as you can.  In your sex daze you realize you are still clutching the reigns; you pull at them intermittently as you push as much of yourself in the centauress hot, grasping warmth as you can, making her rear, squealing and then screaming around her gag to the dual sensation of her [master]'s dick burying itself in her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
-				MainScreen.text("\n\nYou wish you could live forever in these luscious moments; it is so indefinably right to be reared over your eager submissive, encompassing her with your own flesh as you penetrate her deep wetness, both your human and horse parts cry out for it; mounting her, breeding her, imprinting yourself upon her and making her yours.  Neither of you are in any condition to keep it up for long though, and after five minutes of this fevered fucking you groan as you clutch Kelly's breasts hard and pour yourself into her, your " + cockDescript(x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were inside her.");
+				MainScreen.text("\n\nEventually you arrive back at camp, and not a moment too soon.  Your nostrils are full of the smell of Kelly, the sight of her hot, moist skin and you are practically champing at the bit yourself; even her rippling horse body speaks directly to your own, urging you irresistibly to mount her.  You bring her to a shuddering halt, rip off your [armor], and then without any further ado rear onto her back and sink your straining " + CockDescriptor.describeCock(player, x) + " straight into her cunt.  It is absolutely soaked with arousal and you encounter virtually no resistance as you thrust your hips into her soft butt and immediately begin to fuck her as hard as you can.  In your sex daze you realize you are still clutching the reigns; you pull at them intermittently as you push as much of yourself in the centauress hot, grasping warmth as you can, making her rear, squealing and then screaming around her gag to the dual sensation of her [master]'s dick burying itself in her and the harness pulling tight upon her head and bit, thrusting back into you as best she can.");
+				MainScreen.text("\n\nYou wish you could live forever in these luscious moments; it is so indefinably right to be reared over your eager submissive, encompassing her with your own flesh as you penetrate her deep wetness, both your human and horse parts cry out for it; mounting her, breeding her, imprinting yourself upon her and making her yours.  Neither of you are in any condition to keep it up for long though, and after five minutes of this fevered fucking you groan as you clutch Kelly's breasts hard and pour yourself into her, your " + CockDescriptor.describeCock(player, x) + " surging line after line of cum into her.  She moans breathily and happily to the heavenly sensation of being filled with your seed, her vagina milking you for every drop it can get.  You don't even know how many times she orgasmed; her pussy dribbled and gushed the entire time you were inside her.");
 			}
 		}
 		kellyPreggers();
@@ -1236,7 +1237,7 @@ private rideKellyForPunishment():void {
 		//(\"<i>Horsewhip</i>\" option opened in main \"<i>Punish</i>\" menu)
 	}
 	//First repeat: 
-	else if(flags[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] == 2) {
+	else if(Flags.list[FlagEnum.TIMES_RIDDEN_KELLY_FOR_PUNISHMENT] == 2) {
 		MainScreen.text("Without another word, you stride over to the stones underneath which you secreted the riding gear.  Kelly watches you with deep apprehension, and then bursts into protests as you return, carrying the heap of clinking leather and metal.");
 		
 		MainScreen.text("\n\n\"<i>No, [Master] please no, I don't want that, I've learnt my lesson, I'll be good for now on, punish me any way you see fit but not that...</i>\"");
@@ -1244,13 +1245,13 @@ private rideKellyForPunishment():void {
 		MainScreen.text("\n\n\"<i>Shush now, ass,</i>\" you say calmly; the epithet immediately silences her. \"<i>This is for your own good, you know that.  Hard lessons are the best lessons, and you will thank me for it later.  Now stay still.</i>\"  She sets her jaw and does as you ask; you soothingly remark upon her bravery as you equip her as you did before, saddle, stirrups, harness, blinkers and bit, before firmly binding her arms behind her back.  You've got an extra treat for her this time, though.  You rummage around in the saddlebags and then lift them up so she can see them in her limited sightline, and her eyes widen.");
 		
 		MainScreen.text("\n\n\"<i>I think they were originally supposed to be fixed upon a mantle for festivals or something,</i>\" you say conversationally, as you fix the pink tassels to each of her erect nipples. \"<i>But as you can see... they fit upon a slut's fuck pillows perfectly well.");
-		if(flags[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("  Just as well there were four of them, eh?");
+		if(Flags.list[FlagEnum.KELLY_BONUS_TIT_ROWS] > 0) MainScreen.text("  Just as well there were four of them, eh?");
 		MainScreen.text("</i>\" You step back to admire the effect.  Kelly stares back at you behind her leather straps and ball gag, her tasselled boobs forced outwards by her arms bound behind her back.  You laugh and stroke her face; she closes her eyes and bends into it, enjoying the simple motion of her [Master]'s hand.");
 		
 		MainScreen.text("\n\n\"<i>You look so adorable like that,</i>\" you say.  \"<i>But it's no good if only I can see you, is it?</i>\"  She opens her eyes wide to that.");
 		
 		//PC rider: 
-		if(player.tallness < 78 && !player.isTaur()) {
+		if(player.tallness < 78 && !player.lowerBody.isTaur()) {
 			MainScreen.text("\n\nWithout another word you grab hold of her waist and swing yourself onto her back.  \"<i>Head towards the desert,</i>\" you breathe into her ear as you take hold of the reigns.  \"<i>I think you know where we're going,</i>\" Kelly whimpers, and then sets off at a trot.");
 			
 			MainScreen.text("\n\nThanks to Mareth's warped geography it doesn't take you long to arrive at the gates of Tel'Adre.  The guards on duty raise their eyebrows at your mount, her tassels flicking and whipping gaily in the warm breeze, sweat beading on her skin.");
@@ -1263,7 +1264,7 @@ private rideKellyForPunishment():void {
 			
 			MainScreen.text("\n\nYou make her stop and leave her outside a cosmetics shop you spot; you return carrying a box of ribbons.  When you approach her back end, you are almost keeled over by the pheromone stench coming off it - her pussy is absolutely soaked.  The centauress is breathing heavily, trying valiantly to do what you are doing and not notice the clutches of people and centaur stopping, staring and muttering to themselves. What a masochist, you think to yourself in wonder.  The smell of her eager pussy has swarmed over your brain and then unstoppably down into your groin, leaving there a hot, leaden weight of need, and there's only one thing to do.");
 			
-			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, fuck her hard.  She mums and hums and whinnies around her gag, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her wet, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms around your " + cockDescript(x) + " and absolutely soaks your [hips] with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her pussy is now drooling your ejaculate.");
+			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, fuck her hard.  She mums and hums and whinnies around her gag, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her wet, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms around your " + CockDescriptor.describeCock(player, x) + " and absolutely soaks your [hips] with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her pussy is now drooling your ejaculate.");
 			
 			MainScreen.text("\n\n\"<i>Good girl,</i>\" you say at last. \"<i>Have a present.</i>\" You withdraw your box of ribbons and tie one around her demonic tail.  \"<i>When we leave I want you to hold your tail up high.  So everyone can see the present your [master] gave you.</i>\"  You take her ragged moan to mean she understands exactly your intent.");
 			
@@ -1282,15 +1283,15 @@ private rideKellyForPunishment():void {
 			
 			MainScreen.text("\n\nYou make her stop and leave her outside a cosmetics shop you spot; you return carrying a box of ribbons.  When you approach her back end, you are almost keeled over by the pheromone stench coming off it - her pussy is absolutely soaked.  The centauress is breathing heavily, trying valiantly to do what you are doing and not notice the clutches of people and centaurs stopping, staring and muttering to themselves. What a masochist, you think to yourself in wonder.  The smell of her eager pussy has swarmed over your brain and then unstoppably down into your groin, leaving there a hot, leaden weight of need, and there's only one thing to do.");
 			
-			MainScreen.text("\n\nYou lead her down a side alley- giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, fuck her hard.  She mums and hums and whinnies around her gag, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her wet, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms around your " + cockDescript(x) + " and absolutely soaks your [hips] with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her pussy is now drooling with your ejaculate.");
+			MainScreen.text("\n\nYou lead her down a side alley- giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, fuck her hard.  She mums and hums and whinnies around her gag, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her wet, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms around your " + CockDescriptor.describeCock(player, x) + " and absolutely soaks your [hips] with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her pussy is now drooling with your ejaculate.");
 			MainScreen.text("\n\n\"<i>Good girl,</i>\" you say at last.  \"<i>Have a present.</i>\"  You withdraw your box of ribbons and tie one around her demonic tail. \"<i>When we leave I want you to hold your tail up high.  So everyone can see the present your [master] gave you.</i>\"  You take her ragged moan to mean she understands exactly your intent.");
 
 			MainScreen.text("\n\nYou leave Tel'Adre exactly the way you came, you calmly striding ahead of Kelly, twitching your reigns occasionally to direct her; she rears her tail up high so that everyone can see her oozing cream pie, her bow bobbing just as prettily as her tassels as you leave a wet trail behind you.");
 		}
 		MainScreen.text("\n\nThis final humiliation has her breathing wetly and volubly into her gag by the time you are back to camp, somewhere between pants of desire and sobs of misery.  You strip her of her gear and to show you can be a kind [Master] too you let her suck you off, the hard, shame-tinted memory of the last couple of hours suffixed by the joy of what she does best.");
 		//[Not centaur: 
-		if(!player.isTaur()) MainScreen.text("   You sigh and enjoy the sight of her pretty head bobbing over your groin, your " + cockDescript(x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile and hold her face as she basks in an afterglow earned from pure debasement.");
-		else MainScreen.text("  You sigh and enjoy your " + cockDescript(x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile, turn and hold her face as she basks in an afterglow earned from pure debasement.");
+		if(!player.lowerBody.isTaur()) MainScreen.text("   You sigh and enjoy the sight of her pretty head bobbing over your groin, your " + CockDescriptor.describeCock(player, x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile and hold her face as she basks in an afterglow earned from pure debasement.");
+		else MainScreen.text("  You sigh and enjoy your " + CockDescriptor.describeCock(player, x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile, turn and hold her face as she basks in an afterglow earned from pure debasement.");
 		
 		MainScreen.text("\n\n\"<i>What do you say?</i>\"");
 		
@@ -1308,7 +1309,7 @@ private rideKellyForPunishment():void {
 		MainScreen.text("\n\n\"<i>I don't know why you have to be so difficult about this,</i>\" you sigh.  \"<i>You know you earned this, and you look adorable with it all on.</i>\"");
 		
 		//PC rider: 
-		if(player.tallness < 78 && !player.isTaur())
+		if(player.tallness < 78 && !player.lowerBody.isTaur())
 		{
 			MainScreen.text("\n\nWithout another word you grab hold of her waist and swing yourself onto her back.  \"<i>You know where you're going,</i>\" you breathe into her ear.  Kelly whimpers, and then sets off at a trot.");
 			
@@ -1320,7 +1321,7 @@ private rideKellyForPunishment():void {
 			
 			MainScreen.text("\n\nYou make her stop and leave her outside a sex shop you spot; you return carrying an unmarked box.  When you approach her back end, you are almost keeled over by the pheromone stench coming off it - her pussy is absolutely soaked.  The centauress is breathing heavily, trying valiantly to do what you are doing and not notice the clutches of people and centaur stopping, staring and muttering themselves.  Although you were expecting it, the smell of her eager pussy still hits your bloodstream like a sugar high, racing down to your groin, leaving there a hot, leaden weight of need.");
 			
-			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere- and then, braced against her formidable weight, slowly dip your " + cockDescript(x) + " into her cunt until it is completely slathered in girl slime.  She sighs to the agonisingly gentle treatment and then gives out a muffled cry out of shock as you withdraw completely and, using the lubrication she provided, push into her tight asshole.");
+			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere- and then, braced against her formidable weight, slowly dip your " + CockDescriptor.describeCock(player, x) + " into her cunt until it is completely slathered in girl slime.  She sighs to the agonisingly gentle treatment and then gives out a muffled cry out of shock as you withdraw completely and, using the lubrication she provided, push into her tight asshole.");
 			
 			MainScreen.text("\n\nIt takes a while to work her loose enough to fuck, but she of course is a naturally talented buttslut, her orifices only too eager to accept you.  She mums and hums and whinnies around her gag to the intense sensation, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her tight, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms against your [hips] and absolutely soaks them with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her ass is now gaping and drooling your ejaculate.");
 			
@@ -1339,7 +1340,7 @@ private rideKellyForPunishment():void {
 			
 			MainScreen.text("\n\nYou make her stop and leave her outside a sex shop you spot; you return carrying an unmarked box.  When you approach her back end, you are almost keeled over by the pheromone stench coming off it- her pussy is absolutely soaked.  The centauress is breathing heavily, trying valiantly to do what you are doing and not notice the clutches of people and centaur stopping, staring and muttering themselves.  Although you were expecting it, the smell of her eager pussy still hits your bloodstream like a sugar high, racing down to your groin to leaving there a hot, leaden weight of need.");
 			
-			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, slowly dip your " + cockDescript(x) + " into her cunt until it is completely slathered in girl slime.  She sighs to the agonizing treatment and then gives out a muffled cry out in shock as you withdraw completely and, using the lubrication she provided, push into her tight asshole.");
+			MainScreen.text("\n\nYou lead her down a side alley - giving a hard look to the onlookers which makes most of them remember they have business elsewhere - and then, braced against her formidable weight, slowly dip your " + CockDescriptor.describeCock(player, x) + " into her cunt until it is completely slathered in girl slime.  She sighs to the agonizing treatment and then gives out a muffled cry out in shock as you withdraw completely and, using the lubrication she provided, push into her tight asshole.");
 			
 			MainScreen.text("\n\nIt takes a while to work her loose enough to fuck, but she of course is a naturally talented buttslut, her orifices only too eager to accept you.  She mums and hums and whinnies around her gag to the intense sensation, her tassels twirling merrily as you jerk her body furiously, lost in her mass and her tight, clenching tunnel.  It's a secluded area but you can still hear giggles and gasps at the fringes of your conscience; they are meaningless to you but you suspect to Kelly they are as loud as voices in her ear.  Her pussy spasms against your [hips] and absolutely soaks them with girl juice; in response you grab her flanks and cum, sighing raggedly as you shoot your load deep into her, orgasm clenching your body.  You withdraw slowly, noting with satisfaction that her ass is now gaping and drooling your ejaculate.");
 			
@@ -1350,16 +1351,17 @@ private rideKellyForPunishment():void {
 		//All go to: 
 		MainScreen.text("\n\nThis final humiliation has her breathing wetly and volubly into her gag by the time you are back to camp, somewhere between pants of desire and sobs of misery.  You strip her of her gear, throw the butt plug away and to show you can be a kind [Master] too you let her suck you off, the hard, shame-tinted memory of the last couple of hours suffixed by the joy of what she does best.");
 		//[Not centaur: 
-		if(!player.isTaur()) MainScreen.text("  You sigh and enjoy the sight of her pretty head bobbing over your groin, your " + cockDescript(x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile and hold her face as she basks in an afterglow earned from pure debasement.");
+		if(!player.lowerBody.isTaur()) MainScreen.text("  You sigh and enjoy the sight of her pretty head bobbing over your groin, your " + CockDescriptor.describeCock(player, x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile and hold her face as she basks in an afterglow earned from pure debasement.");
 		//[Centaur:]
-		else MainScreen.text("  You sigh and enjoy your " + cockDescript(x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile, turn and hold her face as she basks in an afterglow earned from pure debasement.");
+		else MainScreen.text("  You sigh and enjoy your " + CockDescriptor.describeCock(player, x) + " encapsulated in soft shifting blankets of wet mouth flesh, your ears filled with her slurps and muffled sighs.  You are quickly pushed towards a new high by the worshipful treatment; you give her what she wants and cum in her mouth, letting her savor your texture and flavor; she closes her eyes and swallows, orgasm shuddering through her as it hits her stomach.  You smile, turn and hold her face as she basks in an afterglow earned from pure debasement.");
 		
 		MainScreen.text("\n\n\"<i>What do you say?</i>\"");
 		
 		MainScreen.text("\n\n\"<i>Thank you, [Master],</i>\" she says, smiling at you devotedly.  Her voice hardens. \"<i>You were right.  I deserved that punishment, because from it I will learn to make sure you never have to do it again.  I will be the most obedient cumslut there ever was!</i>\" You smile and tell her to run along for now.  Your grin widens as you watch the girl who never learns leave.");
 	}
 	player.orgasm();
-	dynStats("sen", -1, "cor", .5);
+	player.stats.sens += -1;
+player.stats.cor += .5;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1370,7 +1372,7 @@ private takeKellysVirginity():void {
 	if(x < 0) x = player.smallestCockIndex();
 	
 	MainScreen.text("You tell Kelly that you intend to come claim the prize you broke her for - her virgin ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("horse-");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("horse-");
 	MainScreen.text("cunt.");
 	
 	MainScreen.text("\n\nThe female centaur fidgets nervously, her hoof pawing at the dirt indecisively, her hands wringing. \"<i>Will it hurt?</i>\" she asks.  Her body shudders nervously, shaking her large, pert breasts enticingly.  Confidently, you place your hand on her arm and give a reassuring squeeze.");
@@ -1380,15 +1382,15 @@ private takeKellysVirginity():void {
 	MainScreen.text("\n\nYou command, \"<i>Lie down on your flank.  I don't want your legs going out on me mid-fuck once you realize how good being my breeding bitch can be.</i>\"");
 	
 	MainScreen.text("\n\nNodding meekly, Kelly lowers herself to the ground and flops onto her side with an absolute lack of grace.   Her tail curls up behind her back in order to expose her ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("lust-swollen, black-lipped fuck-hole");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("lust-swollen, black-lipped fuck-hole");
 	else MainScreen.text("blooming, pink-tinged pussy");
 	MainScreen.text(" to your roving eyes.  She asks, \"<i>Is th-th-this good, [Master]?</i>\"");
 	
 	MainScreen.text("\n\nYou kneel behind her, pushing a thumb into that slick entrance, testing it, rubbing in tiny circles, admiring the webs of moist lubricant that hang across that entrance as you slowly accustom it to penetration.  Kelly begins to make quiet sounds of pleasure, little \"<i>Ahhhs</i>\" and \"<i>Oooohs</i>\" that leave no doubt as to her state.  Her clitty quickly grows erect from your attentions, a taut bud that makes her moan whenever you brush a wet digit across it.  Her steamy hole is soon as ready as your thumb can make it, so you switch to inserting your middle and index fingers into the juicy slit, spreading her entrance around the dual intruders.  She whimpers as you forcibly open her, dilating her sodden");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text(", equine");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text(", equine");
 	MainScreen.text(" cunt until her hymen is easily visible.  You rub every sensitive fold that you can get to");
 	
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text(", taking time to squeeze her plush, onyx vulva teasingly.  Kelly whinnies in response, overtaken by her potent equine instincts.");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text(", taking time to squeeze her plush, onyx vulva teasingly.  Kelly whinnies in response, overtaken by her potent equine instincts.");
 	else MainScreen.text(", taking time to fondle her slick labia.  Kelly moans in response, overtaken by the sensations you're forcing through her.");
 	
 	MainScreen.text("\n\n\"<i>You like that, don't you, cunt?</i>\" you ask, still molesting your equestrian toy with faster strokes.");
@@ -1400,18 +1402,18 @@ private takeKellysVirginity():void {
 	MainScreen.text("\n\n\"<i>I'm not stopping, you dumb horse-cunt,</i>\" you answer, accompanied by a rough smack to her haunches.  \"<i>You're mine, and to you there's no greater pleasure than serving me - even if you don't get to cum.  You got that, bitch?</i>\"  You spank her again, watching the heavy flow of lubricant intensify.  The air is inundated with her rich, female odor, a testament to just how true your words ring.  Kelly pants, pleading with her eyes and lifting one of her hind-legs as high as her beastly body will allow, to spread herself as open as possible.  Her tail flicks about anxiously while your pet abuses her own nipples, lost in the throes of submissive bliss.");
 	
 	MainScreen.text("\n\nDeciding that it's time to finally claim your new slut's maidenhead, you ");
-	if(!player.isTaur()) MainScreen.text("get down behind her and line your " + cockDescript(x) + " with her dribbling lips.");
-	else MainScreen.text("lie down behind her, sliding your hindlegs behind hers in order to properly align your " + cockDescript(x) + " with her dribbling lips.");
+	if(!player.lowerBody.isTaur()) MainScreen.text("get down behind her and line your " + CockDescriptor.describeCock(player, x) + " with her dribbling lips.");
+	else MainScreen.text("lie down behind her, sliding your hindlegs behind hers in order to properly align your " + CockDescriptor.describeCock(player, x) + " with her dribbling lips.");
 	MainScreen.text("  The first contact of " + player.cockHead(x) + " on her feminine mound sends an electric current of pleasure through your member, one that has you immediately and heedlessly pushing forward, sliding your full, sensitive phallus as deeply into that slick opening as you can.  That turns out not to be very far, as you almost immediately hit her virginal hymen.  It blocks off the rest of that hot, dripping hole almost spitefully.");
 	
 	MainScreen.text("\n\nYou squeeze Kelly's ");
-	if(player.isTaur()) MainScreen.text("breast as you snuggle up behind her, centaur to centaur,");
+	if(player.lowerBody.isTaur()) MainScreen.text("breast as you snuggle up behind her, centaur to centaur,");
 	else MainScreen.text("ass");
 	MainScreen.text(" and laugh, \"<i>Here it comes, you eager whore!</i>\"  Then, you spear through her entrance with one powerful thrust.  In that second, her pussy somehow gets even hotter and warmer around your girth, and you sink yourself as deeply as you can");
 	if(player.cockArea(x) <= 300)
 	{
 		MainScreen.text(", nestling your [sheath] up against her ");
-		if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("plump, equine cunt-lips");
+		if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) MainScreen.text("plump, equine cunt-lips");
 		else MainScreen.text("slippery, pink cunt-lips");
 	}
 	else MainScreen.text(", pressing your " + player.cockHead(x) + " up against the barrier her cervix makes");
@@ -1419,11 +1421,11 @@ private takeKellysVirginity():void {
 	
 	MainScreen.text("\n\nYou pull on her tail as you begin to slide in and out, asking, \"<i>Did you like that, slut?  Does your cunt like being broken in by a real " + player.mf("man","breeder") + "'s cock?</i>\"");
 	
-	MainScreen.text("\n\nKelly moans, \"<i>Y-yes!  My... pussy...  My pussy feels so good!  It's so good to be yours, [Master]!</i>\"  Her eyes cross slightly as her pussy begins to squeeze down around you, driven by instinctual desires the lust-crazed centauress barely understands.  She's been so conditioned to obey that when her body tells her to do something (like milk your " + cockDescript(x) + "), she doesn't question - she simply, deliciously complies, her pussy growing ever-wetter from her submissiveness.");
+	MainScreen.text("\n\nKelly moans, \"<i>Y-yes!  My... pussy...  My pussy feels so good!  It's so good to be yours, [Master]!</i>\"  Her eyes cross slightly as her pussy begins to squeeze down around you, driven by instinctual desires the lust-crazed centauress barely understands.  She's been so conditioned to obey that when her body tells her to do something (like milk your " + CockDescriptor.describeCock(player, x) + "), she doesn't question - she simply, deliciously complies, her pussy growing ever-wetter from her submissiveness.");
 	
 	MainScreen.text("\n\nWith the pain of her deflowering little more than a memory, Kelly is free to give in to the pleasure you're forcing through her powerful, centaur frame.  She cums almost immediately, moist fluids spattering your groin, the fruit of her passion mixed with all the wetness-enhancing drugs you force-fed her when you created her.  Her channel's gentle milking motions accelerate, squeezing tighter and tighter around you, more forcefully.  It feels good, but you endure, sawing your [hips] in and out of her again and again, determined to enjoy this pleasure as long as you can.");
 	
-	MainScreen.text("\n\nKelly squirms and moans, shuddering again and again as you drive her to orgasm after orgasm.  After a few climaxes as juicy as the first, Kelly's eyes roll back and her tongue lolls out. She stops talking, simply grunting every time you slam against her and moaning with each draw back.  You fuck her until you're sure her body will never forget the feeling of wrapping around your " + cockDescript(x) + ", and then you fuck her some more.  You fuck her until her human half flops down on the ground like the rest of her, limply spasming while her well-plowed vagina nervelessly spasms around you.");
+	MainScreen.text("\n\nKelly squirms and moans, shuddering again and again as you drive her to orgasm after orgasm.  After a few climaxes as juicy as the first, Kelly's eyes roll back and her tongue lolls out. She stops talking, simply grunting every time you slam against her and moaning with each draw back.  You fuck her until you're sure her body will never forget the feeling of wrapping around your " + CockDescriptor.describeCock(player, x) + ", and then you fuck her some more.  You fuck her until her human half flops down on the ground like the rest of her, limply spasming while her well-plowed vagina nervelessly spasms around you.");
 	
 	MainScreen.text("\n\nGlorying over your conquest, you finally allow yourself release, and the long-pent-up fruit of your mating rushes forth with a surge of accompanying bliss.  You throw your head back as you erupt inside the trembling horse-girl's pussy, basting the inside of her quim white, all the way from her slit to her cervix.");
 	if(player.cumQ() >= 500) {
@@ -1433,13 +1435,14 @@ private takeKellysVirginity():void {
 	}
 	
 	MainScreen.text("\n\nYou pull out with a self-satisfied sigh, admiring ");
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("the redness of her well-used cunt.");
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 0) MainScreen.text("the redness of her well-used cunt.");
 	else MainScreen.text("the shining juices that drip from her oh-so-equine entrance, gilding the smooth onyx lips with a slimey sheen.");
 	MainScreen.text("  Kelly has passed out in a puddle of her own making, and you leave her like that, getting dressed without a backwards glance.");
 	kellyPreggers();
 	player.orgasm();
-	dynStats("sen", -3, "cor", .5);
-	flags[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
+	player.stats.sens += -3;
+player.stats.cor += .5;
+	Flags.list[FlagEnum.KELLY_VAGINALLY_FUCKED_COUNT]++;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1448,7 +1451,7 @@ private takeKellysVirginity():void {
 private giveKellyAPepper():void {
 	MainScreen.clearText();
 	//First: 
-	if(flags[FlagEnum.KELLY_TIMES_PEPPERED] == 0) {
+	if(Flags.list[FlagEnum.KELLY_TIMES_PEPPERED] == 0) {
 		MainScreen.text("You instruct Kelly to open wide; you've got something that will allow her to serve her [master] even better.  You imagine she once saw Whitney farm these things, but if your centauress slave knows its properties she doesn't show it; dutifully she opens her mouth, making an \"<i>aaaaaaah</i>\" noise until you pop the glossy red fruit onto her tongue.  You stand back and watch as she munches thoughtfully and then swallows.");
 		
 		MainScreen.text("\n\n\"<i>S'quite nice.  Spicy.  I don't know what it's supposed to do th-oh.  Ohhhh...</i>\" She closes her eyes and moans as flesh burgeons and balloons underneath her tits.  Nubs form in the softness and then darken, leaving her finally with a second row of breasts- smaller than her first but still at least C cups.  You smirk and take a few steps back and forth to properly take in her new curves; the soft obscenity of it is perfect for a slaveslut like her, and [eachCock] begins to harden at the thought of sliding it between those four pillows.");
@@ -1458,14 +1461,14 @@ private giveKellyAPepper():void {
 		MainScreen.text("\n\n\"<i>[Master], please...</i>\" she moans.  You draw into her, cup one of her new breasts and gently play with a nipple until you can hear the steady drip of her pussy juices on the dirt behind her, before saying maybe later; she needs to get used to her new body and you don't have time to satisfy the needs of a slut right now.  You turn and leave with a satisfied smile, the sound of the fitful hooves and whimper of a centaur impossibly turned on and incapable of doing anything about it in your ears.");
 		//[Second row of breasts added]
 		//[Kelta 15% more likely to conceive for 2 days]
-		flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] = 1;
-		flags[FlagEnum.KELLY_HEAT_TIME] = 48;
+		Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] = 1;
+		Flags.list[FlagEnum.KELLY_HEAT_TIME] = 48;
 	}
 	//Repeat:
 	else {
 		MainScreen.text("You grin and dangle the pepper in front of Kelly's face wordlessly.  The centauress knows what's coming and color spreads across her cheeks; however, she still opens wide and accepts the \"<i>gift</i>\", chewing slowly and swallowing.");
 		//If no second row:
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) {
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) {
 			MainScreen.text("\n\nShe closes her eyes and moans as flesh burgeons and balloons underneath her tits.  Nubs form in the softness and then darken, leaving her finally with a second row of breasts- smaller than her first but still at least C cups.  You smirk and take a few steps back and forth to properly take in her new curves; the soft obscenity of it is perfect for a slaveslut like her and [eachCock] begins to harden at the thought of sinking it between those four pillows.");
 			MainScreen.text("\n\nThe tits aren't the only thing the pepper has done to Kelly.  As her hands roam uncertainly over her new anatomy her breath comes in short gasps, her eyes lock upon you, even more filled with helpless lust than usual.  You can practically smell the pheromones radiating off her; she has gone into heat.");
 			
@@ -1477,10 +1480,10 @@ private giveKellyAPepper():void {
 			MainScreen.text("\n\n\"<i>[Master], please fuck me,</i>\" she whimpers. \"<i>Fuck me until I can't walk anymore, fuck me until all I can taste is your essence, I need your seed anyway and being like this... this... is unbearable.</i>\" You laugh and rub her flank, telling her she's so cute when she's desperate and who knows? If she's a good girl you might deign to meet her request.  You turn and leave.");
 			//[Kelta 15% more likely to conceive for 2 days]
 		}
-		flags[FlagEnum.KELLY_HEAT_TIME] += 48;
+		Flags.list[FlagEnum.KELLY_HEAT_TIME] += 48;
 	}
-	flags[FlagEnum.KELLY_TIMES_PEPPERED]++;
-	player.consumeItem(consumables.CANINEP);
+	Flags.list[FlagEnum.KELLY_TIMES_PEPPERED]++;
+	player.inventory.items.consumeItem(consumables.CANINEP);
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1492,26 +1495,26 @@ private kellyTitJob():void {
 	
 	let x: number;
 	
-	if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) x = player.cockThatFits(18,"length");
+	if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] == 0) x = player.cockThatFits(18,"length");
 	else x = player.biggestCockIndex();
 	
 	MainScreen.text("As Kelly eagerly trots towards you your eyes are naturally drawn to her breasts, bouncing gently with her swaying canter.  They are just slightly too big and pert to be of non-demonic origin; every step she takes makes them palpitate, her fat, tan curves dancing for you in the sunlight, her erect nipples begging to be touched and teased");
 	//[Lactation:
 	if (pregnancy.isPregnant) MainScreen.text(", glittering beads of milk flicking here and there as she advances");
-	MainScreen.text(".  The weight of them must be a constant reminder to her of the obscene changes you have wrought upon her body, of the deep need you have implanted into her mind, of the fact she is shaped the way she is because you have willed it.  Your " + cockDescript(x) + " is straining against your [armor] by the time Kelly has come to a halt in front of you, her lips parting and her nipples hardening even further as she pushes into your aura.  She grins coquettishly when she sees where you're staring, turning her eyes downwards and then slowly back to yours.");
+	MainScreen.text(".  The weight of them must be a constant reminder to her of the obscene changes you have wrought upon her body, of the deep need you have implanted into her mind, of the fact she is shaped the way she is because you have willed it.  Your " + CockDescriptor.describeCock(player, x) + " is straining against your [armor] by the time Kelly has come to a halt in front of you, her lips parting and her nipples hardening even further as she pushes into your aura.  She grins coquettishly when she sees where you're staring, turning her eyes downwards and then slowly back to yours.");
 	MainScreen.text("\n\n\"<i>Does [Master] see something " + player.mf("he","she") + " likes?</i>\" There is no question in your lust reddened mind of how you're going to satisfy yourself.");
 	
-	MainScreen.text("\n\n\"<i>On the ground,</i>\" you grunt, so quickened by need you can barely annunciate as you shed your clothes.  Kelly has her hooves folded obediently beneath her before you've even got your undergarments off, her grin replaced by a solemn, needful expression as your " + cockDescript(x) + " strains outwards, her pupils dilating, licking her plump lips unconsciously.  You smile and manage to control your urge long enough to tease her with your length a bit first, rubbing your prick slowly against her soft face, smearing her with your musk, pulling away slightly every time you feel her hot breath upon it, trying to latch her lips onto it or presenting her tongue.  You slide slowly downwards, resting it finally between her big, warm breasts.");
+	MainScreen.text("\n\n\"<i>On the ground,</i>\" you grunt, so quickened by need you can barely annunciate as you shed your clothes.  Kelly has her hooves folded obediently beneath her before you've even got your undergarments off, her grin replaced by a solemn, needful expression as your " + CockDescriptor.describeCock(player, x) + " strains outwards, her pupils dilating, licking her plump lips unconsciously.  You smile and manage to control your urge long enough to tease her with your length a bit first, rubbing your prick slowly against her soft face, smearing her with your musk, pulling away slightly every time you feel her hot breath upon it, trying to latch her lips onto it or presenting her tongue.  You slide slowly downwards, resting it finally between her big, warm breasts.");
 	
 	//Dick 17 inches or less:
-	if(player.lowerBody.cockSpot.list[x].cockLength <= 18) {
-		MainScreen.text("\n\nYou hold her by the shoulders and begin to move your " + cockDescript(x) + " up and down her valley, sighing as Kelly clasps her breasts and squashes her softness into your length, encapsulating it in her warm, yielding flesh.  Pre leaks from your tip to the shifting, pillowy pleasure inundating your hard cock, slicking Kelly's tender skin with your scent and providing you with the lubrication you need to pick up the pace.  The centauress coos as you grip her harder and begin to fuck her pillows, her eyes closed as she is swallowed by your presence and feral smell, each second you spend using her like this making her more and more sensitive and pliant to your touch.  She is an expert by now at servicing you; as you thrust into her she rolls her wrists so that your dick is caught in gentle boobquakes, her breasts pressing tightly upon your prick from all angles one second and then pulling away the next, pressing in like the tightest pussy imaginable and then pulling away to leave nothing but yielding softness...");
-		if (pregnancy.isPregnant) MainScreen.text("\n\nThe constant drizzle of milk expressing from her engorged nipples is too delicious to leave alone; you force yourself to stop your rut for a moment to tweak her damp, brown nubs, rubbing and then pressing them firmly between thumb and forefinger until her deep sighs turn into throaty moans.  You gently rub your " + cockDescript(x) + " over the milky streams you've caused to run down her front in rivulets, coating it in warm whiteness before sliding back into her valley.  The added lubrication make her glisteningly wet orbs practically frictionless; you growl at the slippery, encompassing warmth, fucking her now for all your worth whilst her fingers replace yours on her nipples, her mouth open in ecstasy as she replicates the sensation you pressed upon her, squeezing thin streams of milk everywhere.");
+	if(player.lowerBody.cockSpot.get(x).cockLength <= 18) {
+		MainScreen.text("\n\nYou hold her by the shoulders and begin to move your " + CockDescriptor.describeCock(player, x) + " up and down her valley, sighing as Kelly clasps her breasts and squashes her softness into your length, encapsulating it in her warm, yielding flesh.  Pre leaks from your tip to the shifting, pillowy pleasure inundating your hard cock, slicking Kelly's tender skin with your scent and providing you with the lubrication you need to pick up the pace.  The centauress coos as you grip her harder and begin to fuck her pillows, her eyes closed as she is swallowed by your presence and feral smell, each second you spend using her like this making her more and more sensitive and pliant to your touch.  She is an expert by now at servicing you; as you thrust into her she rolls her wrists so that your dick is caught in gentle boobquakes, her breasts pressing tightly upon your prick from all angles one second and then pulling away the next, pressing in like the tightest pussy imaginable and then pulling away to leave nothing but yielding softness...");
+		if (pregnancy.isPregnant) MainScreen.text("\n\nThe constant drizzle of milk expressing from her engorged nipples is too delicious to leave alone; you force yourself to stop your rut for a moment to tweak her damp, brown nubs, rubbing and then pressing them firmly between thumb and forefinger until her deep sighs turn into throaty moans.  You gently rub your " + CockDescriptor.describeCock(player, x) + " over the milky streams you've caused to run down her front in rivulets, coating it in warm whiteness before sliding back into her valley.  The added lubrication make her glisteningly wet orbs practically frictionless; you growl at the slippery, encompassing warmth, fucking her now for all your worth whilst her fingers replace yours on her nipples, her mouth open in ecstasy as she replicates the sensation you pressed upon her, squeezing thin streams of milk everywhere.");
 		MainScreen.text("  Her expression is one of deep concentration and as you quicken the pace and thrust further upwards she bends her chin down to lick at your head as it presents itself between her pressed together tits.");
 	
 		MainScreen.text("\n\n\"<i>Ooh...</i>\" she moans as she rolls her tongue around her mouth. \"<i>Why do you taste so godsdamn good, [Master]?</i>\" You are too busy to reply; your cock bulging now with real need you thrust your cock between her cleavage with all you've got, lost to everything but that sleeve of hot, wet flesh.");
 		//[Kelly has four tits:
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) {
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) {
 			MainScreen.text("\n\nYour [hips] press upon the softness of her lower pair of tits; it dimly occurs to you what a fine idea growing a few extra inches of dickmeat to take full advantage of the shape of your centauress slave might be.");
 		}
 		MainScreen.text("\n\nKelly's tongue flicks intermittently over your head and she moves her boobs up and down briskly, rubbing your dick in an alternating motion as you thrust yourself upwards to a body-seizing high.  Sweat beads your brow and you throw your head back as you cum; your ears are full of the slippery sound of prick against boob and the ecstatic, muffled sounds Kelly makes as she opens her mouth wide and swallows your first load whole.  Your seed rises upwards and outwards and you ride your pulsing orgasm, thrusting your [hips] with each surge to blast your slave with jizz.");
@@ -1522,10 +1525,10 @@ private kellyTitJob():void {
 	//Dick >17 inches, Kelly has four breasts:
 	else {
 		MainScreen.text("\n\nYou lead your prestigious prick down and down, sliding a vertical path over her warm torso until it is wedged between all four of her breasts.  Kelly is almost shaken out of her cock daze when she looks down, laughing at the sight.");
-		MainScreen.text("\n\n\"<i>So that's why you made me grow four of them!</i>\" Of course, you say; your slaves have to be suitably shaped to be able to properly service a [Master] as mighty as you.  Now, you say as you hold her by the shoulders and begin to move your " + cockDescript(x) + " up and down her long, twin valley, hush and properly attend to your cumslut duties.");
-		MainScreen.text("\n\nYou sigh as Kelly obediently clasps her top breasts and squashes her softness into your length, encapsulating it in her warm, yielding flesh.  You clasp her bottom boobs and do the same; whilst not as big as her first row, there is still more than enough plush fatness there to wrap your girth in warmth.  Pre leaks from your tip to the shifting, pillowy pleasure inundating your hard cock, slicking Kelly's tender skin with your scent; you slowly pull your " + cockDescript(x) + " all the way down and then up again, ensuring the full valley is given the lubrication you need to pick up the pace.  The centauress coos as you grip her harder and begin to fuck her pillows, her eyes closed as she is swallowed by your presence and feral smell, each second you spend using her like this making her more and more sensitive and pliant to your touch.");
+		MainScreen.text("\n\n\"<i>So that's why you made me grow four of them!</i>\" Of course, you say; your slaves have to be suitably shaped to be able to properly service a [Master] as mighty as you.  Now, you say as you hold her by the shoulders and begin to move your " + CockDescriptor.describeCock(player, x) + " up and down her long, twin valley, hush and properly attend to your cumslut duties.");
+		MainScreen.text("\n\nYou sigh as Kelly obediently clasps her top breasts and squashes her softness into your length, encapsulating it in her warm, yielding flesh.  You clasp her bottom boobs and do the same; whilst not as big as her first row, there is still more than enough plush fatness there to wrap your girth in warmth.  Pre leaks from your tip to the shifting, pillowy pleasure inundating your hard cock, slicking Kelly's tender skin with your scent; you slowly pull your " + CockDescriptor.describeCock(player, x) + " all the way down and then up again, ensuring the full valley is given the lubrication you need to pick up the pace.  The centauress coos as you grip her harder and begin to fuck her pillows, her eyes closed as she is swallowed by your presence and feral smell, each second you spend using her like this making her more and more sensitive and pliant to your touch.");
 		MainScreen.text("\n\nShe is an expert by now at servicing you; as you thrust into her she rolls her wrists so that your dick is caught in gentle boobquakes, her breasts pressing tightly upon your prick from all angles one second and then pulling away the next, pressing in like the tightest pussy imaginable and then pulling away to leave nothing but yielding softness... you try and mimic the movement with the boobs you are holding, but you simply don't have the experience at serving your prick that she does; the base of your totem-like cock is caught in soft, savage kneading whilst your more sensitive top half is being treated to a mercurial, gentle massage.");
-		if (pregnancy.isPregnant) MainScreen.text("\n\nThe constant drizzle of milk expressing from her engorged nipples is too delicious to leave alone; you force yourself to stop your rut for a moment to tweak her damp, brown nubs, rubbing and then pressing them firmly between thumb and forefinger until her deep sighs turn into throaty moans.  You gently rub your " + cockDescript(x) + " over the milky streams you've caused to run down her front in rivulets, running it over all four of her tits until it is coated with warm whiteness, before sliding back into her obscene valley.  The added lubrication make her glisteningly wet orbs practically frictionless; you growl at the slippery, encompassing warmth, fucking her now for all your worth whilst her fingers replace yours on her nipples, her mouth open in ecstasy as she replicates the sensation you pressed upon her, squeezing thin streams of milk everywhere.");
+		if (pregnancy.isPregnant) MainScreen.text("\n\nThe constant drizzle of milk expressing from her engorged nipples is too delicious to leave alone; you force yourself to stop your rut for a moment to tweak her damp, brown nubs, rubbing and then pressing them firmly between thumb and forefinger until her deep sighs turn into throaty moans.  You gently rub your " + CockDescriptor.describeCock(player, x) + " over the milky streams you've caused to run down her front in rivulets, running it over all four of her tits until it is coated with warm whiteness, before sliding back into her obscene valley.  The added lubrication make her glisteningly wet orbs practically frictionless; you growl at the slippery, encompassing warmth, fucking her now for all your worth whilst her fingers replace yours on her nipples, her mouth open in ecstasy as she replicates the sensation you pressed upon her, squeezing thin streams of milk everywhere.");
 		MainScreen.text("  Her expression is one of deep concentration and as you quicken the pace and thrust further upwards she bends her chin to lick at your head as it presents itself between her pressed together tits.");
 		MainScreen.text("\n\n\"<i>Ooh...</i>\" she moans as she rolls her tongue around her mouth. \"<i>Why do you taste so godsdamn good, [Master]?</i>\" You are too busy to reply; your cock bulging now with real need you thrust your cock between her extensive cleavage with all you've got, lost to everything but that sleeve of hot, wet flesh.  Kelly's tongue flicks intermittently over your head and she moves her boobs up and down briskly, rubbing your dick in an alternating motion.  You squeeze her bottom row brutally hard, making her gasp as you thrust yourself upwards to a body-seizing high.  Sweat beads your brow and you throw your head back as you cum; your ears are full of the slimy sound of prick against boob and the ecstatic, muffled sounds Kelly makes as she opens her mouth wide and swallows your first load whole.  Your seed rises upwards and outwards and you ride your pulsing orgasm, thrusting your [hips] with each surge to blast your slave with jizz.");
 		if(player.cumQ() < 250) MainScreen.text("\n\nWhen you have finally emptied yourself, you sigh and step back to admire your handiwork.  You've given her a pretty impressive facial, her brow and cheeks splattered with your cream; however what is in range of her tongue is quickly disappearing.\n\n\"<i>Mmm... thank you for the load, [Master]!</i>\" she says, contented pleasure glittering in her eyes as she guides another oozing dollop of addiction down her throat.  You tell her she's quite welcome as you use her braid to wipe your dick clean, climb back into your [armor], and leave her to enjoy her fix.");
@@ -1533,7 +1536,7 @@ private kellyTitJob():void {
 		else MainScreen.text("\n\nYou go on and on, driven by a deep impulse to coat her with your potency, your dick flexing out string after string of jism until it aches with pleasure and you are dripping with sweat.  After what seems like minutes upon end of orgasm, you finally sigh and step back to admire your handiwork.  Kelly's face, shoulders and hair are absolutely plastered with cum, her eyes pasted shut.  As you watch her tongue emerges and does a wide circuit of her mouth, drawing in a big dollop of jizz which is then swallowed with a hum of pure contentment.\n\n\"<i>Mmm... I'm so lucky to have a [Master] who is so virile,</i>\" she purrs.  She unsticks her eyes with her fingers and gazes at you with contented pleasure as she licks them clean of oozing addiction.  \"<i>Thank you so much for giving me what I need, [Master]!</i>\" You tell her she's quite welcome as you use her braid to wipe your dick clean, climb back into your [armor], and leave her to enjoy her fix.");
 	}
 	player.orgasm();
-	dynStats("sen", -3);
+	player.stats.sens += -3;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1544,7 +1547,7 @@ private kellyPreggers():void {
 	if (pregnancy.isPregnant) return;
 	let x: number = Math.round(player.cumQ() / 20);
 	if (x > 80) x = 80;
-	if (flags[FlagEnum.KELLY_HEAT_TIME] > 0) x += 15;
+	if (Flags.list[FlagEnum.KELLY_HEAT_TIME] > 0) x += 15;
 	if (rand(100) + 1 <= 80) {
 		pregnancy.knockUpForce(PregnancyType.PLAYER, PregnancyType.INCUBATION_CENTAUR - 84);
 		trace("Kelly knocked up.");
@@ -1556,23 +1559,23 @@ private kellyPreggers():void {
 private kellyPregSex():void {
 	MainScreen.clearText();
 	let x: number;
-	if(flags[FlagEnum.KELLY_CUNT_TYPE] == 1) x = player.biggestCockIndex();
+	if(Flags.list[FlagEnum.KELLY_CUNT_TYPE] == 1) x = player.biggestCockIndex();
 	else x = player.cockThatFits(300);
 	if(x < 0) x = player.smallestCockIndex();
 	MainScreen.text("Maybe because of her pregnancy, the slut seems to release even more powerful scents out of her slick pussy; you actually have a clear view of her wide, parted lips exuding sexual musk.  You want to take her right now, right there, and deposit on her unborn offspring the load they truly deserve.  As if it weren't enough, Kelly is releasing copious amount of juices and whinnies meekly from time to time, as if her pregnancy makes her uneasy and she needs a big fat cock to release her tension.");
-	MainScreen.text("\n\nYou remove your [armor] and watch your " + multiCockDescriptLight() + " grow into a rock-hard erect state under the aphrodisiac scent; you're ready to stuff the breeding mare before you.  Driven mad with lust, you jump the centaur's behind and slap her angrily, making her moan and snort in submissive pleasure.  You can't take it anymore and with feverish excitement, you grab hold of [oneCock] and plunge it deep into Kelly's dark recesses.");
+	MainScreen.text("\n\nYou remove your [armor] and watch your " + CockDescriptor.describeMultiCockShort(player) + " grow into a rock-hard erect state under the aphrodisiac scent; you're ready to stuff the breeding mare before you.  Driven mad with lust, you jump the centaur's behind and slap her angrily, making her moan and snort in submissive pleasure.  You can't take it anymore and with feverish excitement, you grab hold of [oneCock] and plunge it deep into Kelly's dark recesses.");
  	
 	MainScreen.text("\n\nThe centauress moans, screams and arches her back, but you firmly slap her ass to keep her in control.  Grasping her motherly hips for leverage, you begin to thrust in and out of her unbelievably wide love-tunnel, knowing that its boiling warmth and size are made to accustom monstrous equine members.");
 	
 	//if you don't have a large horsecock:
-	if(player.lowerBody.cockSpot.list[x].cockType != CockType.HORSE) MainScreen.text("\n\nToo bad she gets yours instead.");
+	if(player.lowerBody.cockSpot.get(x).cockType != CockType.HORSE) MainScreen.text("\n\nToo bad she gets yours instead.");
 	MainScreen.text("\n\nAs you pound her scented fuck-hole, you feel the hybrid slut gradually calming down and getting used to your ruthless manners; even when you slap her, the cries you hear are definitely due to lust- and pleasure-driven.  She begins to thrust in response, adapting her own hip movements to yours in order to receive more cock.  Her hot insides are sticky and smear your pole with all kinds of fluids, making obscene yet arousing squishing noises.  An enormous trail of juices leaks from her abused cunt, polluting the floor and turning it into a muddy puddle.  Your feet begin to slip in it as you move back and forth to get a better grip to fuck that centaur-pussy, but your mind doesn't register the dirtiness of the act.  Still entranced by Kelly's animalistic efflux, you solely focus on slamming as much of your [cock] as you can into her welcoming innards. You pound and pound until your legs feel wobbly and your arms grow sore, and you pound her a little more.");
 	MainScreen.text("\n\nAs you have your way with the slutty centauress, you notice her bloated belly swings from side to side, making her unable to keep a stable foothold.  The bitch can't even stand properly, it seems; encouraged by that display of weakness, you give her a particularly powerful dick-push, forcing her to drop on her hind legs; weighed down by the heavy centaur-load she's carrying, she's unable to get back up, and just wiggles her pussy at you as her face lies in the dirt. With ferocious joy, you keep impaling her in earnest until you're both groaning in raw animal pleasure.  Her belly is crushed by the rest of her own body, and she seemingly enjoys getting cunt-ravaged with little care for her offspring. Amazed by the power you have over her very instincts, you give her one last dong-piercing before pouring down your load.");
  
-	MainScreen.text("\n\nYou grasp her generous hips and lock yourself into her cunt as it milks you with inhuman contractions. Your " + cockDescript(x) + " feels sucked in, squeezed and stretched to the point you believe it might rip.  However, this little worry is quickly drowned in a sea of never-ending ecstasy, as torrents after torrents of cum are being injected into the centauress' waiting womb; you know you won't be able to knock her up more than she already is but you've made her appear more pregnant than ever.  Kelly moans, whinnies and shudders as she absorbs more and more cum into her body until she looks ready to give birth to a full tribe.  When you're done and pull out, a fountain of various fluids spurts out of her manhandled cunt, and the slut sighs in satisfaction.  She does look more healthy than before despite having been forced to eat dirt like the whore she is.  Maybe your cum will have beneficial properties to your unborn centaur kids?");
+	MainScreen.text("\n\nYou grasp her generous hips and lock yourself into her cunt as it milks you with inhuman contractions. Your " + CockDescriptor.describeCock(player, x) + " feels sucked in, squeezed and stretched to the point you believe it might rip.  However, this little worry is quickly drowned in a sea of never-ending ecstasy, as torrents after torrents of cum are being injected into the centauress' waiting womb; you know you won't be able to knock her up more than she already is but you've made her appear more pregnant than ever.  Kelly moans, whinnies and shudders as she absorbs more and more cum into her body until she looks ready to give birth to a full tribe.  When you're done and pull out, a fountain of various fluids spurts out of her manhandled cunt, and the slut sighs in satisfaction.  She does look more healthy than before despite having been forced to eat dirt like the whore she is.  Maybe your cum will have beneficial properties to your unborn centaur kids?");
 	
 	player.orgasm();
-	dynStats("sen", -4);
+	player.stats.sens += -4;
 	doNext(camp.returnToCampUseOneHour);
 }
  
@@ -1597,19 +1600,19 @@ public kellyPopsOutARunt():void {
 	MainScreen.text("\n\nSatisfied to see your offspring will grow strong and healthy for you, you pat Kelly's head, tell her she's a good breeding slut and walk away; the motherly centaur sighs at the compliment.  \"<i>Thank you, [name]!  You were right, this really is my place, being used and breeding beautiful sluts for you.  I hope you will treat them as well as you treated me!</i>\"");
 	//[if corr > 80]
 	if(player.stats.cor > 80) MainScreen.text("\n\nYou grin as vivid pictures of how you'll be treating your soon-to-be-grown kids draw themselves in your mind. Right now they're still a little young, but someday...\n");
-	if (flags[FlagEnum.KELLY_KIDS] == 0) flags[FlagEnum.KELLY_FIRST_KID_GENDER] = gender;
-	flags[FlagEnum.KELLY_KIDS]++;
-	if (gender == 1) flags[FlagEnum.KELLY_KIDS_MALE]++;
+	if (Flags.list[FlagEnum.KELLY_KIDS] == 0) Flags.list[FlagEnum.KELLY_FIRST_KID_GENDER] = gender;
+	Flags.list[FlagEnum.KELLY_KIDS]++;
+	if (gender == 1) Flags.list[FlagEnum.KELLY_KIDS_MALE]++;
 }
 
 //Talk n Hand
 private talkNHandToKelly():void {
 	MainScreen.clearText();
 	//First: You tell her you'd just like to talk.
-	if(flags[FlagEnum.KELLY_TALK_N_HAND_TIMES] == 0) {
+	if(Flags.list[FlagEnum.KELLY_TALK_N_HAND_TIMES] == 0) {
 		MainScreen.text("\"<i>Talk?  Oh, that's the least interesting thing I can do with my mouth, [Master],</i>\" Kelly purrs.  That may be, you say, but she can amuse you with her hands whilst she amuses you with her voice.  The centaur gets the picture and grins.  ");
 		//Not Centaur: 
-		if(!player.isTaur()) {
+		if(!player.lowerBody.isTaur()) {
 			MainScreen.text("She helps you take off the lower half of your [armor] as you set yourself down and then wraps her warm hand around ");
 			if(player.lowerBody.cockSpot.count() == 1) MainScreen.text("[oneCock], gently tugging it.  It quickly hardens with the pleasing friction she coils around it.");
 			else MainScreen.text("first your [cock], then your [cock 2], gently tugging until they are both hard from the pleasing friction she coils around them.");
@@ -1625,7 +1628,7 @@ private talkNHandToKelly():void {
 	else {
 		MainScreen.text("You tell her you'd like to... talk.");
 		MainScreen.text("\n\nGrinning, your centaur slave ");
-		if(!player.isTaur()) {
+		if(!player.lowerBody.isTaur()) {
 			MainScreen.text("slides off the lower half of your [armor] as you set yourself down and then grasps your cock");
 			if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
 			MainScreen.text(" with her soft hands.  You sigh as she begins to gently pump, making ");
@@ -1639,7 +1642,7 @@ private talkNHandToKelly():void {
 			else MainScreen.text("a warm hand wraps around first your [cock] and then your [cock 2] before beginning to gently tug, both quickly hardening from the pleasing coils of friction.");
 		}
 	}
-	flags[FlagEnum.KELLY_TALK_N_HAND_TIMES]++;
+	Flags.list[FlagEnum.KELLY_TALK_N_HAND_TIMES]++;
 	//(Randomly generated)
 	let temp: number = rand(5);
 	//1.
@@ -1657,7 +1660,7 @@ private talkNHandToKelly():void {
 		if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("imagining thrusting every single one of your cocks into a wet, willing hole, ");
 		//vagina:
 		else if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("imagining one of them tongue-fucking your [vagina] as you buck into another's tight cunt, ");
-		MainScreen.text("imagining the symphony of feminine squeals and moans as you cum....  Kelly coos as you bark wordlessly, jizz surging powerfully out of your " + multiCockDescriptLight() + ".  She keeps masturbating you, pumping you with gentle, insistent pressure until you are spent.  Once you're done, she bends in and licks you clean, humming happily as she laps at your [cockHead] with her soothing, seeking tongue.");
+		MainScreen.text("imagining the symphony of feminine squeals and moans as you cum....  Kelly coos as you bark wordlessly, jizz surging powerfully out of your " + CockDescriptor.describeMultiCockShort(player) + ".  She keeps masturbating you, pumping you with gentle, insistent pressure until you are spent.  Once you're done, she bends in and licks you clean, humming happily as she laps at your [cockHead] with her soothing, seeking tongue.");
 		
 		MainScreen.text("\n\nAble to think slightly clearer with your blood settled, you decide against telling Kelly to go fetch her erstwhile harem - it's dangerous to send such a vulnerable slave wandering around in the wilderness for something that's probably long gone, and taking care of just one centaur cumslut is draining enough as it is.");
 		if(player.stats.cor < 70) MainScreen.text("  Plus, the thought of making Kelt's victims pay the price for his own crimes makes you feel uncomfortable.");
@@ -1686,7 +1689,7 @@ private talkNHandToKelly():void {
 		MainScreen.text("\n\nYou ask if all centaurs have sub-dom relationships.");
 		
 		MainScreen.text("\n\n\"<i>Oh, no [Master],</i>\" Kelly replies as she continues to pump you.  \"<i>We aren't like the demons if that's what you mean, we think about and treat sex just like anyone else.  We do go into heat or rut though, and combined with the problems with, y'know, getting relief it makes some of us get... edgy.  In the old days when we ruled the plains you sometimes got bands of males roaming the countryside, raping and even enslaving everything with a warm hole they came across when it got real bad.  I guess that's where the image of the arrogant, aggressive centaur comes from.  But I don't think we're any worse than, say, humans when it comes to that kind of thing.</i>\"  It's a fair point, you think, as you close your eyes and let your centaur slave masturbate you to the vinegar strokes, grunting wordlessly as you cum, jetting your spunk in long lines ");
-		if(!player.isTaur()) MainScreen.text("into the air");
+		if(!player.lowerBody.isTaur()) MainScreen.text("into the air");
 		else MainScreen.text("onto the ground");
 		MainScreen.text(".  Kelly nuzzles your [cocks] when you're done, slurping obscenely as she polishes your nobhead");
 		if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
@@ -1708,7 +1711,7 @@ private talkNHandToKelly():void {
 		MainScreen.text("\n\nYou want to concentrate on what she's saying but it's difficult when you're champing at the bit, your cock bulging urgently in Kelly's deliberately gentle wringing grasp.  Perhaps guessing this, the centaur goes quiet and begins to pump you hard, jerking you unrelentingly until you blow your load, sweat beading your brow as you spurt cum everywhere, your tensing, flexing orgasm going on for what seems like minutes.  It's a generous payload and Kelly makes appreciative noises as she licks up what hangs from [eachCock] when you're done.  In a husk you ask what happened after that.");
 		
 		MainScreen.text("\n\n\"<i>Well, you know most of the rest [Master],</i>\" she says, smacking her lips.  \"<i>I had to feed two breeding mares and my growing brood, and I already knew hunting on my own barely allowed just one centaur to get by, so eventually I fetched up with Whitney, who paid me to guard her farm.  And then I met you, who broke my aura and showed me who I truly was.</i>\"  She looks at you reverently.  \"<i>I was a miserable bastard, you know that?  Even when I was in charge of my tribe, I was miserable.  Now, worshipping your [cocks]");
-		if(flags[FlagEnum.KELLY_KIDS] > 0) MainScreen.text(" and bearing and raising your children");
+		if(Flags.list[FlagEnum.KELLY_KIDS] > 0) MainScreen.text(" and bearing and raising your children");
 		MainScreen.text(", I'm a hundred times happier.  I just used a demon's curse to get my way - you did it all on your own.  You showed me what true strength and dominance is, [Master]!</i>\"");
 		
 		MainScreen.text("\n\nYou should probably take a mind-broken cumslut's praise with a pinch of salt, but you do feel a glow of gratification which reaches beyond your groin.  You give your loyal servant a kiss on the cheek, dress yourself, and head back to camp.");
@@ -1721,7 +1724,7 @@ private talkNHandToKelly():void {
 			
 			MainScreen.text("\n\n\"<i>Not really,</i>\" says Kelly.  There's a hard note in her voice as she works her arms, masturbating your bulging meat.  \"<i>Before we just kept away from each other.  She knew about my wives and my aura but she didn't care, as long as I kept the imps and gnolls away and I didn't try it on her.  Of course it occurred to me, but... there's a cold edge to that woman.  Keeps it hidden, but there is - how else has she lived out here on her own for this long?  I didn't want to find out what she's hiding, plus I really needed the job.</i>\"  She's definitely pumping you aggressively, jerking your [cocks] with brisk movements until the flesh under her tight grasp is singing with blood.");
 			MainScreen.text("\n\nYou close your eyes and arch your neck to the sensation.  \"<i>Now when she sees me, she just gives me this really disgusted look.  Fucking bitch.  She thinks I'm so terrible now but thought everything was just great back when I was her pet demon-tainted rapist?  Bitch!</i>\"  She's really rubbing you furiously now and you groan as you surge to your high, trapped in a warm, smooth paint-shaker of a handjob.  She keeps up her growl as you tense and cum, opening your mouth as you ride it, flexing out buckets of spunk ");
-			if(!player.isTaur()) MainScreen.text("into the air");
+			if(!player.lowerBody.isTaur()) MainScreen.text("into the air");
 			else MainScreen.text("onto the ground");
 			MainScreen.text(".");
 			MainScreen.text("\n\n\"<i>But you'll show her one day, right [Master]?  Oh, what I'd give to see her grovelling in the dirt and licking your [feet].  You'll make her do that one day, won't you [Master]?  On that day... you'll remember to bring me along, right?</i>\"  She looks up at you, grinning, malicious fire in her green eyes.  You feel dizzy with your intense orgasm and are slightly taken aback there is still so much spite left in your cute pony cock-sleeve.  When you've recovered, you say maybe one day, but for now she's not finished with her job.");
@@ -1739,7 +1742,7 @@ private talkNHandToKelly():void {
 			MainScreen.text("\n\nShe knows exactly what she’s doing. Her hand moves slowly but surely over your bulging meat, and you close your eyes allowing your slave’s gloating, lascivious tones fill your head. “<i>Did you make her get on her knees? Make her sit up and beg for it? No... you didn’t </i>make<i> her do anything, did you? Prissy britches did it all by herself when it got unbearable, didn’t she. She got out the deeds to this place. She smashed her toy crossbow. She made herself a collar, and handed the leash to you. That’s how it was for butter-wouldn’t-melt, wasn’t it? All... by... herself.</i>”");
  
 			MainScreen.text("\n\nYou tense and cum, opening your mouth as you ride it, flexing out buckets of spunk");
-			if (!player.isTaur()) MainScreen.text(" into the air");
+			if (!player.lowerBody.isTaur()) MainScreen.text(" into the air");
 			else MainScreen.text(" onto the ground");
 			MainScreen.text(". The smooth woggle of flesh around your [cock] coils you expertly through your exultant orgasm, wringing out every last drop before plump, wet lips come to rest on your [cockHead biggest], kissing and licking it quite clean. Kelly looks extremely pleased with herself, glancing up at you once she’s done.");
 
@@ -1754,10 +1757,10 @@ private talkNHandToKelly():void {
 //Reward
 //Requirements: PC used “punish” at least once, 3+ days have gone by and “punish” has not proced*
 private rewardKelly():void {
-	flags[FlagEnum.KELLY_REWARD_COOLDOWN] = 1;
+	Flags.list[FlagEnum.KELLY_REWARD_COOLDOWN] = 1;
 	MainScreen.clearText();
 	//First time: 
-	if(flags[FlagEnum.KELLY_TIMES_REWARDED] == 0) {
+	if(Flags.list[FlagEnum.KELLY_TIMES_REWARDED] == 0) {
 		MainScreen.text("There seems to be an added bounce to Kelly's canter today.  She prances a bit playfully in front of you, grinning, whipping her demonic tail so that the high, sweet smell of her gushing pussy is in the air.  You realize she is calling your attention to her backside, which is unmarked.");
 		MainScreen.text("\n\n\"<i>I've been good, [Master].  So very, very... good.</i>\"  Color is high in her cheeks, and although she's smiling proudly there is real desperation burning in her green eyes as she gazes at you.  \"<i>We'll fuck now, right?  It's so hard being good.  After a while I can't think of anything but your cock and how wonderful it tastes and feels.  Last night it was so bad I blew my own fingers thinking about you...</i>\"  She demonstrates graphically.  \"<i>But I didn't cum.  I've learnt my lesson [Master], now please fuck me!</i>\"");
 		MainScreen.text("\n\nIt's difficult not to laugh at this earnest outpouring, and yet you can't help but feel a fond glow for your centaur slave, who has fought against her slutty nature to keep herself locked into a constant state of burning arousal just to please you.  Maybe it's time for a bit of kind [Master]-ing and provide her with some sort of reward, aside from fucking her rotten.");
@@ -1767,18 +1770,18 @@ private rewardKelly():void {
 		MainScreen.text("Kelly holds her head up proudly as you inspect her, running your hand slowly over her backside.   It's nice and smooth.  You smile at her benevolently and tell her that since she's been such a good cumslut, you're going to reward her.  She claps excitedly.");
 		MainScreen.text("  \"<i>Hurray!</i>\"");
 	}
-	flags[FlagEnum.KELLY_TIMES_REWARDED]++;
+	Flags.list[FlagEnum.KELLY_TIMES_REWARDED]++;
 	//*Don't know how the current “punish” system works so leave the function up to you.  Ideally each option should turn up 50% of the time after first punish
 	
 	menu();
 	//Hair Dye/Apple Sauce
 	//[chestnut brown/sable black/garish purple/bright pink/slutty blonde) 
 	if(player.cockThatFits(300) >= 0 && player.lowerBody.cockSpot.hasCock()) MainScreen.addButton(0,"Applesauce",giveKellyAppleSauce);
-	if(player.hasItem(consumables.BLACK_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "sable black") MainScreen.addButton(1,"Black Dye",dyeKellysBitchAssHair,consumables.BLACK_D);
-	if(player.hasItem(consumables.BLOND_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "slutty blonde") MainScreen.addButton(2,"Blond Dye",dyeKellysBitchAssHair,consumables.BLOND_D);
-	if(player.hasItem(consumables.PURPDYE) && flags[FlagEnum.KELLY_HAIR.COLOR] != "garish purple") MainScreen.addButton(3,"Purple Dye",dyeKellysBitchAssHair,consumables.PURPDYE);
-	if(player.hasItem(consumables.PINKDYE) && flags[FlagEnum.KELLY_HAIR.COLOR] != "bright pink") MainScreen.addButton(4,"Pink Dye",dyeKellysBitchAssHair,consumables.PINKDYE);
-	if(player.hasItem(consumables.BROWN_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "chestnut brown") MainScreen.addButton(5,"Brown Dye",dyeKellysBitchAssHair,consumables.BROWN_D);
+	if(player.inventory.items.has(consumables.BLACK_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "sable black") MainScreen.addButton(1,"Black Dye",dyeKellysBitchAssHair,consumables.BLACK_D);
+	if(player.inventory.items.has(consumables.BLOND_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "slutty blonde") MainScreen.addButton(2,"Blond Dye",dyeKellysBitchAssHair,consumables.BLOND_D);
+	if(player.inventory.items.has(consumables.PURPDYE) && flags[FlagEnum.KELLY_HAIR.COLOR] != "garish purple") MainScreen.addButton(3,"Purple Dye",dyeKellysBitchAssHair,consumables.PURPDYE);
+	if(player.inventory.items.has(consumables.PINKDYE) && flags[FlagEnum.KELLY_HAIR.COLOR] != "bright pink") MainScreen.addButton(4,"Pink Dye",dyeKellysBitchAssHair,consumables.PINKDYE);
+	if(player.inventory.items.has(consumables.BROWN_D) && flags[FlagEnum.KELLY_HAIR.COLOR] != "chestnut brown") MainScreen.addButton(5,"Brown Dye",dyeKellysBitchAssHair,consumables.BROWN_D);
 	
 	MainScreen.addButton(9,"Back",approachKelly);
 }
@@ -1789,16 +1792,16 @@ private dyeKellysBitchAssHair(color:ItemType):void {
 	MainScreen.clearText();
 	MainScreen.text("You tell her you've brought her a gift as you rummage around in your pockets.  Kelly looks apprehensive but pleasant surprise forms on her face when she catches the small vial of dye you throw at her.");
 	MainScreen.text("\n\n\"<i>Oh wow, thanks [Master]! It's been ages since I did my hair.");
-	if(flags[FlagEnum.KELLY_TIMES_DIED_HAIR] == 0) {
+	if(Flags.list[FlagEnum.KELLY_TIMES_DIED_HAIR] == 0) {
 		MainScreen.text("</i>\"\n\nShe stops and thinks.  \"<i>In fact, I don't think I've ever done my hair.  ");
 	}
 	MainScreen.text("This'll be so much fun!</i>\"  You walk over to the barn with her and pour some water into a wide bucket.  She lets down her braid and you spend a pleasant quarter of an hour or so helping her work the sharp-smelling substance into her long, luscious hair.  When you're done, you step back to admire the effect.  Amazingly the color is not only sinking into her hair but also into her tail, her demon spade slowly bleaching with the hue you chose.");
-	flags[FlagEnum.KELLY_TIMES_DIED_HAIR]++;
+	Flags.list[FlagEnum.KELLY_TIMES_DIED_HAIR]++;
 	//Black dye:
 	if(color == consumables.BLACK_D) {
 		MainScreen.text("\n\nKelly whips her jet black hair to look at it, trotting back and forth and considering, swishing her equally black tail.\n\n\"<i>Mmm.  Not sure how much I like this, [Master],</i>\" she says eventually.  \"<i>It's very... severe, isn't it?</i>\"  You say you picked it because you think it will contrast well with the substance she's most often covered in.  Kelly laughs fondly as she begins the long process of retying her braid.\n\n\"<i>Oh, [Master].  Always thinking two moves ahead.  Thank you for your reward!</i>\"");
 		flags[FlagEnum.KELLY_HAIR.COLOR] = "sable black";
-		player.consumeItem(consumables.BLACK_D);
+		player.inventory.items.consumeItem(consumables.BLACK_D);
 	}
 	//Blonde dye: 
 	else if(color == consumables.BLOND_D) {
@@ -1806,7 +1809,7 @@ private dyeKellysBitchAssHair(color:ItemType):void {
 		MainScreen.text("\n\n\"<i>This feels... right, [Master].  Very right.</i>\"  She looks at you lustfully.  \"<i>Wanna see if we have more fun?</i>\"  You say you'll definitely be back later to test that theory out.");
 		
 		MainScreen.text("\n\n\"<i>Don't stay away too long,</i>\" she purrs, as she begins the long process of retying her braid.  You feel your bottle blonde bitch's eyes on you for a long time after you head out of the field.");
-		player.consumeItem(consumables.BLOND_D);
+		player.inventory.items.consumeItem(consumables.BLOND_D);
 		flags[FlagEnum.KELLY_HAIR.COLOR] = "slutty blonde";
 	}
 	//Purple dye: 
@@ -1815,14 +1818,14 @@ private dyeKellysBitchAssHair(color:ItemType):void {
 		MainScreen.text("\n\n\"<i>Like the goblins, I guess?  I don't know how much I like this color, [Master].</i>\"  You say it'll serve as a constant reminder to her that she's a cock hungry breeding machine.  Kelly nods thoughtfully as she begins the long process of retying her braid.");
 		MainScreen.text("\n\n\"<i>You're right [Master], I would hate to ever forget that.  Thank you for your reward!</i>\"");
 		flags[FlagEnum.KELLY_HAIR.COLOR] = "garish purple";
-		player.consumeItem(consumables.PURPDYE);
+		player.inventory.items.consumeItem(consumables.PURPDYE);
 	}
 	//Pink dye:
 	else if(color == consumables.PINKDYE) {
 		MainScreen.text("\n\nKelly smiles with delight as she whips her bubblegum pink hair around to look at it, even prancing a bit so that her equally pink tail bounces.");
 		MainScreen.text("\n\n\"<i>Ooh I like this, it makes me feel so... girly.  I feel pink inside!</i>\"  You certainly do, you say.  Kelly giggles as she begins the long process of retying her braid.  She even sounds bubblier.");
 		MainScreen.text("\n\n\"<i>Thank you for your reward, [Master]!</i>\"");
-		player.consumeItem(consumables.PINKDYE);
+		player.inventory.items.consumeItem(consumables.PINKDYE);
 		flags[FlagEnum.KELLY_HAIR.COLOR] = "bright pink";
 	}
 	//Brown dye: Kelly smiles as she examines the regained chestnut brown color of her hair and tail.
@@ -1830,7 +1833,7 @@ private dyeKellysBitchAssHair(color:ItemType):void {
 		MainScreen.text("\n\n\"<i>I'd almost forgotten what it looked like.</i>\"  She sighs, twisting a lock of it in a finger.  She looks quite different with her hair down - it reaches almost to her flanks.  \"<i>You'll bring more dye, right?  I'd love to do more colors.</i>\"  That depends, you say, on her being good.  Kelly sets her jaw determinedly as she begins the long process of retying her braid.");
 		MainScreen.text("\n\n\"<i>Of course, [Master].  Thank you for your reward!</i>\"");
 		flags[FlagEnum.KELLY_HAIR.COLOR] = "chestnut brown";
-		player.consumeItem(consumables.BROWN_D);
+		player.inventory.items.consumeItem(consumables.BROWN_D);
 	}
 	else MainScreen.text("\n\nYO dog, " + color + " is definitely not working right. Please report this to fenoxo using the report a bug link on the site.");
 	menu();
@@ -1842,7 +1845,7 @@ private dyeKellysBitchAssHair(color:ItemType):void {
 private giveKellyAppleSauce():void {
 	MainScreen.clearText();
 	//First time:
-	if(flags[FlagEnum.KELLY_TIMES_APPLESAUCED] == 0) {
+	if(Flags.list[FlagEnum.KELLY_TIMES_APPLESAUCED] == 0) {
 		MainScreen.text("You tap your chin idly and ask Kelly what she likes eating.  Aside from dick, you add, rolling your eyes as she opens her mouth eagerly.");
 		MainScreen.text("\n\n\"<i>Oh.  Um.  Well...</i>\" she furrows her brow as if remembering a very distant time.  \"<i>I used to like fruit.</i>\"  She laughs a bit.  \"<i>A stereotype really, you know, horses and apples?  Whitney even planted me a couple of apple trees across the back, but I never took care of them because I was a bit of a jerk-off back then.</i>\"");
 		MainScreen.text("\n\nAt least your jerk off-ing is put to good use these days, you say kindly.  \"<i>That's nice of you to say, [Master],</i>\" replies the centaur solemnly.  She's wringing her hands, her thoughts elsewhere.");
@@ -1853,7 +1856,7 @@ private giveKellyAppleSauce():void {
 		
 		MainScreen.text("\n\nThe three or four apple trees the farm dog planted back here have long since gone wild, covered in lichen and fighting for space with the bigger trees which crowd them.  Despite that, they and the ground beneath them are speckled with ripe looking apples.  You quickly gather a few, munching on one speculatively as you do.  It's sweet and crunchy, but- could it use a kick of some sort?  You laugh as the devilish, filthy idea forms.  Well, why not?  Apples are a distant second when it comes to Kelly's favorite forms of sustenance after all....");
 		MainScreen.text("\n\nYou grab a smooth stone, wipe it clean, and then begin to mash the apples in the bowl, picking out the stalks and seeds where you can.  You look critically at the mush you've created.  Yep, you're definitely going to need some form of syrupy substance to make this work.  ");
-		if(!player.isTaur()) {
+		if(!player.lowerBody.isTaur()) {
 			MainScreen.text("You remove the bottom half of your [armor] and grip your [cock].  You close your eyes, begin to stroke yourself and sigh as you think of Kelly- her fine, bountiful curves, her cute, dimpling face, how she unconsciously licks her cock-sucking lips when she sees you coming, how she begs for it, how sweetly she moans when you thrust deep into her tight, wet holes... your body clenches as you orgasm, spurting streamer after streamer of spunk into the apple mash.");
 			if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("\n\nYour [vagina] quivers and clenches, and gasping with the dual orgasm which is clutching your body you stand over the bowl and let some of your femcum drip into it.  Taste my summer flavor Kelly, you think wildly, and laugh with a slightly manic edge.");
 			//[High cum:]
@@ -1877,10 +1880,10 @@ private giveKellyAppleSauce():void {
 	else {
 		MainScreen.text("\n\nYou go to the barn and grab your trusty metal bowl.  Kelly knows what this means: she clasps her hands eagerly, her horse half clopping backwards and forwards impatiently as she watches you walk casually towards the forest.");
 		MainScreen.text("\n\nThe small grove of apple trees has changed significantly from when you first found it.  Somebody has begun cutting the encroaching wild trees right back and pruned the rosaceae themselves so they aren't tangling into each other anymore- they look considerably happier.");
-		if(flags[FlagEnum.KELLY_KIDS] > 1) MainScreen.text("  Somebody has even cleared an oblong patch of earth alongside the trees- a piece of card stuck into it is scrawled with a childish hand which declares it to be “CAROTS”.  You marvel at it all.  Who would have imagined your lust for horse pussy would have turned a pointless asshole into a loving mother who gardens with her children?  Really, you deserve a medal for your efforts.");
+		if(Flags.list[FlagEnum.KELLY_KIDS] > 1) MainScreen.text("  Somebody has even cleared an oblong patch of earth alongside the trees- a piece of card stuck into it is scrawled with a childish hand which declares it to be “CAROTS”.  You marvel at it all.  Who would have imagined your lust for horse pussy would have turned a pointless asshole into a loving mother who gardens with her children?  Really, you deserve a medal for your efforts.");
 		
 		MainScreen.text("\n\nYou take your time picking the best apples which catch your eye before mashing them up, once again removing the seeds and stalks.  Then, with a wicked smile, you ");
-		if(!player.isTaur()) {
+		if(!player.lowerBody.isTaur()) {
 			MainScreen.text("grasp your semi-turgid cock and drift into a fond reverie of Kelly- the way her boobs bounce when she canters towards you, the way her green eyes burn when they fall upon your [eachCock], the way she gasps when you slap her ass, how sweetly she moans when you thrust deep into her tight, wet holes, the galaxy of filthy things you still have left to do to her....  Your body clenches as you orgasm, spurting streamer after streamer of spunk into the apple mash.");
 			if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your [vagina] quivers and clenches, and once again, gasping with the dual orgasm which is clutching your body, you stand over the bowl and let some of your femcum drip into it.");
 			//[High cum:
@@ -1903,11 +1906,11 @@ private giveKellyAppleSauce():void {
 	let x: number = player.cockThatFits(300);
 	let y: number = player.cockThatFits2(300);
 	//Not Centaur: 
-	if(!player.isTaur()) {
+	if(!player.lowerBody.isTaur()) {
 		MainScreen.text("\n\nThe mere smell of the apple sauce has got Kelly's vagina dribbling, and in the close, warm environment of the barn the cloying, sweet smell radiating off her has got [eachCock] rock hard again, and your arousal urges you to work quickly.  You lead her to a shelf roughly level with her collarbone and place the bowl of apples sauce on it.  Transfixed by it, swallowing audibly, the centaur reaches for it automatically.  You catch her hand.");
-		MainScreen.text("\n\n\"<i>No.  Put them here.</i>\"  You set each one on either side of the bowl so she is clasping it.  \"<i>Don't lift it until you have to.  That's it...</i>\"  You watch, pulling off piece after piece of your [armor], as she dips her head into the bowl, scoops up a long lap of the green mash with her tongue and guides it into her wet mouth.  Her throat works and she closes her eyes.  Behind her, the intermittent dripping of her femcum on the straw turns into a steady trickle and you shake off the last of your underclothes in a hurry, stride over to her hindquarters and push your " + cockDescript(x) + " against her sopping pussy gently, gripping her " + flags[FlagEnum.KELLY_HAIR.COLOR] + " tail to her side so she doesn't inadvertently flick you with it.");
-		MainScreen.text("\n\nShe is radiating heat and her wet depths suck at your " + player.cockHead(x) + " deliciously.  Still, you hold back on your pulsing need to bury your cock into her, pressing at her entrance softly until you see her head go down again, and the sloppy sound of a centaur trying to draw as much apple sauce into her mouth as she can reaches your ears.  With a contented sigh, you slide your " + cockDescript(x) + " into her, exulting in the hot slickness which envelops your sex bit by bit.");
-		if(player.lowerBody.cockSpot.list[x].cockThickness >= 4) MainScreen.text("  Your girth spreads her fuck tunnel wide and you grunt at the delicious tightness of it as you pack her full of cock.");
+		MainScreen.text("\n\n\"<i>No.  Put them here.</i>\"  You set each one on either side of the bowl so she is clasping it.  \"<i>Don't lift it until you have to.  That's it...</i>\"  You watch, pulling off piece after piece of your [armor], as she dips her head into the bowl, scoops up a long lap of the green mash with her tongue and guides it into her wet mouth.  Her throat works and she closes her eyes.  Behind her, the intermittent dripping of her femcum on the straw turns into a steady trickle and you shake off the last of your underclothes in a hurry, stride over to her hindquarters and push your " + CockDescriptor.describeCock(player, x) + " against her sopping pussy gently, gripping her " + flags[FlagEnum.KELLY_HAIR.COLOR] + " tail to her side so she doesn't inadvertently flick you with it.");
+		MainScreen.text("\n\nShe is radiating heat and her wet depths suck at your " + player.cockHead(x) + " deliciously.  Still, you hold back on your pulsing need to bury your cock into her, pressing at her entrance softly until you see her head go down again, and the sloppy sound of a centaur trying to draw as much apple sauce into her mouth as she can reaches your ears.  With a contented sigh, you slide your " + CockDescriptor.describeCock(player, x) + " into her, exulting in the hot slickness which envelops your sex bit by bit.");
+		if(player.lowerBody.cockSpot.get(x).cockThickness >= 4) MainScreen.text("  Your girth spreads her fuck tunnel wide and you grunt at the delicious tightness of it as you pack her full of cock.");
 		
 		MainScreen.text("\n\n\"<i>Oh [Master]...</i>\" Kelly groans, arching her head back from her feed.  A series of clenches grip your [cock] and a sudden gush of fluid warms your ");
 		if(player.lowerBody.balls > 0) MainScreen.text("[balls]");
@@ -1916,39 +1919,39 @@ private giveKellyAppleSauce():void {
 		
 		//1 < cock:
 		if(y >= 0) {
-			MainScreen.text("\n\nYour eyes fasten upon her tight, puckered asshole as lust grips you closer, a tiny puddle of human pink buried in her heaving brown horse flesh.  Your breath coming heavily now you withdraw your " + cockDescript(x) + " from her wet softness, dripping with her lubrication.  Quickly you push it against her puckered anus whilst lining up your " + cockDescript(y) + " with her gaping vagina.");
-			MainScreen.text("\n\nYou wait for Kelly's head to descend towards the bowl again and then thrust forward, penetrating both her holes at the same time.  She cries out from the intense sensation and then bucks back into you, helping you sink your " + cockDescript(x) + " deeper and deeper into her ass, spreading her deliciously tight anal passage whilst your " + cockDescript(y) + " slides effortlessly into the fleshy folds of her cunt.  You slap her ass exultantly, making her squeak again, as you find your limit before resuming the same rhythm, fucking both her sopping vagina and tight, hot ass now with deep, slow strokes.");
+			MainScreen.text("\n\nYour eyes fasten upon her tight, puckered asshole as lust grips you closer, a tiny puddle of human pink buried in her heaving brown horse flesh.  Your breath coming heavily now you withdraw your " + CockDescriptor.describeCock(player, x) + " from her wet softness, dripping with her lubrication.  Quickly you push it against her puckered anus whilst lining up your " + CockDescriptor.describeCock(player, y) + " with her gaping vagina.");
+			MainScreen.text("\n\nYou wait for Kelly's head to descend towards the bowl again and then thrust forward, penetrating both her holes at the same time.  She cries out from the intense sensation and then bucks back into you, helping you sink your " + CockDescriptor.describeCock(player, x) + " deeper and deeper into her ass, spreading her deliciously tight anal passage whilst your " + CockDescriptor.describeCock(player, y) + " slides effortlessly into the fleshy folds of her cunt.  You slap her ass exultantly, making her squeak again, as you find your limit before resuming the same rhythm, fucking both her sopping vagina and tight, hot ass now with deep, slow strokes.");
 		}
 		MainScreen.text("\n\nYou keep driving into her nice and measured for long minutes, leisurely enjoying the hot mass of your mare whilst keeping a handle on your own lust, waiting for her to get close to finishing her meal.  You lose track of the number of times Kelly orgasms.  Devouring a fruity cum fix whilst being fucked by you completely overwhelms her senses, and she spasms around your cocks again and again, spurting femcum onto your legs and the ground helplessly, clopping her hooves feverishly as she quivers.  The sight of beads of sweat rolling down her rosy human back are almost too much, but you manage to hold back until finally she picks up the bowl and takes it to her lips to pour the last of the green sweet down her gullet.");
 		MainScreen.text("\n\nWith her head thrown back it's easy for you to grip her " + flags[FlagEnum.KELLY_HAIR.COLOR] + " braid and use it for leverage as you fuck into her with everything you've got, bucking into her tight, hot flesh ");
 		if(player.lowerBody.balls > 0) MainScreen.text(", your [balls] slapping into her thighs demandingly ");
-		MainScreen.text("as you push towards your reward.  Panting, Kelly thrusts back into you as best she can, resisting your frenetic tugs to her hair so that the big, final slather of apple sauce can slide out of the bowl and into her mouth.  She screams around the wet, gooey mouthful and her vagina quivers and seizes your bulging " + cockDescript(x) + " in milking ripples");
-		if(y >= 0) MainScreen.text(" as her anus clenches around your " + cockDescript(x));
+		MainScreen.text("as you push towards your reward.  Panting, Kelly thrusts back into you as best she can, resisting your frenetic tugs to her hair so that the big, final slather of apple sauce can slide out of the bowl and into her mouth.  She screams around the wet, gooey mouthful and her vagina quivers and seizes your bulging " + CockDescriptor.describeCock(player, x) + " in milking ripples");
+		if(y >= 0) MainScreen.text(" as her anus clenches around your " + CockDescriptor.describeCock(player, x));
 		MainScreen.text(".  With a wordless shout, you tense up and orgasm in tandem, surging line after line of glorious into her wet, churning depths, lost in the ageless sensation of filling a breeding slut's holes with thick seed for what seems like oceans of blissful time.");
 	}
 	//Centaur: 
 	else {
 		MainScreen.text("\n\nThe mere smell of the apple sauce has got Kelly's vagina dribbling, and in the close, warm environment of the barn the cloying, sweet smell radiating off her has got [eachCock] rock hard again, and your arousal urges you to work quickly.  With a “hup” you mount her, settling yourself onto her warm, rippling back, surrounding her with your heavy flesh, smell and presence, your [chest] pressing into her back as you bring the bowl around her head.  Transfixed by it, swallowing audibly, the centaur reaches for it automatically.");
-		MainScreen.text("\n\nYou tut mockingly and pull it away until she lowers her hands, then bring it in close to her face.  Her hands fall on her erect nipples as she dips her head into the bowl, scoops up a long lap of the green mash with her tongue and guides it into her wet mouth.  Her throat works and she closes her eyes.  The intermittent dripping of her femcum on the straw behind you turns into a steady trickle and your own arousal urgent now, you push your " + cockDescript(x) + " against her sopping pussy gently.  She is radiating heat and her wet depths suck at your " + player.cockHead(x) + " deliciously.");
-		MainScreen.text("\n\nStill, you hold back on your pulsing need to bury your cock into her, pressing at her entrance softly until you touch the brim of the bowl against her teeth and watch her tongue slide out again, the sloppy sound of a centaur trying to draw as much apple sauce into her mouth as she can inundating your ears.  With a contented sigh, you slide your " + cockDescript(x) + " into her, exulting in the hot slickness which envelops your sex bit by bit.");
-		if(player.lowerBody.cockSpot.list[x].cockThickness >= 4) MainScreen.text("  Your girth spreads her fuck tunnel wide and you grunt at the delicious tightness of it as you pack her full of cock.");
+		MainScreen.text("\n\nYou tut mockingly and pull it away until she lowers her hands, then bring it in close to her face.  Her hands fall on her erect nipples as she dips her head into the bowl, scoops up a long lap of the green mash with her tongue and guides it into her wet mouth.  Her throat works and she closes her eyes.  The intermittent dripping of her femcum on the straw behind you turns into a steady trickle and your own arousal urgent now, you push your " + CockDescriptor.describeCock(player, x) + " against her sopping pussy gently.  She is radiating heat and her wet depths suck at your " + player.cockHead(x) + " deliciously.");
+		MainScreen.text("\n\nStill, you hold back on your pulsing need to bury your cock into her, pressing at her entrance softly until you touch the brim of the bowl against her teeth and watch her tongue slide out again, the sloppy sound of a centaur trying to draw as much apple sauce into her mouth as she can inundating your ears.  With a contented sigh, you slide your " + CockDescriptor.describeCock(player, x) + " into her, exulting in the hot slickness which envelops your sex bit by bit.");
+		if(player.lowerBody.cockSpot.get(x).cockThickness >= 4) MainScreen.text("  Your girth spreads her fuck tunnel wide and you grunt at the delicious tightness of it as you pack her full of cock.");
 		
-		MainScreen.text("\n\n\"<i>Oh [Master]...</i>\" Kelly groans, arching her head back from her feed so it spoons into your neck.  A series of clenches grip your " + cockDescript(x) + " and a sudden gush of fluid warms your ");
+		MainScreen.text("\n\n\"<i>Oh [Master]...</i>\" Kelly groans, arching her head back from her feed so it spoons into your neck.  A series of clenches grip your " + CockDescriptor.describeCock(player, x) + " and a sudden gush of fluid warms your ");
 		if(player.lowerBody.balls > 0) MainScreen.text("[balls]");
 		else MainScreen.text("thighs");
 		MainScreen.text(".  Did she cum already?  It's fortunate you've already taken the edge off, because you're not sure how long you would otherwise be able to last against her impossibly turned on, sucking, clinching pussy.  As it is, you grip her muscled backside with your own huge hindquarters and pull yourself almost all the way out of her fleshy pocket before spearing your way in again, steadily in and then out, working your way into a slow, sensual rhythm.  Kelly's head sinks and bobs in front of you, and your ears are full of her wet, muffled chews, gulps and moans as she gorges herself on your sweet, sticky sex whilst you gently hump her.");
 		
 		//1 < cock:
 		if(y >= 0) {
-			MainScreen.text("\n\nYou think about her tight, puckered asshole beneath you as lust grips you closer, a tiny puddle of human pink buried in her heaving brown horse flesh.  Your breath coming heavily now you withdraw your " + cockDescript(x) + " from her wet softness, dripping with her lubrication.  Quickly you push it against her puckered anus whilst lining up your " + cockDescript(y) + " with her gaping vagina.  You wait for Kelly's head to descend towards the bowl again and then thrust forward, penetrating both her holes at the same time.  She cries out from the intense sensation and then bucks back into you, helping you sink your " + cockDescript(x) + " deeper and deeper into her ass, spreading her deliciously tight anal passage whilst your " + cockDescript(y) + " slides effortlessly into the fleshy folds of her cunt.  You grab one of her soft tits and squeeze exultantly, making her squeak again, as you find your limit before resuming the same rhythm, fucking both her sopping vagina and tight, hot ass now with deep, slow strokes.");
+			MainScreen.text("\n\nYou think about her tight, puckered asshole beneath you as lust grips you closer, a tiny puddle of human pink buried in her heaving brown horse flesh.  Your breath coming heavily now you withdraw your " + CockDescriptor.describeCock(player, x) + " from her wet softness, dripping with her lubrication.  Quickly you push it against her puckered anus whilst lining up your " + CockDescriptor.describeCock(player, y) + " with her gaping vagina.  You wait for Kelly's head to descend towards the bowl again and then thrust forward, penetrating both her holes at the same time.  She cries out from the intense sensation and then bucks back into you, helping you sink your " + CockDescriptor.describeCock(player, x) + " deeper and deeper into her ass, spreading her deliciously tight anal passage whilst your " + CockDescriptor.describeCock(player, y) + " slides effortlessly into the fleshy folds of her cunt.  You grab one of her soft tits and squeeze exultantly, making her squeak again, as you find your limit before resuming the same rhythm, fucking both her sopping vagina and tight, hot ass now with deep, slow strokes.");
 		}
 		
 		MainScreen.text("\n\nYou keep driving into her nice and measured for long minutes, leisurely enjoying the hot mass of your mare whilst keeping a handle on your own lust, waiting for her to get close to finishing her meal.  You lose track of the number of times Kelly orgasm's.  Being fed a fruity cum fix whilst being mounted by you has completely overwhelmed her senses, and she spasms around your cocks again and again, spurting femcum onto your legs and the ground helplessly clopping her hooves feverishly as she quivers.  The sight of beads of sweat rolling down her rosy human back are almost too much, but you manage to hold back until finally you see all that the bowl is a quarter empty.");
 		MainScreen.text("\n\nYou grip her " + flags[FlagEnum.KELLY_HAIR.COLOR] + " braid and force her head to arch back before pushing the bowl against her lips, tipping the last of the green sweet down her gullet whilst you begin to fuck into her with everything you've got, bucking into her tight, hot flesh");
 		if(player.lowerBody.balls > 0) MainScreen.text(", your [balls] slapping into her thighs demandingly");
 		MainScreen.text(" as you push towards your reward.");
-		MainScreen.text("\n\nPanting, Kelly thrusts back into you as best she can, resisting your frenetic tugs to her hair so that the big, final slather of apple sauce can slide out of the bowl and into her mouth.  She screams around the wet, gooey mouthful and her vagina quivers and seizes your bulging " + cockDescript(x) + " in milking ripples");
-		if(y >= 0) MainScreen.text(" as her anus clenches around your " + cockDescript(y));
+		MainScreen.text("\n\nPanting, Kelly thrusts back into you as best she can, resisting your frenetic tugs to her hair so that the big, final slather of apple sauce can slide out of the bowl and into her mouth.  She screams around the wet, gooey mouthful and her vagina quivers and seizes your bulging " + CockDescriptor.describeCock(player, x) + " in milking ripples");
+		if(y >= 0) MainScreen.text(" as her anus clenches around your " + CockDescriptor.describeCock(player, y));
 		MainScreen.text(".  With a wordless shout, you tense up and orgasm in tandem, surging line after line of glorious into her wet, churning depths, lost to the ageless sensation of filling a breeding mare's holes with thick seed for what seems like blissful oceans of time.");
 	}
 	//[merge]
@@ -1961,7 +1964,7 @@ private giveKellyAppleSauce():void {
 	else MainScreen.text("You don't like to admit it but you do taste pretty good, even to yourself.  You push your tongue further into Kelly's mouth hungrily, working your jaw as you savage her mouth with your lips and tongue in search of that fruity, horny flavour, making her 'mmm' with delight and respond in kind.");
 	
 	//First:
-	if(flags[FlagEnum.KELLY_TIMES_APPLESAUCED]  == 0) {
+	if(Flags.list[FlagEnum.KELLY_TIMES_APPLESAUCED]  == 0) {
 		MainScreen.text("\"<i>That was the best treat ever [Master],</i>\" she murmurs when you break away, gazing into your eyes lovingly.  \"<i>I liked apples but never quite as much as that.  Wow.</i>\"  You hold her face and say she should look after that orchard: who knows, maybe she'll be good enough to deserve a second helping.  Kelly smiles eagerly.");
 		MainScreen.text("\n\n\"<i>I will be [Master], you watch!</i>\"  You dress yourself and amble out of the stable with her before sending her on her way with a loving, jiggling swat to her boobs.");
 	}
@@ -1971,8 +1974,8 @@ private giveKellyAppleSauce():void {
 		MainScreen.text("\n\nYou dress yourself and amble back out of the stable with her before sending her on her way with a loving, jiggling swat to her boobs.");
 	}
 	player.orgasm();
-	dynStats("sen", -2);
-	flags[FlagEnum.KELLY_TIMES_APPLESAUCED]++;
+	player.stats.sens += -2;
+	Flags.list[FlagEnum.KELLY_TIMES_APPLESAUCED]++;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -1986,7 +1989,7 @@ private kellyBJsAhoy():void {
 	MainScreen.text(".  You pull away, catching Kelly's tongue with your own lips teasingly as you do, so you can watch her very slowly withdraw it, licking her lips so they glisten, her eyes shining with a depthless, green desire.  You murmur that it's time to put that mouth to use it was made for.  She's folding her legs beneath her before you've finished speaking, her hungry jade eyes never leaving yours.");
 	
 	//Not Centaur: 
-	if(!player.isTaur()) {
+	if(!player.lowerBody.isTaur()) {
 		MainScreen.text("\n\nYour [cock biggest] strains outwards as you slide out of your [armor], and you grin as you draw in close to Kelly's face, letting the heavy, demanding smell of your musk envelop her.  Her skin flushes and her breath comes more rapidly as you brush her cheek with it.  You smile and gently but firmly tell her to put her hands under her tits, close her eyes, open her mouth and then be still.  You admire the sight as you languidly rub yourself, your pretty centaur slave presenting her big round breasts to you and her tongue out, waiting to take your load whole.");
 		MainScreen.text("\n\nYou step in and tease her with your [cock biggest], softly brushing her face with your [cockHead biggest], working the musky smell deep into her head.  She closes her eyes and breathes out deeply, enveloping your crotch in warm air.");
 		if(player.lowerBody.cockSpot.list[player.biggestCockIndex()].cockType == CockType.HORSE) MainScreen.text("  You wonder whether the fact it is a horse cock, protruding proudly out of its sheath, makes it particularly difficult for her to resist, that it triggers some deep urge hardwired into her.  There's no way to really judge, but it seems like you've only just begun to tantalize her with it that the air below you is filled with bitten off grunts and moans, her mouth and head unconsciously bending towards your flared stallion prick as you rub it into her, always keeping it tantalizingly out of reach of her mouth.");
@@ -2018,7 +2021,7 @@ private kellyBJsAhoy():void {
 				if (pregnancy.isPregnant) MainScreen.text(", milk laden");
 				MainScreen.text(" breasts whilst slavishly polishing the [balls] of the " + player.mf("man","woman") + " who made her into, well, a ball-licking bitch.");
 				//[Dominika dreams:
-				if(flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
+				if(Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
 			}
 		}
 		//Vagina:
@@ -2045,7 +2048,7 @@ private kellyBJsAhoy():void {
 				if (pregnancy.isPregnant) MainScreen.text(", milk laden");
 				MainScreen.text(" breasts whilst slavishly polishing the [balls] of the " + player.mf("man","woman") + " who made her into, well, a ball-licking bitch.");
 				//Dominika dreams:
-				if(flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
+				if(Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
 			}			
 		}
 		//[merge]
@@ -2065,7 +2068,7 @@ private kellyBJsAhoy():void {
 		MainScreen.text("\n\nShe has been holding her boobs out to you this whole time, and it seems churlish not to accept such a pleasant invitation.  You hold yourself right back, letting her tongue and caress your engorged cockhead for a long moment, waiting until her hums turn into outright gasps of arousal, then thrust as deep as you can into her juicy mouth, holding her head as you face fuck your way to your pent up high.  At the last moment");
 		if(player.lowerBody.balls > 0) MainScreen.text(", as you feel your [balls] clench");
 		MainScreen.text(", you pull out, grip your [cock biggest] at the base, point it at your cumslut's big creamy tits and groan as your bulging cock tenses.  She 'aww's in deep disappointment as the dick is torn away from her but she obediently presents her fat, pert breasts, and her breathy sigh is what you hear as orgasm clenches you.  Your cock slit dilates and you spurt out rope after rope of jizz");
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text(" onto all four of her tits");
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text(" onto all four of her tits");
 		MainScreen.text(".  The sensation of deep release is ecstatic, the sight of your cock cream pasting your slave's softness delicious.");
 		if(player.cumQ() >= 750) MainScreen.text("\n\nAs ever you can barely control yourself once you get going, and it feels like you cum for minutes on end, painting not just her chest but her face and stomach, not stopping until she is absolutely caked and dripping with your potent sex.");
 		if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("\n\nYour female sex clenches and orgasms in sympathy, and you feel fluid dribble down your [hips] as you continue to paint Kelly.  Your only dim regret is that there's no way of soaking her with that, too.");
@@ -2104,7 +2107,7 @@ private kellyBJsAhoy():void {
 				MainScreen.text(", then back to the first one, a slow and sensual repetition.  The warm air is punctuated with desperate 'ahh, ahn, ahh's as she surrenders herself to the deep, shameful lust of the act, supporting her soft");
 				if (pregnancy.isPregnant) MainScreen.text(", milk laden");
 				MainScreen.text(" breasts whilst slavishly polishing the [balls] of the centaur who made her into, well, a ball-licking bitch.");
-				if(flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
+				if(Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
 			}
 		}
 		//Vagina: 
@@ -2130,7 +2133,7 @@ private kellyBJsAhoy():void {
 				MainScreen.text(", then back to the first one, a slow and sensual repetition.  The warm air is punctuated with desperate 'ahh, ahn, ahh's as she surrenders herself to the deep, shameful lust of the act, supporting her soft");
 				if (pregnancy.isPregnant) MainScreen.text(", milk-laden");
 				MainScreen.text(" breasts whilst slavishly polishing the [balls] of the centaur who made her into, well, a ball-licking bitch.");
-				if(flags[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
+				if(Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) MainScreen.text("  You are gripped by a sudden but thrilling, velvet-edged sense of déjà vu.  Has this scene not repeated somewhere else?");
 			}
 		}
 		//[merge]
@@ -2164,7 +2167,7 @@ private kellyBJsAhoy():void {
 		if(player.lowerBody.balls > 0) MainScreen.text("ball-sucking ");
 		MainScreen.text("cock addict, you will have to do a good job of catching it on those whore pillows of yours.</i>\"  With that, you thrust your hindquarters forward.  Her breathy groan is what you hear as orgasm clenches you.");
 		MainScreen.text("\n\nYour cock slit dilates and you spurt out rope after rope of jizz");
-		if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text(" onto all four of her tits");
+		if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text(" onto all four of her tits");
 		MainScreen.text(".  The sensation of deep release is ecstatic, the sound of your cock cream spattering onto your slave's softness delicious.");
 		//[Vagina:
 		if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your female sex clenches and orgasms in sympathy, and you feel fluid dribble down your [hips] as you continue to paint Kelly.  Your only dim regret is that there's no way of soaking her with that, too.");
@@ -2173,18 +2176,18 @@ private kellyBJsAhoy():void {
 		if(player.cumQ() < 750) MainScreen.text("  Kelly has done a sterling job of catching your load; you've frosted her boobs with long strokes quite convincingly.");
 		else {
 			MainScreen.text("  As ever, your virility has gotten the better of you.  Kelly looks like she's in an ecstatic trance.  You've completely pasted not just ");
-			if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("all four of ");
+			if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("all four of ");
 			MainScreen.text("her boobs with alabaster ooze, but her stomach, face and hair.  She's holding a reservoir of the stuff in her cleavage.");
 		}
 	}
 	//[merge]
 	MainScreen.text("\n\n\"<i>Thank you for using me, [Master],</i>\" she says once you're finished, grinning happily as she gazes at the off-white goo splattered across her breasts, her cheeks rosy with exertion.  \"<i>But, couldn't you have made it in my mouth?  I would have swallowed it all down, you know.  I'm a good girl.</i>\"");
 	MainScreen.text("\n\nYou laugh as you settle yourself down facing towards her");
-	if(!player.isTaur()) MainScreen.text(", still clutching your pleasantly aching prick");
+	if(!player.lowerBody.isTaur()) MainScreen.text(", still clutching your pleasantly aching prick");
 	MainScreen.text(", saying you know she is, but it's a lot more pleasing to you to see her get her fix this way.  Quickly cottoning on, the centaur stares at you with her lustful green eyes as she lifts a cum-spattered boob to her mouth.");
 	
 	MainScreen.text("\n\nYou watch as Kelly licks herself clean, sending her mouth slowly sliding across her soft, sensitive curves, lapping up every rivulet of your thick seed she can reach.  At first, she does it to put on a show for you, holding your eyes with a winsome smile as she bends her tongue into her pliant flesh and hooks another stream of cum into her maw with an exaggerated smack of her lips.  But the effect your fluids have on her quickly takes over, and she laps at her boobs with increasing urgency, a flush high on her cheeks as your warm jizz slides down her throat, scratching her itch, making her yet more needy, more addicted to you with each load she swallows.");
-	if(flags[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("\n\nShe can't reach her lower row of tits with her tongue, so she simply runs her hands over them, sighing as she rubs your musk into her horny skin and hard nipples before running her tongue across her palms.");
+	if(Flags.list[FlagEnum.KELLY_BONUS_BOOB_ROWS] > 0) MainScreen.text("\n\nShe can't reach her lower row of tits with her tongue, so she simply runs her hands over them, sighing as she rubs your musk into her horny skin and hard nipples before running her tongue across her palms.");
 	MainScreen.text("  She leaves a trail of cum leaking down a nipple until at last, closing her eyes, she tenses and orgasms with a muffled sigh as her wet tongue pushes over her erect nub and guides the last of your fix into her mouth.");
 	
 	//[Libido <50: 
@@ -2201,7 +2204,7 @@ private kellyBJsAhoy():void {
 		MainScreen.text("\n\n\"<i>See?  I'm a good girl, [Master].  Never doubt it!</i>\" she says with a wide grin, putting her arms around your waist and gazing up at you, profoundly proud of herself.  You suppose you should be mad at her for taking advantage of your out-of-control libido, but it's difficult to get really angry with a slave who sucks dick quite as well as she does.  After you've rested for a short while, you say goodbye to your cumslut centaur with a fond kiss on the forehead and a slap on the ass, before leaving the farm behind you.");
 	}
 	player.orgasm();
-	dynStats("sen", -2);
+	player.stats.sens += -2;
 	doNext(camp.returnToCampUseOneHour);
 }
 }

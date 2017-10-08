@@ -1,82 +1,153 @@
-export default class SceneManager {
+import UpdateInterface from "../UpdateInterface";
+
+export default class SceneManager implements UpdateInterface {
     // Scenes/
-    public let camp:Camp = new Camp(campInitialize);
-    public let exploration:Exploration = new Exploration();
-    public let followerInteractions:FollowerInteractions = new FollowerInteractions();
-    public let inventory:Inventory = new Inventory(saves);
-    public let masturbation:Masturbation = new Masturbation();
+    public camp:Camp = new Camp(campInitialize);
+    public exploration:Exploration = new Exploration();
+    public followerInteractions:FollowerInteractions = new FollowerInteractions();
+    public inventory:Inventory = new Inventory(saves);
+    public masturbation:Masturbation = new Masturbation();
     // Scenes/Areas/
-    public let bog:Bog = new Bog();
-    public let desert:Desert = new Desert();
-    public let forest:Forest = new Forest();
-    public let highMountains:HighMountains = new HighMountains();
-    public let lake:Lake = new Lake();
-    public let mountain:Mountain = new Mountain();
-    public let plains:Plains = new Plains();
-    public let swamp:Swamp = new Swamp();
+    public bog:Bog = new Bog();
+    public desert:Desert = new Desert();
+    public forest:Forest = new Forest();
+    public highMountains:HighMountains = new HighMountains();
+    public lake:Lake = new Lake();
+    public mountain:Mountain = new Mountain();
+    public plains:Plains = new Plains();
+    public swamp:Swamp = new Swamp();
     // Scenes/Dungeons
-    public let brigidScene:BrigidScene = new BrigidScene();
-    public let d3:D3 = new D3();
+    public brigidScene:BrigidScene = new BrigidScene();
+    public d3:D3 = new D3();
     // Scenes/Explore/
-    public let gargoyle:Gargoyle = new Gargoyle();
-    public let lumi:Lumi = new Lumi();
+    public gargoyle:Gargoyle = new Gargoyle();
+    public lumi:Lumi = new Lumi();
     // Scenes/Monsters/
-    public let goblinScene:GoblinScene = new GoblinScene();
-    public let impScene:ImpScene = new ImpScene();
-    public let goblinAssassinScene:GoblinAssassinScene = new GoblinAssassinScene();
+    public goblinScene:GoblinScene = new GoblinScene();
+    public impScene:ImpScene = new ImpScene();
+    public goblinAssassinScene:GoblinAssassinScene = new GoblinAssassinScene();
     // Scenes/NPC/
-    public let amilyScene:AmilyScene = new AmilyScene();
-    public let anemoneScene:AnemoneScene = new AnemoneScene();
-    public let arianScene:ArianScene = new ArianScene();
-    public let ceraphScene:CeraphScene = new CeraphScene();
-    public let ceraphFollowerScene:CeraphFollowerScene = new CeraphFollowerScene();
-    public let emberScene:EmberScene = new EmberScene();
-    public let exgartuan:Exgartuan = new Exgartuan();
-    public let helFollower:HelFollower = new HelFollower();
-    public let helScene:HelScene = new HelScene();
-    public let helSpawnScene:HelSpawnScene = new HelSpawnScene();
-    public let holliScene:HolliScene = new HolliScene();
-    public let isabellaScene:IsabellaScene = new IsabellaScene();
-    public let isabellaFollowerScene:IsabellaFollowerScene = new IsabellaFollowerScene();
-    public let izmaScene:IzmaScene = new IzmaScene();
-    public let jojoScene:JojoScene = new JojoScene();
-    public let kihaFollower:KihaFollower = new KihaFollower();
-    public let kihaScene:KihaScene = new KihaScene();
-    public let latexGirl:LatexGirl = new LatexGirl();
-    public let marbleScene:MarbleScene = new MarbleScene();
-    public let marblePurification:MarblePurification = new MarblePurification();
-    public let milkWaifu:MilkWaifu = new MilkWaifu();
-    public let raphael:Raphael = new Raphael();
-    public let rathazul:Rathazul = new Rathazul();
-    public let sheilaScene:SheilaScene = new SheilaScene();
-    public let shouldraFollower:ShouldraFollower = new ShouldraFollower();
-    public let shouldraScene:ShouldraScene = new ShouldraScene();
-    public let sophieBimbo:SophieBimbo = new SophieBimbo();
-    public let sophieFollowerScene:SophieFollowerScene = new SophieFollowerScene();
-    public let sophieScene:SophieScene = new SophieScene();
-    public let urta:Urta = new Urta();
-    public let urtaHeatRut:UrtaHeatRut = new UrtaHeatRut();
-    public let urtaPregs:UrtaPregs = new UrtaPregs();
-    public let valeria:Valeria = new Valeria();
-    public let vapula:Vapula = new Vapula();
+    public amilyScene:AmilyScene = new AmilyScene();
+    public anemoneScene:AnemoneScene = new AnemoneScene();
+    public arianScene:ArianScene = new ArianScene();
+    public ceraphScene:CeraphScene = new CeraphScene();
+    public ceraphFollowerScene:CeraphFollowerScene = new CeraphFollowerScene();
+    public emberScene:EmberScene = new EmberScene();
+    public exgartuan:Exgartuan = new Exgartuan();
+    public helFollower:HelFollower = new HelFollower();
+    public helScene:HelScene = new HelScene();
+    public helSpawnScene:HelSpawnScene = new HelSpawnScene();
+    public holliScene:HolliScene = new HolliScene();
+    public isabellaScene:IsabellaScene = new IsabellaScene();
+    public isabellaFollowerScene:IsabellaFollowerScene = new IsabellaFollowerScene();
+    public izmaScene:IzmaScene = new IzmaScene();
+    public jojoScene:JojoScene = new JojoScene();
+    public kihaFollower:KihaFollower = new KihaFollower();
+    public kihaScene:KihaScene = new KihaScene();
+    public latexGirl:LatexGirl = new LatexGirl();
+    public marbleScene:MarbleScene = new MarbleScene();
+    public marblePurification:MarblePurification = new MarblePurification();
+    public milkWaifu:MilkWaifu = new MilkWaifu();
+    public raphael:Raphael = new Raphael();
+    public rathazul:Rathazul = new Rathazul();
+    public sheilaScene:SheilaScene = new SheilaScene();
+    public shouldraFollower:ShouldraFollower = new ShouldraFollower();
+    public shouldraScene:ShouldraScene = new ShouldraScene();
+    public sophieBimbo:SophieBimbo = new SophieBimbo();
+    public sophieFollowerScene:SophieFollowerScene = new SophieFollowerScene();
+    public sophieScene:SophieScene = new SophieScene();
+    public urta:Urta = new Urta();
+    public urtaHeatRut:UrtaHeatRut = new UrtaHeatRut();
+    public urtaPregs:UrtaPregs = new UrtaPregs();
+    public valeria:Valeria = new Valeria();
+    public vapula:Vapula = new Vapula();
     // Scenes/Places/
-    public let bazaar:Bazaar = new Bazaar();
-    public let boat:Boat = new Boat();
-    public let farm:Farm = new Farm();
-    public let owca:Owca = new Owca();
-    public let telAdre:TelAdre = new TelAdre();
+    public bazaar:Bazaar = new Bazaar();
+    public boat:Boat = new Boat();
+    public farm:Farm = new Farm();
+    public owca:Owca = new Owca();
+    public telAdre:TelAdre = new TelAdre();
     // Scenes/Quests/
-    public let urtaQuest:UrtaQuest = new UrtaQuest();
+    public urtaQuest:UrtaQuest = new UrtaQuest();
 
 
-    public let explored:boolean;
-    public let foundForest:boolean;
-    public let foundDesert:boolean;
-    public let foundMountain:boolean;
-    public let foundLake:boolean;
-    public let whitney:number;
-    public let monk:number;
-    public let sand:number;
-    public let giacomo: number;
+    public explored:boolean;
+    public foundForest:boolean;
+    public foundDesert:boolean;
+    public foundMountain:boolean;
+    public foundLake:boolean;
+    public whitney:number;
+    public monk:number;
+    public sand:number;
+    public giacomo: number;
 
+    public update(hours: number) {
+        camp.update(hours);
+        exploration.update(hours);
+        followerInteractions.update(hours);
+        inventory.update(hours);
+        masturbation.update(hours);
+        // Scenes/Areas/
+        bog.update(hours);
+        desert.update(hours);
+        forest.update(hours);
+        highMountains.update(hours);
+        lake.update(hours);
+        mountain.update(hours);
+        plains.update(hours);
+        swamp.update(hours);
+        // Scenes/Dungeons
+        brigidScene.update(hours);
+        d3.update(hours);
+        // Scenes/Explore/
+        gargoyle.update(hours);
+        lumi.update(hours);
+        // Scenes/Monsters/
+        goblinScene.update(hours);
+        impScene.update(hours);
+        goblinAssassinScene.update(hours);
+        // Scenes/NPC/
+        amilyScene.update(hours);
+        anemoneScene.update(hours);
+        arianScene.update(hours);
+        ceraphScene.update(hours);
+        ceraphFollowerScene.update(hours);
+        emberScene.update(hours);
+        exgartuan.update(hours);
+        helFollower.update(hours);
+        helScene.update(hours);
+        helSpawnScene.update(hours);
+        holliScene.update(hours);
+        isabellaScene.update(hours);
+        isabellaFollowerScene.update(hours);
+        izmaScene.update(hours);
+        jojoScene.update(hours);
+        kihaFollower.update(hours);
+        kihaScene.update(hours);
+        latexGirl.update(hours);
+        marbleScene.update(hours);
+        marblePurification.update(hours);
+        milkWaifu.update(hours);
+        raphael.update(hours);
+        rathazul.update(hours);
+        sheilaScene.update(hours);
+        shouldraFollower.update(hours);
+        shouldraScene.update(hours);
+        sophieBimbo.update(hours);
+        sophieFollowerScene.update(hours);
+        sophieScene.update(hours);
+        urta.update(hours);
+        urtaHeatRut.update(hours);
+        urtaPregs.update(hours);
+        valeria.update(hours);
+        vapula.update(hours);
+        // Scenes/Places/
+        bazaar.update(hours);
+        boat.update(hours);
+        farm.update(hours);
+        owca.update(hours);
+        telAdre.update(hours);
+        // Scenes/Quests/
+        urtaQuest.update(hours);
+    }
 }

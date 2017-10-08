@@ -29,7 +29,7 @@ package classes.Scenes
 		}
 		
 		public showStash():boolean {
-			return flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0 || flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0 || itemStorage.length > 0 || flags[FlagEnum.ANEMONE_KID] > 0;
+			return Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0 || Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0 || itemStorage.length > 0 || Flags.list[FlagEnum.ANEMONE_KID] > 0;
 		}
 		
 		private itemStorageDirectGet():Array { return itemStorage; }
@@ -43,7 +43,7 @@ package classes.Scenes
 		public inventoryMenu():void {
 			let x: number;
 			let foundItem:boolean = false;
-			if (getGame().inCombat) {
+			if (Game.inCombat) {
 				callNext = inventoryCombatHandler; //Player will return to combat after item use
 			}
 			else {
@@ -55,7 +55,7 @@ package classes.Scenes
 			MainScreen.clearText();
 			MainScreen.text("<b><u>Equipment:</u></b>\n");
 			MainScreen.text("<b>Weapon</b>: " + player.weaponName + " (Attack - " + player.weaponAttack + ")\n");
-			MainScreen.text("<b>Armor : </b>" + player.armorName + " (Defense - " + player.armorDef + ")\n");
+			MainScreen.text("<b>Armor : </b>" + player.inventory.armor.displayName + " (Defense - " + player.armorDef + ")\n");
 			if (player.keyItems.length > 0) MainScreen.text("<b><u>\nKey Items:</u></b>\n");
 			for (x = 0; x < player.keyItems.length; x++) MainScreen.text(player.keyItems[x].keyName + "\n");
 			menu();
@@ -68,22 +68,22 @@ package classes.Scenes
 			if (player.weapon != WeaponLib.FISTS) {
 				MainScreen.addButton(5, "Unequip", unequipWeapon);
 			}
-			if (!getGame().inCombat && inDungeon == false && inRoomedDungeon == false) {
-				if (getGame().nieveHoliday() && flags[FlagEnum.NIEVE_STAGE] > 0 && flags[FlagEnum.NIEVE_STAGE] < 5) {
-					if (flags[FlagEnum.NIEVE_STAGE] == 1)
+			if (!Game.inCombat && inDungeon == false && inRoomedDungeon == false) {
+				if (Game.nieveHoliday() && Flags.list[FlagEnum.NIEVE_STAGE] > 0 && Flags.list[FlagEnum.NIEVE_STAGE] < 5) {
+					if (Flags.list[FlagEnum.NIEVE_STAGE] == 1)
 						MainScreen.text("\nThere's some odd snow here that you could do something with...\n");
-					else MainScreen.text("\nYou have a snow" + getGame().nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
-					MainScreen.addButton(6, "Snow", getGame().nieveBuilding);
+					else MainScreen.text("\nYou have a snow" + Game.nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
+					MainScreen.addButton(6, "Snow", Game.nieveBuilding);
 					foundItem = true;
 				}
-				if (flags[FlagEnum.FUCK_FLOWER_KILLED] == 0 && flags[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
-					if (flags[FlagEnum.FUCK_FLOWER_LEVEL] == 4) MainScreen.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
-					MainScreen.addButton(7, (flags[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), getGame().holliScene.treeMenu);
+				if (Flags.list[FlagEnum.FUCK_FLOWER_KILLED] == 0 && Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
+					if (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] == 4) MainScreen.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
+					MainScreen.addButton(7, (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), Game.holliScene.treeMenu);
 					foundItem = true;
 				}
 				if (player.hasKeyItem("Dragon Egg") >= 0) {
-					getGame().emberScene.emberCampDesc();
-					MainScreen.addButton(8, "Egg", getGame().emberScene.emberEggInteraction);
+					Game.emberScene.emberCampDesc();
+					MainScreen.addButton(8, "Egg", Game.emberScene.emberEggInteraction);
 					foundItem = true;
 				}
 			}
@@ -92,13 +92,13 @@ package classes.Scenes
 				doNext(playerMenu);
 				return;
 			}
-			if (getGame().inCombat && player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value1 == 3) {
+			if (Game.inCombat && player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value1 == 3) {
 				MainScreen.text("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
-				getGame().enemyAI();
+				Game.enemyAI();
 				return;
 			}
 			MainScreen.text("\nWhich item will you use?");
-			if (getGame().inCombat)
+			if (Game.inCombat)
 				MainScreen.addButton(9, "Back", kGAMECLASS.combatMenu, false); //Player returns to the combat menu on cancel
 			else MainScreen.addButton(9, "Back", playerMenu);
 //Gone			menuLoc = 1;
@@ -106,13 +106,13 @@ package classes.Scenes
 		
 		public stash():void {
 			/*Hacked in cheat to enable shit
-			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
-			flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;*/
+			Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] = 1;
+			Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;*/
 			//REMOVE THE ABOVE BEFORE RELASE ()
 			MainScreen.clearText();
 			spriteSelect(-1);
 			menu();
-			if (flags[FlagEnum.ANEMONE_KID] > 0) {
+			if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
 				kGAMECLASS.anemoneScene.anemoneBarrelDescription();
 				if (model.time.hours >= 6) MainScreen.addButton(4, "Anemone", kGAMECLASS.anemoneScene.approachAnemoneBarrel);
 			}
@@ -122,14 +122,14 @@ package classes.Scenes
 				if (hasItemsInStorage()) MainScreen.addButton(1, "Chest Take", pickItemToTakeFromCampStorage);
 			}
 			//Weapon Rack
-			if (flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
+			if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
 				MainScreen.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
 				MainScreen.addButton(2, "W.Rack Put", pickItemToPlaceInWeaponRack);
 				if (weaponRackDescription()) MainScreen.addButton(3, "W.Rack Take", pickItemToTakeFromWeaponRack);
 				MainScreen.text("\n\n");
 			}
 			//Armor Rack
-			if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
+			if(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
 				MainScreen.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
 				MainScreen.addButton(5, "A.Rack Put", pickItemToPlaceInArmorRack);
 				if (armorRackDescription()) MainScreen.addButton(6, "A.Rack Take", pickItemToTakeFromArmorRack);
@@ -183,7 +183,7 @@ package classes.Scenes
 					currentItemSlot.setItemAndQty(item, 1);
 				}
 			}
-			if (getGame().inCombat) {
+			if (Game.inCombat) {
 				enemyAI();
 				return;
 			}
@@ -210,14 +210,14 @@ package classes.Scenes
 		}
 		
 		public giveHumanizer():void {
-			if(flags[FlagEnum.TIMES_CHEATED_COUNTER] > 0) {
+			if(Flags.list[FlagEnum.TIMES_CHEATED_COUNTER] > 0) {
 				MainScreen.text("<b>I was a cheater until I took an arrow to the knee...</b>", true);
-				getGame().gameOver();
+				Game.gameOver();
 				return;
 			}
 			MainScreen.text("I AM NOT A CROOK.  BUT YOU ARE!  <b>CHEATER</b>!\n\n", true);
 			inventory.takeItem(consumables.HUMMUS_, playerMenu);
-			flags[FlagEnum.TIMES_CHEATED_COUNTER]++;
+			Flags.list[FlagEnum.TIMES_CHEATED_COUNTER]++;
 		}
 		
 		//Create a storage slot

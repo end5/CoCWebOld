@@ -15,7 +15,7 @@
 //5. Third's Nieve
 
 //1. Kirbster's Bunny Trap
-//if(isHolidays() && flags[FlagEnum.CANDY_CANE_YEAR_MET] < date.fullYear)
+//if(isHolidays() && Flags.list[FlagEnum.CANDY_CANE_YEAR_MET] < date.fullYear)
 
 export default class XmasOther {
     public candyCaneTrapDiscovery(): void {
@@ -68,7 +68,7 @@ export default class XmasOther {
         //(If silly mode on) 
         if (silly()) MainScreen.text("  You're willing to say anything to calm him down.  This kid's voice is even more shrill than that asshole from Glee!");
         MainScreen.text("  A smile lights up his face, his shoulders visibly drop and lose their tension.   He sits like that for but a moment, before he realizes the full scope of the current situation.  His eyes grow wide while he throws down his arms with a rather unmanly yelp, covering his dripping cock.  Despite his embarrassment, it's evident that he's not going to get off unassisted.");
-        flags[FlagEnum.CANDY_CANE_YEAR_MET] = date.fullYear;
+        Flags.list[FlagEnum.CANDY_CANE_YEAR_MET] = date.fullYear;
         MainScreen.text("\n\nDo you help him out?");
         //(Present \"<i>Yes</i>\" and \"<i>No</i>\" options)
         menu();
@@ -115,7 +115,7 @@ export default class XmasOther {
     //2. Abraxas's Christmas Chicken
     //[Wake up, whatever morning]
     public getAChristmasChicken(): void {
-        flags[FlagEnum.XMAS_CHICKEN_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.XMAS_CHICKEN_YEAR] = date.fullYear;
         MainScreen.text("\nThe grating sound of squawking rouses you in the morning.  You groggily roll over, hoping to go back to sleep for a while, but the annoying noise persists unrelenting.  Realizing that it probably isn't going away any time soon, you reluctantly force your eyes open and push yourself up.  The sight around you causes you to blink a few times to shake away the disbelief: a layer of brilliant white snow frosts the ground, a rare sight at your camp thus far.  You hadn't really noticed it getting that much colder, but the chill this morning is biting through your [armor].  A shiver wracks your body, and your thoughts on the odd snowfall are interrupted by another loud call.");
         MainScreen.text("\n\nDetermined to shut whatever is making such a racket up, you trudge off through the cold, crisp blanket towards where you think the sound is coming from.  You crest a small hill and are greeted with another peculiar image.  Faintly visible against the snow, what appears to be a very pale harpy woman lays on her back, beating her pure-white wings against the ground and sweeping her legs back and forth against the freshly-fallen powder.  She caws and shrieks happily, apparently too caught up in... whatever it is she's doing to notice you.");
         menu();
@@ -185,7 +185,7 @@ export default class XmasOther {
         if (player.cockArea(x) >= 80) {
             MainScreen.text("You free your [cock " + (x + 1) + "] from your [armor], signaling your acceptance.  Your monster flops free, and the harpy grabs at her throat reflexively when she looks at it.  She glances up to you with wide eyes and back down at it.  \"<i>A-a promise is a promise, but...</i>\"");
             MainScreen.text("\n\nShe turns and flees with a few terrified flaps of her wings.  You sigh, covering your enormous prick once more.  At least you won't have to deal with her pesky shrieking any more.  The air warms and the snow thaws soon after you return, leaving no trace of its presence but a few spots of slushy mud.");
-            dynStats("lus", 10);
+            player.stats.lust += 10;
             doNext(playerMenu);
             return;
         }
@@ -247,7 +247,7 @@ export default class XmasOther {
 
     //[Player enters bakery, Date must be at least 15 Dec and KamiEnc must be 0]
     public encounterKamiTheChristmasRoo(): void {
-        if (flags[FlagEnum.KAMI_ENCOUNTER] == 0) {
+        if (Flags.list[FlagEnum.KAMI_ENCOUNTER] == 0) {
             MainScreen.text("You enter the Tel Adre bakery with the intention of sampling some of the local confectionaries.  This time around, you're surprised to find that the place is adorned with wintery, festive decor of all shapes and sizes - even a pine tree hangs around, with gifts delicately placed underneath.   The place is packed, and you allow a curvaceous kangaroo-morph waitress to escort you to your table.  You don't remember seeing her here before, and you're certain you'd never forget a chest like hers.  The girl's heaving, E-cups press against her dainty red and white waitress uniform as she sorts your table.  She manages to catch you off-guard, realizing the objects of your interest and blushing profusely. The waitress scurries off before you have chance to apologize, her hips wiggling almost exaggeratedly as she goes.\n\n");
             //[Player must select an action, out of eating cakes etc, Rubi or the kangaroo waitress. Description provided below.]
             //To normal Bakery menu!
@@ -260,7 +260,7 @@ export default class XmasOther {
     //[Player chooses Kangaroo girl]
     public approachKamiTheChristmasRoo(): void {
         MainScreen.clearText();
-        if (flags[FlagEnum.KAMI_ENCOUNTER] == 1) {
+        if (Flags.list[FlagEnum.KAMI_ENCOUNTER] == 1) {
             //[Player chooses 'Kami']
             MainScreen.text("You give Kami a nod, heading out back as she punches out for a quick break.  The waitress is out quicker than you expect, already ripping out of her red and white uniform to expose her hungry phallus.  \"<i>I'm not gonna lie, doll, you wouldn't BELIEVE how frisky working in this outfit has gotten me.</i>\"  You eye over her bodacious figure, planning your course of action.  You can tell she's been sampling her own lust-inducing cakes, and as impossible as it sounds, she looks far more hornier than usual.");
             //[Player gets the 4 options again]
@@ -299,7 +299,7 @@ export default class XmasOther {
         MainScreen.clearText();
         MainScreen.text("You politely decline Kami's sexual advances, apologizing before making a turn for the door. You begin to wonder why you didn't buy anything at the bakery.");
         //[Return to Tel Adre, KamiEnc = 1]
-        flags[FlagEnum.KAMI_ENCOUNTER] = 1;
+        Flags.list[FlagEnum.KAMI_ENCOUNTER] = 1;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -337,21 +337,21 @@ export default class XmasOther {
         MainScreen.text("\n\nKami squeals between each of your dominating thrusts");
         //[If player has balls]
         if (player.lowerBody.balls > 0) MainScreen.text(", your balls slapping against her with every push");
-        MainScreen.text(".  \"<i>Anh! No! Ah!</i>\"  She winces between each thrust, your [hips] doing little to help as they pick up the pace.  You continue pounding her ass for as long as you can, briefly releasing her wrists to give her bubble-butt a hard smack.  Kami's passage is warm and moist with your pre, and it isn't long before you find your cock sliding in and out of your slut's snug ass-tunnel as if it was made for you.  Eventually, Kami's vice-like grip on your " + cockDescript(x) + " loosens, and she begins lose herself to your dominating display.  Swaying her head side to side in enjoyment, you fuck her raw and hard - her hat bobbing up and down in a manner as hypnotising as her jiggling flesh.  You pull her to the ground to give her your final few thrusts before you churn out your spunk, falling over her and weakly bucking like some manner of beast.");
+        MainScreen.text(".  \"<i>Anh! No! Ah!</i>\"  She winces between each thrust, your [hips] doing little to help as they pick up the pace.  You continue pounding her ass for as long as you can, briefly releasing her wrists to give her bubble-butt a hard smack.  Kami's passage is warm and moist with your pre, and it isn't long before you find your cock sliding in and out of your slut's snug ass-tunnel as if it was made for you.  Eventually, Kami's vice-like grip on your " + CockDescriptor.describeCock(player, x) + " loosens, and she begins lose herself to your dominating display.  Swaying her head side to side in enjoyment, you fuck her raw and hard - her hat bobbing up and down in a manner as hypnotising as her jiggling flesh.  You pull her to the ground to give her your final few thrusts before you churn out your spunk, falling over her and weakly bucking like some manner of beast.");
 
         MainScreen.text("\n\n\Kami squeals excitedly as she reaches her own climax underneath you, tugging rapidly on her precum-soaked herm cock, milking it like crazy onto the ground beneath her.  You can feel her dripping fem-sex mesh against your own [sack] as you empty into her tight passage.");
 
         //{If cum quantity = light, medium}
-        if (player.cumQ() < 1000) MainScreen.text("  \"<i>Mmm... just like that, babe,</i>\" Kami moans submissively, her asshole clenching one last time before you pull out and climb off your satiated conquest, your " + cockDescript(x) + " still dripping creamy white spunk.");
+        if (player.cumQ() < 1000) MainScreen.text("  \"<i>Mmm... just like that, babe,</i>\" Kami moans submissively, her asshole clenching one last time before you pull out and climb off your satiated conquest, your " + CockDescriptor.describeCock(player, x) + " still dripping creamy white spunk.");
         //{if cum quantity ≧ heavy}
         else
-            MainScreen.text("  One of Kami's hands flies from her dick to her suddenly swollen belly as your mighty seed gushes forth.  The unexpectedly heavy girl sinks further into the ground, your load swishing back up and loosening her tunnel around you and forcing you to remove your still-spewing " + cockDescript(x) + " before something unfortunate happens.  Semen starts tumbling out as soon as you dismount your kangaroo conquest, but judging by the slow pace, she's going to look heavily pregnant for a while.");
+            MainScreen.text("  One of Kami's hands flies from her dick to her suddenly swollen belly as your mighty seed gushes forth.  The unexpectedly heavy girl sinks further into the ground, your load swishing back up and loosening her tunnel around you and forcing you to remove your still-spewing " + CockDescriptor.describeCock(player, x) + " before something unfortunate happens.  Semen starts tumbling out as soon as you dismount your kangaroo conquest, but judging by the slow pace, she's going to look heavily pregnant for a while.");
 
         MainScreen.text("\n\n\Replacing your clothes, you give Kami one last glance over before you leave.  She's lying happily encumbered on the floor, covered in a combination of your fluids.  She'll probably be good to head home later - that is, if she can still walk.");
         //[Player heads back to camp, An hour passes, Lust is reduced to zero and KamiEnc = 1]
-        flags[FlagEnum.KAMI_ENCOUNTER] = 1;
+        Flags.list[FlagEnum.KAMI_ENCOUNTER] = 1;
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -387,16 +387,16 @@ export default class XmasOther {
         MainScreen.text("\n\nKami, on the other hand, needs a tad more encouragement.  She desperately diddles her unused slit for as long as she can take it, her own belated orgasm finally erupting messily into your asshole moments later.  \"<i>Oh doll, I - ungh - needed that more than anything.  If you come back before the end of winter, we should definitely try this again.</i>\"  You give a thumbs up in approval of Kami's idea, turning around to head back to camp. Before you go, however, you take the opportunity to get a good squeeze of her ample tits, quickly taking off with complete satisfaction.");
         //[Player heads back to camp, An hour passes, Asshole tightness is reduced, Lust is reduced to zero and KamiEnc = 1]
         player.orgasm();
-        dynStats("sen", 1);
+        player.stats.sens += 1;
         doNext(camp.returnToCampUseOneHour);
-        flags[FlagEnum.KAMI_ENCOUNTER] = 1;
+        Flags.list[FlagEnum.KAMI_ENCOUNTER] = 1;
     }
 
     //[Player selects 'Blow Job']
     public KamiBlowJob(): void {
         MainScreen.clearText();
         //[If player is none-Naga]
-        if (!player.isNaga()) MainScreen.text("You get down on your knees");
+        if (!player.lowerBody.isNaga()) MainScreen.text("You get down on your knees");
         //[Else if is Naga]
         else MainScreen.text("You steer your serpentine half into position, leaning your upper body within arms reach of Kami's wanting member.  You reach out");
         MainScreen.text(" and grab the thick rod impulsively with your hand, all 14 inches of the slick tool in your firm grasp.  Kami giggles in approval as you take the first few licks of the phallus, jerking your hand up and down its length slowly.  \"<i>Mmm... someone knows what they're doing.</i>\"  You spit on the head of her thick cock, smearing the improvised lubricant all over her girth generously, her digitigrade legs crossing and twitching agitatedly in response.  \"<i>Oh god hurry up and put it in your mouth already!</i>\"  You grin at her impatience, teasing her tip a bit longer before finally knuckling down.  Her first few inches slide in with much resistance, fresh saliva coating the shaft and easing her in against your tonsils smoothly and without fuss.");
@@ -407,7 +407,7 @@ export default class XmasOther {
         if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("  You think you might still need to find an outlet for that itch of yours, with [eachCock] still erect and needing release.");
         dynStats("lus", 20 + player.stats.lib / 10 + player.stats.sens / 10);
         //[Player heads back to camp, An hour passes, Lust = + 40 and KamiEnc = 1]
-        flags[FlagEnum.KAMI_ENCOUNTER] = 1;
+        Flags.list[FlagEnum.KAMI_ENCOUNTER] = 1;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -420,15 +420,15 @@ export default class XmasOther {
         MainScreen.text("You chuckle heartily - of course you're going to ravish her!  How ridiculous to assume otherwise.  In a split second, you've already grabbed her by her arms, forcing her back against the wall.  Kami passionately yelps, but her eagerness to grind against your growing package reveals her true intentions.");
         MainScreen.text("\n\nTaking the initiative, you hold the waitress by the throat whilst you free room in your [armor] for your succulent snatch-hungry sausages.  Wasting no time at all, you align your rock-hard rods underneath her huge phallus and directly at her needy orifices, moving your hands underneath her legs and lifting her slightly to add leverage for yourself.  Kami pants in anticipation, gently pressing herself against your cockheads in an attempt to entice you.  Ever the tease, you notice the waitress gasp between her delectable lips.  \"<i>Are you gonna put those fine-ass rods to use, or do I have to do it myself?</i>\"  Not about to disappoint, you push into her, penetrating the soft confines of her pussy before reaching into her tight little ass, slowly but steadily plunging further and further inside until your needy tools can't reach any further.  \"<i>F-Fuck!  Drill me hard!</i>\" she cries desperately.");
         MainScreen.text("\n\nRearing out slower than you had entered, her hips support yourself as you dive your way back in, slowly speeding up the frequency of your thrusts each time.  As you aggressively pump into your new kanga-slut, you force the waitress to press further against the alleyway wall behind her, her arms spreading out while her pillowy chest is squished against the brick.");
-        MainScreen.text("\n\n\"<i>I could do this all goddamn day!</i>\"  Kami screams, your wicked thrashing leaving her pelvis moist with sheer bliss.  You can already feel your own orgasm approaching, so with due haste you grab Kami's ample bust and pick up your thrusts energetically, ramming your cocks home with as much speed as you can muster.  Your ass-engorged " + cockDescript(x) + " cums first, packing Kami's tight hole with your sticky seed, shortly followed by your other " + cockDescript(y) + " giving her delicate-yet-punished pussy the same treatment.");
+        MainScreen.text("\n\n\"<i>I could do this all goddamn day!</i>\"  Kami screams, your wicked thrashing leaving her pelvis moist with sheer bliss.  You can already feel your own orgasm approaching, so with due haste you grab Kami's ample bust and pick up your thrusts energetically, ramming your cocks home with as much speed as you can muster.  Your ass-engorged " + CockDescriptor.describeCock(player, x) + " cums first, packing Kami's tight hole with your sticky seed, shortly followed by your other " + CockDescriptor.describeCock(player, y) + " giving her delicate-yet-punished pussy the same treatment.");
 
         MainScreen.text("\n\nKami is only seconds behind, her figure leaning forward into your arms and spasming up against you in a sexual seizure.  \"<i>Oh my god!</i>\"  The 'roo girl squeals, her tongue lolling out in intense arousal as her 14 inch cock spurts its pent-up frustration all over your abdomen.  You can feel the fur on her thighs standing briefly on end as she coils them around you, the sensation gradually fading away slowly as her frantic panting slows down.");
 
         MainScreen.text("\n\nYou gather your thoughts for a second, exhausted from the actual ordeal.  You slowly put back your [armor] while sharing an appreciative farewell to the now-satiated waitress - of who is panting so profusely she can't even return the gesture.");
         //[Player heads back to camp, An hour passes, Lust is reduced to zero and KamiEnc = 1]
         player.orgasm();
-        dynStats("sen", -3);
-        flags[FlagEnum.KAMI_ENCOUNTER] = 1;
+        player.stats.sens += -3;
+        Flags.list[FlagEnum.KAMI_ENCOUNTER] = 1;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -459,18 +459,18 @@ export default class XmasOther {
         dynStats("lus", (10 + player.stats.lib / 10), "resisted", false);
 
         //[Optional, give the player antlers! (30% chance) Show this description if the player doesn't have horns already.]
-        if (player.horns == 0 && rand(2) == 0) {
+        if (player.upperBody.head.horns == 0 && rand(2) == 0) {
             MainScreen.text("\n\nYou hear the sound of cracking branches erupting from the tip of your skull.  Small bulges on either side of your head advance outwards in a straight line, eventually spreading out in multiple directions like a miniature tree.  Investigating the exotic additions sprouting from your head, the situation becomes clear.  <b>You've grown antlers!</b>");
             //[Player horn type changed to Antlers.]
-            player.hornType = HORNS.ANTLERS;
-            player.horns = 4 + rand(12);
+            player.upperBody.head.hornType = HornType.ANTLERS;
+            player.upperBody.head.horns = 4 + rand(12);
         }
         //[Show this description instead if the player already had horns when the transformation occurred.] 
-        else if (player.horns > 0 && player.hornType != HORNS.ANTLERS && rand(2) == 0) {
+        else if (player.upperBody.head.horns > 0 && player.upperBody.head.hornType != HornType.ANTLERS && rand(2) == 0) {
             MainScreen.text("\n\nYou hear the sound of cracking branches erupting from the tip of your skull.  The horns on your head begin to twist and turn fanatically, their texture and size morphing considerably until they resemble something more like trees than anything else.  Branching out rebelliously, you've come to the conclusion that <b>you've somehow gained antlers!</b>");
             //[Player horn type changed to Antlers.]
-            player.hornType = HORNS.ANTLERS;
-            player.horns = 4 + rand(12);
+            player.upperBody.head.hornType = HornType.ANTLERS;
+            player.upperBody.head.horns = 4 + rand(12);
         }
         doNext(telAdre.bakeryScene.bakeryuuuuuu);
     }
@@ -596,7 +596,7 @@ export default class XmasOther {
 
         //(Adds \"<i>Snow</i>\" to the Stash or Lover menu)
         MainScreen.text("\n\n('Snow' added to the <b>Items</b> menu!)");
-        flags[FlagEnum.NIEVE_STAGE] = 1;
+        Flags.list[FlagEnum.NIEVE_STAGE] = 1;
         doNext(playerMenu);
     }
 
@@ -605,7 +605,7 @@ export default class XmasOther {
     public nieveBuilding(): void {
         MainScreen.clearText();
         //First Step: The Body
-        if (flags[FlagEnum.NIEVE_STAGE] == 1) {
+        if (Flags.list[FlagEnum.NIEVE_STAGE] == 1) {
             //Consumes an hour of time.
             //This determines the sex of Nieve once she's complete.
             MainScreen.text("You head back over to the snowy patch by your camp.  The crunch of snow again makes you feel just a little nostalgic, and you think of drinking hot cocoa topped with marshmallows.  With a smile on your face, you set about rolling up the soft powder-like crystals into a huge ball.  It takes some effort, but after a while you're left with a large ball of snow, which will serve as the perfect base.");
@@ -619,23 +619,23 @@ export default class XmasOther {
         }
         //Second Step: Eyes & Mouth
         //Alters Nieve's eyes in scenes
-        else if (flags[FlagEnum.NIEVE_STAGE] == 2) {
+        else if (Flags.list[FlagEnum.NIEVE_STAGE] == 2) {
             MainScreen.text("You approach your snow" + nieveMF("man", "woman") + " again, looking it over.");
             MainScreen.text("\n\nIt still needs eyes and a mouth.  Coal is the best option, but who knows how common that is around here?  Gems, you decide, are an acceptable stand-by.  It'd probably take 9 gems to complete, two for the eyes and seven for the mouth.");
             //[Coal (Only available if PC has coal)] [Gems]
             menu();
-            if (player.hasItem(consumables.COAL___)) MainScreen.addButton(0, "Coal", nieveCoalEyes);
+            if (player.inventory.items.has(consumables.COAL___)) MainScreen.addButton(0, "Coal", nieveCoalEyes);
             MainScreen.addButton(1, "Gems", nieveGemEyes);
             MainScreen.addButton(4, "Back", camp.returnToCampUseOneHour);
         }
         //Fourth Step: The Nose
-        else if (flags[FlagEnum.NIEVE_STAGE] == 3) {
+        else if (Flags.list[FlagEnum.NIEVE_STAGE] == 3) {
             MainScreen.text("You approach your nearly finished snowman. To others, it might be a perfectly acceptable creation, but not to you. It needs a carrot to finish it off.");
             //(If PC has the carrot) 
             if (player.hasKeyItem("Carrot") >= 0) {
                 MainScreen.text("\n\nLuckily, you've got the perfect one, courtesy of Whitney's farm.  You quickly wash it up and snip the tail end of it off before sticking it right into the center of the snowman's face.  Nostalgia flows over you as you stand back to admire your handiwork.  You feel as if you've brought a little of Ingnam into this strange land, a little bit of cheer into this desolate landscape.");
                 MainScreen.text("\n\nYou enjoy the presence of your new snowman creation for a while, and then return to your camp with a little smile laid out on your face.");
-                flags[FlagEnum.NIEVE_STAGE] = 4;
+                Flags.list[FlagEnum.NIEVE_STAGE] = 4;
                 player.removeKeyItem("Carrot");
                 MainScreen.text("\n\n(Removed Key Item: Carrot)");
             }
@@ -654,11 +654,11 @@ export default class XmasOther {
     //Add to previous text if possible?
     public nieveCoalEyes(): void {
         MainScreen.clearText();
-        player.consumeItem(consumables.COAL___);
+        player.inventory.items.consumeItem(consumables.COAL___);
         MainScreen.text("Luckily, you happen to have two lumps of coal.");
         MainScreen.text("\n\nYou split the coal into smaller chunks, and place them evenly around the Snowman's face, creating a nice, vacant smile.  It still needs a nose, however, and for that, you'll need a carrot.  Perhaps there's a farm nearby, or maybe you could buy one somewhere?");
-        flags[FlagEnum.NIEVE_MOUTH] = "coal";
-        flags[FlagEnum.NIEVE_STAGE] = 3;
+        Flags.list[FlagEnum.NIEVE_MOUTH] = "coal";
+        Flags.list[FlagEnum.NIEVE_STAGE] = 3;
         doNext(camp.returnToCampUseOneHour);
     }
     //Gems
@@ -669,8 +669,8 @@ export default class XmasOther {
             MainScreen.text("Taking a handful of gems out of your pouch, you spread them evenly around the Snowman's face, giving it a nice, vacant smile.  It still needs a nose, however, and for that, you'll need a carrot.  Perhaps there's a farm nearby?");
             player.stats.gems -= 9;
             statScreenRefresh();
-            flags[FlagEnum.NIEVE_MOUTH] = "gems";
-            flags[FlagEnum.NIEVE_STAGE] = 3;
+            Flags.list[FlagEnum.NIEVE_MOUTH] = "gems";
+            Flags.list[FlagEnum.NIEVE_STAGE] = 3;
         }
         //Too broke to use the gems option? What the fuck is wrong with you?
         else {
@@ -686,8 +686,8 @@ export default class XmasOther {
         MainScreen.text("You grin mischievously to yourself and set about making two more balls of powdery snow.  It takes less time than any of the others, and before you know it you've attached two icy-breasts to the snowman.  They aren't terribly big, any heavier and you're sure they'd fall off, but they get the point across.");
         MainScreen.text("\n\nYour snowwoman still needs a face, of course, but you'll leave that until later.  For now, you head back into the main part of camp.");
         doNext(camp.returnToCampUseOneHour);
-        flags[FlagEnum.NIEVE_STAGE] = 2;
-        flags[FlagEnum.NIEVE_GENDER] = 2;
+        Flags.list[FlagEnum.NIEVE_STAGE] = 2;
+        Flags.list[FlagEnum.NIEVE_GENDER] = 2;
     }
     //Snowman
     //Add to existing text if possible, rather than a new window?
@@ -696,8 +696,8 @@ export default class XmasOther {
         MainScreen.text("You decide to leave it as is. Not everything has to have breasts, of course, even in Mareth.");
         MainScreen.text("\n\nYour snowman still needs a face, of course, but you'll leave that until later.  For now, you head back into the main part of camp.");
         doNext(camp.returnToCampUseOneHour);
-        flags[FlagEnum.NIEVE_STAGE] = 2;
-        flags[FlagEnum.NIEVE_GENDER] = 1;
+        Flags.list[FlagEnum.NIEVE_STAGE] = 2;
+        Flags.list[FlagEnum.NIEVE_GENDER] = 1;
     }
 
     //Third Step: Carrots!
@@ -714,18 +714,18 @@ export default class XmasOther {
     }
 
     public nieveMF(Man: string = "", Woman: string = ""): string {
-        if (flags[FlagEnum.NIEVE_GENDER] == 1) return Man;
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 1) return Man;
         else return Woman;
     }
 
     //IT'S ALIVE!
     public nieveComesToLife(): void {
         MainScreen.clearText();
-        flags[FlagEnum.NIEVE_STAGE] = 5;
+        Flags.list[FlagEnum.NIEVE_STAGE] = 5;
         MainScreen.text("You awaken with a shiver.  A chill is in the air again, and in the distance you can make out a jolly laugh and jingling bells.  You bolt upright, looking in the direction of the snow pile, expecting a new flurry.  Sadly, there doesn't seem to be any new snow, nor is any coming down.  Frowning, you stand and approach the snow drift.");
         MainScreen.text("\n\nThere's nothing to indicate any visitors through the night...  Except, wait...  Your snow" + nieveMF("", "wo") + "man is gone!  Did someone destroy it while you slept?");
         MainScreen.text("\n\nCreeping closer to the snow pile, you believe you may have found the culprit.  A pale blue humanoid, and thoroughly unclothed, shape lies in the soft white expanse, right where your snowman used to be.");
-        if (flags[FlagEnum.NIEVE_GENDER] == 1) MainScreen.text("  It appears to be male, judging by the modestly sized cock sprouting from its loins.");
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 1) MainScreen.text("  It appears to be male, judging by the modestly sized cock sprouting from its loins.");
         else MainScreen.text("  It appears to be female, judging by the modestly sized tits on its chest, and the lack of a penis, which is quite a feat in Mareth.");
         MainScreen.text("  Pure white hair spills down from its head, almost blending in with the surrounding snow.");
 
@@ -734,7 +734,7 @@ export default class XmasOther {
         MainScreen.text("\n\nA soft, \"<i>Whaaa?</i>\" escapes " + nieveMF("his", "her") + " lips.  \"<i>Where am I?</i>\" " + nieveMF("He", "She") + " brings a pale blue hand to " + nieveMF("his", "her") + " head as " + nieveMF("he", "she") + " surveys the red, blighted landscape surrounding you.  \"<i>This isn't home.</i>\"");
         MainScreen.text("\n\nResponding cautiously, in the event this is all an elaborate trick set up by some demon, you ask who " + nieveMF("he", "she") + " is, and where " + nieveMF("he", "she") + "'s from.");
         MainScreen.text("\n\n" + nieveMF("His", "Her") + " eyes, ");
-        if (flags[FlagEnum.NIEVE_MOUTH] == "gems") MainScreen.text("glittering purple");
+        if (Flags.list[FlagEnum.NIEVE_MOUTH] == "gems") MainScreen.text("glittering purple");
         else MainScreen.text("coal black");
         MainScreen.text(" orbs, fall on you, as if registering you for the first time.  Then a hint of recognition hits " + nieveMF("him", "her") + ".  \"<i>Oh!  [Master]!  You're my [master]!</i>\"  In a flash " + nieveMF("he", "she") + "'s standing, looking pleased as punch, with " + nieveMF("his", "her") + " hands clasped excitedly in front of " + nieveMF("himself", "herself") + ".");
 
@@ -773,9 +773,9 @@ export default class XmasOther {
         MainScreen.text("You shake your head.  Of course not!  While " + nieveMF("he", "she") + " certainly seems like a nice person on the surface, you can't help but think that's just the tip of the iceberg.  For all you know, " + nieveMF("he", "she") + "'s a frigid bitch underneath, a trap set by the demons to lure you into a false sense of security.  Clever bastards, you conclude.  They certainly know the best way to serve revenge, but you won't have any of it.");
         MainScreen.text("\n\nNieve looks disappointed, but nods understandably.  \"<i>I was told not everyone accepts us.  Perhaps I'll find someone more hospitable next year.</i>\"  You shrug, giving " + nieveMF("him", "her") + " the cold shoulder.");
         MainScreen.text("\n\nIn a blinding flash of light, Nieve is gone, and all that remains is the snowman you built.  You can feel the temperature begin to rise, and know that in a matter of hours, there won't be anything left of this icy wonderland.");
-        flags[FlagEnum.NIEVE_STAGE] = -1;
-        flags[FlagEnum.NIEVE_GENDER] = 0;
-        flags[FlagEnum.NIEVE_MOUTH] = "";
+        Flags.list[FlagEnum.NIEVE_STAGE] = -1;
+        Flags.list[FlagEnum.NIEVE_GENDER] = 0;
+        Flags.list[FlagEnum.NIEVE_MOUTH] = "";
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -825,7 +825,7 @@ export default class XmasOther {
         //[Silly Mode:]
         if (silly()) MainScreen.text("  And you presume a butthole nestled between " + nieveMF("his", "her") + " cheeks, right where it belongs.");
         MainScreen.text("  " + nieveMF("His", "Her") + " stomach is flat and toned, " + nieveMF("as is his chest", "and she possesses a pair of perky B-cup breasts") + ". " + nieveMF("His", "Her") + " face is the same pale blue as the rest of " + nieveMF("his", "her") + " body, though it is off-set by " + nieveMF("his", "her") + " glittering, ");
-        if (flags[FlagEnum.NIEVE_MOUTH] == "coal") MainScreen.text("dusky black");
+        if (Flags.list[FlagEnum.NIEVE_MOUTH] == "coal") MainScreen.text("dusky black");
         else MainScreen.text("vibrant purple");
         MainScreen.text(" eyes and pure white hair, which " + nieveMF("barely goes past his ears", "tumbles down past her shoulders") + ".  Much of " + nieveMF("his", "her") + " body glimmers with a fine layer of powdered snow or ice.");
         MainScreen.text("\n\nNieve stops, gives you a friendly hug, and asks, \"<i>What can I do for you, [Master]?</i>\"");
@@ -838,22 +838,22 @@ export default class XmasOther {
     public nieveSexMenu(): void {
         MainScreen.clearText();
         MainScreen.text("What will you do with your oh-so-cool lover?");
-        if (player.lust < 33) MainScreen.text("  You aren't quite turned on enough for normal fucking.");
+        if (player.stats.lust < 33) MainScreen.text("  You aren't quite turned on enough for normal fucking.");
         menu();
-        if (flags[FlagEnum.NIEVE_GENDER] == 2) MainScreen.addButton(0, "Lick Her", lickNieve);
-        if (flags[FlagEnum.NIEVE_GENDER] == 1) MainScreen.addButton(0, "Suck Him", suckNieveOff);
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 2) MainScreen.addButton(0, "Lick Her", lickNieve);
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 1) MainScreen.addButton(0, "Suck Him", suckNieveOff);
         //Fuck Her
         //Female Nieve
         //Must have a penis or at least a 3.5 inch clit
         //Nieve's capacity is about 130.
-        if ((player.lowerBody.cockSpot.hasCock() || (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.list[0].clitLength >= 3.5)) && player.lust >= 33) {
-            if (flags[FlagEnum.NIEVE_GENDER] == 2) MainScreen.addButton(1, "Fuck Her", fuckNieve);
+        if ((player.lowerBody.cockSpot.hasCock() || (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).clitLength >= 3.5)) && player.stats.lust >= 33) {
+            if (Flags.list[FlagEnum.NIEVE_GENDER] == 2) MainScreen.addButton(1, "Fuck Her", fuckNieve);
         }
         //Get Fucked by Gurumash
         //Male Nieve
         //Any Gender
         //Nieve's cock is 9x1.5
-        if (flags[FlagEnum.NIEVE_GENDER] == 1 && player.lust >= 33) MainScreen.addButton(1, "Get Fucked", nieveFucksYou);
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 1 && player.stats.lust >= 33) MainScreen.addButton(1, "Get Fucked", nieveFucksYou);
         MainScreen.addButton(9, "Back", camp.campLoversMenu);
     }
 
@@ -868,9 +868,9 @@ export default class XmasOther {
         if (!silly()) {
             MainScreen.text("\n\nNieve lets out little gasps and sighs as you assault her clit with your tongue.  Not content to leave it at that, you dive in to her frigid, slick cunt, lapping and licking.  ");
             //(Normal/Snake Tongue: 
-            if (player.tongueType != TONUGE.DEMONIC) MainScreen.text("It doesn't get far, but elicits squeals of surprise and pleasure from your elemental slave who's already grasping at the snow surrounding her for support.");
+            if (player.upperBody.head.face.tongueType != TongueType.DEMONIC) MainScreen.text("It doesn't get far, but elicits squeals of surprise and pleasure from your elemental slave who's already grasping at the snow surrounding her for support.");
             //Demon Tongue: 
-            else if (player.tongueType == TONUGE.DEMONIC) MainScreen.text("Her eyes widen as you snake your impressive, demonic tongue into her. She grunts and squeals with pleasure, hands grasping piles of snow, wishing they were bedsheets.");
+            else if (player.upperBody.head.face.tongueType == TongueType.DEMONIC) MainScreen.text("Her eyes widen as you snake your impressive, demonic tongue into her. She grunts and squeals with pleasure, hands grasping piles of snow, wishing they were bedsheets.");
             MainScreen.text("  After a minute of this, you realize you've lost the feeling in your tongue!  Pulling it back into your mouth, you find it warms back up quickly, and then you're at it again.");
 
             MainScreen.text("\n\nNot quite willing to let your precious tongue go numb like that again, you focus your attention on her clitoris and all the little sensitive spots along the inner thighs.  While your mouth is drawing her attention elsewhere, you carefully bury two fingers knuckle deep into her frozen fuckhole.");
@@ -878,7 +878,7 @@ export default class XmasOther {
             MainScreen.text("\n\n\"<i>Oh!</i>\" she exclaims, her head bolting up to look in your direction.  \"<i>Oohh.  Fuck that's nice,</i>\" she smirks down at you.  The finger-tongue combined assault leaves her writhing in the snow, and she reflexively attempts to back away.  You stare up at her for a second and grab hold of her hips with your free hand, commanding her to sit still with your most authoritative voice.  Nieve lets out a \"<i>meep</i>\" and ceases her squirming... at least for a minute.  After that, her legs and arms are trembling from barely contained pleasure, but she does her best to remain where she is.");
 
             MainScreen.text("\n\nRight when you're about to go back down, Nieve says, \"<i>I... I can't take it anymore!</i>\" She sits up, throws her legs around your neck, and in one swift motion you find yourself on your back");
-            if (player.isTaur()) MainScreen.text(", or as close to it with your body,");
+            if (player.lowerBody.isTaur()) MainScreen.text(", or as close to it with your body,");
             MainScreen.text(" with Nieve straddling your face.  \"<i>Mm, this is much better.  Now you wanted to lick me, [Master]? So... lick,</i>\" she whispers, lowering her chilly cunt down onto your face.");
 
             MainScreen.text("\n\nYou try to protest, but all that comes out is a muffled \"<i>Mmmrrrfffgggll!</i>\"  To her credit, Nieve looks a little embarrassed, but shakes her head.  \"<i>This is the only way I can control myself.  Now unless you want to be stuck here all day, [Master], I suggest you put that mouth to work.</i>\"");
@@ -898,7 +898,7 @@ export default class XmasOther {
             MainScreen.text("\n\nAnother pause. You let out a muffled \"<i>Yeth,</i>\" and Nieve sighs.");
             MainScreen.text("\n\nIt takes you the better part of an hour to crawl your way back to the camp proper, you on your hands and knees, tongue stuck firmly to the icy love button.  It's a bit like being walked on a leash, and you find the whole ordeal utterly embarrassing and degrading, but quite arousing.  After the two of you manage your way over to a water barrel");
             //(no Kid A: 
-            if (flags[FlagEnum.ANEMONE_KID] != 1) MainScreen.text(", Nieve takes a ladle full of water and pours it onto her snatch");
+            if (Flags.list[FlagEnum.ANEMONE_KID] != 1) MainScreen.text(", Nieve takes a ladle full of water and pours it onto her snatch");
             //Kid A: 
             else MainScreen.text(", your little anemone spawn giggles and laughs at your predicament before finally ladling some water onto your lover's snatch");
             MainScreen.text(", effectively allowing you to pull your tongue away.");
@@ -941,7 +941,7 @@ export default class XmasOther {
         let x: number = -1;
         if (player.lowerBody.cockSpot.hasCock()) {
             x = player.cockThatFits(130);
-            if (x <= 0 && player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.list[0].clitLength >= 3.5 && rand(2) == 0) x = -1;
+            if (x <= 0 && player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).clitLength >= 3.5 && rand(2) == 0) x = -1;
             else x = player.smallestCockIndex();
         }
         MainScreen.text("You look your naked, icy lover up and down, thinking of all the things you could do to her.  She raises a white eyebrow at you curiously while you take in her statuesque form.  A thin layer of frost covers her flesh, giving her pale blue skin a sparkling, shimmering appearance.  You find yourself getting aroused at all the potentialities.  Your " + cockClit(x) + " rises to attention as you ponder it, and with a smirk, you finally settle on something.");
@@ -951,14 +951,14 @@ export default class XmasOther {
         MainScreen.text("\n\nNot wasting any time, she takes the whole tip into her mouth, swirling her tongue around it with practiced ease.");
         //(If small cock/clit (<6): 
         if (x >= 0) {
-            if (player.lowerBody.cockSpot.list[x].cockLength < 6) MainScreen.text("  \"<i>It's so cute, [Master],</i>\" Nieve says while catching a breath, \"<i>Like a little toy cock.</i>\"");
+            if (player.lowerBody.cockSpot.get(x).cockLength < 6) MainScreen.text("  \"<i>It's so cute, [Master],</i>\" Nieve says while catching a breath, \"<i>Like a little toy cock.</i>\"");
             //If overly large (>130): 
-            else if (player.lowerBody.cockSpot.list[x].cockLength >= 24) MainScreen.text("  She has to take a breath almost immediately, saying, \"<i>By the fat man's beard this thing is huge.  You must make the rest of this world jealous.</i>\"");
+            else if (player.lowerBody.cockSpot.get(x).cockLength >= 24) MainScreen.text("  She has to take a breath almost immediately, saying, \"<i>By the fat man's beard this thing is huge.  You must make the rest of this world jealous.</i>\"");
             else MainScreen.text("  \"<i>Mmm,</i>\" she smacks her lips and takes a quick breath, \"<i>Such a nice example of a candycane right here.  Let's go in for another taste.</i>\"");
         }
         else {
-            if (player.lowerBody.vaginaSpot.list[0].clitLength < 6) MainScreen.text("\"<i>It's so cute, [Master],</i>\" Nieve says while catching a breath, \"<i>Like a little toy cock.</i>\"");
-            else if (player.lowerBody.vaginaSpot.list[0].clitLength >= 24) MainScreen.text("  She has to take a breath almost immediately, saying, \"<i>By the fat man's beard this thing is huge.  You must make the rest of this world jealous.</i>\"");
+            if (player.lowerBody.vaginaSpot.get(0).clitLength < 6) MainScreen.text("\"<i>It's so cute, [Master],</i>\" Nieve says while catching a breath, \"<i>Like a little toy cock.</i>\"");
+            else if (player.lowerBody.vaginaSpot.get(0).clitLength >= 24) MainScreen.text("  She has to take a breath almost immediately, saying, \"<i>By the fat man's beard this thing is huge.  You must make the rest of this world jealous.</i>\"");
             else MainScreen.text("  \"<i>Mmm,</i>\" she smacks her lips and takes a quick breath, \"<i>Such a nice example of a candycane right here.  Let's go in for another taste.</i>\"");
         }
         MainScreen.text("  And with that she dives back down onto your " + cockClit(x) + ".  Her head bobs and bows, giving the sensation of an icecube running up and down your ");
@@ -969,9 +969,9 @@ export default class XmasOther {
         //(Variable depending on dick-type)
         if (x >= 0) {
             //(Human) 
-            if (player.lowerBody.cockSpot.list[x].cockType == CockType.HUMAN) MainScreen.text("  Your normal, unaltered cock seems to take on a slight blue tint, although you can confirm it's not going numb.  Quite the contrary, it seems to be getting more sensitive as Nieve's lips roll over it.");
+            if (player.lowerBody.cockSpot.get(x).cockType == CockType.HUMAN) MainScreen.text("  Your normal, unaltered cock seems to take on a slight blue tint, although you can confirm it's not going numb.  Quite the contrary, it seems to be getting more sensitive as Nieve's lips roll over it.");
             //(Equine) 
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.HORSE) MainScreen.text("  Nieve fawns over your horsecock like a cultist praying to a god.  She sucks and kisses, running the tip of her tongue all along the sides until she reaches the sheathe, and then right back up the other side.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.HORSE) MainScreen.text("  Nieve fawns over your horsecock like a cultist praying to a god.  She sucks and kisses, running the tip of her tongue all along the sides until she reaches the sheathe, and then right back up the other side.");
             //(Canine) 
             else if (player.hasKnot(x)) {
                 MainScreen.text("  Nieve eyes the knot on your cock as though it were a challenge.  She inches down your shaft, getting ever closer.");
@@ -993,25 +993,25 @@ export default class XmasOther {
             9 - dragon
             */
             //(Demonic)
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.DEMON) MainScreen.text("  Your purple, demonic shaft pulses and throbs, seemingly immune to the unnatural cold of Nieve's mouth. Seemingly oblivious to its nature, Nieve slavers over each nodule, giving every ridge and bump a kiss and more than just a lick.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.DEMON) MainScreen.text("  Your purple, demonic shaft pulses and throbs, seemingly immune to the unnatural cold of Nieve's mouth. Seemingly oblivious to its nature, Nieve slavers over each nodule, giving every ridge and bump a kiss and more than just a lick.");
             //(Tentacle) 
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.TENTACLE) MainScreen.text("  Nieve does not seem put off by your tentacle cock in the least, in fact she confesses, \"<i>It reminds me of a comic I read before coming here.</i>\"  As she fawns over your cock, you're certain you hear whispers of \"<i>Oh, you sexy tentacle beast...</i>\" coming from her mouth when she gets her breath.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.TENTACLE) MainScreen.text("  Nieve does not seem put off by your tentacle cock in the least, in fact she confesses, \"<i>It reminds me of a comic I read before coming here.</i>\"  As she fawns over your cock, you're certain you hear whispers of \"<i>Oh, you sexy tentacle beast...</i>\" coming from her mouth when she gets her breath.");
             //(Feline) 
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.CAT) MainScreen.text("  Though the barbs on your cock are soft and pliable, they reflexively harden up after Nieve's tongue washes over them.  She doesn't pay particular attention to the barbs, but she does seem rather careful not to get one hooked on her lip.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.CAT) MainScreen.text("  Though the barbs on your cock are soft and pliable, they reflexively harden up after Nieve's tongue washes over them.  She doesn't pay particular attention to the barbs, but she does seem rather careful not to get one hooked on her lip.");
             //(Lizard)
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.LIZARD) MainScreen.text("  Nieve fawns over your scaled and ridged reptilian cock, slurping and smooching up and down its length. It seems a bit more resistant to the biting cold of Nieve's mouth, which is lucky when she backs off, exposing your entire wet, frigid length to the wintery air surrounding you.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.LIZARD) MainScreen.text("  Nieve fawns over your scaled and ridged reptilian cock, slurping and smooching up and down its length. It seems a bit more resistant to the biting cold of Nieve's mouth, which is lucky when she backs off, exposing your entire wet, frigid length to the wintery air surrounding you.");
             //(Anemone) 
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.ANEMONE) MainScreen.text("  Nieve giggles whenever one of your wriggling tentacles stings her, seemingly immune to its effects, and kisses it back.  Soon after she devours your whole length, delighted to feel the sting of your cock in the back of her throat.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.ANEMONE) MainScreen.text("  Nieve giggles whenever one of your wriggling tentacles stings her, seemingly immune to its effects, and kisses it back.  Soon after she devours your whole length, delighted to feel the sting of your cock in the back of her throat.");
             //(Kangaroo) 
-            else if (player.lowerBody.cockSpot.list[x].cockType == CockType.KANGAROO) MainScreen.text("  It takes Nieve a little while to catch on that your cock isn't quite human, and by the time she figures it out, she mutters, \"<i>Huh, that's strange... I thought kangaroos had balls above the cock,</i>\" before shrugging and getting back to work.");
+            else if (player.lowerBody.cockSpot.get(x).cockType == CockType.KANGAROO) MainScreen.text("  It takes Nieve a little while to catch on that your cock isn't quite human, and by the time she figures it out, she mutters, \"<i>Huh, that's strange... I thought kangaroos had balls above the cock,</i>\" before shrugging and getting back to work.");
             //(If you add dicks later, placeholder text:) 
             else MainScreen.text("  Nieve works on your mutant cock, spending time working every unique little facet of it.");
         }
         //(Clitoris) 
         else {
             MainScreen.text("  Nieve nuzzles and lavishes your elongated love button, showering it with attention. \"<i>I didn't know clits could get this big,</i>\" she says with wonder in her voice. \"<i>");
-            if (player.lowerBody.vaginaSpot.list[0].clitLength < 5) MainScreen.text("It's just like a little cock");
-            else if (player.lowerBody.vaginaSpot.list[0].clitLength < 9) MainScreen.text("It's just like a cock");
+            if (player.lowerBody.vaginaSpot.get(0).clitLength < 5) MainScreen.text("It's just like a little cock");
+            else if (player.lowerBody.vaginaSpot.get(0).clitLength < 9) MainScreen.text("It's just like a cock");
             else MainScreen.text("I bet even men get jealous of this bad girl");
             MainScreen.text(".</i>\"");
         }
@@ -1026,7 +1026,7 @@ export default class XmasOther {
         MainScreen.text(".  With a smirk, you tell her it's not over yet.  That was just the appetizer.");
 
         MainScreen.text("\n\nWith a command Nieve falls backwards into the white, glittering powder and spreads her legs, revealing her deep blue nethers, wet and slick despite the intense cold of her body.  With a smile spreading across your face, you get down onto your knees between hers, and rub the head of your " + cockClit(x) + " against her icy cavern.  A chill runs down it and up your spine, but you ignore it. You tease and taunt Nieve's cunt, flicking her joy buzzer ");
-        if (x >= 0) MainScreen.text("with your " + cockDescript(x) + "");
+        if (x >= 0) MainScreen.text("with your " + CockDescriptor.describeCock(player, x) + "");
         else MainScreen.text("with yours");
         MainScreen.text(", and just slipping the tip in before pulling out.  You do this until your snowbound lover is biting her lip, squirming with barely contained pleasure.");
 
@@ -1049,8 +1049,8 @@ export default class XmasOther {
             else MainScreen.text("Though you can't fit your entire " + cockClit(x) + " inside, you are amazed at how much she takes.  Her pale blue stomach bulges with every thrust.  Soon Nieve is wriggling, her eyes slightly open as she bites her lip in ecstasy.");
         }
         else {
-            if (player.lowerBody.vaginaSpot.list[0].clitLength <= 4) MainScreen.text("Your meager clit isn't much, but at this angle you manage to hit all the right places.  Soon Nieve is wriggling around, eyes staring up at you, urging you on faster and faster.");
-            else if (player.lowerBody.vaginaSpot.list[0].clitLength <= 12) MainScreen.text("At this angle you manage to hit all the right places.  Soon Nieve is wriggling around, eyes tightly shut as she whispers dirty words you can't even make out.");
+            if (player.lowerBody.vaginaSpot.get(0).clitLength <= 4) MainScreen.text("Your meager clit isn't much, but at this angle you manage to hit all the right places.  Soon Nieve is wriggling around, eyes staring up at you, urging you on faster and faster.");
+            else if (player.lowerBody.vaginaSpot.get(0).clitLength <= 12) MainScreen.text("At this angle you manage to hit all the right places.  Soon Nieve is wriggling around, eyes tightly shut as she whispers dirty words you can't even make out.");
             else if (player.cockArea(x) <= 24) MainScreen.text("Nieve's cunt feels like an icy vice on your oversized clitty, but even so, you manage to hit all the right places.  Soon she is wriggling around, eyes tightly shut as she pants for breath.");
             //(Cocksize 130+/Clit 48+)
             else MainScreen.text("Though you can't fit your entire " + cockClit(x) + " inside, you are amazed at how much she takes.  Her pale blue stomach bulges with every thrust.  Soon Nieve is wriggling, her eyes slightly open as she bites her lip in ecstasy.");
@@ -1073,7 +1073,7 @@ export default class XmasOther {
 
         MainScreen.text("\n\n\"<i>So messy, [Master],</i>\" she notes with a smile.  \"<i>Allow me to clean you up.</i>\"  Her cool mouth descends on your member, licking and sucking away all of your juices and hers, leaving you spotless.  She seems to delight in the flavor, and once she's done, she leans in and gives you a big, sloppy kiss that tastes more like mint than anything else.  She then cuddles up next to you, her cold body somehow comforting, until you've recuperated enough to head back to the camp proper.");
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -1137,7 +1137,7 @@ export default class XmasOther {
 
         MainScreen.text("\n\nYou both rest in that position, Nieve still trickling cum into you even though he stopped moving minutes ago.  You turn your head to look at him and notice his face a few inches from yours.  It's clear that at the moment he's barely conscious, and you shift a bit to kiss him, thanking him for a job well done.  After a little while you both recover, redress, and silently go back to business.  Looking back at him as you leave, you know you want to do it again real soon.");
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -1168,7 +1168,7 @@ export default class XmasOther {
 
         MainScreen.text("\n\nAnother hour passes and you wake up clean and dressed, laying next to Nieve.  You noticed he's probably been watching you for the last several minutes.  You get up, pat yourself off, then with one hand tussle his snow-white hair, while uttering the words, \"<i>Good boy.</i>\"");
         player.orgasm();
-        dynStats("sen", -2);
+        player.stats.sens += -2;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -1177,10 +1177,10 @@ export default class XmasOther {
         MainScreen.clearText();
         hideMenus();
         //Nieve Not Completed
-        if (flags[FlagEnum.NIEVE_STAGE] < 5) {
+        if (Flags.list[FlagEnum.NIEVE_STAGE] < 5) {
             MainScreen.text("You wake up with a yawn and a stretch. It feels just like any other day, though a bit warmer.  Quite a bit warmer in fact.  It feels like winter's grasp on Mareth has slipped, and it's entering Spring.  Curiously, you glance over towards the snow which had been recently deposited in your camp, and note it's melting away before your eyes.");
             MainScreen.text("\n\nOh well, not a huge loss, you figure.  It was fun while it lasted.");
-            flags[FlagEnum.NIEVE_STAGE] = 0;
+            Flags.list[FlagEnum.NIEVE_STAGE] = 0;
         }
         //Nieve Completed
         else {
@@ -1204,20 +1204,20 @@ export default class XmasOther {
                 MainScreen.text("\n\n(<b>Gained Key Item: Nieve's Tear</b>)");
                 player.createKeyItem("Nieve's Tear", 1, 0, 0, 0);
             }
-            flags[FlagEnum.NIEVE_STAGE] = 0;
+            Flags.list[FlagEnum.NIEVE_STAGE] = 0;
         }
         doNext(playerMenu);
     }
 
     private fixNieve(): void {
-        if (flags[FlagEnum.NIEVE_GENDER] == 0) {
+        if (Flags.list[FlagEnum.NIEVE_GENDER] == 0) {
             MainScreen.clearText();
             MainScreen.text("(There was an error with stat tracking that cleared Nieve's stats out at the end of last year's event. <b>What gender do you want Nieve to be?</b>)");
             menu();
             MainScreen.addButton(0, "Male", fixNieveGender, 1);
             MainScreen.addButton(1, "Female", fixNieveGender, 2);
         }
-        else if (flags[FlagEnum.NIEVE_MOUTH] == "" || flags[FlagEnum.NIEVE_MOUTH] == 0) {
+        else if (Flags.list[FlagEnum.NIEVE_MOUTH] == "" || Flags.list[FlagEnum.NIEVE_MOUTH] == 0) {
             MainScreen.clearText();
             MainScreen.text("(There was an error with stat tracking that cleared Nieve's stats out at the end of last year's event. <b>What were Nieve's eyes and mouth made out of?</b>)");
             menu();
@@ -1228,12 +1228,12 @@ export default class XmasOther {
     }
 
     private fixNieveGender(arg: number = 1): void {
-        flags[FlagEnum.NIEVE_GENDER] = arg;
+        Flags.list[FlagEnum.NIEVE_GENDER] = arg;
         fixNieve();
     }
     private fixNieveMouth(arg: number = 1): void {
-        if (arg == 0) flags[FlagEnum.NIEVE_MOUTH] = "gems";
-        else flags[FlagEnum.NIEVE_MOUTH] = "coal";
+        if (arg == 0) Flags.list[FlagEnum.NIEVE_MOUTH] = "gems";
+        else Flags.list[FlagEnum.NIEVE_MOUTH] = "coal";
         fixNieve();
     }
 
@@ -1259,13 +1259,13 @@ export default class XmasOther {
         MainScreen.text("\n\nThat's when you see it, a small mound of snow, practically invisible among the white mass surrounding it.  You plunge your hands into the freezing cold stuff and find something solid.  Something large.  Something about the size of a person.  You move to pull the person up and forward, but it doesn't take much.");
         MainScreen.text("\n\nThe figure moves on its own, bursting from its snowy blanket.  All you catch is a brief flash of blue before the creature wraps its arms around you in a tight hug.  You can make out soft sobbing from the person... One glance down is all you need to confirm your suspicions.  That frozen, blue skin and pert squeezable ass.  It's definitely Nieve.");
         MainScreen.text("\n\n\"<i>Oh master!</i>\" " + nieveMF("he", "she") + " cries, breaking the hug to look you in the eyes.  " + nieveMF("His", "Her") + " ");
-        if (flags[FlagEnum.NIEVE_MOUTH] == "coal") MainScreen.text("coal black");
+        if (Flags.list[FlagEnum.NIEVE_MOUTH] == "coal") MainScreen.text("coal black");
         else MainScreen.text("glittering purple");
         MainScreen.text(" eyes shine with crystallizing tears, not entirely unlike the ones " + nieveMF("he", "she") + " left with you on your last meeting.  \"<i>I'm so glad to be back!  I was worried I would be sent somewhere else, but I had so much fun here, and I told the big man that, and then Winter came and I wasn't sure you were still here, and then it turned out I might have gone to someone else, but oh my goodness I'm so happy I came back!</i>\" Nieve belts out without pause for breath before wrapping " + nieveMF("his", "her") + " arms around you once again.");
         MainScreen.text("\n\nYou hold " + nieveMF("him", "her") + " close, thankful to whoever this \"big man\" is for sending Nieve back to you.");
         MainScreen.text("\n\n\"<i>I... I can still only stay the winter, at least for now, but it's something, right?</i>\" the snow spirit says, clasping your hand in theirs.");
         MainScreen.text("\n\nYou nod.  You'll take what you can get, even if it is such a brief moment.  The two of you share stories, well, you share stories while Nieve listens with rapt attention, for the next hour or so.  It's been a long time since you've seen each other, and there's a lot to catch up on...");
-        flags[FlagEnum.NIEVE_STAGE] = 5;
+        Flags.list[FlagEnum.NIEVE_STAGE] = 5;
         doNext(camp.returnToCampUseOneHour);
     }
 }

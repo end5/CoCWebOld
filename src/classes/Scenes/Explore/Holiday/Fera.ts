@@ -11,7 +11,7 @@ export default class Fera {
     public pumpkinFuckEncounter(): void {
         MainScreen.clearText();
         MainScreen.text("Just ahead, in the middle of the path, lies a seeming innocuous gourd - a pumpkin to be precise.  The growth is oddly out of place.  Nothing else grows on the soft animal-forged path you now tread, and the pumpkin and its vines are moist, as if wet with morning dew.  They are the only plants in the vicinity to bear such moisture, gleaming dully in the muted arboreal light.");
-        if (flags[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] > 0) MainScreen.text("  An old, haunting memory surfaces, and you realizes this seems... familiar.  Did you find this last year?  Yes... it could have been this very same pumpkin...");
+        if (Flags.list[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] > 0) MainScreen.text("  An old, haunting memory surfaces, and you realizes this seems... familiar.  Did you find this last year?  Yes... it could have been this very same pumpkin...");
         MainScreen.text("\n\nWhile startled by the vegetation's placement, it seems harmless enough.");
         MainScreen.text("\n\nYou advance cautiously, extremely familiar with the traps and pitfalls that all-too-often prevail in this world.  The pumpkin's rind is bright orange, ripe and seemingly ready to bulge out.  The vines are thick, dark green, and reflective, partly thanks to the oozing moisture that drips from them to the floor.  After closing, it becomes clear that it isn't a coating of dew on the pumpkin but thick, viscous slime instead.  The clear, syrupy ooze begins to drip from the vines even as it rolls down the pumpkin, seeping out of the plant's skin in fat, heavy rivulets.");
         let fuck: Function = null;
@@ -39,7 +39,7 @@ export default class Fera {
     //[HOLY SHIT YOU BE FUCKING A PUMPKIN]
     public pumpkinFuck(): void {
         MainScreen.clearText();
-        flags[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] = date.fullYear;
+        Flags.list[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] = date.fullYear;
         MainScreen.text("Well, fuck it.  You're horny, and this little pumpkin doesn't look like it could stop you from fucking that gushing gourd-pussy.  As you shed your [armor], a few of the rough, slime-sweating vines feebly rise up to embrace you, but you brush them away, having no time for corrupt foolishness.  You're going to bust a nut in this fruit's sweet, supple folds, not let some malformed tentacle-horror molest you.");
         MainScreen.text("\n\nYou kneel down before your target and examine the leaky orifice before you.  The rind around the opening is softer and smoother than human skin, yet oddly supple.  As soon as your fingers grace the surface of the moist fruit, a splash of ooze squirts from the gash to puddle at your [feet].  Curiously, you open the pumpkin's pussy with your fingers, feeling the slick wet walls trying to envelop your digits even as you gander at the compellingly vibrant interior.  The air seems thick with the plant's sweet smell, and [eachCock], regardless of your reason, seems hard as stone and painfully erect.");
         MainScreen.text("\n\nTentatively, you raise one of your juice-soaked fingertips to your lips and taste it.  The flavor is as you would expect from a pumpkin, though it has a sweet, cinnamony aftertaste, just like the pies your village would make around harvest!  Shuddering at the memories of your distant past and budding lust, you shift position to line your [cock biggest] up with the lurid purple plant-pussy.  Smiling at the absurdity of it all, you push forward, anticipating the slimy tightness of your pumpkin's pie.");
@@ -47,7 +47,7 @@ export default class Fera {
         if (player.lowerBody.balls > 0) MainScreen.text("balls deep ");
         else MainScreen.text("hilt deep ");
         MainScreen.text("or not.  Not that you mind - the swollen labia seem to be doing an adequate job of smooching all over your shaft as it passes through their glossy gates.");
-        if (player.lowerBody.cockSpot.list[0].cockLength >= 20) MainScreen.text("  After you've fed over a foot of your [cock biggest] into the gluttenous gourd, you briefly wonder where it's all going.  The pumpkin can't be more than a foot and a half across, yet it's sucking down the second foot now, and you have yet to hit any wall!  The suction suddenly increases, yanking you deeper, faster, and you forget all about the whys, whens, and whatevers.  It feels great.");
+        if (player.lowerBody.cockSpot.get(0).cockLength >= 20) MainScreen.text("  After you've fed over a foot of your [cock biggest] into the gluttenous gourd, you briefly wonder where it's all going.  The pumpkin can't be more than a foot and a half across, yet it's sucking down the second foot now, and you have yet to hit any wall!  The suction suddenly increases, yanking you deeper, faster, and you forget all about the whys, whens, and whatevers.  It feels great.");
         MainScreen.text("\n\n");
         if (player.lowerBody.balls > 0) MainScreen.text("Your [balls] slap");
         else MainScreen.text("Your groin slaps");
@@ -62,7 +62,7 @@ export default class Fera {
         if (player.cumQ() < 1000) {
             MainScreen.text("\n\nAll too soon, you finish and step away, satisfied.  The pumpkin's pussy seals closed slowly, cutting off the worst of the slime-flow.  You get dressed, but the plant's tendrils no longer bother you.  They lie still and flat, and even the perverse sweating comes to an end.  Whatever fel magic was behind this, it seems to have settled after the salty snack you gave it.  You get dressed and walk back to camp with a spring in your step.");
             player.orgasm();
-            dynStats("cor", 2);
+            player.stats.cor += 2;
             doNext(camp.returnToCampUseOneHour);
         }
         else {
@@ -74,7 +74,7 @@ export default class Fera {
             MainScreen.text(" as if it would somehow protect your nude body.");
             doNext(pumpkinFuckPartII);
             player.orgasm();
-            dynStats("cor", 2);
+            player.stats.cor += 2;
         }
     }
     //[Next]
@@ -122,16 +122,16 @@ export default class Fera {
         MainScreen.text("\n\nFera disappears along with all the evidence of your encounter, her ruby lips hanging in the air for a split-second before fading as well.  You're left naked, alone with your discarded armor, lusts, and recently adjusted attitude.");
         //(+30 corrution, Fera's Boon - Alpha gained)
         MainScreen.text("\n\n(<b>Perk Gained: Fera's Boon - Alpha</b>)");
-        player.createPerk(PerkLib.FerasBoonAlpha, 0, 0, 0, 0);
-        dynStats("cor", 30);
+        player.perks.add(new Perk("FerasBoonAlpha", 0, 0, 0, 0));
+        player.stats.cor += 30;
         doNext(camp.returnToCampUseOneHour);
     }
 
     public mountPumpkin(): void {
         MainScreen.clearText();
-        flags[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] = date.fullYear;
+        Flags.list[FlagEnum.PUMPKIN_FUCK_YEAR_DONE] = date.fullYear;
         //>Yes [Player is pregnant, has low vaginal wetness, or has low fertility and is not in heat]
-        if (player.pregnancyIncubation > 0 || (player.wetness() < 2 && player.totalFertility() < 30)) {
+        if (player.pregnancyIncubation > 0 || (player.lowerBody.vaginaSpot.get(0).vaginalWetness < 2 && player.totalFertility() < 30)) {
             MainScreen.text("Well, fuck it.  You're horny, and this little pumpkin doesn't look like it could stop you from fucking that gushing stem-rod.  As you shed your [armor], a few of the rough, slime-sweating vines feebly rise up to embrace you, but you brush them away, having no time for corrupt foolishness.  You're going to mount this fruit's hard, pulsing phallus, not let some malformed tentacle-horror molest you.");
             MainScreen.text("\n\nYou kneel down before your target and examine the leaking cock before you.  The stem is softer and smoother than human skin, hard as wood, yet oddly supple.  As soon as your fingers grace the surface of the phallic protrusion, a splash of ooze squirts from the stem to puddle at your feet.  Curiously, you stroke the pumpkin's dick with your fingers, feeling the stiff rod twitch under your fingers even as you gander at the compellingly vibrant shaft.  The air seems thick with the plant's sweet smell, and your pussy, regardless of your reason, seems as wet as a riverbed.");
             MainScreen.text("\n\nTentatively, you raise a juice-soaked fingertip to your lips and taste it.  The flavor is exactly what you would expect from a pumpkin, though it has a sweet, cinnamony aftertaste, just like the pies your village would make around harvest!  Shuddering at the memories of your distant past and budding lust, you shift position to line your [vagina] up with the hard green phallus.  Smiling at the absurdity of it all, you push downward, anticipating the slimy thickness of your pumpkin's pie goo.\n\n");
@@ -172,7 +172,7 @@ export default class Fera {
             doNext(pumpkinMountingLevelII);
         }
         player.orgasm();
-        dynStats("cor", 1);
+        player.stats.cor += 1;
     }
 
     //>Next
@@ -217,8 +217,8 @@ export default class Fera {
         MainScreen.text("\n\n<i>\"I went ahead and gave you your reward.  It seemed fitting to enhance the power of your womb, since that was how you saved me.  My hero,\"</i> Fera explains before giving you a chaste kiss on the lips.  <i>\"You'll find yourself breeding easier and giving birth faster.  Now go, fill this world with strong offspring.  Do not disappoint me.\"</i>");
         MainScreen.text("\n\nFera disappears along with all the evidence of your encounter, her ruby lips hanging in the air for a split-second before fading as well.  You're left naked, alone with your discarded armor, urge of release, and recently adjusted attitude.");
         MainScreen.text("\n\n(<b>Perk Gained: Fera's Boon - Breeding Bitch</b>)");
-        player.createPerk(PerkLib.FerasBoonBreedingBitch, 0, 0, 0, 0);
-        dynStats("cor", 30);
+        player.perks.add(new Perk("FerasBoonBreedingBitch", 0, 0, 0, 0));
+        player.stats.cor += 30;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -246,14 +246,14 @@ export default class Fera {
     public leaveFerasWonderland(): void {
         MainScreen.clearText();
         MainScreen.text("Nah, that whole place is probably some kind of giant venus fly trap. Fuck that.");
-        flags[FlagEnum.FERAS_GLADE_EXPLORED_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.FERAS_GLADE_EXPLORED_YEAR] = date.fullYear;
         doNext(camp.returnToCampUseOneHour);
     }
 
     //Explore Das Trees
     public exploreFerasWonderland(): void {
         MainScreen.clearText();
-        flags[FlagEnum.FERAS_GLADE_EXPLORED_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.FERAS_GLADE_EXPLORED_YEAR] = date.fullYear;
         MainScreen.text("Straightening to your full height, you take a few experimental sniffs and begin to walk back towards the middle of the meadow, brushing aside garish pink blooms that rise up past your waist.  That smell is getting stronger now.  How could you have missed it when you first arrived? It's heavenly, like a combination of every sweet treat you like with an undercurrent of passionate sexual musk blended in underneath.  You close in, " + player.mf("[hips] swaggering excitedly", "[hips] sashaying excitedly") + ", " + player.skin() + " flushing.  A few baby blue sunflowers bump your shoulders as you muscle past them to hone in your new favorite aroma.  You've just got to know what bloom could possibly release such a heavenly scent!");
         MainScreen.text("\n\nYou idly wonder what you would look like to any new arrivals, nose up and dragging you forward, almost like a fish on a hook, your body stumbling past chest-high blossoms that are nearly as wide as your shoulders.  A shadow dims the light as you pass under a massive flower-bulb that stretches thirty feet overhead, its petals folded into a familiar-looking, sealed sphere.  That doesn't stop it from dripping sweet-smelling nectar that reminds you vaguely of pussy for some reason, and you certainly don't notice the feet-shaped impressions that kick against the petals after you pass by.");
         MainScreen.text("\n\nThat wondrous aroma guides you deeper, threading past delicate honeysuckles and crimson-colored lotus flowers.  Sometimes, you have you to stop and turn your head this way and that, testing the air with quick breaths to determine which way you must go to chase the increasingly omnipresent odor.  Other times it seems as obvious as a gold-plated path, dragging you right past vibrant foliage and smells that would normally incite you to stop and smell the roses if you weren't so focused on this one, heavenly, nose-tickling smell.");
@@ -262,12 +262,14 @@ export default class Fera {
         MainScreen.text("\n\nThe petals themselves are scarlet red near the center and a dusky, iridescent purple near their edges.  While you look, the colors seem to shift and change, slowly washing in towards the middle in an almost hypnotic pattern.  New hues scroll in from the tips of the bloom, turning it a psychedelic yellow-orange briefly before it too is pulled into the core, briefly staining the lips and stamen with its tawny hue before the next color in line washes it away.  You watch it for a few minutes, losing yourself in the flashing, changing colors, letting your eyes be guided to the unmistakably sexual accoutrements at the flower's core, watching and appreciating its unnatural beauty until you are roused by your [legs] starting to feel a little sore.");
         MainScreen.text("\n\nYou gather some of the nectar without thinking, compelled to lift it to your nose and take a sniff, heedlessly sampling its delicate bouquet, letting it tickle the back of your sinuses with its pheromonal payload while you enjoy the ambrosial levels of sweetness that come with it.  Your head swims a little... at least, until you lick your fingers clean and steady yourself against a nearby stalk.");
         if (player.gender > 0) MainScreen.text("  Your heart is hammering");
-        if (player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(", and there's a telltale tightness building in your groin, expanding and pressing oh-so-hard on your [armor]. You look up at those sweet lips and ponder what they would feel like wrapped around your " + player.multiCockDescriptLight() + ", a thought that only makes your gear that much harder to bear as it constrains you.");
+        if (player.lowerBody.cockSpot.hasCock() && !player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(", and there's a telltale tightness building in your groin, expanding and pressing oh-so-hard on your [armor]. You look up at those sweet lips and ponder what they would feel like wrapped around your " + player.CockDescriptor.describeMultiCockShort(player) + ", a thought that only makes your gear that much harder to bear as it constrains you.");
         else if (player.lowerBody.vaginaSpot.hasVagina() && !player.lowerBody.cockSpot.hasCock()) MainScreen.text(", and there's a telltale heat building in your groin, practically dripping out to stain your [armor] with your leaking girl-honey. You look up at those leaky stamen and idly wonder what it would feel like to let one or two inside you, stirring your insides with their sticky-sweet lovejuices.");
-        else if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.cockSpot.hasCock()) MainScreen.text(", and there's a telltale sticky tightness in your [armor], keeping your " + player.multiCockDescriptLight() + " tightly compressed while your [vagina] practically juices itself all over everything, so hot, wet, and unmistakably eager to feel something inside of it. You look up at those leaky stamen and the plump lips between them and wonder what it would feel like to stick yourself in between the lips and let the stamen go to town on your exposed holes.");
+        else if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.cockSpot.hasCock()) MainScreen.text(", and there's a telltale sticky tightness in your [armor], keeping your " + player.CockDescriptor.describeMultiCockShort(player) + " tightly compressed while your [vagina] practically juices itself all over everything, so hot, wet, and unmistakably eager to feel something inside of it. You look up at those leaky stamen and the plump lips between them and wonder what it would feel like to stick yourself in between the lips and let the stamen go to town on your exposed holes.");
         else {
             MainScreen.text("\n\nWell, that was nice, but you don't see much reason to stick around.  You head back to camp with a wistful look over your shoulder.");
-            dynStats("lib", 1, "lus", 20, "cor", 1);
+            player.stats.lib += 1;
+player.stats.lust += 20;
+player.stats.cor += 1;
             doNext(camp.returnToCampUseOneHour);
             return;
         }
@@ -292,7 +294,9 @@ export default class Fera {
             MainScreen.addButton(0, "Lips", fuckDemCorruptFlowerLips);
             MainScreen.addButton(1, "Stamen", stickAStamenInIt);
         }
-        dynStats("lib", 1, "lus", 25, "cor", 1);
+        player.stats.lib += 1;
+player.stats.lust += 25;
+player.stats.cor += 1;
     }
 
     //Leave
@@ -304,7 +308,7 @@ export default class Fera {
     //Fuck the Lips
     public fuckDemCorruptFlowerLips(): void {
         MainScreen.clearText();
-        flags[FlagEnum.FERAS_TRAP_SPRUNG_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.FERAS_TRAP_SPRUNG_YEAR] = date.fullYear;
         MainScreen.text("You dazedly stagger forward, putting one [foot] after another on the supple flesh of the gigantic, color-swirling petal that leads to your goal: the plush, nectar-leaking lips at the center of the bloom.  With each plodding movement, the hues become more vibrant, the intoxicating scent becomes thicker, and the less well-reasoned your thoughts become, shutting down in the avalanche of sensory overload.  Soon, your thoughts are little more than: <i>Scent. Sex. Horny. Fuck.</i>");
         MainScreen.text("\n\nWith a slight stumble, you work your way out of your [armor], not stopping your plodding advance in the slightest and never letting the flower's core out of your sight, if you can help it.  Those lips seem to be pursing ever so slightly, beckoning you to slip something inside them... something hard and throbbing, aching to unload.  You shudder as you walk, slipping on a stream of leaking nectar and falling down onto your hands, but this doesn't impede your progress.  You continue to climb up, hand over hand, dragging yourself up until the 'floor' levels and you're about to smash yourself face-first into the flower's plump, mouth-like pillows.");
         MainScreen.text("\n\nYou drag yourself up onto your [feet] just as the stamen react to your presence, lashing out with snake-like swiftness to encircle your arms and [legs], binding them up in slippery stalks such that you can barely move.  Luckily, you're close enough that you can still do what you came here to do: fuck this flower.  You lunge your [hips] forward, slamming your crotch towards the huge, multi-hued lips, ");
@@ -342,9 +346,9 @@ export default class Fera {
 
         MainScreen.text("\n\nThe bindings aren't tight enough to prevent you from flexing your [legs] and sawing yourself back and forth, thrusting in and out of the tight, slobbery hole, and you go at it like an animal in rut, savagely humping against the lurid lips, bound to them by dangling streamers of glittering nectar with each pull back. The petals slam closed with such force that it pops your ears, rousing you from your stupor. When you open your eyes, you're treated to the briefest moment of darkness before the petals light up with bioluminescent energy. Neither occurrence stops the frantic pounding your [hips] are doling out, but you do look up in a daze.");
         MainScreen.text("\n\nIt is at this point the colors begin to slide and change, twisting and shifting in a calming rhythm that seems perfectly synced to your sloppy, piston-like thrusts. A trickle of drool escapes the corner of your mouth as you moan, in ecstasy, right up until a free stamen arcs around to slam into your slack-jawed opening. It slides right into the back of your throat, throwing great big blobs of sweet, heavenly nectar so deep inside you that you have no choice but to swallow and sigh. Everywhere the juice touches practically sizzles with sexual energy, and after a few frenetic gulps you begin to eagerly gulp and swallow, drinking deeply of the goo until your belly begins to feel too full to drink any more.");
-        MainScreen.text("\n\nYour motions slow as the ambrosial syrup is wicked into your body, frying your synapses with ecstasy until only lust, pleasure, and perfect heat are occupying your few remaining thoughts. By the time the tendril pulls free, glazing your face in sappy goo, your [hips] have stopped their thrusts entirely, leaving your " + player.multiCockDescriptLight() + " to pulsate and ache with need despite their owner's inability to remember how to hump. Best of all, the few times that you do manage to summon up a coherent thought, the flashing, undulating colors unravel it, letting you revel in unthinking arousal.");
+        MainScreen.text("\n\nYour motions slow as the ambrosial syrup is wicked into your body, frying your synapses with ecstasy until only lust, pleasure, and perfect heat are occupying your few remaining thoughts. By the time the tendril pulls free, glazing your face in sappy goo, your [hips] have stopped their thrusts entirely, leaving your " + player.CockDescriptor.describeMultiCockShort(player) + " to pulsate and ache with need despite their owner's inability to remember how to hump. Best of all, the few times that you do manage to summon up a coherent thought, the flashing, undulating colors unravel it, letting you revel in unthinking arousal.");
 
-        MainScreen.text("\n\nThe deluge of drugs, arousal, sexual stimulation, and mind-scattering visual patterns has made your mind as pliant and vulnerable as the lips your " + player.multiCockDescriptLight() + " ");
+        MainScreen.text("\n\nThe deluge of drugs, arousal, sexual stimulation, and mind-scattering visual patterns has made your mind as pliant and vulnerable as the lips your " + player.CockDescriptor.describeMultiCockShort(player) + " ");
         if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("are");
         else MainScreen.text("is");
         MainScreen.text(" buried in, so hot, wet, and soft. With each passing moment, you become more relaxed, more open and exposed, and more aroused than before. You would probably be afraid if you were capable of any kind of reason.");
@@ -400,14 +404,15 @@ export default class Fera {
         MainScreen.text("\n\nYou shudder as your climax starts all over again, right before the last one ends, locking you in a cycle of thrusting, shuddering, starting to withdraw and then planting yourself back in and groaning. Your eyes flutter closed, your mouth hangs open, and Fera whispers instruction after instruction into your pliant little mind, sowing the seeds of your libidinous behavior to come.  Honestly, you don't ever want to stop.");
         //Cum, dick length +1, dick thickness increased noticeably, libido +10, cum production +1000, bonus virility.
         for (let x: number = 0; x < player.lowerBody.cockSpot.count(); x++) {
-            player.lowerBody.cockSpot.list[x].cockLength++;
-            if (player.lowerBody.cockSpot.list[x].cockThickness < player.lowerBody.cockSpot.list[x].cockLength / 5) {
-                player.lowerBody.cockSpot.list[x].cockThickness = player.lowerBody.cockSpot.list[x].cockLength / 5;
+            player.lowerBody.cockSpot.get(x).cockLength++;
+            if (player.lowerBody.cockSpot.get(x).cockThickness < player.lowerBody.cockSpot.get(x).cockLength / 5) {
+                player.lowerBody.cockSpot.get(x).cockThickness = player.lowerBody.cockSpot.get(x).cockLength / 5;
             }
         }
         player.orgasm();
-        dynStats("lib", 10, "cor", 5);
-        player.createPerk(PerkLib.FerasBoonSeeder, 0, 0, 0, 0);
+        player.stats.lib += 10;
+player.stats.cor += 5;
+        player.perks.add(new Perk("FerasBoonSeeder", 0, 0, 0, 0));
         menu();
         MainScreen.addButton(0, "Next", postSeederUpgrade);
     }
@@ -417,18 +422,20 @@ export default class Fera {
         MainScreen.text("You awaken fully dressed with a familiar ache between your legs.  Damn, that was a good nap.  You rise, scratching [oneCock] and smiling as you feel how hard and sensitive it is.  You're already feeling pretty anxious for a fuck, especially after the crazy wet dreams you had last night, and you resolve to find a nice hole to dump a few loads into before too long.  First, you had better go check back up on your camp.  You've got to bring your A-game if you're going to fuck stronger babies into every weak pussy you come across.  Besides, the wait will only make your eventual sexual enjoyment that much messier.");
         //Add ten more corruption.
         //Add 50 lust.
-        dynStats("lus", 25, "cor", 10, "resisted", false);
+        player.stats.lust += 25;
+player.stats.cor += 10;
+player.stats.resisted += false;
         doNext(camp.returnToCampUseFourHours);
     }
 
     //Stick a Stamen in It!
     public stickAStamenInIt(): void {
         MainScreen.clearText();
-        flags[FlagEnum.FERAS_TRAP_SPRUNG_YEAR] = date.fullYear;
+        Flags.list[FlagEnum.FERAS_TRAP_SPRUNG_YEAR] = date.fullYear;
         MainScreen.text("You dazedly stagger forward, one [foot] after another falling on the supple flesh of the gigantic, color-shifting petal that rises up towards the flower's center like steps on an ancient ziggurat.  The closer you get, the more vibrant the hues become, the thicker the scent becomes, and the simpler and more instinctive your thought processes become.  <i>Flower. Fuck. Sex. Need. Ache.</i>");
         MainScreen.text("\n\nStumbling slightly, you begin to wriggle out of your [armor].  First one arm, then the other.  You pause briefly to slide your kit off, forgotten on the petal behind you, and come closer to those juicy, turgid stamen, so heavy and sticky and perfectly hard looking.  The slickness of the leaking nectar nearly robs you of your footing but you struggle on and catch hold at the seam between two petals, never letting your goal out of your sight.  On hands and ");
-        if (player.isNaga()) MainScreen.text("tail");
-        else if (player.isGoo()) MainScreen.text("goo");
+        if (player.lowerBody.isNaga()) MainScreen.text("tail");
+        else if (player.lowerBody.isGoo()) MainScreen.text("goo");
         else MainScreen.text("knees");
         MainScreen.text(", you drag yourself up until the 'floor' flattens out and you nearly ram into the pursed lips, stopping yourself abruptly once you realize you've reached your goal.");
         MainScreen.text("\n\nThe stamen react to your presence with snake-like swiftness, lunging out around your arms and [legs], tangling you up in their slippery length, surprisingly warm and comforting on your skin. Darkness reigns as the flower petals snap closed with enough force to make your ears pop with a near-deafening boom. The shock is enough to rouse you from your contented stupor, though your body still burns with an unnatural lust, craving for the tentacles to touch you in a far more intimate, internal way. You still try to struggle, but as your mouth opens to scream, it is immediately plugged by a thick, vein-corded stamen.");
@@ -466,9 +473,9 @@ export default class Fera {
         MainScreen.text("Fera smiles as you announce your choice.  \"<i>I thought you might say that, little champion.  Now, you simply relax and enjoy the pleasure that only my normal weak-willed prey are allowed to experience.  You will be the first to taste it and be allowed free.  How wonderful!</i>\"  She pets your forehead.");
         MainScreen.text("\n\nMeanwhile, you hear a squelching, slithering sound down below as Fera pulls away, kneeling down beside you so that her lips are at your ear, washing her hot breath across it and occasionally letting her soft, pillow-like mouth press against your aural opening.  \"<i>Relllaaaax,</i>\" she commands, and you do.  Your body sags bonelessly into its organic cradle as a writhing mass of tentacle-like stamen contort just shy of your mons, their squirming shapes dripping almost as eagerly as you.");
         MainScreen.text("\n\nThe mass of tendrils does not delay. It lurches forward as one unified column of hole-fucking power, plowing straight into your [vagina]");
-        if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.LEVEL_CLOWN_CAR) MainScreen.text(", spreading its well-widened lips as wide as they've ever been");
-        else if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.GAPING) MainScreen.text(", spreading your lips well beyond the widest they've ever been and still farther.");
-        else if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.LOOSE) MainScreen.text(", meeting a bit of token resistance at your unprepared entryway and slithering stamen after stamen inside, the forerunners widening you until the entirety of the column can pass inside, gaping you almost inhumanly wide.");
+        if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR) MainScreen.text(", spreading its well-widened lips as wide as they've ever been");
+        else if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.GAPING) MainScreen.text(", spreading your lips well beyond the widest they've ever been and still farther.");
+        else if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LOOSE) MainScreen.text(", meeting a bit of token resistance at your unprepared entryway and slithering stamen after stamen inside, the forerunners widening you until the entirety of the column can pass inside, gaping you almost inhumanly wide.");
         else MainScreen.text(", meeting more than a little resistant at your unstretched entry and finding a way in anyhow. First one tentacle slithers in, then a second, then a fourth, and so on. One after another, they spread you wider and wider, opening you until the entire wiggling column is buried deep, pulling your lips ridiculously wide.");
         MainScreen.text("\n\nYou do not feel an ounce of pain from the extreme insertion. You don't even feel a whiff of discomfort. All you can feel is a sense of delicious, twat-stuffing fullness, filling and expanding you all while flooding you with more of that heavenly, brain-deadening slime. Your crotch quickly overflows. There simply isn't room for all the nectar they're leaking inside. The excess is painting you with a glossy coat of nectar and girl-honey, spraying over your [legs] around the impaling members.");
         //STEAL VIRGINITY!
@@ -477,11 +484,11 @@ export default class Fera {
         MainScreen.text("\n\nFera's voice whispers with a voice that has as much heat as the crackling coals of a long-burning bonfire, \"<i>Feel the pleasure of being filled, my servant.  Feel the bliss of stuffing yourself so full, so very full.  Only the biggest, strongest, most well-hung of mates will ever come close to filling you like this, and you will seek them out.  Your twat will hunger for huge cocks.  It will </i>thirst<i> for the cum that's lurking in those big, meaty balls.  Your womb will ache for impregnation, and you will seek it, won't you?  Answer me, my pet champion.</i>\"");
         MainScreen.text("\n\nYour lips mouth, exhaling your answer in a barely audible, \"<i>yessss....</i>\"");
         MainScreen.text("\n\nThe sap-oozing tendrils respond by pulling back and thrusting in, scraping your tightly-stretched walls, rubbing over every sensitive place. Your lips, your clit, your g-spot - they're all caressed by slick heat, forced to accept the hip-stretching insertion with nothing short of incredible excitement.  Your body shudders from head to ");
-        if (player.lowerBody == LOWER_BODY.HUMAN) MainScreen.text("toe");
-        else if (player.tailType > TAIL.NONE) MainScreen.text("tail");
+        if (player.lowerBody == LowerBodyType.HUMAN) MainScreen.text("toe");
+        else if (player.lowerBody.tailType > TailType.NONE) MainScreen.text("tail");
         else MainScreen.text("[foot]");
         MainScreen.text(" as you climax, arching your back and making guttural, beast-like sounds of pleasure.  Your eyelids hang low, lazily obscuring some of those wonderful colors from your view as the pleasure and plant-sap work on you.  Shuddering, you gush girlcum harder than ever, spraying a thick wave of lady-spunk across the tentacles, shining them with your juices");
-        if (player.wetness() < 4) MainScreen.text(" even though you're not a squirter");
+        if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < 4) MainScreen.text(" even though you're not a squirter");
         MainScreen.text(".  They pump on with intense, unrelenting energy, squishing wetly with every thrust, splattering juice everywhere as they ruin your poor, convulsing cunny.");
         player.cuntChange(90000, true, true, false);
 
@@ -491,16 +498,16 @@ export default class Fera {
         player.cuntChange(90000, true, true, false);
         //(cum!)
         //Minimum size to 4
-        player.createPerk(PerkLib.FerasBoonWideOpen, 0, 0, 0, 0);
+        player.perks.add(new Perk("FerasBoonWideOpen", 0, 0, 0, 0));
         //Boost fertility by a bunch
         player.fertility += 20;
         if (player.fertility > 50) player.fertility = 50;
         //Raise wetness to at least 3.
-        if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS.SLICK) player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
-        if (player.vaginas[0].vaginalLooseness < VAGINA_LOOSENESS.GAPING_WIDE) player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.GAPING_WIDE;
+        if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.SLICK) player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
+        if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness < VaginaLooseness.GAPING_WIDE) player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.GAPING_WIDE;
         //Add five corruption.
         player.orgasm();
-        dynStats("cor", 3);
+        player.stats.cor += 3;
         //[Next]
         menu();
         MainScreen.addButton(0, "Next", gapeByFeraEpilogue);
@@ -514,7 +521,9 @@ export default class Fera {
         MainScreen.text("  You idly reach into your [armor] and stuff four fingers into yourself before sighing and removing them.  It just isn't the same as being full of cock.");
         MainScreen.text("\n\nAs you head back to camp to prepare for your next adventure, you realize that you had some really, really fucked up dreams.  You hope you have more tomorrow night.");
         //Add ten more corruption.
-        dynStats("lus", 20, "cor", 10, "resisted", false);
+        player.stats.lust += 20;
+player.stats.cor += 10;
+player.stats.resisted += false;
         doNext(camp.returnToCampUseFourHours);
     }
 
@@ -537,9 +546,9 @@ export default class Fera {
         MainScreen.text("\n\nTouching against the pliant, slippery vulva that girds your entrance, the tendril rubs its rounded head against you in a surprisingly gentle way, teasing your exterior until you're aching to buck back against it, but you can't, Fera told you to relax.  Disobedience is a concept your poor, addled psyche won't remember for some time.  You hang there, mewling like a cat in heat, pussy splayed and being touched but not penetrated.  Breathily, you repeatedly make pathetic little begging noises, and turn your slow-to-respond eyes towards Fera's face questioningly, begging the goddess with your moans.");
 
         MainScreen.text("\n\nShe smiles, and the tentacle finally pushes forward");
-        if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.LEVEL_CLOWN_CAR) MainScreen.text(", slipping past your capacitive entrance with ease");
-        else if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.GAPING) MainScreen.text(", sliding into your welcoming entrance fairly easily");
-        else if (player.vaginas[0].vaginalLooseness >= VAGINA_LOOSENESS.LOOSE) MainScreen.text(", slowly working its way into your decently unstretched entrance");
+        if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR) MainScreen.text(", slipping past your capacitive entrance with ease");
+        else if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.GAPING) MainScreen.text(", sliding into your welcoming entrance fairly easily");
+        else if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness >= VaginaLooseness.LOOSE) MainScreen.text(", slowly working its way into your decently unstretched entrance");
         else MainScreen.text(", slowly burrowing past your tight, restrictive entrance");
         MainScreen.text(" and leaving a trail of slick, black corruption in its wake.  The tendril pushes the whole way up to your cervix, gently butting up against your womb's portal before dragging back out, sputtering more inky cum all the way.  When it pops out, the head catches the tip of your [clit], causing your [vagina] to spasm and contract, squeezing down on the foreign fluid with such strength that a geyser of sable spunk erupts from your quivering quim.");
         player.cuntChange(1, true, true, false);
@@ -548,15 +557,17 @@ export default class Fera {
         MainScreen.text("\n\nYou have no choice but to obey as you lose consciousness to the pleasure, your mind left as open to Fera's instructions as your pussy is to that ever-thrusting, continually-cumming vine-cock.");
         //(cum!)
         player.orgasm();
-        dynStats("lib", 5, "sen", 20, "cor", 3);
+        player.stats.lib += 5;
+player.stats.sens += 20;
+player.stats.cor += 3;
         //Maximum size to 2
-        player.createPerk(PerkLib.FerasBoonMilkingTwat, 0, 0, 0, 0);
-        if (player.vaginas[0].vaginalLooseness > VAGINA_LOOSENESS.LOOSE) player.vaginas[0].vaginalLooseness = VAGINA_LOOSENESS.LOOSE;
+        player.perks.add(new Perk("FerasBoonMilkingTwat", 0, 0, 0, 0));
+        if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness > VaginaLooseness.LOOSE) player.lowerBody.vaginaSpot.get(0).vaginalLooseness = VaginaLooseness.LOOSE;
         //Boost fertility a little
         player.fertility += 10;
         if (player.fertility >= 50) player.fertility = 50;
         //Raise wetness to at least 3.
-        if (player.vaginas[0].vaginalWetness < VAGINA_WETNESS.SLICK) player.vaginas[0].vaginalWetness = VAGINA_WETNESS.SLICK;
+        if (player.lowerBody.vaginaSpot.get(0).vaginalWetness < VaginaWetness.SLICK) player.lowerBody.vaginaSpot.get(0).vaginalWetness = VaginaWetness.SLICK;
 
         //[Next]
         menu();
@@ -566,7 +577,9 @@ export default class Fera {
         MainScreen.clearText();
         MainScreen.text("You awaken fully dressed with a familiar ache between your legs.  Damn, that was a good nap.  You rise, stretching as you rub your back, sore from lying against a tree for so long.  You suppose you could find yourself something to fight and fuck, but you ought to head back to camp first.  You idly reach into your [armor] and slip a finger into your [vagina], feeling your tight walls instinctively clamp down and squeeze it.  It's nice, but it's just so much better when you can do that to a captive cock until it has no choice but to impregnate you with its hot seed.  What better way to save the world than by making sure that the strongest get to breed as often as possible?");
         MainScreen.text("\n\nAs you head back to camp to prepare for your next adventure, you realize that you had some really, really fucked up dreams.  You hope you have more tomorrow night.");
-        dynStats("lus", 20, "cor", 10, "resisted", false);
+        player.stats.lust += 20;
+player.stats.cor += 10;
+player.stats.resisted += false;
         doNext(camp.returnToCampUseFourHours);
         //Add ten more corruption.
     }
@@ -578,7 +591,7 @@ export default class Fera {
         MainScreen.text("\n\nA juicy-sounding 'schluck' sounds from below your [butt] when she finishes her proclamation, and a tendril far different from its flowery brethren rises up above your [legs], angling down towards your groin with an unflinching, almost robotic attention.  The tip is clearly hollow and lined with thousands of tiny, wiggling cilia, all slick and slimy with some kind of clear ooze, but that isn't what catches your eye.  No, there is something far more menacing protruding from the stalk's opening - a needle-like spike at least four inches long, though only an inch sticks past the lips of the cup-like tendril.");
         MainScreen.text("\n\nFera crouches down next to your ear, planting her puffy, ruby kissers up against the lobe of your ear.  \"<i>It won't hurt, my pet champion. It won't hurt at all.  You've far too much of my sap inside you to feel pain by this point.  Instead, the only thing you'll experience is the erotic pleasure of allowing my voice to guide your thoughts and shape your mind, making you hotter, wetter, and more eager for a huge, throbbing cock.</i>\"  She purrs an indecipherable sound of pleasure.  \"<i>Get ready to feel so very good, [name]....</i>\"");
         MainScreen.text("\n\nAs soon as Fera trails off, the exotic vine begins to lower itself down, carefully positioning itself squarely above your mons, perhaps an inch above your [clit].  It holds steady there, making minute adjustments this way and that, jerking with each slight change in aim to track your less-than-stationary, suspended form.  There is a moment of complete silence and breathless anticipation, and then, it scythes downwards, slamming into you with sufficient force to rock you down in your organic harness");
-        if (player.tailType > TAIL.NONE) MainScreen.text(" and press your tail to the ground");
+        if (player.lowerBody.tailType > TailType.NONE) MainScreen.text(" and press your tail to the ground");
         MainScreen.text(".  You feel the wetness of the hollow tube as it presses against you along with a lance of pure desire and heat in the very center, undoubtedly caused by the tainted needle as it slips through your unprotected flesh.  The thing is compressed so tightly against you that it looks like the entire injector was able to bury itself in your body.");
         MainScreen.text("\n\nYour whole body shudders in surprise before Fera soothes you back into stillness, and then, it begins, not with pain but with a whimper of bliss. You feel that heat grow into a fiery knot before blossoming into a molton-hot ball of tight, aching need. That part of your body feels so... so compressed, almost crushed into place by the flesh around. You shudder and thrust your hips, crying out in eagerness and ecstasy, tears streaming from your empty, dilated eyes as you hump the tentacle in accordance with the drives you can't understand, only obey. The tightness increases until it feels like that spot is about to be crushed by the rest of you, yet you drip hot ladyspunk all over the organic 'floor,' loving every second of it.");
         MainScreen.text("\n\nPulling back, the tentacle's cup-like tip stretches away from your body a few inches, its base still sealed tight to your " + player.skinFurScales() + ", tugging and pulling with gentle suction.  There's a moment of insistent, tremendous pressure, upwelling like a long-dormant volcano, and suddenly, the pressure is gone, and gods, it's so fucking hot and good and sensitive and you start to cum, nearly throwing your back out as you scream out in pleasure for your goddess to hear.  There's more of you that feels pleasure than ever and it's so hot, full, and just... twitching with bliss that you can barely stop moaning long enough to breathe.");
@@ -586,13 +599,15 @@ export default class Fera {
         MainScreen.text("\n\nYou're crying with sublime ecstasy as you let the pleasure consume you, simply feeling yourself constantly erupting, constantly swelling... constantly blissful.  Your eyes roll back, and Fera is whispering into your ear, but the words don't need to be understood, only heard, only left to burrow deeply into your psyche and embed themselves there, right where they can stay and take root.  You slip from consciousness to the feel of your new cock expanding past nine inches in length...");
         //(cum!)
         player.orgasm();
-        dynStats("lib", 10, "sen", 10, "cor", 3);
+        player.stats.lib += 10;
+player.stats.sens += 10;
+player.stats.cor += 3;
         //Grow a 10" human or tentacle dick! RANDOM!
         player.lowerBody.cockSpot.add(new Cock());
-        player.lowerBody.cockSpot.list[0].cockLength = 10;
-        player.lowerBody.cockSpot.list[0].cockThickness = 2.5;
+        player.lowerBody.cockSpot.get(0).cockLength = 10;
+        player.lowerBody.cockSpot.get(0).cockThickness = 2.5;
         //Add five corruption.
-        player.createPerk(PerkLib.FerasBoonSeeder, 0, 0, 0, 0);
+        player.perks.add(new Perk("FerasBoonSeeder", 0, 0, 0, 0));
         menu();
         genderCheck();
         MainScreen.addButton(0, "Next", afterFeraGivesYouACawk);
@@ -603,7 +618,8 @@ export default class Fera {
         MainScreen.text("You awaken fully dressed with a familiar ache between your legs.  Damn, that was a good nap. You rise, scratching your [cock] and smiling as you feel how hard and sensitive it is.  You're already feeling pretty anxious for a fuck, especially after the fucked up wet dreams you had last night, and you resolve to find a nice hole to dump a few loads into before too long.  First, you had better go check back up on your camp.  You've got to bring your A-game if you're going to fuck stronger babies into every weak pussy you come across.");
         //Add ten more corruption.
         //Add 50 lust.
-        dynStats("lus", 20, "cor", 10);
+        player.stats.lust += 20;
+player.stats.cor += 10;
         doNext(camp.returnToCampUseFourHours);
     }
 }

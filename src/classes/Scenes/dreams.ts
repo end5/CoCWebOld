@@ -52,11 +52,11 @@ export default class Dreams {
             if (Game.player.perks.has("MinotaurCumAddict")) choices[choices.length] = 6;
         }
         //Akbal
-        if (Flags.get(FlagEnum.AKBAL_SUBMISSION_COUNTER) > 4) {
-            if (Flags.get(FlagEnum.AKBAL_SUBMISSION_COUNTER) > 10) choices[choices.length] = 7;
-            if (Flags.get(FlagEnum.AKBAL_SUBMISSION_COUNTER) > 13) choices[choices.length] = 7;
-            if (Flags.get(FlagEnum.AKBAL_SUBMISSION_COUNTER) > 15) choices[choices.length] = 7;
-            if (Flags.get(FlagEnum.AKBAL_SUBMISSION_COUNTER) > 18) choices[choices.length] = 7;
+        if (Flags.list[FlagEnum.AKBAL_SUBMISSION_COUNTER] > 4) {
+            if (Flags.list[FlagEnum.AKBAL_SUBMISSION_COUNTER] > 10) choices[choices.length] = 7;
+            if (Flags.list[FlagEnum.AKBAL_SUBMISSION_COUNTER] > 13) choices[choices.length] = 7;
+            if (Flags.list[FlagEnum.AKBAL_SUBMISSION_COUNTER] > 15) choices[choices.length] = 7;
+            if (Flags.list[FlagEnum.AKBAL_SUBMISSION_COUNTER] > 18) choices[choices.length] = 7;
             choices[choices.length] = 7;
             choices[choices.length] = 7;
         }
@@ -80,7 +80,7 @@ export default class Dreams {
             choices[choices.length] = 11;
         }
         //Dom + Scylla
-        if (Flags.get(FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA) > 0 && Flags.get(FlagEnum.UNKNOWN_FLAG_NUMBER_00150) > 0) {
+        if (Flags.list[FlagEnum.NUMBER_OF_TIMES_MET_SCYLLA] > 0 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00150] > 0) {
             choices[choices.length] = 12;
             choices[choices.length] = 12;
             choices[choices.length] = 12;
@@ -96,7 +96,7 @@ export default class Dreams {
             choices[choices.length] = 14;
             choices[choices.length] = 14;
         }
-        if (anemoneScene.kidAXP() >= 40 && Game.player.lust >= 70 && Game.player.gender > 0) {
+        if (anemoneScene.kidAXP() >= 40 && Game.player.stats.lust >= 70 && Game.player.gender > 0) {
             choices[choices.length] = 15;
             choices[choices.length] = 15;
             choices[choices.length] = 15;
@@ -183,10 +183,10 @@ export default class Dreams {
             //cow
             else if (daydream == 3) {
                 if ((Game.player.gender == 1 && Game.player.upperBody.chest.BreastRatingLargest[0].breastRating >= 5) || (Game.player.gender == 3 && Utils.rand(2) == 0)) {
-                    MainScreen.text("having full and lactating breasts, searching for the right person to give your milk to.  You come across a pretty human girl and invite her to your breast.  She eagerly jumps into your arms and starts to suckle from your ample bosom.  You then guide your erect " + Game.player.cockDescript(0) + " into her waiting lower lips.  The two of you stand there in eternal bliss as she suckles on your chest and you thrust into her womanhood, until you wake from the dream.  ", false);
+                    MainScreen.text("having full and lactating breasts, searching for the right person to give your milk to.  You come across a pretty human girl and invite her to your breast.  She eagerly jumps into your arms and starts to suckle from your ample bosom.  You then guide your erect " + Game.player.CockDescriptor.describeCock(player, 0) + " into her waiting lower lips.  The two of you stand there in eternal bliss as she suckles on your chest and you thrust into her womanhood, until you wake from the dream.  ", false);
                 }
                 else if (Game.player.gender >= 2) {
-                    MainScreen.text("wandering through the forest, cradling your full and lactating breasts, searching for the right person to give your milk to.  You come across a cute human boy and invite him to your breast.  He eagerly jumps into your arms and starts to suckle from your ample bosom.  You then guide his erect cock into your " + vaginaDescript(0) + " and engulf him.  The two of you stand there in eternal bliss as he suckles on your chest and thrusts into your womanhood, until you wake from the dream.  ", false);
+                    MainScreen.text("wandering through the forest, cradling your full and lactating breasts, searching for the right person to give your milk to.  You come across a cute human boy and invite him to your breast.  He eagerly jumps into your arms and starts to suckle from your ample bosom.  You then guide his erect cock into your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " and engulf him.  The two of you stand there in eternal bliss as he suckles on your chest and thrusts into your womanhood, until you wake from the dream.  ", false);
                 }
                 else if (Game.player.gender == 0) {
                     MainScreen.text("wandering the forest, carrying full and lactating breasts.  You spot a creature of the forest looking down at you, but you feel no fear, only contentedness as you invite the creature to suckle from your breasts.  It eagerly jumps out of its hiding place to lick and suck at your full breast, before soon running back off into the woods.  You continue your wonderings, and meet many more creatures.  Each one you meet comes to you and begs you for its daily milk.  It fills you with great satisfaction to feed them all, and you feel that they would do anything for you if you asked them to.  It is a state of eternal bliss, until you wake from the dream.  ", false);
@@ -211,7 +211,7 @@ export default class Dreams {
             else if (daydream == 6) {
                 MainScreen.text("the many encounters you've had with minotaurs.  You shake, cold sweat on your brow, a pit of emptiness in your stomach, and a seething fire in your loins.  You don't know how long you lie there, but gradually, somehow, dreams overtake you and the cramped isolation of your camp falls away to reveal a sweeping vista.  Halfway up the slope of a mountain, the way down the sheer cliff face is a dizzying descent of jagged rocks.  The plateau you find yourself on is fairly wide and is populated by a great many caves that wind down, deep into the mountain's core.  There is a strange sense of familiarity to this place, as if you... belong here.\n\n", false);
                 MainScreen.text("Your presence does not go unnoticed.  The owners of the caves step out of the shadows and you find yourself surrounded on all sides by the hulking, vulgar forms of minotaurs, their titanic cocks stiffening while their overfull balls sway heavily between their legs.  You don't remember how you got up here, but there is no way out.  A thrill of panic shoots up your spine and you try to call for help, but your voice catches in your throat, barely more than an impassioned whisper.  Then, they are upon you.  Coarse hands grab your arms and hips, throwing you into the small circle at the center of the mob, the oafish beasts crowding against each other to surround you.  They loom impossibly tall over you, the corded muscles of their barbarous chests hiding their faces from you, but you can hear them snorting in perverse impatience as they scuff their hooves on the ground, the flesh of their profane shafts engorged and straining in the air around you.\n\n", false);
-                MainScreen.text("The minotaurs grab their dicks and begin jerking themselves off, pumping their bitch-taming rods frantically, their unseen eyes boring holes of lustful desire through your body.  Alarmingly, you seem to have lost your " + Game.player.armorName + " to the monstrous men, your nude body bare to their lascivious, rutting needs.  You huddle against the ground, fearful of the bulls' ejaculate, but something is wrong.  Despite their best efforts, none of the cocks swarming around you are releasing their seething seed.  You push yourself up to a sitting position and, hesitantly, reach a hand out to one of the shafts, its deeply-veined trunk bulbous and pulsing.  Placing the lightest touch of your fingers on the cylindrical tip, the minotaur immediately reacts, jerking his hands down to the base of his shaft, his cockhead flaring outward in a fleshy bulge that pushes the tip of his urethra out in a gaping, mouth-like pucker. You barely have time to blink before the minotaur's orgasm bursts forth, hot streams of creamy spunk lancing through the air to splat wetly on your face in sticky ropes.  You recoil as the monster's jizz pours from its arm-thick cum pump, the spurting cascade white-washing your " + chestDesc() + " with the pale, liquid alabaster of his desperate need.\n\n", false);
+                MainScreen.text("The minotaurs grab their dicks and begin jerking themselves off, pumping their bitch-taming rods frantically, their unseen eyes boring holes of lustful desire through your body.  Alarmingly, you seem to have lost your " + Game.player.inventory.armor.displayName + " to the monstrous men, your nude body bare to their lascivious, rutting needs.  You huddle against the ground, fearful of the bulls' ejaculate, but something is wrong.  Despite their best efforts, none of the cocks swarming around you are releasing their seething seed.  You push yourself up to a sitting position and, hesitantly, reach a hand out to one of the shafts, its deeply-veined trunk bulbous and pulsing.  Placing the lightest touch of your fingers on the cylindrical tip, the minotaur immediately reacts, jerking his hands down to the base of his shaft, his cockhead flaring outward in a fleshy bulge that pushes the tip of his urethra out in a gaping, mouth-like pucker. You barely have time to blink before the minotaur's orgasm bursts forth, hot streams of creamy spunk lancing through the air to splat wetly on your face in sticky ropes.  You recoil as the monster's jizz pours from its arm-thick cum pump, the spurting cascade white-washing your " + chestDesc() + " with the pale, liquid alabaster of his desperate need.\n\n", false);
 
                 MainScreen.text("The deluge from his straining flesh tube slows and you sputter, trying to wipe the tainted, milky pearls from your body when the smell of the semen wafts into your nostrils.  An all-too-familiar weakness creeps into your limbs, addictive pheromones burning a depraved path from your nose directly into your brain, conquering your feeble will.  Panting, sweat beading on your brow, you try to hold back, but the feral potency of the bull-men has subdued your fear and outrage, leaving only a domesticated need to serve.  No longer the master of your body, your arms reach out and stroke more of the surrounding cocks, coaxing each one to fountain you with polluted, ivory loads, the pallid ambrosia lacquering your " + Game.player.skinFurScales() + ", coating you in the savage seed of your masters.  You gratefully turn up your head to catch the full brunt of the torrid geysers with your face, syrupy cream rolling down your nostrils and filling your mouth until it runs over.\n\n", false);
                 MainScreen.text("You realize, at last, the bestial intelligence in the minotaurs.  They did not simply take you, though you were unarmed and outnumbered.  Instead, they let your own weakness doom you - a willing slave to the ecstasy of their loins.  As you grasp at the melon-sized balls churning all around you, begging for ever more of their nectar, a distant, fading voice begs you to hold out, to escape.  That final thought is driven away as the sublime arms of your masters lift their freshly broken cum-dump high into the air.  They crowd so tightly that they seem to be holding you over a sea of straining phalluses, spunk still bubbling from their engorged tips.  The palpable need to breed you ignites the bodies of your animalistic tyrants with smoldering heat.  Then, as time seems to slow down around you, they thrust your tamed body down, jamming endless inches of minotaur cock deep inside the latest of their submissive cock-sleeves...\n\n", false);
@@ -239,7 +239,7 @@ export default class Dreams {
 
                 MainScreen.text("Eventually you cum, splattering your spunk all across her features and the top of her tits.  It runs down the massive flesh in slow dribbles, dimples in the enormous bust causing the spooge to puddle slowly.  Licking her lips, she grinds the cum into her breasts before pausing.  Looking at you carefully, she speaks.  \"<i>So, is this your dream?</i>\" Exgartuan asks.  \"<i>Or mine?</i>\"\n\n", false);
 
-                MainScreen.text("You awake with a start.  Your " + breastDescript(0) + " jiggles grumpily.", false);
+                MainScreen.text("You awake with a start.  Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggles grumpily.", false);
             }
             //Exgartucock
             else if (daydream == 9) {
@@ -498,9 +498,9 @@ export default class Dreams {
         let x: number = Game.player.lowerBody.cockSpot.count();
         while (x > 0) {
             x--;
-            if (Game.player.lowerBody.cockSpot.list[x].sock == "amaranthine" && Game.player.lowerBody.cockSpot.list[x].cockType != CockType.DISPLACER) {
-                if (Game.player.lowerBody.cockSpot.list[x].cockType != CockType.DOG) Game.player.lowerBody.cockSpot.list[x].knotMultiplier = 1.5;
-                Game.player.lowerBody.cockSpot.list[x].cockType = CockType.DISPLACER;
+            if (Game.player.lowerBody.cockSpot.get(x).sock == "amaranthine" && Game.player.lowerBody.cockSpot.get(x).cockType != CockType.DISPLACER) {
+                if (Game.player.lowerBody.cockSpot.get(x).cockType != CockType.DOG) Game.player.lowerBody.cockSpot.get(x).knotMultiplier = 1.5;
+                Game.player.lowerBody.cockSpot.get(x).cockType = CockType.DISPLACER;
             }
         }
         doNext(Game.playerMenu);

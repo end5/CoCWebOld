@@ -14,13 +14,13 @@ public Maddie(){
 //[Bakery One Off – Madeleine's Creation]
 internal function procMaddieOneIntro():void {
 	MainScreen.text("", true);
-	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00240] == 0) {
+	if(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00240] == 0) {
 		MainScreen.text("You enter the bakery, savoring the sweet smells of sugar and baked goods.  A burly, hairy figure steps up beside you and places a strong hand on your shoulder.   The gravelly voice of the stranger says, \"<i>You ain't from around here.  Come.  I need your help.  Show you something.</i>\"  You turn to look, and are quite surprised when you see the horned visage of a minotaur ", false);
 		if(player.tallness < 72) MainScreen.text("looking down at", false);
 		else if(player.tallness < 100) MainScreen.text("staring levelly at", false);
 		else MainScreen.text("glaring up at", false);
 		MainScreen.text(" you. It releases your shoulder and starts walking towards an 'employees only' door.  Do you follow?\n\n", false);
-		flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00240] = 1;
+		Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00240] = 1;
 	}
 	//(REPEAT) 
 	else {
@@ -32,22 +32,22 @@ internal function procMaddieOneIntro():void {
 private followMinotaurIntoBackroom():void {
 	MainScreen.text("", true);
 	//	(Not yet explained) 
-	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] == 0) {
+	if(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] == 0) {
 		MainScreen.text("You follow the burly beast through the door, turning several times as he leads you through the blisteringly hot ovens.  The minotaur is sweating heavily by the time you reach his destination, and for that matter so are you.  With all the musk boiling off of him, you find yourself wondering if he was just setting up an elaborate ruse to lure you into a sexual situation.  He grabs a white, fluffy hat and drops it on his head, firmly dispelling that notion as he tries to explain in as few words as possible, \"<i>I am cook.  I make great éclairs, but making masterpiece now.  Need special ingredients.  You get to leave city.  Bring me lust draft and honey.  Not pure stuff, too strong. Go.</i>\"\n\n", false);
 		MainScreen.text("You get a chance to look over his work station, noting the many bowls of batter, hundreds of massive eclairs, and the largest onahole you've ever seen.  ", false);
 		if(player.perks.has("MinotaurCumAddict")) MainScreen.text("You lick your lips when you realize you're meeting the source of the 'special' éclairs.", false);
 		else MainScreen.text("You blush when you realize what he must be using for cream filling.", false);
 		//[Give Them] [Leave]
-		if (player.hasItem(consumables.BEEHONY) && player.hasItem(consumables.L_DRAFT))
+		if (player.inventory.items.has(consumables.BEEHONY) && player.inventory.items.has(consumables.L_DRAFT))
 			simpleChoices("Give Them", handOverIngredientsItBeBakingTimeYo, "", null, "", null, "", null, "Leave", nopeAintGotNoneODemSpeculIngredimathings);
 		else simpleChoices("", null, "", null, "", null, "", null, "Leave", camp.returnToCampUseOneHour);
-		flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] = 1;
+		Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00241] = 1;
 	}
 	//(Explained) 
 	else {
 		MainScreen.text("You follow the burly chef through the door, winding through the familiar ovens.  By the time you reach his work area, you're both covered in a fine sheen of sweat and you find yourself responding to the minotaur musk unconsciously.  The strange chef turns to ask, \"<i>You have special ingredients now, yes?</i>\"", false);
 		//[Yes] [Lie – No/Not Yet]
-		if (player.hasItem(consumables.BEEHONY) && player.hasItem(consumables.L_DRAFT))
+		if (player.inventory.items.has(consumables.BEEHONY) && player.inventory.items.has(consumables.L_DRAFT))
 			simpleChoices("Yes", handOverIngredientsItBeBakingTimeYo, "Lie - No", nopeAintGotNoneODemSpeculIngredimathings, "", null, "", null, "", null);
 		else simpleChoices("No", nopeAintGotNoneODemSpeculIngredimathings, "", null, "", null, "", null, "", null);
 	}
@@ -67,8 +67,8 @@ public nopeAintGotNoneODemSpeculIngredimathings():void {
 //[Yes – baking]
 public handOverIngredientsItBeBakingTimeYo():void {
 	MainScreen.text("", true);
-	player.consumeItem(consumables.BEEHONY);
-	player.consumeItem(consumables.L_DRAFT);
+	player.inventory.items.consumeItem(consumables.BEEHONY);
+	player.inventory.items.consumeItem(consumables.L_DRAFT);
 	MainScreen.text("You hand the lust draft and bottled honey to the minotaur, doing your best to ignore his potent, lust-inducing pheromones as you watch him work.  He grabs the batch of dough he had been kneading and pours in the lust draft, snorting aggressively once the bubbling drug's smell reaches his bovine nostrils.  Next, the bull-like chef reaches over to grab a bottle marked 'P.S.M.', uncorking and pouring it in one practiced motion.   The white fluid froths dangerously on contact with the pink lust draft, and a second later the honey is in there too.  Finally, he flips up his loincloth and reaches for the onahole.\n\n", false);
 	
 	MainScreen.text("The sex-toy drips with lubricant and twists in the minotaur's hands, indicating magical enhancement or goblin manufacture.  He slides in, sighing as his four, basketball-sized testes pull close to his body, twitching.  Two quick pumps later, he's howling, hips twitching as spurts of white leak from the onahole into the bowl.  With remarkable restraint, he stops himself after adding a cup of spunk, even though his balls are still huge and quivering.", false);
@@ -89,7 +89,7 @@ private sneakAwayFromMaddie():void {
 	MainScreen.text("", true);
 	MainScreen.text("You get out before he can find you again.  Whatever he's making is nothing you ever want to taste.", false);
 	//(No more mino chef)
-	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
+	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Wait/Next]
@@ -122,14 +122,14 @@ private runAwayFromMaddiiiieee():void {
 	spriteSelect(39);
 	MainScreen.text("", true);
 	MainScreen.text("You turn tail to run, evacuating the room before that culinary catastrophe can have her way with you.  A high-pitched whine chases you away as the cupcake-girl cries, \"<i>Nooooo... come back!  I'm making so much filling for you!</i>\"  Her words lend you even greater speed, and you vacate the city in record time.\n\n", false);
-	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -1;
+	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -1;
 	doNext(camp.returnToCampUseOneHour);
 }
 //[Followup to run away]
 public runAwayMaddieFollowup():void {
 	spriteSelect(39);
 	MainScreen.text("", true);
-	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
+	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = -2;
 	MainScreen.text("You return to a strange sight indeed.  Urta and Edryn are leading a procession of over thirty city guards, arranged in a loose circle around the cupcake-girl.  Her comparatively tiny, tin-foil fez is gone, along with most of her blue-iced 'armor'.  She looks weak, pathetic, and beaten as she's prodded with spears and escorted from the city, never to return again.  Vanilla-scented tears stain the pavement behind her, leaving a trail the whole way back to the bakery.\n\n", false);
 	doNext(telAdre.telAdreMenu);
 }
@@ -138,7 +138,7 @@ public runAwayMaddieFollowup():void {
 private talkToMaddie():void {
 	spriteSelect(39);
 	MainScreen.text("",true);
-	MainScreen.text("You try to speak as calmly as you can in the face of a giant, jiggling sex-pastry, but she ignores your demands to 'wait', 'listen', or 'stop'.  Sponge-cake-soft fists envelop your arms, lifting you from the ground to pin you against some flour sacks.   The cherries covering the cupcake-girl's whipped-cream bra drop off, pushed away by two candy-pink nipples the size of water bottles.  As one, they discharge thick splorts of thick, gooey icing to splatter over the length of your exposed arms.  It hardens nigh-instantaneously in the comparatively cool air, and you're helpless to do anything but squirm as she applies the same treatment to your " + player.legs() + ", immobilizing you completely.\n\n", false);
+	MainScreen.text("You try to speak as calmly as you can in the face of a giant, jiggling sex-pastry, but she ignores your demands to 'wait', 'listen', or 'stop'.  Sponge-cake-soft fists envelop your arms, lifting you from the ground to pin you against some flour sacks.   The cherries covering the cupcake-girl's whipped-cream bra drop off, pushed away by two candy-pink nipples the size of water bottles.  As one, they discharge thick splorts of thick, gooey icing to splatter over the length of your exposed arms.  It hardens nigh-instantaneously in the comparatively cool air, and you're helpless to do anything but squirm as she applies the same treatment to your " + LowerBodyDescriptor.describeLegs(player) + ", immobilizing you completely.\n\n", false);
 	MainScreen.text("The cock-crazed confection looks down at you and nods, a satisfied smile spreading over glistening, pale blue lips.  She breathlessly exclaims, \"<i>My creat- cr... Dad ", false);
 	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("is like, all out of icing mix!  So I'm going to borrow a few cups from you, 'kay?", false);
 	else MainScreen.text("gave me so much icing mix, and you like, would look soooo much better with some vanil- van... yummy frosting!", false);
@@ -148,8 +148,8 @@ private talkToMaddie():void {
 	if(player.lowerBody.cockSpot.hasCock()) {
 		let x:number = player.cockThatFits(60);
 		if (x < 0) x = 0;
-		MainScreen.text("\"<i>Dad said my name is Madeleine, but that's no fun.  Just call me Maddie.  You've got lots of icing like Dad, right?  I-I... need more icing.  It's in my recipe,</i>\" says Maddie.  The baked broad strips your " + player.armorName + " to expose your " + multiCockDescriptLight() + ".  Cooing with excitement, she examines your ", false);
-		if(player.lust >= 75) MainScreen.text("rock-hard", false);
+		MainScreen.text("\"<i>Dad said my name is Madeleine, but that's no fun.  Just call me Maddie.  You've got lots of icing like Dad, right?  I-I... need more icing.  It's in my recipe,</i>\" says Maddie.  The baked broad strips your " + player.inventory.armor.displayName + " to expose your " + CockDescriptor.describeMultiCockShort(player) + ".  Cooing with excitement, she examines your ", false);
+		if(player.stats.lust >= 75) MainScreen.text("rock-hard", false);
 		else MainScreen.text("hardening", false);
 		MainScreen.text(" shaft", false);
 		if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s", false);
@@ -160,21 +160,21 @@ private talkToMaddie():void {
 		if(player.stats.cor < 33) MainScreen.text("You muster as much authority as you can in such a compromising position and explain to Maddie that what comes out of there is NOT icing.", false);
 		else if(player.stats.cor < 66) MainScreen.text("You offhandedly mention that you don't actually make icing.", false);
 		else MainScreen.text("You smirk and mention that what you squirt isn't quite icing.", false);
-		MainScreen.text("  \"<i>Liar!  If that wasn't icing, then why would Daddy have put his in all those eclairs and me?</i>\" retorts the busty cupcake, continuing on to say, \"<i>I know, I can suck it out!</i>\"  She purses her jelly-like lips and plunges forward, slurping all " + num2Text(Math.floor(player.lowerBody.cockSpot.list[x].cockLength)) + " inches into her oven-warmed esophagus.  Your protests are cut off by the tightness squeezing around your " + cockDescript(x) + ".  It milks you in rippling motions, buttery-slick and pulsing hungrily.\n\n", false);
+		MainScreen.text("  \"<i>Liar!  If that wasn't icing, then why would Daddy have put his in all those eclairs and me?</i>\" retorts the busty cupcake, continuing on to say, \"<i>I know, I can suck it out!</i>\"  She purses her jelly-like lips and plunges forward, slurping all " + num2Text(Math.floor(player.lowerBody.cockSpot.get(x).cockLength)) + " inches into her oven-warmed esophagus.  Your protests are cut off by the tightness squeezing around your " + CockDescriptor.describeCock(player, x) + ".  It milks you in rippling motions, buttery-slick and pulsing hungrily.\n\n", false);
 		
 		MainScreen.text("A half-melted tongue ", false);
 		if(!player.lowerBody.cockSpot.hasSheath()) MainScreen.text("encircles the base", false);
 		else MainScreen.text("pokes and prods into your sheath", false);
-		MainScreen.text(", leaving a syrupy residue trailing over your " + cockDescript(x) + ".  You groan, sagging into the sugary suspension.  The strength is completely gone from your limbs, stolen by the pastry's prick-devouring maw.  Her shining eyes look up to gloat once she realizes how completely you've submitted to her ministrations, and in no time, her cake-soft hands catch and squeeze your " + cockDescript(x) + " into the gargantuan swell of her spongy breasts.  A smile crosses your face as you get pleasured by the motherly mounds and the familiar, sweet smell that Maddie exudes.\n\n", false);
+		MainScreen.text(", leaving a syrupy residue trailing over your " + CockDescriptor.describeCock(player, x) + ".  You groan, sagging into the sugary suspension.  The strength is completely gone from your limbs, stolen by the pastry's prick-devouring maw.  Her shining eyes look up to gloat once she realizes how completely you've submitted to her ministrations, and in no time, her cake-soft hands catch and squeeze your " + CockDescriptor.describeCock(player, x) + " into the gargantuan swell of her spongy breasts.  A smile crosses your face as you get pleasured by the motherly mounds and the familiar, sweet smell that Maddie exudes.\n\n", false);
 		
-		MainScreen.text("Suction starts, hollowing the cupcake-girl's plush cheeks into a concave, cock-slurping form.  The constant squeezing of your " + cockDescript(x) + " combines with the sucking to make you swell larger inside Maddie's gullet while she kisses your groin.  The confection's oral charms show no signs of stopping as she noisily slurps away at her treat, and her pillowy breasts are so spongy-soft and calming that you're happy to let her sample your 'icing' if it means you can feel like this.  Your " + hipDescript() + " push back into the baby blue lips, pumping and thrusting as your instinct to fuck and breed takes over, working your " + cockDescript(x) + " in and out of the pastry's puckered mouth.\n\n", false);
+		MainScreen.text("Suction starts, hollowing the cupcake-girl's plush cheeks into a concave, cock-slurping form.  The constant squeezing of your " + CockDescriptor.describeCock(player, x) + " combines with the sucking to make you swell larger inside Maddie's gullet while she kisses your groin.  The confection's oral charms show no signs of stopping as she noisily slurps away at her treat, and her pillowy breasts are so spongy-soft and calming that you're happy to let her sample your 'icing' if it means you can feel like this.  Your " + LowerBodyDescriptor.describeHips(player) + " push back into the baby blue lips, pumping and thrusting as your instinct to fuck and breed takes over, working your " + CockDescriptor.describeCock(player, x) + " in and out of the pastry's puckered mouth.\n\n", false);
 		
-		MainScreen.text("Maddie pushes further forward, her bosom crushing you against the wall to hold your hips immobile while she sucks harder and harder.  Your cock balloons from the suction, thickening inside her neck and beginning to twitch from the irresistible fellative pleasure. An orgasm grows in your " + ballsDescriptLight(), false);
+		MainScreen.text("Maddie pushes further forward, her bosom crushing you against the wall to hold your hips immobile while she sucks harder and harder.  Your cock balloons from the suction, thickening inside her neck and beginning to twitch from the irresistible fellative pleasure. An orgasm grows in your " + BallsDescriptor.describeBalls(true, true, player), false);
 		if(player.lowerBody.balls > 0) MainScreen.text(", the cum-heavy spheres bouncing in your twitching sack as they get ready to explode", false);
 		MainScreen.text(".  Maddie squeezes her puckered cock-suckers tight around the turgid shaft while she whips her melty tongue in circles around it.  Your climax hits like a hammer-blow to the temple, knocking the thoughts from your head while you pump rope after rope of 'icing' down the cupcake's dick-gripping neck-hole.  The suction relaxes as you fill the ravenous pastry with your seed and let your head limply sink deeper against the cushion of her sponge-cake-soft breast.\n\n", false);
 		
 		MainScreen.text("Maddie milks you for what seems like ages", false);
-		if(player.lowerBody.cockSpot.count() == 1) MainScreen.text(", your " + cockDescript(x) + " emptying every drop of jizz into the baked cum-tank.", false);
+		if(player.lowerBody.cockSpot.count() == 1) MainScreen.text(", your " + CockDescriptor.describeCock(player, x) + " emptying every drop of jizz into the baked cum-tank.", false);
 		else {
 			MainScreen.text(" while her skin absorbs the generous donation of your other member", false);
 			if(player.lowerBody.cockSpot.count() > 2) MainScreen.text("s", false);
@@ -189,7 +189,7 @@ private talkToMaddie():void {
 		
 		MainScreen.text("The cream-filled creation leans back and squirts some more icing onto the straps holding you, but instead of reinforcing the bonds, it eats through the hardened confection to release you into her waiting bosom.  She catches you in the pillowy chest-embrace, stroking your hair while she says in a sing-song voice, \"<i>Thanks for all the icing " + player.mf("mister","miss") + "!  I think I have enough for now.  I think I'll go like, check on my Dad and stuff.  Maybe he wants to add some icing to the recipe?</i>\"\n\n", false);
 	
-		MainScreen.text("Oven-warmed tiles kiss your exposed " + buttDescript() + " as you're gently placed on the floor next to your discarded equipment.  Exhausted and satiated as you are, your eyes drift closed, lulling you into slumber.\n\n", false);
+		MainScreen.text("Oven-warmed tiles kiss your exposed " + ButtDescriptor.describeButt(player) + " as you're gently placed on the floor next to your discarded equipment.  Exhausted and satiated as you are, your eyes drift closed, lulling you into slumber.\n\n", false);
 		
 		MainScreen.text("<b>Later...</b>\n", false);
 		MainScreen.text("You're woken by a furry hand squeezing your shoulder and violently shaking you around.  With such rough treatment, you snap to full alertness in no time.  The minotaur chef is smiling down at you, the expression looking quite strange on his bestial muzzle as he says, \"<i>Sorry.  Experiment backfired.  Glad you gave her what she needed.  Much calmer now.  Will make great assistant.</i>\"\n\n", false);
@@ -229,7 +229,7 @@ private talkToMaddie():void {
 		MainScreen.text(player.modThickness(100,10), false);
 		MainScreen.text(player.modTone(0,10), false);  
 	}
-	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = 3;
+	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = 3;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -239,7 +239,7 @@ internal function bakeryEpilogue():void {
 	MainScreen.text("As soon as you enter the bakery, one of the waitresses pulls you aside.  She positively beams as she hands you a note and says, \"<i>One of our chefs wanted me to give you this.  I didn't even know he could write!  I mean, where does a minotaur learn to handle a pen?</i>\"  You smirk, waving her away before you open up the minotaur's note.\n\n", false);  
 	MainScreen.text("\"<i>Thanks.  Figured out what went wrong with Maddie's help.  Made masterpiece.  Buy giant cupcake sometime.  Delicious!  Promise it's safe and non-addictive.  Expensive though.  Ingredients rare.\n\n", false);
 	MainScreen.text("-X</i>\"", false);
-	flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = 4;
+	Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00242] = 4;
 	doNext(telAdre.bakeryScene.bakeryuuuuuu);
 }
 }

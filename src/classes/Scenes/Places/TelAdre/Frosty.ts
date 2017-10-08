@@ -15,9 +15,9 @@ public Frosty(){
 //[Deciding to talk to her]
 public approachFrosty():void {
 	MainScreen.clearText();
-	if(flags[FlagEnum.MET_FROSTY] == 0)
+	if(Flags.list[FlagEnum.MET_FROSTY] == 0)
 	{
-		flags[FlagEnum.MET_FROSTY] = 1;
+		Flags.list[FlagEnum.MET_FROSTY] = 1;
 		MainScreen.text("You approach the pink girl and as she sees you walking towards her, she immediately makes a beeline for you. Before you know it, the girl is right in front of you, jamming one of her fliers right in your face and speaking fast and hyperactivily to you. “<i>Hello " + player.mf("sir","madam") + ", would you like to come to ‘Frosty Cake’s Cupcake stand’? I’m Frosty- Nice to meet you- I recently opened a sweets-stand and can’t wait to have loyal customers such as you coming to my stand every day and buying all kinds of super delicious cupcakes!”</i> You have to take a step back to process everything she just blurted out; you also take the flyer from her just so she stops pushing it against your face. “<i>So do you wanna come to my stand, do ya, do ya, do ya!?</i>” You answer her with an uncertain “<i>yes</i>”, still wondering what she just said.");
 		MainScreen.text("\n\nHowever, you can’t think for long as she grabs you by the hand to lead and whisk you out the front door of the bakery and to her food-stand that is just outside. It’s a tiny little booth, decorated in bright happy colors and streamers. A sign on the front reads:\n<i>“Frosty Cake’s Cupcake Stand!!!!”</i> in a bubbly rainbow colored chalk writing. She positions you right in front of it and jumps over the counter to the cashier side of it. “<i>Hello customer, how may I help you? My first customer!</i>” The last part comes out as a whispered squeal that doesn't do much to hide her excitement.");
 		MainScreen.text("\n\nYou both share a moment of silence, her big pink eyes looking at you with a hopeful smile, then she looks down at the counter and sees it's empty.  Letting out a little “eep” she quickly ducks down under the counter, coming back up with a bunch of silver platter displays with glass lids, so you can see the tasty cupcakes on the inside, and in a blur the displays are organized right in front of you. All sorts of cupcakes are displayed with various frostings, toppings, colorful wrappings and all different kinds of flavors. Your mouth is just watering as your eyes wander across this colorful display of cupcakes but quickly dries up as your gaze comes to rest upon the pricing for these delicacies.");
@@ -71,7 +71,7 @@ public frostyMainMenu():void
 	if(player.stats.gems >= 60) MainScreen.addButton(1,"x5",cupcakeBuy,5);
 	if(player.stats.gems >= 110) MainScreen.addButton(2,"x10",cupcakeBuy,10);
 	if(player.stats.gems >= 200) MainScreen.addButton(3,"x20",cupcakeBuy,20);
-	if(flags[FlagEnum.SIGNED_FROSTYS_CONTRACT] == 0) MainScreen.addButton(8,"Contract",getAFuckingFuckContractFromFucks);
+	if(Flags.list[FlagEnum.SIGNED_FROSTYS_CONTRACT] == 0) MainScreen.addButton(8,"Contract",getAFuckingFuckContractFromFucks);
 	else MainScreen.addButton(8,"Specials",frostysLimitedSpecialMenu);
 	MainScreen.addButton(9,"Leave",kGAMECLASS.telAdre.telAdreMenu);
 	
@@ -82,11 +82,11 @@ public frostySpecialsMenu(free:boolean = false):void
 	//1. Hand – 5. points
 	//2. Mouth-15. Points
 	menu();
-	if(!free && flags[FlagEnum.FROSTY_POINTS] < 5) MainScreen.text("\n\nYou don't have enough points for any services.")
-	else if(!free && flags[FlagEnum.FROSTY_POINTS] < 15) MainScreen.text("\n\nYou don't have enough points for mouth service.")
-	if(free || flags[FlagEnum.FROSTY_POINTS] >= 5) MainScreen.addButton(0,"Hand",frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp);
-	if(free || flags[FlagEnum.FROSTY_POINTS] >= 15) MainScreen.addButton(1,"Mouth",useFrostysMouth);
-	if(free || flags[FlagEnum.FROSTY_POINTS] >= 1) MainScreen.addButton(8,"EatHerOut",cunnilingateFrosty);
+	if(!free && Flags.list[FlagEnum.FROSTY_POINTS] < 5) MainScreen.text("\n\nYou don't have enough points for any services.")
+	else if(!free && Flags.list[FlagEnum.FROSTY_POINTS] < 15) MainScreen.text("\n\nYou don't have enough points for mouth service.")
+	if(free || Flags.list[FlagEnum.FROSTY_POINTS] >= 5) MainScreen.addButton(0,"Hand",frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp);
+	if(free || Flags.list[FlagEnum.FROSTY_POINTS] >= 15) MainScreen.addButton(1,"Mouth",useFrostysMouth);
+	if(free || Flags.list[FlagEnum.FROSTY_POINTS] >= 1) MainScreen.addButton(8,"EatHerOut",cunnilingateFrosty);
 	MainScreen.addButton(9,"Back",approachFrosty);
 }
 
@@ -111,7 +111,7 @@ public cupcakeBuy(arg: number = 1):void
 public yesFrostyLetsHaveSexForCupcakesWhoThoughtThisWasAGoodIdeaIMeanSeriously():void
 {
 	MainScreen.clearText();
-	flags[FlagEnum.SIGNED_FROSTYS_CONTRACT] = 1;
+	Flags.list[FlagEnum.SIGNED_FROSTYS_CONTRACT] = 1;
 	MainScreen.text("Being rewarded with sex for buying cupcakes, what could be better? You take the pen from Frosty’s hand and ask where to sign. She lets out a joyful “<i>YAY!</i>” and does a little jump in the air. She zooms back behind the stand and points at the lines where your name, last name, initials, date of birth, mother’s maiden name and even your pet's name should be written. You sign all these areas until you’re finally on the last page of the contract. Thank goodness too, your hand is beginning to cramp up. You put the pen down and rub your wrist. Frosty spins the stack a 180° with the tip of her finger, does a quick flipping through the papers, nods her head, puts the stack in a lock-box under the counter and pops back up.");
 	MainScreen.text("\n\n“<i>Congratulations! You are now a beta tester in Frosty’s “Sweets and Sex” program. Here are the basics:\n1. You get a 20% discount on all final purchases.\n2. You get a point for each cupcake you buy.\n3. You can use these points to buy from my “special” menu.\n4. What points you use are, of course, subtracted from your total of points.\nThat’s all ya need to know, can’t wait to see you around to buy some tasty cupcakes and maybe give me a creampie!</i>\" She gives you a wink as you walk away, hoping you know what you got yourself into. Before you get too far, you hear Frosty calling your name. You turn around and see her running up to you, waving an arm out.");
 	MainScreen.text("\n\n“<i>I forgot to mention, customers who join the </i>beta<i> got one free sample of my services but the offer is only good right after you join... so right now.</i>”");
@@ -193,12 +193,12 @@ public frostysLimitedSpecialMenu():void
 }
 
 private frostyPoints(arg: number = 0): number {
-	if(arg == 0) return flags[FlagEnum.FROSTY_POINTS];
+	if(arg == 0) return Flags.list[FlagEnum.FROSTY_POINTS];
 	//If any change, add it in.
-	flags[FlagEnum.FROSTY_POINTS] += arg;
+	Flags.list[FlagEnum.FROSTY_POINTS] += arg;
 	//Make sure it aint negative
-	if(flags[FlagEnum.FROSTY_POINTS] < 0) flags[FlagEnum.FROSTY_POINTS] = 0;
-	return flags[FlagEnum.FROSTY_POINTS];
+	if(Flags.list[FlagEnum.FROSTY_POINTS] < 0) Flags.list[FlagEnum.FROSTY_POINTS] = 0;
+	return Flags.list[FlagEnum.FROSTY_POINTS];
 }
 
 //[Hands]
@@ -300,7 +300,7 @@ public frostysHandsAreColdHolyShitWhyDontYouWarmTHoseMitsUp():void
 	}
 	frostyPoints(-5);
 	//[Player is back at camp]
-	dynStats("sen", -1);
+	player.stats.sens += -1;
 	player.orgasm();
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -376,7 +376,7 @@ public useFrostysMouth():void
 	}
 	frostyPoints(-15);
 	//[Player is back at camp]
-	dynStats("sen", -1);
+	player.stats.sens += -1;
 	player.orgasm();
 	doNext(camp.returnToCampUseOneHour);
 }
@@ -385,9 +385,9 @@ public useFrostysMouth():void
 public genderlessCatchAllForFrosty():void
 {
 	MainScreen.clearText();
-	if(flags[FlagEnum.SEEN_GENDERLESS_FROSTY_REJECTION] == 0)
+	if(Flags.list[FlagEnum.SEEN_GENDERLESS_FROSTY_REJECTION] == 0)
 	{
-		flags[FlagEnum.SEEN_GENDERLESS_FROSTY_REJECTION]++;
+		Flags.list[FlagEnum.SEEN_GENDERLESS_FROSTY_REJECTION]++;
 		//[If player selects any option and is Gender-less 1st time]
 		MainScreen.text("Frosty look at the service you selected then leans over the counter and looks down at your crotch. She makes a curious “<i>Mmmmm...</i>” and reaches her hand over the counter and down towards your crotch. She palms it a bit, nodding her head as she does so. “<i>Just as I thought,</i>” she mumbles. The pink nymph retracts her hand and stands straight up. She hits the special menu in the lower-right corner with two fingers. You see very tiny lettering, writing itself onto the paper. You try to read what it’s writing, even squinting your eyes, but it’s too small to read. Only when the lettering stop writing does Frosty hand you a huge magnifying glass. You wonder where she would keep such a thing. You give Frosty a strange look and go to holding the magnifier up to the newly formed text:");
 		MainScreen.text("\n\n“<i>We reserve the right to deny certain services to people of a certain gender, Sorry!</i>”");
@@ -486,7 +486,7 @@ public cunnilingateFrosty():void
 	MainScreen.text("\n\nFrosty proceeds to try and have the minotaur sign the papers as you go out back into the city.");
 	//[Player is back at camp]
 	frostyPoints(-1);
-	dynStats("lus", 33);
+	player.stats.lust += 33;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -511,10 +511,10 @@ function pitcherInTheRyeAndByRyeIMeanFrostysBrownHole():void
 	MainScreen.clearText();
 	MainScreen.text("“<i>Ok, let’s see if you can strike me out.</i>”  She closes one eye and sticks her tongue out at you.  This girl has a few screws loose, doesn’t she? You see her pull the strings of her bikini-bottom and you can assume she bare ass naked  behind the counter now. Through you couldn’t really see from where you standing, as the countertop is a little above waist level to her. She motions for you to walk around and join her on the cashier side.  You move around the counter, and you were right, her bikini bottom has fallen to the  ground and Frosty is practically naked, save for the little bit of cloth holding back her massive, pink tits.");
 	MainScreen.text("\n\n“<i>Well, what are you waiting for? Get that thing out and let the fun start!</i>\"");
-	MainScreen.text("\n\nYou squeeze behind her, there being just enough room for the two to stand front to butt from one another, your body squishing against her soft back-side.  You reach into your [armor] and release your " + multiCockDescriptLight() + " from ");
+	MainScreen.text("\n\nYou squeeze behind her, there being just enough room for the two to stand front to butt from one another, your body squishing against her soft back-side.  You reach into your [armor] and release your " + CockDescriptor.describeMultiCockShort(player) + " from ");
 	if(player.lowerBody.cockSpot.count() == 1) output("its");
 	else output("their");
-	MainScreen.text(" prision, the hot mass getting tangled in the curly hair draping over her back. It’ll take some maneuvering from the both of you but eventually your cock-head makes contact with her tight pink hole. Frosty take a deep breath and starts easing her-self down your " + cockDescript(x) + ". It takes her only a few moment for your cock to  be snugly secured in her insides. She stands up straight and the grip around your cock becomes tighter. She breath out “This is like the only service where I can man the shop and pleasure a customer, a bit exhausting but business is business.”   
+	MainScreen.text(" prision, the hot mass getting tangled in the curly hair draping over her back. It’ll take some maneuvering from the both of you but eventually your cock-head makes contact with her tight pink hole. Frosty take a deep breath and starts easing her-self down your " + CockDescriptor.describeCock(player, x) + ". It takes her only a few moment for your cock to  be snugly secured in her insides. She stands up straight and the grip around your cock becomes tighter. She breath out “This is like the only service where I can man the shop and pleasure a customer, a bit exhausting but business is business.”   
 
 “Mph, you reply as you begin to rock your [hips], starting the pleasurable fiction. As you begin revving up, a centauress trot over to the booth. She has blonde hair done up in a bun and is sporting  two big lovely breast. She looks perplexed on why you're standing behind Frosty and why she’s breathing heavily and has a flushed look on her face. It’s doesn’t take long for her to put two and two together. She’s about to give you two some privately but Frosty quickly stops her.
 	
@@ -532,7 +532,7 @@ The centauress comes back, trying her best to ignore you fucking the back-door o
 
 Frosty regains as much composure as she can with you still going at it. She goes back to talking to the centauress, who looks more flushed than Frosty does right now
 “As-as-as I was saying. yooooou can get get p-p-points...”  Frosty let’s out a moan, she’s been holding back, out.
-“points! for every i-i-i-item you buy.  The-the-these point can be used to-to-to fuck meeeee!!!!” she blurts out that last part out and just fully indulges herself in you. Sticking her tongue out like a panting bitch, her eyes dreamily half-closed  with lusty ass pleasure. Letting out any little moan that builds up in her.  “More, MORE!” she yells and you grab her long legs out from under her and hold them up.  Frosty entire weight is pushed down on your [cockDescript(0)] and her pink ass-hole is bounced every time you thrust up, making her pink tits jiggle out  from her top and bounce as fuck this nympho slut. 
+“points! for every i-i-i-item you buy.  The-the-these point can be used to-to-to fuck meeeee!!!!” she blurts out that last part out and just fully indulges herself in you. Sticking her tongue out like a panting bitch, her eyes dreamily half-closed  with lusty ass pleasure. Letting out any little moan that builds up in her.  “More, MORE!” she yells and you grab her long legs out from under her and hold them up.  Frosty entire weight is pushed down on your [CockDescriptor.describeCock(player, 0)] and her pink ass-hole is bounced every time you thrust up, making her pink tits jiggle out  from her top and bounce as fuck this nympho slut. 
 
 The centauress stares at this show, biting on her knuckle and holding her side. Making her already big chest puppies look even perkier.  She must be trying to hold back some new feeling she has, now that she’s seeing your cock going directly into Frosty’s ass, in and out as she moans like a bimbo in heat. She must be imagining what it must feels like while trying to resist the thought at the same time. You gaze catches the centauress’, she bashfully looks away. Taking a side-glance at your fuck stick.  
 
@@ -615,7 +615,7 @@ You continue to stare at her with those cold eyes, her smiling back at them, hop
 
 You re-brace yourself as Frosty grabs onto your [hair.descipt] this time.  You arch your back  in pain  causing you to be pushed harder against the sex toy, you whine a little in agony as that devilous nymph begins rocking back and forth, you can feel the object move in you. 
 
-It moves only few inches on your onsides. Your mind starts racing with pleasure as Frosty’s other hand wanders over your [allBreastsDescript] and pinches on your [nippleDescript(0)], pulling and twisting the nip and taking nice hard grabs at your [ breastDescript(0)] A familiar build-up forms down in your crotch, you start pushing back against Frosty’s “cock” to hurry up the climax and start pinching your other [nippleDescript(0)] minicing the same action as the torturous nymph does, abusing the sensitive bud all in the name of sexaul pleasure.   
+It moves only few inches on your onsides. Your mind starts racing with pleasure as Frosty’s other hand wanders over your [allBreastsDescript] and pinches on your [BreastDescriptor.describeNipple(0)], pulling and twisting the nip and taking nice hard grabs at your [ BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0))] A familiar build-up forms down in your crotch, you start pushing back against Frosty’s “cock” to hurry up the climax and start pinching your other [BreastDescriptor.describeNipple(0)] minicing the same action as the torturous nymph does, abusing the sensitive bud all in the name of sexaul pleasure.   
 
 Frosty pushes your chest against the counter and starts thrusting more of the horsecock in and out of you, slapping her pink thighs against you [butt.descipt] when every push, A whole foot of body hot sex toy is being thrusted in with a loud smack and pulled back out with a moan from you.  Both of you keep twisting your nips, the desert hot wooden counter top, warming your chest and stomach, pushing the hands already against your body harder into you. She starting taking bigger thrust, pulling at least 2ft of the strap-on out of you and shoving it back in with echoing slap of flesh.  Your moans grow faster and her breath gets hotter, and in the next moment []
 

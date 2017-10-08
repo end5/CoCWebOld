@@ -75,23 +75,23 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.clearText();
 			MainScreen.text("You sigh in disappointment.  Absolutely nothing; not one person in Tel’Adre seems to be willing to hire Kath.  You’re about to go back to Katherine in defeat, when suddenly you stop, inspiration striking you in a flash of brilliance: The City Watch surely always needs new recruits, right?  Especially given all the rape-crazy monsters out there in the world.");
 			
-			let pissedOffUrta:boolean  = (flags[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] == -1);
-			let pissedOffEdryn:boolean = (flags[FlagEnum.EDRYN_NEVER_SEE_AGAIN] == 1);
+			let pissedOffUrta:boolean  = (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] == -1);
+			let pissedOffEdryn:boolean = (Flags.list[FlagEnum.EDRYN_NEVER_SEE_AGAIN] == 1);
 			if (pissedOffUrta && pissedOffEdryn) { //Well aren't you a giant dick
 				MainScreen.text("\n\nSince you're not exactly on the best terms with either Edryn or Urta you decide to go to the nearest watch house and ask for advice.  You're greeted by an older dog morph manning the front desk.  “<i>What can I help you with?</i>” he asks, pulling out a fresh piece of paper from beneath the desk.  You explain that you're interested in what it takes to join the watch, what skills they look for in potential recruits.  He looks you up and down and says “<i>I doubt you'd have much trouble getting in.</i>”\n\n");
 				MainScreen.text("After some further explaining you learn that the watch needs officers who can survive outside the city, handle themselves in fights and who will behave properly when dealing with the public.\n\n");
 				MainScreen.text("You leave the watch station hopeful that some time training with you will make Kath a decent watch candidate.");
-				flags[FlagEnum.KATHERINE_TRAINING] = 3; //Player can now talk to Kath about getting a job in the watch
+				Flags.list[FlagEnum.KATHERINE_TRAINING] = 3; //Player can now talk to Kath about getting a job in the watch
 			}
 			else {
 				MainScreen.text("  You should try talking to Urta or Edryn; they might be able to help you see if there’s a way to get Katherine into the watch.");
-				flags[FlagEnum.KATHERINE_TRAINING] = 2; //Player will now be able to talk to Edryn and/or Urta about Kath
+				Flags.list[FlagEnum.KATHERINE_TRAINING] = 2; //Player will now be able to talk to Edryn and/or Urta about Kath
 			}
 			doNext(camp.returnToCampUseOneHour);
 		} //KATHERINE_TRAINING gets set to 1 by talking to her about vagrancy
 
 		public canTalkToEdryn():boolean {
-			return flags[FlagEnum.KATHERINE_UNLOCKED] == 1 && flags[FlagEnum.KATHERINE_TRAINING] > 1 && (flags[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_EDRYN) == 0;
+			return Flags.list[FlagEnum.KATHERINE_UNLOCKED] == 1 && Flags.list[FlagEnum.KATHERINE_TRAINING] > 1 && (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_EDRYN) == 0;
 		}
 
 		public talkToEdryn():void
@@ -107,7 +107,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text(" smile happily at you.  “<i>Hello " + player.short + ", what’s on your mind?</i>” she asks.\n\n");
 			MainScreen.text("You ask if there might be any positions available in the Watch?  You wanted to talk to her about joining it.\n\n");
 			MainScreen.text("Edryn stares at you in surprise.  “<i>Well, yes, we always have room for new recruits... don’t tell me that you want to give up the adventurer’s life and settle down as a watch" + player.mf("man", "woman") + "?</i>”  She asks.");
-			let edrynKidsPlus: number = flags[FlagEnum.EDRYN_NUMBER_OF_KIDS] + (edryn.pregnancy.isPregnant ? 1 : 0);
+			let edrynKidsPlus: number = Flags.list[FlagEnum.EDRYN_NUMBER_OF_KIDS] + (edryn.pregnancy.isPregnant ? 1 : 0);
 			if (edrynKidsPlus > 0) {
 				MainScreen.text("  She then widens her eyes in surprise");
 				if (edryn.pregnancy.isPregnant) MainScreen.text(", one hand brushing against her swollen equine belly as best it can");
@@ -118,9 +118,9 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Of course, you reply, before admitting you’re not certain if Katherine - the person you’re asking for - has those skills.\n\n");
 			MainScreen.text("“<i>Well, you’re an adventurer, right?  You’ve probably seen more action than some of our veterans, never mind the usual wet-behind-the-ears rookie.</i>”  Edryn shrugs, waving her hand flippantly.  “<i>So, show her a few tricks before you send her down our way; I’m sure with your coaching, she’ll get in for sure.</i>”\n\n");
 			MainScreen.text("You smile and thank the centauress for her help.  “<i>It was nothing,</i>” she replies, looking quite pleased at your thanks all the same.\n\n");
-			flags[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_EDRYN; //Using a mask so it doesn’t matter what order you talk to Edryn and Urta in
+			Flags.list[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_EDRYN; //Using a mask so it doesn’t matter what order you talk to Edryn and Urta in
 			let cockFitIndex: number = player.cockThatFits(300);
-			if ((cockFitIndex >= 0 && player.cockArea(cockFitIndex) >= 24) && (player.lowerBody == LOWER_BODY.CENTAUR || player.horseCocks() > 0 || player.stats.cor > 50 || player.statusAffects.get("Edryn").value1 > 0)) {
+			if ((cockFitIndex >= 0 && player.cockArea(cockFitIndex) >= 24) && (player.lowerBody == LowerBodyType.CENTAUR || player.lowerBody.cockSpot.countType(CockType.HORSE) > 0 || player.stats.cor > 50 || player.statusAffects.get("Edryn").value1 > 0)) {
 				MainScreen.text("“<i>So... I don’t suppose there’s anything else you might have on your mind...?</i>”  She gives you a coy look and fiddles with a nipple through her shirt.");
 				doYesNo((edryn.pregnancy.isPregnant ? pregnantEdrynSexSelector : edryn.edrynSexSelecter), telAdre.barTelAdre);
 			}
@@ -137,7 +137,7 @@ package classes.Scenes.Places.TelAdre{
 		}
 
 		public canTalkToUrta():boolean {
-			return !urta.urtaDrunk() && flags[FlagEnum.KATHERINE_UNLOCKED] == 1 && flags[FlagEnum.KATHERINE_TRAINING] > 1 && (flags[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_URTA) == 0;
+			return !urta.urtaDrunk() && Flags.list[FlagEnum.KATHERINE_UNLOCKED] == 1 && Flags.list[FlagEnum.KATHERINE_TRAINING] > 1 && (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_URTA) == 0;
 		}
 
 		public talkToUrta():void
@@ -149,7 +149,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("You explain Katherine’s situation; how you met the cat, her life as an unemployed, homeless vagrant, her desire to find an honest living, and your hopes that Urta can help you get her a place in the Watch.\n\n");
 			MainScreen.text("The vulpine herm sighs and taps a finger on the table.  “<i>Just because I’m letting you into my pants doesn’t mean you can just walk all over the rules, you know? ...But, well, we do always need recruits... still, she’ll have to pass the tests to get in, just like anyone else.</i>”\n\n");
 			MainScreen.text("Tests, you ask?  Urta nods, takes a fortifying gulp from her mug, and explains, “<i>Yeah, all would-be recruits need to prove they have the skills to defend themselves, take down perps and survive in the wilderness.  So, you want her to join the Watch so bad?  I suggest you take some time out of your day and train her - give her some of the skills you’ve picked up as an adventurer.  After that, she should have no problems.</i>”\n\n");
-			flags[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_URTA; //Using a mask so it doesn’t matter what order you talk to Edryn and Urta in
+			Flags.list[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_URTA; //Using a mask so it doesn’t matter what order you talk to Edryn and Urta in
 			if (urta.urtaLove()) { //Lover Urta
 				MainScreen.text("She looks quietly at you for a few long moments, then sighs and shakes her head.  “<i>I should be so jealous of her... but, well, it’s not like either of us really went into this thing expecting monogamy, right?  Besides, you’re too noble and cute for me to stay mad at you.</i>”  She winks at you in a flirtatious manner.  “<i>In fact... how about this?  If you want to bring your little kitten to me, I’ll help you whip her into shape.  That’s all the help I can offer you, I’m afraid... But first...</i>”  She sets down her mug, then takes one of your hand and slides it into her lap, where you can feel the distinctive bulge swelling.  “<i>How about giving me a little appreciation for being so nice, hmm?</i>”  She asks, licking her lips and savoring your reaction.\n\n");
 			MainScreen.text("You figure it’s the least you can do to thank her; you can go and tell Katherine about it when you’re done here, and besides, it’s best to keep her in a good mood, right?");
@@ -200,7 +200,7 @@ package classes.Scenes.Places.TelAdre{
 				MainScreen.text("Katherine nods, doe-eyed, trying to look serious but coming off a bit desperate.  “<i>I don’t know how you plan on cleaning up a mess like me, but I’ll try to follow your lead.</i>”\n\n");
 			}
 			MainScreen.text("Having made your point, you say your goodbye and return to camp.");
-			flags[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_KATH; //Using a mask so we still know if you’ve talked to Urta. This is important if she’s a lover.
+			Flags.list[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_TALK_KATH; //Using a mask so we still know if you’ve talked to Urta. This is important if she’s a lover.
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -209,16 +209,16 @@ package classes.Scenes.Places.TelAdre{
 			/*  Kath’s training progress is represented by a percentage, that goes from 0 to 100.  When it hit 100% Kath will take and pass the Watch’s admission test
 				During the process of training, Kath’s traditional menu is disabled. Visiting Kath automatically initiates a training session.
 				< 33% = Train Kath in basic survival. < 66% = Train Kath in weapons use. < 100 % = Train Kath in general guard behaviour. */
-			if ((flags[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_KATH) == 0) return false; //Can't start training yet
+			if ((Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_KATH) == 0) return false; //Can't start training yet
 			let urtaAvailable:boolean = urta.urtaAtBar() && !urta.urtaDrunk();
-			if (urtaAvailable && (flags[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_URTA_HELP) > 0) {
+			if (urtaAvailable && (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_URTA_HELP) > 0) {
 				initiateTrainingWithUrta();
 				return true;
 			}
 			MainScreen.clearText();
 			MainScreen.text("As you approach Katherine’s alleyway, you take a mental inventory of your preparations, to see if it’s time to begin her training.  You realize that once Kath’s training has begun, she will no longer have time to engage in your usual activities until her training is complete, so perhaps you should postpone the final preparations and just pay her a recreational visit instead?");
 			let withUrta:Function = trainKathWithUrta;
-			if (!urta.urtaLove() || (flags[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_URTA) == 0) withUrta = null; //Urta must be a lover and you must have talked about Kath
+			if (!urta.urtaLove() || (Flags.list[FlagEnum.KATHERINE_TRAINING] & KBIT_TRAINING_TALK_URTA) == 0) withUrta = null; //Urta must be a lover and you must have talked about Kath
 			if (!urtaAvailable && withUrta != null) {
 				MainScreen.text("\n\nPerhaps you should wait for a time when you know Urta will be available " + (urta.pregnancy.isPregnant ? "" : "(and sober enough) ") + "to help.");
 				withUrta = null; //She has to be in the bar
@@ -247,15 +247,15 @@ package classes.Scenes.Places.TelAdre{
 				MainScreen.text("You almost laugh.  Of all the dangers of the desert she picks the naga.  There’s only one way the naga would eat Kath and they would both enjoy it.  ");
 			MainScreen.text("You tell Kath that this is the best way for her to learn survival skills.  Besides you’re always going to be with her out in the desert and you’ve crossed it uncounted times and you’re still here.\n\n");
 			MainScreen.text("Kath nods, adjusts the sack, steels herself and follows you out into the wastes for some very practical survival training.");
-			flags[FlagEnum.KATHERINE_UNLOCKED] = 2; //Indicates you’re now training her alone
-			flags[FlagEnum.KATHERINE_TRAINING] = 0;
+			Flags.list[FlagEnum.KATHERINE_UNLOCKED] = 2; //Indicates you’re now training her alone
+			Flags.list[FlagEnum.KATHERINE_TRAINING] = 0;
 			doNext(katherineTrainingStage1);
 		}
 
 		public katherineTrainingStage1(clearOut:boolean = true):void
 		{
 			if (clearOut) MainScreen.clearText();
-			MainScreen.text((flags[FlagEnum.KATHERINE_TRAINING] == 0 ? "  You" : "Kath readies herself quickly and you") + " lead her on a long, winding trek through the desert sands.  You always keep Tel’Adre in sight so that if the two of you are somehow separated Kath will be able to find her way home.\n\n");
+			MainScreen.text((Flags.list[FlagEnum.KATHERINE_TRAINING] == 0 ? "  You" : "Kath readies herself quickly and you") + " lead her on a long, winding trek through the desert sands.  You always keep Tel’Adre in sight so that if the two of you are somehow separated Kath will be able to find her way home.\n\n");
 			MainScreen.text("You show her some strategies and good tricks for staying alive out here and moving across the sand without tiring yourself as much.  Kath’s good at listening and while she doesn’t improve much you know she’ll do better tomorrow.\n\n");
 			MainScreen.text("When you aren’t instructing her Kath complains about the sand, the heat and the weight of the sack.  You can tell when she really gets tired because she starts to concentrate more on walking than talking.  You can’t blame her.  The desert is difficult terrain to walk on, that’s why you chose it.\n\n");
 			MainScreen.text("When she’s out of breath and dragging her feet you tell her to stop.  Apart from a few low dunes this part of the desert is featureless.  Not a single weed is growing here.  You point out to Kath that most people die of thirst in the desert, but the rest die of heat stroke or freeze to death in the night.  You’ll show her things that will help with water later, but right now she should build some kind of shelter to protect against the heat, sun, wind and cold.\n\n");
@@ -277,7 +277,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("It’s not the best idea to get distracted out here so you decline.  Besides, part of Kath’s training is to boost her endurance.  If you laze about all afternoon it won’t help her very much.\n\n");
 			MainScreen.text("You give Kath some more survival instruction while she breaks the tent back down.  Another long march back to the city and Kath is panting by the time you reach the gates.\n\n");
 			MainScreen.text("She squeezes your hand and thanks you again for doing this, even if she’s not exactly enjoying it she’s going to keep trying until she can pass that test.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 10;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 10;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -290,7 +290,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("“<i>I know, I screwed up.  They probably wouldn’t give me so much time on the test.</i>”  She sighs and adds, “<i>I’ll do better tomorrow.</i>”\n\n");
 			MainScreen.text("Before returning to Tel’Adre you go over all the mistakes Kath made so that she understands what she did wrong and will be less likely to screw up next time.\n\n");
 			MainScreen.text("You almost have to carry her back to the alley behind Oswald’s shop.  Kath flops down onto some softer refuse and curls up for what promises to be a long nap.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 5;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 5;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -301,14 +301,14 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("You’re in the desert, so there are only so many things that could sound so wet.  You rip the sack off her and are treated to a view of Kath with her hands jammed down her pants.\n\n");
 			MainScreen.text("She sits up, embarrassed despite the fact there’s no one else within a mile.  “<i>Come on " + player.short + " - You had me walking all over the place.  My cock" + katherine.cockMultiple("", "s") + " kept rubbing against my pants.  I need to do this to even think straight.</i>”\n\n");
 			MainScreen.text("You realize there is no way you’re going to get Kath to do anything useful out here.  On the other hand it’s a nice day and your girlfriend is very, very horny.  Might as well make the most of this trip.");
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_DESERT; //Makes sure the scene happens out in the dunes
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_DESERT; //Makes sure the scene happens out in the dunes
 			simpleChoices("Oral", katherine.giveKatOralPenisWingWang, "Handjob", katherine.handjobbiesFurrDemCatFurries, "", null, "", null, "", null);
 		}
 
 		public katherineTrainingStage2():void
 		{
 			MainScreen.text("You’re sure Kath’s basic survival skills are now good enough to pass any tests the watch might put her through; now it’s time to work on her combat skills.  You’re still trying to work on her endurance, so you march her even further from Tel’Adre.  Only when you reach a quiet spot on the shores of the lake do you finally stop.\n\n");
-			MainScreen.text("Katherine is a little winded from the walk" + (player.tou < 50 ? " and frankly so are you" : "") + ".  Kath keeps looking around, examining the lakeshore and the plants that grow nearby.  You tell her not to stray too far.  It might look a lot prettier than the desert but there are dangerous creatures near the lake.  You sit on a large rock and wait for Kath to regain some energy and return.");
+			MainScreen.text("Katherine is a little winded from the walk" + (player.stats.tou < 50 ? " and frankly so are you" : "") + ".  Kath keeps looking around, examining the lakeshore and the plants that grow nearby.  You tell her not to stray too far.  It might look a lot prettier than the desert but there are dangerous creatures near the lake.  You sit on a large rock and wait for Kath to regain some energy and return.");
 			switch (rand(3)) {
 				case 0: doNext(katherineTrainingStage2Success); break;
 				case 1: doNext(katherineTrainingStage2Failure); break;
@@ -323,7 +323,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Both of you square off and Kath bounces from foot to foot looking for an opening.  She tries striking you again and again.  Every once in a while she nails you with a quick hit or a surprise move after a feint.  For your part you manage to knock away her weapon a few times and show her how to defeat some blocks.\n\n");
 			MainScreen.text("When Kath starts to tire you tell her she did well today and pack up the training aids.  If she keeps showing this kind of improvement it won’t take long before she’s a match for any criminal in Tel’Adre and many monsters outside it.\n\n");
 			MainScreen.text("She beams at the compliment and the two of you walk back to Tel'Adre arm in arm.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 10;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 10;
 			doNext(camp.returnToCampUseTwoHours); //Use up two hours, go back to camp
 		}
 
@@ -335,7 +335,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Time and again you try a manoeuvre you showed her only to see her put up the wrong block.  It’s a bit discouraging so you switch to some hand to hand combat for a while.  Here again Kath’s fighting just seems to be off, though she starts to improve her grappling slowly.\n\n");
 			MainScreen.text("When you switch back to the training swords Kath does a bit better.  At least she’s not messing up her blocks as often.  She would still lose in most fair fights but you think she’s learning.\n\n");
 			MainScreen.text("When Katherine is tired enough that you can’t continue you pack up and head back for Tel’Adre.  It hasn’t been the best training session, but you know you managed to get some things across.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 5;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 5;
 			doNext(camp.returnToCampUseTwoHours); //Use up two hours, go back to camp
 		}
 
@@ -345,7 +345,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Katherine returns much sooner than you expected and with energy to spare.  Her pupils are dilated and her head and tail both flick continuously from side to side.  “<i>There is the most amazing smell over that way,</i>” she says, pointing inland toward a patch of bushes.\n\n");
 			MainScreen.text("You don’t need to go over to the bushes to find out what the smell is; it’s all over her.  It’s a sweet-yet-creamy scent, unlike anything back home.  It seems whisker fruits, or at least the blossoms of the tree it comes from, have a certain effect on your feline friend.\n\n");
 			MainScreen.text("As you smell Katherine she is likewise busy sniffing you.  She rubs her nose against your cheek, her whiskers tickling your face, and says, “<i>This place is really nice... I know what we could do.</i>”");
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_LAKE; //Makes sure the scene happens on the shores of the lake
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_LAKE; //Makes sure the scene happens on the shores of the lake
 			let penKath:Function = null;       //Fuck and give options only available for males and herms
 			let penAnal:Function = null;
 			let penBoth:Function = null;
@@ -369,8 +369,8 @@ package classes.Scenes.Places.TelAdre{
 		public katherineTrainingStage3():void
 		{
 			MainScreen.text("Now that you know Kath can handle the job physically all that’s left is teaching her how to act.  First you give Kath a rundown on some of Tel’Adre’s laws and how the watch is expected to enforce them.\n\n");
-			MainScreen.text("Then you tell Kath to stick the training sword and practice club into her belt.  She does and you then straighten her clothes and adjust her posture so she’s standing up straight." + (player.lust >= 50 ? "  Before you begin her training you take a moment to appreciate what her ramrod straight posture does to Katherine’s chest." : "") + "  You tell Kath that she will have to imagine the uniform and helmet.  Right now she is a watch officer out on patrol.  Kath examines herself, fidgets and mumbles, “<i>I feel kind of silly like this.</i>”");
-			if (flags[FlagEnum.KATHERINE_TRAINING] >= 99) {
+			MainScreen.text("Then you tell Kath to stick the training sword and practice club into her belt.  She does and you then straighten her clothes and adjust her posture so she’s standing up straight." + (player.stats.lust >= 50 ? "  Before you begin her training you take a moment to appreciate what her ramrod straight posture does to Katherine’s chest." : "") + "  You tell Kath that she will have to imagine the uniform and helmet.  Right now she is a watch officer out on patrol.  Kath examines herself, fidgets and mumbles, “<i>I feel kind of silly like this.</i>”");
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 99) {
 				doNext(katherineTrainingStage3Success);
 			}
 			else {
@@ -391,7 +391,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Before Kath decides to carry out some more combat training you tell her she did well.  Her stern demeanor cracks in an instant and she gives you a big smile and a hug.\n\n");
 			MainScreen.text("You go through a number of other scenarios with her, all based on the rules and cases you researched at the library.  Kath makes mistakes but rarely makes them twice and through it all she maintains the bearing expected of a watch officer.\n\n");
 			MainScreen.text("You leave Katherine to practice by herself for a while, thinking that teaching her how to behave might not take as long as you imagined.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 10;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 10;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -404,8 +404,8 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Kath keeps trying so you start insulting her, calling her a police pussy among other things.  You give her a fake address and tell her that if the watch want you they can come find you later - you have things to do now.\n\n");
 			MainScreen.text("Afterward you take Kath through it again but point out the places where you twisted her words or the truth and how a watch officer could respond if someone tried this.  You take Kath through other scenarios but you get the feeling her heart isn’t in it.  She has a little too much sympathy for the criminals since she’s been in their shoes.\n\n");
 			MainScreen.text("As you walk towards the city gates you feel you’ve made little progress today, but what progress you did make was hard won.  Katherine will make it, she just needs more time and training.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 5;
-			if (flags[FlagEnum.KATHERINE_TRAINING] > 99) flags[FlagEnum.KATHERINE_TRAINING] = 99; //Only a successful training session should lead to her completing her training next time.
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 5;
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] > 99) Flags.list[FlagEnum.KATHERINE_TRAINING] = 99; //Only a successful training session should lead to her completing her training next time.
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -423,7 +423,7 @@ package classes.Scenes.Places.TelAdre{
 
 		private alleywaySexOptions():void
 		{
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_STREETS; //Makes sure the scene happens in a Tel’Adre alleyway
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_STREETS; //Makes sure the scene happens in a Tel’Adre alleyway
 			let penKath:Function = null;       //Fuck and give options only available for males and herms
 			let penAnal:Function = null;
 			let penBoth:Function = null;
@@ -438,13 +438,13 @@ package classes.Scenes.Places.TelAdre{
 				if (player.cockThatFits2(70) > -1) penBoth = katherine.pcPenetratesKatDoubly;
 				if (katherine.knotSize <= 4) suckNFucks = katherine.suckNFuck;
 			}
-			if (player.lowerBody.cockSpot.hasCock() && flags[FlagEnum.KATHERINE_TIMES_SEXED] > 0) suckNFucked = katherine.suckedNFuckedByKat;
+			if (player.lowerBody.cockSpot.hasCock() && Flags.list[FlagEnum.KATHERINE_TIMES_SEXED] > 0) suckNFucked = katherine.suckedNFuckedByKat;
 			if (player.lowerBody.vaginaSpot.hasVagina()) {
 				takeVag = katherine.letKatKnotYourCuntPussyFuck;
 				if (katherine.knotSize < 4 && katherine.cockNumber > 1) takeVagAndAss = katherine.getDoublePennedByKat;
 			}
 			if (katherine.knotSize < 4) takeAnal = katherine.getPenetrated;
-			choices("Fuck Her", penKath, "Give Anal", penAnal, "Give Both", penBoth, "SuckNFuck", suckNFucks, "Bath", (flags[FlagEnum.KATHERINE_TRAINING] >= 100 ? katherine.dateKathBath : null),
+			choices("Fuck Her", penKath, "Give Anal", penAnal, "Give Both", penBoth, "SuckNFuck", suckNFucks, "Bath", (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 100 ? katherine.dateKathBath : null),
 				"Mount Her", takeVag, "Take Anal", takeAnal, "Take Both", takeVagAndAss, "SuckNFuckd", suckNFucked, "", null);
 		}
 
@@ -460,23 +460,23 @@ package classes.Scenes.Places.TelAdre{
 				alleywaySexOptions();
 				return;
 			}
-			flags[FlagEnum.KATHERINE_UNLOCKED] = 4; //Indicates Kath is now a member of the watch
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //This ensures that after you talk to Urta Kath will disappear for the rest of the day as she needs to sort stuff out.
+			Flags.list[FlagEnum.KATHERINE_UNLOCKED] = 4; //Indicates Kath is now a member of the watch
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //This ensures that after you talk to Urta Kath will disappear for the rest of the day as she needs to sort stuff out.
 			MainScreen.text("You tell Kath that you feel she’s ready for testing.  She beams and nervously tries to smooth out her clothes.  The two of you walk to the Wet Bitch where, as expected, you find captain Urta sitting alone at her table reading reports and sipping something from a mug.\n\n");
-			if (flags[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] > -1) {
-				if (flags[FlagEnum.TIMES_FUCKED_URTA] > 0) { //Urta is either your lover or a fuckbuddy
+			if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] > -1) {
+				if (Flags.list[FlagEnum.TIMES_FUCKED_URTA] > 0) { //Urta is either your lover or a fuckbuddy
 					MainScreen.text("Urta gives you a big smile as you lead Katherine over to her table.  “<i>How’s it going, " + player.short + "?</i>”  When Kath sits down, she adds, “<i>And who’s this?</i>” in a friendly tone.\n\n");
 			MainScreen.text("You explain to Urta how you’ve been training Kath in the hopes of getting her a job in the watch.  Urta sips from her mug and listens closely as you go over the training.  When you finish Urta says, “<i>" + (urta.urtaLove() ? "You know, I could have given you a hand with that, love" : "Well love, the watch can always use new recruits if they’re well trained") + ".</i>”  Kath’s jaw hits the floor and she asks, “<i>You’re sleeping with the captain of the guard?</i>”\n\n");
 			MainScreen.text("Urta knocks back her mug and says, “<i>Oh yes, we’ve been sleeping together for a while.  I’m guessing from the look on your face, you two have been sleeping together for a while too, hmmm?  Where have you been hiding her, " + player.short + "?  And why haven’t you introduced us?</i>”");
-					flags[FlagEnum.KATHERINE_URTA_AFFECTION] = 1;
-					if (urta.urtaLove() && (flags[FlagEnum.AMILY_VISITING_URTA] == 4 || flags[FlagEnum.URTA_KNOWS_PC_HAS_MARBLE_FOLLOWER] > 0)) {
+					Flags.list[FlagEnum.KATHERINE_URTA_AFFECTION] = 1;
+					if (urta.urtaLove() && (Flags.list[FlagEnum.AMILY_VISITING_URTA] == 4 || Flags.list[FlagEnum.URTA_KNOWS_PC_HAS_MARBLE_FOLLOWER] > 0)) {
 						MainScreen.text("\n\nBefore Katherine can respond Urta adds, “<i>Don’t worry, I’m not angry about " + player.short + " sleeping around");
-						if (flags[FlagEnum.URTA_OPEN_ABOUT_EDRYN] > 0) MainScreen.text(" and " + player.mf("he", "she") + " doesn’t get " + player.mf("his", "her") + " back up when I sleep around");
+						if (Flags.list[FlagEnum.URTA_OPEN_ABOUT_EDRYN] > 0) MainScreen.text(" and " + player.mf("he", "she") + " doesn’t get " + player.mf("his", "her") + " back up when I sleep around");
 						MainScreen.text(".  Considering the world we live in it’s a fine arrangement.</i>”\n\n");
 						MainScreen.text("Kath sits there, trying to process what she’s hearing.  Finally she grips your hand tightly and says, “<i>I guess so.  I mean I never thought... but yeah.</i>”  She looks back at you and says, “<i>When you’re outside Tel’Adre you must need relief sometimes.</i>”");
-						if (flags[FlagEnum.AMILY_VISITING_URTA] == 4) {
+						if (Flags.list[FlagEnum.AMILY_VISITING_URTA] == 4) {
 							MainScreen.text("\n\nUrta laughs and says “<i>Yeah, I’ve met the ‘relief’ - or some of it anyway.  Her name is Amily and she’s a lot of fun.</i>”  She pats your arm and adds, “<i>Maybe we should introduce them.  You know, a game of cat and mouse or something.</i>”");
-							flags[FlagEnum.KATHERINE_AMILY_AFFECTION] = 1;
+							Flags.list[FlagEnum.KATHERINE_AMILY_AFFECTION] = 1;
 						}
 					}
 					MainScreen.text("\n\nKath looks a little shellshocked and you don’t want to frighten her any more before her testing, so you give a noncommittal answer and force the conversation back on topic.\n\n");
@@ -494,7 +494,7 @@ package classes.Scenes.Places.TelAdre{
 				}
 			}
 			else {
-				if (flags[FlagEnum.TIMES_FUCKED_URTA] == 0) { //You ran away that first time, she assumed you hate her cock
+				if (Flags.list[FlagEnum.TIMES_FUCKED_URTA] == 0) { //You ran away that first time, she assumed you hate her cock
 					MainScreen.text("Urta’s expressions wavers between curiosity, anger and fear when you bring Kath to her table and ask if you and Katherine can talk about the watch.  She does let you both sit down and then says little as you explain how Kath wants to join the watch and how you’ve been training her.\n\n");
 					MainScreen.text("Urta’s guarded attitude makes Kath nervous, but finally Urta stands up and says, “<i>Alright.  It’s true enough that we need more officers.</i>”  She looks over at Kath “<i>If you’ve got what it takes I’ll hand you a badge this afternoon.  Just follow me.</i>”  She looks back at you and adds “<i>We’ll be back here later if you want to wait up.</i>”");
 					doNext(katherineTrainingCompleteUrtaThoughtYouDidntLikeHer);
@@ -555,8 +555,8 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.clearText();
 			MainScreen.text("You tell her that you don’t have any problem with herms, in fact you find some of them quite attractive.\n\n");
 			MainScreen.text("There’s an awkward silence for a few moments.  Then Urta says, “<i>Well you sure seem to be good for Kath.  Anyone who can take a street urchin and train her up into a fine watch recruit is in my good books.  Come and talk to me anytime.</i>”");
-			flags[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] = 0; //This pair of values can't happen any other way. It puts Urta into friend mode. She is willing to talk
-			flags[FlagEnum.URTA_PC_LOVE_COUNTER] = -1;          //about Kath and share some things about herself but doesn’t assume you want sex when you visit.
+			Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] = 0; //This pair of values can't happen any other way. It puts Urta into friend mode. She is willing to talk
+			Flags.list[FlagEnum.URTA_PC_LOVE_COUNTER] = -1;          //about Kath and share some things about herself but doesn’t assume you want sex when you visit.
 			doNext(camp.returnToCampUseFourHours); //Use up 4 hours, go back to camp
 		}
 
@@ -594,7 +594,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("“<i>Well... we use a number of safehouses around the city for new recruits, and lust-resistance training is part of their regime too.  I could commandeer one when you need, justify it as me brushing up on some training of my own?</i>” Urta offers after some deep thought on the subject.\n\n");
 			MainScreen.text("You tell her that if she could do that, it would be perfect.  You give the matter some thought and conclude that this pretty much settles all that needs to be settled about Kath’s training.\n\n");
 			MainScreen.text("“<i>Alright, so, is there... anything else that’s on your mind?</i>” Urta asks, hopefully.  You look Urta over... she’s given you such a nice mental image... her being tied up into a chastity belt, unable to cum... perhaps you should see if she’s up for a little practice of her own?  Right here, right now?");
-			flags[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_URTA_HELP; //This indicates that next time we see Kath it’s time for her to train with Urta
+			Flags.list[FlagEnum.KATHERINE_TRAINING] |= KBIT_TRAINING_URTA_HELP; //This indicates that next time we see Kath it’s time for her to train with Urta
 			doYesNo(chastityBeltFun, noChastityFunForNow);
 		}
 		
@@ -669,7 +669,7 @@ package classes.Scenes.Places.TelAdre{
 					MainScreen.text("“<i>That’s not funny, " + player.short + "! Kath shouts at you, tail jutting out like someone stuck a broom up her ass and swollen twice its usual girth with bristling hair.\n\n");
 					MainScreen.text("You just shrug and tell them that - unfortunately - that one is out of your control.  “<i>So why do you put up with her?</i>” they promptly ask, even as they recompose themselves.  You shrug once more, replying that even you don’t know that...");
 				}
-				else if (flags[FlagEnum.TIMES_MET_SHOULDRA] > 0) {
+				else if (Flags.list[FlagEnum.TIMES_MET_SHOULDRA] > 0) {
 					MainScreen.text("You would beg to differ... you happen to know one actually...\n\n");
 					MainScreen.text("“<i>...Have you been spending too much time out in the sun, " + player.short + "?</i>”  Urta's the one who said it, but Katherine nods her head in agreement, looking just as concerned that you’ve lost it.\n\n");
 					MainScreen.text("You just shrug... telling them that if they don’t believe you, maybe you should take them to meet her someday?\n\n");
@@ -721,19 +721,19 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Urta turns to you.  “<i>I got things here, lover.  If you want to you can see yourself out, I’ll make sure miss paws here understands fully what she’s gotten herself into.  Don’t forget to visit every once in awhile, I may need your help with one thing or another.</i>”\n\n");
 			MainScreen.text("You nod your head in understanding.  Turning to Katherine, you wish her well and ask her to try her best; you want her to get this job, for her sake and yours.  You then promise Urta to drop by and see how the training is going; if you can, you’ll try and help out.  “<i>It’s a date, bye lover.</i>”  Urta waves you off, before turning to the whimpering cat-herm on the ground.\n\n");
 			MainScreen.text("You promptly leave, hoping that the two will be able to come to terms somehow while you’re not there.");
-			flags[FlagEnum.KATHERINE_UNLOCKED] = 3; //Indicates you’re now training her with Urta - This also disables meeting Urta in the Wet Bitch
-			flags[FlagEnum.KATHERINE_TRAINING] = 0;
+			Flags.list[FlagEnum.KATHERINE_UNLOCKED] = 3; //Indicates you’re now training her with Urta - This also disables meeting Urta in the Wet Bitch
+			Flags.list[FlagEnum.KATHERINE_TRAINING] = 0;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
 		public katherineTrainingWithUrta():void {
 			MainScreen.clearText();
 			MainScreen.text("From Oswald's pawnshop you retrace your steps to the safehouse where Urta is getting Kath into shape and rap your knuckles against the door.\n\n");
-			if (flags[FlagEnum.KATHERINE_TRAINING] >= 100)
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 100)
 				katherineTrainingWithUrtaComplete();
-			else if (flags[FlagEnum.KATHERINE_TRAINING] >= 66)
+			else if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 66)
 				katherineTrainingWithUrtaStage3();
-			else if (flags[FlagEnum.KATHERINE_TRAINING] >= 33)
+			else if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 33)
 				katherineTrainingWithUrtaStage2();
 			else katherineTrainingWithUrtaStage1();
 		}
@@ -784,7 +784,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("You look at Kath, shaking your head lightly, trying to dissuade her from taking Urta up on her offer.  Even for someone as experienced as yourself, putting a tent up so many times without fail might be a challenge.  Miss one little detail and the tent comes crashing down!  You hope Kath will listen to you on this one...\n\n");
 			MainScreen.text("“<i>Alright, you’re on; I hope you got room for all I’ve got!</i>” Kath cries excitedly, then practically throws herself at the tent equipment.  You sigh and roll your eyes in exasperation; well, either Kath will learn, or she might actually win by sheer dumb luck.  Either way, you decide it’s time you left and gave them a chance to get on with it.\n\n");
 			MainScreen.text("You bid farewell to Urta and wish Kath luck, then twist the knob and see yourself out...");
-			flags[FlagEnum.KATHERINE_TRAINING] += 16;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 16;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -801,7 +801,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("You return her hug, gently caressing the back of her head.\n\n");
 			MainScreen.text("“<i>Okay, that’s enough of the fluffy stuff, time to get back to work!</i>” Urta snaps, breaking up your little moment.  Doubtlessly, she’s still not entirely comfortable with seeing you being affectionate with someone else in front of her - and the fact she and Kath aren’t getting along isn't helping, naturally.\n\n");
 			MainScreen.text("Feeling like there’s nothing else to be done here at the moment, you bid the girls farewell and return to camp.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 8;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 8;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -863,14 +863,14 @@ package classes.Scenes.Places.TelAdre{
 		{
 			MainScreen.clearText();
 			MainScreen.text("When you come to you're lying on your back - fairly clean, but still matted in some places with the results of your session with the lovely herms.  You stretch the kinks out of your limbs and sit up.  Immediately, you gaze upon Urta, scolding Kath for something she did wrong... both already dressed.  You don’t really catch what’s being said as Kath retorts... so the two are still bickering... you sigh.  Upon closer inspection though... you see something different... rather than scowling at each other they’re... smiling?  Well, well.  It seems these two can get along after all.\n\n");
-			MainScreen.text("With a groan you rise to your feet, looking around to see if you can spot your " + player.armorName + ".  “<i>Hello, sleepy-head; 'bout time you woke up.</i>” Kath suddenly declares, spotting you getting up.  Urta turns to confirm and smiles.  “<i>Well, I guess we wore you out, huh?</i>” she jokes.  No kidding... you might have to think twice next time you decide to join them...\n\n");
+			MainScreen.text("With a groan you rise to your feet, looking around to see if you can spot your " + player.inventory.armor.displayName + ".  “<i>Hello, sleepy-head; 'bout time you woke up.</i>” Kath suddenly declares, spotting you getting up.  Urta turns to confirm and smiles.  “<i>Well, I guess we wore you out, huh?</i>” she jokes.  No kidding... you might have to think twice next time you decide to join them...\n\n");
 			MainScreen.text("“<i>Well, maybe we’ll need to get together like this a little more often; we’re a trio now, aren’t we?</i>” Urta asks, smiling - and not a playful smile, a genuine one.\n\n");
 			MainScreen.text("“<i>That’s right,</i>” Kath agrees, nodding her head, wearing the same smile.  You chuckle, it seems your little bonding session did work out after all... you tell Urta and Kath that you didn't think they’d grow so fond of each other so quickly.\n\n");
 			MainScreen.text("“<i>We’re not friends!</i>” Urta promptly protests.  “<i>That’s right!  There’s no way I’m going to be friends with lady truncheon here as long as she keeps strapping me into that belt!</i>” Kath adds.  “<i>Oh yeah?  Well, as long as you keep running that mouth of yours off, I can’t be friends with you either!</i>” Urta snaps back.\n\n");
 			MainScreen.text("The two start snarling at each other and you sigh, wondering aloud if maybe next time, you should make them shove their dicks in each other’s mouths.  The two herms blush and promptly break off their glaring match.  “<i>I think one of us oughta stick a dick in your mouth...</i>” Kath mumbles in an irked tone.  Urta raises her eyes at the suggestion.  “<i>Which one of us?</i>”  The cat shrugs her shoulders.  “<i>Flip one of those old coin-things?  Heads gets the face, tails gets the ass?</i>”\n\n");
 			MainScreen.text("“<i>Both of us at the same time?</i>” Urta slowly states, “<i>...You’re kinkier than I thought, pussycat.</i>”\n\n");
 			MainScreen.text("“<i>Then why are you getting hard at the idea, prickvixen?</i>”\n\n");
-			MainScreen.text("Uuuh... looks like you’d better be going.  Looking around you quickly spot your " + player.armorName + " and get dressed, then bid the girls farewell, hurrying away back to camp before they get any more ideas.");
+			MainScreen.text("Uuuh... looks like you’d better be going.  Looking around you quickly spot your " + player.inventory.armor.displayName + " and get dressed, then bid the girls farewell, hurrying away back to camp before they get any more ideas.");
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -910,7 +910,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Kath lunges at Urta, aiming a punch straight at the vixen’s face.  Urta ducks under the blow effortlessly, then charges Kath.  With a confident smirk, Kath intercepts Urta and pulls her down and over her body, throwing the surprised vixen over her head and down on the floor with an audible <b>thud</b>.\n\n");
 			MainScreen.text("The fox-herm lays there on the floor, looking quite stunned indeed.  She finally shakes her head and looks up at Kath.  “<i>I can’t believe that happened - do you know nobody’s ever beaten me before?  Nice job, Kath.</i>”\n\n");
 			MainScreen.text("You applaud the cat-herm, clearly the plan worked flawlessly.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 16;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 16;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -923,7 +923,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Urta sighs softly and begins to tighten her hold.  “<i>You can give up, or you can get hurt, that’s the way this move works.</i>”  Kath furiously struggles and wriggles in the fox’s grip, but eventually decides Urta’s right.  “<i>Alright, aunty, aunty, I give!</i>” she pleads.  Urta promptly lets her go and stands up.  “<i>...Aunty?</i>” she asks, curious.  Kath gets up and shrugs; “<i>I don’t have an uncle,</i>” she replies.\n\n");
 			MainScreen.text("Urta just shakes her head.  “<i>Anyway, not a bad move, kitty; if I hadn’t noticed what you were trying, you would have beaten me with that move for sure.  Need to work on your speed,</i>” she concludes.\n\n");
 			MainScreen.text("Kath sighs and says, “<i>Well... is some water too much to ask for?</i>”  You promptly head over to the makeshift kitchen, filling a glass from a sizable jug of water there and bring it to her.  Katherine thanks you and proceeds to eagerly drink it down.  When she’s done she gasps for air and wipes her mouth.  “<i>Alright, I’ll keep working on this until I beat you, foxy!</i>” she vows, dramatically pointing a finger at an amused-looking Urta.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 8;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 8;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -965,7 +965,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Urta nods her head sagely.  “<i>" + player.short + ", perhaps you’d be willing to help us?  Having somebody else to act as the civilian would probably work better than just the two of us going back and forth,</i>” she suggests.  Kath nods her head, making it clear that she agrees to Urta’s suggestion.\n\n");
 			MainScreen.text("Considering Urta’s demeanor, it’s more likely that she’s the one doing the intimidating in their exchange, you joke.\n\n");
 			MainScreen.text("“<i>Well that may be true, but she’s actually pretty good at standing up to me... most of the time,</i>” Urta concedes.  “<i>It’s getting her to be more assertive herself that’s the tricky part.</i>”\n\n");
-			MainScreen.text("Hmm... well Urta is the specialist, so you’ll leave things in her hands.  Adjusting your " + player.armorName + " you ask what you should do?\n\n");
+			MainScreen.text("Hmm... well Urta is the specialist, so you’ll leave things in her hands.  Adjusting your " + player.inventory.armor.displayName + " you ask what you should do?\n\n");
 			MainScreen.text("The fox shrugs.  “<i>Just act like a defiant, disrespectful citizen - refuse to listen to her, try to make her back down, just generally encourage her to make you respect her.</i>”\n\n");
 			MainScreen.text("You nod in understanding, telling her you’ll try.\n\n");
 			MainScreen.text("“<i>Here, let’s have a demonstration; give you both an idea of what needs to be done.</i>”  The fox declares, then clears her throat.  “<i>Citizen, you are in a restricted area; please leave now.</i>”\n\n");
@@ -976,7 +976,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("With no other choice, you grudgingly follow her instructions, murmuring a string of insults at her.\n\n");
 			MainScreen.text("Urta walks you several steps, and then lets you go.  “<i>And there we are.  Fairly simple; you just need to remember that you should resort to violence against a non-monstrous hostile only as a last resort, but that generally isn’t hard to remember.  Now, we just need you to try and pull it off, Kath,</i>” she declares.\n\n");
 			MainScreen.text("“<i>O-okay... I’ll try,</i>” Kath replies.");
-			if (flags[FlagEnum.KATHERINE_TRAINING] >= 99) {
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 99) {
 				doNext(katherineTrainingWithUrtaStage3Success);
 			}
 			else {
@@ -999,7 +999,7 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("“<i>Now hold on there, kitten; there’s still a couple of tests you’ll need to take to prove you’ve got the skills,</i>” Urta warns, before she grins and declares, “<i>but personally, I’m sure you’ll pass the tests with flying colors.</i>”\n\n");
 			MainScreen.text("Kath hugs Urta even harder at that, and starts to purr - much to Urta’s surprise, from the look on the vulpine herm’s face.  You repress a smile and tell Kath and Urta that, if they don’t need you anymore, you’ll head back to camp for now.\n\n");
 			MainScreen.text("“<i>Ah, sure, " + player.short + ", go ahead,</i>” Urta replies in a distracted tone, still cuddling the purring cat-herm and looking kind of spooked at the fact.  You wish Kath luck in her upcoming tests, and then head back to camp.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 16;
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 16;
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -1032,8 +1032,8 @@ package classes.Scenes.Places.TelAdre{
 			else MainScreen.text("Urta starts giving Kath more instruction on holding up under pressure.  Though she looks a little worn out you would say Kath's in much better spirits than she was when you arrived.  Hopefully she'll learn and do better the next time you visit.  Noticing the time you go to the door and wave to the girls.");
 			MainScreen.text("\n\n“<i>See you later, " + player.short + "!</i>” Kath calls out to you as you go.\n\n");
 			MainScreen.text("“<i>You just better bring that sweet ass of yours around some time soon, y’hear?</i>” Urta adds.  She really must be pent up to overcome her shyness and be that direct in public.");
-			flags[FlagEnum.KATHERINE_TRAINING] += 8;
-			if (flags[FlagEnum.KATHERINE_TRAINING] > 99) flags[FlagEnum.KATHERINE_TRAINING] = 99; //Only a successful training session should lead to her completing her training next time.
+			Flags.list[FlagEnum.KATHERINE_TRAINING] += 8;
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] > 99) Flags.list[FlagEnum.KATHERINE_TRAINING] = 99; //Only a successful training session should lead to her completing her training next time.
 			doNext(camp.returnToCampUseOneHour);
 		}
 
@@ -1086,11 +1086,11 @@ package classes.Scenes.Places.TelAdre{
 			MainScreen.text("Once you finish your drink you announce that you will have to leave shortly.  “<i>Wha?  Already?  But we're just getting started!</i>” Urta protests.  “<i>Yeah, " + player.short + ".  Don’t be such a spoilsport!</i>” Kath protests alongside, stopping momentarily to sip her drink.  “<i>Wow... tish shtuff is really good... no wonder you’re always here drinking your face off prickvixen,</i>” Kath comments happily.  The vixen laughs drunkenly and retorts “<i>Look who’s slurring their words already!  You’re such a lightweight, my little pussy.</i>”\n\n");
 			MainScreen.text("You laugh and reply that as much as you’d love to stay, you have to return to your duties... speaking of which... don’t they have duties of their own to return to?  “<i>Not today, sexy!  I officially took the day off - and my little corporal pussy is taking it off with me,</i>” Urta laughs.  “<i>Yeah, you tell [him] boss,</i>” Kath giggles at that statement.  You click your tongue and shake your head... scolding them jokingly, saying that you didn’t get Kath off the streets so they could waste their days away at a bar.\n\n");
 			MainScreen.text("“<i>Us girls just wanna have fun, right?</i>” Kath asks, looping an arm around Urta.  “<i>That’s right, my sexy little kitten,</i>”  Urta replies, closing her eyes and nuzzling her face into Kath’s breasts.  Kath purrs and starts stroking Urta’s ears, throwing you a hooded gaze that’s clearly inviting you to make a move on her as well.");
-			flags[FlagEnum.KATHERINE_UNLOCKED] = 4; //Indicates Kath is now a member of the watch
-			flags[FlagEnum.KATHERINE_TRAINING] = 200; //Indicates Training was carried out with Urta's help
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //This ensures that after you talk Kath will disappear for the rest of the day due to stuff she needs to sort out
-			flags[FlagEnum.KATHERINE_URTA_AFFECTION] += 10; //Kath and Urta will like each other by the time they’re finished training
-			if (flags[FlagEnum.KATHERINE_URTA_AFFECTION] > 28) flags[FlagEnum.KATHERINE_URTA_AFFECTION] = 28; //Make sure they don't like each other too much
+			Flags.list[FlagEnum.KATHERINE_UNLOCKED] = 4; //Indicates Kath is now a member of the watch
+			Flags.list[FlagEnum.KATHERINE_TRAINING] = 200; //Indicates Training was carried out with Urta's help
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //This ensures that after you talk Kath will disappear for the rest of the day due to stuff she needs to sort out
+			Flags.list[FlagEnum.KATHERINE_URTA_AFFECTION] += 10; //Kath and Urta will like each other by the time they’re finished training
+			if (Flags.list[FlagEnum.KATHERINE_URTA_AFFECTION] > 28) Flags.list[FlagEnum.KATHERINE_URTA_AFFECTION] = 28; //Make sure they don't like each other too much
 			if (player.gender == 0)
 				doNext(katherineTrainingWithUrtaCompleteLeave);
 			else {
@@ -1131,15 +1131,15 @@ package classes.Scenes.Places.TelAdre{
 		{	//This scene plays automatically the first time that the player goes to Tel’Adre after Kath’s training is done
 			MainScreen.clearText();
 			MainScreen.text("As you make your way past the familiar sight of the gate guards to Tel’Adre, you think one of them looks familiar.  Then, a moment later, you recognize who she is and stop.  There, grinning widely at you, clad in the usual armor and helmet of the Watch and with a brand-new sword strapped to her waist, is Katherine.\n\n");
-			MainScreen.text("“<i>Hi, " + player.short + " - what, didn’t you recognize me?</i>” she jokes.  “<i>I finally did it!  I’m in the Watch now - I have a job and a home and everything, and I owe it all to you" + (flags[FlagEnum.KATHERINE_TRAINING] == 200 ? " and Captain Urta" : "") + "!</i>”\n\n");
+			MainScreen.text("“<i>Hi, " + player.short + " - what, didn’t you recognize me?</i>” she jokes.  “<i>I finally did it!  I’m in the Watch now - I have a job and a home and everything, and I owe it all to you" + (Flags.list[FlagEnum.KATHERINE_TRAINING] == 200 ? " and Captain Urta" : "") + "!</i>”\n\n");
 			MainScreen.text("You smile proudly and congratulate her, asking how she’s handling the changes?\n\n");
 			MainScreen.text("“<i>It’s a bit tough,</i>” she admits, “<i>but I’m going to work hard - it’s so nice to have money in my pockets and a roof to sleep under, now.  No more hiding in alleyways and scavenging through refuse for me!</i>” she grins.\n\n");
 			MainScreen.text("You ask if you’ll be able to see her around town, now?  The new watch-cat nods her head.  “<i>Yeah; if you’re lucky, you might catch me when I'm on patrol around the markets; that's where I'm going to be assigned most days, so you should run into me eventually.  Otherwise, check for me at the Wet Bitch.  I go there after my shift to wet my whistle and wind down.  I guess in that way I take after Captain Urta a little.</i>”  She steps forward and presses a quick kiss to your lips.  “<i>But, right now, I’m on duty, so off with you.</i>”  She smirks.\n\n");
 			//Prevent this scene from repeating
-			if (flags[FlagEnum.KATHERINE_TRAINING] == 200)
-				flags[FlagEnum.KATHERINE_TRAINING] = 1; //After training is completed the training flag indicates that Urta helped to train Kath
-			else flags[FlagEnum.KATHERINE_TRAINING] = 0;
-			flags[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //Once again she disappears for the rest of the day so we don't find her at the bar right after seeing this encounter
+			if (Flags.list[FlagEnum.KATHERINE_TRAINING] == 200)
+				Flags.list[FlagEnum.KATHERINE_TRAINING] = 1; //After training is completed the training flag indicates that Urta helped to train Kath
+			else Flags.list[FlagEnum.KATHERINE_TRAINING] = 0;
+			Flags.list[FlagEnum.KATHERINE_LOCATION] = Katherine.KLOC_KATHS_APT; //Once again she disappears for the rest of the day so we don't find her at the bar right after seeing this encounter
 			katherine.giveClothing(Katherine.KBIT_CLOTHES_UNIFORM);
 			katherine.giveClothing(Katherine.KBIT_CLOTHES_C_CLOTH);
 			telAdre.telAdreMenuShow();
@@ -1153,7 +1153,7 @@ package classes.Scenes.Places.TelAdre{
 			if (!katherine.isAt(Katherine.KLOC_KATHS_APT)) { //Only possible if she's already been seen on guard duty at the gate and you've slept once since
 				MainScreen.text("You see a note tucked into the side of the crate Kath used to sleep on.  It says, 'Hi " + player.short + ", everything is going great!  Come and see me at the Wet Bitch.  I'll try to be there from mid-morning to mid-afternoon.  Can't wait to see you again, love you, bye'.  It's signed with a kiss.");
 			}
-			else if (flags[FlagEnum.KATHERINE_TRAINING] >= 100) {
+			else if (Flags.list[FlagEnum.KATHERINE_TRAINING] >= 100) {
 				MainScreen.text("You guess that Urta and other members of the watch will be keeping her busy for the rest of the day.  Wherever she is you know she's being well taken care of.");
 			}
 			else {

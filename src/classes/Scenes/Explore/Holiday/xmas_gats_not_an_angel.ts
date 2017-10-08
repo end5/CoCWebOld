@@ -9,7 +9,7 @@ Starring Gatters Bee, Shamble Sworth and a caribou named Kirbu.
 */
 export default class XmasAngel {
     public gatsSpectacularRouter(): void {
-        if (flags[FlagEnum.GATS_ANGEL_QUEST_BEGAN] == 0) christmasEncounterAngelJunk();
+        if (Flags.list[FlagEnum.GATS_ANGEL_QUEST_BEGAN] == 0) christmasEncounterAngelJunk();
         else if (player.hasKeyItem("North Star Key") < 0) findTheWindUpKey();
         else giveThatBitchAKeyYo();
     }
@@ -43,7 +43,7 @@ export default class XmasAngel {
         MainScreen.text("In a place like the high mountains, there's no warning to be found if you happen to be confronted by danger.  Deciding not to take your chances, you continue to walk down the path you came, leaving the peaks to head straight back to camp.");
         MainScreen.text("\n\nIt's certainly warmer there.");
         //turn dat shit off
-        flags[FlagEnum.GATS_ANGEL_DISABLED] = .5;
+        Flags.list[FlagEnum.GATS_ANGEL_DISABLED] = .5;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -91,9 +91,9 @@ export default class XmasAngel {
             MainScreen.text("\n\nYou tell her that you'll try your best to find it, though you admit that even you don't fully believe your words.  She must've heard the same thing thousands of times before, to no avail.  Despite this, her face brightens, her glimmering tears whisked away by the cold winds.");
             MainScreen.text("\n\n\"<i>I believe in you.</i>\"");
             MainScreen.text("\n\nThe feminine behemoth rests her head upon the cliff once more, but not before waving you goodbye.  You return her gesture with a thumbs up, heading back to camp to prepare for another wintery escapade.");
-            flags[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] = 1;
+            Flags.list[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] = 1;
         }
-        flags[FlagEnum.GATS_ANGEL_QUEST_BEGAN] = 1;
+        Flags.list[FlagEnum.GATS_ANGEL_QUEST_BEGAN] = 1;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -121,7 +121,7 @@ export default class XmasAngel {
     public giveThatBitchAKeyYo(): void {
         MainScreen.clearText();
         //if in time!
-        if (flags[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] < 150) {
+        if (Flags.list[FlagEnum.GATS_ANGEL_TIME_TO_FIND_KEY] < 150) {
             MainScreen.text("All throughout your perilous climb, you cannot help but ogle at the brilliant little crystal key.  You have a suspicion as to how this innocent little key will help the crying colossus on the peak, but you are not completely sure this is the artifact she required.  But you have a hunch that it is.");
             MainScreen.text("\n\nYour trek halts to a standstill as you return to the side of the vast giantess.  Her sadness and longing appears to have overwhelmed her to a degree, putting her to sleep beside the still-inanimate soldier beside her.  You cast another glance at your brilliant relic, hooking a finger through it as you lift it before your face.  Transfixed by the swirling dance of red and green, you begin to weigh the options before you.  The spirit would surely request the key from you so that she may return her love to his former self, you believe.  However, perhaps you deserve a greater reward from this little deed.  You hold all the important cards in this deal after all.  You thoughtlessly swirl the windup key around on your finger, pondering your next move.");
             MainScreen.text("\n\nYou could try to fuck around with the spirit or her soldier, but doing either would be a huge dick move...");
@@ -148,7 +148,7 @@ export default class XmasAngel {
             MainScreen.text("\n\nHe wasn't dead. Only waiting, like her.");
             MainScreen.text("\n\nThe air remains cold and merciless, and regardless of what you do it would be difficult to stay for much longer.  Turning away, you trot silently back to your camp, wondering how things would've gone - if only you were quicker.");
             //[BAD END, Can no longer see the Old Woman or this series of events]
-            flags[FlagEnum.GATS_ANGEL_DISABLED] = 1;
+            Flags.list[FlagEnum.GATS_ANGEL_DISABLED] = 1;
             doNext(camp.returnToCampUseOneHour);
         }
         //player.removeKeyItem("North Star Key");
@@ -202,7 +202,7 @@ export default class XmasAngel {
         if (player.stats.cor > 49) MainScreen.text("  More importantly, you have some unsatisfied, pent up lust that you'd like to expend.");
         dynStats("lus", 2 + player.stats.lib / 10 + player.stats.cor / 10, "cor", 10, "resisted", false);
         doNext(camp.returnToCampUseOneHour);
-        flags[FlagEnum.GATS_ANGEL_DISABLED] = 1;
+        Flags.list[FlagEnum.GATS_ANGEL_DISABLED] = 1;
         player.removeKeyItem("North Star Key");
     }
 
@@ -224,15 +224,15 @@ export default class XmasAngel {
         if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("\n\nTaking out your junk");
         else MainScreen.text("\n\nCaressing your cunt");
         MainScreen.text(", you wander your way towards the giant's mouth-muscle, climbing on top of her warm, pink bed. There's gotta be some kinda magic involved - her mint saliva sends tingles through your body, while dragging your ");
-        if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(player.multiCockDescriptLight());
-        else MainScreen.text(vaginaDescript());
+        if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(player.CockDescriptor.describeMultiCockShort(player));
+        else MainScreen.text(            VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)));
         MainScreen.text(" against each bump and curve is beginning to get you hard.  She winces at the taste of your crotch against her tongue, though she's obviously never given oral to something with a heartbeat before.  Well, there's a first time for everything.");
         MainScreen.text("\n\nHer mouth is already lubricated with what appears to be chocolatey saliva, a sweet syrup coating your genitals with a cool, arousing fluid.  It's not hard to guess that her tongue might be incredibly sensitive, and every hump against it seems to be getting the giantess unconsciously excitable.  Her eyes begin to flutter and a groan escapes her lips, while you hug against each wave of her warm breath.  The hypersensitivity of her mouth-muscle begins to take control of her movements, the grinding of your ");
         if (player.lowerBody.cockSpot.hasCock()) {
             MainScreen.text("member");
             if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
         }
-        else MainScreen.text(vaginaDescript());
+        else MainScreen.text(            VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)));
         MainScreen.text(" along the softness of her maw causing her to twitch and drool uncomfortably.  You're beginning to fuck along her slowly, chuckling at every wince and moan she makes from the taste of your genitals.");
 
         MainScreen.text("\n\nOne of the giantess' hands moves slowly towards the top of her head - what could she possibly be planning, you wonder.  Your query is answered almost instantly as the tips of her fingers start to caress the lengths of her striped horns, and her unused hand drifts slowly beneath to pet the increasingly wet problem below.  It didn't take her long to forget that pathetic bin of a man!  If anything, the taste of your ");
@@ -251,11 +251,11 @@ export default class XmasAngel {
         else MainScreen.text("feminine juices");
         MainScreen.text(" all along her starving tongue, your eyes lifting up as you stretch to force as much as you can upon her.  A slick, stubby tendril fits between your [butt], while more of her taste buds rub against you in your squirting ecstasy.  Your ");
         if (player.lowerBody.cockSpot.hasCock()) {
-            MainScreen.text(player.multiCockDescriptLight());
+            MainScreen.text(player.CockDescriptor.describeMultiCockShort(player));
             if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("throbs");
             else MainScreen.text("throb");
         }
-        else MainScreen.text(vaginaDescript() + " throbs");
+        else MainScreen.text(            VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " throbs");
         MainScreen.text(", painting the giantess while she pants and moans, legs almost buckling from her own joy along with the taste of your mess inside of her.  She struggles to remove the makeshift dildo from her ass, resting her cheek against the size of the mountain let your concoction drool out.  Slipping out, you take the opportunity to grind up against her ruby lips, before cumming on her face.  She lets out a weathered smile, before her giant eyes focus once more on the mechanical soldier.");
         //[Next]
         menu();
@@ -272,9 +272,9 @@ export default class XmasAngel {
         MainScreen.text("\n\nNope, she's still angry. It's time to go. Taking your [armor] with you, you make a run down the side of the high mountain, throwing the key off the side of the cliff as you hear the distraught damsel cry into the skies. The mountains tremble in fear, and a snow storm begins to brew.");
         MainScreen.text("\n\nThankfully, you're out of that mess and heading for camp. That slut is cold.");
         //[End of event. Possible expansions include finding her as a difficult combat encounter, or raping her while she sleeps.]
-        flags[FlagEnum.GATS_ANGEL_DISABLED] = 1;
+        Flags.list[FlagEnum.GATS_ANGEL_DISABLED] = 1;
         player.orgasm();
-        dynStats("cor", 10);
+        player.stats.cor += 10;
         doNext(camp.returnToCampUseOneHour);
     }
 
@@ -342,22 +342,22 @@ export default class XmasAngel {
         //LUST GAIN +20: IF 100:
         dynStats("lus", 10 + player.stats.lib / 10, "resisted", false);
         MainScreen.text("\n\n");
-        if (player.lust >= 100) {
+        if (player.stats.lust >= 100) {
             MainScreen.text("Despite yourself, your hands slowly begin crawling into your [armor] in pursuit of your naughty bits.  ");
         }
         MainScreen.text("\"<i>Aaaahn, North, you haven't lost your touch,</i>\" the giantess moans, kneading deeply into her chilled titflesh and barraging her already-titillated tunnel with three slender fingers.  Even from your position from on high, you can hear the squelches of her very well-lubricated fingering, and before you know it, the bottom part of your [armor] is off, and you're openly toying with your genitals, spurred on by the passionate internal embrace of the giant woman and her loving creation.");
         MainScreen.text("\n\nWithout notice, the sexually belaboured titan howls with newfound fervor.  Her breasts shudder noticeably, her already dusky breast-skin darkening slightly as their churning contents shift in composition.  The giantess's fingers fly from stroking her womanhood to grabbing the other breast, a line of glistening femcum trailing from her fingers and splattering against the mountains.  Efforts redoubled by her two-handed grip, she writhes in absolute orgasmic bliss even as her bosom swells up a bit.");
         MainScreen.text("\n\nYou can easily guess what's coming, even before the giantess's frenzied gasps give way to an almost anguished shriek of ecstasy.  Her butt rises off the ground, then slams back down, sending a snowy shockwave out in all directions and doing absolutely marvelous things to the suddenly-oscillating ass-flesh.  Even with the chilly breeze making sure her nipples will stay perpetually rock-stiff, you can see them puff up further and wiggle ominously from your perch.  Sure enough, her internal valves burst open, and twin geysers of milk - white, but a shade darker than what one would expect - spray into the air.");
         //IF LUST 100:
-        if (player.lust >= 100) {
+        if (player.stats.lust >= 100) {
             MainScreen.text("\n\nHer powerful climax nearly shakes the very bluff you're standing on, and the event is enough to force you over the edge");
-            if (player.wetness() >= 4 || player.cumQ() >= 1000) MainScreen.text(" - figuratively, and literally, as well, as your fluids drip off the edge to add to the rain of sexual fluids the giantess is laying in the midst of");
+            if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= 4 || player.cumQ() >= 1000) MainScreen.text(" - figuratively, and literally, as well, as your fluids drip off the edge to add to the rain of sexual fluids the giantess is laying in the midst of");
             MainScreen.text(".");
         }
         MainScreen.text("\n\nFor many heartbeats she lays panting, basking in the afterglow of her and her lover's first outing in a long, long time.  Eventually, a stirring in the breast-milk coating her and the ground around her rouses her from her peaceful contemplations.  Just as you suspected, North had internally traveled from her vaginal passage to her enormous breasts, and escaped with the boobgasm that followed.  His shadow-essence separates from its milky prison to reform near the giantess's cheek.  She smiles warmly at him, and he hugs her cheek in response.");
         MainScreen.text("\n\nWith North in tow, the giantess lifts herself back up onto the cliff, allowing the knight to retreat back into his ashen armor.  He turns towards you, his golden orbs slightly eclipsed in what you can only assume to be his form of a happy expression.  \"<i>Thank you, hero,</i>\" he says, only managing the brief courtesy before he's swept up into his lover's arms and smashed against her cheek once more, in an even bigger and more passionate hug.");
         //IF MASTURBATED: 
-        if (player.lust >= 100) {
+        if (player.stats.lust >= 100) {
             MainScreen.text("\n\nYou take the opportunity to do up your [armor] before either of them notices.");
             player.orgasm();
         }
@@ -377,14 +377,14 @@ export default class XmasAngel {
         MainScreen.text("\n\nAfter a long pause, you pocket the key, square yourself with Carol and North, returning her hand gesture before giving them a goofy grin that positively sparks in the snow-cushioned landscape.  As you turn to depart once more, you wave over your shoulder, escorted out with the continued giggles and lovey-dovey conversation of the unlikely couple.");
         MainScreen.text("\n\nMerry Christmas indeed!");
         //[if you haven't been introduced to christmas via elf or otherwise] 
-        if (flags[FlagEnum.PC_ENCOUNTERED_CHRISTMAS_ELF_BEFORE] == 0) MainScreen.text("\n\nYou have no idea what that is.");
+        if (Flags.list[FlagEnum.PC_ENCOUNTERED_CHRISTMAS_ELF_BEFORE] == 0) MainScreen.text("\n\nYou have no idea what that is.");
         //[end, get The North Star & A Christmas Carol perks]
         //The North Star
         //Witness picnic events with North & Carol at the High Mountain.
         //A Christmas Carol
         //Christmas events are open all year 'round! (some sort of arbitrary limit)
         //merry christmas everyone <3
-        flags[FlagEnum.GATS_ANGEL_GOOD_ENDED] = 1;
+        Flags.list[FlagEnum.GATS_ANGEL_GOOD_ENDED] = 1;
         doNext(camp.returnToCampUseOneHour);
     }
 }

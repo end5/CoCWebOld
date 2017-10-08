@@ -454,7 +454,7 @@
 
 			// Refactor to say something about nipples against the table?
 			MainScreen.text("You move to do as she asks; it's a little awkward adjusting to having your face in the - thankfully cushioned - hole.  You wriggle about to settle yourself comfortably on the table, [nipples] squashing into the surface, but you manage to make yourself relaxed and tell Uma that you're ready once more.\n\n");
-			MainScreen.text("You yelp as Uma presses the metal rod " + ((player.tailType > 0) ? "to the base of your tail" : "to your lower back") + ".  \"<i>I'm going to have to trace a few spots on your back dear, to ensure your flow of chi is not obstructed.  It might hurt again, but be brave, ok?</i>\"  You nod as best as you can and prepare yourself.\n\n");
+			MainScreen.text("You yelp as Uma presses the metal rod " + ((player.lowerBody.tailType > 0) ? "to the base of your tail" : "to your lower back") + ".  \"<i>I'm going to have to trace a few spots on your back dear, to ensure your flow of chi is not obstructed.  It might hurt again, but be brave, ok?</i>\"  You nod as best as you can and prepare yourself.\n\n");
 			MainScreen.text("By the time Uma is finished you feel sore all over, the pain on your back seemingly bringing back the pain on your front.\n\n");
 			MainScreen.text("\"<i>It will be a little while before the flow of chi inside your body stabilizes, dear.  But by the time you're out of this clinic, you should feel much better,</i>\" Uma explains.\n\n");
 			MainScreen.text("You thank the mare and get dressed, bidding her farewell before you exit the clinic. Once outside, true to her words, you start to feel better... in fact you feel amazing!  It's no wonder her treatment is expensive, you feel just... amazing!\n\n");
@@ -727,27 +727,27 @@
 			}
 			else if (selectedSession == NEEDLEWORK_SPEED)
 			{
-				player.createPerk(PerkLib.ChiReflowSpeed, 0, 0, 0, 0);
+				player.perks.add(new Perk("ChiReflowSpeed", 0, 0, 0, 0));
 				MainScreen.text("<b>" + NEEDLEWORK_SPEED_PERK_DESC + "</b>");
 			}
 			else if (selectedSession == NEEDLEWORK_LUST)
 			{
-				player.createPerk(PerkLib.ChiReflowLust, 0, 0, 0, 0);
+				player.perks.add(new Perk("ChiReflowLust", 0, 0, 0, 0));
 				MainScreen.text("<b>" + NEEDLEWORK_LUST_PERK_DESC + "</b>");
 			}
 			else if (selectedSession == NEEDLEWORK_DEFENSE)
 			{
-				player.createPerk(PerkLib.ChiReflowDefense, 0, 0, 0, 0);
+				player.perks.add(new Perk("ChiReflowDefense", 0, 0, 0, 0));
 				MainScreen.text("<b>" + NEEDLEWORK_DEFENSE_PERK_DESC + "</b>");
 			}
 			else if (selectedSession == NEEDLEWORK_MAGIC)
 			{
-				player.createPerk(PerkLib.ChiReflowMagic, 0, 0, 0, 0);
+				player.perks.add(new Perk("ChiReflowMagic", 0, 0, 0, 0));
 				MainScreen.text("<b>" + NEEDLEWORK_MAGIC_PERK_DESC + "</b>");
 			}
 			else if (selectedSession == NEEDLEWORK_ATTACK)
 			{
-				player.createPerk(PerkLib.ChiReflowAttack, 0, 0, 0, 0);
+				player.perks.add(new Perk("ChiReflowAttack", 0, 0, 0, 0));
 				MainScreen.text("<b>" + NEEDLEWORK_ATTACK_PERK_DESC + "</b>");
 			}
 		}
@@ -1096,7 +1096,7 @@
 			if (player.femininity >= UMA_CONSIDER_PC_FEM)
 			{
 				MainScreen.text("\"<i>Old? Why you... take off your clothes and hop on my table, I'll show you old!</i>\"  Uma replies with indignation.  \"<i>I promise you that by the time I'm done with you, you won't be able to stand on your own two feet, ");
-				if (player.feet() != "feet")
+				if (LowerBodyDescriptor.describeFeet(player) != "feet")
 				{
 					MainScreen.text("or whatever the term is for you, ");	
 				}
@@ -1105,7 +1105,7 @@
 			else
 			{
 				MainScreen.text("\"<i>Old? Why you... if you were girly enough to be my type I would show you who's old!</i>\"  Uma replies indignantly.  \"<i>I promise you wouldn't be able to stand on your own two feet, ");
-				if (player.feet() != "feet")
+				if (LowerBodyDescriptor.describeFeet(player) != "feet")
 				{
 					MainScreen.text("or whatever the term is for you, ");	
 				}
@@ -1630,8 +1630,8 @@
 			if (player.lowerBody.vaginaSpot.hasVagina())
 			{
 				MainScreen.text("femcum ");
-				if (player.wetness() <= 2) MainScreen.text("dripping ");
-				else if (player.wetness() <= 4) MainScreen.text("streaming ");
+				if (player.lowerBody.vaginaSpot.get(0).vaginalWetness <= 2) MainScreen.text("dripping ");
+				else if (player.lowerBody.vaginaSpot.get(0).vaginalWetness <= 4) MainScreen.text("streaming ");
 				else MainScreen.text("gushing ");
 				MainScreen.text("from your [vagina]. ")
 			}
@@ -1697,7 +1697,7 @@
 			if (player.lowerBody.vaginaSpot.hasVagina()) 
 			{
 				MainScreen.text("down towards the honeypot ");
-				if (player.isNaga()) MainScreen.text("on your [legs].  ");
+				if (player.lowerBody.isNaga()) MainScreen.text("on your [legs].  ");
 				else MainScreen.text("nestled between your [legs].  ");
 				
 				MainScreen.text("Slowly she spreads your folds open, massaging your labia and gathering moisture from your [vagina].\n\n");
@@ -1717,8 +1717,8 @@
 				MainScreen.text("You moan and babble, vaguely spitting out something about definitely promising to come back to her in the future.  Waves of pleasure wash through you, rippling through your clenching, squeezing netherwalls, building a strange tightness in your belly. Oh - you're going to - going to...\n\n");
 				MainScreen.text("With an ecstatic cry, you orgasm, your virginal cunt spasming as it ");
 
-				if (player.wetness() <= 2) MainScreen.text("spatters ");
-				else if (player.wetness() <= 4) MainScreen.text("soaks ");
+				if (player.lowerBody.vaginaSpot.get(0).vaginalWetness <= 2) MainScreen.text("spatters ");
+				else if (player.lowerBody.vaginaSpot.get(0).vaginalWetness <= 4) MainScreen.text("soaks ");
 				else MainScreen.text("drenches ");
 
 				MainScreen.text(" Uma's probing hand in your female juices");
@@ -1730,7 +1730,7 @@
 				MainScreen.text("You take a few moments to regain control of your [legs], but get up and start helping to clean up the mess - after all, you made it.  Once it's all clean, you kiss Uma on the cheek as a thank you before saying you have to be going.  \"<i>See you soon, dear.  I'd love to have given you more of an workout, but I think my daughter will appreciate your inexperience.  So make sure you come prepared next time, so we can have some more fun.</i>\" she informs you, as her fingers begin to prod at her own snatch.\n\n");
 				MainScreen.text("You can't resist a smile as you promise to remember that, redress yourself, and head back to camp.\n\n");
 			}
-			else if (player.looseness() == 0) // Tight
+			else if (player.lowerBody.vaginaSpot.get(0).vaginalLooseness == 0) // Tight
 			{
 				MainScreen.text("\"<i>Hmm tight!  I wonder how long you can keep yourself like that while dating my little Loppe,</i>\" the mare says teasingly.\n\n");
 				MainScreen.text("Loppe isn't that bad, you find yourself saying - and doesn't it feel so weird to be talking about Uma's daughter when you're letting Uma herself do you, you privately note.\n\n");
@@ -1858,7 +1858,7 @@
 			MainScreen.text(" in your pants, you ask whether Uma would be willing to give you a little intimate release.");
 			MainScreen.text("\n\nUma arches an eyebrow, \"<i>Sorry, [name], but when it comes to cocks, my pussy and ass are both off-limits... I suppose that, for you, though, I could give you a blowjob - just because you’re my little Loppe’s special someone, though.</i>\"");
 			MainScreen.text("\n\nYou ");
-			if(player.lust >= 75) MainScreen.text("eagerly ");
+			if(player.stats.lust >= 75) MainScreen.text("eagerly ");
 			MainScreen.text("tell her that would be plenty, and thank her for her consideration.  \"<i>Okay, follow me then.</i>\"  The mare leads you away, out her office and down the corridor towards the far back of the clinic. Her enticing equine tail swishes lazily side to side the entire way, an organic magnet for your roving eyes.  You follow closely in her wake, looking forward to her “special treatment” with such ardor that you give up on concealing the tenting mass under your [armor]. It makes walking a little more difficult, but the feeling of your length");
 			if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("s");
 			MainScreen.text(" grinding and growing is well-worth the obvious discomfort.");
@@ -1901,9 +1901,9 @@
 			MainScreen.text("</i>\"");
 			
 			MainScreen.text("\n\nGrunting softly at her ministrations, you let your [hips] shiver as she passes over your " + player.cockHead(x) + " once more.  Her tightly sealed lips glide over your spit-slicked length at an even, nerve-tickling pace");
-			if(player.lowerBody.cockSpot.list[x].cockLength < 9) MainScreen.text(" until she hits your [sheath]");
+			if(player.lowerBody.cockSpot.get(x).cockLength < 9) MainScreen.text(" until she hits your [sheath]");
 			else MainScreen.text(" until she has her mouth as full as she can handle");
-			MainScreen.text(".  She holds you like that, letting you feel her hot breath wash over the [skinFurScales] of your crotch.  Her tongue wags back and forth underneath you, slipping and sliding against you. Inside her mouth, your " + cockDescript(x) + " twitches and jumps in her maw.  Beads of pre-cum are beading and dripping out onto her busy organ.");
+			MainScreen.text(".  She holds you like that, letting you feel her hot breath wash over the [skinFurScales] of your crotch.  Her tongue wags back and forth underneath you, slipping and sliding against you. Inside her mouth, your " + CockDescriptor.describeCock(player, x) + " twitches and jumps in her maw.  Beads of pre-cum are beading and dripping out onto her busy organ.");
 			
 			MainScreen.text("\n\nUma's shaft-muffled voice mumbles, \"<i>");
 			if(flags[FlagEnum.UMA_TIMES_SUCKED_YOU] < 2) MainScreen.text("Girls taste better.");
@@ -1931,7 +1931,7 @@
 				else MainScreen.text(" is");
 				MainScreen.text(" the perfect mate to your spare length");
 				if(player.lowerBody.cockSpot.count() > 2) MainScreen.text("s");
-				MainScreen.text(", and soon you are dribbling and dripping from all of your " + multiCockDescriptLight() + ".");
+				MainScreen.text(", and soon you are dribbling and dripping from all of your " + CockDescriptor.describeMultiCockShort(player) + ".");
 			}
 			
 			MainScreen.text("\n\nWhile the steady pleasure her mouth and tongue gives you has you feeling very, very good, it isn't quite bringing you towards the orgasm you came here craving.  You suggest she begin to bob up and down on you. \"<i>Cocks need to feel like they're fucking something,</i>\" you ");
@@ -1956,7 +1956,7 @@
 			}
 			//{More than five blowjobs!}
 			else {
-				MainScreen.text("\n\nUma valiantly holds herself in place on your " + cockDescript(x) + ", just in time for the flow of your juices to turn white and salty, an inevitable prelude to the coming discharge of your orgasm.  She noisily slurps, emptying her mouth of precum to make room, and in the process, inadvertently provides you with even more impetus to unload.  ");
+				MainScreen.text("\n\nUma valiantly holds herself in place on your " + CockDescriptor.describeCock(player, x) + ", just in time for the flow of your juices to turn white and salty, an inevitable prelude to the coming discharge of your orgasm.  She noisily slurps, emptying her mouth of precum to make room, and in the process, inadvertently provides you with even more impetus to unload.  ");
 				if(player.cumQ() <= 25) MainScreen.text("She dutifully swallows every drop of your average-sized load, her long tongue slipping and sliding around your shaft as she ensures it is completely cleaned.");
 				else if(player.cumQ() <= 100) 
 				{
@@ -2067,7 +2067,7 @@
 			MainScreen.text("You lick your lips and wipe the aftermath from your face, smiling broadly at the mare's flattery.  Shaking herself, Uma yawns loudly, one hand in front of her face to be more demure.  \"<i>That really felt wonderful... I think... I think I'm going to take a little rest.  Would you be a dear and flip the sign to Closed on your way out, dear?</i>\" she asks, settling back on her table as if she really is about to have a nap here in her own workroom. \n\n");
 			MainScreen.text("You rub her thigh affectionately, promising to do so, then redress yourself and head back to camp.\n\n");
 
-			dynStats("lust", 30);
+			player.stats.lust += 30;
 
 			menu();
 			doNext(camp.returnToCampUseOneHour);

@@ -41,9 +41,9 @@ Sex Life: The shark girls treat sex like a game or a sport, constantly battling 
 //[Explore Lake]
 public sharkGirlEncounter(exploreLoc:number = 0):void {
 	//Set 'PC met Sharkgirls' for Izma stuff
-	if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] == 0) flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] = 1;
-	if(player.findStatusAffect(StatusAffects.SharkGirl) < 0) player.statusAffects.add(new StatusAffect("SharkGirl",0,0,0,0)));
-	else if(player.statusAffects.get("SharkGirl").value1 >= 7 && player.totalCocks() > 0) {
+	if(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] == 0) Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00230] = 1;
+	if(!player.statusAffects.has("SharkGirl")) player.statusAffects.add(new StatusAffect("SharkGirl",0,0,0,0)));
+	else if(player.statusAffects.get("SharkGirl").value1 >= 7 && player.lowerBody.cockSpot.count() > 0) {
 		spriteSelect(70);
 		sharkBadEnd();
 		return;
@@ -78,18 +78,18 @@ internal function sharkWinChoices():void {
 	//Lust win
 	else {
 		MainScreen.text("The shark-girl begins masturbating, giving up on dominating you.  The sight is truly entrancing.", true);
-		dynStats("lus", 15);
+		player.stats.lust += 15;
 	}
-	if(player.lust >= 33 && player.gender > 0) {
+	if(player.stats.lust >= 33 && player.gender > 0) {
 		MainScreen.text("  Do you have your way with her or leave?", false);
-		let dildo:Function = (player.hasKeyItem("Deluxe Dildo") >= 0 ? getGame().sharkGirlGetsDildoed : null);
+		let dildo:Function = (player.hasKeyItem("Deluxe Dildo") >= 0 ? Game.sharkGirlGetsDildoed : null);
 		if (player.gender == 1)
 			simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", null, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
 		else if (player.gender == 2) {
 			simpleChoices("Yes", sharkgirlSixtyNine, "", null, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
 		}
 		else if (player.gender == 3) {
-			if (player.isNaga())
+			if (player.lowerBody.isNaga())
 				simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy Oral", sharkgirlSixtyNine, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
 			else simpleChoices("Use Dick", sharkgirlDickFuck, "Pussy w/69", sharkgirlSixtyNine, "Dildo Rape", dildo, "", null, "Leave", cleanupAfterCombat);
 		}
@@ -103,7 +103,7 @@ private sharkgirlDickFuck():void {
 	MainScreen.text("", true);
 	spriteSelect(70);
 	//Naga get a different version of this scene.
-	if(player.isNaga()) {
+	if(player.lowerBody.isNaga()) {
 		let x:number = player.cockThatFits(monster.analCapacity());
 		if(x < 0) x = player.smallestCockIndex();
 		//[if(monster.lust > 99)
@@ -112,63 +112,63 @@ private sharkgirlDickFuck():void {
 
 		MainScreen.text("You grab the shark-girl by her hips and lift them up.  Before she can reach out to steady herself, you twist her around and thrust her front side into the ground.  She groans and makes a weak attempt to push herself back up, but her arms quickly give out under her weight and she falls back into the sand.  Your tail deftly snaps out and snatches the bikini she is wearing, and rips it off.  She looks back at you and gives an indignant \"<i>hmph</i>\" before laying her head back down, resigning herself to whatever fate you have planned for her.  Looking down at her pussy, you can see that it's grown moist with anticipation.  You have other plans for her, however, and you coil your tail around hers tightly and grab her hips in your hands.  She yelps in surprise as you lift her lower half up a bit, easily supporting her weight with your tail's considerable strength.  Her feet are still touching the ground, but her legs are not supporting her.  You lift her tail up a bit more, exposing her tight anus.  Your intentions dawn on her quickly, and you see her eyes begin to water.  \"<i>No,</i>\" she begs, \"<i>not like that...</i>\"  The tiniest of sobs escapes her, and you roll your eyes at the pitiful display.  You don't really want to see her cry, so you decide on something of a compromise.\n\n", false);
 
-		MainScreen.text("Her soft crying ceases suspiciously quickly when you push her tail off to the side and uncoil your own, holding her in the same position with your arms. A bit annoyed that you let her manipulate you even after you defeated her, you are determined to take complete charge.  With a grunt you heft her up a bit, and bring the tip of your tail under her and up to her slick pussy.  You slide your scales up and down along her lips, coating your tail in her lubricant. You hear her voice her appreciation loudly, and see a wide smile come to her face.  Too wide, you think.  You continue your stroking as you pull her up, positioning her ass directly in front of your erect member. You quickly work your " + cockDescript(x) + " into her tight anus, and she turns back towards you, yelling in anger and surprise. Your tail quickly pulls away from her dripping pussy, and ignoring her protests, you turn it and thrust deep into her wide cunt.  Her shouting begins to lose coherency and devolves back into loud grunts and moans as pleasure starts to overtake her; her face contorts as she adjusts to the new feelings.  You slam into her ass again and again, thrusting your hips against her and pulling her back into you in a quickening rhythm, all the while pumping her widening pussy with your tail, pushing deeper into it each time, probing the sides with the thin tip.  Her ass is amazingly tight; clearly you are introducing her to something new.  By the look on her face, you can tell she's enjoying it much more than she thought she would.\n\n", false);
+		MainScreen.text("Her soft crying ceases suspiciously quickly when you push her tail off to the side and uncoil your own, holding her in the same position with your arms. A bit annoyed that you let her manipulate you even after you defeated her, you are determined to take complete charge.  With a grunt you heft her up a bit, and bring the tip of your tail under her and up to her slick pussy.  You slide your scales up and down along her lips, coating your tail in her lubricant. You hear her voice her appreciation loudly, and see a wide smile come to her face.  Too wide, you think.  You continue your stroking as you pull her up, positioning her ass directly in front of your erect member. You quickly work your " + CockDescriptor.describeCock(player, x) + " into her tight anus, and she turns back towards you, yelling in anger and surprise. Your tail quickly pulls away from her dripping pussy, and ignoring her protests, you turn it and thrust deep into her wide cunt.  Her shouting begins to lose coherency and devolves back into loud grunts and moans as pleasure starts to overtake her; her face contorts as she adjusts to the new feelings.  You slam into her ass again and again, thrusting your hips against her and pulling her back into you in a quickening rhythm, all the while pumping her widening pussy with your tail, pushing deeper into it each time, probing the sides with the thin tip.  Her ass is amazingly tight; clearly you are introducing her to something new.  By the look on her face, you can tell she's enjoying it much more than she thought she would.\n\n", false);
 
-		MainScreen.text("You keep up the motion, pushing deeper into her with each thrust of your " + cockDescript(x) + " and tail.  The widening circumference of your tapered tail spreads her already loose vagina until you're sure it will gape when you pull out. You're amazed at how deep she is able to take you, but never more so than when your tail begins to bump against the ground through her belly.  Her moans grow louder beneath you, and you find that the pleasure building in your own " + cockDescript(x) + " is rapidly bringing you towards your own climax.  You thrust into her one final time and hold her ass against you, pushing your tail in as far as it will go.  As you fill her ass with your load of hot cum, you see her eyes roll back and her mouth open wide as she reaches orgasm.  She pushes back against you now, using her arms for leverage, before finally going limp beneath you.  When your member begins to soften, you pull it and your tail out of her, and leave her in a tired heap in the sand.  You think you notice a sly smile creep to her face as she looks back at you just before she blacks out.  You slither off, shaking your head at the thought of the slutty creature.", false);
+		MainScreen.text("You keep up the motion, pushing deeper into her with each thrust of your " + CockDescriptor.describeCock(player, x) + " and tail.  The widening circumference of your tapered tail spreads her already loose vagina until you're sure it will gape when you pull out. You're amazed at how deep she is able to take you, but never more so than when your tail begins to bump against the ground through her belly.  Her moans grow louder beneath you, and you find that the pleasure building in your own " + CockDescriptor.describeCock(player, x) + " is rapidly bringing you towards your own climax.  You thrust into her one final time and hold her ass against you, pushing your tail in as far as it will go.  As you fill her ass with your load of hot cum, you see her eyes roll back and her mouth open wide as she reaches orgasm.  She pushes back against you now, using her arms for leverage, before finally going limp beneath you.  When your member begins to soften, you pull it and your tail out of her, and leave her in a tired heap in the sand.  You think you notice a sly smile creep to her face as she looks back at you just before she blacks out.  You slither off, shaking your head at the thought of the slutty creature.", false);
 	}
 	//Non-nagaz
 	else {
-		MainScreen.text("You sneer at the fallen shark girl, making up your mind to have your way with her. You tear her bikini off as you whip out your " + cockDescript(0) + " and start to order, \"<i>Get to i--!</i>\" But you're cut short by the shark girl suddenly taking the entirety of your cock into her mouth, forcing it as deep into her mouth as possible. Quite a slutty creature, that's for sure. What surprises you more is that those sharp fangs of hers appear to be retractable, and she has a more human-like set hidden behind them.\n\n", false);
+		MainScreen.text("You sneer at the fallen shark girl, making up your mind to have your way with her. You tear her bikini off as you whip out your " + CockDescriptor.describeCock(player, 0) + " and start to order, \"<i>Get to i--!</i>\" But you're cut short by the shark girl suddenly taking the entirety of your cock into her mouth, forcing it as deep into her mouth as possible. Quite a slutty creature, that's for sure. What surprises you more is that those sharp fangs of hers appear to be retractable, and she has a more human-like set hidden behind them.\n\n", false);
 		//[if herm] 
-		if(player.gender == 3) MainScreen.text("While sucking you off, her hand steadily snakes its way between your legs. Without warning, she shoves three fingers into your " + vaginaDescript(0) + ", pushing in and stretching the moist passage out.\n\n", false);
-		MainScreen.text("You abruptly pull your cock from her mouth, causing the shark girl to gasp in surprise. She looks up at you, tears welling up in her eyes, \"<i>Please let me finish! I need this!</i>\" You smirk and order the shark girl onto her hands and knees. Her expression brightens and she obediently complies, getting down and raising her ass towards you. Taking a firm grip on her well-toned buttocks, you quickly shove your " + cockDescript(0) + " into her damp pussy and the shark girl squeals in excitement. You find yourself surprised by its texture; while it looks human enough on the outside, the inside is actually filled with strange feeler-like structures that wriggle and massage your cock as it pushes through.", false);
+		if(player.gender == 3) MainScreen.text("While sucking you off, her hand steadily snakes its way between your legs. Without warning, she shoves three fingers into your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", pushing in and stretching the moist passage out.\n\n", false);
+		MainScreen.text("You abruptly pull your cock from her mouth, causing the shark girl to gasp in surprise. She looks up at you, tears welling up in her eyes, \"<i>Please let me finish! I need this!</i>\" You smirk and order the shark girl onto her hands and knees. Her expression brightens and she obediently complies, getting down and raising her ass towards you. Taking a firm grip on her well-toned buttocks, you quickly shove your " + CockDescriptor.describeCock(player, 0) + " into her damp pussy and the shark girl squeals in excitement. You find yourself surprised by its texture; while it looks human enough on the outside, the inside is actually filled with strange feeler-like structures that wriggle and massage your cock as it pushes through.", false);
 		//[if herm]
-		if(player.gender == 3) MainScreen.text("  The sensation is incredible, and you find yourself massaging your " + biggestBreastSizeDescript() + " and tweaking your " + nippleDescript(0) + "s in an attempt to bring your pleasure to even greater heights.", false);
+		if(player.gender == 3) MainScreen.text("  The sensation is incredible, and you find yourself massaging your " + biggestBreastSizeDescript() + " and tweaking your " + BreastDescriptor.describeNipple(0) + "s in an attempt to bring your pleasure to even greater heights.", false);
 		MainScreen.text("\n\n", false);
 	
 		MainScreen.text("The shark girl cries out in orgasm, her pussy tightening as the feelers wrap around your cock. The pleasure drives you over the edge, and you pump your load of cum into her needy pussy, the feelers milking you for every drop you have. You pull out, satisfied, and as you turn to leave you see the shark girl rubbing cum into her cunt and winking at you.", false);
 	}
 	cleanupAfterCombat();
 	player.orgasm();
-	dynStats("sen", -1);
-	if(player.stats.cor < 33) dynStats("cor", 1);
+	player.stats.sens += -1;
+	if(player.stats.cor < 33) player.stats.cor += 1;
 }
 
 private sharkgirlSixtyNine():void {
 	MainScreen.text("", true);
 	spriteSelect(70);
 	//Nagas don't actually get to 69!
-	if(player.isNaga()) {
+	if(player.lowerBody.isNaga()) {
 		MainScreen.text("The shark-girl reels and trips, falling onto her back.  You slide quickly towards her as she sits up, bringing a look of sheer terror to her face.  Clearly she is not accustomed to being 'prey' in any sense of the word.  You decide to change that.  Grabbing her by the shoulders, you push her back down a bit.  Clearly weakened by the fight, she goes limp in your hands, still scared and shaking ever so slightly with fear, but unable to resist.  You take a moment to admire the smooth curves of her body and meditate on how fine a catch you have before you.\n\n", false);
 
 		MainScreen.text("The shark-girl begins to stir slightly under you, and you hear a slight annoyance with the delay beneath the obvious fear as she stammers out, \"<i>W-what are you waiting for?</i>\"  A smile nearly creeps to your face as you muse over her demanding attitude toward someone who just defeated her. Instead, you snap your head up and lock your gaze to her eyes, maintaining a fearsomely expressionless look.  She quickly winces back, clearly expecting something painful to come from you.  After a moment of being frozen in terror, she slowly turns her head back to you.  Her anger is more palpable this time as she says, \"<i>Well, get on with whatever it is you're doing!</i>\"  She opens her eyes, and looks to yours expectantly.  You enjoy the show of her face turning strangely from an expression of anger and fear to one of total confusion as her thoughts begin to cloud, draining as your hypnotizing gaze affects her mind.  She weakly begins, \"<i>Why... what are you...</i>\" but she's unable to complete her sentence or break your spell over her.  Her questions trail off quietly, and her face loses expression, but maintains a blank, slack-jawed stare back at you.  Her muscles relax and you see her limbs slowly go limp as her body seems to forget the situation it's in.\n\n", false);
 
-		MainScreen.text("You lower her gently back down to the ground, keeping up your expressionless, insistent stare.  You slowly move your hand towards her breasts along her rough skin, and trace one of her nipples lightly with your outstretched finger.  Every bit of her face save for her empty eyes betray the lust building within her body, though she makes no move to relieve herself of it.  You lean down and grab her arm by the wrist, and are glad to see her eyes following yours on their own.  Placing her hand beneath her bikini on her own quickly slickening sex, you slip a few of her fingers inside and guide her hand into a slow rocking motion.  As you begin to speed up the pace, her body seems to take note and moves on its own.  You remove your hand, and she is very soon sighing and moaning with uninhibited pleasure.  You watch her as her masturbation grows less and less mechanical and her hand grows swifter.  Pleased to be the one to cause her vocalizations, you find your own hands parting the folds of your " + vaginaDescript(0) + ". You slowly slide up her side, your " + allBreastsDescript() + " rubbing against her body, stimulated by her rough skin.  Eventually your head is over and slightly behind hers, forcing her to tilt her own head back to maintain your mutual stare.  All the while, she has been pumping more and more of her hand into her loose cunt and moaning rather loudly.  This, along with her blank stare, makes for an odd but arousing sight.\n\n", false);
+		MainScreen.text("You lower her gently back down to the ground, keeping up your expressionless, insistent stare.  You slowly move your hand towards her breasts along her rough skin, and trace one of her nipples lightly with your outstretched finger.  Every bit of her face save for her empty eyes betray the lust building within her body, though she makes no move to relieve herself of it.  You lean down and grab her arm by the wrist, and are glad to see her eyes following yours on their own.  Placing her hand beneath her bikini on her own quickly slickening sex, you slip a few of her fingers inside and guide her hand into a slow rocking motion.  As you begin to speed up the pace, her body seems to take note and moves on its own.  You remove your hand, and she is very soon sighing and moaning with uninhibited pleasure.  You watch her as her masturbation grows less and less mechanical and her hand grows swifter.  Pleased to be the one to cause her vocalizations, you find your own hands parting the folds of your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ". You slowly slide up her side, your " + BreastDescriptor.describeAllBreasts(player) + " rubbing against her body, stimulated by her rough skin.  Eventually your head is over and slightly behind hers, forcing her to tilt her own head back to maintain your mutual stare.  All the while, she has been pumping more and more of her hand into her loose cunt and moaning rather loudly.  This, along with her blank stare, makes for an odd but arousing sight.\n\n", false);
 
-		MainScreen.text("You raise up from her and move your " + vaginaDescript(0) + " close to her face.  She doesn't appear to notice this or take the hint.  At first you are angered by her thoughtless insolence, but you then remember that you are the one bringing that about.  You point towards your vagina with one hand and reach close to her ear with the other.  As you snap your fingers, she immediately acts as you wish, pushing her face roughly into your crotch and rolling her eyes up in their sockets to maintain eye contact.  Her long tongue slips inside your " + vaginaDescript(0) + ", the sensation of it pushing far into your depths arousing you and making the pleasurable heat in your sex grow almost unbearable.  You reach behind her head and grind her face into you hard, muffling her moans, though they are soon replaced by your own.  You push her into you, thinking only of how deeply she is able to stimulate you and the pleasure the mindless shark-girl is bringing you.  You feel almost as though you are floating, and you want to stay like this forever, wishing the heat inside you would never stop building.  As you approach your climax, her moans into you grow louder, signaling hers.  The thought is too much and it pushes you over the edge; clenching the shark-girl's face into your " + vaginaDescript(0) + " you are drawn to orgasm as she is beneath you.  You cry out loudly and she gives a final grunt into your scaly tail.\n\n", false);
+		MainScreen.text("You raise up from her and move your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " close to her face.  She doesn't appear to notice this or take the hint.  At first you are angered by her thoughtless insolence, but you then remember that you are the one bringing that about.  You point towards your vagina with one hand and reach close to her ear with the other.  As you snap your fingers, she immediately acts as you wish, pushing her face roughly into your crotch and rolling her eyes up in their sockets to maintain eye contact.  Her long tongue slips inside your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ", the sensation of it pushing far into your depths arousing you and making the pleasurable heat in your sex grow almost unbearable.  You reach behind her head and grind her face into you hard, muffling her moans, though they are soon replaced by your own.  You push her into you, thinking only of how deeply she is able to stimulate you and the pleasure the mindless shark-girl is bringing you.  You feel almost as though you are floating, and you want to stay like this forever, wishing the heat inside you would never stop building.  As you approach your climax, her moans into you grow louder, signaling hers.  The thought is too much and it pushes you over the edge; clenching the shark-girl's face into your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " you are drawn to orgasm as she is beneath you.  You cry out loudly and she gives a final grunt into your scaly tail.\n\n", false);
 
-		MainScreen.text("Pleasure robbing you of thought, you look up, breaking your spell over the shark-girl.  Quickly realizing your mistake, you glance back down to see her paralyzed with confusion, apparently having been dropped back into her own body during her orgasm.  She doesn't dare to move a muscle, her hand still inside her bikini and her mouth still pressed to your " + vaginaDescript(0) + ".  You smile down at her, and she smiles a shier, more confused smile back at you for a moment before shaking her head and pulling her hand out.  You giggle as she struggles awkwardly to get out from beneath your coils.  She finally does, and begins to stagger back towards the water.  You head back to camp, feeling satisfied with the encounter.", false);
+		MainScreen.text("Pleasure robbing you of thought, you look up, breaking your spell over the shark-girl.  Quickly realizing your mistake, you glance back down to see her paralyzed with confusion, apparently having been dropped back into her own body during her orgasm.  She doesn't dare to move a muscle, her hand still inside her bikini and her mouth still pressed to your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  You smile down at her, and she smiles a shier, more confused smile back at you for a moment before shaking her head and pulling her hand out.  You giggle as she struggles awkwardly to get out from beneath your coils.  She finally does, and begins to stagger back towards the water.  You head back to camp, feeling satisfied with the encounter.", false);
 	}
 	else {
-		MainScreen.text("Making up your mind to rape the shark girl, you remove your " + player.armorName + " and approach the slut before taking a firm grip on her silver hair. \"<i>You know what to do, bitch,</i>\" you sneer, pulling her head into your damp cunt. The shark girl needs no encouragement, eagerly probing your pussy with her long tongue", false);
+		MainScreen.text("Making up your mind to rape the shark girl, you remove your " + player.inventory.armor.displayName + " and approach the slut before taking a firm grip on her silver hair. \"<i>You know what to do, bitch,</i>\" you sneer, pulling her head into your damp cunt. The shark girl needs no encouragement, eagerly probing your pussy with her long tongue", false);
 		//[if female] 
-		if(player.gender == 2) MainScreen.text(", pulling out every few minutes to lick your " + clitDescript() + ".", false);
+		if(player.gender == 2) MainScreen.text(", pulling out every few minutes to lick your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + ".", false);
 		//[if herm]
-		if(player.gender == 3) MainScreen.text(". You remind her not to neglect your " + cockDescript(0) + ", and the shark girl responds by thoroughly licking your hard erection and sucking at your " + ballsDescriptLight() + ".", false);
+		if(player.gender == 3) MainScreen.text(". You remind her not to neglect your " + CockDescriptor.describeCock(player, 0) + ", and the shark girl responds by thoroughly licking your hard erection and sucking at your " + BallsDescriptor.describeBalls(true, true, player) + ".", false);
 		MainScreen.text("\n\n", false);
 		MainScreen.text("You shove the shark girl down onto the ground and quickly plant your crotch on her face, ordering the shark girl to continue. She complies enthusiastically, licking with a greater intensity and clearly loving the sensation of being dominated. You have to admit, you are enjoying your role as master.\n\n", false);
 		MainScreen.text("To reward your little slut for her efforts, your hand reaches back between her legs and slips under her skimpy black thong. You get to work fingering her moist cunt and you soon hear a series of muffled moans coming from beneath your legs. But she's smart enough to know not to stop licking, and you smirk at the effect you're having on the shark girl.  A cute little cry escapes from your little slave's mouth, and you pull your hand from her cunt before licking her sweet juices from your fingers. Shortly after, you cry out in orgasm", false);
 		if(player.gender == 2) MainScreen.text(", juices spraying from your sex and coating the girl's face.", false);
 		//[if herm]  
-		else MainScreen.text(" and stand up, gripping your " + cockDescript(0) + " and splattering thick jets of cum onto her face.", false);
+		else MainScreen.text(" and stand up, gripping your " + CockDescriptor.describeCock(player, 0) + " and splattering thick jets of cum onto her face.", false);
 		MainScreen.text("  The shark slut licks up your fluids hungrily.\n\n", false);
 	
 		MainScreen.text("Thoroughly satisfied, you leave the shark girl on the ground covered in your fluids and depart for your camp.", false);
 	}
 	cleanupAfterCombat();
 	player.orgasm();
-	dynStats("sen", -1);
-	if(player.stats.cor < 33) dynStats("cor", 1);
+	player.stats.sens += -1;
+	if(player.stats.cor < 33) player.stats.cor += 1;
 }
 
 //Shark girl Bad End.
@@ -194,7 +194,7 @@ private sharkBadEnd2():void {
 	MainScreen.text("\"<i>My, he's... certainly a virile creature, isn't he?</i>\" a tiger shark asks, taking a seat on a nearby rock. Another shark girl chuckles in response, \"<i>Oh I know. Our numbers have practically doubled because of him.</i>\" She gestures to several heavily pregnant shark girls lazing on the sands, caressing their bumps happily.\n\n", false);
 	MainScreen.text("\"<i>Wow. When I heard rumors of your pack getting a new male, I had to check it out for myself. But I didn't think he'd be anything like this...</i>\" the tiger shark says, rubbing her own genitalia. You blow your load inside the shark girl before pausing a moment to catch your breath, your quad of cantaloupe-sized balls churning with more cum. You look up, ready to start on another girl, and catch sight of a human moving across the shoreline. A grin spreads across your face at the sight and you direct the girls' attention to the lone human.\n\n", false);
 	MainScreen.text("\"<i>Fresh meat!</i>\"", false);
-	getGame().gameOver();
+	Game.gameOver();
 }
 
 /*-------------------------
@@ -262,31 +262,31 @@ internal function sharkLossRape():void {
 		if(player.HP < 1) MainScreen.text("hurt ", false);
 		else MainScreen.text("horny ", false);
 		MainScreen.text("to fight on.\n\n", false);
-		MainScreen.text("The shark girl does a little victory dance, swaying her hips to and fro before moving over to you. She quickly removes your " + player.armorName + ", but her smile fades to a blank expression when she notices you lack any genitalia. \"<i>What the...</i>\" she mumbles, poking you in the groin. Finding you completely useless, she growls in frustration and stomps on your face in anger. The sudden pain makes you pass out.", false);
+		MainScreen.text("The shark girl does a little victory dance, swaying her hips to and fro before moving over to you. She quickly removes your " + player.inventory.armor.displayName + ", but her smile fades to a blank expression when she notices you lack any genitalia. \"<i>What the...</i>\" she mumbles, poking you in the groin. Finding you completely useless, she growls in frustration and stomps on your face in anger. The sudden pain makes you pass out.", false);
 		cleanupAfterCombat();
-		dynStats("tou", -2);
+		player.stats.tou += -2;
 		return;
 	}
 	//Female:
-	if(player.lowerBody.vaginaSpot.hasVagina() && (player.totalCocks() == 0 || rand(2) == 0)) {
+	if(player.lowerBody.vaginaSpot.hasVagina() && (player.lowerBody.cockSpot.count() == 0 || rand(2) == 0)) {
 		MainScreen.text("You slump down in defeat, too ", false);
 		//[defeat via HP] 
 		if(player.HP < 1) MainScreen.text("hurt ", false);
 		else MainScreen.text("horny ", false);
 		MainScreen.text("to fight on.\n\n", false);
 		
-		MainScreen.text("The shark girl giggles and moves over to you, tugging at your " + player.armorName + "  impatiently. Her tail swishes around and smacks your " + assDescript() + ". \"<i>You're gonna make me very happy, you hear? Otherwise...</i>\" she opens her mouth wide and you see her fangs glinting menacingly in the light. You gulp hard and nod, bringing a smile from the shark girl.\n\n", false); 
+		MainScreen.text("The shark girl giggles and moves over to you, tugging at your " + player.inventory.armor.displayName + "  impatiently. Her tail swishes around and smacks your " + ButtDescriptor.describeButt(player) + ". \"<i>You're gonna make me very happy, you hear? Otherwise...</i>\" she opens her mouth wide and you see her fangs glinting menacingly in the light. You gulp hard and nod, bringing a smile from the shark girl.\n\n", false); 
 		MainScreen.text("Wasting no time, she removes her skimpy swimwear and your own gear.  ", false);
 		//[if herm]
-		if(player.gender == 3) MainScreen.text("Seeing your " + cockDescript(0) + " puts a smile on the shark girl's face as she takes a firm grip on your erection. \"<i>Well, you're just full of surprises, aren't you? Maybe I'll give this bad boy a whirl sometime. For now though...</i>\"  ", false);
-		MainScreen.text("Her gaze drifts over to your " + vaginaDescript(0) + " and she licks her lips in delight. \"<i>Now that's what I'm looking for! Tell you what dear, you get me wet and I might just give you some pleasure too.</i>\"\n\n", false);
+		if(player.gender == 3) MainScreen.text("Seeing your " + CockDescriptor.describeCock(player, 0) + " puts a smile on the shark girl's face as she takes a firm grip on your erection. \"<i>Well, you're just full of surprises, aren't you? Maybe I'll give this bad boy a whirl sometime. For now though...</i>\"  ", false);
+		MainScreen.text("Her gaze drifts over to your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " and she licks her lips in delight. \"<i>Now that's what I'm looking for! Tell you what dear, you get me wet and I might just give you some pleasure too.</i>\"\n\n", false);
 		
 		MainScreen.text("She roughly grabs you by the hair and pulls your face into her drooling cunt, your tongue instinctively probing into her. \"<i>Mmm... don't you dare stop licking you dumb bitch, if you know what's good for you,</i>\" she orders. You reply by speeding up your tongue work. You're a little ashamed to admit it, but her dominant command makes you feel rather hot and bothered.\n\n", false);
 		MainScreen.text("The shark girl eventually sighs happily and relaxes her grip on your hair, pulling your head away a few inches. \"<i>Not bad bitch, not bad. Now get on your back.</i>\" You obey your mistress's command and flop onto your back. A sense of joy fills you as she positions her crotch in front of your face and moves her own head between your legs. You quickly resume eating her out, and this time she joins in the feast. It's not too long before the two of you orgasm, spraying girl-cum onto each other's faces.\n\n", false);
 		MainScreen.text("The shark girl stands to leave and winks at you before diving back into the water. You eventually pass out from the exertion.", false);
 		//(Corruption +2, Intelligence -4)
 		player.orgasm();
-		if(player.stats.cor < 30) dynStats("cor", 1);
+		if(player.stats.cor < 30) player.stats.cor += 1;
 		cleanupAfterCombat();
 		return;
 	}
@@ -298,15 +298,15 @@ internal function sharkLossRape():void {
 		else MainScreen.text("horny ", false);
 		MainScreen.text("to fight on.\n\n", false);
 		
-		MainScreen.text("You feel the shark girl's bare foot press against your chest and she roughly pushes you onto your back. \"<i>Oh man, I can't even remember the last time I had an actual man...</i>\" the shark girl says, pulling your pants down to your ankles. Seeing your stiff erection, your opponent smirks and wets her lips before taking your entire " + cockDescript(0) + " into her mouth. The feeling is heavenly, her long tongue slithering around your shaft.\n\n", false);
-		MainScreen.text("But before you can begin to really enjoy it, she pulls her head away, visible strands of saliva still linking her mouth and your " + cockDescript(0) + ". The shark girl quickly maneuvers herself so that she's straddling your cock and presses herself down, the two of you gasping sharply from the sensation. \"<i>Hmm, good boy... You make me cum first, and I won't bite you. Deal?</i>\" You nod, though given that peculiar feelers inside her cunt are massaging your cock, you don't know how long you can really hold out.\n\n", false);
+		MainScreen.text("You feel the shark girl's bare foot press against your chest and she roughly pushes you onto your back. \"<i>Oh man, I can't even remember the last time I had an actual man...</i>\" the shark girl says, pulling your pants down to your ankles. Seeing your stiff erection, your opponent smirks and wets her lips before taking your entire " + CockDescriptor.describeCock(player, 0) + " into her mouth. The feeling is heavenly, her long tongue slithering around your shaft.\n\n", false);
+		MainScreen.text("But before you can begin to really enjoy it, she pulls her head away, visible strands of saliva still linking her mouth and your " + CockDescriptor.describeCock(player, 0) + ". The shark girl quickly maneuvers herself so that she's straddling your cock and presses herself down, the two of you gasping sharply from the sensation. \"<i>Hmm, good boy... You make me cum first, and I won't bite you. Deal?</i>\" You nod, though given that peculiar feelers inside her cunt are massaging your cock, you don't know how long you can really hold out.\n\n", false);
 		
-		MainScreen.text("The shark girl has no such qualms and rides you like a mechanical bull, hammering up and down your " + cockDescript(0) + " with incredible speed. It certainly feels nice, but the rough nature of the ride also certainly hurts. You'll be walking funny for a while after this, that's for sure.\n\n", false);
+		MainScreen.text("The shark girl has no such qualms and rides you like a mechanical bull, hammering up and down your " + CockDescriptor.describeCock(player, 0) + " with incredible speed. It certainly feels nice, but the rough nature of the ride also certainly hurts. You'll be walking funny for a while after this, that's for sure.\n\n", false);
 		
 		MainScreen.text("Eventually, her vagina clamps down on your cock and she cries out in orgasm. You grunt loudly and cum a few seconds after, pumping your seed into her womb. The shark girl leans over and plants a tiny kiss on your lips. \"<i>Good boy. I'll be sure to see you again</i>\". She gets up again and you watch her re-enter the water before you pass out.", false);
 		player.orgasm();
-		dynStats("sen", 1);
-		if(player.stats.cor < 30) dynStats("cor", 1);
+		player.stats.sens += 1;
+		if(player.stats.cor < 30) player.stats.cor += 1;
 		cleanupAfterCombat();
 		return;
 	}

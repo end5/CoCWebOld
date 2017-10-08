@@ -68,15 +68,15 @@ public Rubi(){
 //const RUBI_SETUP: number = 1014;
 
 private rubiSprite():void {
-	if(flags[FlagEnum.RUBI_HORNTYPE] > 0) spriteSelect(102);
+	if(Flags.list[FlagEnum.RUBI_HORNTYPE] > 0) spriteSelect(102);
 	else spriteSelect(101);
 }
 
 private initializeRubi():void {
-	if(flags[FlagEnum.RUBI_BIMBO] == 0) {
-		flags[FlagEnum.RUBI_BREAST_SIZE] = 0;
-		flags[FlagEnum.RUBI_COCK_SIZE] = 5;
-		flags[FlagEnum.RUBI_NO_CUNT] = 1;
+	if(Flags.list[FlagEnum.RUBI_BIMBO] == 0) {
+		Flags.list[FlagEnum.RUBI_BREAST_SIZE] = 0;
+		Flags.list[FlagEnum.RUBI_COCK_SIZE] = 5;
+		Flags.list[FlagEnum.RUBI_NO_CUNT] = 1;
 	}
 	else {
 		flags[FlagEnum.RUBI_BREAST_SIZE] = 7;
@@ -131,7 +131,7 @@ public rubiBreasts():string {
 	{
 		ret += Appearance.breastCup(flags[FlagEnum.RUBI_BREAST_SIZE]);
 		ret += " ";
-		ret += BreastStore.breastDescript(flags[FlagEnum.RUBI_BREAST_SIZE]);
+		ret += BreastStore.BreastDescriptor.describeBreastRow(flags[FlagEnum.RUBI_BREAST_SIZE]);
 	}
 
 	return ret;
@@ -677,7 +677,7 @@ public rubisFuckingHouseYouPervert():void {
 		else MainScreen.text("\n\nRubi nods towards the bottles and box in the corner and gives you a sly wink.  \"<i>Want another massage?</i>\"");
 		MainScreen.addButton(4,"Massage",chocoRubiMassage);
 	}
-	if(player.isNaga() && flags[FlagEnum.RUBI_BIMBO] == 0 && flags[FlagEnum.RUBI_COCK_SIZE] < player.biggestCockLength() && player.lowerBody.cockSpot.hasCock() && flags[FlagEnum.RUBI_SHE] == 0 && player.stats.cor >= 85 && flags[FlagEnum.RUBI_BREAST_SIZE] <= 2)
+	if(player.lowerBody.isNaga() && flags[FlagEnum.RUBI_BIMBO] == 0 && flags[FlagEnum.RUBI_COCK_SIZE] < player.biggestCockLength() && player.lowerBody.cockSpot.hasCock() && flags[FlagEnum.RUBI_SHE] == 0 && player.stats.cor >= 85 && flags[FlagEnum.RUBI_BREAST_SIZE] <= 2)
 	{
 		MainScreen.text("\n\n<b>You could use your snake-like motions to hypnotize Rubi and turn [rubi em] into a more complacent, eager slut. Doing so is likely irreversible.</b>")
 		MainScreen.addButton(5,"Hypno",hypnoBimboficationForRubiSloots);
@@ -688,8 +688,8 @@ public rubisFuckingHouseYouPervert():void {
 private rubiSexMenu():void {
 	//[Fuck Rubi (if player has cock, OR at least a 4</i>\" clit)] [Dildo Fuck (If player has Deluxe Dildo)] [Tease] [Release (Only if Normal or Incubus Rubi who has been teased)] [Titfuck (Bimbo Rubi only)] [Give Item]
 	menu();
-	if (player.lust >= 33) {
-		if (player.lowerBody.cockSpot.hasCock() || (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.list[0].clitLength >= 4)) MainScreen.addButton(0, "Fuck", fuckRubi);
+	if (player.stats.lust >= 33) {
+		if (player.lowerBody.cockSpot.hasCock() || (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).clitLength >= 4)) MainScreen.addButton(0, "Fuck", fuckRubi);
 		if (player.hasKeyItem("Deluxe Dildo") >= 0) MainScreen.addButton(1, "Dildo Fuck", dildoFuckRubi);
 	}
 	MainScreen.addButton(2, "Tease", teaseRubi);
@@ -785,23 +785,23 @@ public fuckRubi():void {
 	if(player.lowerBody.cockSpot.hasCock())
 	{
 		// trace("Rubi - PlayerHasCock");
-		MainScreen.text(cockDescript(x), false);
+		MainScreen.text(CockDescriptor.describeCock(player, x), false);
 	}
 	else
-		MainScreen.text(clitDescript(), false);
+		MainScreen.text(VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)), false);
 	MainScreen.text(".");
 
 	let size: number = 0;
 	let cock:boolean = player.lowerBody.cockSpot.hasCock();
 	//(If player cock/clit at or under 4</i>\")
 	if(player.lowerBody.cockSpot.hasCock()) {
-		if(player.lowerBody.cockSpot.list[x].cockLength <= 4) size = 0;
+		if(player.lowerBody.cockSpot.get(x).cockLength <= 4) size = 0;
 		else if(player.cockThatFits(rubiCapacity()) >= 0) size = 1;
 		else size = 2;
 	}
 	else {
-		if(player.lowerBody.vaginaSpot.list[0].clitLength <= 4) size = 0;
-		else if(player.lowerBody.vaginaSpot.list[0].clitLength <= 12 || flags[FlagEnum.HYPER_HAPPY]) size = 1;
+		if(player.lowerBody.vaginaSpot.get(0).clitLength <= 4) size = 0;
+		else if(player.lowerBody.vaginaSpot.get(0).clitLength <= 12 || flags[FlagEnum.HYPER_HAPPY]) size = 1;
 		else size = 2;
 	}
 	if(size == 0) {
@@ -819,7 +819,7 @@ public fuckRubi():void {
 	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("cock");
 	else MainScreen.text("clit");
 	MainScreen.text(", Rubi slips off your lap and kneels on the floor.  [rubi Ey] pauses a moment, taking in your ");
-	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(cockDescript(x));
+	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(CockDescriptor.describeCock(player, x));
 	else MainScreen.text("[clit]");
 	MainScreen.text(" with [rubi eir] eyes before leaning in and giving it a tentative lick, which sends a shiver up your spine.  Seeing that, [rubi ey] gives a little smile and licks again, running [rubi eir] smooth tongue all along the length of your ");
 	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("swollen member");
@@ -835,7 +835,7 @@ public fuckRubi():void {
 	if(size < 2) {
 		//(Normal/Incubus Rubi)
 		MainScreen.text("\n\nFiguring [rubi ey]'s had enough time in charge, you stand and get behind Rubi, pushing [rubi em] so that [rubi eir] chest and head are resting on the edge of the bed.  You lift [rubi eir] tail and place your ");
-		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(cockDescript(x));
+		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(CockDescriptor.describeCock(player, x));
 		else MainScreen.text("[clit]");
 		MainScreen.text(" at [rubi eir] tight ");
 		if(flags[FlagEnum.RUBI_NO_CUNT] > 0) MainScreen.text("tailhole");
@@ -848,7 +848,7 @@ public fuckRubi():void {
 	//(These two paragraphs for cocks over 24 area)
 	else {
 		MainScreen.text("\n\nFiguring [rubi ey]'s had enough time in charge, you stand and get behind Rubi, pushing [rubi em] so that [rubi eir] chest and head are resting on the edge of the bed.  You lift [rubi eir] tail, press [rubi eir] legs together, and place your ");
-		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(cockDescript(x));
+		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(CockDescriptor.describeCock(player, x));
 		else MainScreen.text("[clit]");
 		MainScreen.text(" at the space just below [rubi eir] ");
 		if(flags[FlagEnum.RUBI_NO_CUNT] > 0) MainScreen.text("balls");
@@ -858,7 +858,7 @@ public fuckRubi():void {
 		if(rubiBimbo()) MainScreen.text(", not that [rubi ey] needs the extra lubrication, as she's practically dripping like a faucet, which dribbles down [rubi eir] legs suitably enough");
 		MainScreen.text(".");
 		MainScreen.text("\n\nYou press forward, your enormous ");
-		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(cockDescript(x));
+		if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(CockDescriptor.describeCock(player, x));
 		else MainScreen.text("[clit]");
 		MainScreen.text(" slipping between Rubi's thighs, which grip you tightly.  You feel [rubi eir] ");
 		if(flags[FlagEnum.RUBI_COCK_SIZE] > 0) MainScreen.text("hard cock");
@@ -880,7 +880,7 @@ public fuckRubi():void {
 	MainScreen.text("\n\nYou keep this up for as long as you can, steeling yourself until you just can't take any more.  With a final, deep thrust, you groan and let your mind blank as the orgasm overtakes you.  ");
 	//(Player has cock under 24 area?)
 	if(player.lowerBody.cockSpot.hasCock() && player.cockArea(x) <= rubiCapacity()) {
-		MainScreen.text("Your " + cockDescript(x) + " engorges for a second before erupting deep inside your demonic little fucktoy.  ");
+		MainScreen.text("Your " + CockDescriptor.describeCock(player, x) + " engorges for a second before erupting deep inside your demonic little fucktoy.  ");
 		if(player.cumQ() < 250) MainScreen.text("Cum dribbles out from [rubi eir] hole as you give a couple extra thrusts.");
 		else if(player.cumQ() < 1000) MainScreen.text("A generous amount of cum trickles from [rubi eir] depths as you give a couple extra thrusts.");
 		else if(player.cumQ() < 2000) {
@@ -891,13 +891,13 @@ public fuckRubi():void {
 		}
 	}
 	else if(player.lowerBody.cockSpot.hasCock()) {
-		MainScreen.text("Your " + cockDescript(x) + " engorges for a second before erupting beneath Rubi, splattering [rubi em] and the blankets ");
+		MainScreen.text("Your " + CockDescriptor.describeCock(player, x) + " engorges for a second before erupting beneath Rubi, splattering [rubi em] and the blankets ");
 		if(player.cumQ() < 250) MainScreen.text("with a fair amount of your seed.");
 		else if(player.cumQ() < 1000) MainScreen.text("with a generous amount of your spunk.");
 		else MainScreen.text("with a veritable torrent of potent pearlescent spooge.");
 	}
 	//(Player has clit?)
-	else MainScreen.text("  Your " + clitDescript() + " throbs and engorges briefly as your " + vaginaDescript(0) + " reflexively contracts and a warm feeling rocks through your entire body.  Femjuices run down your [legs] and relief overtakes you like a powerful wave upon a beach.");
+	else MainScreen.text("  Your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + " throbs and engorges briefly as your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " reflexively contracts and a warm feeling rocks through your entire body.  Femjuices run down your [legs] and relief overtakes you like a powerful wave upon a beach.");
 
 	MainScreen.text("\n\nYou stumble backwards, pulling your " + cockClit(x) + " out of Rubi and collapse on the bed next to [rubi em].  [rubi Ey] cuddles up next to you, in a mixed puddle of spunk, and hugs you close.  \"<i>That was ");
 	if(rubiBimbo() && flags[FlagEnum.RUBI_DEBIMBO] == 0) MainScreen.text("like, totally ");
@@ -951,7 +951,7 @@ public dildoFuckRubi():void {
 
 	MainScreen.text("\n\nYou also lie down, and align the other end with your [vagOrAss], and slip it inside.  Warmth radiates outwards as the drug takes full effect, your whole body becoming aroused.");
 	//(If player has pussy)
-	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your " + clitDescript() + " stiffens, aching for attention.  It peeks from your folds like a shy little lewd faerie.");
+	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + " stiffens, aching for attention.  It peeks from your folds like a shy little lewd faerie.");
 	//(If player has a cock)
 	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("  Meanwhile, [eachCock] stiffens, throbbing as the drug overtakes it.");
 	if(player.lactationQ() > 0) MainScreen.text("  As the warmth spreads up your body, not even your breasts are left alone.  Your nipples harden and begin leaking milk, which pours down the sides of your body and is soaked up into the cushions beneath you.");
@@ -979,7 +979,7 @@ public dildoFuckRubi():void {
 	//(PC has cock?)
 	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("[eachCock], stroking it fervently, in desperate need of release.");
 	//(PC doesn't have cock, but has pussy?)
-	else if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("your " + clitDescript() + ", rubbing it frantically, in desperate need of release.");
+	else if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("your " + VaginaDescriptor.describeClit(player, player.lowerBody.vaginaSpot.get(0)) + ", rubbing it frantically, in desperate need of release.");
 	//(PC doesn't have either, but breasts above A-cup?)
 	else MainScreen.text("your [chest], rubbing your nipples vigorously, in desperate need of release.");
 	//(Bonus, fuckable nipples?)
@@ -998,7 +998,7 @@ public dildoFuckRubi():void {
 		MainScreen.text(".");
 	}
 	//(PC has pussy?)
-	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your " + vaginaDescript(0) + " clenches down on the enormous invader, which at this point feels like an enormous steel rod lodged firmly inside you, and a spray of fem-juices erupts from your nethers, coating the already slick dildo and Rubi.");
+	if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("  Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " clenches down on the enormous invader, which at this point feels like an enormous steel rod lodged firmly inside you, and a spray of fem-juices erupts from your nethers, coating the already slick dildo and Rubi.");
 	//(PC lactating?)
 	if(player.lactationQ() > 0) MainScreen.text("  Your breasts shudder and quake as the orgasmic tsunami washes over them, spraying your sweet smelling milk all over yourself, Rubi and the couch.");
 
@@ -1210,7 +1210,7 @@ private interruptTheNTRsYouCrazyFool():void {
 	MainScreen.text("\n\nRubi jumps a little, and sits up, but her fingers remain buried deep in her snatch.  The man, on the other hand, turns around and looks you over appraisingly.  Not surprisingly, he's not human.  Though he has a human face, you see wolf-like ears perched on his head, and a fluffy white and grey tail extends from a hole in his trousers.  The wolfman scoffs dismissively, \"<i>Go on, get out of here.  I got things to see and people to do.</i>\"");
 
 	//Strength 61+)
-	if(player.str >= 61) MainScreen.text("\n\nAngered by this blow off, you take a swing at the man.  Catching him off guard, you send him to the ground with a loud THUMP.  He holds his head in his hands for a moment.  You nudge him in the stomach with a [foot] and tell him to get lost.  He grumbles, grabs his shirt and scampers away without looking back.");
+	if(player.stats.str >= 61) MainScreen.text("\n\nAngered by this blow off, you take a swing at the man.  Catching him off guard, you send him to the ground with a loud THUMP.  He holds his head in his hands for a moment.  You nudge him in the stomach with a [foot] and tell him to get lost.  He grumbles, grabs his shirt and scampers away without looking back.");
 	else {
 		MainScreen.text("\n\nAngered by this blow off, you take a swing at the man.  Your punch lands square in the jaw and he stumbles back a step.  He looks at you in surprise for a second, and then laughs, \"<i>You got spunk, kid, but let me show you how a real man does it.</i>\"");
 		//(Strength <61 and Speed <61)
@@ -1239,9 +1239,9 @@ private waitAndGetNTRedLikeTheBoyBitchYouAre():void {
 	MainScreen.text("\n\nPeering in a new window, you see Rubi's glittering red lips wrapped around the wolfman's canine cock.  She slips up and down at a sensuously slow speed, her tongue darts out every few seconds almost as if it's taunting you.  Her head bobs with increasing speed, and you note that her fingers have descended to her nethers, which are unfortunately obscured by her legs from this angle.");
 	MainScreen.text("\n\nAs you contemplate moving to another window, you see the wolfman speak.  Rubi relinquishes her lip locked grip on his cock and smiles.  You see she's giggling and laughing, and she crawls onto the couch on all fours, presenting herself to her canine compatriot, and inadvertently to you as well.  You can see her cunt is slick with juices, and her tail swishes from side to side in a hypnotizing, catlike fashion.  Saying the man has a wolfish grin would be a disservice as his grin stretches from ear to ear.  He climbs onto the couch on his knees behind your bimbo lover.  Curses, your view is ruined again!");
 	MainScreen.text("\n\nMaking your way back to the front window with shaking knees, you see the wolfman's glistening red canine cock just slide right inside Rubi's eager hole.  Her mouth opens, and you can just imagine the low moan that rumbles out, since you've heard her make that noise on several occasions.  A small pang of jealousy arises within you that this man gives her the same reaction.  As Rubi's wolfish lover begins to assail this new territory, more \"<i>oohs</i>\" and \"<i>aahs</i>\" roll out of her mouth and into your imagination.  You're a little ashamed of yourself, but you have to admit this is turning you on.");
-	if(!player.isTaur()) {
+	if(!player.lowerBody.isTaur()) {
 		MainScreen.text("\n\nAs the lovemaking continues, you find your hand descending into your [armor] to fondle ");
-		if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("your " + vaginaDescript());
+		if(player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("your " +             VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)));
 		else if(player.lowerBody.cockSpot.hasCock()) MainScreen.text("[eachCock]");
 		MainScreen.text(".  ");
 	}
@@ -1342,7 +1342,7 @@ private chocoRubiMassage():void {
 		MainScreen.text(".");
 	}
 
-	MainScreen.text("\n\nRubi politely holds a towel between you as you climb into the bed face down, your head coming to rest on a down-filled pillow.  The fluffy fabric barrier is draped across your [butt], though your feminine boyfriend is sure to fold it so that your [legs] are fully exposed.  The box is placed in front of your " + player.face() + " and opened.  Inside is a candied, fruity treasure - chocolate covered strawberries.  Rubi's slender fingers pluck up one of the delectable treats and press it into your yielding lips, the sweet treat gliding onto your tongue whereupon it goes to work releasing starbursts of flavor.  You hum contently as you devour the confectionary gift, already feeling much more relaxed than you had been.  The rest are within easy reach, and you languidly set to snacking on them.");
+	MainScreen.text("\n\nRubi politely holds a towel between you as you climb into the bed face down, your head coming to rest on a down-filled pillow.  The fluffy fabric barrier is draped across your [butt], though your feminine boyfriend is sure to fold it so that your [legs] are fully exposed.  The box is placed in front of your " + HeadDescriptor.describeFace(player) + " and opened.  Inside is a candied, fruity treasure - chocolate covered strawberries.  Rubi's slender fingers pluck up one of the delectable treats and press it into your yielding lips, the sweet treat gliding onto your tongue whereupon it goes to work releasing starbursts of flavor.  You hum contently as you devour the confectionary gift, already feeling much more relaxed than you had been.  The rest are within easy reach, and you languidly set to snacking on them.");
 
 	MainScreen.text("\n\nMeanwhile, you hear Rubi's clothing falling by the wayside.  You aren't sure what else you expected from the sexy little trap.  When you turn to look at [rubi em], you're treated to the sight of [rubi em] all dolled up for you.  [rubi Ey] has a crotchless set of panties clinging to [rubi eir] ");
 	if(flags[FlagEnum.RUBI_BLU_BALLS] < 3) MainScreen.text("small");
@@ -1359,7 +1359,8 @@ private chocoRubiMassage():void {
 
 	MainScreen.text("\n\nDo you let [rubi em] release or force [rubi em] to stay all bottled up?  [rubi Ey] has been awful nice...");
 	fatigue(-40);
-	dynStats("lib", -1, "lus", 5);
+	player.stats.lib += -1;
+player.stats.lust += 5;
 	flags[FlagEnum.TIMES_RUBI_MASSAGED]++;
 	//[Release] [Nope]
 	//{Not Pent Up: Go to release}
@@ -2426,7 +2427,7 @@ private getFuckedByRubi():void {
 	if(!player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("asshole");
 	else MainScreen.text("cunt");
 	MainScreen.text(" of yours all ready for me.</i>\"  Rubi's head descends between your legs");
-	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(", ignoring your " + multiCockDescriptLight() + " completely,");
+	if(player.lowerBody.cockSpot.hasCock()) MainScreen.text(", ignoring your " + CockDescriptor.describeMultiCockShort(player) + " completely,");
 	MainScreen.text(" and presses [rubi eir] face into your [vagOrAss], inhaling deeply.  [rubi Eir] lips pucker as [rubi ey] plants a kiss directly onto your ");
 	if(!player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("ass");
 	else MainScreen.text("moistening pussy");
@@ -2499,7 +2500,7 @@ private getFuckedByRubi():void {
 
 	MainScreen.text("\n\nYou waggle a finger at [rubi em] hazily, and [rubi ey] climbs up onto the bed next to you.  You wrap your arms around [rubi em] and kiss [rubi em] passionately before pulling [rubi em] into a cuddling hug.  The two of you drift off into a short nap, contentedly wrapped up in each other's arms.");
 	player.orgasm();
-	dynStats("sen", 2);
+	player.stats.sens += 2;
 	doNext(camp.returnToCampUseOneHour);
 }
 
@@ -2869,7 +2870,7 @@ private giveRubiATFItem(itype:ItemType):void {
 
 		MainScreen.text("\n\nYou grin and say, \"<i>Of course.</i>\"  After all, you're always happy to help!");
 		//(Go to sex menu)
-		player.consumeItem(consumables.BIMBOLQ);
+		player.inventory.items.consumeItem(consumables.BIMBOLQ);
 		flags[FlagEnum.RUBI_SHE] = 1;
 		flags[FlagEnum.RUBI_BIMBO] = 1;
 		flags[FlagEnum.RUBI_HAIR] = 1;
@@ -3055,12 +3056,12 @@ private giveRubiATFItem(itype:ItemType):void {
 		else {
 			MainScreen.text("\n\nYou monitor Rubi carefully, but it seems this batch of peaches has no effect other than filling [rubi eir] stomach.  Or perhaps there's nothing more to change.");
 		}
-		player.consumeItem(itype,1);
-		player.consumeItem(itype,1);
-		player.consumeItem(itype,1);
-		player.consumeItem(itype,1);
+		player.inventory.items.consumeItem(itype,1);
+		player.inventory.items.consumeItem(itype,1);
+		player.inventory.items.consumeItem(itype,1);
+		player.inventory.items.consumeItem(itype,1);
 	}
-	player.consumeItem(itype,1);
+	player.inventory.items.consumeItem(itype,1);
 	menu();
 	MainScreen.addButton(0,"Next",pickAnItemToFeedRubi);
 	//Go back to give item menu.
@@ -3090,7 +3091,7 @@ private rubiGrowPlusBreasts():void {
 	}
 	//(If breasts already maxed)
 	else MainScreen.text("\n\nSadly, apart from making [rubi eir] nipples particularly perky, they don't seem to have much effect on Rubi's already enormous rack.");
-	player.consumeItem(consumables.GROPLUS);
+	player.inventory.items.consumeItem(consumables.GROPLUS);
 	menu();
 	MainScreen.addButton(0,"Next",pickAnItemToFeedRubi);
 	//Go back to give item menu.
@@ -3131,7 +3132,7 @@ private rubiPenisGroPlus():void {
 		if(this.rubiGetCockType() == CockType.HORSE) MainScreen.text("sheath-stuffing horse-dick");
 		else MainScreen.text("giant dick.");
 	}
-	player.consumeItem(consumables.GROPLUS);
+	player.inventory.items.consumeItem(consumables.GROPLUS);
 	menu();
 	MainScreen.addButton(0,"Next",pickAnItemToFeedRubi);
 	//Go back to give item menu.
@@ -3145,7 +3146,7 @@ private rubiBoobsReducto():void {
 		MainScreen.text("\n\nIt seems to take a moment for the effects to kick in, and soon you see Rubi shiver while [rubi eir] breasts seem to quake, shrinking rapidly in size.  When the process is done, you're certain [rubi ey]'s lost an entire cup size, and the paste has been completely absorbed in the process.");
 		flags[FlagEnum.RUBI_BREAST_SIZE]--;
 	}
-	player.consumeItem(consumables.REDUCTO);
+	player.inventory.items.consumeItem(consumables.REDUCTO);
 	menu();
 	MainScreen.addButton(0,"Next",pickAnItemToFeedRubi);
 	//Go back to give item menu.
@@ -3162,7 +3163,7 @@ private rubiPenisReducto():void {
 	else {
 		MainScreen.text("\n\nIt doesn't seem to have any effect.");
 	}
-	player.consumeItem(consumables.REDUCTO);
+	player.inventory.items.consumeItem(consumables.REDUCTO);
 	menu();
 	MainScreen.addButton(0,"Next",pickAnItemToFeedRubi);
 	//Go back to item giving menu!
@@ -3180,63 +3181,63 @@ private pickAnItemToFeedRubi():void {
 		closet[closet.length] = "Suitclothes";
 	else {
 		gifts.push("Suitclothes");
-		if (player.hasItem(armors.CLSSYCL)) MainScreen.addButton(button++, "Suitclothes", giveRubiClothes, armors.CLSSYCL);
+		if (player.inventory.items.has(armors.CLSSYCL)) MainScreen.addButton(button++, "Suitclothes", giveRubiClothes, armors.CLSSYCL);
 	}
 	
 	if (flags[FlagEnum.RUBI_FETISH_CLOTHES] == 1)
 		closet[closet.length] = "Rubber Fetish Clothes";
 	else {
 		gifts.push("Rubber Fetish Clothes");
-		if (player.hasItem(armors.RBBRCLT)) MainScreen.addButton(button++, "Rubberclothes", giveRubiClothes, armors.RBBRCLT);
+		if (player.inventory.items.has(armors.RBBRCLT)) MainScreen.addButton(button++, "Rubberclothes", giveRubiClothes, armors.RBBRCLT);
 	}
 	
 	if (flags[FlagEnum.RUBI_GREEN_ADVENTURER] == 1)
 		closet[closet.length] = "A Green Adventurer's Outfit";
 	else {
 		gifts.push("A Green Adventurer's Outfit");
-		if (player.hasItem(armors.ADVCLTH)) MainScreen.addButton(button++, "Green Clothes", giveRubiClothes, armors.ADVCLTH);
+		if (player.inventory.items.has(armors.ADVCLTH)) MainScreen.addButton(button++, "Green Clothes", giveRubiClothes, armors.ADVCLTH);
 	}
 	
 	if (flags[FlagEnum.RUBI_TUBE_TOP] == 1)
 		closet[closet.length] = "A Tube Top";
 	else {
 		gifts.push("A Tube Top");
-		if (player.hasItem(armors.TUBETOP)) MainScreen.addButton(button++, "Tube Top", giveRubiClothes, armors.TUBETOP);
+		if (player.inventory.items.has(armors.TUBETOP)) MainScreen.addButton(button++, "Tube Top", giveRubiClothes, armors.TUBETOP);
 	}
 	
 	if (flags[FlagEnum.RUBI_BODYSUIT] == 1)
 		closet[closet.length] = "A Sheer Bodysuit";
 	else {
 		gifts.push("A Sheer Bodysuit");
-		if (player.hasItem(armors.T_BSUIT)) MainScreen.addButton(button++, "Bodysuit", giveRubiClothes, armors.T_BSUIT);
+		if (player.inventory.items.has(armors.T_BSUIT)) MainScreen.addButton(button++, "Bodysuit", giveRubiClothes, armors.T_BSUIT);
 	}
 	
 	if (flags[FlagEnum.RUBI_LONGDRESS] == 1)
 		closet[closet.length] = "A Long Dress";
 	else {
 		gifts.push("A Long Dress");
-		if (player.hasItem(armors.B_DRESS)) MainScreen.addButton(button++, "Long Dress", giveRubiClothes, armors.B_DRESS);
+		if (player.inventory.items.has(armors.B_DRESS)) MainScreen.addButton(button++, "Long Dress", giveRubiClothes, armors.B_DRESS);
 	}
 	
 	if (flags[FlagEnum.RUBI_TIGHT_PANTS] == 1)
 		closet[closet.length] = "A Dashing Outfit With Tight Leather Pants";
 	else {
 		gifts.push("A Dashing Outfit With Tight Leather Pants");
-		if (player.hasItem(armors.LTHRPNT)) MainScreen.addButton(button++, "Leather Pants", giveRubiClothes, armors.LTHRPNT);
+		if (player.inventory.items.has(armors.LTHRPNT)) MainScreen.addButton(button++, "Leather Pants", giveRubiClothes, armors.LTHRPNT);
 	}
 	
 	if (flags[FlagEnum.RUBI_NURSE_CLOTHES] == 1)
 		closet[closet.length] = "Nurse's Clothes";
 	else {
 		gifts.push("Nurse's Clothes");
-		if (player.hasItem(armors.NURSECL)) MainScreen.addButton(button++, "Nurse Clothes", giveRubiClothes, armors.NURSECL);
+		if (player.inventory.items.has(armors.NURSECL)) MainScreen.addButton(button++, "Nurse Clothes", giveRubiClothes, armors.NURSECL);
 	}
 	
 	if (flags[FlagEnum.RUBI_SWIMWEAR] == 1)
 		closet[closet.length] = "Slutty Swimwear";
 	else {
 		gifts.push("Slutty Swimwear");
-		if (player.hasItem(armors.S_SWMWR)) MainScreen.addButton(button++, "SluttySwim", giveRubiClothes, armors.S_SWMWR);
+		if (player.inventory.items.has(armors.S_SWMWR)) MainScreen.addButton(button++, "SluttySwim", giveRubiClothes, armors.S_SWMWR);
 	}
 	
 	if (flags[FlagEnum.RUBI_BIMBO_MINIDRESS] == 1)
@@ -3248,14 +3249,14 @@ private pickAnItemToFeedRubi():void {
 		closet[closet.length] = "Bondage Straps";
 	else {
 		gifts.push("Bondage Straps");
-		if (player.hasItem(armors.BONSTRP)) MainScreen.addButton(button++, "Bondage S.", giveRubiClothes, armors.BONSTRP);
+		if (player.inventory.items.has(armors.BONSTRP)) MainScreen.addButton(button++, "Bondage S.", giveRubiClothes, armors.BONSTRP);
 	}
 	
 	if (flags[FlagEnum.RUBI_INQUISITORS_CORSET] == 1)
 		closet[closet.length] = "An Inquisitor's Corset";
 	else {
 		gifts.push("An Iquisitor's Corset");
-		if (player.hasItem(armors.I_CORST)) MainScreen.addButton(button++, "I. Corset", giveRubiClothes, armors.I_CORST);
+		if (player.inventory.items.has(armors.I_CORST)) MainScreen.addButton(button++, "I. Corset", giveRubiClothes, armors.I_CORST);
 	}
 	
 	if (flags[FlagEnum.RUBI_AFFECTION] >= 100)
@@ -3282,17 +3283,17 @@ private pickAnItemToFeedRubi():void {
 		MainScreen.text("You could give Rubi some incubi draft to make [rubi em] a little more manly but corrupt, or you could give Rubi a Bimbo Draft to turn [rubi em] into a smoking hot, female sex-bomb.\n\n");
 	}
 	MainScreen.text("What will you give [rubi em]?");
-	if (player.hasItem(consumables.BIMBOLQ) && !rubiBimbo()) MainScreen.addButton(button++, "Bimbo Liq", giveRubiATFItem, consumables.BIMBOLQ);
-	if (player.hasItem(consumables.INCUBID)) MainScreen.addButton(button++, "Incubi Draft", giveRubiATFItem, consumables.INCUBID);
-	if (player.hasItem(consumables.P_DRAFT)) MainScreen.addButton(button++, "Pure Draft", giveRubiATFItem, consumables.P_DRAFT);
-	if (player.hasItem(consumables.SUCMILK)) MainScreen.addButton(button++, "Sucb Milk", giveRubiATFItem, consumables.SUCMILK);
-	if (player.hasItem(consumables.P_S_MLK)) MainScreen.addButton(button++, "PureScbMlk", giveRubiATFItem, consumables.P_S_MLK);
-	if (player.hasItem(consumables.PURPEAC, 5)) MainScreen.addButton(button++, "Pure Peach", giveRubiATFItem, consumables.PURPEAC);
-	if (player.hasItem(consumables.EQUINUM)) MainScreen.addButton(button++, "Equinum", giveRubiATFItem, consumables.EQUINUM);
-	if (player.hasItem(consumables.W_FRUIT)) MainScreen.addButton(button++, "Whsk.Fruit", giveRubiATFItem, consumables.W_FRUIT);
-	if (player.hasItem(consumables.REDUCTO)) MainScreen.addButton(button++, "Reducto", giveRubiATFItem, consumables.REDUCTO);
-	if (player.hasItem(consumables.GROPLUS)) MainScreen.addButton(button++, "Gro Plus", giveRubiATFItem, consumables.GROPLUS);
-	if (player.hasItem(consumables.TRAPOIL)) MainScreen.addButton(button++, "Trap Oil", giveRubiATFItem, consumables.TRAPOIL);
+	if (player.inventory.items.has(consumables.BIMBOLQ) && !rubiBimbo()) MainScreen.addButton(button++, "Bimbo Liq", giveRubiATFItem, consumables.BIMBOLQ);
+	if (player.inventory.items.has(consumables.INCUBID)) MainScreen.addButton(button++, "Incubi Draft", giveRubiATFItem, consumables.INCUBID);
+	if (player.inventory.items.has(consumables.P_DRAFT)) MainScreen.addButton(button++, "Pure Draft", giveRubiATFItem, consumables.P_DRAFT);
+	if (player.inventory.items.has(consumables.SUCMILK)) MainScreen.addButton(button++, "Sucb Milk", giveRubiATFItem, consumables.SUCMILK);
+	if (player.inventory.items.has(consumables.P_S_MLK)) MainScreen.addButton(button++, "PureScbMlk", giveRubiATFItem, consumables.P_S_MLK);
+	if (player.inventory.items.has(consumables.PURPEAC, 5)) MainScreen.addButton(button++, "Pure Peach", giveRubiATFItem, consumables.PURPEAC);
+	if (player.inventory.items.has(consumables.EQUINUM)) MainScreen.addButton(button++, "Equinum", giveRubiATFItem, consumables.EQUINUM);
+	if (player.inventory.items.has(consumables.W_FRUIT)) MainScreen.addButton(button++, "Whsk.Fruit", giveRubiATFItem, consumables.W_FRUIT);
+	if (player.inventory.items.has(consumables.REDUCTO)) MainScreen.addButton(button++, "Reducto", giveRubiATFItem, consumables.REDUCTO);
+	if (player.inventory.items.has(consumables.GROPLUS)) MainScreen.addButton(button++, "Gro Plus", giveRubiATFItem, consumables.GROPLUS);
+	if (player.inventory.items.has(consumables.TRAPOIL)) MainScreen.addButton(button++, "Trap Oil", giveRubiATFItem, consumables.TRAPOIL);
 	MainScreen.addButton(9, "Back", rubiAppearance);
 
 	
@@ -3449,92 +3450,92 @@ private pickAnItemToFeedRubi():void {
 	//The following items can be given to Rubi at Relationship 40+: Bimbo Liqueur (once), Incubus Draft (up to three times).  Incubus Rubi can't be given Bimbo Liqueur, and likewise Bimbo Rubi can't be given Incubus Draft.
 	let events:Array = [];
 	let functions:Array = [];
-	if(player.hasItem(armors.CLSSYCL) && flags[FlagEnum.RUBI_SUITCLOTHES] == 0) {
+	if(player.inventory.items.has(armors.CLSSYCL) && flags[FlagEnum.RUBI_SUITCLOTHES] == 0) {
 		events[events.length] = 3879;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.RBBRCLT) && flags[FlagEnum.RUBI_FETISH_CLOTHES] == 0) {
+	if(player.inventory.items.has(armors.RBBRCLT) && flags[FlagEnum.RUBI_FETISH_CLOTHES] == 0) {
 		events[events.length] = 3880;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.ADVCLTH) && flags[FlagEnum.RUBI_GREEN_ADVENTURER] == 0) {
+	if(player.inventory.items.has(armors.ADVCLTH) && flags[FlagEnum.RUBI_GREEN_ADVENTURER] == 0) {
 		events[events.length] = 3881;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.TUBETOP) && flags[FlagEnum.RUBI_TUBE_TOP] == 0) {
+	if(player.inventory.items.has(armors.TUBETOP) && flags[FlagEnum.RUBI_TUBE_TOP] == 0) {
 		events[events.length] = 3882;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.T_BSUIT) && flags[FlagEnum.RUBI_BODYSUIT] == 0) {
+	if(player.inventory.items.has(armors.T_BSUIT) && flags[FlagEnum.RUBI_BODYSUIT] == 0) {
 		events[events.length] = 3883;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.B_DRESS) && flags[FlagEnum.RUBI_LONGDRESS] == 0) {
+	if(player.inventory.items.has(armors.B_DRESS) && flags[FlagEnum.RUBI_LONGDRESS] == 0) {
 		events[events.length] = 3884;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.LTHRPNT) && flags[FlagEnum.RUBI_TIGHT_PANTS] == 0) {
+	if(player.inventory.items.has(armors.LTHRPNT) && flags[FlagEnum.RUBI_TIGHT_PANTS] == 0) {
 		events[events.length] = 3885;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.NURSECL) && flags[FlagEnum.RUBI_NURSE_CLOTHES] == 0) {
+	if(player.inventory.items.has(armors.NURSECL) && flags[FlagEnum.RUBI_NURSE_CLOTHES] == 0) {
 		events[events.length] = 3886;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.S_SWMWR) && flags[FlagEnum.RUBI_SWIMWEAR] == 0) {
+	if(player.inventory.items.has(armors.S_SWMWR) && flags[FlagEnum.RUBI_SWIMWEAR] == 0) {
 		events[events.length] = 3887;
 		functions[functions.length] = eventParser;
 	}
-	if(player.hasItem(armors.BONSTRP) && flags[FlagEnum.RUBI_BONDAGE_STRAPS] == 0) {
+	if(player.inventory.items.has(armors.BONSTRP) && flags[FlagEnum.RUBI_BONDAGE_STRAPS] == 0) {
 		events[events.length] = armors.BONSTRP;
 		functions[functions.length] = giveRubiClothes;
 	}
-	if(player.hasItem(armors.I_CORST) && flags[FlagEnum.RUBI_INQUISITORS_CORSET] == 0) {
+	if(player.inventory.items.has(armors.I_CORST) && flags[FlagEnum.RUBI_INQUISITORS_CORSET] == 0) {
 		events[events.length] = armors.I_CORST;
 		functions[functions.length] = giveRubiClothes;
 	}
 
-	if(player.hasItem(consumables.BIMBOLQ) && !rubiBimbo()) {
+	if(player.inventory.items.has(consumables.BIMBOLQ) && !rubiBimbo()) {
 		events[events.length] = consumables.BIMBOLQ;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.INCUBID)) {
+	if(player.inventory.items.has(consumables.INCUBID)) {
 		events[events.length] = consumables.INCUBID;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.P_DRAFT)) {
+	if(player.inventory.items.has(consumables.P_DRAFT)) {
 		events[events.length] = consumables.P_DRAFT;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.SUCMILK)) {
+	if(player.inventory.items.has(consumables.SUCMILK)) {
 		events[events.length] = consumables.SUCMILK;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.P_S_MLK)) {
+	if(player.inventory.items.has(consumables.P_S_MLK)) {
 		events[events.length] = consumables.P_S_MLK;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.PURPEAC,5)) {
+	if(player.inventory.items.has(consumables.PURPEAC,5)) {
 		events[events.length] = consumables.PURPEAC;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.EQUINUM)) {
+	if(player.inventory.items.has(consumables.EQUINUM)) {
 		events[events.length] = consumables.EQUINUM;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.W_FRUIT)) {
+	if(player.inventory.items.has(consumables.W_FRUIT)) {
 		events[events.length] = consumables.W_FRUIT;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.REDUCTO)) {
+	if(player.inventory.items.has(consumables.REDUCTO)) {
 		events[events.length] = consumables.REDUCTO;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.GROPLUS)) {
+	if(player.inventory.items.has(consumables.GROPLUS)) {
 		events[events.length] = consumables.GROPLUS;
 		functions[functions.length] = giveRubiATFItem;
 	}
-	if(player.hasItem(consumables.TRAPOIL)) {
+	if(player.inventory.items.has(consumables.TRAPOIL)) {
 		events[events.length] = consumables.TRAPOIL;
 		functions[functions.length] = giveRubiATFItem;
 	}
@@ -3592,7 +3593,7 @@ public giveRubiClothes(itype:ItemType = null):void {
 	MainScreen.text("You hand over the spare set of clothes, and Rubi's eyes light up.  \"<i>For me?</i>\"  the little demon practically screams, ecstatic.  \"<i>ThankyouthankyouthankyouTHANKYOU!</i>\"");
 	MainScreen.text("\n\nRubi holds the outfit up to [rubi eir] body and grins, \"<i>Ooooh, I just love it!  I mean, I'll have to take it to the tailors to get fitted, but I absolutely adore it!</i>\"");
 	MainScreen.text("\n\nYou wonder how [rubi ey] could get so excited over it, after all it's just clothes, but you smile and nod along, happy to make [rubi em] happy.");
-	player.consumeItem(itype,1);
+	player.inventory.items.consumeItem(itype,1);
 	if(itype == armors.CLSSYCL) flags[FlagEnum.RUBI_SUITCLOTHES] = 1;
 	else if(itype == armors.RBBRCLT) flags[FlagEnum.RUBI_FETISH_CLOTHES] = 1;
 	else if(itype == armors.ADVCLTH) flags[FlagEnum.RUBI_GREEN_ADVENTURER] = 1;

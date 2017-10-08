@@ -16,16 +16,16 @@
 //[Mage's Tower]
 public visitZeMagesTower():void {
 	
-	if(flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == 0) firstTowerVisit();
+	if(Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] == 0) firstTowerVisit();
 	else towerFollowUpVisits();
 	menu();
-	if(flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == 0 || model.time.hours <= 17)  {
+	if(Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] == 0 || model.time.hours <= 17)  {
 		MainScreen.addButton(1,"You Okay?",youOkayBuddy);
-		if(flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00175] > 0) MainScreen.addButton(2,"Mali",talkToMali);
+		if(Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00175] > 0) MainScreen.addButton(2,"Mali",talkToMali);
 	}
-	if(flags[FlagEnum.TIMES_VISITED_MALI] > 0) MainScreen.addButton(2,"Mali",talkToMali);
+	if(Flags.list[FlagEnum.TIMES_VISITED_MALI] > 0) MainScreen.addButton(2,"Mali",talkToMali);
 	MainScreen.addButton(0,"Study",studyInTA);
-	flags[FlagEnum.TIMES_BEEN_TO_LIBRARY]++;
+	Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY]++;
 	MainScreen.addButton(4,"Back",telAdre.telAdreMenu);
 }
 
@@ -45,20 +45,20 @@ private firstTowerVisit():void {
 	}
 	else {
 		MainScreen.text("\n\nThere doesn't appear to be anyone here, so there's nothing stopping you from reading some of the books and scrolls left out on the tables.  Looking up and down the staircases reveals two locked doors, so it's unlikely you could do anything else here.");
-		flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] = -2; //This will be incremented to -1 by the visitZeMagesTower function after we return
+		Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] = -2; //This will be incremented to -1 by the visitZeMagesTower function after we return
 	}
 }
 
 private towerFollowUpVisits():void {
 	MainScreen.clearText();
-	if (flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == -1) { //Return visits before you meet Quinn. Either you meet him or you continue to go to the library at night like some bibliophile vampire
+	if (Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] == -1) { //Return visits before you meet Quinn. Either you meet him or you continue to go to the library at night like some bibliophile vampire
 		if(model.time.hours <= 17) {
 			MainScreen.text("You return to the mage's tower.  Entering the main room, you're surprised to see a man carefully turning the pages of one of the tomes");
 			commonQuinnTroduction();
 		}
 		else {
 			MainScreen.text("As before, there's no one here.  At least there's no lack of reading material.  Looking up and down the staircases reveals two locked doors, so it's unlikely you could do anything but study here.");
-			flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] = -2; //This will be incremented to -1 by the visitZeMagesTower function after we return
+			Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] = -2; //This will be incremented to -1 by the visitZeMagesTower function after we return
 		}
 		return;
 	}
@@ -107,7 +107,7 @@ private studyInTA():void {
 	}
 	//[Study, 18:00-20:00]
 	else {
-		if (flags[FlagEnum.TIMES_BEEN_TO_LIBRARY] == -1) {
+		if (Flags.list[FlagEnum.TIMES_BEEN_TO_LIBRARY] == -1) {
 			MainScreen.text("Looking around you decide to spend some time reading");
 		}
 		else {
@@ -120,32 +120,32 @@ private studyInTA():void {
 			dynStats("int", 3+rand(4));
 			//(Intelligence increase)
 			//Smart enough for arouse and doesnt have it
-			if(player.stats.int >= 25 && player.findStatusAffect(StatusAffects.KnowsArouse) < 0) {
+			if(player.stats.int >= 25 && !player.statusAffects.has("KnowsArouse")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsArouse",0,0,0,0)));
 			}
 			//Smart enough for arouse and doesnt have it
-			else if(player.stats.int >= 30 && player.findStatusAffect(StatusAffects.KnowsHeal) < 0) {
+			else if(player.stats.int >= 30 && !player.statusAffects.has("KnowsHeal")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsHeal",0,0,0,0)));
 			}
 			//Smart enough for arouse and doesnt have it
-			else if(player.stats.int >= 40 && player.findStatusAffect(StatusAffects.KnowsMight) < 0) {
+			else if(player.stats.int >= 40 && !player.statusAffects.has("KnowsMight")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsMight",0,0,0,0)));
 			}
 			//Smart enough for arouse and doesnt have it
-			else if(player.stats.int >= 25 && player.findStatusAffect(StatusAffects.KnowsCharge) < 0) {
+			else if(player.stats.int >= 25 && !player.statusAffects.has("KnowsCharge")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsCharge",0,0,0,0)));
 			}
 			//Smart enough for arouse and doesnt have it
-			else if(player.stats.int >= 30 && player.findStatusAffect(StatusAffects.KnowsBlind) < 0) {
+			else if(player.stats.int >= 30 && !player.statusAffects.has("KnowsBlind")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsBlind",0,0,0,0)));
 			}
 			//Smart enough for arouse and doesnt have it
-			else if(player.stats.int >= 40 && player.findStatusAffect(StatusAffects.KnowsWhitefire) < 0) {
+			else if(player.stats.int >= 40 && !player.statusAffects.has("KnowsWhitefire")) {
 				MainScreen.text("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>", false);
 				player.statusAffects.add(new StatusAffect("KnowsWhitefire",0,0,0,0)));
 			}
@@ -177,7 +177,7 @@ private youOkayBuddy():void {
 //[Mali]
 private talkToMali():void {
 	MainScreen.clearText();
-	if(flags[FlagEnum.TIMES_VISITED_MALI] == 0) {
+	if(Flags.list[FlagEnum.TIMES_VISITED_MALI] == 0) {
 		MainScreen.text("You mention to Quinn that you're looking to speak with Mali.  \"<i>Ah, Asa Mali, our very own Alissyn del Aliana.</i>\"  Quinn chuckles and rubs his chin.  You think you're talking about the same person.  \"<i>How mysterious that she of all people should have a visitor.  Am I setting up a forbidden tryst?  A secret rendezvous?  Or perhaps, given the nature of her work, something far more... ominous.</i>\"  He looms curiously, but you clear your throat and ask if she's in.  Disappointed, he sighs and gestures up the stairs.  \"<i>Yes, our sylvan sorceress is not that much of a socialite.</i>\"");
 		
 		MainScreen.text("\n\nTurning on his heel he ascends and unlocks a hidden, secure-looking door to the second floor, beckoning you to follow him.  The staircase loops around the wall of the tower, and you pass many closed doors as you make your way up.  Strange and unfamiliar sounds come from more than a few of them, but Quinn seems to ignore them completely.  Apparently they're to be expected from the tower.  Finally, after climbing higher than any other building in the town (but yet with a great deal more to go), he turns and raps sharply on a wooden door.");
@@ -202,7 +202,7 @@ private talkToMali():void {
 		doNext(camp.returnToCampUseOneHour);
 	}	
 	//[[Mali], player has spellblade]
-	else if((player.weaponName == "inscribed spellblade" || player.hasItem(weapons.S_BLADE)) && flags[FlagEnum.MALI_TAKEN_BLADE] == 0) {
+	else if((player.weaponName == "inscribed spellblade" || player.inventory.items.has(weapons.S_BLADE)) && Flags.list[FlagEnum.MALI_TAKEN_BLADE] == 0) {
 		MainScreen.text("You tell Quinn you're here to see Mali.  He seems intrigued by the wrapped blade you're carrying, but doesn't ask any questions.  Unlocking the second floor as usual, he escorts you to Mali's quarters.");
 		MainScreen.text("\n\n\"<i>What's that?</i>\" Mali asks, curious when you pull out the inscribed spellblade.  You place it down on the desk and explain that you got it from... from...  Mali's eyes light up at your strained inability to explain.  \"<i>Yes!</i>\" she says excitedly, reaching over the desk and grabbing your cheeks.  She plants a quick and enthusiastic kiss on your lips in thanks, looking back down at the sword and running her hands over it.");
 		
@@ -217,9 +217,9 @@ private talkToMali():void {
 //			player.perks.remove("WizardsFocus");
 		}
 		else {
-			player.consumeItem(weapons.S_BLADE);
+			player.inventory.items.consumeItem(weapons.S_BLADE);
 		}
-		flags[FlagEnum.MALI_TAKEN_BLADE] = 1;
+		Flags.list[FlagEnum.MALI_TAKEN_BLADE] = 1;
 		doNext(camp.returnToCampUseOneHour);
 	}
 	//[[Mali], player does not have spellblade]
@@ -231,7 +231,7 @@ private talkToMali():void {
 		MainScreen.text("\n\n\"<i>Remember,</i>\" she says on the way out, \"<i>Anything you can get from Dominika that holds some aspect of her power will help.</i>\"");
 		doNext(camp.returnToCampUseOneHour);
 	}
-	flags[FlagEnum.TIMES_VISITED_MALI]++;
+	Flags.list[FlagEnum.TIMES_VISITED_MALI]++;
 }
 	}
 }

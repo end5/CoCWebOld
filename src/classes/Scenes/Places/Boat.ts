@@ -27,7 +27,7 @@ package classes.Scenes.Places
 		public boatExplore():void
 		{
 			//Helia monogamy fucks
-			if (flags[FlagEnum.PC_PROMISED_HEL_MONOGAMY_FUCKS] == 1 && flags[FlagEnum.HEL_RAPED_TODAY] == 0 && rand(10) == 0 && player.gender > 0 && !kGAMECLASS.helScene.followerHel()) {
+			if (Flags.list[FlagEnum.PC_PROMISED_HEL_MONOGAMY_FUCKS] == 1 && Flags.list[FlagEnum.HEL_RAPED_TODAY] == 0 && rand(10) == 0 && player.gender > 0 && !kGAMECLASS.helScene.followerHel()) {
 				kGAMECLASS.helScene.helSexualAmbush();
 				return;
 			}
@@ -37,18 +37,18 @@ package classes.Scenes.Places
 				if (player.stats.int > 40) MainScreen.text("You realize what it smells like – sex.  ", false);
 			}
 			//3% chance of finding lost daughters
-			if (rand(100) <= 3 && flags[FlagEnum.UNKNOWN_FLAG_NUMBER_00412] > 0 && kGAMECLASS.izmaScene.izmaFollower()) {
+			if (rand(100) <= 3 && Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00412] > 0 && kGAMECLASS.izmaScene.izmaFollower()) {
 				kGAMECLASS.izmaScene.findLostIzmaKids();
 				return;
 			}
 			MainScreen.text("You set out, wondering if you'll find any strange islands or creatures in the lake.\n\n", false);
 			//20% chance if not done with marae of meeting her.
-			if (rand(10) <= 2 && player.findStatusAffect(StatusAffects.MaraeComplete) < 0 && player.findStatusAffect(StatusAffects.MetCorruptMarae) < 0) {
+			if (rand(10) <= 2 && !player.statusAffects.has("MaraeComplete") && !player.statusAffects.has("MetCorruptMarae")) {
 				marae.encounterMarae();
 				return;
 			}
 			//10% chance of corrupt Marae followups
-			if ((debug || rand(10) == 0) && flags[FlagEnum.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] == 0 && player.statusAffects.has("MetCorruptMarae") && player.gender > 0) {
+			if ((debug || rand(10) == 0) && Flags.list[FlagEnum.CORRUPT_MARAE_FOLLOWUP_ENCOUNTER_STATE] == 0 && player.statusAffects.has("MetCorruptMarae") && player.gender > 0) {
 				marae.level2MaraeEncounter();
 				return;
 			}
