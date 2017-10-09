@@ -601,7 +601,7 @@ export default class Tease {
                 break;
             //7 special Adjatha-crafted bend over bimbo times
             case TeaseType.BimboSpecial:
-                MainScreen.text("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.a + monster.short + ".  Locking your knees, you bend waaaaay over, " + chestDesc() + " swinging in the open air while your " + ButtDescriptor.describeButt(player) + " juts out at the " + monster.a + monster.short + ".  Your plump cheeks and " + LowerBodyDescriptor.describeHips(player) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n", false);
+                MainScreen.text("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.a + monster.short + ".  Locking your knees, you bend waaaaay over, " + BreastDescriptor.describeChest(player) + " swinging in the open air while your " + ButtDescriptor.describeButt(player) + " juts out at the " + monster.a + monster.short + ".  Your plump cheeks and " + LowerBodyDescriptor.describeHips(player) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n", false);
                 MainScreen.text("The clear, warm fluid of your happy excitement trickles down from your loins, polishing your " + player.skin() + " to a glossy, inviting shine.  Retrieving the useless, though shiny, bauble, you hold your pose for just a moment longer, a sly little smile playing across your lips as you wiggle your cheeks one more time before straightening up and turning back around.", false);
                 vagina = true;
                 chance++;
@@ -664,7 +664,7 @@ export default class Tease {
                 MainScreen.text("You lean back, feigning a swoon while pressing a hand on the small of your back.  The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger.  With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " + monster.a + monster.short + " through heavily lidded eyes.  \"<i>All of this estrogen is making me frisky,</i>\" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.", false);
                 //if lactating] 
                 if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier >= 1) {
-                    MainScreen.text("  Your other hand moves to expose your " + chestDesc() + ", cupping and squeezing a stream of milk to leak down the front of your " + player.inventory.armor.displayName + ".  \"<i>Help a mommy out.</i>\"\n\n", false);
+                    MainScreen.text("  Your other hand moves to expose your " + BreastDescriptor.describeChest(player) + ", cupping and squeezing a stream of milk to leak down the front of your " + player.inventory.armor.displayName + ".  \"<i>Help a mommy out.</i>\"\n\n", false);
                     chance += 2;
                     damage += 4;
                 }
@@ -693,18 +693,18 @@ export default class Tease {
             case TeaseType.Nipplecunts:
                 //Req's tits & Pussy
                 if (player.upperBody.chest.BreastRatingLargest[0].breastRating > 1 && player.lowerBody.vaginaSpot.hasVagina() && Utils.rand(2) == 0) {
-                    MainScreen.text("Closing your eyes, you lean forward and slip a hand under your " + player.inventory.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + player.inventory.armor.displayName + " and bare your " + chestDesc() + " to " + monster.a + monster.short + ".\n\n", false);
+                    MainScreen.text("Closing your eyes, you lean forward and slip a hand under your " + player.inventory.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + player.inventory.armor.displayName + " and bare your " + BreastDescriptor.describeChest(player) + " to " + monster.a + monster.short + ".\n\n", false);
                     MainScreen.text("Drawing your lust-slick hand to your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits.  Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest.  Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.\n\n", false);
                     MainScreen.text("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + monster.a + monster.short + ".", false);
                     chance += 2;
                     damage += 4;
                 }
                 else if (player.upperBody.chest.BreastRatingLargest[0].breastRating > 1 && Utils.rand(2) == 0) {
-                    MainScreen.text("You yank off the top of your " + player.inventory.armor.displayName + ", revealing your " + chestDesc() + " and the gaping nipplecunts on each.  With a lusty smirk, you slip a pair of fingers into the nipples of your " + chestDesc() + ", pulling the nipplecunt lips wide, revealing the lengthy, tight passage within.  You fingerfuck your nipplecunts, giving your enemy a good show before pulling your armor back on, leaving the tantalizing image of your gaping titpussies to linger in your foe's mind.", false);
+                    MainScreen.text("You yank off the top of your " + player.inventory.armor.displayName + ", revealing your " + BreastDescriptor.describeChest(player) + " and the gaping nipplecunts on each.  With a lusty smirk, you slip a pair of fingers into the nipples of your " + BreastDescriptor.describeChest(player) + ", pulling the nipplecunt lips wide, revealing the lengthy, tight passage within.  You fingerfuck your nipplecunts, giving your enemy a good show before pulling your armor back on, leaving the tantalizing image of your gaping titpussies to linger in your foe's mind.", false);
                     chance += 1;
                     damage += 2;
                 }
-                else MainScreen.text("You remove the front of your " + player.inventory.armor.displayName + " exposing your " + chestDesc() + ".  Using both of your hands, you thrust two fingers into your nipple cunts, milky girl cum soaking your hands and fingers.  \"<i>Wouldn't you like to try out these holes too?</i>\"", false);
+                else MainScreen.text("You remove the front of your " + player.inventory.armor.displayName + " exposing your " + BreastDescriptor.describeChest(player) + ".  Using both of your hands, you thrust two fingers into your nipple cunts, milky girl cum soaking your hands and fingers.  \"<i>Wouldn't you like to try out these holes too?</i>\"", false);
                 breasts = true;
                 break;
             //16 Anal gape
@@ -765,7 +765,7 @@ export default class Tease {
                 break;
             //24 STAFF POLEDANCE
             case TeaseType.Poledance:
-                MainScreen.text("You run your tongue across your lips as you plant your staff into the ground.  Before your enemy can react, you spin onto the long, wooden shaft, using it like an impromptu pole.  You lean back against the planted staff, giving your enemy a good look at your body.  You stretch backwards like a cat, nearly touching your fingertips to the ground beneath you, now holding onto the staff with only one leg.  You pull yourself upright and give your " + ButtDescriptor.describeButt(player) + " a little slap and your " + chestDesc() + " a wiggle before pulling open your " + player.inventory.armor.displayName + " and sliding the pole between your tits.  You drop down to a low crouch, only just covering your genitals with your hand as you shake your " + ButtDescriptor.describeButt(player) + " playfully.  You give the enemy a little smirk as you slip your " + player.inventory.armor.displayName + " back on and pick up your staff.", false);
+                MainScreen.text("You run your tongue across your lips as you plant your staff into the ground.  Before your enemy can react, you spin onto the long, wooden shaft, using it like an impromptu pole.  You lean back against the planted staff, giving your enemy a good look at your body.  You stretch backwards like a cat, nearly touching your fingertips to the ground beneath you, now holding onto the staff with only one leg.  You pull yourself upright and give your " + ButtDescriptor.describeButt(player) + " a little slap and your " + BreastDescriptor.describeChest(player) + " a wiggle before pulling open your " + player.inventory.armor.displayName + " and sliding the pole between your tits.  You drop down to a low crouch, only just covering your genitals with your hand as you shake your " + ButtDescriptor.describeButt(player) + " playfully.  You give the enemy a little smirk as you slip your " + player.inventory.armor.displayName + " back on and pick up your staff.", false);
                 ass = true;
                 breasts = true;
                 break;
@@ -854,7 +854,7 @@ export default class Tease {
                 damage += 3;
                 break;
             case TeaseType.Kitsune2:
-                MainScreen.text("You wet your lips, narrowing your eyes into a smoldering, hungry gaze.  Licking the tip of your index finger, you trail it slowly and sensually down the front of your " + player.inventory.armor.displayName + ", following the line of your " + chestDesc() + " teasingly.  You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace.  The very instant that your [nipples] pop free, your tail crosses in front, obscuring " + monster.a + monster.short + "'s view.");
+                MainScreen.text("You wet your lips, narrowing your eyes into a smoldering, hungry gaze.  Licking the tip of your index finger, you trail it slowly and sensually down the front of your " + player.inventory.armor.displayName + ", following the line of your " + BreastDescriptor.describeChest(player) + " teasingly.  You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace.  The very instant that your [nipples] pop free, your tail crosses in front, obscuring " + monster.a + monster.short + "'s view.");
                 breasts = true;
                 chance++;
                 damage++;
@@ -1257,7 +1257,7 @@ export default class Tease {
             damage = (damage + Utils.rand(bonusDamage)) * monster.lustVuln;
 
             if (monster instanceof JeanClaude) (monster as JeanClaude).handleTease(damage, true);
-            else if (monster instanceof Doppleganger && monster.findStatusAffect(StatusAffects.Stunned) < 0) (monster as Doppleganger).mirrorTease(damage, true);
+            else if (monster instanceof Doppleganger && !monster.statusAffects.has("Stunned")) (monster as Doppleganger).mirrorTease(damage, true);
             else if (!justText) monster.teased(damage);
 
             if (Flags.list[FlagEnum.PC_FETISH] >= 1 && !urtaQuest.isUrta()) {
