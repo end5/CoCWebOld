@@ -1,12 +1,12 @@
-import Player from "../Player";
-import Inventory from "../Inventory/Inventory";
-import Item from "../Items/Item";
-import MainScreen, { ClickFunction } from "./MainScreen";
-import Game from "../Game/Game";
-import ItemStack from "../Items/ItemStack";
-import CombatMenu from "./CombatMenu";
-import PlayerMenu from "./PlayerMenu";
-import PlayerInventoryMenu from "./PlayerInventoryMenu";
+import MainScreen, { ClickFunction } from './MainScreen';
+import CombatMenu from './Menus/CombatMenu';
+import PlayerInventoryMenu from './Menus/PlayerInventoryMenu';
+import PlayerMenu from './Menus/PlayerMenu';
+import Game from '../Game/Game';
+import Inventory from '../Inventory/Inventory';
+import Item from '../Items/Item';
+import ItemStack from '../Items/ItemStack';
+import Player from '../Player';
 
 /* better inventory system
     other inv = null
@@ -39,14 +39,17 @@ type ItemCallback = (player: Player, inventory: Inventory<Item>, itemSlot: numbe
 export default class InventoryDisplay {
     private static prevMenu: ClickFunction;
     private static reverseActionFunc: Function;
+    private static floorItems: ItemStack<Item>[] = [];
     private static heldItem: ItemStack<Item>;
+
     public static isHoldingItem(): boolean {
         return InventoryDisplay.heldItem != null;
     }
 
     public static addItem(item: Item) {
+        InventoryDisplay.floorItems.push(new ItemStack(item, 1));
         if (!InventoryDisplay.heldItem) {
-            InventoryDisplay.heldItem = new ItemStack(item, 1);
+            InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
         }
     }
 
@@ -93,13 +96,13 @@ export default class InventoryDisplay {
                 if (InventoryDisplay.heldItem.item.canUse(player)) {
                     InventoryDisplay.heldItem.item.use(player);
                     InventoryDisplay.heldItem.item.useText(player);
-                    InventoryDisplay.heldItem = null;
+                    InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
                     InventoryDisplay.reverseActionFunc = null;
                     MainScreen.doNext(InventoryDisplay.prevMenu);
                 }
             });
             MainScreen.addButton(9, "Abandon", function () {
-                InventoryDisplay.heldItem = null;
+                InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
                 InventoryDisplay.reverseActionFunc = null;
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
