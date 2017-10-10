@@ -300,9 +300,9 @@ export class Hellfire extends SpellAction {
                 monster.stats.HP -= damage;
             }
             else {
-                if (monster.lustVuln > 0) {
+                if (monster.stats.lustVuln > 0) {
                     MainScreen.text("  Your foe cries out in surprise and then gives a sensual moan as the flames of your passion surround them and fill their body with unnatural lust.\n", false);
-                    monster.stats.lust += monster.lustVuln * damage / 6;
+                    monster.stats.lust += monster.stats.lustVuln * damage / 6;
                 }
                 else {
                     MainScreen.text("  The corrupted fire doesn't seem to have affect on " + monster.a + monster.short + "!\n", false);
@@ -333,7 +333,7 @@ export class Possess implements SpecialAction {
             MainScreen.text("There is nothing to possess inside the golem.");
         }
         //Sample possession text (>79 int, perhaps?):
-        else if ((!monster.lowerBody.cockSpot.hasCock() && !monster.lowerBody.vaginaSpot.hasVagina()) || monster.lustVuln == 0 || monster.stats.int == 0 || monster.stats.int > 100) {
+        else if ((!monster.lowerBody.cockSpot.hasCock() && !monster.lowerBody.vaginaSpot.hasVagina()) || monster.stats.lustVuln == 0 || monster.stats.int == 0 || monster.stats.int > 100) {
             MainScreen.text("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into the opponent's frame.  Unfortunately, it seems ", false);
             if (monster.stats.int > 100)
                 MainScreen.text("they were FAR more mentally prepared than anything you can handle, and you're summarily thrown out of their body before you're even able to have fun with them.  Darn, you muse.\n\n", false);
@@ -344,7 +344,7 @@ export class Possess implements SpecialAction {
         else if (player.stats.int >= (monster.stats.int - 10) + Utils.rand(21)) {
             MainScreen.text("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into your opponent's frame. Before they can regain the initiative, you take control of one of their arms, vigorously masturbating for several seconds before you're finally thrown out. Recorporealizing, you notice your enemy's blush, and know your efforts were somewhat successful.\n\n", false);
             let damage: number = Math.round(player.stats.int / 5) + Utils.rand(player.stats.level) + player.stats.level;
-            monster.stats.lust += monster.lustVuln * damage;
+            monster.stats.lust += monster.stats.lustVuln * damage;
         }
         //Fail
         else {
@@ -584,7 +584,7 @@ export class KitsuneIllusion extends SpellAction {
             //Reduce speed down to -20. Um, are there many monsters with 110% lust vulnerability?
             MainScreen.text("  They stumble humorously to and fro, unable to keep pace with the shifting illusions that cloud their perceptions.\n\n");
             if (monster.stats.spe >= 0) monster.stats.spe -= 20;
-            if (monster.lustVuln >= 1.1) monster.lustVuln += .1;
+            if (monster.stats.lustVuln >= 1.1) monster.stats.lustVuln += .1;
         }
         else
             MainScreen.text("  Like the snapping of a rubber band, reality falls back into its rightful place as they resist your illusory conjurations.\n\n");

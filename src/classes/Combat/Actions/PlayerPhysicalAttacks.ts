@@ -88,7 +88,7 @@ export class AnemoneSting implements SpecialAction {
             }
             damage += player.stats.level * 1.5;
             monster.stats.spe -= damage / 2;
-            damage = monster.lustVuln * damage;
+            damage = monster.stats.lustVuln * damage;
             monster.stats.lust += damage;
             //Clean up down to 1 decimal point
             damage = Math.round(damage * 10) / 10;
@@ -250,14 +250,14 @@ export class SpiderBiteAttack extends PhysicalAction {
                 //else MainScreen.text("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.a + monster.short + " off guard, your needle-like fangs penetrating deep into " + monster.pronoun3 + " body. You quickly release your venom, and retreat before " + monster.a + monster.pronoun1 + " manage to react.", false);
             }
             //React
-            if (monster.lustVuln == 0) MainScreen.text("  Your aphrodisiac toxin has no effect!", false);
+            if (monster.stats.lustVuln == 0) MainScreen.text("  Your aphrodisiac toxin has no effect!", false);
             else {
                 // No monster plural
                 //if (monster.plural) MainScreen.text("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.", false);
                 //else
                 MainScreen.text("  " + GenderDescriptor.mf(monster, "He", "She") + " flushes hotly and " + GenderDescriptor.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."), false);
-                monster.stats.lust += 25 * monster.lustVuln;
-                if (Utils.rand(5) == 0) monster.stats.lust += 25 * monster.lustVuln;
+                monster.stats.lust += 25 * monster.stats.lustVuln;
+                if (Utils.rand(5) == 0) monster.stats.lust += 25 * monster.stats.lustVuln;
             }
         }
         else {
@@ -676,7 +676,7 @@ export class Kiss implements SpecialAction {
             return;
         }
         //Success but no effect:
-        if (monster.lustVuln <= 0 || !monster.lowerBody.cockSpot.hasCock()) {
+        if (monster.stats.lustVuln <= 0 || !monster.lowerBody.cockSpot.hasCock()) {
             // No monster plural
             //if (monster.plural) MainScreen.text("  Mouth presses against mouth, and you allow your tongue to stick out to taste the saliva of one of their number, making sure to give them a big dose.  Pulling back, you look at " + monster.a + monster.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n", false);
             //else
@@ -721,7 +721,7 @@ export class Kiss implements SpecialAction {
         //Else add bonus to round damage
         else monster.statusAffects.get("LustStick").value2 = Math.round(damage / 10);
         //Deal damage
-        monster.stats.lust += Math.round(monster.lustVuln * damage);
+        monster.stats.lust += Math.round(monster.stats.lustVuln * damage);
         //Sets up for end of combat, and if not, goes to AI.
     }
 }
@@ -774,7 +774,7 @@ export class Sting implements SpecialAction {
         if (player.stats.level < 10) damage += player.stats.level * 3;
         else if (player.stats.level < 20) damage += 30 + (player.stats.level - 10) * 2;
         else damage += 50;
-        monster.stats.lust += monster.lustVuln * damage;
+        monster.stats.lust += monster.stats.lustVuln * damage;
         if (!monster.statusAffects.has("lustvenom"))
             monster.statusAffects.add(new StatusAffect("lustvenom", 0, 0, 0, 0));
         /* IT used to paralyze 50% of the time, this is no longer the case!

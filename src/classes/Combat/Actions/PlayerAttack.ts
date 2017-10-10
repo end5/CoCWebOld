@@ -16,7 +16,7 @@ export default class PlayerAttack {
 
 
     private teaseAttack(): void {
-        if (monster.lustVuln == 0) {
+        if (monster.stats.lustVuln == 0) {
             MainScreen.clearText();
             MainScreen.text("You try to tease " + monster.a + monster.short + " with your body, but it doesn't have any effect on " + monster.pronoun2 + ".\n\n");
             enemyAI();

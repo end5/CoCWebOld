@@ -1254,7 +1254,7 @@ export default class Tease {
             if (player.perks.has("ChiReflowLust")) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
             // No plural monster
             //if (monster.plural) damage *= 1.3;
-            damage = (damage + Utils.rand(bonusDamage)) * monster.lustVuln;
+            damage = (damage + Utils.rand(bonusDamage)) * monster.stats.lustVuln;
 
             if (monster instanceof JeanClaude) (monster as JeanClaude).handleTease(damage, true);
             else if (monster instanceof Doppleganger && !monster.statusAffects.has("Stunned")) (monster as Doppleganger).mirrorTease(damage, true);

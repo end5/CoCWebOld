@@ -28,11 +28,11 @@ export class SpellArouse extends LearnedSpellAction {
             MainScreen.text("\n\n", false);
             return;
         }
-        if (monster.lustVuln == 0) {
+        if (monster.stats.lustVuln == 0) {
             MainScreen.text("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n", false);
             return;
         }
-        monster.stats.lust += monster.lustVuln * (player.stats.int / 5 * spellMod(player) + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
+        monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * spellMod(player) + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
         if (monster.stats.lust < 30)
             MainScreen.text(monster.capitalA + monster.short + " squirms as the magic affects " + monster.pronoun2 + ".  ", false);
         if (monster.stats.lust >= 30 && monster.stats.lust < 60) {

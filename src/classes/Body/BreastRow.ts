@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from "../SaveInterface";
+﻿import { SaveInterface } from '../SaveInterface';
 
 export enum BreastCup {
     FLAT, A, B, C, D, DD, DD_BIG, E, E_BIG, EE, EE_BIG, F, F_BIG, FF, FF_BIG,
@@ -27,10 +27,10 @@ export default class BreastRow implements SaveInterface {
     public nipplesPiercedShort: string;
     public nipplesPiercedLong: string;
 
-    public constructor() {
+    public constructor(breastCup: BreastCup = BreastCup.C) {
         this.breasts = 2;
         this.nipplesPerBreast = 1;
-        this.breastRating = 0;
+        this.breastRating = breastCup;
         this.lactationMultiplier = 0;
         //Fullness used for lactation....if 75 or greater warning bells start going off!
         //If it reaches 100 it reduces lactation multiplier.

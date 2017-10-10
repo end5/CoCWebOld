@@ -87,8 +87,8 @@ export default class PlayerCombatActions implements CombatActions {
                 temp = int(player.stats.str / 5 - rand(5));
                 if (temp == 0) temp = 1;
                 MainScreen.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n", false);
-                monster.HP -= temp;
-                if (monster.HP <= 0) {
+                monster.stats.HP -= temp;
+                if (monster.stats.HP <= 0) {
                     doNext(endHpVictory);
                     return;
                 }
