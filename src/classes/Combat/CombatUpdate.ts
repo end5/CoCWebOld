@@ -1,22 +1,34 @@
 import Character from '../Character';
+import ButtDescriptor from '../Descriptors/ButtDescriptor';
+import CockDescriptor from '../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import MainScreen from '../display/MainScreen';
+import Flags, { FlagEnum } from '../Game/Flags';
+import Monster from '../Monster';
+import Player from '../Player';
+import Utils from '../Utilities/Utils';
 
 export default class CombatUpdate {
-    public combatMiss(): boolean {
-        return player.stats.spe - monster.spe > 0 && int(Math.random() * (((player.stats.spe - monster.spe) / 4) + 80)) > 80;
+    public combatMiss(player: Player, monster: Monster): boolean {
+        return player.stats.spe - monster.stats.spe > 0 && Utils.rand(((player.stats.spe - monster.stats.spe) / 4) + 80) > 80;
 
     }
-    public combatEvade(): boolean {
-        return monster.short != "Kiha" && player.perks.has("Evade") && rand(100) < 10;
+
+    public combatEvade(player: Player, monster: Monster): boolean {
+        return monster.short != "Kiha" && player.perks.has("Evade") && Utils.rand(100) < 10;
 
     }
-    public combatFlexibility(): boolean {
-        return player.perks.has("Flexibility") && rand(100) < 6;
+
+    public combatFlexibility(player: Player, monster: Monster): boolean {
+        return player.perks.has("Flexibility") && Utils.rand(100) < 6;
 
     }
-    public combatMisdirect(): boolean {
-        return player.perks.has("Misdirection") && rand(100) < 10 && player.inventory.armor.displayName == "red, high-society bodysuit";
+
+    public combatMisdirect(player: Player, monster: Monster): boolean {
+        return player.perks.has("Misdirection") && Utils.rand(100) < 10 && player.inventory.armor.displayName == "red, high-society bodysuit";
     }
-    public doDamage(character: Character, damage: number, apply: boolean = true): number {
+
+    public static doDamage(character: Character, enemy: Character, damage: number, apply: boolean = true): number {
         if (character.perks.has("Sadist")) {
             damage *= 1.2;
             character.stats.lust += 3;
@@ -32,57 +44,38 @@ export default class CombatUpdate {
         damage = Math.round(damage);
 
         if (damage < 0) damage = 1;
-        if (apply) monster.HP -= damage;
+        if (apply) enemy.stats.HP -= damage;
         //Isabella gets mad
-        if (monster.short == "Isabella") {
+        if (enemy.short == "Isabella") {
             Flags.list[FlagEnum.ISABELLA_AFFECTION]--;
             //Keep in bounds
             if (Flags.list[FlagEnum.ISABELLA_AFFECTION] < 0) Flags.list[FlagEnum.ISABELLA_AFFECTION] = 0;
         }
         //Interrupt gigaflare if necessary.
-        if (monster.statusAffects.has("Gigafire")) monster.addStatusValue(StatusAffects.Gigafire, 1, damage);
+        if (enemy.statusAffects.has("Gigafire")) enemy.statusAffects.get("Gigafire").value1 += damage;
         //Keep shit in bounds.
-        if (monster.HP < 0) monster.HP = 0;
+        if (enemy.stats.HP < 0) enemy.stats.HP = 0;
         return damage;
     }
 
-    public takeDamage(damage: number): number {
-        return player.takeDamage(damage);
-    }
-    
-    public regeneration(combat: boolean = true): void {
+    public static combatRegeneration(character: Character, combat: boolean = true): void {
         let healingPercent: number = 0;
-        if (combat) {
-            //Regeneration
-            healingPercent = 0;
-            if (player.perks.has("Regeneration")) healingPercent += 1;
-            if (player.perks.has("Regeneration2")) healingPercent += 2;
-            if (player.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
-            if (player.inventory.armor.displayName == "goo armor") healingPercent += 2;
-            if (player.perks.has("LustyRegeneration")) healingPercent += 1;
-            if (healingPercent > 5) healingPercent = 5;
-            HPChange(Math.round(maxHP() * healingPercent / 100), false);
-        }
-        else {
-            //Regeneration
-            healingPercent = 0;
-            if (player.perks.has("Regeneration")) healingPercent += 2;
-            if (player.perks.has("Regeneration2")) healingPercent += 4;
-            if (player.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
-            if (player.inventory.armor.displayName == "goo armor") healingPercent += 3;
-            if (player.perks.has("LustyRegeneration")) healingPercent += 2;
-            if (healingPercent > 10) healingPercent = 10;
-            HPChange(Math.round(maxHP() * healingPercent / 100), false);
-        }
+        if (character.perks.has("Regeneration")) healingPercent += 1;
+        if (character.perks.has("Regeneration2")) healingPercent += 2;
+        if (character.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
+        if (character.inventory.armor.displayName == "goo armor") healingPercent += 2;
+        if (character.perks.has("LustyRegeneration")) healingPercent += 1;
+        if (healingPercent > 5) healingPercent = 5;
+        character.stats.HPChange(Math.round(character.stats.maxHP() * healingPercent / 100));
     }
-    public fatigueRecovery(): void {
-        fatigue(-1);
-        if (player.perks.has("EnlightenedNinetails") || player.perks.has("CorruptedNinetails")) fatigue(-(1 + rand(3)));
+
+    public static fatigueRecovery(character: Character): void {
+        character.stats.fatigue--;
+        if (character.perks.has("EnlightenedNinetails") || character.perks.has("CorruptedNinetails"))
+            character.stats.fatigue -= (1 + Utils.rand(3));
     }
-    public enemyAI(): void {
-        monster.doAI();
-    }
-    private combatStatusesUpdate(player: Player, monster: Monster): void {
+
+    private static combatStatusesUpdate(player: Player, monster: Monster): void {
         //old outfit used for fetish cultists
         let oldOutfit: string = "";
         let changed: boolean = false;
@@ -192,14 +185,14 @@ export default class CombatUpdate {
             let slap: number = 3 + (maxHP() * 0.02);
             MainScreen.text("<b>Your muscles twitch in agony as the acid keeps burning you. (" + slap + ")</b>\n\n", false);
         }
-        if (player.perks.has("ArousingAura") && monster.lustVuln > 0 && player.stats.cor >= 70) {
-            if (monster.lust < 50) MainScreen.text("Your aura seeps into " + monster.a + monster.short + " but does not have any visible effects just yet.\n\n", false);
-            else if (monster.lust < 60) {
+        if (player.perks.has("ArousingAura") && monster.stats.lustVuln > 0 && player.stats.cor >= 70) {
+            if (monster.stats.lust < 50) MainScreen.text("Your aura seeps into " + monster.a + monster.short + " but does not have any visible effects just yet.\n\n", false);
+            else if (monster.stats.lust < 60) {
                 if (!monster.plural) MainScreen.text(monster.capitalA + monster.short + " starts to squirm a little from your unholy presence.\n\n", false);
                 else MainScreen.text(monster.capitalA + monster.short + " start to squirm a little from your unholy presence.\n\n", false);
             }
-            else if (monster.lust < 75) MainScreen.text("Your arousing aura seems to be visibly affecting " + monster.a + monster.short + ", making " + monster.pronoun2 + " squirm uncomfortably.\n\n", false);
-            else if (monster.lust < 85) {
+            else if (monster.stats.lust < 75) MainScreen.text("Your arousing aura seems to be visibly affecting " + monster.a + monster.short + ", making " + monster.pronoun2 + " squirm uncomfortably.\n\n", false);
+            else if (monster.stats.lust < 85) {
                 if (!monster.plural) MainScreen.text(monster.capitalA + monster.short + "'s skin colors red as " + monster.pronoun1 + " inadvertantly basks in your presence.\n\n", false);
                 else MainScreen.text(monster.capitalA + monster.short + "' skin colors red as " + monster.pronoun1 + " inadvertantly bask in your presence.\n\n", false);
             }
@@ -207,7 +200,7 @@ export default class CombatUpdate {
                 if (!monster.plural) MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begins to shake and steal glances at your body.\n\n", false);
                 else MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begin to shake and steal glances at your body.\n\n", false);
             }
-            monster.lust += monster.lustVuln * (2 + Utils.rand(4));
+            monster.stats.lust += monster.stats.lustVuln * (2 + Utils.rand(4));
         }
         if (player.statusAffects.has("Bound") && Flags.list[FlagEnum.PC_FETISH] >= 2) {
             MainScreen.text("The feel of tight leather completely immobilizing you turns you on more and more.  Would it be so bad to just wait and let her play with you like this?\n\n", false);
@@ -291,7 +284,7 @@ export default class CombatUpdate {
         }
         if (player.statusAffects.has("DemonSeed")) {
             MainScreen.text("You feel something shift inside you, making you feel warm.  Finding the desire to fight this... hunk gets harder and harder.\n\n", false);
-            player.stats.lust += player.statusAffects.get("DemonSeed").value1 + Math.floor(player.stats.sens / 30) + Math.floor(player.stats.lib / 30) + Math.floor(player.stats.cor / 30));
+            player.stats.lust += player.statusAffects.get("DemonSeed").value1 + Math.floor(player.stats.sens / 30) + Math.floor(player.stats.lib / 30) + Math.floor(player.stats.cor / 30);
         }
         if (player.inHeat && player.lowerBody.vaginaSpot.count() > 0 && monster.lowerBody.cockSpot.count() > 0) {
             player.stats.lust += (Utils.rand(player.stats.lib / 5) + 3 + Utils.rand(5));
@@ -355,7 +348,7 @@ export default class CombatUpdate {
             }
             else {
                 MainScreen.text("The poison continues to work on your body, wracking you with pain!\n\n", false);
-                takeDamage(8 + Utils.rand(maxHP() / 20));
+                takeDamage(8 + Utils.rand(player.stats.maxHP() / 20));
             }
         }
         //Bondage straps + bondage fetish
@@ -363,7 +356,7 @@ export default class CombatUpdate {
             MainScreen.text("The feeling of the tight, leather straps holding tightly to your body while exposing so much of it turns you on a little bit more.\n\n", false);
             player.stats.lust += 2;
         }
-        regeneration(true);
+        CombatUpdate.combatRegeneration(player);
     }
 
 }
