@@ -34,6 +34,18 @@ export default class Character extends Creature implements UpdateInterface {
 
 	public update(hours: number) {
 		this.pregnancy.update(hours);
+		this.regeneration()
+	}
+
+	private regeneration() {
+		let healingPercent = 0;
+		if (this.perks.has("Regeneration")) healingPercent += 2;
+		if (this.perks.has("Regeneration2")) healingPercent += 4;
+		if (this.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
+		if (this.inventory.armor.displayName == "goo armor") healingPercent += 3;
+		if (this.perks.has("LustyRegeneration")) healingPercent += 2;
+		if (healingPercent > 10) healingPercent = 10;
+		this.stats.HPChange(Math.round(this.stats.maxHP() * healingPercent / 100));
 	}
 
 	public armorDefense(): number {
