@@ -76,7 +76,7 @@ export default class Stats implements SaveInterface {
             this._str += value * this.body.perks.get("Strong").value1;
     }
 
-    public setStr(value: number) {
+    public forceStr(value: number) {
         this._str = value;
     }
 
@@ -88,11 +88,14 @@ export default class Stats implements SaveInterface {
         value -= this._tou;
         this._tou += value;
 
+        //Add HP for toughness change.
+        this.HPChange(value * 2);
+
         if (this.body.perks.has("Tough") && value >= 0)
             this._tou += value * this.body.perks.get("Tough").value1;
     }
 
-    public setTou(value: number) {
+    public forceTou(value: number) {
         this._tou = value;
     }
 
@@ -116,7 +119,7 @@ export default class Stats implements SaveInterface {
             this._spe += value * this.body.perks.get("Fast").value1;
     }
 
-    public setSpe(value: number) {
+    public forceSpe(value: number) {
         this._spe = value;
     }
 
@@ -142,7 +145,7 @@ export default class Stats implements SaveInterface {
             this._int += value * this.body.perks.get("Smart").value1;
     }
 
-    public setInt(value: number) {
+    public forceInt(value: number) {
         this._int = value;
     }
 
@@ -180,7 +183,7 @@ export default class Stats implements SaveInterface {
             this._lib = this.minLust() * 2 / 3;
     }
 
-    public setLib(value: number) {
+    public forceLib(value: number) {
         this._lib = value;
     }
 
@@ -206,7 +209,7 @@ export default class Stats implements SaveInterface {
             this._sens += value * this.body.perks.get("Sensitive").value1;
     }
 
-    public setSens(value: number) {
+    public forceSens(value: number) {
         this._sens = value;
     }
 
@@ -224,7 +227,7 @@ export default class Stats implements SaveInterface {
         this._cor += value;
     }
 
-    public setCor(value: number) {
+    public forceCor(value: number) {
         this._cor = value;
     }
 
@@ -252,7 +255,7 @@ export default class Stats implements SaveInterface {
         if (this._fatigue < 0) this._fatigue = 0;
     }
 
-    public setFatigue(value: number) {
+    public forceFatigue(value: number) {
         this._fatigue = value;
     }
 
@@ -277,42 +280,22 @@ export default class Stats implements SaveInterface {
 
     public set HP(value: number) {
         value -= this._HP;
+        
+        if (value > 0) {
+            //Increase by 20%!
+            if (this.body.perks.has("HistoryHealer"))
+                value *= 1.2;
+        }
+
         this._HP += value;
 
-        //Add HP for toughness change.
-        this.HPChange(this.tou * 2);
-        //Reduce hp if over max
         if (this._HP > this.maxHP())
             this._HP = this.maxHP();
         if (this._HP < 0)
             this._HP = 0;
     }
 
-    public HPChange(changeAmount: number): number {
-        if (changeAmount == 0)
-            return;
-        if (changeAmount > 0) {
-            //Increase by 20%!
-            if (this.body.perks.has("HistoryHealer"))
-                changeAmount *= 1.2;
-            if (this._HP + Math.floor(changeAmount) > this.maxHP()) {
-                if (this._HP >= this.maxHP())
-                    return;
-                this._HP = this.maxHP();
-            }
-            else
-                this._HP += Math.floor(changeAmount);
-        }
-        //Negative HP
-        else {
-            if (this._HP + changeAmount <= 0)
-                this._HP = 0;
-            else
-                this._HP += changeAmount;
-        }
-    }
-
-    public setHP(value: number) {
+    public forceHP(value: number) {
         this._HP = value;
     }
 
@@ -361,7 +344,7 @@ export default class Stats implements SaveInterface {
                 this._lust = 50;
     }
 
-    public setLust(value: number) {
+    public forceLust(value: number) {
         this._lust = value;
     }
 
