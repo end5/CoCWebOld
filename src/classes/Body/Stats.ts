@@ -1,6 +1,6 @@
-﻿import Flags, { FlagEnum } from "../Game/Flags";
-import Creature from "./Creature";
-import { SaveInterface } from "../SaveInterface";
+﻿import Creature from './Creature';
+import Flags, { FlagEnum } from '../Game/Flags';
+import { SaveInterface } from '../SaveInterface';
 
 export default class Stats implements SaveInterface {
     private body: Creature;
@@ -23,6 +23,7 @@ export default class Stats implements SaveInterface {
     //Combat Stats
     private _HP: number;
     private _lust: number;
+    private _lustVuln: number;
 
     //Level Stats
     public XP: number;
@@ -48,6 +49,7 @@ export default class Stats implements SaveInterface {
         //Combat Stats
         this._HP = 0;
         this._lust = 0;
+        this._lustVuln = 0;
 
         //Level Stats
         this.XP = 0;
@@ -61,6 +63,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set str(value: number) {
+        value -= this.str;
         if (this.body.perks.has("ChiReflowSpeed")) {
             if (this._str > UmasShop.NEEDLEWORK_SPEED_STRENGTH_CAP) {
                 this._str = UmasShop.NEEDLEWORK_SPEED_STRENGTH_CAP;
@@ -82,8 +85,8 @@ export default class Stats implements SaveInterface {
     }
 
     public set tou(value: number) {
-
-        this._tou += value
+        value -= this._tou;
+        this._tou += value;
 
         if (this.body.perks.has("Tough") && value >= 0)
             this._tou += value * this.body.perks.get("Tough").value1;
@@ -98,6 +101,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set spe(value: number) {
+        value -= this._spe;
         if (this.body.perks.has("ChiReflowSpeed") && value < 0)
             value *= UmasShop.NEEDLEWORK_SPEED_SPEED_MULTI;
         if (this.body.perks.has("ChiReflowDefense")) {
@@ -121,6 +125,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set int(value: number) {
+        value -= this._int;
         if (!this.bimboIntReduction)
             if (this.body.perks.has("FutaFaculties") || this.body.perks.has("BimboBrains") || this.body.perks.has("BroBrains")) {
                 if (value > 0)
@@ -146,6 +151,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set lib(value: number) {
+        value -= this._lib;
         if (!this.bimboIntReduction)
             if (this.body.perks.has("FutaForm") || this.body.perks.has("BimboBody") || this.body.perks.has("BroBody")) {
                 if (value > 0)
@@ -183,6 +189,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set sens(value: number) {
+        value -= this._sens;
         if (this.body.perks.has("ChiReflowLust") && value > 0)
             value *= UmasShop.NEEDLEWORK_LUST_LIBSENSE_MULTI;
 
@@ -208,6 +215,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set cor(value: number) {
+        value -= this._cor;
         if (value > 0 && this.body.perks.has("PurityBlessing"))
             value *= 0.5;
         if (value > 0 && this.body.perks.has("PureAndLoving"))
@@ -225,32 +233,7 @@ export default class Stats implements SaveInterface {
     }
 
     public set fatigue(value: number) {
-        this.fatigueChange(value);
-    }
-
-    public setFatigue(value: number) {
-        this._fatigue = value;
-    }
-
-    //Modify fatigue
-    //types:
-    //        0 - normal
-    //        1 - magic
-    public fatigueChange(value: number, type: number = 0): void {
-        //Spell reductions
-        if (type == 1) {
-            value = spellCost(value);
-
-            //Blood mages use HP for spells
-            if (this.body.perks.has("BloodMage")) {
-                takeDamage(value);
-                return;
-            }
-        }
-        //Physical special reductions
-        if (type == 2) {
-            value = physicalCost(value);
-        }
+        value -= this._fatigue;
         if (this._fatigue >= 100 && value > 0) return;
         if (this._fatigue <= 0 && value < 0) return;
         //Fatigue restoration buffs!
@@ -269,20 +252,40 @@ export default class Stats implements SaveInterface {
         if (this._fatigue < 0) this._fatigue = 0;
     }
 
+    public setFatigue(value: number) {
+        this._fatigue = value;
+    }
+
+    public fatiguePhysical(value: number) {
+        this.fatigue = physicalCost(value);
+    }
+
+    public fatigueMagic(value: number) {
+        value = this.body.spellCost(value);
+
+        //Blood mages use HP for spells
+        if (this.body.perks.has("BloodMage")) {
+            takeDamage(value);
+            return;
+        }
+        this.fatigue = value;
+    }
+
     public get HP(): number {
         return this._HP;
     }
 
     public set HP(value: number) {
-
+        value -= this._HP;
         this._HP += value;
-
 
         //Add HP for toughness change.
         this.HPChange(this.tou * 2);
         //Reduce hp if over max
         if (this._HP > this.maxHP())
             this._HP = this.maxHP();
+        if (this._HP < 0)
+            this._HP = 0;
     }
 
     public HPChange(changeAmount: number): number {
@@ -311,6 +314,26 @@ export default class Stats implements SaveInterface {
 
     public setHP(value: number) {
         this._HP = value;
+    }
+
+    public maxHP(): number {
+        let max: number = 0;
+        max += Math.floor(this._tou * 2 + 50);
+        if (this.body.perks.has("Tank"))
+            max += 50;
+        if (this.body.perks.has("Tank2"))
+            max += Math.round(this._tou);
+        if (this.body.perks.has("ChiReflowDefense"))
+            max += UmasShop.NEEDLEWORK_DEFENSE_EXTRA_HP;
+        if (this.level <= 20)
+            max += this.level * 15;
+        else
+            max += 20 * 15;
+        max = Math.round(max);
+        if (max > 999)
+            max = 999;
+        return max;
+
     }
 
     public get lust(): number {
@@ -402,33 +425,13 @@ export default class Stats implements SaveInterface {
         return min;
     }
 
-    public maxHP(): number {
-        let max: number = 0;
-        max += Math.floor(this._tou * 2 + 50);
-        if (this.body.perks.has("Tank"))
-            max += 50;
-        if (this.body.perks.has("Tank2"))
-            max += Math.round(this._tou);
-        if (this.body.perks.has("ChiReflowDefense"))
-            max += UmasShop.NEEDLEWORK_DEFENSE_EXTRA_HP;
-        if (this.level <= 20)
-            max += this.level * 15;
-        else
-            max += 20 * 15;
-        max = Math.round(max);
-        if (max > 999)
-            max = 999;
-        return max;
-
-    }
-
-    public lustPercent():number {
+    public lustPercent(): number {
         let lust: number = 100;
         //2.5% lust resistance per level - max 75.
         if (this.level < 21)
             lust -= (this.level - 1) * 3;
         else lust = 40;
-	
+
         //++++++++++++++++++++++++++++++++++++++++++++++++++
         //ADDITIVE REDUCTIONS
         //THESE ARE FLAT BONUSES WITH LITTLE TO NO DOWNSIDE
@@ -448,13 +451,13 @@ export default class Stats implements SaveInterface {
             lust -= 10;
         if (this.body.perks.has("ChiReflowLust"))
             lust -= UmasShop.NEEDLEWORK_LUST_LUST_RESIST;
-	
+
         if (lust < 25) lust = 25;
         if (this.body.statusAffects.has("BlackCatBeer")) {
             if (lust >= 80) lust = 100;
             else lust += 20;
         }
-	    lust += Math.round(this.body.perks.get("PentUp").value1 / 2);
+        lust += Math.round(this.body.perks.get("PentUp").value1 / 2);
         //++++++++++++++++++++++++++++++++++++++++++++++++++
         //MULTIPLICATIVE REDUCTIONS
         //THESE PERKS ALSO RAISE MINIMUM LUST OR HAVE OTHER
@@ -477,7 +480,7 @@ export default class Stats implements SaveInterface {
             lust *= .6;
         if (this.body.statusAffects.has("PureAndLoving"))
             lust *= 0.95;
-	
+
         // Lust mods from Uma's content -- Given the short duration and the gem cost, I think them being multiplicative is justified.
         // Changing them to an additive bonus should be pretty simple (check the static values in UmasShop.as)
         if (this.body.statusAffects.has("UmasMassage")) {
@@ -486,9 +489,13 @@ export default class Stats implements SaveInterface {
                 lust *= UmasMassageStatusAffect.value2;
             }
         }
-	
-	    lust = Math.round(lust);
+
+        lust = Math.round(lust);
         return lust;
+    }
+
+    public get lustVuln(): number {
+        return this._lustVuln;
     }
 
     saveKey: string = "Stats";
