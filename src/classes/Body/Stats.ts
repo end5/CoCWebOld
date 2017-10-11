@@ -280,11 +280,16 @@ export default class Stats implements SaveInterface {
 
     public set HP(value: number) {
         value -= this._HP;
-        
+
         if (value > 0) {
             //Increase by 20%!
             if (this.body.perks.has("HistoryHealer"))
                 value *= 1.2;
+        }
+        if (value < 0) {
+            if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
+                this._lust = value / 2;
+            }
         }
 
         this._HP += value;

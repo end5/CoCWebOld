@@ -4,6 +4,7 @@ import Creature from './Body/Creature';
 import { FaceType } from './Body/Face';
 import HeadDescriptor from './Descriptors/HeadDescriptor';
 import StatusAffect from './Effects/StatusAffect';
+import Flags, { FlagEnum } from './Game/Flags';
 import Game from './Game/Game';
 import CharacterInventory from './Inventory/CharacterInventory';
 import UpdateInterface from './UpdateInterface';
@@ -45,23 +46,9 @@ export default class Character extends Creature implements UpdateInterface {
 		if (this.inventory.armor.displayName == "goo armor") healingPercent += 3;
 		if (this.perks.has("LustyRegeneration")) healingPercent += 2;
 		if (healingPercent > 10) healingPercent = 10;
-		this.stats.HPChange(Math.round(this.stats.maxHP() * healingPercent / 100));
+		this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
 	}
 
-    public takeDamage(damage: number): number {
-        //Round
-        damage = Math.round(damage);
-        // we return "1 damage received" if it is in (0..1) but deduce no HP
-        let returnDamage: number = (damage > 0 && damage < 1) ? 1 : damage;
-        if (damage > 0) {
-            this.stats.HP -= damage;
-            if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
-                this.stats.lust = damage / 2;
-            }
-        }
-        return returnDamage;
-	}
-	
 	public reduceDamage(damage: number): number {
         damage = damage - Utils.rand(this.stats.tou) - this.armorDef;
         //EZ MOAD half damage
@@ -91,10 +78,9 @@ export default class Character extends Creature implements UpdateInterface {
         }
 
         // Uma's Massage bonuses
-        let statIndex: number = this.statusAffects.has(StatusAffects.UmasMassage);
-        if (statIndex >= 0) {
-            if (statusAffect(statIndex).value1 == UmasShop.MASSAGE_RELAXATION) {
-                damage = Math.round(damage * statusAffect(statIndex).value2);
+        if (this.statusAffects.has("UmasMassage")) {
+            if (this.statusAffects.get("UmasMassage").value1 == UmasShop.MASSAGE_RELAXATION) {
+                damage = Math.round(damage * this.statusAffects.get("UmasMassage").value2);
             }
         }
 
@@ -345,13 +331,13 @@ export default class Character extends Creature implements UpdateInterface {
 				this.femininity = 70;
 			}
 			if (this.femininity > 40 && this.hasBeard()) {
-				output += "\n<b>Your beard falls out, leaving you with " + this.faceDesc() + ".</b>\n";
+				output += "\n<b>Your beard falls out, leaving you with " + HeadDescriptor.describeFace(this) + ".</b>\n";
 				this.beardLength = 0;
 				this.beardStyle = 0;
 			}
 		}
 		if (this.gender != 1 && this.hasBeard()) {
-			output += "\n<b>Your beard falls out, leaving you with " + this.faceDesc() + ".</b>\n";
+			output += "\n<b>Your beard falls out, leaving you with " + HeadDescriptor.describeFace(this) + ".</b>\n";
 			this.beardLength = 0;
 			this.beardStyle = 0;
 		}
