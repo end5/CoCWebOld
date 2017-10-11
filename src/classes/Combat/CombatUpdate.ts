@@ -49,12 +49,12 @@ export default class CombatUpdate {
         if (enemy.short == "Isabella") {
             Flags.list[FlagEnum.ISABELLA_AFFECTION]--;
             //Keep in bounds
-            if (Flags.list[FlagEnum.ISABELLA_AFFECTION] < 0) Flags.list[FlagEnum.ISABELLA_AFFECTION] = 0;
+            if (Flags.list[FlagEnum.ISABELLA_AFFECTION] < 0)
+                Flags.list[FlagEnum.ISABELLA_AFFECTION] = 0;
         }
         //Interrupt gigaflare if necessary.
-        if (enemy.statusAffects.has("Gigafire")) enemy.statusAffects.get("Gigafire").value1 += damage;
-        //Keep shit in bounds.
-        if (enemy.stats.HP < 0) enemy.stats.HP = 0;
+        if (enemy.statusAffects.has("Gigafire"))
+            enemy.statusAffects.get("Gigafire").value1 += damage;
         return damage;
     }
 
@@ -66,7 +66,7 @@ export default class CombatUpdate {
         if (character.inventory.armor.displayName == "goo armor") healingPercent += 2;
         if (character.perks.has("LustyRegeneration")) healingPercent += 1;
         if (healingPercent > 5) healingPercent = 5;
-        character.stats.HPChange(Math.round(character.stats.maxHP() * healingPercent / 100));
+        character.stats.HP += Math.round(character.stats.maxHP() * healingPercent / 100);
     }
 
     public static fatigueRecovery(character: Character): void {
@@ -75,10 +75,13 @@ export default class CombatUpdate {
             character.stats.fatigue -= (1 + Utils.rand(3));
     }
 
-    private static combatStatusesUpdate(player: Player, monster: Monster): void {
+    public static combatStatusAffectsUpdate(playerParty: Character[], monsterParty: Character[]): void {
         //old outfit used for fetish cultists
         let oldOutfit: string = "";
         let changed: boolean = false;
+
+        let player = playerParty[0];
+        let monster = monsterParty[0];
 
         if (player.statusAffects.has("Sealed")) {
             //Countdown and remove as necessary
@@ -88,7 +91,7 @@ export default class CombatUpdate {
                 else MainScreen.text("<b>One of your combat abilities is currently sealed by magic!</b>\n\n");
             }
         }
-        monster.combatRoundUpdate();
+        //monster.combatRoundUpdate();
         //[Silence warning]
         if (player.statusAffects.has("ThroatPunch")) {
             player.statusAffects.get("ThroatPunch").value1--;
@@ -182,23 +185,29 @@ export default class CombatUpdate {
             }
         }
         if (player.statusAffects.has("AcidSlap")) {
-            let slap: number = 3 + (maxHP() * 0.02);
+            let slap: number = 3 + (player.stats.maxHP() * 0.02);
             MainScreen.text("<b>Your muscles twitch in agony as the acid keeps burning you. (" + slap + ")</b>\n\n", false);
         }
         if (player.perks.has("ArousingAura") && monster.stats.lustVuln > 0 && player.stats.cor >= 70) {
             if (monster.stats.lust < 50) MainScreen.text("Your aura seeps into " + monster.a + monster.short + " but does not have any visible effects just yet.\n\n", false);
             else if (monster.stats.lust < 60) {
-                if (!monster.plural) MainScreen.text(monster.capitalA + monster.short + " starts to squirm a little from your unholy presence.\n\n", false);
-                else MainScreen.text(monster.capitalA + monster.short + " start to squirm a little from your unholy presence.\n\n", false);
+                // No monster plural
+                //if (!monster.plural)
+                MainScreen.text(monster.capitalA + monster.short + " starts to squirm a little from your unholy presence.\n\n", false);
+                //else MainScreen.text(monster.capitalA + monster.short + " start to squirm a little from your unholy presence.\n\n", false);
             }
             else if (monster.stats.lust < 75) MainScreen.text("Your arousing aura seems to be visibly affecting " + monster.a + monster.short + ", making " + monster.pronoun2 + " squirm uncomfortably.\n\n", false);
             else if (monster.stats.lust < 85) {
-                if (!monster.plural) MainScreen.text(monster.capitalA + monster.short + "'s skin colors red as " + monster.pronoun1 + " inadvertantly basks in your presence.\n\n", false);
-                else MainScreen.text(monster.capitalA + monster.short + "' skin colors red as " + monster.pronoun1 + " inadvertantly bask in your presence.\n\n", false);
+                // No monster plural
+                //if (!monster.plural)
+                MainScreen.text(monster.capitalA + monster.short + "'s skin colors red as " + monster.pronoun1 + " inadvertantly basks in your presence.\n\n", false);
+                //else MainScreen.text(monster.capitalA + monster.short + "' skin colors red as " + monster.pronoun1 + " inadvertantly bask in your presence.\n\n", false);
             }
             else {
-                if (!monster.plural) MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begins to shake and steal glances at your body.\n\n", false);
-                else MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begin to shake and steal glances at your body.\n\n", false);
+                // No monster plural
+                //if (!monster.plural)
+                MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begins to shake and steal glances at your body.\n\n", false);
+                //else MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begin to shake and steal glances at your body.\n\n", false);
             }
             monster.stats.lust += monster.stats.lustVuln * (2 + Utils.rand(4));
         }
@@ -259,8 +268,8 @@ export default class CombatUpdate {
                 player.statusAffects.remove("Luststick");
             }
             else if (Utils.rand(5) == 0) {
-                if (Utils.rand(2) == 0) MainScreen.text("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + CockDescriptor.describeCock(player, 0) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...\n\n", false);
-                else MainScreen.text("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + CockDescriptor.describeCock(player, 0) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...\n\n", false);
+                if (Utils.rand(2) == 0) MainScreen.text("A fantasy springs up from nowhere, dominating your thoughts for a few moments.  In it, you're lying down in a soft nest.  Gold-rimmed lips are noisily slurping around your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + ", smearing it with her messy aphrodisiac until you're completely coated in it.  She looks up at you knowingly as the two of you get ready to breed the night away...\n\n", false);
+                else MainScreen.text("An idle daydream flutters into your mind.  In it, you're fucking a harpy's asshole, clutching tightly to her wide, feathery flanks as the tight ring of her pucker massages your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + ".  She moans and turns around to kiss you on the lips, ensuring your hardness.  Before long her feverish grunts of pleasure intensify, and you feel the egg she's birthing squeezing against you through her internal walls...\n\n", false);
                 player.stats.lust += 20;
             }
         }
@@ -357,6 +366,7 @@ export default class CombatUpdate {
             player.stats.lust += 2;
         }
         CombatUpdate.combatRegeneration(player);
+        CombatUpdate.combatRegeneration(monster);
     }
 
 }

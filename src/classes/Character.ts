@@ -50,7 +50,7 @@ export default class Character extends Creature implements UpdateInterface {
 	}
 
 	public reduceDamage(damage: number): number {
-        damage = damage - Utils.rand(this.stats.tou) - this.armorDef;
+        damage = damage - Utils.rand(this.stats.tou) - this.armorDefense();
         //EZ MOAD half damage
         if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
             damage /= 2;
@@ -87,9 +87,9 @@ export default class Character extends Creature implements UpdateInterface {
         // Uma's Accupuncture Bonuses
         let modArmorDef: number = 0;
         if (this.perks.has("ChiReflowDefense"))
-            modArmorDef = ((this.armorDef * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.armorDef);
+            modArmorDef = ((this.armorDefense() * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.armorDefense());
         if (this.perks.has("ChiReflowAttack"))
-            modArmorDef = ((this.armorDef * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.armorDef);
+            modArmorDef = ((this.armorDefense() * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.armorDefense());
         damage -= modArmorDef;
         if (damage < 0) damage = 0;
         return damage;
