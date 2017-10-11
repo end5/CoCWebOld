@@ -48,6 +48,80 @@ export default class Character extends Creature implements UpdateInterface {
 		this.stats.HPChange(Math.round(this.stats.maxHP() * healingPercent / 100));
 	}
 
+    public takeDamage(damage: number): number {
+        //Round
+        damage = Math.round(damage);
+        // we return "1 damage received" if it is in (0..1) but deduce no HP
+        let returnDamage: number = (damage > 0 && damage < 1) ? 1 : damage;
+        if (damage > 0) {
+            this.stats.HP -= damage;
+            if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
+                this.stats.lust = damage / 2;
+            }
+        }
+        return returnDamage;
+	}
+	
+	public reduceDamage(damage: number): number {
+        damage = damage - Utils.rand(this.stats.tou) - this.armorDef;
+        //EZ MOAD half damage
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
+            damage /= 2;
+        if (this.statusAffects.has("Shielding")) {
+            damage -= 30;
+            if (damage < 1)
+                damage = 1;
+        }
+        //Black cat beer = 25% reduction!
+        if (this.statusAffects.get("BlackCatBeer").value1 > 0)
+            damage = Math.round(damage * .75);
+
+        //Take damage you masochist!
+        if (this.perks.has("Masochist") && this.stats.lib >= 60) {
+            damage = Math.round(damage * .7);
+            this.stats.lust = 2;
+            //Dont let it round too far down!
+            if (damage < 1)
+                damage = 1;
+        }
+        if (this.perks.has("ImmovableObject") && this.stats.tou >= 75) {
+            damage = Math.round(damage * .8);
+            if (damage < 1)
+                damage = 1;
+        }
+
+        // Uma's Massage bonuses
+        let statIndex: number = this.statusAffects.has(StatusAffects.UmasMassage);
+        if (statIndex >= 0) {
+            if (statusAffect(statIndex).value1 == UmasShop.MASSAGE_RELAXATION) {
+                damage = Math.round(damage * statusAffect(statIndex).value2);
+            }
+        }
+
+        // Uma's Accupuncture Bonuses
+        let modArmorDef: number = 0;
+        if (this.perks.has("ChiReflowDefense"))
+            modArmorDef = ((this.armorDef * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.armorDef);
+        if (this.perks.has("ChiReflowAttack"))
+            modArmorDef = ((this.armorDef * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.armorDef);
+        damage -= modArmorDef;
+        if (damage < 0) damage = 0;
+        return damage;
+    }
+
+	/**
+		* @return 0: did not avoid; 1-3: avoid with varying difference between
+		* speeds (1: narrowly avoid, 3: deftly avoid)
+		*/
+    public speedDodge(enemy: Character): number {
+        let diff: number = this.stats.spe - enemy.stats.spe;
+        let rnd: number = Utils.rand((diff / 4) + 80);
+        if (rnd <= 80) return 0;
+        else if (diff < 8) return 1;
+        else if (diff < 20) return 2;
+        else return 3;
+    }
+
 	public armorDefense(): number {
 		let armorDef: number = this.inventory.armor.defense;
 		//Blacksmith history!
@@ -98,6 +172,32 @@ export default class Character extends Creature implements UpdateInterface {
 		return attack;
 	}
 
+    public modCumMultiplier(delta: number): number {
+        console.trace("modCumMultiplier called with: " + delta);
+
+        if (delta == 0) {
+            console.trace("Whoops! modCumMuliplier called with 0... aborting...");
+            return delta;
+        }
+        else if (delta > 0) {
+            console.trace("and increasing");
+            if (this.perks.has("MessyOrgasms")) {
+                console.trace("and MessyOrgasms found");
+                delta *= 1.5
+            }
+        }
+        else if (delta < 0) {
+            console.trace("and decreasing");
+            if (this.perks.has("MessyOrgasms")) {
+                console.trace("and MessyOrgasms found");
+                delta *= 0.5
+            }
+        }
+
+        console.trace("and modifying by " + delta);
+        this.cumMultiplier += delta;
+        return delta;
+    }
 
 	//Modify this.femininity!
 	public modFem(goal: number, strength: number = 1): string {
