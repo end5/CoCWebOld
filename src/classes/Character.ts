@@ -1,6 +1,6 @@
 ﻿import { CockType as CockType } from './Body/Cock';
-import { Gender, SkinType } from './Body/Creature';
 import Creature from './Body/Creature';
+import { Gender, SkinType } from './Body/Creature';
 import { FaceType } from './Body/Face';
 import HeadDescriptor from './Descriptors/HeadDescriptor';
 import StatusAffect from './Effects/StatusAffect';
@@ -50,7 +50,7 @@ export default class Character extends Creature implements UpdateInterface {
 	}
 
 	public reduceDamage(damage: number): number {
-        damage = damage - Utils.rand(this.stats.tou) - this.armorDefense();
+        damage = damage - Utils.rand(this.stats.tou) - this.defense();
         //EZ MOAD half damage
         if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
             damage /= 2;
@@ -87,9 +87,9 @@ export default class Character extends Creature implements UpdateInterface {
         // Uma's Accupuncture Bonuses
         let modArmorDef: number = 0;
         if (this.perks.has("ChiReflowDefense"))
-            modArmorDef = ((this.armorDefense() * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.armorDefense());
+            modArmorDef = ((this.defense() * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.defense());
         if (this.perks.has("ChiReflowAttack"))
-            modArmorDef = ((this.armorDefense() * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.armorDefense());
+            modArmorDef = ((this.defense() * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.defense());
         damage -= modArmorDef;
         if (damage < 0) damage = 0;
         return damage;
@@ -108,7 +108,7 @@ export default class Character extends Creature implements UpdateInterface {
         else return 3;
     }
 
-	public armorDefense(): number {
+	public defense(): number {
 		let armorDef: number = this.inventory.armor.defense;
 		//Blacksmith history!
 		if (armorDef > 0 && this.perks.has("HistorySmith")) {
@@ -138,6 +138,11 @@ export default class Character extends Creature implements UpdateInterface {
 		if (this.statusAffects.has("Berzerking")) {
 			armorDef = 0;
 		}
+		if (this.statusAffects.has("CoonWhip")) {
+			armorDef -= this.statusAffects.get("CoonWhip").value1;
+			if (armorDef < 0)
+				armorDef = 0;
+		}
 		if (this.statusAffects.has("TailWhip")) {
 			armorDef -= this.statusAffects.get("TailWhip").value1;
 			if (armorDef < 0)
@@ -153,34 +158,79 @@ export default class Character extends Creature implements UpdateInterface {
 		if (this.perks.has("LightningStrikes") && this.stats.spe >= 60 && this.inventory.weapon.perk != "Large") {
 			attack += Math.round((this.stats.spe - 50) / 3);
 		}
-		if (this.statusAffects.has("Berzerking")) attack += 30;
+		if (this.statusAffects.has("Berzerking"))
+			attack += 30;
+
 		attack += this.statusAffects.get("ChargeWeapon").value1;
+
+
 		return attack;
 	}
 
-    public modCumMultiplier(delta: number): number {
-        console.trace("modCumMultiplier called with: " + delta);
+	public regularAttackMod(): number {
+		let value = this.physicalAttackMod();
+        if (this.perks.has("ChiReflowAttack")) {
+			value += 1 - UmasShop.NEEDLEWORK_ATTACK_REGULAR_MULTI;
+        }
+        if (this.perks.has("ChiReflowMagic")) {
+			value += 1 - UmasShop.NEEDLEWORK_MAGIC_REGULAR_MULTI;
+        }
+        // Uma's Massage Bonuses
+        if (this.statusAffects.has("UmasMassage")) {
+            if (this.statusAffects.get("UmasMassage").value1 == UmasShop.MASSAGE_POWER) {
+                value += 1 - this.statusAffects.get("UmasMassage").value2;
+            }
+        }
+		return value;
+	}
 
+	public physicalAttackMod(): number {
+		let value = 1;
+		if (this.perks.has("HistoryFighter"))
+			value += 0.1;
+		if (this.perks.has("Sadist")) {
+			value += 0.2;
+			// Add 3 before resistances
+			this.stats.forceLust(this.stats.lust + 3);
+            //this.stats.lust += 3;
+		}
+		return value;
+	}
+
+	public magicalAttackMod(): number {
+		let mod = this.spellMod();
+		if (this.perks.has("ChiReflowMagic"))
+			mod += 1 - UmasShop.NEEDLEWORK_MAGIC_SPELL_MULTI;
+		return mod;
+	}
+
+	public spellMod(): number {
+		let mod: number = 1;
+		if (this.perks.has("Archmage") && this.stats.int >= 75) mod += .5;
+		if (this.perks.has("Channeling") && this.stats.int >= 60) mod += .5;
+		if (this.perks.has("Mage") && this.stats.int >= 50) mod += .5;
+		if (this.perks.has("Spellpower") && this.stats.int >= 50) mod += .5;
+		if (this.perks.has("WizardsFocus")) {
+			mod += this.perks.get("WizardsFocus").value1;
+		}
+		return mod;
+	}
+
+    public modCumMultiplier(delta: number): number {
         if (delta == 0) {
-            console.trace("Whoops! modCumMuliplier called with 0... aborting...");
             return delta;
         }
         else if (delta > 0) {
-            console.trace("and increasing");
             if (this.perks.has("MessyOrgasms")) {
-                console.trace("and MessyOrgasms found");
                 delta *= 1.5
             }
         }
         else if (delta < 0) {
-            console.trace("and decreasing");
             if (this.perks.has("MessyOrgasms")) {
-                console.trace("and MessyOrgasms found");
                 delta *= 0.5
             }
         }
 
-        console.trace("and modifying by " + delta);
         this.cumMultiplier += delta;
         return delta;
     }
