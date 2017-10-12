@@ -1,3 +1,6 @@
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+
 export default class PlayerAttack {
     public approachAfterKnockback(): void {
         MainScreen.clearText();

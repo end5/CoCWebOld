@@ -1,9 +1,9 @@
 import SpellAction from './SpellAction';
-import MainScreen from '../display/MainScreen';
-import Perk from '../Effects/Perk';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Monster from '../../Monster';
+import Player from '../../Player';
 
 export default abstract class LearnedSpellAction extends SpellAction {
     abstract castSpell(player: Player, monster: Monster);

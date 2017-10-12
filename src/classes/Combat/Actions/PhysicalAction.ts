@@ -1,7 +1,7 @@
 import SpecialAction from './SpecialAction';
-import Creature from '../Body/Creature';
-import Monster from '../Monster';
-import Player from '../Player';
+import Creature from '../../Body/Creature';
+import Monster from '../../Monster';
+import Player from '../../Player';
 
 export abstract class PhysicalAction implements SpecialAction {
     abstract canUse(player: Player, monster: Monster): boolean;

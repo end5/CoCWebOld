@@ -3,16 +3,9 @@ import * as MagicalAttack from './PlayerMagicalAttacks';
 import * as PhysicalAttack from './PlayerPhysicalAttacks';
 import SpecialAction from './SpecialAction';
 import Tease from './Tease';
-import { FaceType } from '../Body/Face';
-import { HornType } from '../Body/Head';
-import { LowerBodyType, TailType } from '../Body/LowerBody';
-import MainScreen from '../display/MainScreen';
-import Perk from '../Effects/Perk';
-import StatusAffect from '../Effects/StatusAffect';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
-import Utils from '../Utilities/Utils';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
 
 export default class PlayerCombatActions implements CombatActions {
     private _tease = new Tease();
@@ -68,14 +61,14 @@ export default class PlayerCombatActions implements CombatActions {
         }
         if (monster instanceof Basilisk) {
             //basilisk counter attack (block attack, significant speed loss): 
-            if (player.stats.int / 5 + rand(20) < 25) {
+            if (player.stats.int / 5 + Utils.rand(20) < 25) {
                 MainScreen.text("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You find yourself staring directly into the basilisk's face!  Quickly you snap your eyes shut and recoil backwards, swinging madly at the lizard to force it back, but the damage has been done; you can see the terrible grey eyes behind your closed lids, and you feel a great weight settle on your bones as it becomes harder to move.", false);
                 Basilisk.basiliskSpeed(player, 20);
                 player.statusAffects.remove("FirstAttack");
                 combatRoundOver();
                 return;
             }
-            //Counter attack fails: (random chance if PC int > 50 spd > 60; PC takes small physical damage but no block or spd penalty)
+            //Counter attack fails: (Utils.random chance if PC int > 50 spd > 60; PC takes small physical damage but no block or spd penalty)
             else {
                 MainScreen.text("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You twist unexpectedly, bringing your " + player.weaponName + " up at an oblique angle; the basilisk doesn't anticipate this attack!  ", false);
             }
@@ -83,8 +76,8 @@ export default class PlayerCombatActions implements CombatActions {
         //Worms are special
         if (monster.short == "worms") {
             //50% chance of hit (int boost)
-            if (rand(100) + player.stats.int / 3 >= 50) {
-                temp = int(player.stats.str / 5 - rand(5));
+            if (Utils.rand(100) + player.stats.int / 3 >= 50) {
+                temp = int(player.stats.str / 5 - Utils.rand(5));
                 if (temp == 0) temp = 1;
                 MainScreen.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n", false);
                 monster.stats.HP -= temp;
@@ -109,7 +102,7 @@ export default class PlayerCombatActions implements CombatActions {
     public struggle(): void {
         if (monster.statusAffects.has("MinotaurEntangled")) {
             MainScreen.clearText();
-            if (player.stats.str / 9 + rand(20) + 1 >= 15) {
+            if (player.stats.str / 9 + Utils.rand(20) + 1 >= 15) {
                 MainScreen.text("Utilizing every ounce of your strength and cunning, you squirm wildly, shrugging through weak spots in the chain's grip to free yourself!  Success!");
                 monster.statusAffects.remove("MinotaurEntangled");
                 MainScreen.text("\n\n\"<i>No!  You fool!  You let her get away!  Hurry up and finish her up!  I need my serving!</i>\"  The succubus spits out angrily.\n\n");
@@ -133,7 +126,7 @@ export default class PlayerCombatActions implements CombatActions {
         else if (player.statusAffects.has("GooBind")) {
             MainScreen.clearText();
             //[Struggle](successful) :
-            if (rand(3) == 0 || rand(80) < player.stats.str) {
+            if (Utils.rand(3) == 0 || Utils.rand(80) < player.stats.str) {
                 MainScreen.text("You claw your fingers wildly within the slime and manage to brush against her heart-shaped nucleus. The girl silently gasps and loses cohesion, allowing you to pull yourself free while she attempts to solidify.");
                 player.statusAffects.remove("GooBind");
             }
@@ -159,14 +152,14 @@ export default class PlayerCombatActions implements CombatActions {
         }
         else if (player.statusAffects.has("NagaBind")) {
             MainScreen.clearText();
-            if (rand(3) == 0 || rand(80) < player.stats.str / 1.5) {
+            if (Utils.rand(3) == 0 || Utils.rand(80) < player.stats.str / 1.5) {
                 MainScreen.text("You wriggle and squirm violently, tearing yourself out from within the naga's coils.");
                 player.statusAffects.remove("NagaBind");
             }
             else {
                 MainScreen.text("The naga's grip on you tightens as you struggle to break free from the stimulating pressure.");
                 dynStats("lus", player.stats.sens / 10 + 2);
-                takeDamage(7 + rand(5));
+                takeDamage(7 + Utils.rand(5));
             }
             combatRoundOver();
         }
@@ -174,7 +167,7 @@ export default class PlayerCombatActions implements CombatActions {
             MainScreen.clearText();
             MainScreen.text("You struggle with all of your might to free yourself from the tentacles before the creature can fulfill whatever unholy desire it has for you.\n");
             //33% chance to break free + up to 50% chance for strength
-            if (rand(3) == 0 || rand(80) < player.stats.str / 2) {
+            if (Utils.rand(3) == 0 || Utils.rand(80) < player.stats.str / 2) {
                 MainScreen.text("As the creature attempts to adjust your position in its grip, you free one of your " + LowerBodyDescriptor.describeLegs(player) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
                 player.statusAffects.remove("TentacleBind");
                 monster.statusAffects.add(new StatusAffect("TentacleCoolDown", 3, 0, 0, 0)));
@@ -443,7 +436,7 @@ export default class PlayerCombatActions implements CombatActions {
         }
         else if (player.statusAffects.has("HarpyBind")) {
             MainScreen.clearText();
-            temp = 80 + rand(40);
+            temp = 80 + Utils.rand(40);
             temp = takeDamage(temp);
             MainScreen.text("The brood continues to hammer away at your defenseless self. (" + temp + ")");
             combatRoundOver();
@@ -474,7 +467,7 @@ export default class PlayerCombatActions implements CombatActions {
             MainScreen.clearText();
             MainScreen.text("The naga's grip on you tightens as you relax into the stimulating pressure.");
             dynStats("lus", player.stats.sens / 5 + 5);
-            takeDamage(5 + rand(5));
+            takeDamage(5 + Utils.rand(5));
             combatRoundOver();
         }
         else if (player.statusAffects.has("HolliConstrict")) {
@@ -529,25 +522,25 @@ export default class PlayerCombatActions implements CombatActions {
             MainScreen.text("As you fantasize, you feel Valeria rubbing her gooey body all across your sensitive skin");
             if (player.gender > 0) MainScreen.text(" and genitals");
             MainScreen.text(", arousing you even further.\n");
-            temp2 = 25 + rand(player.stats.lib / 8 + player.stats.cor / 8)
+            temp2 = 25 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
-        else if (player.lowerBody.balls > 0 && player.lowerBody.ballSize >= 10 && rand(2) == 0) {
+        else if (player.lowerBody.balls > 0 && player.lowerBody.ballSize >= 10 && Utils.rand(2) == 0) {
             MainScreen.text("You daydream about fucking " + monster.a + monster.short + ", feeling your balls swell with seed as you prepare to fuck " + monster.pronoun2 + " full of cum.\n", false);
-            temp2 = 5 + rand(player.stats.lib / 8 + player.stats.cor / 8);
+            temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8);
             MainScreen.text("You aren't sure if it's just the fantasy, but your " + BallsDescriptor.describeBalls(true, true, player) + " do feel fuller than before...\n", false);
             player.hoursSinceCum += 50;
         }
-        else if (player.upperBody.chest.BreastRatingLargest[0].breastRating >= 6 && rand(2) == 0) {
+        else if (player.upperBody.chest.BreastRatingLargest[0].breastRating >= 6 && Utils.rand(2) == 0) {
             MainScreen.text("You fantasize about grabbing " + monster.a + monster.short + " and shoving " + monster.pronoun2 + " in between your jiggling mammaries, nearly suffocating " + monster.pronoun2 + " as you have your way.\n", false);
-            temp2 = 5 + rand(player.stats.lib / 8 + player.stats.cor / 8)
+            temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
-        else if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier >= 6 && rand(2) == 0) {
+        else if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier >= 6 && Utils.rand(2) == 0) {
             MainScreen.text("You fantasize about grabbing " + monster.a + monster.short + " and forcing " + monster.pronoun2 + " against a " + BreastDescriptor.describeNipple(0) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n", false);
-            temp2 = 5 + rand(player.stats.lib / 8 + player.stats.cor / 8)
+            temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
         else {
             MainScreen.text("You fill your mind with perverted thoughts about " + monster.a + monster.short + ", picturing " + monster.pronoun2 + " in all kinds of perverse situations with you.\n", true);
-            temp2 = 10 + rand(player.stats.lib / 5 + player.stats.cor / 8);
+            temp2 = 10 + Utils.rand(player.stats.lib / 5 + player.stats.cor / 8);
         }
         if (temp2 >= 20) MainScreen.text("The fantasy is so vivid and pleasurable you wish it was happening now.  You wonder if " + monster.a + monster.short + " can tell what you were thinking.\n\n", false);
         else MainScreen.text("\n", false);

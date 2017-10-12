@@ -1,14 +1,12 @@
 import SpecialAction from './SpecialAction';
-import SpellAction, { spellMod } from './SpellAction';
-import { LowerBodyType, TailType } from '../Body/LowerBody';
-import GenderDescriptor from '../Descriptors/GenderDescriptor';
-import MainScreen from '../display/MainScreen';
-import Perk from '../Effects/Perk';
-import StatusAffect from '../Effects/StatusAffect';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
-import Utils from '../Utilities/Utils';
+import SpellAction from './SpellAction';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Monster from '../../Monster';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
+
 /*
 "Berzerker"
     berzerk
@@ -112,7 +110,7 @@ export class DragonBreath extends SpellAction {
                 MainScreen.text("You use your flexibility to barely fold your body out of the way!", false);
             }
             else {
-                damage = takeDamage(damage);
+                damage = player.stats.HPChange(damage);
                 MainScreen.text("Your own fire smacks into your face! (" + damage + ")", false);
             }
             MainScreen.text("\n\n", false);
@@ -123,7 +121,7 @@ export class DragonBreath extends SpellAction {
             if (!monster.perks.has("Acid"))
                 monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
             damage = Math.round(damage * 1.5);
-            damage = doDamage(damage);
+            damage = monster.stats.HPChange(damage);
             monster.statusAffects.add(new StatusAffect("Stunned", 0, 0, 0, 0));
             MainScreen.text("(" + damage + ")\n\n", false);
         }
@@ -140,7 +138,7 @@ export class DragonBreath extends SpellAction {
                 MainScreen.text("are");
                 MainScreen.text("too resolute to be stunned by your attack.</b>");
             }
-            damage = doDamage(damage);
+            damage = monster.stats.HPChange(damage);
             MainScreen.text(" (" + damage + ")");
         }
         MainScreen.text("\n\n");
@@ -181,7 +179,7 @@ export class Fireball implements SpecialAction {
             else if (player.statusAffects.has("GooArmorSilence")) MainScreen.text("You reach for the terrestrial fire but as you ready the torrent, it erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.  The slime covering your mouth bubbles and pops, boiling away where the escaping flame opens small rents in it.  That wasn't as effective as you'd hoped, but you can at least speak now.");
             else MainScreen.text("You reach for the terrestrial fire, but as you ready to release a torrent of flame, the fire inside erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.\n\n", false);
             player.stats.fatigue += 10;
-            player.takeDamage(10 + Utils.rand(20));
+            player.stats.HP -= 10 + Utils.rand(20);
             return;
         }
         // Player doesn't gain from this spell so why should the doppleganger gain for the player
@@ -216,7 +214,7 @@ export class Fireball implements SpecialAction {
             }
             else {
                 MainScreen.text("Your own fire smacks into your face! (" + damage + ")", false);
-                player.takeDamage(damage);
+                player.stats.HP -= damage;
             }
             MainScreen.text("\n\n", false);
         }
@@ -232,8 +230,8 @@ export class Fireball implements SpecialAction {
                 MainScreen.text("<b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>  ");
                 damage = Math.round(0.2 * damage);
             }
+            damage = monster.stats.HPChange(damage);
             MainScreen.text("(" + damage + ")\n\n", false);
-            monster.stats.HP -= damage;
             if (monster.short == "Holli" && !monster.statusAffects.has("HolliBurning"))
                 <Holli>monster.lightHolliOnFireMagically();
         }
@@ -296,8 +294,8 @@ export class Hellfire extends SpellAction {
             if (monster.stats.int < 10) {
                 MainScreen.text("  Your foe lets out a shriek as their form is engulfed in the blistering flames.", false);
                 damage = Math.floor(damage);
+                damage = monster.stats.HPChange(damage);
                 MainScreen.text("(" + damage + ")\n", false);
-                monster.stats.HP -= damage;
             }
             else {
                 if (monster.stats.lustVuln > 0) {
@@ -438,7 +436,7 @@ export class CorruptedFoxFire extends SpellAction {
         //Deals direct damage and lust regardless of enemy defenses.  Especially effective against non-corrupted targets.
         MainScreen.text("Holding out your palm, you conjure corrupted purple flame that dances across your fingertips.  You launch it at " + monster.a + monster.short + " with a ferocious throw, and it bursts on impact, showering dazzling lavender sparks everywhere.");
 
-        let dmg: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
+        let dmg: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
         if (monster.stats.cor >= 66) dmg = Math.round(dmg * .66);
         else if (monster.stats.cor >= 50) dmg = Math.round(dmg * .8);
         //High damage to goes.
@@ -449,7 +447,7 @@ export class CorruptedFoxFire extends SpellAction {
             if (!monster.perks.has("Acid"))
                 monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
         }
-        dmg = doDamage(dmg);
+        dmg = monster.stats.HPChange(dmg);
         MainScreen.text("  (" + dmg + ")\n\n", false);
     }
 }
@@ -529,7 +527,7 @@ export class FoxFire extends SpellAction {
         }
         //Deals direct damage and lust regardless of enemy defenses.  Especially effective against corrupted targets.
         MainScreen.text("Holding out your palm, you conjure an ethereal blue flame that dances across your fingertips.  You launch it at " + monster.a + monster.short + " with a ferocious throw, and it bursts on impact, showering dazzling azure sparks everywhere.");
-        let dmg: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
+        let dmg: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
         if (monster.stats.cor < 33) dmg = Math.round(dmg * .66);
         else if (monster.stats.cor < 50) dmg = Math.round(dmg * .8);
         //High damage to goes.
@@ -540,7 +538,7 @@ export class FoxFire extends SpellAction {
             if (!monster.perks.has("Acid"))
                 monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
         }
-        dmg = doDamage(dmg);
+        dmg = monster.stats.HPChange(dmg);
         MainScreen.text("  (" + dmg + ")\n\n", false);
     }
 }
@@ -603,9 +601,9 @@ export class ImmolationSpell implements SpecialAction {
     public use(player: Player, monster: Monster) {
         MainScreen.clearText();
         MainScreen.text("You gather energy in your Talisman and unleash the spell contained within.  A wave of burning flames gathers around " + monster.a + monster.short + ", slowly burning " + monster.pronoun2 + ".");
-        let temp: number = Math.floor(75 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
-        temp = doDamage(temp);
-        MainScreen.text(" (" + temp + ")\n\n");
+        let dmg: number = Math.floor(75 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
+        dmg = monster.stats.HPChange(dmg);
+        MainScreen.text(" (" + dmg + ")\n\n");
         player.statusAffects.remove("ImmolationSpell");
         arianScene.clearTalisman();
     }

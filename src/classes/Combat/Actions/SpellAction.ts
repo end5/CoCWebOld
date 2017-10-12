@@ -1,19 +1,6 @@
 import SpecialAction from './SpecialAction';
-import Monster from '../Monster';
-import Player from '../Player';
-
-export function spellMod(player: Player): number {
-    let mod: number = 1;
-    if (player.perks.has("Archmage") && player.stats.int >= 75) mod += .5;
-    if (player.perks.has("Channeling") && player.stats.int >= 60) mod += .5;
-    if (player.perks.has("Mage") && player.stats.int >= 50) mod += .5;
-    if (player.perks.has("Spellpower") && player.stats.int >= 50) mod += .5;
-    if (player.perks.has("WizardsFocus")) {
-        mod += player.perks.get("WizardsFocus").value1;
-    }
-    if (player.perks.has("ChiReflowMagic")) mod += UmasShop.NEEDLEWORK_MAGIC_SPELL_MULTI;
-    return mod;
-}
+import Monster from '../../Monster';
+import Player from '../../Player';
 
 export default abstract class SpellAction implements SpecialAction {
     public canUse(player: Player): boolean {

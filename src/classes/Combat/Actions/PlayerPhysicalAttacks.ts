@@ -1,14 +1,13 @@
 import { PhysicalAction } from './PhysicalAction';
 import SpecialAction from './SpecialAction';
-import { HairType } from '../Body/Head';
-import { LowerBodyType, TailType } from '../Body/LowerBody';
-import GenderDescriptor from '../Descriptors/GenderDescriptor';
-import MainScreen from '../display/MainScreen';
-import StatusAffect from '../Effects/StatusAffect';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
-import Utils from '../Utilities/Utils';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import GenderDescriptor from '../../Descriptors/GenderDescriptor';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Monster from '../../Monster';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 /*
 "AnemoneSting"
@@ -142,13 +141,12 @@ export class Bite extends PhysicalAction {
             return;
         }
         //Determine damage - str modified by enemy toughness!
-        let damage: number = Math.floor((player.stats.str + 45) - Utils.rand(monster.stats.tou) - monster.armorDefense());
+        let damage: number = Math.floor((player.stats.str + 45) - Utils.rand(monster.stats.tou) - monster.defense());
 
         //Deal damage and update based on perks
         if (damage > 0) {
-            if (player.perks.has("HistoryFighter"))
-                damage *= 1.1;
-            damage = doDamage(damage);
+            damage *= monster.physicalAttackMod();
+            damage = monster.stats.HPChange(damage);
         }
 
         if (damage <= 0) {
@@ -354,7 +352,7 @@ export class FireBow extends PhysicalAction {
             return;
         }
         //Hit!  Damage calc! 20 +
-        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get("Kelt").value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.armorDefense());
+        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get("Kelt").value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.defense());
         if (damage < 0) damage = 0;
         if (damage == 0) {
             if (monster.stats.int > 0)
@@ -369,8 +367,8 @@ export class FireBow extends PhysicalAction {
         //else if (monster.plural)
         //    MainScreen.text(monster.capitalA + monster.short + " look down at the arrow that now protrudes from one of " + monster.pronoun3 + " bodies");
         else MainScreen.text(monster.capitalA + monster.short + " looks down at the arrow that now protrudes from " + monster.pronoun3 + " body");
-        if (player.perks.has("HistoryFighter")) damage *= 1.1;
-        damage = doDamage(damage);
+        damage *= monster.physicalAttackMod();
+        damage = monster.stats.HPChange(damage);
         monster.stats.lust -= 20;
         if (monster.stats.lust < 0) monster.stats.lust = 0;
         if (monster.stats.HP <= 0) {
@@ -435,11 +433,11 @@ export class Kick extends PhysicalAction {
         if (monster.short == "worms") {
             //50% chance of hit (int boost)
             if (Utils.rand(100) + player.stats.int / 3 >= 50) {
-                let temp = Math.floor(player.stats.str / 5 - Utils.rand(5));
-                if (temp == 0)
-                    temp = 1;
-                MainScreen.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n", false);
-                monster.stats.HP -= temp;
+                let damage = Math.floor(player.stats.str / 5 - Utils.rand(5));
+                if (damage <= 0)
+                    damage = 1;
+                damage = monster.stats.HPChange(damage);
+                MainScreen.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + damage + " damage.\n\n", false);
             }
             //Fail
             else {
@@ -476,14 +474,14 @@ export class Kick extends PhysicalAction {
         else if (player.lowerBody.type == LowerBodyType.KANGAROO) damage += 35;
         //Start figuring enemy damage resistance
         let reduction: number = Utils.rand(monster.stats.tou);
-        //Add in enemy armor if needed
-        reduction += monster.inventory.armor.defense;
+        //Add in enemy defense if needed
+        reduction += monster.defense();
         //Apply AND DONE!
         damage -= reduction;
         //Damage post processing!
-        if (player.perks.has("HistoryFighter")) damage *= 1.1;
+        damage *= player.physicalAttackMod();
         //(None yet!)
-        if (damage > 0) damage = doDamage(damage);
+        if (damage > 0) damage = monster.stats.HPChange(damage);
 
         //BLOCKED
         if (damage <= 0) {
@@ -568,12 +566,12 @@ export class Gore extends PhysicalAction {
             if (Utils.rand(4) > 0) {
                 MainScreen.text("You lower your head and charge, skewering " + monster.a + monster.short + " on one of your bullhorns!  ");
                 //As normal attack + horn length bonus
-                damage = Math.floor(player.stats.str + horns * 2 - Utils.rand(monster.stats.tou) - monster.armorDefense());
+                damage = Math.floor(player.stats.str + horns * 2 - Utils.rand(monster.stats.tou) - monster.defense());
             }
             //CRIT
             else {
                 //doubles horn bonus damage
-                damage = Math.floor(player.stats.str + horns * 4 - Utils.rand(monster.stats.tou) - monster.armorDefense());
+                damage = Math.floor(player.stats.str + horns * 4 - Utils.rand(monster.stats.tou) - monster.defense());
                 MainScreen.text("You lower your head and charge, slamming into " + monster.a + monster.short + " and burying both your horns into " + monster.pronoun2 + "!  ");
             }
             //Bonus damage for rut!
@@ -583,15 +581,14 @@ export class Gore extends PhysicalAction {
             }
             //Bonus per level damage
             damage += player.stats.level * 2;
-            //Reduced by armor
-            damage -= monster.armorDefense();
+            //Reduced by defense
+            damage -= monster.defense();
             if (damage < 0) damage = 5;
             //CAP 'DAT SHIT
             if (damage > player.stats.level * 10 + 100) damage = player.stats.level * 10 + 100;
             if (damage > 0) {
-                if (player.perks.has("HistoryFighter"))
-                    damage *= 1.1;
-                damage = doDamage(damage);
+                damage *= player.physicalAttackMod();
+                damage = monster.stats.HPChange(damage);
             }
             //Different horn damage messages
             if (damage < 20) MainScreen.text("You pull yourself free, dealing " + damage + " damage.");
@@ -757,8 +754,8 @@ export class Sting implements SpecialAction {
                 MainScreen.text(monster.capitalA + monster.short + " deftly avoids your slow attempts to sting " + monster.pronoun2 + ".\n\n");
             return;
         }
-        //determine if avoided with armor.
-        if (monster.armorDefense() - player.stats.level >= 10 && Utils.rand(4) > 0) {
+        //determine if avoided with defense.
+        if (monster.defense() - player.stats.level >= 10 && Utils.rand(4) > 0) {
             MainScreen.text("Despite your best efforts, your sting attack can't penetrate " + monster.a + monster.short + "'s defenses.\n\n");
             return;
         }
@@ -871,19 +868,7 @@ export class TailWhip implements SpecialAction {
             MainScreen.text("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.pronoun1 + " looks disbelieving, as if " + monster.pronoun3 + " world turned upside down, but " + monster.pronoun1 + " soon becomes irate and redoubles " + monster.pronoun3 + " offense, leaving large holes in " + monster.pronoun3 + " guard.  If you're going to take advantage, it had better be right away; " + monster.pronoun1 + "'ll probably cool off very quickly.");
             //else MainScreen.text("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.pronoun1 + " look disbelieving, as if " + monster.pronoun3 + " world turned upside down, but " + monster.pronoun1 + " soon become irate and redouble " + monster.pronoun3 + " offense, leaving large holes in " + monster.pronoun3 + " guard.  If you're going to take advantage, it had better be right away; " + monster.pronoun1 + "'ll probably cool off very quickly.");
             if (!monster.statusAffects.has("CoonWhip"))
-                monster.statusAffects.add(new StatusAffect("CoonWhip", 0, 0, 0, 0));
-            let armorDefLossCounter: number = Math.round(monster.armorDefense() * .75);
-            while (armorDefLossCounter > 0 && monster.armorDefense() >= 1) {
-                //
-                // wat
-                // VVVVVVVVVVVVVVVVVVVVV
-                // monster.armorDefense()--;
-                monster.statusAffects.get("CoonWhip").value1 += 1;
-                armorDefLossCounter--;
-            }
-            monster.statusAffects.get("CoonWhip").value2 += 2;
-            if (player.lowerBody.tailType == TailType.RACCOON)
-                monster.statusAffects.get("CoonWhip").value2 += 2;
+                monster.statusAffects.add(new StatusAffect("CoonWhip", Math.round(monster.defense() * .75), player.lowerBody.tailType != TailType.RACCOON ? 2 : 4, 0, 0));
         }
         MainScreen.text("\n\n");
     }

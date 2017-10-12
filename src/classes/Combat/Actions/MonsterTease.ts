@@ -1,3 +1,9 @@
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Monster from '../../Monster';
+import Player from '../../Player';
+
 export default class MonsterTease {
     public use(player: Player, monster: Monster): void {
         if (player.stats.lust < 35) {

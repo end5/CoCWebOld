@@ -1,17 +1,16 @@
 import LearnedSpellAction from './LearnedSpellAction';
-import { spellMod } from './SpellAction';
-import Vagina, { VaginaWetness } from '../Body/Vagina';
-import ButtDescriptor from '../Descriptors/ButtDescriptor';
-import CockDescriptor from '../Descriptors/CockDescriptor';
-import GenderDescriptor from '../Descriptors/GenderDescriptor';
-import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
-import MainScreen from '../display/MainScreen';
-import Perk from '../Effects/Perk';
-import StatusAffect from '../Effects/StatusAffect';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
-import Utils from '../Utilities/Utils';
+import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import GenderDescriptor from '../../Descriptors/GenderDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Game from '../../Game/Game';
+import Monster from '../../Monster';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export class SpellArouse extends LearnedSpellAction {
     public readonly baseCost: number = 15;
@@ -32,7 +31,7 @@ export class SpellArouse extends LearnedSpellAction {
             MainScreen.text("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n", false);
             return;
         }
-        monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * spellMod(player) + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
+        monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * player.spellMod() + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
         if (monster.stats.lust < 30)
             MainScreen.text(monster.capitalA + monster.short + " squirms as the magic affects " + monster.pronoun2 + ".  ", false);
         if (monster.stats.lust >= 30 && monster.stats.lust < 60) {
@@ -106,11 +105,11 @@ export class SpellHeal extends LearnedSpellAction {
             player.stats.lust += 15;
         }
         else {
-            let hpGain = Math.floor((player.stats.int / (2 + Utils.rand(3)) * spellMod(player)) * (player.stats.maxHP() / 150));
+            let hpGain = Math.floor((player.stats.int / (2 + Utils.rand(3)) * player.spellMod()) * (player.stats.maxHP() / 150));
             if (player.inventory.armor.displayName == "skimpy nurse's outfit")
                 hpGain *= 1.2;
             MainScreen.text("You flush with success as your wounds begin to knit (+" + hpGain + ").", false);
-            player.stats.HPChange(hpGain);
+            player.stats.HP += hpGain;
         }
         MainScreen.text("\n\n", false);
     }
@@ -137,7 +136,7 @@ export class SpellMight extends LearnedSpellAction {
         else {
             MainScreen.text("The rush of success and power flows through your body.  You feel like you can do anything!", false);
             player.statusAffects.add(new StatusAffect("Might", 0, 0, 0, 0));
-            let temp = 5 * spellMod(player);
+            let temp = 5 * player.spellMod();
             let tempStr = temp;
             let tempTou = temp;
             if (player.stats.str + temp > 100) tempStr = 100 - player.stats.str;
@@ -156,7 +155,7 @@ export class SpellChargeWeapon extends LearnedSpellAction {
     public castSpell(player: Player, monster: Monster) {
         player.stats.fatigueMagic(this.baseCost);
         MainScreen.text("You utter words of power, summoning an electrical charge around your " + player.inventory.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n", true);
-        player.statusAffects.add(new StatusAffect("ChargeWeapon", 10 * spellMod(player), 0, 0, 0));
+        player.statusAffects.add(new StatusAffect("ChargeWeapon", 10 * player.spellMod(), 0, 0, 0));
     }
 }
 
@@ -179,7 +178,7 @@ export class SpellBlind extends LearnedSpellAction {
 
                 MainScreen.text("\n\n“<i>You fight dirty,</i>” the monster snaps. He sounds genuinely outraged. “<i>I was told the interloper was a dangerous warrior, not a little [boy] who accepts duels of honour and then throws sand into his opponent’s eyes. Look into my eyes, little [boy]. Fair is fair.</i>”");
 
-                monster.stats.HP -= Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
+                monster.stats.HP -= Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
             }
             else {
                 MainScreen.text("\n\nThe light sears into your eyes and mind as you stare into it. It’s so powerful, so infinite, so exquisitely painful that you wonder why you’d ever want to look at anything else, at anything at- with a mighty effort, you tear yourself away from it, gasping. All you can see is the afterimages, blaring white and yellow across your vision. You swipe around you blindly as you hear Jean-Claude bark with laughter, trying to keep the monster at arm’s length.");
@@ -200,7 +199,7 @@ export class SpellBlind extends LearnedSpellAction {
             //if (monster.plural && monster.short != "imp horde") MainScreen.text("are blinded!</b>", false);
             //else
             MainScreen.text("is blinded!</b>", false);
-            monster.statusAffects.add(new StatusAffect("Blind", 5 * spellMod(player))), 0, 0, 0);
+            monster.statusAffects.add(new StatusAffect("Blind", 5 * player.spellMod(), 0, 0, 0));
             if (monster.short == "Isabella")
                 if (isabellaFollowerScene.isabellaAccent()) MainScreen.text("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.", false);
                 else MainScreen.text("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.", false);
@@ -230,11 +229,11 @@ export class SpellWhitefire extends LearnedSpellAction {
             return;
         }
         MainScreen.text("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.a + monster.short + " is enveloped in a flash of white flames!\n", true);
-        let temp = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * spellMod(player));
+        let damage = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
         //High damage to goes.
         if (monster.short == "goo-girl")
-            temp = Math.round(temp * 1.5);
-        MainScreen.text(monster.capitalA + monster.short + " takes " + temp + " damage.", false);
+            damage = Math.round(damage * 1.5);
+        MainScreen.text(monster.capitalA + monster.short + " takes " + damage + " damage.", false);
         //Using fire attacks on the goo]
         if (monster.short == "goo-girl") {
             MainScreen.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.", false);
@@ -242,7 +241,7 @@ export class SpellWhitefire extends LearnedSpellAction {
                 monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
         }
         MainScreen.text("\n\n", false);
-        monster.stats.HP -= temp;
+        monster.stats.HP -= damage;
     }
 }
 
@@ -272,7 +271,7 @@ export class SpellCleansingPalm extends LearnedSpellAction {
         let corruptionMulti: number = (monster.stats.cor - 20) / 25;
         if (corruptionMulti > 1.5) corruptionMulti = 1.5;
 
-        let damage = Math.floor((player.stats.int / 4 + Utils.rand(player.stats.int / 3)) * (spellMod(player) * corruptionMulti));
+        let damage = Math.floor((player.stats.int / 4 + Utils.rand(player.stats.int / 3)) * (player.spellMod() * corruptionMulti));
 
         if (damage > 0) {
             MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.a + monster.short + ", tossing");
