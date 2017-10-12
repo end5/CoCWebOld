@@ -288,7 +288,7 @@ export default class Stats implements SaveInterface {
         }
         if (value < 0) {
             if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
-                this._lust = value / 2;
+                this._lust += value / 2;
             }
         }
 
@@ -302,6 +302,16 @@ export default class Stats implements SaveInterface {
 
     public forceHP(value: number) {
         this._HP = value;
+    }
+
+    /**
+     * Changes the HP and returns the amount changed.
+     * @param value 
+     */
+    public HPChange(value: number): number {
+        let oldHP = this._HP;
+        this.HP += value;
+        return this.HP - oldHP;
     }
 
     public maxHP(): number {
@@ -482,6 +492,10 @@ export default class Stats implements SaveInterface {
         return lust;
     }
 
+    public set lustVuln(value: number) {
+        this._lustVuln = value;
+    }
+    
     public get lustVuln(): number {
         return this._lustVuln;
     }
