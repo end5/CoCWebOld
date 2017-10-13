@@ -14,7 +14,6 @@ import { SaveInterface } from '../SaveInterface';
 import ComponentList from '../Utilities/ComponentList';
 import Utils from '../Utilities/Utils';
 
-
 export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
@@ -50,7 +49,7 @@ export default class Creature implements SaveInterface {
 
     public pregnancy: PregnancyManager;
 
-    public stats: Stats;
+    protected _stats: Stats;
     public statusAffects: ComponentList<StatusAffect>;
     public get perks(): ComponentList<StatusAffect> {
         return this.statusAffects;
@@ -77,7 +76,7 @@ export default class Creature implements SaveInterface {
 
         this.pregnancy = new PregnancyManager(this);
 
-        this.stats = new Stats(this);
+        this._stats = new Stats(this);
         this.statusAffects = new ComponentList<StatusAffect>();
     }
 
@@ -105,8 +104,9 @@ export default class Creature implements SaveInterface {
 
 
     public orgasm(): void {
-        this.stats.lustResisted = false;
-        this.stats.lust = 0;
+        this._stats.lustResisted = false;
+        this._stats.lust = 0;
+        this._stats.lustResisted = true;
         this.hoursSinceCum = 0;
         let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
         if (gildedCockSocks > 0) {
@@ -114,7 +114,7 @@ export default class Creature implements SaveInterface {
             let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.listLargestCockArea);
             let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
             MainScreen.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
-            this.stats.gems += bonusGems;
+            this._stats.gems += bonusGems;
         }
     }
 
@@ -334,7 +334,7 @@ export default class Creature implements SaveInterface {
         //Other things that affect it: 
         //lust - 50% = normal output.  0 = half output. 100 = +50% output.
         //trace("CUM ESTIMATE: " + number(1.25*2*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(no balls), " + number(ballSize*balls*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(withballs)");
-        let lustCoefficient: number = (this.stats.lust + 50) / 10;
+        let lustCoefficient: number = (this._stats.lust + 50) / 10;
         //Pilgrim's bounty maxxes lust coefficient
         if (this.perks.has("PilgrimsBounty"))
             lustCoefficient = 150 / 10;
@@ -484,14 +484,16 @@ export default class Creature implements SaveInterface {
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
-            this.stats.bimboIntReduction = true;
-            this.stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = true;
+            this._stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = false;
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
             this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
-            this.stats.bimboIntReduction = true;
-            this.stats.lib += 15 * intensity;
+            this._stats.bimboIntReduction = true;
+            this._stats.lib += 15 * intensity;
+            this._stats.bimboIntReduction = false;
         }
     }
 
@@ -502,16 +504,18 @@ export default class Creature implements SaveInterface {
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
-            this.stats.bimboIntReduction = true;
-            this.stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = true;
+            this._stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = false;
         }
         else {
             //v1 - bonus cum production
             //v2 - bonus this.stats.libido
             //v3 - time remaining!
             this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
-            this.stats.bimboIntReduction = true;
-            this.stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = true;
+            this._stats.lib += 5 * intensity;
+            this._stats.bimboIntReduction = false;
         }
     }
 
@@ -570,7 +574,7 @@ export default class Creature implements SaveInterface {
         saveObject[this.upperBody.saveKey] = this.upperBody.save();
         saveObject[this.lowerBody.saveKey] = this.lowerBody.save();
 
-        saveObject[this.stats.saveKey] = this.stats.save();
+        saveObject[this._stats.saveKey] = this._stats.save();
         saveObject[this.statusAffects.saveKey] = this.statusAffects.save();
 
         return saveObject;
@@ -595,7 +599,7 @@ export default class Creature implements SaveInterface {
         this.upperBody.load(saveObject[this.upperBody.saveKey]);
         this.lowerBody.load(saveObject[this.lowerBody.saveKey]);
 
-        this.stats.load(saveObject[this.stats.saveKey]);
+        this._stats.load(saveObject[this._stats.saveKey]);
         this.statusAffects.load(saveObject[this.statusAffects.saveKey]);
 
         return saveObject;

@@ -1,23 +1,23 @@
-﻿import { CockType as CockType } from './Body/Cock';
-import Creature from './Body/Creature';
+﻿import { CockType } from './Body/Cock';
 import { Gender, SkinType } from './Body/Creature';
+import Creature from './Body/Creature';
 import { FaceType } from './Body/Face';
 import HeadDescriptor from './Descriptors/HeadDescriptor';
 import StatusAffect from './Effects/StatusAffect';
 import Flags, { FlagEnum } from './Game/Flags';
 import Game from './Game/Game';
 import CharacterInventory from './Inventory/CharacterInventory';
+import StatsModifier from './StatsModifier';
 import UpdateInterface from './UpdateInterface';
 import Utils from './Utilities/Utils';
 
 export default class Character extends Creature implements UpdateInterface {
 	public readonly inventory: CharacterInventory;
-	public lustVuln: number;
-
+	public readonly stats: StatsModifier;
 	public constructor() {
 		super();
 		this.inventory = new CharacterInventory();
-		this.lustVuln = 1;
+		this.stats = new StatsModifier(this);
 	}
 
 	//Short refers to player name and monster name. BEST VARIABLE NAME EVA!
@@ -46,7 +46,7 @@ export default class Character extends Creature implements UpdateInterface {
 		if (this.inventory.armor.displayName == "goo armor") healingPercent += 3;
 		if (this.perks.has("LustyRegeneration")) healingPercent += 2;
 		if (healingPercent > 10) healingPercent = 10;
-		this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
+		this.stats.HPChange(Math.round(this.stats.maxHP() * healingPercent / 100));
 	}
 
 	public reduceDamage(damage: number): number {

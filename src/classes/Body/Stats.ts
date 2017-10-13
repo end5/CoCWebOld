@@ -89,7 +89,7 @@ export default class Stats implements SaveInterface {
         this._tou += value;
 
         //Add HP for toughness change.
-        this.HPChange(value * 2);
+        this.HP += value * 2;
 
         if (this.body.perks.has("Tough") && value >= 0)
             this._tou += value * this.body.perks.get("Tough").value1;
@@ -137,8 +137,6 @@ export default class Stats implements SaveInterface {
                     value *= 2;
             }
 
-        this.bimboIntReduction = false;
-
         this._int += value;
 
         if (this.body.perks.has("Smart") && value >= 0)
@@ -166,8 +164,6 @@ export default class Stats implements SaveInterface {
             value *= UmasShop.NEEDLEWORK_LUST_LIBSENSE_MULTI;
         if (value > 0 && this.body.perks.has("PurityBlessing"))
             value *= 0.75;
-
-        this.bimboIntReduction = false;
 
         this._lib += value;
 
@@ -259,21 +255,6 @@ export default class Stats implements SaveInterface {
         this._fatigue = value;
     }
 
-    public fatiguePhysical(value: number) {
-        this.fatigue = physicalCost(value);
-    }
-
-    public fatigueMagic(value: number) {
-        value = this.body.spellCost(value);
-
-        //Blood mages use HP for spells
-        if (this.body.perks.has("BloodMage")) {
-            takeDamage(value);
-            return;
-        }
-        this.fatigue = value;
-    }
-
     public get HP(): number {
         return this._HP;
     }
@@ -304,16 +285,6 @@ export default class Stats implements SaveInterface {
         this._HP = value;
     }
 
-    /**
-     * Changes the HP and returns the amount changed.
-     * @param value 
-     */
-    public HPChange(value: number): number {
-        let oldHP = this._HP;
-        this.HP += value;
-        return this.HP - oldHP;
-    }
-
     public maxHP(): number {
         let max: number = 0;
         max += Math.floor(this._tou * 2 + 50);
@@ -331,7 +302,6 @@ export default class Stats implements SaveInterface {
         if (max > 999)
             max = 999;
         return max;
-
     }
 
     public get lust(): number {
@@ -343,8 +313,6 @@ export default class Stats implements SaveInterface {
             value /= 2;
         if (value > 0 && this.lustResisted)
             value *= this.lustPercent() / 100;
-
-        this.lustResisted = true;
 
         this._lust += value;
 
@@ -362,7 +330,7 @@ export default class Stats implements SaveInterface {
     public forceLust(value: number) {
         this._lust = value;
     }
-
+    
     public minLust(): number {
         let min: number = 0;
         //Bimbo body boosts minimum lust by 40
