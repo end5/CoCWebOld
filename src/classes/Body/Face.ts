@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from "../SaveInterface";
+﻿import { SaveInterface } from '../SaveInterface';
 
 export enum FaceType {
     HUMAN, HORSE, DOG, COW_MINOTAUR, SHARK_TEETH, SNAKE_FANGS,

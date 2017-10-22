@@ -1,5 +1,5 @@
-﻿import Face from "./Face";
-import { SaveInterface } from "../SaveInterface";
+﻿import Face from './Face';
+import { SaveInterface } from '../SaveInterface';
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE

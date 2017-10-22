@@ -1,5 +1,5 @@
-﻿import Utils from "../Utilities/Utils";
-import { SaveInterface } from "../SaveInterface";
+﻿import { SaveInterface } from '../SaveInterface';
+import Utils from '../Utilities/Utils';
 
 export enum VaginaType {
     HUMAN, BLACK_SAND_TRAP

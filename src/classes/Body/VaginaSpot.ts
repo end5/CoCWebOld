@@ -1,5 +1,5 @@
-﻿import Vagina, { VaginaLooseness, VaginaWetness } from "./Vagina";
-import { SaveInterface } from "../SaveInterface";
+﻿import Vagina, { VaginaLooseness, VaginaWetness } from './Vagina';
+import { SaveInterface } from '../SaveInterface';
 
 export default class VaginaSpot implements SaveInterface {
     private _vaginas: Vagina[];

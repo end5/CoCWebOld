@@ -1,9 +1,8 @@
-﻿import Cock, { CockType as CockType } from "./Cock";
-import { SaveInterface } from "../SaveInterface";
-import Creature from "./Creature"
+﻿import Cock, { CockType } from './Cock';
+import Creature from './Creature';
+import { SaveInterface } from '../SaveInterface';
 
 export default class CockSpot implements SaveInterface {
-
     private _cocks: Cock[];
 
     public constructor() {

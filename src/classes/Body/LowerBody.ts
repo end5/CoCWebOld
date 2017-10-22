@@ -1,8 +1,8 @@
-﻿import Butt from "./Butt";
-import CockSpot from "./CockSpot";
-import Ovipositor from "./Ovipositor";
-import { SaveInterface } from "../SaveInterface";
-import VaginaSpot from "./VaginaSpot";
+﻿import Butt from './Butt';
+import CockSpot from './CockSpot';
+import Ovipositor from './Ovipositor';
+import VaginaSpot from './VaginaSpot';
+import { SaveInterface } from '../SaveInterface';
 
 export enum LowerBodyType {
     HUMAN, HOOFED, DOG, NAGA, CENTAUR, DEMONIC_HIGH_HEELS, DEMONIC_CLAWS, BEE,

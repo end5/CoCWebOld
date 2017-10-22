@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from "../SaveInterface";
+﻿import { SaveInterface } from '../SaveInterface';
 
 export enum ButtWetness {
     DRY, NORMAL, MOIST, SLIMY, DROOLING, SLIME_DROOLING

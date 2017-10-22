@@ -1,5 +1,5 @@
-﻿import BreastRow from "./BreastRow";
-import { SaveInterface } from "../SaveInterface";
+﻿import BreastRow from './BreastRow';
+import { SaveInterface } from '../SaveInterface';
 
 export default class Chest implements SaveInterface {
     private breastRows: BreastRow[];
@@ -39,7 +39,7 @@ export default class Chest implements SaveInterface {
     public countNipples(): number {
         let total: number = 0;
         for (let index = 0; index < this.breastRows.length; index++)
-            total += this.breastRows[counter].nipplesPerBreast * this.breastRows[counter].breasts;
+            total += this.breastRows[index].nipplesPerBreast * this.breastRows[index].breasts;
         return total;
     }
 
@@ -175,7 +175,7 @@ export default class Chest implements SaveInterface {
     public averageBreastSize(): number {
         let total: number = 0;
         for (let index = 0; index < this.breastRows.length; index++)
-            total += this.breastRows[counter].breastRating;
+            total += this.breastRows[index].breastRating;
         return (total / this.breastRows.length);
     }
 

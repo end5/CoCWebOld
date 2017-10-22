@@ -1,6 +1,6 @@
-﻿import Head from "./Head";
-import Chest from "./Chest";
-import { SaveInterface } from "../SaveInterface";
+﻿import Chest from './Chest';
+import Head from './Head';
+import { SaveInterface } from '../SaveInterface';
 
 export enum ArmType {
     HUMAN, HARPY, SPIDER
@@ -40,10 +40,10 @@ export default class UpperBody implements SaveInterface {
         return saveObject;
     }
     load(saveObject: object) {
-        this.head.save() = saveObject[this.head.saveKey];
+        this.head.load(saveObject[this.head.saveKey]);
         this.gills = saveObject["Gills"];
         this.armType = saveObject["ArmType"];
-        this.chest.save() = saveObject[this.chest.saveKey];
+        this.chest.load(saveObject[this.chest.saveKey]);
         this.wingType = saveObject["WingType"];
         this.wingDesc = saveObject["WingDesc"];
     }

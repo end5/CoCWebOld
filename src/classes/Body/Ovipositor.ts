@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from "../SaveInterface";
+﻿import { SaveInterface } from '../SaveInterface';
 
 export default class Ovipositor implements SaveInterface {
     private _eggs: number;

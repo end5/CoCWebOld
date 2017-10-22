@@ -1,5 +1,5 @@
-import Utils from "../Utilities/Utils";
-import { SaveInterface } from "../SaveInterface";
+import { SaveInterface } from '../SaveInterface';
+import Utils from '../Utilities/Utils';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
