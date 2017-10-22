@@ -1,21 +1,22 @@
 import Character from './Character';
-import GenderDescriptor from './Descriptors/GenderDescriptor';
+import GenderDescriptor from '../Descriptors/GenderDescriptor';
+import { SaveInterface } from '../SaveInterface';
 
-export default class Description {
+export default class Description implements SaveInterface {
     private character: Character;
     private subjective: string;
     private objective: string;
     private possessive: string;
     private article: string;
-    public readonly short: string;
-    public readonly long: string;
-    public readonly plural: boolean;
+    private shortDesc: string;
+    private longDesc: string;
+    private isPlural: boolean;
 
     public constructor(character: Character, short: string = "", long: string = "", plural: boolean = false, article: string = "a") {
         this.character = character;
-        this.short = short;
-        this.long = long;
-        this.plural = plural;
+        this.shortDesc = short;
+        this.longDesc = long;
+        this.isPlural = plural;
         this.update();
     }
 
@@ -27,6 +28,18 @@ export default class Description {
             this.article = this.plural ? "the" : "a";
     }
 
+    public get short(): string {
+        return this.short;
+    }
+    
+    public get long(): string {
+        return this.long;
+    }
+
+    public get plural(): boolean {
+        return this.plural;
+    }
+    
     /**
      * Returns subjective pronoun. (ie. he/she/it/they)
      */
@@ -61,5 +74,27 @@ export default class Description {
     public get capitalA(): string {
 		if (this.article.length == 0) return "";
 		return this.article.charAt(0).toUpperCase() + this.article.substr(1);
-	}
+    }
+    
+    saveKey: string = "Description";
+    save(): object {
+        let saveObject: object = {};
+        saveObject["subjective"] = this.subjective;
+        saveObject["objective"] = this.objective;
+        saveObject["possessive"] = this.possessive;
+        saveObject["article"] = this.article;
+        saveObject["shortDesc"] = this.short;
+        saveObject["longDesc"] = this.long;
+        saveObject["isPlural"] = this.plural;
+        return saveObject;
+    }
+    load(saveObject: object) {
+        this.subjective = saveObject["subjective"];
+        this.objective = saveObject["objective"];
+        this.possessive = saveObject["possessive"];
+        this.article = saveObject["article"];
+        this.shortDesc = saveObject["shortDesc"];
+        this.longDesc = saveObject["longDesc"];
+        this.isPlural = saveObject["isPlural"];
+    }
 }
