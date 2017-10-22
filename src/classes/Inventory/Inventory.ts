@@ -1,5 +1,5 @@
-import Item from "../Items/Item";
-import ItemStack from "../Items/ItemStack";
+import Item from '../Items/Item';
+import ItemStack from '../Items/ItemStack';
 
 export default class Inventory<T extends Item> {
     private itemSlots: ItemStack<T>[];
