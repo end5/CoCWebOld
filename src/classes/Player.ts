@@ -4,7 +4,8 @@ import { FaceType, TongueType } from './Body/Face';
 import { HornType } from './Body/Head';
 import { TailType } from './Body/LowerBody';
 import { WingType } from './Body/UpperBody';
-import Character from './Character';
+import Character from './Character/Character';
+import { CharacterType } from './Character/CharacterType';
 import StatusAffect from './Effects/StatusAffect';
 import Flags, { FlagEnum } from './Game/Flags';
 import Item from './Items/Item';
@@ -15,7 +16,7 @@ export default class Player extends Character {
     public keyItems: KeyItem[];
 
     public constructor() {
-        super();
+        super(CharacterType.Player);
         // Reset all standard stats
         this.stats.str = 15;
         this.stats.tou = 15;
@@ -30,7 +31,7 @@ export default class Player extends Character {
         this.stats.XP = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_XP];
         this.stats.level = 1;
         this.stats.HP = this.stats.maxHP();
-        this.stats.gems = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS];
+        this.inventory.gems = Flags.list[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS];
         this.skinType = SkinType.PLAIN;
         this.upperBody.head.face.faceType = FaceType.HUMAN;
         this.lowerBody.tailType = TailType.NONE;
