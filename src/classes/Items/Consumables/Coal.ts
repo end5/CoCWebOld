@@ -1,10 +1,10 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import StatusAffect from "../../Effects/StatusAffect";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class Coal extends Consumable {
     public constructor() {
@@ -16,11 +16,11 @@ export default class Coal extends Consumable {
         MainScreen.text("", true);
         MainScreen.text("You handle the coal rocks experimentally and they crumble to dust in your hands!  You cough as you breathe in the cloud, sputtering and wheezing.  After a minute of terrible coughing, you recover and realize there's no remaining trace of the rocks, not even a sooty stain on your hands!", false);
         //Try to go into intense heat
-        if (BodyChangeDisplay.goIntoHeat(player, 2)) {
+        if (CreatureChange.goIntoHeat(player, 2)) {
             changes++;
         }
         //Males go into rut
-        else if (BodyChangeDisplay.goIntoRut(player)) {
+        else if (CreatureChange.goIntoRut(player)) {
             changes++;
         }
         else {
@@ -29,7 +29,7 @@ export default class Coal extends Consumable {
                 if (!player.statusAffects.has("BonusACapacity"))
                     player.statusAffects.add(new StatusAffect("BonusACapacity", 0, 0, 0, 0));
                 player.statusAffects.get("BonusACapacity").value1 = 5;
-                MainScreen.text("\n\nYou feel... more accommodating somehow.  Your " + ButtDescriptor.describeButthole(player.lowerBody.butt) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.", false);
+                MainScreen.text("\n\nYou feel... more accommodating somehow.  Your " + ButtDescriptor.describeButthole(player) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.", false);
                 changes++;
             }
             else {

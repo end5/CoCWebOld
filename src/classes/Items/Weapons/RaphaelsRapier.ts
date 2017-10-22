@@ -1,5 +1,5 @@
-import Weapon from "./Weapon";
-import Flags, { FlagEnum } from "../../Game/Flags";
+import Weapon from './Weapon';
+import Flags, { FlagEnum } from '../../Game/Flags';
 
 export default class RaphaelsRapier extends Weapon {
     public constructor() {

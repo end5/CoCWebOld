@@ -1,6 +1,6 @@
-import Weapon from "./Weapon";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
+import Weapon from './Weapon';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
 
 export default class LargeHammer extends Weapon {
     public constructor() {

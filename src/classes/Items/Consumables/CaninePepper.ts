@@ -1,25 +1,24 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { SkinType } from "../../Body/Body";
-import { FaceType, EyeType } from "../../Body/Face";
-import { EarType } from "../../Body/Head";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import Game from "../../Game/Game";
-import StatusAffect from "../../Effects/StatusAffect";
-import { ArmType } from "../../Body/UpperBody";
-import Cock, { CockType } from "../../Body/Cock";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import BreastRow from "../../Body/BreastRow";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import RaceScore from "../../RaceScore";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType } from '../../Body/UpperBody';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Game from '../../Game/Game';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export enum CaninePepperType {
     Normal,
@@ -586,7 +585,7 @@ export default class CaninePepper extends Consumable {
         }
         //Go into heat
         if (Utils.rand(2) == 0 && changes < changeLimit) {
-            if (BodyChangeDisplay.goIntoHeat(player)) {
+            if (CreatureChange.goIntoHeat(player)) {
                 changes++;
             }
         }
@@ -769,7 +768,7 @@ export default class CaninePepper extends Consumable {
         //If no changes yay
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            StatChangeDisplay.HPChange(player, 20);
+            CreatureChange.HPChange(player, 20);
             player.stats.lust += 3;
         }
     }

@@ -1,20 +1,20 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import BreastRow from "../../Body/BreastRow";
-import Cock, { CockType } from "../../Body/Cock";
-import { SkinType } from "../../Body/Creature";
-import { EarType } from "../../Body/Head";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import { FaceType } from "../../Body/Face";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class WhiskerFruit extends Consumable {
     public constructor() {
@@ -287,7 +287,7 @@ export default class WhiskerFruit extends Consumable {
             //Gain cat face, replace old face
             let chance: number = Utils.rand(3);
             if (chance == 0) MainScreen.text("\n\nYour face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something... different. You find a puddle to view your reflection and discover <b>your face is now a cross between human and feline features.</b>", false);
-            else if (chance == 1) MainScreen.text("\n\nMind-numbing pain courses through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your facial characteristics with those of a feline. <b>You now have an anthropomorphic cat-face.</b>", false);
+            else if (chance == 1) MainScreen.text("\n\nMind-numbing pain courses through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your facial playeristics with those of a feline. <b>You now have an anthropomorphic cat-face.</b>", false);
             else MainScreen.text("\n\nYour face is wracked with pain. You throw back your head and scream in agony as you feel your cheekbones breaking and shifting, reforming into something else. <b>Your facial features rearrange to take on many feline aspects.</b>", false);
             player.upperBody.head.face.faceType = FaceType.CAT;
             changes++;
@@ -300,7 +300,7 @@ export default class WhiskerFruit extends Consumable {
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            StatChangeDisplay.HPChange(player, 50);
+            CreatureChange.HPChange(player, 50);
             player.stats.lust += 3;
         }
         if (changes < changeLimit) {

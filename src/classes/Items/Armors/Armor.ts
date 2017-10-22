@@ -1,7 +1,7 @@
-import Item from "../Item";
-import MainScreen from "../../display/MainScreen";
-import Game from "../../Game/Game";
-import Player from "../../Player";
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Item from '../Item';
 
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
@@ -19,7 +19,7 @@ export default class Armor extends Item {
         this._supportsBulge = supportsBulge;
     }
 
-    public get supportsBulge(): boolean { return this._supportsBulge && Game.player.inventory.armorDescMod == ""; }
+    public supportsBulge(player: Player): boolean { return this._supportsBulge && player.inventory.armorDescMod == ""; }
     //For most clothes if the armorDescMod is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
     public canUse(player: Player): boolean {
@@ -39,10 +39,10 @@ export default class Armor extends Item {
     }
 
     public unequip(player: Player): Armor { //This item is being removed by the player. Remove any perks, etc. - This function should only handle mechanics, not text output
-        while (Game.player.perks.has("BulgeArmor"))
-            Game.player.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
-        if (Game.player.inventory.armorDescMod.length > 0)
-            Game.player.inventory.armorDescMod = "";
+        while (player.perks.has("BulgeArmor"))
+            player.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
+        if (player.inventory.armorDescMod.length > 0)
+            player.inventory.armorDescMod = "";
         return this;
     }
 

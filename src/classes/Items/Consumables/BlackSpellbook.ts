@@ -1,7 +1,7 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import StatusAffect from "../../Effects/StatusAffect";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
 
 export default class BlackSpellbook extends Consumable {
     public constructor() {

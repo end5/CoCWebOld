@@ -1,20 +1,21 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Game from "../../Game/Game";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import Cock, { CockType } from "../../Body/Cock";
-import BreastRow from "../../Body/BreastRow";
-import { VaginaType } from "../../Body/Vagina";
-import { FaceType } from "../../Body/Face";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import { EarType } from "../../Body/Head";
-import { SkinType } from "../../Body/Creature";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { VaginaType } from '../../Body/Vagina';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class FoxBerry extends Consumable {
     private enhanced: boolean;
@@ -135,7 +136,7 @@ export default class FoxBerry extends Consumable {
             MainScreen.text("\n\nSuddenly, you are there, at a demonic camp, and you spy the forms of an incubus and a succubus, their bodies locked together at the hips and slowly undulating, even in sleep.  You carefully prance around their slumbering forms and find their supplies.  With the utmost care, you put your razor-sharp teeth to work, and slowly, meticulously rip through their packs - not with the intention of theft, but with mischief.  You make sure to leave small holes in the bottom of each, and after making sure your stealth remains unbroken, you urinate on their hooves.");
             MainScreen.text("\n\nThey don't even notice, so lost in the subconscious copulation as they are.  Satisfied at your petty tricks, you scurry off into the night, a red blur amidst the foliage.");
             changes++;
-            player.stats.fatigueChange(-10);
+            player.stats.fatigue -= 10;
         }
 
         //dog cocks!
@@ -241,11 +242,11 @@ export default class FoxBerry extends Consumable {
                     else {
                         chance = Utils.rand(3);
                         if (chance == 1)
-                            MainScreen.text("\n\nA faint warmth buzzes to the surface of your " + BreastDescriptor.describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + player.skin() + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + BreastDescriptor.describeNipple(player, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
+                            MainScreen.text("\n\nA faint warmth buzzes to the surface of your " + BreastDescriptor.describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + SkinDescriptor.skin(player) + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + BreastDescriptor.describeNipple(player, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
                         else if (chance == 2)
-                            MainScreen.text("\n\nA faintly muffled gurgle emanates from your " + BreastDescriptor.describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + player.skinFurScales() + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
+                            MainScreen.text("\n\nA faintly muffled gurgle emanates from your " + BreastDescriptor.describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + SkinDescriptor.skinFurScales(player) + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
                         else {
-                            MainScreen.text("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + BreastDescriptor.describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + player.skin() + " growing flushed with arousal and your " + BreastDescriptor.describeNipple(player, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.")
+                            MainScreen.text("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + BreastDescriptor.describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + SkinDescriptor.skin(player) + " growing flushed with arousal and your " + BreastDescriptor.describeNipple(player, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.")
                         }
                     }
                     //Bigger change!
@@ -266,7 +267,7 @@ export default class FoxBerry extends Consumable {
         }
         //HEAT!
         if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(6) == 0 && changes < changeLimit) {
-            if (BodyChangeDisplay.goIntoHeat(player)) {
+            if (CreatureChange.goIntoHeat(player)) {
                 changes++;
             }
         }
@@ -357,7 +358,7 @@ export default class FoxBerry extends Consumable {
         }
         if (changes == 0) {
             MainScreen.text("\n\nWell that didn't do much, but you do feel a little refreshed!");
-            player.stats.fatigueChange(-5);
+            player.stats.fatigue -= 5;
         }
 
     }

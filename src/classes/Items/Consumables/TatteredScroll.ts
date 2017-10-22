@@ -1,10 +1,11 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import Game from "../../Game/Game";
-import BreastRow from "../../Body/BreastRow";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class TatteredScroll extends Consumable {
     public constructor() {
@@ -12,7 +13,7 @@ export default class TatteredScroll extends Consumable {
     }
 
     public use(player: Player) {
-        MainScreen.text("Your wobbly " + LowerBodyDescriptor.describeLegs(player.lowerBody) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n", true);
+        MainScreen.text("Your wobbly " + LowerBodyDescriptor.describeLegs(player) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n", true);
         if (player.upperBody.head.hairColor == "sandy blonde") {
             MainScreen.text("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n", false);
             if (player.upperBody.chest.count() == 0) {
@@ -69,7 +70,7 @@ export default class TatteredScroll extends Consumable {
                     if (largestLactationMultiplier >= 3)
                         MainScreen.text("you drop to your knees and grab your nipples.  With a very sexual moan you begin milking yourself, hosing out huge quantities of milk.  You pant and grunt, offering as much of your milk as you can.  It cascades down a hill in a small stream, and you can't help but blush with pride... and lust.  The erotic pleasures build as you do your best to feed the ground all of your milk.  You ride the edge of orgasm for an eternity, milk everywhere.  When you come to, you realize you're kneeling there, tugging your dry nipples.  Embarrassed, you stop, but your arousal remains.  ", false);
                     if (largestLactationMultiplier < 3) {
-                        player.boostLactation(.7);
+                        BreastModifier.boostLactation(player, .7);
                         MainScreen.text("Your breasts feel fuller... riper... like your next milking could be even bigger.  ", false);
                     }
                     player.stats.lib += 1;
@@ -78,7 +79,7 @@ export default class TatteredScroll extends Consumable {
                 }
                 if (largestLactationMultiplier == 0) {
                     MainScreen.text("A pleasurable release suddenly erupts from your nipples!  Twin streams of milk are spraying from your breasts, soaking into the ground immediately.  It stops all too soon, though a voice in your head assures you that you can lactate quite often now.  ", false);
-                    player.boostLactation(1);
+                    BreastModifier.boostLactation(player, 1);
                     player.stats.lib += 0.5;
                     player.stats.sens += 1;
                     player.stats.lust += 10;

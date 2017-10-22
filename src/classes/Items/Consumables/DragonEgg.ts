@@ -1,8 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import StatusAffect from "../../Effects/StatusAffect";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class DragonEgg extends Consumable {
     public constructor() {
@@ -21,6 +21,6 @@ export default class DragonEgg extends Consumable {
             //(if PC has breath weapon)
             MainScreen.text("\n\nA sudden surge of energy fills your being and you feel like you could blast anything to atoms with a single breath, like the mighty dragons of legends.");
         }
-        player.stats.fatigueChange(-20);
+        player.stats.fatigue -= 20;
     }
 }

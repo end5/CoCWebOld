@@ -1,16 +1,16 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import Utils from "../../Utilities/Utils";
-import { CockType } from "../../Body/Cock";
-import MainScreen, { ClickFunction } from "../../display/MainScreen";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import InventoryDisplay from "../../display/InventoryDisplay";
-import PlayerInventoryMenu from "../../display/PlayerInventoryMenu";
+import Consumable from './Consumable';
+import { CockType } from '../../Body/Cock';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import InventoryDisplay from '../../display/InventoryDisplay';
+import MainScreen, { ClickFunction } from '../../display/MainScreen';
+import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class Reducto extends Consumable {
 

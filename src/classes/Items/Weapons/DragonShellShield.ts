@@ -1,7 +1,7 @@
-import Weapon from "./Weapon";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import MainScreen from "../../display/MainScreen";
-import Player from "../../Player";
+import Weapon from './Weapon';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
 
 export default class DragonShellShield extends Weapon {
     public constructor() {

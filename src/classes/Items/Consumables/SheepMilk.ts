@@ -1,7 +1,7 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class SheepMilk extends Consumable {
     public constructor() {
@@ -11,7 +11,7 @@ export default class SheepMilk extends Consumable {
     public use(player: Player) {
         MainScreen.text("You gulp the bottle's contents, and its sweet taste immediately invigorates you, making you feel calm and concentrated", true);
         //-30 fatigue, -2 libido, -10 lust]
-        player.stats.fatigueChange(-30);
+        player.stats.fatigue -= 30;
         player.stats.lib += -.25;
         player.stats.lust += -10;
         player.stats.cor += -0.5;

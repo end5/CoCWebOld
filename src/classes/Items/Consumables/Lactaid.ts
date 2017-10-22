@@ -1,9 +1,9 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import Consumable from './Consumable';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import MainScreen from '../../display/MainScreen';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class Lactaid extends Consumable {
     public constructor() {

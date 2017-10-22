@@ -1,6 +1,6 @@
-import Armor from "./Armor"
-import Player from "../../Player"
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
+import Armor from './Armor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import Player from '../../Player';
 
 export default class FurLoincloth extends Armor {
     public constructor() {

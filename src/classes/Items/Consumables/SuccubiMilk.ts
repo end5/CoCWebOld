@@ -1,17 +1,17 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import BreastRow from "../../Body/BreastRow";
-import Cock from "../../Body/Cock";
-import Vagina, { VaginaWetness, VaginaLooseness } from "../../Body/Vagina";
-import GenericTransforms from "./GenericTransforms";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
+import Consumable from './Consumable';
+import GenericTransforms from './GenericTransforms';
+import BreastRow from '../../Body/BreastRow';
+import Cock from '../../Body/Cock';
+import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class SuccubiMilk extends Consumable {
     public readonly tainted: boolean;
@@ -107,7 +107,7 @@ export default class SuccubiMilk extends Consumable {
                     }
                     lengthenAmount += CockModifiers.growCock(player, longestCock, (Utils.rand(3) + 1) * -1);
                     MainScreen.text("\n\n", false);
-                    CockChangeDescriptor.lengthChange(player, lengthenAmount, 1);
+                    CreatureChange.lengthChange(player, lengthenAmount, 1);
                     if (longestCock.cockLength < 2) {
                         MainScreen.text("  ", false);
                         CockModifiers.killCocks(player, 1);
@@ -135,7 +135,7 @@ export default class SuccubiMilk extends Consumable {
                 if (longestCock.cockLength < 6 && longestCock.cockLength >= 2.9)
                     longestCock.cockLength -= .5;
                 let lengthChange: number = CockModifiers.growCock(player, longestCock, -1 * (Utils.rand(3) + 1));
-                CockChangeDescriptor.lengthChange(player, lengthChange, 1);
+                CreatureChange.lengthChange(player, lengthChange, 1);
                 if (longestCock.cockLength < 3) {
                     MainScreen.text("  ", false);
                     CockModifiers.killCocks(player, 1);

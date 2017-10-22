@@ -1,19 +1,19 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { ArmType, WingType } from "../../Body/UpperBody";
-import StatusAffect from "../../Effects/StatusAffect";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import { AntennaeType, EarType } from "../../Body/Head";
-import { EyeType, FaceType } from "../../Body/Face";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import { SkinType } from "../../Body/Body";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { AntennaeType, EarType } from '../../Body/Head';
+import { ArmType, WingType } from '../../Body/UpperBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class GoblinAle extends Consumable {
     public constructor() {
@@ -109,7 +109,7 @@ export default class GoblinAle extends Consumable {
                     temp3 -= .5;
                 }
                 temp3 += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), (Utils.rand(3) + 1) * -1);
-                BodyChangeDisplay.lengthChange(player, temp3, 1);
+                CreatureChange.lengthChange(player, temp3, 1);
             }
         }
         //GENERAL APPEARANCE STUFF BELOW

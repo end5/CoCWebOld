@@ -1,9 +1,9 @@
-import Armor from "./Armor";
-import MainScreen from "../../display/MainScreen";
-import Player from "../../Player";
-import Perk from "../../Effects/Perk";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
+import Armor from './Armor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
 
 export default class InquisitorsCorset extends Armor {
     public constructor() {

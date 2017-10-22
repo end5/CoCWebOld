@@ -1,13 +1,13 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import StatusAffect from "../../Effects/StatusAffect";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import { SkinType } from "../../Body/Body";
-import Perk from "../../Effects/Perk";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class NumbRock extends Consumable {
     public constructor() {

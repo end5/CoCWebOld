@@ -1,9 +1,9 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import { Gender } from "../../Body/Body";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import StatusAffect from "../../Effects/StatusAffect";
+import Consumable from './Consumable';
+import { Gender } from '../../Body/Creature';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
 
 export default class CeruleanPotion extends Consumable {
     public constructor() {

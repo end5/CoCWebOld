@@ -1,6 +1,6 @@
-import Item from "../Item";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Item from '../Item';
 
 export default class Weapon extends Item
 {

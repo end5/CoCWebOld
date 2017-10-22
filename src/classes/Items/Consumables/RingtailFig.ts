@@ -1,12 +1,13 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { SkinType } from "../../Body/Creature";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import { EarType } from "../../Body/Head";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import { FaceType } from "../../Body/Face";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class RingtailFig extends Consumable {
     public constructor() {
@@ -34,7 +35,7 @@ export default class RingtailFig extends Consumable {
         }
         //gain sensitivity
         if (player.stats.sens < 80 && Utils.rand(3) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nThe wrinkled rind suddenly feels alarmingly distinct in your hands, and you drop the remnants of the fruit.  Wonderingly, you touch yourself with a finger - you can feel even the lightest pressure on your " + player.skinFurScales() + " much more clearly now!");
+            MainScreen.text("\n\nThe wrinkled rind suddenly feels alarmingly distinct in your hands, and you drop the remnants of the fruit.  Wonderingly, you touch yourself with a finger - you can feel even the lightest pressure on your " + SkinDescriptor.skinFurScales(player) + " much more clearly now!");
             if (player.stats.sens < 60) player.stats.sens += 2;
             player.stats.sens += 2;
             changes++;
@@ -108,7 +109,7 @@ export default class RingtailFig extends Consumable {
             if (player.lowerBody.isNaga()) {
                 MainScreen.text("\n\nYour body straightens and telescopes suddenly and without the length of your snake half to anchor you, you're left with your face in the dirt.  A shuffling and scraping of falling scales sounds and a terrible cramp takes you as your back half continues migrating, subducting under your [butt] and making you feel extremely bloated.  As your once prominent tail dwindles to roughly the length of your torso, a sickly ripping noise fills your head and it bursts apart, revealing two new legs!  The tattered snake-skin continues melding into your groin as you examine the fuzzy legs and long-toed, sensitive feet.  <b>Looks like you now have raccoon hind-paws...</b> and an upset stomach.");
                 player.stats.lust += -30;
-                player.stats.fatigueChange(5);
+                player.stats.fatigue += 5;
             }
             //from amoeba non-feet
             else if (player.lowerBody.isGoo()) MainScreen.text("\n\nYour gooey undercarriage begins to boil violently, and before you can do anything, it evaporates!  Left sitting on just the small pad of sticky half-dried slime that comprises your [butt], a sudden bulge under you is enough to push you onto your back.  Wondering idly and unable to see what's happening, you close your eyes and try to focus on what sensations you can feel from your lower body.  You feel... a swell of expansion, followed by weak muscles trying to contract for the first time, pulling flimsy, folded limbs apart and laying them flat.  As your attention wanders downward, you feel toes wiggling - far longer toes than you remember.  For several minutes you lie still and test muscles gingerly as your body solidifes, but when you can finally move again and look at your legs properly, what you see surprises you very little.  <b>You have fuzzy legs and a pair of long-toed raccoon paws!</b>");
@@ -144,13 +145,13 @@ export default class RingtailFig extends Consumable {
                 if (((player.skinTone == "ebony" || player.skinTone == "black") && (player.skinType == SkinType.PLAIN || player.skinType == SkinType.GOO)) || ((player.upperBody.head.hairColor == "black" || player.upperBody.head.hairColor == "midnight") && (player.skinType == SkinType.FUR || player.skinType == SkinType.SCALES))) {
                     MainScreen.text("Nothing seems different at first.  Strange... you look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask.</b>");
                 }
-                else MainScreen.text("A dark, almost black mask shades the " + player.skinFurScales() + " around your eyes and over the topmost portion of your nose, lending you a criminal air!  <b>You now have a raccoon mask!</b>");
+                else MainScreen.text("A dark, almost black mask shades the " + SkinDescriptor.skinFurScales(player) + " around your eyes and over the topmost portion of your nose, lending you a criminal air!  <b>You now have a raccoon mask!</b>");
             }
             //from snout (will not overwrite full-coon snout but will overwrite others)
             else {
                 MainScreen.text("\n\nA sudden migraine sweeps over you and you clutch your head in agony as your nose collapses back to human dimensions.  A worrying numb spot grows around your eyes, and you entertain several horrible premonitions until it passes as suddenly as it came.  Checking your reflection in your water barrel, you find ");
                 //[(if black/midnight fur or if black scales)
-                if (((player.upperBody.head.hairColor == "black" || player.upperBody.head.hairColor == "midnight") && (player.skinType == SkinType.FUR || player.skinType == SkinType.SCALES))) MainScreen.text("your face apparently returned to normal shape, albeit still covered in " + player.skinFurScales() + ".  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your otherwise normal human face.</b>");
+                if (((player.upperBody.head.hairColor == "black" || player.upperBody.head.hairColor == "midnight") && (player.skinType == SkinType.FUR || player.skinType == SkinType.SCALES))) MainScreen.text("your face apparently returned to normal shape, albeit still covered in " + SkinDescriptor.skinFurScales(player) + ".  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your otherwise normal human face.</b>");
                 else if ((player.skinTone == "ebony" || player.skinTone == "black") && (player.skinType == SkinType.PLAIN || player.skinType == SkinType.GOO)) MainScreen.text("your face apparently returned to normal shape.  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your normal human face.</b>");
                 else MainScreen.text("your face returned to human dimensions, but shaded by a black mask around the eyes and over the nose!  <b>You now have a humanoid face with a raccoon mask!</b>");
             }
@@ -169,12 +170,12 @@ export default class RingtailFig extends Consumable {
         //fatigue damage (only if face change was not triggered)
         else if (Utils.rand(2) == 0 && changes < changeLimit && (player.upperBody.head.face.faceType != FaceType.RACCOON_MASK && player.upperBody.head.face.faceType != FaceType.RACCOON)) {
             MainScreen.text("\n\nYou suddenly feel tired and your eyelids are quite heavy.  Checking your reflection, you can see small dark rings have begun to form under your eyes.");
-            player.stats.fatigueChange(10);
+            player.stats.fatigue += 10;
             changes++;
         }
         if (changes == 0) {
             MainScreen.text("\n\nYawning, you figure you could really use a nap.");
-            player.stats.fatigueChange(5);
+            player.stats.fatigue += 5;
         }
     }
 }

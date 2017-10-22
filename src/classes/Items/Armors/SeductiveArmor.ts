@@ -1,9 +1,9 @@
-import Armor from "./Armor";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import Game from "../../Game/Game";
-import GenderDescriptor from "../../Descriptors/GenderDescriptor";
+import Armor from './Armor';
+import GenderDescriptor from '../../Descriptors/GenderDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player';
 
 export default class SeductiveArmor extends Armor {
     public constructor() {

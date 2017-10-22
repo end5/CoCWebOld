@@ -1,16 +1,17 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import StatusAffect from "../../Effects/StatusAffect";
-import Game from "../../Game/Game";
-import { EarType } from "../../Body/Head";
-import { SkinType } from "../../Body/Body";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import Perk from "../../Effects/Perk";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import { TailType } from "../../Body/LowerBody";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { EarType } from '../../Body/Head';
+import { TailType } from '../../Body/LowerBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class FoxJewel extends Consumable {
     private mystic: boolean;
@@ -59,9 +60,9 @@ export default class FoxJewel extends Consumable {
         //[decrease Toughness toward 20]
         if (player.stats.tou > 20 && changes < changeLimit && ((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(3) == 0))) {
             //from 66 or less toughness
-            if (player.stats.tou <= 66) MainScreen.text("\n\nYou feel your " + player.skinFurScales() + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your " + player.skinFurScales() + " won't offer you much protection.");
+            if (player.stats.tou <= 66) MainScreen.text("\n\nYou feel your " + SkinDescriptor.skinFurScales(player) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your " + SkinDescriptor.skinFurScales(player) + " won't offer you much protection.");
             //from 66 or greater toughness
-            else MainScreen.text("\n\nYou feel your " + player.skinFurScales() + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your hide isn't quite as tough as it used to be.");
+            else MainScreen.text("\n\nYou feel your " + SkinDescriptor.skinFurScales(player) + " becoming noticeably softer.  A gentle exploratory pinch on your arm confirms it - your hide isn't quite as tough as it used to be.");
             player.stats.tou += -1;
             if (player.stats.tou > 66) player.stats.tou += -1;
             changes++;
@@ -93,7 +94,7 @@ export default class FoxJewel extends Consumable {
             changes++;
         }
 
-        //[Adjust hips toward 10 – wide/curvy/flared]
+        //[Adjust hips toward 10 ï¿½ wide/curvy/flared]
         //from narrow to wide
         if (player.lowerBody.hipRating < 10 && ((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(3) == 0)) && changes < changeLimit) {
             player.lowerBody.hipRating++;
@@ -112,7 +113,7 @@ export default class FoxJewel extends Consumable {
             changes++;
         }
 
-        //[Adjust hair length toward range of 16-26 – very long to ass-length]
+        //[Adjust hair length toward range of 16-26 ï¿½ very long to ass-length]
         if ((player.upperBody.head.hairLength < 16 || player.upperBody.head.hairLength > 26) && ((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(3) == 0)) && changes < changeLimit) {
             //from short to long
             if (player.upperBody.head.hairLength < 16) {
@@ -167,7 +168,7 @@ export default class FoxJewel extends Consumable {
         }
         //[Grow Addtl. Fox Tail]
         //(rare effect, up to max of 8 tails, requires PC level and int*10 = number of tail to be added)
-        else if (player.lowerBody.tailType == TailType.FOX && player.lowerBody.tailVenom < 8 && player.lowerBody.tailVenom + 1 <= player.level && player.lowerBody.tailVenom + 1 <= player.stats.int / 10 && changes < changeLimit && ((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(3) == 0))) {
+        else if (player.lowerBody.tailType == TailType.FOX && player.lowerBody.tailVenom < 8 && player.lowerBody.tailVenom + 1 <= player.stats.level && player.lowerBody.tailVenom + 1 <= player.stats.int / 10 && changes < changeLimit && ((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(3) == 0))) {
             //if PC has 1 fox tail
             if (player.lowerBody.tailVenom == 1) {
                 MainScreen.text("\n\nA tingling pressure builds on your backside, and your bushy tail begins to glow with an eerie, ghostly light.  With a crackle of electrical energy, your tail splits into two!  <b>You now have a pair of fox-tails.</b>");
@@ -182,7 +183,7 @@ export default class FoxJewel extends Consumable {
             changes++;
         }
         //[Grow 9th tail and gain Corrupted Nine-tails perk]
-        else if (this.mystic && Utils.rand(4) == 0 && changes < changeLimit && player.lowerBody.tailType == TailType.FOX && player.lowerBody.tailVenom == 8 && player.level >= 9 && player.upperBody.head.earType == EarType.FOX && player.stats.int >= 90 && !player.perks.has("CorruptedNinetails") && !player.perks.has("EnlightenedNinetails")) {
+        else if (this.mystic && Utils.rand(4) == 0 && changes < changeLimit && player.lowerBody.tailType == TailType.FOX && player.lowerBody.tailVenom == 8 && player.stats.level >= 9 && player.upperBody.head.earType == EarType.FOX && player.stats.int >= 90 && !player.perks.has("CorruptedNinetails") && !player.perks.has("EnlightenedNinetails")) {
             MainScreen.text("Your bushy tails begin to glow with an eerie, ghostly light, and with a crackle of electrical energy, split into nine tails.  <b>You are now a nine-tails!  But something is wrong...  The cosmic power radiating from your body feels...  tainted somehow.  The corruption pouring off your body feels...  good.</b>");
             MainScreen.text("\n\nYou have the inexplicable urge to set fire to the world, just to watch it burn.  With your newfound power, it's a goal that is well within reach.");
             MainScreen.text("\n\n(Perk Gained: Corrupted Nine-tails - Grants two magical special attacks.)");
@@ -216,7 +217,7 @@ export default class FoxJewel extends Consumable {
         }
         //[Change Skin Type: remove fur or scales, change skin to Tan, Olive, or Light]
         if (player.skinType == SkinType.FUR || player.skinType == SkinType.SCALES && ((this.mystic) || (!this.mystic && Utils.rand(2) == 0))) {
-            MainScreen.text("\n\nYou begin to tingle all over your " + player.skin() + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
+            MainScreen.text("\n\nYou begin to tingle all over your " + SkinDescriptor.skin(player) + ", starting as a cool, pleasant sensation but gradually worsening until you are furiously itching all over.");
             if (player.skinType == SkinType.FUR) MainScreen.text("  You stare in horror as you pull your fingers away holding a handful of " + player.upperBody.head.hairColor + " fur!  Your fur sloughs off your body in thick clumps, falling away to reveal patches of bare, " + player.skinTone + " skin.");
             else if (player.skinType == SkinType.SCALES) MainScreen.text("  You stare in horror as you pull your fingers away holding a handful of dried up scales!  Your scales continue to flake and peel off your skin in thick patches, revealing the tender " + player.skinTone + " skin underneath.");
             MainScreen.text("  Your skin slowly turns raw and red under your severe scratching, the tingling sensations raising goosebumps across your whole body.  Over time, the itching fades, and your flushed skin resolves into a natural-looking ");
@@ -238,7 +239,7 @@ export default class FoxJewel extends Consumable {
                 else player.skinTone = "milky white";
             }
             MainScreen.text(player.skinTone + " complexion.");
-            MainScreen.text("  <b>You now have " + player.skin() + "!</b>");
+            MainScreen.text("  <b>You now have " + SkinDescriptor.skin(player) + "!</b>");
             changes++;
         }
         //Change skin tone if not changed you!
@@ -250,7 +251,7 @@ export default class FoxJewel extends Consumable {
             else if (mtoneTemp == 2) player.skinTone = "ashen";
             else if (mtoneTemp == 3) player.skinTone = "sable";
             else player.skinTone = "milky white";
-            MainScreen.text(player.skin() + "!</b>");
+            MainScreen.text(SkinDescriptor.skin(player) + "!</b>");
             changes++;
         }
         //Change skin tone if not changed you!
@@ -260,13 +261,13 @@ export default class FoxJewel extends Consumable {
             if (toneTemp == 0) player.skinTone = "tan";
             else if (toneTemp == 1) player.skinTone = "olive";
             else player.skinTone = "light";
-            MainScreen.text(player.skin() + "!</b>");
+            MainScreen.text(SkinDescriptor.skin(player) + "!</b>");
             changes++;
         }
         //[Change Skin Color: add "Tattoos"]
         //From Tan, Olive, or Light skin tones
         /*else if ((this.mystic && false && (player.skinTone == "dark" || player.skinTone == "ebony" || player.skinTone == "ashen" || player.skinTone == "sable" || player.skinTone == "milky white")) || (!this.mystic && false && (player.skinTone == "tan" || player.skinTone == "olive" || player.skinTone || "light")) && changes < changeLimit) {
-            MainScreen.text("You feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  You are caught by surprise when you are suddenly assaulted by a blinding flash issuing from areas of your skin, and when the spots finally clear from your vision, an assortment of glowing tribal tattoos adorns your " + player.skin() + ".  The glow gradually fades, but the distinctive ");
+            MainScreen.text("You feel a crawling sensation on the surface of your skin, starting at the small of your back and spreading to your extremities, ultimately reaching your face.  You are caught by surprise when you are suddenly assaulted by a blinding flash issuing from areas of your skin, and when the spots finally clear from your vision, an assortment of glowing tribal tattoos adorns your " + SkinDescriptor.skin(player) + ".  The glow gradually fades, but the distinctive ");
             if (this.mystic) MainScreen.text("angular");
             else MainScreen.text("curved");
             MainScreen.text(" markings remain, as if etched into your skin.");

@@ -1,17 +1,18 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { CockType } from "../../Body/Cock";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import { SkinType } from "../../Body/Body";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import Perk from "../../Effects/Perk";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
+import Consumable from './Consumable';
+import { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 //Miscellaneous
 //ITEM GAINED FROM LUST WINS
-//bottle of ectoplasm. Regular stat-stuff include higher speed, (reduced libido?), reduced sensitivity, and higher intelligence. First-tier effects include 50/50 chance of sable skin with bone-white veins or ivory skin with onyx veins. Second tier, \"wisp-like legs that flit back and forth between worlds,\" or \"wisp-like legs\" for short. Third tier gives an \"Ephemeral\" perk, makes you (10%, perhaps?) tougher to hit, and gives you a skill that replaces tease/seduce—allowing the PC to possess the creature and force it to masturbate to gain lust. Around the same effectiveness as seduce.
+//bottle of ectoplasm. Regular stat-stuff include higher speed, (reduced libido?), reduced sensitivity, and higher intelligence. First-tier effects include 50/50 chance of sable skin with bone-white veins or ivory skin with onyx veins. Second tier, \"wisp-like legs that flit back and forth between worlds,\" or \"wisp-like legs\" for short. Third tier gives an \"Ephemeral\" perk, makes you (10%, perhaps?) tougher to hit, and gives you a skill that replaces tease/seduceï¿½allowing the PC to possess the creature and force it to masturbate to gain lust. Around the same effectiveness as seduce.
 //Mouseover script: \"The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel...uncomfortable, as you observe it.\"
 
 //Bottle of Ectoplasm Text
@@ -39,7 +40,7 @@ export default class Ectoplasm extends Consumable {
         }
         //Effect script 2:  (lower sensitivity)
         if (player.stats.sens >= 20 && Utils.rand(3) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nWoah, what the... you pinch your " + player.skinFurScales() + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.", false);
+            MainScreen.text("\n\nWoah, what the... you pinch your " + SkinDescriptor.skin(player) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.", false);
             player.stats.sens -= 2;
             if (player.stats.sens >= 75)
                 player.stats.sens -= 2;
@@ -99,7 +100,7 @@ export default class Ectoplasm extends Consumable {
         //Effect Script 8: 100% chance of healing
         if (changes == 0) {
             MainScreen.text("You feel strangely refreshed, as if you just gobbled down a bottle of sunshine.  A smile graces your lips as vitality fills you.  ", false);
-            StatChangeDisplay.HPChange(player, player.level * 5 + 10);
+            CreatureChange.HPChange(player, player.stats.level * 5 + 10);
             changes++;
         }
         //Incorporeality Perk Text:  You seem to have inherited some of the spiritual powers of the residents of the afterlife!  While you wouldn't consider doing it for long due to its instability, you can temporarily become incorporeal for the sake of taking over enemies and giving them a taste of ghostly libido.

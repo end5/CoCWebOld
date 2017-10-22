@@ -1,9 +1,9 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import MainScreen from "../../display/MainScreen";
-import { HairType } from "../../Body/Head";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
+import Consumable from './Consumable';
+import { HairType } from '../../Body/Head';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
 
 export default class HairExtensionSerum extends Consumable {
 

@@ -1,15 +1,17 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import StatusAffect from "../../Effects/StatusAffect";
-import Game from "../../Game/Game";
-import { PregnancyType, IncubationTime } from "../../Body/Pregnancy";
-import { EarType } from "../../Body/Head";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import { TailType } from "../../Body/LowerBody";
-import { FaceType } from "../../Body/Face";
-import { SkinType } from "../../Body/Body";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { TailType } from '../../Body/LowerBody';
+import MinotaurPreg from '../../Body/Pregnancy/PlayerPregnancyEvents/MinotaurPreg';
+import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class MouseCocoa extends Consumable {
     public constructor() {
@@ -99,7 +101,7 @@ export default class MouseCocoa extends Consumable {
                         MainScreen.text("Desperately horny, you pull out your bottle of minotaur jism and break the seal in two shakes, then lie down with your hips elevated and upend it over your greedy vagina.  The gooey seed pours into you, and you orgasm fitfully, shaking and failing to hold the bottle in place as it coats your labia.  <b>As a hazy doze infiltrates your mind, you pray the pregnancy takes and dream of the sons you'll bear with your increasingly fertile body... you're going to go insane if you don't get a baby in you</b>.");
                         //(consumes item, increment addiction/output addict message, small chance of mino preg, reduce lust)]", false);
                         player.minoCumAddiction(5);
-                        player.knockUp(PregnancyType.MINOTAUR, IncubationTime.MINOTAUR, 175);
+                        player.pregnancy.knockUp(player.pregnancy.getNotPregVagina[0], new Pregnancy(PregnancyType.MINOTAUR, IncubationTime.MINOTAUR, new MinotaurPreg()), 175);
                         player.inventory.items.consumeItem(Game.libraries.consumables.get("MinoCum"));
                     }
                 }
@@ -155,7 +157,7 @@ export default class MouseCocoa extends Consumable {
         if ((player.skinType != SkinType.FUR || (player.skinType == SkinType.FUR && (player.upperBody.head.hairColor != "brown" && player.upperBody.head.hairColor != "white"))) && changes < changeLimit && Utils.rand(4) == 0) {
             //from skinscales
             if (player.skinType != SkinType.FUR) {
-                MainScreen.text("\n\nYour " + player.skinFurScales() + " itch");
+                MainScreen.text("\n\nYour " + SkinDescriptor.skinFurScales(player) + " itch");
                 if (player.skinType > SkinType.PLAIN) MainScreen.text("es");
                 MainScreen.text(" all over");
                 if (player.lowerBody.tailType > TailType.NONE) MainScreen.text(", except on your tail");

@@ -1,33 +1,33 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Game from "../../Game/Game";
-import { WingType } from "../../Body/UpperBody";
-import { AntennaeType } from "../../Body/Head";
-import { TongueType, FaceType } from "../../Body/Face";
-import { LowerBodyType } from "../../Body/LowerBody";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
+import Consumable from './Consumable';
+import { FaceType, TongueType } from '../../Body/Face';
+import { AntennaeType } from '../../Body/Head';
+import { LowerBodyType } from '../../Body/LowerBody';
+import { WingType } from '../../Body/UpperBody';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
-//9)  Transformation Item - Snake Oil (S. Oil)
+//9)ï¿½ Transformation Item - Snake Oil (S. Oil)
 /*Effects:
     Boosts Speed stat
     Ass reduction
     Testicles return inside your body (could be reverted by the use of succubi delight)
-    Can change penis into reptilian form  (since there's a lot of commentary here not knowing where to go, let me lay it out.)
+    Can change penis into reptilian formï¿½ (since there's a lot of commentary here not knowing where to go, let me lay it out.)
     the change will select one cock (Utils.randomly if you have multiple)
     said cock will become two reptilian cocks
     these can then be affected separately, so if someone wants to go through the effort of removing one and leaving themselves with one reptile penis, they have the ability to do that
     This also means that someone who's already reached the maximum numbers of dicks cannot get a reptilian penis unless they remove one first
-    "Your reptilian penis is X.X inches long and X.X inches thick.  The sheath extends halfway up the shaft, thick and veiny, while the smooth shaft extends out of the sheath coming to a pointed tip at the head. "
+    "Your reptilian penis is X.X inches long and X.X inches thick.ï¿½ The sheath extends halfway up the shaft, thick and veiny, while the smooth shaft extends out of the sheath coming to a pointed tip at the head. "
     Grow poisonous fangs (grants Poison Bite ability to player, incompatible with the sting ability, as it uses the same poison-meter)
     Causes your tongue to fork
-    Legs fuse together and dissolve into snake tail  (grants Constrict ability to player, said tail can only be covered in scales, independently from the rest of the body)
+    Legs fuse together and dissolve into snake tailï¿½ (grants Constrict ability to player, said tail can only be covered in scales, independently from the rest of the body)
     If snake tail exists:
     Make it longer, possibly larger (tail length is considered independently of your height, so it doesn't enable you to use the axe, for instance.
     Change tail's color according to location
-        [Smooth] Beige and Tan (Desert), [Rough] Brown and Rust (Mountains), [Lush]  Forest Green and Yellow (Forest), [Cold] Blue and White (ice land?), [Fresh] Meadow Green [#57D53B - #7FFF00] and Dark Teal [#008080] (lake) , [Menacing] Black and Red (Demon realm, outside encounters), [Distinguished] Ivory (#FFFFF0) and Royal Purple/Amethyst (#702963) (Factory), [Mossy] Emerald and Chestnut (Swamp), [Arid] Orange and Olive pattern (Tel' Adre)
+        [Smooth] Beige and Tan (Desert), [Rough] Brown and Rust (Mountains), [Lush]ï¿½ Forest Green and Yellow (Forest), [Cold] Blue and White (ice land?), [Fresh] Meadow Green [#57D53B - #7FFF00] and Dark Teal [#008080] (lake) , [Menacing] Black and Red (Demon realm, outside encounters), [Distinguished] Ivory (#FFFFF0) and Royal Purple/Amethyst (#702963) (Factory), [Mossy] Emerald and Chestnut (Swamp), [Arid] Orange and Olive pattern (Tel' Adre)
 
     9a) Item Description
     "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."
@@ -48,9 +48,9 @@ export default class SnakeOil extends Consumable {
         if (Utils.rand(2) == 0) changeLimit++;
         if (player.perks.has("HistoryAlchemist")) changeLimit++;
         //b) Description while used
-        MainScreen.text("Pinching your nose, you quickly uncork the vial and bring it to your mouth, determined to see what effects it might have on your body. Pouring in as much as you can take, you painfully swallow before going for another shot, emptying the bottle.", false);
+        MainScreen.text("Pinching yourï¿½nose, you quickly uncork the vial and bring it to your mouth, determinedï¿½to see what effects itï¿½might have on your body. Pouring in as much asï¿½you can take, youï¿½painfully swallow before going for another shot, emptying the bottle.", false);
         //(if outside combat)
-        if (!Game.inCombat) MainScreen.text("  Minutes pass as you start wishing you had water with you, to get rid of the aftertaste.", false);
+        if (!Game.inCombat) MainScreen.text("  Minutes pass as you start wishing you had water withï¿½you, to get rid ofï¿½the aftertaste.", false);
         //+ speed to 70!
         if (player.stats.spe < 70 && Utils.rand(2) == 0) {
             player.stats.spe += 2 - (player.stats.spe / 10 / 5);
@@ -91,13 +91,13 @@ export default class SnakeOil extends Consumable {
         //9c) I The tail ( http://tvtropes.org/pmwiki/pmwiki.php/Main/TransformationIsAFreeAction ) (Shouldn't we try to avert this? -Ace)
         //Should the enemy "kill" you during the transformation, it skips the scene and immediately goes to tthe rape scene. (Now that I'm thinking about it, we should add some sort of appendix where the player realizes how much he's/she's changed. -Ace)
         if (changes == 0 && player.upperBody.head.face.faceType == FaceType.SNAKE_FANGS && player.lowerBody.type != LowerBodyType.NAGA && Utils.rand(4) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nYou find it increasingly harder to keep standing as your legs start feeling weak.  You swiftly collapse, unable to maintain your own weight.", false);
+            MainScreen.text("\n\nYouï¿½find it increasingly harder to keep standing as your legs start feeling weak.ï¿½ You swiftly collapse, unable to maintain your own weight.", false);
             //(If used in combat, you lose a turn here. Half-corrupted Jojo and the Naga won't attack you during that period, but other monsters will)
             //FUCK NO
             MainScreen.text("\n\nTrying to get back up, you realize that the skin on the inner sides of your thighs is merging together like it was being sewn by an invisible needle.", false);
-            MainScreen.text("  The process continues through the length of your " + LowerBodyDescriptor.describeLegs(player) + ", eventually reaching your " + LowerBodyDescriptor.describeFeet(player) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terrible experience. Once you feel you've recovered, you try to stand, but to your amazement you discover that you no longer have " + LowerBodyDescriptor.describeLegs(player) + ": the bottom half of your body is like that of a snake's.", false);
-            MainScreen.text("\n\nWondering what happened to your sex, you pass your hand down the front of your body until you find a large, horizontal slit around your pelvic area, which contains all of your sexual organs.", false);
-            if (player.lowerBody.balls > 0 && player.lowerBody.ballSize > 10) MainScreen.text("  You're happy not to have to drag those testicles around with you anymore.", false);
+            MainScreen.text("  The process continues through theï¿½length of your " + LowerBodyDescriptor.describeLegs(player) + ", eventually reaching your " + LowerBodyDescriptor.describeFeet(player) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terribleï¿½experience. Once you feel you've recovered, you try to stand, but to your amazement youï¿½discover that you no longer have " + LowerBodyDescriptor.describeLegs(player) + ": the bottom half of your body is like that of a snake's.", false);
+            MainScreen.text("\n\nWondering what happened toï¿½your sex, you pass your hand down the front of your body until you find a large, horizontal slit around your pelvic area, which containsï¿½all of your sexual organs.", false);
+            if (player.lowerBody.balls > 0 && player.lowerBody.ballSize > 10) MainScreen.text("  You're happy not to have to drag those testicles aroundï¿½with you anymore.", false);
             MainScreen.text("  But then, scales start to form on the surface of your skin, slowly becoming visible, recoloring all of your body from the waist down in a snake-like pattern. The feeling is... not that bad actually, kind of like callous, except on your whole lower body. The transformation complete, you get up, standing on your newly formed snake tail. You can't help feeling proud of this majestic new body of yours.", false);
             player.lowerBody.type = LowerBodyType.NAGA;
             changes++;
@@ -115,7 +115,7 @@ export default class SnakeOil extends Consumable {
          MainScreen.text("\n\nAs the liquid takes effect, ", false);
          //(if multicock)
          if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("one of ", false);
-         MainScreen.text("your " + CockDescriptor.describeMultiCockShort(player) + " starts to throb painfully and swell to its full size.  With a horrifying ripping sensation, your cock splits down the middle, the pain causing you to black out momentarily.", false);
+         MainScreen.text("your " + CockDescriptor.describeMultiCockShort(player) + " starts to throb painfully and swell to its full size.ï¿½ With a horrifying ripping sensation, your cock splits down the middle, the pain causing you to black out momentarily.", false);
          MainScreen.text("When you awaken, you quickly look down to see that where ", false);
          //(if multicock)
          if(player.lowerBody.cockSpot.count() > 1) MainScreen.text("one of ", false);

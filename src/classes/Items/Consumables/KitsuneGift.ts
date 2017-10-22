@@ -1,9 +1,9 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import Utils from "../../Utilities/Utils";
-import MainScreen from "../../display/MainScreen";
-import InventoryDisplay from "../../display/InventoryDisplay";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import InventoryDisplay from '../../display/InventoryDisplay';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class KitsuneGift extends Consumable {
 
@@ -46,7 +46,7 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and to your delight, it is filled to the brim with shining gems!");
                 let gems: number = 2 + Utils.rand(20);
                 MainScreen.text("\n\n<b>You've received " + Utils.numToCardinalText(gems) + " shining gems from the kitsune's gift!  How generous!</b>");
-                player.stats.gems += gems;
+                player.inventory.gems += gems;
                 //add X gems to inventory
                 MainScreen.updateStats(player);
                 break;
@@ -97,7 +97,7 @@ export default class KitsuneGift extends Consumable {
 
                 MainScreen.text("\n\n<b>The kitsune's familiar has stolen your gems!</b>");
                 // Lose X gems as though losing in battle to a kitsune
-                player.stats.gems -= 2 + Utils.rand(15);
+                player.inventory.gems -= 2 + Utils.rand(15);
                 MainScreen.updateStats(player);
                 break;
 
@@ -115,8 +115,7 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and sitting in the center is an artfully crafted paper doll.  Before your eyes, the doll springs to life, dancing about fancifully.  Without warning, it tosses a handful of sweet-smelling pink dust into your face, then hops over the rim of the box and gallavants off into the woods.  Before you know what has happened, you feel yourself growing hot and flushed, unable to keep your hands away from your groin.");
                 MainScreen.text("\n\n<b>Oh no!  The kitsune's familiar has hit you with a powerful aphrodisiac!  You are debilitatingly aroused and can think of nothing other than masturbating.</b>");
                 //+100 LUST
-                player.stats.lustResisted = false;
-                player.stats.lust = 100;
+                player.stats.lustChange(100, false);
                 break;
 
             //[Wither]

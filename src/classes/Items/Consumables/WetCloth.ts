@@ -1,14 +1,14 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import StatusAffect from "../../Effects/StatusAffect";
-import Vagina, { VaginaWetness, VaginaLooseness } from "../../Body/Vagina";
-import { SkinType } from "../../Body/Creature";
-import { LowerBodyType } from "../../Body/LowerBody";
-import { WingType } from "../../Body/UpperBody";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { LowerBodyType } from '../../Body/LowerBody';
+import { WingType } from '../../Body/UpperBody';
+import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class WetCloth extends Consumable {
     public constructor() {

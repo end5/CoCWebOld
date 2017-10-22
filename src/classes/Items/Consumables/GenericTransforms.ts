@@ -1,13 +1,13 @@
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import { HornType } from "../../Body/Head";
-import { FaceType, TongueType } from "../../Body/Face";
-import { SkinType } from "../../Body/Creature";
-import { WingType } from "../../Body/UpperBody";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
+import { SkinType } from '../../Body/Creature';
+import { FaceType, TongueType } from '../../Body/Face';
+import { HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { WingType } from '../../Body/UpperBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class GenericTransforms {
     public static demonChanges(player: Player): void {

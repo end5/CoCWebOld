@@ -1,8 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
+import Consumable from './Consumable';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export enum HairDyeType {
     Auburn,

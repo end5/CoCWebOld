@@ -1,18 +1,18 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Vagina from "../../Body/Vagina";
-import Cock from "../../Body/Cock";
-import { FaceType, EyeType } from "../../Body/Face";
-import { TailType } from "../../Body/LowerBody";
-import { SkinType } from "../../Body/Creature";
-import { WingType } from "../../Body/UpperBody";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
+import Consumable from './Consumable';
+import Cock from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { TailType } from '../../Body/LowerBody';
+import { WingType } from '../../Body/UpperBody';
+import Vagina from '../../Body/Vagina';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class SharkTooth extends Consumable {
     private enhanced: boolean;

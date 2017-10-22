@@ -1,23 +1,24 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import RaceScore from "../../RaceScore";
-import BreastRow from "../../Body/BreastRow";
-import Cock from "../../Body/Cock";
-import Perk from "../../Effects/Perk";
-import StatusAffect from "../../Effects/StatusAffect";
-import { SkinType } from "../../Body/Creature";
-import { ArmType } from "../../Body/UpperBody";
-import { EarType } from "../../Body/Head";
-import { FaceType, EyeType } from "../../Body/Face";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType } from '../../Body/UpperBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export default class SweetGossamer extends Consumable {
     private sweet: boolean;
@@ -69,7 +70,7 @@ export default class SweetGossamer extends Consumable {
         }
         //(increase toughness to 60)
         if (changes < changeLimit && Utils.rand(3) == 0 && player.stats.tou < 60) {
-            MainScreen.text("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + player.skinFurScales() + " doesn't feel much different, the underlying flesh does seem tougher.", false);
+            MainScreen.text("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + SkinDescriptor.skinFurScales(player) + " doesn't feel much different, the underlying flesh does seem tougher.", false);
             player.stats.tou += 1;
             changes++;
         }
@@ -158,7 +159,7 @@ export default class SweetGossamer extends Consumable {
         }
         //(Fur/Scales fall out)
         if (player.skinType != SkinType.PLAIN && (player.upperBody.head.earType == EarType.HUMAN || player.upperBody.head.earType == EarType.ELFIN) && Utils.rand(4) == 0 && changes < changeLimit) {
-            MainScreen.text("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + player.skinFurScales() + " ", false);
+            MainScreen.text("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + SkinDescriptor.skinFurScales(player) + " ", false);
             if (player.skinType == SkinType.SCALES) MainScreen.text("are", false);
             else MainScreen.text("is", false);
             MainScreen.text(" falling to the ground, revealing flawless, almost pearly-white skin underneath.  <b>You now have pale white skin.</b>", false);
@@ -223,7 +224,7 @@ export default class SweetGossamer extends Consumable {
             MainScreen.text("\n\n", false);
             //(Bird pretext)
             if (player.upperBody.armType == ArmType.HARPY) MainScreen.text("The feathers covering your arms fall away, leaving them to return to a far more human appearance.  ", false);
-            MainScreen.text("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + player.skinFurScales() + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.", false);
+            MainScreen.text("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + SkinDescriptor.skinFurScales(player) + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.", false);
             player.upperBody.armType = ArmType.SPIDER;
             changes++;
         }
@@ -252,12 +253,12 @@ export default class SweetGossamer extends Consumable {
             //V1 - Egg Count
             //V2 - Fertilized Count
             player.perks.add(new Perk("SpiderOvipositor", 0, 0, 0, 0));
-            //Opens up drider ovipositor scenes from available mobs. The character begins producing unfertilized eggs in their arachnid abdomen. Egg buildup raises minimum lust and eventually lowers speed until the player has gotten rid of them.  This perk may only be used with the drider lower body, so your scenes should reflect that.
-            //Any PC can get an Ovipositor perk, but it will be much rarer for characters without vaginas.
+            //Opens up drider ovipositor scenes from available mobs. The player begins producing unfertilized eggs in their arachnid abdomen. Egg buildup raises minimum lust and eventually lowers speed until the player has gotten rid of them.  This perk may only be used with the drider lower body, so your scenes should reflect that.
+            //Any PC can get an Ovipositor perk, but it will be much rarer for players without vaginas.
             //Eggs are unfertilized by default, but can be fertilized:
-            //-female/herm characters can fertilize them by taking in semen; successfully passing a pregnancy check will convert one level ofunfertilized eggs to fertilized, even if the PC is already pregnant.
-            //-male/herm characters will have a sex dream if they reach stage three of unfertilized eggs; this will represent their bee/drider parts drawing their own semen from their body to fertilize the eggs, and is accompanied by a nocturnal emission.
-            //-unsexed characters cannot currently fertilize their eggs.
+            //-female/herm players can fertilize them by taking in semen; successfully passing a pregnancy check will convert one level ofunfertilized eggs to fertilized, even if the PC is already pregnant.
+            //-male/herm players will have a sex dream if they reach stage three of unfertilized eggs; this will represent their bee/drider parts drawing their own semen from their body to fertilize the eggs, and is accompanied by a nocturnal emission.
+            //-unsexed players cannot currently fertilize their eggs.
             //Even while unfertilized, eggs can be deposited inside NPCs - obviously, unfertilized eggs will never hatch and cannot lead to any egg-birth scenes that may be written later.
             changes++;
         }
@@ -273,7 +274,7 @@ export default class SweetGossamer extends Consumable {
             //(Pre-existing tails)
             if (player.lowerBody.tailType > TailType.NONE) MainScreen.text("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + ButtDescriptor.describeButt(player) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(player) + "!</b>\n\n", false);
             //(No tail)
-            else MainScreen.text("A burst of pain hits you just above your " + ButtDescriptor.describeButt(player) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + player.skinFurScales() + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(player) + "!</b>", false);
+            else MainScreen.text("A burst of pain hits you just above your " + ButtDescriptor.describeButt(player) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + SkinDescriptor.skinFurScales(player) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(player) + "!</b>", false);
             player.lowerBody.tailType = TailType.SPIDER_ABDOMEN;
             player.lowerBody.tailVenom = 5;
             player.lowerBody.tailRecharge = 5;
@@ -292,7 +293,7 @@ export default class SweetGossamer extends Consumable {
         }
         if (changes == 0) {
             MainScreen.text("\n\nThe sweet silk energizes you, leaving you feeling refreshed.", false);
-            player.stats.fatigueChange(-33);
+            player.stats.fatigue -= 33;
         }
     }
 }

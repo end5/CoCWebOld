@@ -1,17 +1,17 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import BreastRow from "../../Body/BreastRow";
-import Cock from "../../Body/Cock";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import StatusAffect from "../../Effects/StatusAffect";
-import Perk from "../../Effects/Perk";
-import { EyeType } from "../../Body/Face";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import { VaginaType } from "../../Body/Vagina";
-import { WingType } from "../../Body/UpperBody";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock from '../../Body/Cock';
+import { EyeType } from '../../Body/Face';
+import { WingType } from '../../Body/UpperBody';
+import { VaginaType } from '../../Body/Vagina';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class TrapOil extends Consumable {
     public constructor() {
@@ -63,14 +63,14 @@ export default class TrapOil extends Consumable {
             changes++;
         }
 
-        //Thigh Loss: (towards “girly”)
+        //Thigh Loss: (towards ï¿½girlyï¿½)
         if (player.lowerBody.hipRating >= 10 && Utils.rand(4) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYou touch your thighs speculatively.  It's not just your imagination; you've lost a bit of weight around your waist.");
             player.lowerBody.hipRating--;
             if (player.lowerBody.hipRating > 15) player.lowerBody.hipRating -= 2 + Utils.rand(3);
             changes++;
         }
-        //Thigh Gain: (towards “girly”)
+        //Thigh Gain: (towards ï¿½girlyï¿½)
         if (player.lowerBody.hipRating < 6 && Utils.rand(4) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYou touch your thighs speculatively.  You think you may have gained a little weight around your waist.");
             player.lowerBody.hipRating++;
@@ -144,7 +144,7 @@ export default class TrapOil extends Consumable {
             //Testicle Reduction final:
             if (player.lowerBody.ballSize < 1 && !player.statusAffects.has("Uniball")) {
                 MainScreen.text("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + CockDescriptor.describeMultiCockShort(player) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + Utils.numToCardinalText(player.lowerBody.balls) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
-                //[Note: Balls description should no longer say “swings heavily beneath”.  For simplicity's sake sex scenes should continue to assume two balls]
+                //[Note: Balls description should no longer say ï¿½swings heavily beneathï¿½.  For simplicity's sake sex scenes should continue to assume two balls]
                 player.lowerBody.ballSize = 1;
                 player.statusAffects.add(new StatusAffect("Uniball", 0, 0, 0, 0));
             }

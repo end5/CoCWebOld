@@ -1,6 +1,6 @@
-import Item from "./Item";
-import Player from "../Player";
-import MainScreen from "../display/MainScreen";
+import Item from './Item';
+import MainScreen from '../display/MainScreen';
+import Player from '../Player';
 
 export default class Material extends Item {
     private readonly _useText: string;

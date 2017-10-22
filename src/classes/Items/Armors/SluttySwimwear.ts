@@ -1,10 +1,10 @@
-import ArmorWithPerk from "./ArmorWithPerk"
-import Perk from "../../Effects/Perk";
-import Game from "../../Game/Game";
-import MainScreen from "../../display/MainScreen";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import Player from "../../Player";
+import ArmorWithPerk from './ArmorWithPerk';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Game from '../../Game/Game';
+import Player from '../../Player';
 
 export default class SluttySwimwear extends ArmorWithPerk {
     public constructor() {

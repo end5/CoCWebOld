@@ -1,24 +1,23 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Perk from "../../Effects/Perk";
-import RaceScore from "../../RaceScore";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import { PregnancyType } from "../../Body/Pregnancy";
-import Vagina from "../../Body/Vagina";
-import { SkinType } from "../../Body/Body";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import GenderDescriptor from "../../Descriptors/GenderDescriptor";
-import { EarType } from "../../Body/Head";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import { FaceType } from "../../Body/Face";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import PregnancyHandler from "../../Body/PregnancyInterface";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import Vagina from '../../Body/Vagina';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import GenderDescriptor from '../../Descriptors/GenderDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export default class NeonPinkEgg extends Consumable {
     private pregnantChange: boolean
@@ -37,19 +36,19 @@ export default class NeonPinkEgg extends Consumable {
         if (this.pregnantChange) changeLimit = 1;
         else MainScreen.text("", true);
         //If not pregnancy, mention eating it.
-        if (!this.pregnantChange) MainScreen.text("You eat the neon pink egg, and to your delight it tastes sweet, like candy.  In seconds you've gobbled down the entire thing, and you lick your fingers clean before you realize you ate the shell – and it still tasted like candy.", false);
+        if (!this.pregnantChange) MainScreen.text("You eat the neon pink egg, and to your delight it tastes sweet, like candy.  In seconds you've gobbled down the entire thing, and you lick your fingers clean before you realize you ate the shell ï¿½ and it still tasted like candy.", false);
         //If pregnancy, warning!
         if (this.pregnantChange) {
             MainScreen.text("\n<b>Your egg-stuffed ", false);
-            let hasEggFilledVagina: boolean = PregnancyHandler.hasVaginaWithPregType(player, PregnancyType.BUNNY);
+            let hasEggFilledVagina: boolean = player.pregnancy.isPregnantWith(PregnancyType.BUNNY);
             if (hasEggFilledVagina) {
                 MainScreen.text("womb ", false);
-                if (player.lowerBody.butt.pregType == PregnancyType.BUNNY)
+                if (player.pregnancy.isButtPregnantWith(PregnancyType.BUNNY))
                     MainScreen.text("and ", false);
             }
 
-            if (player.lowerBody.butt.pregType == PregnancyType.BUNNY) MainScreen.text("backdoor ", false);
-            if (player.lowerBody.butt.pregType == PregnancyType.BUNNY && hasEggFilledVagina) MainScreen.text("rumble", false);
+            if (player.pregnancy.isButtPregnantWith(PregnancyType.BUNNY)) MainScreen.text("backdoor ", false);
+            if (player.pregnancy.isButtPregnantWith(PregnancyType.BUNNY) && hasEggFilledVagina) MainScreen.text("rumble", false);
             else MainScreen.text("rumbles", false);
             MainScreen.text(" oddly, and you have a hunch that something's about to change</b>.", false);
         }
@@ -105,9 +104,9 @@ export default class NeonPinkEgg extends Consumable {
                 MainScreen.text("\n\nYou fan your neck and start to pant as your " + player.skinTone + " skin begins to flush red with heat", false);
                 if (player.skinType > SkinType.PLAIN) MainScreen.text(" through your " + player.skinDesc, false);
                 MainScreen.text(".  ", false);
-                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard – so very hard.", false);
+                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard ï¿½ so very hard.", false);
                 else if (player.gender == 0) MainScreen.text("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.", false);
-                else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard – so very hard.", false);
+                else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard ï¿½ so very hard.", false);
                 else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
             }
             //MEGALIBIDO
@@ -224,7 +223,7 @@ export default class NeonPinkEgg extends Consumable {
             //Balls
             if (player.lowerBody.balls > 0) {
                 //(Small cum quantity) < 50
-                if (player.cumQ() < 50) MainScreen.text("\n\nA twinge of discomfort runs through your " + BallsDescriptor.describeBalls(true, true, player) + ", but quickly vanishes.  You heft your orbs but they haven't changed in size – they just feel a little bit denser.", false);
+                if (player.cumQ() < 50) MainScreen.text("\n\nA twinge of discomfort runs through your " + BallsDescriptor.describeBalls(true, true, player) + ", but quickly vanishes.  You heft your orbs but they haven't changed in size ï¿½ they just feel a little bit denser.", false);
                 //(medium cum quantity) < 250
                 else if (player.cumQ() < 250) {
                     MainScreen.text("\n\nA ripple of discomfort runs through your " + BallsDescriptor.describeBalls(true, true, player) + ", but it fades into a pleasant tingling.  You reach down to heft the orbs experimentally but they don't seem any larger.", false);
@@ -247,7 +246,7 @@ export default class NeonPinkEgg extends Consumable {
                 else {
                     MainScreen.text("\n\nA body-wrenching contraction thrums through your " + BallsDescriptor.describeBalls(true, true, player) + ", bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  ", false);
                     if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(player) + ", running down your " + LowerBodyDescriptor.describeLeg(player) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(player, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.", false);
-                    else MainScreen.text("You pant and groan but the pleasure just turns to pain.  You're so backed up – if only you had some way to vent all your seed!", false);
+                    else MainScreen.text("You pant and groan but the pleasure just turns to pain.  You're so backed up ï¿½ if only you had some way to vent all your seed!", false);
                 }
             }
             //NO BALLZ (guaranteed cock tho)
@@ -283,7 +282,7 @@ export default class NeonPinkEgg extends Consumable {
             MainScreen.text("\n\n", false);
             changes++;
             //Human(ish) face
-            if (player.upperBody.head.face.faceType == FaceType.HUMAN || player.upperBody.head.face.faceType == FaceType.SHARK_TEETH) MainScreen.text("You catch your nose twitching on its own at the bottom of your vision, but as soon as you focus on it, it stops.  A moment later, some of your teeth tingle and brush past your lips, exposing a white pair of buckteeth!  <b>Your face has taken on some rabbit-like characteristics!</b>", false);
+            if (player.upperBody.head.face.faceType == FaceType.HUMAN || player.upperBody.head.face.faceType == FaceType.SHARK_TEETH) MainScreen.text("You catch your nose twitching on its own at the bottom of your vision, but as soon as you focus on it, it stops.  A moment later, some of your teeth tingle and brush past your lips, exposing a white pair of buckteeth!  <b>Your face has taken on some rabbit-like playeristics!</b>", false);
             //Crazy furry TF shit
             else MainScreen.text("You grunt as your " + HeadDescriptor.describeFace(player) + " twists and reforms.  Even your teeth ache as their positions are rearranged to match some new, undetermined order.  When the process finishes, <b>you're left with a perfectly human looking face, save for your constantly twitching nose and prominent buck-teeth.</b>", false);
             player.upperBody.head.face.faceType = FaceType.BUNNY;
@@ -348,9 +347,9 @@ export default class NeonPinkEgg extends Consumable {
                 MainScreen.text("\n\nYou fan your neck and start to pant as your " + player.skinTone + " skin begins to flush red with heat", false);
                 if (player.skinType > SkinType.PLAIN) MainScreen.text(" through your " + player.skinDesc, false);
                 MainScreen.text(".  ", false);
-                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard – so very hard.", false);
+                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard ï¿½ so very hard.", false);
                 else if (player.gender == 0) MainScreen.text("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.", false);
-                else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard – so very hard.", false);
+                else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard ï¿½ so very hard.", false);
                 else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
             }
             //MEGALIBIDO

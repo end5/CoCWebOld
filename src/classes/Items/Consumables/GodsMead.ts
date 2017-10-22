@@ -1,8 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class GodsMead extends Consumable {
     public constructor() {
@@ -19,7 +19,7 @@ export default class GodsMead extends Consumable {
         player.stats.cor -= 1;
         //Health/HP(Large increase; always occurs):
         MainScreen.text("\n\nYou feel suddenly invigorated by the potent beverage, like you could take on a whole horde of barbarians or giants and come out victorious!");
-        player.stats.HPChange(Math.round(player.maxHP() * .33));
+        player.stats.HP += Math.round(player.stats.maxHP() * .33);
         if (Utils.rand(3) == 0) {
             MainScreen.text("\n\nThe alcohol fills your limbs with vigor, making you feel like you could take on the world with just your fists!");
             if (Game.silly()) MainScreen.text("  Maybe you should run around shirtless, drink, and fight!  Saxton Hale would be proud.");

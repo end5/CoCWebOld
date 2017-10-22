@@ -1,7 +1,7 @@
-import Weapon from "./Weapon";
-import Game from "../../Game/Game";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
+import Weapon from './Weapon';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
 
 export default class BeautifulSword extends Weapon {
     public constructor() {

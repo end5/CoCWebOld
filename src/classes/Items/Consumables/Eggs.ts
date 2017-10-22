@@ -1,19 +1,19 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import { SkinType } from "../../Body/Body";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import Flags, { FlagEnum } from "../../Game/Flags";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export enum EggType {
     Black,
@@ -221,7 +221,7 @@ export default class Eggs extends Consumable {
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
 
-                    CockChangeDescriptor.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
+                    CreatureChange.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
 
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -245,7 +245,7 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing... ", false);
                     cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1);
                     cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 2);
-                    CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
+                    CreatureChange.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
@@ -313,7 +313,7 @@ export default class Eggs extends Consumable {
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
 
-                    CockChangeDescriptor.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
+                    CreatureChange.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
@@ -336,7 +336,7 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing...", false);
                     cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1.5);
                     cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 5);
-                    CockChangeDescriptor.lengthChange(player, cockAmountLengthened, 1);
+                    CreatureChange.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);

@@ -1,7 +1,7 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Perk from "../../Effects/Perk";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
 
 export default class PurePearl extends Consumable {
     public constructor() {

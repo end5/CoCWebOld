@@ -1,20 +1,20 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import Utils from "../../Utilities/Utils";
-import { SkinType } from "../../Body/Body";
-import { AntennaeType, HornType } from "../../Body/Head";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import Perk from "../../Effects/Perk";
-import { WingType } from "../../Body/UpperBody";
-import Cock, { CockType } from "../../Body/Cock";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import PlayerDescriptor from "../../Descriptors/PlayerDescriptor";
-import { PregnancyType } from "../../Body/Pregnancy";
+import Consumable from './Consumable';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { AntennaeType, HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import { WingType } from '../../Body/UpperBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import PlayerDescriptor from '../../Descriptors/PlayerDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class BeeHoney extends Consumable {
     private static PURE_HONEY_VALUE: number = 40;
@@ -49,14 +49,7 @@ export default class BeeHoney extends Consumable {
     }
 
     private isPregnantWithFaerie(player: Player): boolean {
-        for (let index: number = 0; index < player.lowerBody.vaginaSpot.count(); index++) {
-            let vagina = player.lowerBody.vaginaSpot.get(index);
-            if (vagina.isPregnant && vagina.pregType == PregnancyType.FAERIE)
-                return true;
-        }
-        if (player.lowerBody.butt.isPregnant && player.lowerBody.butt.pregType == PregnancyType.FAERIE)
-            return true;
-        return false;
+        return player.pregnancy.isPregnantWith(PregnancyType.FAERIE) || player.pregnancy.isButtPregnantWith(PregnancyType.FAERIE);
     }
 
     public use(player: Player): boolean {
@@ -311,7 +304,7 @@ export default class BeeHoney extends Consumable {
             }
             else {
                 MainScreen.text("\n\nYou find your mind is drifting to the thought of using your member to fertilize hundreds and hundreds of eggs every day.  You shake your head, the bizarre fantasy catching you completely off guard.");
-                player.stats.setCor(0);
+                player.stats.forceCor(0);
                 player.stats.lib += 5;
             }
             if (player.femininity >= 60 || player.femininity <= 40) {

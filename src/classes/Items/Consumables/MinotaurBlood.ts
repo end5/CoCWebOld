@@ -1,28 +1,27 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Cock, { CockType } from "../../Body/Cock";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import StatusAffect from "../../Effects/StatusAffect";
-import { EarType, HornType } from "../../Body/Head";
-import { FaceType } from "../../Body/Face";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import Vagina, { VaginaLooseness } from "../../Body/Vagina";
-import { SkinType } from "../../Body/Body";
-import { ArmType } from "../../Body/UpperBody";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import Chest from "../../Body/Chest";
-import VaginaSpot from "../../Body/VaginaSpot";
-import CockSpot from "../../Body/CockSpot";
+import Consumable from './Consumable';
+import Chest from '../../Body/Chest';
+import Cock, { CockType } from '../../Body/Cock';
+import CockSpot from '../../Body/CockSpot';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType, HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType } from '../../Body/UpperBody';
+import Vagina, { VaginaLooseness } from '../../Body/Vagina';
+import VaginaSpot from '../../Body/VaginaSpot';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class MinotaurBlood extends Consumable {
     public constructor() {
@@ -49,14 +48,14 @@ export default class MinotaurBlood extends Consumable {
         //STATS
         //Strength h
         if (Utils.rand(3) == 0 && changes < changeLimit) {
-            //weaker characters gain more
+            //weaker players gain more
             if (player.stats.str <= 50) {
                 MainScreen.text("\n\nPainful aches ripple through your body, flooding you with pain as your muscles flex and bulge, growing much stronger and more well-defined.", false);
                 //very weak players gain more
                 if (player.stats.str <= 20) player.stats.str += 3;
                 else player.stats.str += 2;
             }
-            //stronger characters gain less
+            //stronger players gain less
             else {
                 //small growth if over 75
                 if (player.stats.str >= 75) player.stats.str += .5;
@@ -73,14 +72,14 @@ export default class MinotaurBlood extends Consumable {
         }
         //Toughness (chance of - sensitivity)
         if (Utils.rand(3) == 0 && changes < changeLimit) {
-            //weaker characters gain more
+            //weaker players gain more
             if (player.stats.tou <= 50) {
                 MainScreen.text("\n\nYour hide... skin... whatever... you can feel it getting tougher as it thickens perceptibly.", false);
                 //very weak players gain more
                 if (player.stats.tou <= 20) player.stats.tou += 3;
                 else player.stats.tou += 2;
             }
-            //stronger characters gain less
+            //stronger players gain less
             else {
                 //small growth if over 75
                 if (player.stats.tou >= 75) player.stats.tou += .5;
@@ -303,7 +302,7 @@ export default class MinotaurBlood extends Consumable {
 
         //Males go into rut
         if (Utils.rand(4) == 0) {
-            BodyChangeDisplay.goIntoRut(player);
+            CreatureChange.goIntoRut(player);
         }
 
         //Anti-masturbation status
@@ -440,7 +439,7 @@ export default class MinotaurBlood extends Consumable {
                 MainScreen.text("Your balls feel as if they've grown heavier with the weight of more sperm.\n", false);
                 player.hoursSinceCum += 200;
             }
-            StatChangeDisplay.HPChange(player, 50);
+            CreatureChange.HPChange(player, 50);
             player.stats.lust += 50;
         }
 

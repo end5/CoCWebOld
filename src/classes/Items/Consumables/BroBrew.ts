@@ -1,15 +1,15 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Cock from "../../Body/Cock";
-import Perk from "../../Effects/Perk";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
+import Consumable from './Consumable';
+import Cock from '../../Body/Cock';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class BroBrew extends Consumable {
     public constructor() {
@@ -34,7 +34,7 @@ export default class BroBrew extends Consumable {
 
             //female
             if (!player.lowerBody.cockSpot.hasCock()) {
-                MainScreen.text("The beverage isn't done yet, however, and it makes it perfectly clear with a building pleasure in your groin.  You can only cry in ecstasy and loosen the bottoms of your " + player.inventory.armor.displayName + " just in time for a little penis to spring forth.  You watch, enthralled, as blood quickly stiffens the shaft to its full length – then keeps on going!  Before long, you have a quivering 10-inch maleness, just ready to stuff into a welcoming box.", false);
+                MainScreen.text("The beverage isn't done yet, however, and it makes it perfectly clear with a building pleasure in your groin.  You can only cry in ecstasy and loosen the bottoms of your " + player.inventory.armor.displayName + " just in time for a little penis to spring forth.  You watch, enthralled, as blood quickly stiffens the shaft to its full length ï¿½ then keeps on going!  Before long, you have a quivering 10-inch maleness, just ready to stuff into a welcoming box.", false);
                 cock = new Cock();
                 cock.cockLength = 10;
                 cock.cockThickness = 2;
@@ -77,8 +77,8 @@ export default class BroBrew extends Consumable {
         //HP restore for bros!
         if (player.perks.has("BroBody") || player.perks.has("FutaForm")) {
             MainScreen.text("You crack open the can and guzzle it in a hurry.  Goddamn, this shit is the best.  As you crush the can against your forehead, you wonder if you can find a six-pack of it somewhere?\n\n", false);
-            player.stats.fatigueChange(-33);
-            StatChangeDisplay.HPChange(player, 100);
+            player.stats.fatigue -= 33;
+            CreatureChange.HPChange(player, 100);
             return;
         }
         MainScreen.text("Well, maybe this will give you the musculature that you need to accomplish your goals.  You pull on the tab at the top and hear the distinctive snap-hiss of venting, carbonating pressure.  A smoky haze wafts from the opened container, smelling of hops and alcohol.  You lift it to your lips, the cold, metallic taste of the can coming to your tongue before the first amber drops of beer roll into your waiting mouth.  It tingles, but it's very, very good.  You feel compelled to finish it as rapidly as possible, and you begin to chug it.  You finish the entire container in seconds.\n\n", false);

@@ -1,26 +1,25 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import { ArmType } from "../../Body/UpperBody";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import Cock, { CockType } from "../../Body/Cock";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import { EarType } from "../../Body/Head";
-import { SkinType, Gender } from "../../Body/Body";
-import { FaceType, EyeType } from "../../Body/Face";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import { VaginaLooseness, VaginaWetness } from "../../Body/Vagina";
-import StatusAffect from "../../Effects/StatusAffect";
-import Game from "../../Game/Game";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import Cock, { CockType } from '../../Body/Cock';
+import { Gender, SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType } from '../../Body/UpperBody';
+import { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class Equinum extends Consumable {
     public constructor() {
@@ -364,7 +363,7 @@ export default class Equinum extends Consumable {
                 }
             }
             if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(2) == 0 && changes < changeLimit) {
-                if (BodyChangeDisplay.goIntoHeat(player)) {
+                if (CreatureChange.goIntoHeat(player)) {
                     changes++;
                 }
             }
@@ -446,7 +445,7 @@ export default class Equinum extends Consumable {
         //HorseFace - Req's Fur && Ears
         if (player.upperBody.head.face.faceType != FaceType.HORSE && player.skinType == SkinType.FUR && changes < changeLimit &&
             Utils.rand(5) == 0 && player.upperBody.head.earType == EarType.HORSE) {
-            if (player.upperBody.head.face.faceType == FaceType.DOG) MainScreen.text("\n\nMind-numbing pain shatters through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your dog-like characteristics with those of a horse.  <b>You now have a horse's face.</b>", false);
+            if (player.upperBody.head.face.faceType == FaceType.DOG) MainScreen.text("\n\nMind-numbing pain shatters through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your dog-like playeristics with those of a horse.  <b>You now have a horse's face.</b>", false);
             else MainScreen.text("\n\nMind-numbing pain shatters through you as you feel your facial bones breaking and shifting.  You clutch at yourself in agony as you feel your skin crawl and elongate under your fingers.  Eventually the pain subsides, leaving you with a face that seamlessly blends human and equine features.  <b>You have a very equine-looking face.</b>", false);
             changes++;
             player.upperBody.head.face.faceType = FaceType.HORSE;
@@ -483,14 +482,14 @@ export default class Equinum extends Consumable {
             }
             //if other animal tail
             if (player.lowerBody.tailType > TailType.HORSE && player.lowerBody.tailType <= TailType.COW) {
-                MainScreen.text("\n\nPain lances up your " + ButtDescriptor.describeButthole(player.lowerBody.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.", false);
+                MainScreen.text("\n\nPain lances up your " + ButtDescriptor.describeButthole(player) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.", false);
             }
             //if bee/spider-butt.
             if ((player.lowerBody.tailType > TailType.COW && player.lowerBody.tailType < TailType.SHARK)) {
                 MainScreen.text("\n\nYour insect-like abdomen bunches up as it begins shrinking, exoskeleton flaking off like a snake sheds its skin.  It bunches up until it is as small as a tennis ball, then explodes outwards, growing into an animalistic tail shape.  Moments later, it explodes into filaments of pain, dividing into hundreds of stUtils.Utils.rands and turning into a shiny horsetail.", false);
             }
             if (player.lowerBody.tailType >= TailType.SHARK) {
-                MainScreen.text("\n\nPain lances up your " + ButtDescriptor.describeButthole(player.lowerBody.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.", false);
+                MainScreen.text("\n\nPain lances up your " + ButtDescriptor.describeButthole(player) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.", false);
             }
             MainScreen.text("  <b>You now have a horse-tail.</b>", false);
             player.lowerBody.tailType = TailType.HORSE;
@@ -507,7 +506,7 @@ export default class Equinum extends Consumable {
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            StatChangeDisplay.HPChange(player, 20);
+            CreatureChange.HPChange(player, 20);
             player.stats.lust += 3;
         }
 

@@ -1,7 +1,7 @@
-import Armor from "./Armor";
-import MainScreen from "../../display/MainScreen";
-import Player from "../../Player";
-import Game from "../../Game/Game";
+import Armor from './Armor';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
 
 export default class LeatherArmorSegments extends Armor {
     public constructor() {

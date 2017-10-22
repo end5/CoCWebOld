@@ -1,5 +1,5 @@
-import ItemDesc from "./ItemDesc";
-import Player from "../Player";
+import ItemDesc from './ItemDesc';
+import Player from '../Player';
 
 export default abstract class Item extends ItemDesc {
     public static readonly DefaultValue: number = 6;

@@ -1,20 +1,20 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Game from "../../Game/Game";
-import { ArmType } from "../../Body/UpperBody";
-import { EyeType, FaceType } from "../../Body/Face";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import { CockType } from "../../Body/Cock";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import { SkinType } from "../../Body/Body";
-import { EarType } from "../../Body/Head";
-import RaceScore from "../../RaceScore";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import Perk from "../../Effects/Perk";
+import Consumable from './Consumable';
+import { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType } from '../../Body/UpperBody';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
     /*
      General Effects:
@@ -258,7 +258,7 @@ export default class KangaFruit extends Consumable {
         }
         if (changes == 0) {
             MainScreen.text("\n\nIt did not seem to have any effects, but you do feel better rested.", false);
-            player.stats.fatigueChange(-40);
+            player.stats.fatigue -= 40;
         }
     }
 }

@@ -1,22 +1,22 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import Cock, { CockType } from "../../Body/Cock";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import { SkinType } from "../../Body/Creature";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import RaceScore from "../../RaceScore";
-import Perk from "../../Effects/Perk";
-import { HornType, EarType } from "../../Body/Head";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import { EyeType, FaceType } from "../../Body/Face";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
+import Consumable from './Consumable';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType, HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export default class Reptilum extends Consumable {
     public constructor() {
@@ -403,7 +403,7 @@ export default class Reptilum extends Consumable {
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            StatChangeDisplay.HPChange(player, 50);
+            CreatureChange.HPChange(player, 50);
             player.stats.lust += 3;
         }
     }

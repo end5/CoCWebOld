@@ -1,6 +1,6 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
 
 export default class DeBimbo extends Consumable {
     public constructor() {

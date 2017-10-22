@@ -1,10 +1,11 @@
-import Consumable from "./Consumable";
-import Utils from "../../Utilities/Utils";
-import MainScreen from "../../display/MainScreen";
-import Player from "../../Player";
-import StatusAffect from "../../Effects/StatusAffect";
-import { PregnancyType, IncubationTime } from "../../Body/Pregnancy";
-import Vagina from "../../Body/Vagina";
+import Consumable from './Consumable';
+import OvielixirEggsPreg from '../../Body/Pregnancy/PlayerPregnancyEvents/OvielixirEggsPreg';
+import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import Vagina from '../../Body/Vagina';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class OvipositionElixir extends Consumable {
 
@@ -34,17 +35,17 @@ export default class OvipositionElixir extends Consumable {
     public use(player: Player) {
         player.slimeFeed();
         MainScreen.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
-        if (PregnancyHandler.hasVaginaWithPregType(player, PregnancyType.GOO_STUFFED)) {
+        if (player.pregnancy.isPregnantWith(PregnancyType.GOO_STUFFED)) {
             MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
-        if (PregnancyHandler.hasVaginaWithPregType(player, PregnancyType.WORM_STUFFED)) {
+        if (player.pregnancy.isPregnantWith(PregnancyType.WORM_STUFFED)) {
             MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
-        if (!PregnancyHandler.isPregnant(player)) { //If the player is not pregnant, get preggers with eggs!
+        if (!player.pregnancy.isPregnant()) { //If the player is not pregnant, get preggers with eggs!
             MainScreen.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
-            player.pregnancy.knockUp(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS, 1, 1);
+            player.pregnancy.knockUp(player.pregnancy.getNotPregVagina[0], new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS, new OvielixirEggsPreg()), 1, 1);
             player.statusAffects.add(new StatusAffect("Eggs", Utils.rand(6), 0, Utils.rand(3) + 5, 0));
             return;
         }
@@ -71,13 +72,13 @@ export default class OvipositionElixir extends Consumable {
         // If no changes, speed up all pregnancies.
         if (!changeOccurred && player.pregnancy.isPregnant()) {
             MainScreen.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
-            for (let index: number = 0; index < player.lowerBody.vaginaSpot.count(); index++) {
-                let vagina: Vagina = player.lowerBody.vaginaSpot.get(index);
-                if (vagina.incubation > 20 && vagina.pregType != PregnancyType.BUNNY) {
-                    let newIncubation: number = vagina.incubation - Math.floor(vagina.incubation * 0.3 + 10);
+            for (let index: number = 0; index < player.pregnancy.count(); index++) {
+                let pregnancy: Pregnancy = player.pregnancy.vaginaPregnancy(index);
+                if (pregnancy.incubation > 20 && pregnancy.type != PregnancyType.BUNNY) {
+                    let newIncubation: number = pregnancy.incubation - Math.floor(pregnancy.incubation * 0.3 + 10);
                     if (newIncubation < 2) newIncubation = 2;
-                    player.pregnancy.knockUpForce(vagina, vagina.pregType, newIncubation);
-                    console.trace("Pregger Count New total:" + vagina.incubation);
+                    pregnancy.incubation = newIncubation;
+                    console.trace("Pregger Count New total:" + pregnancy.incubation);
                 }
             }
         }

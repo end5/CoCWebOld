@@ -1,5 +1,5 @@
-import Weapon from "./Weapon";
-import Player from "../../Player";
+import Weapon from './Weapon';
+import Player from '../../Player';
 
 export default class Fists extends Weapon {
     public constructor() {

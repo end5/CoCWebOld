@@ -1,11 +1,10 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import { SkinType } from "../../Body/Body";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class ImpFood extends Consumable {
     public constructor() {
@@ -19,10 +18,10 @@ export default class ImpFood extends Consumable {
             if (player.lowerBody.cockSpot.get(0).cockLength < 12) {
                 let growthAmount = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(2) + 2);
                 MainScreen.text("\n\n", false);
-                CockChangeDescriptor.lengthChange(player, growthAmount, 1);
+                CreatureChange.lengthChange(player, growthAmount, 1);
             }
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            StatChangeDisplay.HPChange(player, 30 + player.stats.tou / 3);
+            CreatureChange.HPChange(player, 30 + player.stats.tou / 3);
             player.stats.lust += 3;
             player.stats.cor += 1;
             //Shrinkage!
@@ -42,7 +41,7 @@ export default class ImpFood extends Consumable {
         }
         else {
             MainScreen.text("The food tastes... corrupt, for lack of a better word.\n", false);
-            StatChangeDisplay.HPChange(player, 20 + player.stats.tou / 3);
+            CreatureChange.HPChange(player, 20 + player.stats.tou / 3);
             player.stats.lust += 3;
             player.stats.cor += 1;
         }

@@ -1,21 +1,21 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Cock, { CockType } from "../../Body/Cock";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import { HornType } from "../../Body/Head";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import { FaceType, TongueType } from "../../Body/Face";
-import { SkinType } from "../../Body/Creature";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import { WingType } from "../../Body/UpperBody";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import GenericTransforms from "./GenericTransforms";
+import Consumable from './Consumable';
+import GenericTransforms from './GenericTransforms';
+import Cock, { CockType } from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { FaceType, TongueType } from '../../Body/Face';
+import { HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { WingType } from '../../Body/UpperBody';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
@@ -161,7 +161,7 @@ export default class IncubusDraft extends Consumable {
                 if (cockThickness < .1)
                     selectedCock.cockThickness += .05;
             }
-            CockChangeDescriptor.lengthChange(player, cockGrowth, cockCount);
+            CreatureChange.lengthChange(player, cockGrowth, cockCount);
 
             //Display the degree of thickness change.
             if (cockThickness >= 1) {
@@ -186,7 +186,7 @@ export default class IncubusDraft extends Consumable {
             selectedCock = player.lowerBody.cockSpot.get(0);
             cockThickness = CockModifiers.thickenCock(selectedCock, 1);
             cockGrowth = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 2);
-            CockChangeDescriptor.lengthChange(player, cockGrowth, cockCount);
+            CreatureChange.lengthChange(player, cockGrowth, cockCount);
             //Display the degree of thickness change.
             if (cockThickness >= 1) {
                 if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);

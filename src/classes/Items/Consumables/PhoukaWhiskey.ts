@@ -1,10 +1,10 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import StatusAffect from "../../Effects/StatusAffect";
-import MainScreen from "../../display/MainScreen";
-import { PregnancyType } from "../../Body/Pregnancy";
+import Consumable from './Consumable';
+import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class PhoukaWhiskey extends Consumable {
 

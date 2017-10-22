@@ -1,9 +1,9 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
+import Consumable from './Consumable';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class SuccubisDelight extends Consumable {
     public readonly tainted: boolean;

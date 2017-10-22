@@ -1,15 +1,15 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen, { ClickFunction } from "../../display/MainScreen";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import Utils from "../../Utilities/Utils";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import PlayerInventoryMenu from "../../display/PlayerInventoryMenu";
-import InventoryDisplay from "../../display/InventoryDisplay";
+import Consumable from './Consumable';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import InventoryDisplay from '../../display/InventoryDisplay';
+import MainScreen, { ClickFunction } from '../../display/MainScreen';
+import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class GroPlus extends Consumable {
     public constructor() {

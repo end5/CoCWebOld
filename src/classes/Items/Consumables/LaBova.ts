@@ -1,24 +1,24 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import CockModifiers from "../../Modifiers/CockModifiers";
-import CockChangeDescriptor from "../../Descriptors/ChangeDescriptor/CockChangeDescriptor";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import BallsDescriptor from "../../Descriptors/BallsDescriptor";
-import Vagina, { VaginaLooseness, VaginaWetness } from "../../Body/Vagina";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import BreastModifier from "../../Modifiers/BreastModifiers";
-import StatusAffect from "../../Effects/StatusAffect";
-import Perk from "../../Effects/Perk";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import ButtDescriptor from "../../Descriptors/ButtDescriptor";
-import { EarType, HornType } from "../../Body/Head";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import { FaceType } from "../../Body/Face";
-import { SkinType } from "../../Body/Body";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { FaceType } from '../../Body/Face';
+import { EarType, HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import BallsDescriptor from '../../Descriptors/BallsDescriptor';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import StatusAffect from '../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import CockModifiers from '../../Modifiers/CockModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class LaBova extends Consumable {
     /*Purified LaBova:
@@ -121,7 +121,7 @@ export default class LaBova extends Consumable {
                 cockGrowth -= .5;
             }
             cockGrowth += CockModifiers.growCock(player, biggestCock, (Utils.rand(3) + 1) * -1);
-            CockChangeDescriptor.lengthChange(player, cockGrowth, 1);
+            CreatureChange.lengthChange(player, cockGrowth, 1);
             if (biggestCock.cockLength < 2) {
                 MainScreen.text("  ", false);
                 if (player.lowerBody.cockSpot.count() == 1 && !player.lowerBody.vaginaSpot.hasVagina()) {
@@ -233,7 +233,7 @@ export default class LaBova extends Consumable {
             else if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier > 1) {
                 if (Utils.rand(2) == 0) MainScreen.text("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " start leaking milk from a massive jump in production.", false);
                 else MainScreen.text("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " and they feel MUCH fuller and riper.  You know that you've started producing much more milk.", false);
-                player.boostLactation(2.5);
+                BreastModifier.boostLactation(player, 2.5);
                 if ((player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1.5 && this.tainted) || (!this.tainted && player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1)) {
                     MainScreen.text("  Your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.", false);
                     player.upperBody.chest.BreastRatingLargest[0].nippleLength += .25;
@@ -247,7 +247,7 @@ export default class LaBova extends Consumable {
             if (this.tainted && player.upperBody.chest.get(0).lactationMultiplier > 1 && player.upperBody.chest.get(0).lactationMultiplier < 5 && changes < changeLimit && (Utils.rand(3) == 0 || this.enhanced)) {
                 if (Utils.rand(2) == 0) MainScreen.text("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " start producing more milk.", false);
                 else MainScreen.text("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.", false);
-                player.boostLactation(0.75);
+                BreastModifier.boostLactation(player, 0.75);
                 if ((player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1.5 && this.tainted) || (!this.tainted && player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1)) {
                     MainScreen.text("  Your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.", false);
                     player.upperBody.chest.BreastRatingLargest[0].nippleLength += .25;
@@ -259,7 +259,7 @@ export default class LaBova extends Consumable {
                 if (player.upperBody.chest.get(0).lactationMultiplier > 1 && player.upperBody.chest.get(0).lactationMultiplier < 3.2 && changes < changeLimit && Utils.rand(3) == 0) {
                     if (Utils.rand(2) == 0) MainScreen.text("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " start producing more milk.", false);
                     else MainScreen.text("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.", false);
-                    player.boostLactation(0.75);
+                    BreastModifier.boostLactation(player, 0.75);
                     if ((player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1.5 && this.tainted) || (!this.tainted && player.upperBody.chest.BreastRatingLargest[0].nippleLength < 1)) {
                         MainScreen.text("  Your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.", false);
                         player.upperBody.chest.BreastRatingLargest[0].nippleLength += .25;
@@ -272,7 +272,7 @@ export default class LaBova extends Consumable {
                     else MainScreen.text("\n\nThe insides of your breasts suddenly feel bloated.  There is a spray of milk from them, and they settle closer to a more natural level of lactation.", false);
                     changes++;
                     player.stats.sens += .5;
-                    player.boostLactation(-1);
+                    BreastModifier.boostLactation(player, -1);
                 }
             }
         }

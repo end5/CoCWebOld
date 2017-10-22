@@ -1,16 +1,16 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import RaceScore from "../../RaceScore";
-import { ArmType, WingType } from "../../Body/UpperBody";
-import { EyeType, FaceType, TongueType } from "../../Body/Face";
-import { AntennaeType, HornType, EarType } from "../../Body/Head";
-import { LowerBodyType, TailType } from "../../Body/LowerBody";
-import { SkinType } from "../../Body/Body";
-import Cock from "../../Body/Cock";
-import Vagina from "../../Body/Vagina";
-import BreastRow from "../../Body/BreastRow";
+import Consumable from './Consumable';
+import BreastRow from '../../Body/BreastRow';
+import Cock from '../../Body/Cock';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType, TongueType } from '../../Body/Face';
+import { AntennaeType, EarType, HornType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import { ArmType, WingType } from '../../Body/UpperBody';
+import Vagina from '../../Body/Vagina';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export default class Hummus extends Consumable {
     public constructor() {

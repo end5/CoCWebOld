@@ -1,11 +1,11 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import Game from "../../Game/Game";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class LustDraft extends Consumable {
     private enhanced: boolean;
@@ -23,15 +23,14 @@ export default class LustDraft extends Consumable {
         if (this.enhanced) MainScreen.text("red", false);
         else MainScreen.text("pink", false);
         MainScreen.text(" potion, and its unnatural warmth immediately flows to your groin.", false);
-        player.stats.lustResisted = false;
-        player.stats.lust += 30 + Utils.rand(player.stats.lib / 10);
+        player.stats.lustChange(30 + Utils.rand(player.stats.lib / 10), false);
 
         //Heat/Rut for those that can have them if "fuck draft"
         if (this.enhanced) {
             //Try to go into intense heat.
-            BodyChangeDisplay.goIntoHeat(player, 2);
+            CreatureChange.goIntoHeat(player, 2);
             //Males go into rut
-            BodyChangeDisplay.goIntoRut(player);
+            CreatureChange.goIntoRut(player);
         }
         //ORGAZMO
         if (player.stats.lust >= 100 && !Game.inCombat) {

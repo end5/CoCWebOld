@@ -1,6 +1,6 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import Game from '../../Game/Game';
+import Player from '../../Player';
 
 export default class BlackCatBeer extends Consumable {
     public constructor() {

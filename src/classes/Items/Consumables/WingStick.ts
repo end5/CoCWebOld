@@ -1,8 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Game from "../../Game/Game";
-import Utils from "../../Utilities/Utils";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class WingStick extends Consumable {
 		
@@ -18,16 +18,16 @@ export default class WingStick extends Consumable {
 		
 	public use(player: Player) {
 		MainScreen.clearText();
-		MainScreen.text("You toss a wingstick at your foe!  It flies straight and true, almost as if it has a mind of its own as it arcs towards " + Game.monster.a + Game.monster.short + "!\n");
+		MainScreen.text("You toss a wingstick at your foe!  It flies straight and true, almost as if it has a mind of its own as it arcs towards " + Game.monster.desc.a+ Game.monster.desc.short + "!\n");
 		if (Game.monster.stats.spe - 80 > Utils.rand(100) + 1) { //1% dodge for each point of speed over 80
-			MainScreen.text("Somehow " + Game.monster.a + Game.monster.short + "'");
-			if (!Game.monster.plural) MainScreen.text("s");
-			MainScreen.text(" incredible speed allows " + Game.monster.pronoun2 + " to avoid the spinning blades!  The deadly device shatters when it impacts something in the distance.");
+			MainScreen.text("Somehow " + Game.monster.desc.a+ Game.monster.desc.short + "'");
+			if (!Game.monster.desc.plural) MainScreen.text("s");
+			MainScreen.text(" incredible speed allows " + Game.monster.desc.objectivePronoun + " to avoid the spinning blades!  The deadly device shatters when it impacts something in the distance.");
 		}
 		else { //Not dodged
 			let damage:number = 40 + Utils.rand(61);
-			MainScreen.text(Game.monster.capitalA + Game.monster.short + " is hit with the wingstick!  It breaks apart as it lacerates " + Game.monster.pronoun2 + ". (" + damage + ")");
-			Game.monster.stats.HP -= damage;
+			MainScreen.text(Game.monster.capitalA + Game.monster.desc.short + " is hit with the wingstick!  It breaks apart as it lacerates " + Game.monster.desc.objectivePronoun + ". (" + damage + ")");
+			Game.monster.stats.HPChange(-damage);
             if (Game.monster.stats.HP < 0) Game.monster.stats.HP = 0;
 		}
 		return(false);

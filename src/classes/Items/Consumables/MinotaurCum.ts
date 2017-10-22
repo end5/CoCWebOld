@@ -1,12 +1,12 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
-import Vagina, { VaginaWetness } from "../../Body/Vagina";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class MinotaurCum extends Consumable {
     public constructor() {
@@ -58,11 +58,11 @@ export default class MinotaurCum extends Consumable {
         //(Healing � if hurt and uber-addicted (hasperk))
         if (player.stats.HP < player.stats.maxHP() && player.perks.has("MinotaurCumAddict")) {
             MainScreen.text("\n\nThe fire of your arousal consumes your body, leaving vitality in its wake.  You feel much better!", false);
-            player.stats.HPChange(Math.floor(player.stats.maxHP() / 4));
+            player.stats.HP += Math.floor(player.stats.maxHP() / 4);
         }
         //Uber-addicted status!
         if (player.perks.has("MinotaurCumAddict") && Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] <= 0) {
-            Flags.set(FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE, 3 + Utils.rand(2));
+            Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] = 3 + Utils.rand(2);
             MainScreen.text("\n\n<b>Your body feels so amazing and sensitive.  Experimentally you pinch yourself and discover that even pain is turning you on!</b>", false);
         }
     }

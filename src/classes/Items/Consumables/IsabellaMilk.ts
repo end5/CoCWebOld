@@ -1,7 +1,7 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class IsabellaMilk extends Consumable {
     public constructor() {
@@ -12,6 +12,6 @@ export default class IsabellaMilk extends Consumable {
         MainScreen.text("", true);
         MainScreen.text("You swallow down the bottle of Isabella's milk.", false);
         if (player.stats.fatigue > 0) MainScreen.text("  You feel much less tired! (-33 fatigue)", false);
-        player.stats.fatigueChange(-33);
+        player.stats.fatigue -= 33;
     }
 }

@@ -1,8 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class FishFillet extends Consumable {
     public constructor() {
@@ -22,6 +22,6 @@ export default class FishFillet extends Consumable {
         //(If lake has been tainted, +1 Corruption?)
         if (player.statusAffects.has("FactoryOverload")) player.stats.cor += 0.5;
         player.stats.cor += 0.1;
-        player.stats.HPChange(Math.round(player.maxHP() * .25));
+        player.stats.HP += Math.round(player.stats.maxHP() * .25);
     }
 }

@@ -1,8 +1,8 @@
-import Armor from "./Armor"
-import MainScreen from "../../display/MainScreen";
-import Player from "../../Player";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
+import Armor from './Armor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
 
 export default class GooArmor extends Armor {
     public constructor() {

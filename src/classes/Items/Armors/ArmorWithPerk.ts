@@ -1,6 +1,6 @@
-import Armor, { ArmorClass } from "./Armor"
-import Player from "../../Player"
-import Perk from "../../Effects/Perk";
+import Armor, { ArmorClass } from './Armor';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
 
 export default class ArmorWithPerk extends Armor {
     public readonly perk: Perk;

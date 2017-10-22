@@ -1,6 +1,6 @@
-import Weapon from "./Weapon";
-import Player from "../../Player";
-import Perk from "../../Effects/Perk";
+import Weapon from './Weapon';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
 
 export default class Spellblade extends Weapon {
 

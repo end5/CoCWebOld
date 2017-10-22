@@ -1,16 +1,16 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import RaceScore from "../../RaceScore";
-import Flags, { FlagEnum } from "../../Game/Flags";
-import Game from "../../Game/Game";
-import CockDescriptor from "../../Descriptors/CockDescriptor";
-import { HairType, EarType } from "../../Body/Head";
-import { EyeType, FaceType } from "../../Body/Face";
-import { SkinType } from "../../Body/Body";
-import { TailType, LowerBodyType } from "../../Body/LowerBody";
-import BodyChangeDisplay from "../../display/BodyChangeDisplay";
+import Consumable from './Consumable';
+import { SkinType } from '../../Body/Creature';
+import { EyeType, FaceType } from '../../Body/Face';
+import { EarType, HairType } from '../../Body/Head';
+import { LowerBodyType, TailType } from '../../Body/LowerBody';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import RaceScore from '../../RaceScore';
+import Utils from '../../Utilities/Utils';
 
 export default class FerretFruit extends Consumable {
     public constructor() {
@@ -161,7 +161,7 @@ export default class FerretFruit extends Consumable {
         }
         //Go into heat
         if (Utils.rand(3) == 0 && changes < changeLimit) {
-            if (BodyChangeDisplay.goIntoHeat(player)) {
+            if (CreatureChange.goIntoHeat(player)) {
                 changes++;
             }
         }
@@ -260,7 +260,7 @@ export default class FerretFruit extends Consumable {
         if (changes == 0) {
             MainScreen.text("\n\nYour eyes widen.  With the consumption of the fruit, you feel much more energetic.  You�re wide awake now!");
             changes++;
-            player.stats.fatigueChange(-10);
+            player.stats.fatigue -= 10;
         }
     }
 }

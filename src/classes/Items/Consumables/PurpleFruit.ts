@@ -1,7 +1,8 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
+import Consumable from './Consumable';
+import MainScreen from '../../display/MainScreen';
+import BreastModifier from '../../Modifiers/BreastModifiers';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class PurpleFruit extends Consumable {
     public constructor() {
@@ -21,6 +22,6 @@ export default class PurpleFruit extends Consumable {
         }
         // [Player gains quad nipples, milk production and libido way up]
         player.stats.lib += 5;
-        player.boostLactation(3 * player.upperBody.chest.count());
+        BreastModifier.boostLactation(player, 3 * player.upperBody.chest.count());
     }
 }

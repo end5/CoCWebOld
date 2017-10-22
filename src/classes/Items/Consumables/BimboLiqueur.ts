@@ -1,13 +1,13 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Vagina, { VaginaWetness } from "../../Body/Vagina";
-import Perk from "../../Effects/Perk";
-import HeadDescriptor from "../../Descriptors/HeadDescriptor";
-import LowerBodyDescriptor from "../../Descriptors/LowerBodyDescriptor";
-import BreastDescriptor from "../../Descriptors/BreastDescriptor";
-import Utils from "../../Utilities/Utils";
-import VaginaDescriptor from "../../Descriptors/VaginaDescriptor";
+import Consumable from './Consumable';
+import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class BimboLiqueur extends Consumable {
     public constructor() {

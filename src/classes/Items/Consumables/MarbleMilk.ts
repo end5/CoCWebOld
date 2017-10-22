@@ -1,10 +1,10 @@
-import Consumable from "./Consumable";
-import Player from "../../Player";
-import MainScreen from "../../display/MainScreen";
-import Utils from "../../Utilities/Utils";
-import StatChangeDisplay from "../../display/StatChangeDisplay";
-import StatusAffect from "../../Effects/StatusAffect";
-import Game from "../../Game/Game";
+import Consumable from './Consumable';
+import CreatureChange from '../../display/CreatureChange';
+import MainScreen from '../../display/MainScreen';
+import StatusAffect from '../../Effects/StatusAffect';
+import Game from '../../Game/Game';
+import Player from '../../Player';
+import Utils from '../../Utilities/Utils';
 
 export default class MarbleMilk extends Consumable {
     public constructor() {
@@ -14,7 +14,7 @@ export default class MarbleMilk extends Consumable {
     public use(player: Player) {
         player.slimeFeed();
         //Bottle of Marble's milk - item
-        //Description: "A clear bottle of milk from Marble's breasts.  It smells delicious.  "
+        //Description: "A clear bottle of milk from Marble's breasts. ï¿½It smells delicious.  "
         MainScreen.text("", true);
         //Text for when the player uses the bottle:
         //[before the player is addicted, Addiction < 30]
@@ -42,9 +42,9 @@ export default class MarbleMilk extends Consumable {
             MainScreen.text("You no longer feel the symptoms of withdrawal.\n\n", false);
         }
         //Heals the player 70-100 health
-        StatChangeDisplay.HPChange(player, 70 + Utils.rand(31));
+        CreatureChange.HPChange(player, 70 + Utils.rand(31));
         //Restores a portion of fatigue (once implemented)
-        player.stats.fatigueChange(-25);
+        player.stats.fatigue -= 25;
         //If the player is addicted, this item negates the withdrawal effects for a few hours (suggest 6), there will need to be a check here to make sure the withdrawal effect doesn't reactivate while the player is under the effect of 'Marble's Milk'.
         if (player.statusAffects.has("BottledMilk")) {
             player.statusAffects.get("BottledMilk").value1 = (6 + Utils.rand(6));

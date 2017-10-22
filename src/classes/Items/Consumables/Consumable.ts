@@ -1,5 +1,5 @@
-import Item from "../Item";
-import Player from "../../Player";
+import Player from '../../Player';
+import Item from '../Item';
 
 export default class Consumable extends Item {
     private readonly mutationFunc: Function;
