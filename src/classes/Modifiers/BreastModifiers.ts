@@ -1,4 +1,6 @@
-﻿import Creature from '../Body/Body';
+﻿import BreastRow from '../Body/BreastRow';
+import Creature from '../Body/Creature';
+import Character from '../Character/Character';
 import BreastDescriptor from '../Descriptors/BreastDescriptor';
 import MainScreen from '../display/MainScreen';
 import Flags, { FlagEnum } from '../Game/Flags';
@@ -154,6 +156,65 @@ export default class BreastModifier {
             if (shrinkAmount == 3) MainScreen.text("\nWithout the extra weight you feel particularly limber.", false);
             if (shrinkAmount >= 4) MainScreen.text("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.", false);
         }
+    }
+    
+    // TODO: Fix this function
+    public static boostLactation(character: Character, boostAmt: number): number {
+        if (!character.upperBody.chest.hasBreasts)
+            return 0;
+        let breasts: BreastRow;
+        let changes: number = 0;
+        let temp2: number = 0;
+        //Prevent lactation decrease if lactating.
+        if (boostAmt >= 0) {
+            if (character.statusAffects.has("LactationReduction"))
+                character.statusAffects.get("LactationReduction").value1 = 0;
+            if (character.statusAffects.has("LactationReduc0"))
+                character.statusAffects.remove("LactationReduc0");
+            if (character.statusAffects.has("LactationReduc1"))
+                character.statusAffects.remove("LactationReduc1");
+            if (character.statusAffects.has("LactationReduc2"))
+                character.statusAffects.remove("LactationReduc2");
+            if (character.statusAffects.has("LactationReduc3"))
+                character.statusAffects.remove("LactationReduc3");
+        }
+        if (boostAmt > 0) {
+            while (boostAmt > 0) {
+                breasts = character.upperBody.chest.BreastRatingLargest[0];
+                boostAmt -= .1;
+                temp2 = .1;
+                if (breasts.lactationMultiplier > 1.5)
+                    temp2 /= 2;
+                if (breasts.lactationMultiplier > 2.5)
+                    temp2 /= 2;
+                if (breasts.lactationMultiplier > 3)
+                    temp2 /= 2;
+                changes += temp2;
+                breasts.lactationMultiplier += temp2;
+            }
+        }
+        else {
+            while (boostAmt < 0) {
+                if (boostAmt > -.1) {
+                    breasts = character.upperBody.chest.LactationMultipierSmallest[0];
+                    //trace(biggestLactation());
+                    breasts.lactationMultiplier += boostAmt;
+                    if (breasts.lactationMultiplier < 0)
+                        breasts.lactationMultiplier = 0;
+                    boostAmt = 0;
+                }
+                else {
+                    boostAmt += .1;
+                    breasts = character.upperBody.chest.LactationMultipierSmallest[0];
+                    temp2 = boostAmt;
+                    changes += temp2;
+                    breasts.lactationMultiplier += temp2;
+                    if (breasts.lactationMultiplier < 0)
+                        breasts.lactationMultiplier = 0;
+                }
+            }
+        }
+        return changes;
     }
 
 }

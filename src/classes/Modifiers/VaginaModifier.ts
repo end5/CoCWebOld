@@ -29,5 +29,43 @@
         }
         return stretched;
     }
+    public stretchVagina(vaginaArea: number): boolean {
+        if (!this.lowerBody.vaginaSpot.hasVagina)
+            return false;
+        let stretched: boolean = false;
+        let loosestVagina = this.lowerBody.vaginaSpot.LoosenessMost[0];
+        if (this.perks.has("FerasBoonMilkingTwat") || loosestVagina.vaginalLooseness <= VaginaLooseness.NORMAL) {
+            //cArea > capacity = autostreeeeetch.
+            if (vaginaArea >= this.vaginalCapacity()) {
+                if (loosestVagina.vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR)
+                    loosestVagina.vaginalLooseness++;
+                stretched = true;
+            }
+            //If within top 10% of capacity, 50% stretch
+            else if (vaginaArea >= .9 * this.vaginalCapacity() && Utils.chance(50)) {
+                loosestVagina.vaginalLooseness++;
+                stretched = true;
+            }
+            //if within 75th to 90th percentile, 25% stretch
+            else if (vaginaArea >= .75 * this.vaginalCapacity() && Utils.chance(25)) {
+                loosestVagina.vaginalLooseness++;
+                stretched = true;
+            }
+        }
+        //If virgin
+        if (this.lowerBody.vaginaSpot.Virgin.length > 0) {
+            this.lowerBody.vaginaSpot.Virgin[0].virgin = false;
+        }
+        //Delay anti-stretching
+        if (vaginaArea >= .5 * this.vaginalCapacity()) {
+            //Cunt Stretched used to determine how long since last enlargement
+            if (!this.statusAffects.has("CuntStretched"))
+                this.statusAffects.add(new StatusAffect("CuntStretched", 0, 0, 0, 0));
+            //Reset the timer on it to 0 when restretched.
+            else
+                this.statusAffects.get("CuntStretched").value1 = 0;
+        }
+        return stretched;
+    }
 
 }

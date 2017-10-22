@@ -1,14 +1,16 @@
 ﻿import BreastRow from './BreastRow';
 import Butt, { ButtLooseness } from './Butt';
 import Cock from './Cock';
+import CreatureStatsWrapper from './CreatureStatsWrapper';
 import LowerBody, { LowerBodyType } from './LowerBody';
-import { PregnancyType } from './Pregnancy';
-import PregnancyManager from './PregnancyManager';
+import { PregnancyType } from './Pregnancy/Pregnancy';
+import PregnancyManager from './Pregnancy/PregnancyManager';
 import Stats from './Stats';
 import UpperBody, { WingType } from './UpperBody';
 import Vagina, { VaginaLooseness } from './Vagina';
 import CockDescriptor from '../Descriptors/CockDescriptor';
 import MainScreen from '../display/MainScreen';
+import Perk from '../Effects/Perk';
 import StatusAffect from '../Effects/StatusAffect';
 import { SaveInterface } from '../SaveInterface';
 import ComponentList from '../Utilities/ComponentList';
@@ -24,13 +26,13 @@ export enum SkinType {
 
 export default class Creature implements SaveInterface {
     //Appearance Variables
-    public gender: Gender = Gender.NONE;
-    public tallness: number = 0;
+    public gender: Gender;
+    public tallness: number;
 
-    public skinType: SkinType = SkinType.PLAIN;
-    public skinTone: string = "albino";
-    public skinDesc: string = "skin";
-    public skinAdj: string = "";
+    public skinType: SkinType;
+    public skinTone: string;
+    public skinDesc: string;
+    public skinAdj: string;
 
     //Used for hip ratings
     public thickness: number;
@@ -40,20 +42,19 @@ export default class Creature implements SaveInterface {
     private _femininity: number;
 
     //Fertility is a % out of 100.
-    public fertility: number = 10;
-    public cumMultiplier: number = 1;
-    public hoursSinceCum: number = 0;
+    public fertility: number;
+    public cumMultiplier: number;
+    public hoursSinceCum: number;
 
     public upperBody: UpperBody;
     public lowerBody: LowerBody;
 
     public pregnancy: PregnancyManager;
 
-    protected _stats: Stats;
+    private baseStats: Stats;
+    public stats: CreatureStatsWrapper;
     public statusAffects: ComponentList<StatusAffect>;
-    public get perks(): ComponentList<StatusAffect> {
-        return this.statusAffects;
-    }
+    public perks: ComponentList<Perk>;
 
     public constructor() {
         this.gender = Gender.NONE;
@@ -76,8 +77,10 @@ export default class Creature implements SaveInterface {
 
         this.pregnancy = new PregnancyManager(this);
 
-        this._stats = new Stats(this);
+        this.baseStats = new Stats();
+        this.stats = new CreatureStatsWrapper(this, this.baseStats);
         this.statusAffects = new ComponentList<StatusAffect>();
+        this.perks = new ComponentList<Perk>();
     }
 
     public get femininity(): number {
@@ -101,125 +104,6 @@ export default class Creature implements SaveInterface {
 
         this.femininity = value;
     }
-
-
-    public orgasm(): void {
-        this._stats.lustResisted = false;
-        this._stats.lust = 0;
-        this._stats.lustResisted = true;
-        this.hoursSinceCum = 0;
-        let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
-        if (gildedCockSocks > 0) {
-
-            let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.listLargestCockArea);
-            let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
-            MainScreen.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
-            this._stats.gems += bonusGems;
-        }
-    }
-
-
-    // TODO: Fix this function
-    public boostLactation(boostAmt: number): number {
-        if (!this.upperBody.chest.hasBreasts)
-            return 0;
-        let breasts: BreastRow;
-        let changes: number = 0;
-        let temp2: number = 0;
-        //Prevent lactation decrease if lactating.
-        if (boostAmt >= 0) {
-            if (this.statusAffects.has("LactationReduction"))
-                this.statusAffects.get("LactationReduction").value1 = 0;
-            if (this.statusAffects.has("LactationReduc0"))
-                this.statusAffects.remove("LactationReduc0");
-            if (this.statusAffects.has("LactationReduc1"))
-                this.statusAffects.remove("LactationReduc1");
-            if (this.statusAffects.has("LactationReduc2"))
-                this.statusAffects.remove("LactationReduc2");
-            if (this.statusAffects.has("LactationReduc3"))
-                this.statusAffects.remove("LactationReduc3");
-        }
-        if (boostAmt > 0) {
-            while (boostAmt > 0) {
-                breasts = this.upperBody.chest.BreastRatingLargest[0];
-                boostAmt -= .1;
-                temp2 = .1;
-                if (breasts.lactationMultiplier > 1.5)
-                    temp2 /= 2;
-                if (breasts.lactationMultiplier > 2.5)
-                    temp2 /= 2;
-                if (breasts.lactationMultiplier > 3)
-                    temp2 /= 2;
-                changes += temp2;
-                breasts.lactationMultiplier += temp2;
-            }
-        }
-        else {
-            while (boostAmt < 0) {
-                if (boostAmt > -.1) {
-                    breasts = this.upperBody.chest.LactationMultipierSmallest[0];
-                    //trace(biggestLactation());
-                    breasts.lactationMultiplier += boostAmt;
-                    if (breasts.lactationMultiplier < 0)
-                        breasts.lactationMultiplier = 0;
-                    boostAmt = 0;
-                }
-                else {
-                    boostAmt += .1;
-                    breasts = this.upperBody.chest.LactationMultipierSmallest[0];
-                    temp2 = boostAmt;
-                    changes += temp2;
-                    breasts.lactationMultiplier += temp2;
-                    if (breasts.lactationMultiplier < 0)
-                        breasts.lactationMultiplier = 0;
-                }
-            }
-        }
-        return changes;
-    }
-
-    public stretchVagina(vaginaArea: number): boolean {
-        if (!this.lowerBody.vaginaSpot.hasVagina)
-            return false;
-        let stretched: boolean = false;
-        let loosestVagina = this.lowerBody.vaginaSpot.LoosenessMost[0];
-        if (this.perks.has("FerasBoonMilkingTwat") || loosestVagina.vaginalLooseness <= VaginaLooseness.NORMAL) {
-            //cArea > capacity = autostreeeeetch.
-            if (vaginaArea >= this.vaginalCapacity()) {
-                if (loosestVagina.vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR)
-                    loosestVagina.vaginalLooseness++;
-                stretched = true;
-            }
-            //If within top 10% of capacity, 50% stretch
-            else if (vaginaArea >= .9 * this.vaginalCapacity() && Utils.chance(50)) {
-                loosestVagina.vaginalLooseness++;
-                stretched = true;
-            }
-            //if within 75th to 90th percentile, 25% stretch
-            else if (vaginaArea >= .75 * this.vaginalCapacity() && Utils.chance(25)) {
-                loosestVagina.vaginalLooseness++;
-                stretched = true;
-            }
-        }
-        //If virgin
-        if (this.lowerBody.vaginaSpot.Virgin.length > 0) {
-            this.lowerBody.vaginaSpot.Virgin[0].virgin = false;
-        }
-        //Delay anti-stretching
-        if (vaginaArea >= .5 * this.vaginalCapacity()) {
-            //Cunt Stretched used to determine how long since last enlargement
-            if (!this.statusAffects.has("CuntStretched"))
-                this.statusAffects.add(new StatusAffect("CuntStretched", 0, 0, 0, 0));
-            //Reset the timer on it to 0 when restretched.
-            else
-                this.statusAffects.get("CuntStretched").value1 = 0;
-        }
-        if (stretched) {
-            console.trace("CUNT STRETCHED TO " + (loosestVagina.vaginalLooseness) + ".");
-        }
-        return stretched;
-    }
-
 
     public vaginalCapacity(): number {
         if (!this.lowerBody.vaginaSpot.hasVagina)
@@ -269,26 +153,6 @@ export default class Creature implements SaveInterface {
         return ((bonus + this.statusAffects.get("BonusVCapacity").value1 + 6 * this.lowerBody.butt.analLooseness * this.lowerBody.butt.analLooseness) * (1 + this.lowerBody.butt.analWetness / 10));
     }
 
-
-    public milked(): void {
-        this.statusAffects.has("LactationReduction")
-        if (this.statusAffects.has("LactationReduction"))
-            this.statusAffects.get("LactationReduction").value1 = 0;
-        if (this.statusAffects.has("LactationReduc0"))
-            this.statusAffects.remove("LactationReduc0");
-        if (this.statusAffects.has("LactationReduc1"))
-            this.statusAffects.remove("LactationReduc1");
-        if (this.statusAffects.has("LactationReduc2"))
-            this.statusAffects.remove("LactationReduc2");
-        if (this.statusAffects.has("LactationReduc3"))
-            this.statusAffects.remove("LactationReduc3");
-        if (this.statusAffects.has("Feeder")) {
-            //You've now been milked, reset the timer for that
-            this.statusAffects.get("Feeder").value1 = 1;
-            this.statusAffects.get("Feeder").value2 = 0;
-        }
-    }
-
     //Calculate bonus virility rating!
     //anywhere from 5% to 100% of normal cum effectiveness thru herbs!
     public virilityQ(): number {
@@ -334,7 +198,7 @@ export default class Creature implements SaveInterface {
         //Other things that affect it: 
         //lust - 50% = normal output.  0 = half output. 100 = +50% output.
         //trace("CUM ESTIMATE: " + number(1.25*2*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(no balls), " + number(ballSize*balls*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(withballs)");
-        let lustCoefficient: number = (this._stats.lust + 50) / 10;
+        let lustCoefficient: number = (this.stats.lust + 50) / 10;
         //Pilgrim's bounty maxxes lust coefficient
         if (this.perks.has("PilgrimsBounty"))
             lustCoefficient = 150 / 10;
@@ -420,47 +284,6 @@ export default class Creature implements SaveInterface {
             this.gender = Gender.NONE;
     }
 
-    public stretchButt(buttArea: number): boolean {
-        let stretched: boolean = false;
-        //cArea > capacity = autostreeeeetch half the time.
-        if (buttArea >= this.analCapacity() && Utils.chance(50)) {
-            if (this.lowerBody.butt.analLooseness < ButtLooseness.GAPING)
-                this.lowerBody.butt.analLooseness++;
-            stretched = true;
-            //Reset butt stretchin recovery time
-            if (this.statusAffects.has("ButtStretched"))
-                this.statusAffects.get("ButtStretched").value1 = 0;
-        }
-        //If within top 10% of capacity, 25% stretch
-        if (buttArea < this.analCapacity() && buttArea >= .9 * this.analCapacity() && Utils.chance(25)) {
-            this.lowerBody.butt.analLooseness++;
-            stretched = true;
-        }
-        //if within 75th to 90th percentile, 10% stretch
-        if (buttArea < .9 * this.analCapacity() && buttArea >= .75 * this.analCapacity() && Utils.chance(10)) {
-            this.lowerBody.butt.analLooseness++;
-            stretched = true;
-        }
-        //Anti-virgin
-        if (this.lowerBody.butt.analLooseness == ButtLooseness.VIRGIN) {
-            this.lowerBody.butt.analLooseness++;
-            stretched = true;
-        }
-        //Delay un-stretching
-        if (buttArea >= .5 * this.analCapacity()) {
-            //Butt Stretched used to determine how long since last enlargement
-            if (!this.statusAffects.has("ButtStretched"))
-                this.statusAffects.add(new StatusAffect("ButtStretched", 0, 0, 0, 0));
-            //Reset the timer on it to 0 when restretched.
-            else
-                this.statusAffects.get("ButtStretched").value1 = 0;
-        }
-        if (stretched) {
-            console.trace("BUTT STRETCHED TO " + (this.lowerBody.butt.analLooseness) + ".");
-        }
-        return stretched;
-    }
-
 
     public get inHeat(): boolean {
         return this.statusAffects.has("Heat");
@@ -484,16 +307,12 @@ export default class Creature implements SaveInterface {
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
-            this._stats.bimboIntReduction = true;
-            this._stats.lib += 5 * intensity;
-            this._stats.bimboIntReduction = false;
+            this.stats.libChange(5 * intensity, true);
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
             this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
-            this._stats.bimboIntReduction = true;
-            this._stats.lib += 15 * intensity;
-            this._stats.bimboIntReduction = false;
+            this.stats.libChange(15 * intensity, true);
         }
     }
 
@@ -504,18 +323,14 @@ export default class Creature implements SaveInterface {
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
-            this._stats.bimboIntReduction = true;
-            this._stats.lib += 5 * intensity;
-            this._stats.bimboIntReduction = false;
+            this.stats.libChange(5 * intensity, true);
         }
         else {
             //v1 - bonus cum production
             //v2 - bonus this.stats.libido
             //v3 - time remaining!
             this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
-            this._stats.bimboIntReduction = true;
-            this._stats.lib += 5 * intensity;
-            this._stats.bimboIntReduction = false;
+            this.stats.libChange(5 * intensity, true);
         }
     }
 
@@ -540,19 +355,6 @@ export default class Creature implements SaveInterface {
         return (this.bonusFertility + this.fertility);
     }
 
-
-    public skinFurScales(): string {
-        let skinzilla: string = "";
-        //Adjectives first!
-        if (this.skinAdj != "")
-            skinzilla += this.skinAdj + ", ";
-        //Fur handled a little differently since it uses
-        //haircolor
-        skinzilla += this.skinType == SkinType.FUR ? this.upperBody.head.hairColor + " " : this.skinTone + " ";
-        skinzilla += this.skinDesc;
-        return skinzilla;
-    }
-
     saveKey: string = "Body";
     save(): object {
         let saveObject: object = {};
@@ -574,9 +376,10 @@ export default class Creature implements SaveInterface {
         saveObject[this.upperBody.saveKey] = this.upperBody.save();
         saveObject[this.lowerBody.saveKey] = this.lowerBody.save();
 
-        saveObject[this._stats.saveKey] = this._stats.save();
+        saveObject[this.baseStats.saveKey] = this.baseStats.save();
         saveObject[this.statusAffects.saveKey] = this.statusAffects.save();
-
+        saveObject[this.perks.saveKey] = this.perks.save();
+        
         return saveObject;
     }
 
@@ -599,10 +402,11 @@ export default class Creature implements SaveInterface {
         this.upperBody.load(saveObject[this.upperBody.saveKey]);
         this.lowerBody.load(saveObject[this.lowerBody.saveKey]);
 
-        this._stats.load(saveObject[this._stats.saveKey]);
+        this.baseStats.load(saveObject[this.baseStats.saveKey]);
         this.statusAffects.load(saveObject[this.statusAffects.saveKey]);
-
-        return saveObject;
+        this.perks.load(saveObject[this.perks.saveKey]);
+        
+        this.stats = new CreatureStatsWrapper(this, this.baseStats);
     }
 
 }
