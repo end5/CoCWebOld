@@ -70,8 +70,12 @@ export default class CreatureStatsWrapper {
         return this.stats.int;
     }
 
-    public intChange(value: number, bimboIntReduction: boolean = false) {
+    public set int(value: number) {
         value -= this.stats.int;
+        this.intChange(value);
+    }
+
+    public intChange(value: number, bimboIntReduction: boolean = false) {
         if (!bimboIntReduction)
             if (this.body.perks.has("FutaFaculties") || this.body.perks.has("BimboBrains") || this.body.perks.has("BroBrains")) {
                 if (value > 0)
@@ -91,11 +95,11 @@ export default class CreatureStatsWrapper {
     }
 
     public set lib(value: number) {
+        value -= this.stats.lib;
         this.libChange(value);
     }
 
     public libChange(value: number, bimboIntReduction: boolean = false) {
-        value -= this.stats.lib;
         if (!bimboIntReduction)
             if (this.body.perks.has("FutaForm") || this.body.perks.has("BimboBody") || this.body.perks.has("BroBody")) {
                 if (value > 0)
@@ -244,6 +248,7 @@ export default class CreatureStatsWrapper {
     }
 
     public set lust(value: number) {
+        value -= this.stats.lust;
         this.lustChange(value);
     }
 
