@@ -1,9 +1,9 @@
-import PerkDesc from "../PerkDesc";
-import Perk from "../Perk";
+import Perk from '../Perk';
+import PerkDesc from '../PerkDesc';
 
 export default class SluttySeductionPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
-        return "Increases odds of successfully teasing and lust damage of successful teases by " + params.value1 + " points."
+    public description(perk?: Perk): string {
+        return "Increases odds of successfully teasing and lust damage of successful teases by " + perk.value1 + " points."
     }
 
     public constructor() {

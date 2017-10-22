@@ -1,6 +1,6 @@
-﻿import StatusAffectDesc from "./StatusAffectDesc";
-import Game from "../Game/Game";
-import ValueContainer from "../Utilities/ValueContainer";
+﻿import StatusAffectDesc from './StatusAffectDesc';
+import Game from '../Game/Game';
+import ValueContainer from '../Utilities/ValueContainer';
 
 export default class StatusAffect extends ValueContainer<StatusAffectDesc> {
     public constructor(statusAffectDescKey: string, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {

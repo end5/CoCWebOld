@@ -1,9 +1,9 @@
-import PerkDesc from "../PerkDesc";
-import Perk from "../Perk";
+import Perk from '../Perk';
+import PerkDesc from '../PerkDesc';
 
 export default class PentUpPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
-			return "Increases minimum lust by " + Math.round(params.value1) + " and makes you more vulnerable to seduction.";
+    public description(perk?: Perk): string {
+        return "Increases minimum lust by " + Math.round(perk.value1) + " and makes you more vulnerable to seduction.";
     }
 
     public constructor() {

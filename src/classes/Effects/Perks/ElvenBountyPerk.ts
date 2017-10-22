@@ -1,9 +1,9 @@
-import PerkDesc from "../PerkDesc";
-import Perk from "../Perk";
+import Perk from '../Perk';
+import PerkDesc from '../PerkDesc';
 
 export default class ElvenBountyPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
-        return "Increases fertility by " + params.value2 + "% and cum production by " + params.value1 + "mLs.";
+    public description(perk?: Perk): string {
+        return "Increases fertility by " + perk.value2 + "% and cum production by " + perk.value1 + "mLs.";
     }
 
     public constructor() {

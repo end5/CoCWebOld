@@ -1,13 +1,13 @@
-import PerkDesc from "../PerkDesc";
-import Perk from "../Perk";
-import Game from "../../Game/Game";
+import Character from '../../Character/Character';
+import Perk from '../Perk';
+import PerkDesc from '../PerkDesc';
 
 export default class ControlledBreathPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
-        if (Game.player.stats.cor >= 30)
+    public description(perk?: Perk, character?: Character): string {
+        if (character.stats.cor >= 30)
             return "<b>DISABLED</b> - Corruption too high!";
         else
-            return super.desc(params);
+            return super.description();
     }
 
     public constructor() {

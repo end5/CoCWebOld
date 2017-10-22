@@ -1,9 +1,9 @@
-import PerkDesc from "../PerkDesc";
-import Perk from "../Perk";
+import Perk from '../Perk';
+import PerkDesc from '../PerkDesc';
 
 export default class WizardsFocusPerk extends PerkDesc {
-    public desc(params: Perk = null): string {
-        return "Increases your spell effect modifier by " + params.value1 * 100 + "%.";
+    public description(perk?: Perk): string {
+        return "Increases your spell effect modifier by " + perk.value1 * 100 + "%.";
     }
 
     public constructor() {
