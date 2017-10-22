@@ -1,13 +1,14 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import CreatureChanges from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { VaginaWetness } from '../../Vagina';
 import IPregnancyEvent from '../IPregnancyEvent';
-import { VaginaWetness } from '../Vagina';
 
 export default class MinotaurPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -61,15 +62,15 @@ export default class MinotaurPreg implements IPregnancyEvent {
     }
 
     public birth(player: Player) {
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         //Main Text here
         MainScreen.text("\nYou wake up suddenly to strong pains and pressures in your gut. As your eyes shoot wide open, you look down to see your belly absurdly full and distended. You can feel movement underneath the skin, and watch as it bulges and shifts as another living being moves independently inside you. Instinctively, you spread your legs as you feel the creature press outward, parting your cervix.\n\nYou try to push with your vaginal muscles, but you feel the creature moving more of its own volition. Your lips part as a pair of black-furred hands grip your vulva and begin to spread them and pull. You cry out in agony as your hips are widened forcefully by the passing mass of the being exiting your womb. A bovine face appears, mercifully lacking in horns. Shoulders follow, muscles already rippling on the newborn's form. A thick barrel chest follows, narrow, masculine hips and powerful bovine legs and hooves.\n\nFinally the worst is over as the toddler-sized minotaur gets to his feet, apparently already able to stand and walk.  He clops around your legs and over to your upper body, and takes hold of one of your milk-swollen breasts. He wraps his bestial lips around your nipple and begins to suckle, relieving the pressure on the milk-swollen jug.\n\n", false);
         MainScreen.text("He suckles and suckles and suckles, leaving you to wonder just how much milk you were actually holding, but even as you wonder this, your eyes grow wide as the newborn minotaur begins to grow. He gains inches at a time, his horns starting to grow from his skull, his muscles rippling and thickening, his cock lengthening, his balls swelling. He reaches four feet tall, but keeps growing, soon then five feet tall, starting to resemble more and more the monster who sired him. Finally, he pulls off your breasts, and finishes his milk-inspired growth spurt at six feet tall, looking practically full grown. His one gesture of gratitude for being brought into the world is a slobbery lick at your cheek, then he turns and runs off towards the mountain, leaving you to recover from the ordeal.  You swiftly pass out.\n\n", false);
         if (player.upperBody.chest.averageLactation() > 0 && player.upperBody.chest.averageLactation() < 5) {
             MainScreen.text("Your breasts won't seem to stop dribbling milk, lactating more heavily than before.", false);
-            player.boostLactation(1);
+            BreastModifier.boostLactation(player, 1);
         }
-        CreatureChanges.stretchVagina(player, 120, true, true, false);
+        CreatureChange.stretchVagina(player, 120, true, true, false);
         if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) player.lowerBody.vaginaSpot.get(0).vaginalWetness++;
         if (player.gender == 1) player.gender = 3;
         if (player.gender == 0) player.gender = 2;

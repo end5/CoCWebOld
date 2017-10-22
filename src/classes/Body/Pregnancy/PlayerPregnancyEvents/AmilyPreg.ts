@@ -1,11 +1,11 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import Vagina, { VaginaWetness } from '../../Body/Vagina';
-import CreatureChange from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Game from '../../Game/Game';
-import BreastModifier from '../../Modifiers/BreastModifiers';
-import Player from '../../Player';
+import Vagina, { VaginaWetness } from '../../../Body/Vagina';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import Game from '../../../Game/Game';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class AmilyPreg implements IPregnancyEvent {
@@ -53,7 +53,7 @@ export default class AmilyPreg implements IPregnancyEvent {
     }
 
     public birth(player: Player) {
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         MainScreen.text("\n", false);
         if (player.lowerBody.vaginaSpot.count() == 0) {
             MainScreen.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  <b>You look down and behold a new vagina</b>.  ", false);

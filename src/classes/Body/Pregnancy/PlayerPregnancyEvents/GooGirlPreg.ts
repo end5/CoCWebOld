@@ -1,6 +1,6 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class GooGirlPreg implements IPregnancyEvent {

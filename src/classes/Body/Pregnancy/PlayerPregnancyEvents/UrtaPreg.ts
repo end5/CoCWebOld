@@ -1,4 +1,4 @@
-import Player from '../../Player';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class PregUrta implements IPregnancyEvent {

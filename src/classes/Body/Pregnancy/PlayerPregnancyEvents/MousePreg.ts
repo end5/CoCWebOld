@@ -1,9 +1,12 @@
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import GenericPregnancyChanges from './GenericPregnancyChanges';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { VaginaWetness } from '../../Vagina';
 import IPregnancyEvent from '../IPregnancyEvent';
-import { VaginaWetness } from '../Vagina';
 
 export default class MousePreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -57,16 +60,16 @@ export default class MousePreg implements IPregnancyEvent {
     }
 
     public birth(player: Player) {
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         MainScreen.text("\nYou wake up suddenly to strong pains and pressures in your gut. As your eyes shoot wide open, you look down to see your belly absurdly full and distended. You can feel movement underneath the skin, and watch as it is pushed out in many places, roiling and squirming in disturbing ways. The feelings you get from inside are just as disconcerting. You count not one, but many little things moving around inside you. There are so many, you can't keep track of them.\n\n", false);
         //Main Text here
         MainScreen.text("Pain shoots through you as they pull open your cervix forcefully. You grip the ground and pant and push as the pains of labor overwhelm you. You feel your hips being forceably widened by the collective mass of the creatures moving down your birth canal. You spread your legs wide, laying your head back with groans and cries of agony as little white figures begin to emerge from between the lips of your abused pussy. Large innocent eyes, even larger ears, cute little muzzles, long slender pink tails all appear as the figures emerge. Each could be no larger than six inches tall, but they seem as active and curious as if they were already developed children. \n\n", false);
         MainScreen.text("Two emerge, then four, eight... you lose track. They swarm your body, scrambling for your chest, and take turns suckling at your nipples. Milk does their bodies good, making them grow rapidly, defining their genders as the girls grow cute little breasts and get broader hips and the boys develop their little mouse cocks and feel their balls swell. Each stops suckling when they reach two feet tall, and once every last one of them has departed your sore, abused cunt and drunk their fill of your milk, they give you a few grateful nuzzles, then run off towards the forest, leaving you alone to recover.\n", false);
         if (player.upperBody.chest.averageLactation() > 0 && player.upperBody.chest.averageLactation() < 5) {
             MainScreen.text("Your breasts won't seem to stop dribbling milk, lactating more heavily than before.", false);
-            player.boostLactation(.5);
+            BreastModifier.boostLactation(player, .5);
         }
-        CreatureChanges.stretchVagina(60, true, true, false);
+        CreatureChange.stretchVagina(player, 60, true, true, false);
         if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) player.lowerBody.vaginaSpot.get(0).vaginalWetness++;
         if (player.gender == 1) player.gender = 3;
         if (player.gender == 0) player.gender = 2;

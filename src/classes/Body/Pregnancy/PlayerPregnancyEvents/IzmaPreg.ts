@@ -1,13 +1,13 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import MainScreen from '../../display/MainScreen';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class IzmaPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
         if (incubationTime == 275) {
-            if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00238] == 1) MainScreen.text("\n<b>You wake up feeling kind of nauseous.  Izma insists that you stay in bed and won't hear a word otherwise, tending to you in your sickened state.  When you finally feel better, she helps you up.  \"<i>You know, " + player.short + "... I think you might be pregnant.</i>\" Izma says, sounding very pleased at the idea. You have to admit, you do seem to have gained some weight...</b>\n", false);
+            if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00238] == 1) MainScreen.text("\n<b>You wake up feeling kind of nauseous.  Izma insists that you stay in bed and won't hear a word otherwise, tending to you in your sickened state.  When you finally feel better, she helps you up.  \"<i>You know, " + player.desc.short + "... I think you might be pregnant.</i>\" Izma says, sounding very pleased at the idea. You have to admit, you do seem to have gained some weight...</b>\n", false);
             else MainScreen.text("\n<b>You wake up feeling bloated, and your belly is actually looking a little puffy. At the same time, though, you have the oddest cravings... you could really go for some fish.</b>\n", false);
         }
         if (incubationTime == 250) {

@@ -1,5 +1,5 @@
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class ButtPregSpider implements IPregnancyEvent {

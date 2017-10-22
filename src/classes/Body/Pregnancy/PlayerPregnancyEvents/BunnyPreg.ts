@@ -1,12 +1,13 @@
-import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
-import NeonPinkEgg from '../../Items/Consumables/NeonPinkEgg';
-import Player from '../../Player';
+import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import StatusAffect from '../../../Effects/StatusAffect';
+import NeonPinkEgg from '../../../Items/Consumables/NeonPinkEgg';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class BunnyPreg implements IPregnancyEvent {
@@ -92,7 +93,7 @@ export default class BunnyPreg implements IPregnancyEvent {
 
         MainScreen.text("You sink into restful unconsciousness, marveling at how stretchy and sensitive your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " feels now.", false);
         CreatureChange.stretchVagina(player, 60, true, true, false);
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         //Boost capacity
         if (player.vaginalCapacity() < 300) {
             if (!player.statusAffects.has("BonusVCapacity")) player.statusAffects.add(new StatusAffect("BonusVCapacity", 0, 0, 0, 0));

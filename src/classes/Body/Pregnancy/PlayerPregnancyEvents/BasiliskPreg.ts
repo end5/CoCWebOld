@@ -1,7 +1,7 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import MainScreen from '../../display/MainScreen';
-import BreastModifier from '../../Modifiers/BreastModifiers';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class BasiliskPreg implements IPregnancyEvent {

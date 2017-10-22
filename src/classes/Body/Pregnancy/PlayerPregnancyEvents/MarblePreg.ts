@@ -1,12 +1,13 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChanges from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
+import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class MarblePreg implements IPregnancyEvent {
@@ -73,11 +74,11 @@ export default class MarblePreg implements IPregnancyEvent {
             }
             if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier < 1) {
                 MainScreen.text("You gasp slightly in surprise and realize that you've started lactating.", false);
-                player.boostLactation(player.upperBody.chest.count());
+                BreastModifier.boostLactation(player, player.upperBody.chest.count());
             }
             else {
                 MainScreen.text("A few drips of milk spill out of your breasts, as expected.  Though, it occurs to you that there is more milk coming out than before.", false);
-                player.boostLactation(player.upperBody.chest.count() * .25);
+                BreastModifier.boostLactation(player, player.upperBody.chest.count() * .25);
             }
             MainScreen.text("</b>\n", false);
         }
@@ -88,13 +89,13 @@ export default class MarblePreg implements IPregnancyEvent {
     }
 
     public birth(player: Player) {
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         //if you like terrible outcomes
         if (Flags.list[FlagEnum.MARBLE_NURSERY_CONSTRUCTION] < 100) {
             MainScreen.text("\nYou feel a clenching sensation in your belly and something shifts inside.  Your contractions start a few moments later and you realize that it's time for your child to be born.  You cry out mildly in pain and lie down, letting your body start to push the baby out.  Marble doesn't seem to be around right now, so you can do nothing but push.\n\n", false);
 
             MainScreen.text("You push and heave with all your might, little else going through your mind. You somehow register when the head comes out, and soon the shoulders along with the rest of the body follow.  You lean back and pant for a while before feeling a pair of hands grab a hold of you. They slowly and clumsily feel up your body before finding your " + BreastDescriptor.describeChest(player) + " and a mouth quickly closes down on a " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + ".  You sigh softly, and drift off to sleep.", false);
-            CreatureChanges.stretchVagina(player, 20, true, true, false);
+            CreatureChange.stretchVagina(player, 20, true, true, false);
 
             MainScreen.text("\n\nEventually you feel a hand on your face, and open your eyes to see Marble looking down at you.  \"<i>Sweetie, are you all right?  Why aren't you pregnant anymore?  Where is our child?</i>\" You stand up and look around.  There is no sign of the baby you were carrying; the child seems to have left after finishing its drink. You never even got to see its face...\n\n", false);
 
@@ -131,7 +132,7 @@ export default class MarblePreg implements IPregnancyEvent {
             else // end of new content
             // it's a girl!
             {
-                CreatureChanges.stretchVagina(player, 20, true, true, false);
+                CreatureChange.stretchVagina(player, 20, true, true, false);
                 MainScreen.text("\n\nFor the next few minutes, you can't do much else but squeeze the large form inside your belly out.  Marble tries to help a little, pulling your nether lips open even further to make room for the head.  You gasp as you push the head out, and you hear Marble give a little cry of joy.  \"<i>It's a daughter of mine!</i>\" she tells you, but you can barely hear her due to the focus you're putting into the task of bringing this child out.\n\n", false);
                 MainScreen.text("You give an almighty heave and finally manage to push the shoulders out. The rest is downhill from there.  Once you've pushed the child completely out, Marble lays you down on the ground.  You rest there for a few moments, trying to catch your breath after the relatively difficult birthing.  When you finally have a chance to get up, you see that Marble has a small cowgirl cradled in her arms, suckling on her nipple.  You can hardly believe that you managed to push out a girl that big!  Marble seems to understand and tells you that the child is actually a fair bit bigger now than when she came out.\n\n", false);
                 MainScreen.text("She helps you stand up and gives you the little girl to suckle for yourself.  ", false);

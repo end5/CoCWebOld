@@ -1,12 +1,12 @@
-import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import CockDescriptor from '../../Descriptors/CockDescriptor';
-import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
-import { CockType } from '../Cock';
+import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import CockDescriptor from '../../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { CockType } from '../../Cock';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class BeeButtPregnancy implements IPregnancyEvent {

@@ -1,5 +1,5 @@
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class FrogGirlPreg implements IPregnancyEvent {
@@ -15,8 +15,7 @@ export default class FrogGirlPreg implements IPregnancyEvent {
                 //genderless: 
                 else MainScreen.text("  Your [vagina] begins twitching, aching for something to push through it over and over again.");
                 MainScreen.text("  Seated in your own slime, you moan softly, unable to keep your hands off yourself.");
-                player.stats.lustResisted = false;
-                player.stats.lust = 100;
+                player.stats.lustChange(100, false);
                 //dynStats("lus=", 100, "resisted", false);
             }
             else {

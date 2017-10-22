@@ -1,14 +1,14 @@
-import Cock, { CockType } from '../../Body/Cock';
-import Vagina, { VaginaWetness } from '../../Body/Vagina';
-import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import CockDescriptor from '../../Descriptors/CockDescriptor';
-import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import Cock, { CockType } from '../../../Body/Cock';
+import Vagina, { VaginaWetness } from '../../../Body/Vagina';
+import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import StatusAffect from '../../../Effects/StatusAffect';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class AnemonePreg implements IPregnancyEvent {

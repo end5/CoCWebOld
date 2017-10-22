@@ -1,7 +1,7 @@
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class ButtPregDrider implements IPregnancyEvent {

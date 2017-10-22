@@ -1,6 +1,6 @@
-import MainScreen from '../../display/MainScreen';
-import NeonPinkEgg from '../../Items/Consumables/NeonPinkEgg';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import NeonPinkEgg from '../../../Items/Consumables/NeonPinkEgg';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class BunnyButtPreg implements IPregnancyEvent {

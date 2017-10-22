@@ -1,5 +1,5 @@
-import Game from '../../Game/Game';
-import Player from '../../Player';
+import Game from '../../../Game/Game';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class BenoitPreg implements IPregnancyEvent {

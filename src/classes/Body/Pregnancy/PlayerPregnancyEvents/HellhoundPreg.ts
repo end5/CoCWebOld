@@ -1,11 +1,12 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import CreatureChange from '../../display/CreatureChange';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import CreatureChange from '../../../display/CreatureChange';
+import MainScreen from '../../../display/MainScreen';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { VaginaWetness } from '../../Vagina';
 import IPregnancyEvent from '../IPregnancyEvent';
-import { VaginaWetness } from '../Vagina';
 
 export default class HellhoundPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -65,11 +66,11 @@ export default class HellhoundPreg implements IPregnancyEvent {
         MainScreen.text("Hearing a hiss, you look down to see drops of water hitting the ground and instantly turning to steam.  There is unnatural heat filling you, it's hot enough to boil water; but thanks to the creature inside you, you're barely feeling a thing!  More energy fills you and you begin to push down on the child within in earnest.  The process is painful, but satisfying; you feel like you could push out a mountain with the energy you have right now.  Within a minute, you can feel the heads emerge.  The heads are quickly followed by the rest of the body and you catch your hellhound child in your hands and lift it up to look at it.\n\n", false);
         MainScreen.text("You can see the distinctive dog heads are wrapped around each other and yipping softly; a hint of flame can sometimes be seen inside their mouths.  Its cute paws are waving in the air looking for purchase, but the rest of its body looks entirely human except for the double dicks, and it even has your skin color.  Its mouths are aching for nutrition, and you realize that your breasts are filled with what this pup needs and pull it to your chest.  Each head quickly finds a nipple and begins to suckle.  Having finished the birthing, you contentedly sit back down and bask in the feeling of giving milk to your child, or is it children?\n\n", false);
         MainScreen.text("You sit there in a state of euphoria for some time.  It's not until the child in front of you starts to become uncomfortably hot and heavy, that you are brought back to reality.  You look down to see that the hellhound pup has grown to three times its original size and even sprouted the distinctive layer of tough black fur.  The beast is licking contentedly at your breasts instead of sucking.  It was the now-full flames in its mouth that had broken your reverie, but before you get a real grasp of what had happened, the hellhound pulls away from you and gives you a few quick happy barks before turning around and running off into the wilds, dropping down onto four legs just before disappearing from view.  You feel the unnatural strength you gained during the birth fade away, and you fall into a deep contented sleep.\n\n", false);
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         //Main Text here
         if (player.upperBody.chest.averageLactation() > 0 && player.upperBody.chest.averageLactation() < 5) {
             MainScreen.text("Your breasts won't seem to stop dribbling milk, lactating more heavily than before.  ", false);
-            player.boostLactation(.5);
+            BreastModifier.boostLactation(player, .5);
         }
         CreatureChange.stretchVagina(player, 60, true);
         if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) player.lowerBody.vaginaSpot.get(0).vaginalWetness++;

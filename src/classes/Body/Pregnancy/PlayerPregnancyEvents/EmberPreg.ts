@@ -1,6 +1,6 @@
-import MainScreen from '../../display/MainScreen';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
+import MainScreen from '../../../display/MainScreen';
+import Flags, { FlagEnum } from '../../../Game/Flags';
+import Player from '../../../Player';
 import IPregnancyEvent from '../IPregnancyEvent';
 
 export default class EmberPreg implements IPregnancyEvent {

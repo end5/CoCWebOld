@@ -1,10 +1,10 @@
-import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import MainScreen from '../../../display/MainScreen';
+import StatusAffect from '../../../Effects/StatusAffect';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { VaginaLooseness } from '../../Vagina';
 import IPregnancyEvent from '../IPregnancyEvent';
-import { VaginaLooseness } from '../Vagina';
 
 export default class OvielixirEggsPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -27,8 +27,7 @@ export default class OvielixirEggsPreg implements IPregnancyEvent {
                 MainScreen.text("You are interrupted as you find yourself overtaken by an uncontrollable urge to undress and squat.   You berate yourself for giving in to the urge for a moment before feeling something shift.  You hear the splash of fluid on the ground and look down to see a thick greenish fluid puddling underneath you.  There is no time to ponder this development as a rounded object passes down your birth canal, spreading your feminine lips apart and forcing a blush to your cheeks.  It plops into the puddle with a splash, and you find yourself feeling visibly delighted to be laying such healthy eggs.   Another egg works its way down and you realize the process is turning you on more and more.   In total you lay ", false);
                 MainScreen.text(this.eggDescript(player), false);
                 MainScreen.text(", driving yourself to the very edge of orgasm.", false);
-                player.stats.lustResisted = false;
-                player.stats.lust = 100;
+                player.stats.lustChange(100, false);
                 //dynStats("lus=", 100, "resisted", false);
             }
             //High quantity

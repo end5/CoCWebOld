@@ -1,12 +1,12 @@
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
-import BreastModifier from '../../Modifiers/BreastModifiers';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import MainScreen from '../../../display/MainScreen';
+import StatusAffect from '../../../Effects/StatusAffect';
+import BreastModifier from '../../../Modifiers/BreastModifiers';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
+import { VaginaLooseness, VaginaWetness } from '../../Vagina';
 import IPregnancyEvent from '../IPregnancyEvent';
-import { VaginaLooseness, VaginaWetness } from '../Vagina';
 
 export default class ImpPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -78,14 +78,14 @@ export default class ImpPreg implements IPregnancyEvent {
         MainScreen.text("\n\nWhen you wake you find a large number of tiny imp tracks... and a spattering of cum on your clothes and body.  They must be born fully-formed.", false);
         if (player.upperBody.chest.averageLactation() > 0 && player.upperBody.chest.averageLactation() < 5) {
             MainScreen.text("  Your breasts won't seem to stop dribbling milk, lactating more heavily than before.", false);
-            player.boostLactation(.5);
+            BreastModifier.boostLactation(player, .5);
         }
         //Lactate if large && not lactating
         if (largestBreastRating >= 3 && mostBreastsPerRow > 1 && player.upperBody.chest.averageLactation() == 0) {
             MainScreen.text("  As you ponder the implications, <b>you realize your breasts have been slowly lactating</b>.  You wonder how much longer it will be before they stop.", false);
-            player.boostLactation(1);
+            BreastModifier.boostLactation(player, 1);
         }
-        player.boostLactation(.01);
+        BreastModifier.boostLactation(player, .01);
         //Enlarge if too small for lactation
         if (largestBreastRating == 2 && mostBreastsPerRow > 1) {
             MainScreen.text("  <b>Your breasts have grown to C-cups!</b>", false);

@@ -1,7 +1,7 @@
-import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
-import Utils from '../../Utilities/Utils';
+import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
+import MainScreen from '../../../display/MainScreen';
+import Player from '../../../Player';
+import Utils from '../../../Utilities/Utils';
 import IPregnancyEvent from '../IPregnancyEvent';
 import { PregnancyType } from '../Pregnancy';
 
