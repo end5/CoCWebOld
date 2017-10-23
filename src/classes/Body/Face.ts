@@ -18,6 +18,9 @@ export default class Face implements SaveInterface {
     public faceType: FaceType;
     public eyeType: EyeType;
     public tongueType: TongueType;
+    
+    public beardLength: number;
+    public beardStyle: number;
 
     public lipPierced: number;
     public lipPShort: string;
@@ -72,6 +75,10 @@ export default class Face implements SaveInterface {
                 return false;
         }
     }
+
+    public hasBeard(): boolean {
+		return this.beardLength > 0;
+	}
 
     saveKey: string = "Face";
     save(): object {
