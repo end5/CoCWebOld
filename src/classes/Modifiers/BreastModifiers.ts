@@ -30,8 +30,6 @@ export default class BreastModifier {
                 }
             }
 
-            //Grow!
-            console.trace("Growing breasts by ", growthAmount);
             chest.BreastRatingSmallest[0].breastRating += growthAmount;
             rowsGrown--;
         }
@@ -63,7 +61,6 @@ export default class BreastModifier {
             if (breastIndex + 1 > chest.count())
                 breastIndex = 0;
             chest.get(breastIndex).breastRating += amount;
-            console.trace("Breasts increased by " + amount + " on row " + breastIndex);
             breastIndex++;
             rowsGrown--;
         }
@@ -117,19 +114,20 @@ export default class BreastModifier {
             return;
         }
         if (body.upperBody.chest.count() == 1) {
-            if (body.upperBody.chest.get(0).breastRating > 0) {
+            let topRow: BreastRow = body.upperBody.chest.get(0);
+            if (topRow.breastRating > 0) {
                 //Shrink if bigger than N/A cups
                 let superShrink: boolean = false;
-                body.upperBody.chest.get(0).breastRating--;
+                topRow.breastRating--;
                 //Shrink again 50% chance
-                if (body.upperBody.chest.get(0).breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has("BigTits")) {
+                if (topRow.breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has("BigTits")) {
                     superShrink = true;
-                    body.upperBody.chest.get(0).breastRating--;
+                    topRow.breastRating--;
                 }
-                if (body.upperBody.chest.get(0).breastRating < 0) body.upperBody.chest.get(0).breastRating = 0;
+                if (topRow.breastRating < 0) topRow.breastRating = 0;
                 //Talk about shrinkage
-                if (!superShrink) MainScreen.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
-                if (superShrink) MainScreen.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + breastCup(0) + "s.", false);
+                if (!superShrink) MainScreen.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.", false);
+                if (superShrink) MainScreen.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.", false);
             }
         }
         else if (body.upperBody.chest.count() > 1) {
@@ -216,5 +214,4 @@ export default class BreastModifier {
         }
         return changes;
     }
-
 }
