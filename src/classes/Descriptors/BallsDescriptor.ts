@@ -1,5 +1,5 @@
-﻿import Utils from "../Utilities/Utils";
-import Creature from "../Body/Creature";
+﻿import Creature from '../Body/Creature';
+import Utils from '../Utilities/Utils';
 
 export default class BallsDescriptor {
     //ballsDescriptLight(forcedSize, true, this)

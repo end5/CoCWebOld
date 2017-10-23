@@ -1,6 +1,6 @@
-﻿import Utils from "../Utilities/Utils";
-import Creature, { SkinType } from "../Body/Creature";
-import Vagina, { VaginaLooseness, VaginaWetness, VaginaType } from "../Body/Vagina";
+﻿import Creature, { SkinType } from '../Body/Creature';
+import Vagina, { VaginaLooseness, VaginaType, VaginaWetness } from '../Body/Vagina';
+import Utils from '../Utilities/Utils';
 
 export default class VaginaDescriptor {
     public static describeVagina(body: Creature, vagina: Vagina): string {

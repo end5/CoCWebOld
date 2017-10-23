@@ -1,5 +1,5 @@
-﻿import Creature from "../Body/Creature";
-import { TailType } from "../Body/LowerBody";
+﻿import Creature from '../Body/Creature';
+import { TailType } from '../Body/LowerBody';
 
 export default class TailDescriptor {
     public static TailNameTable =

@@ -1,8 +1,8 @@
-﻿import Creature from "../Body/Creature";
-import Utils from "../Utilities/Utils";
-import LowerBody, { LowerBodyType } from "../Body/LowerBody";
-import VaginaDescriptor from "./VaginaDescriptor";
-import ButtDescriptor from "./ButtDescriptor";
+﻿import ButtDescriptor from './ButtDescriptor';
+import VaginaDescriptor from './VaginaDescriptor';
+import Creature from '../Body/Creature';
+import LowerBody, { LowerBodyType } from '../Body/LowerBody';
+import Utils from '../Utilities/Utils';
 
 export default class LowerBodyDescriptor {
     public static assholeOrPussy(body: Creature): string {

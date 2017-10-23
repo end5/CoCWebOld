@@ -1,4 +1,5 @@
 ﻿import Creature, { Gender } from '../Body/Creature';
+import Character from '../Character/Character';
 
 export default class GenderDescriptor {
     public static genderText(gender: Gender, male: string = "man", female: string = "woman", futa: string = "herm", eunuch: string = "eunuch"): string {
@@ -40,7 +41,7 @@ export default class GenderDescriptor {
         }
     }
 
-    public static manWoman(gender: Gender, caps: boolean = false): string {
+    public static manWomanFutaEunuch(gender: Gender, caps: boolean = false): string {
         if (gender == Gender.HERM) {
             if (caps)
                 return "Futa";
@@ -97,36 +98,6 @@ export default class GenderDescriptor {
         }
     }
 
-    public static heShe(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
-            if (caps)
-                return "She";
-            else
-                return "she";
-        }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
-            if (caps)
-                return "He";
-            else
-                return "he";
-        }
-    }
-
-    public static himHer(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
-            if (caps)
-                return "Her";
-            else
-                return "her";
-        }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
-            if (caps)
-                return "Him";
-            else
-                return "him";
-        }
-    }
-
     public static maleFemale(gender: Gender, caps: boolean = false): string {
         if (gender == Gender.HERM || gender == Gender.FEMALE) {
             if (caps)
@@ -156,5 +127,4 @@ export default class GenderDescriptor {
                 return "Sir";
         }
     }
-
 }

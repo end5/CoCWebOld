@@ -321,7 +321,7 @@ export default class BreastDescriptor {
             case 5:
                 desciption += Utils.randomChoice("five rows of ", "five-tiered ");
         }
-        desciption += this.describeBiggestBreastRow(chest);
+        desciption += this.describeBiggestBreastRow(body);
         return desciption;
 
     }

@@ -1,4 +1,4 @@
-﻿import Cock, { CockType } from "./Cock";
+﻿import Cock, { CockType } from '../Body/Cock';
 
 export default class CockDescLib {
     private static library: object = {};

@@ -1,8 +1,8 @@
-﻿import Creature, { SkinType } from "../Body/Creature";
-import Cock, { CockType } from "../Body/Cock";
-import CockSpot from "../Body/CockSpot";
-import Utils from "../Utilities/Utils";
-import Flags from "../Game/Flags";
+﻿import Cock, { CockType } from '../Body/Cock';
+import CockSpot from '../Body/CockSpot';
+import Creature, { SkinType } from '../Body/Creature';
+import Flags from '../Game/Flags';
+import Utils from '../Utilities/Utils';
 
 export default class CockDescriptor {
     public static describeCock(body: Creature, cock: Cock): string {
