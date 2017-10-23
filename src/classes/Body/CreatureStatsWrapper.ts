@@ -75,7 +75,12 @@ export default class CreatureStatsWrapper {
         this.intChange(value);
     }
 
-    public intChange(value: number, bimboIntReduction: boolean = false) {
+    public set intBimbo(value: number) {
+        value -= this.stats.int;
+        this.intChange(value, true);
+    }
+
+    private intChange(value: number, bimboIntReduction: boolean = false) {
         if (!bimboIntReduction)
             if (this.body.perks.has("FutaFaculties") || this.body.perks.has("BimboBrains") || this.body.perks.has("BroBrains")) {
                 if (value > 0)
@@ -99,7 +104,12 @@ export default class CreatureStatsWrapper {
         this.libChange(value);
     }
 
-    public libChange(value: number, bimboIntReduction: boolean = false) {
+    public set libBimbo(value: number) {
+        value -= this.stats.lib;
+        this.libChange(value, true);
+    }
+
+    private libChange(value: number, bimboIntReduction: boolean = false) {
         if (!bimboIntReduction)
             if (this.body.perks.has("FutaForm") || this.body.perks.has("BimboBody") || this.body.perks.has("BroBody")) {
                 if (value > 0)
@@ -249,10 +259,15 @@ export default class CreatureStatsWrapper {
 
     public set lust(value: number) {
         value -= this.stats.lust;
-        this.lustChange(value);
+        this.lustChange(value, true);
     }
 
-    public lustChange(value: number, lustResisted: boolean = true) {
+    public set lustNoResist(value: number) {
+        value -= this.stats.lust;
+        this.lustChange(value, false);
+    }
+
+    private lustChange(value: number, lustResisted: boolean = true) {
         if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 && value > 0 && lustResisted)
             value /= 2;
         if (value > 0 && lustResisted)
@@ -423,7 +438,7 @@ export default class CreatureStatsWrapper {
     public get level(): number {
         return this.stats.level;
     }
-    
+
     public set additionalXP(value: number) {
         this.stats.additionalXP = value;
     }
