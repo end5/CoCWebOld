@@ -274,7 +274,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 	//Modify this.femininity!
 	public modFem(goal: number, strength: number = 1): string {
 		let output: string = "";
-		let old: string = HeadDescriptor.describeFaceOther(this);
+		let old: string = FaceDescriptor.describeFaceOther(this);
 		let oldN: number = this.femininity;
 		let Changed: boolean = false;
 		//If already perfect!
@@ -303,7 +303,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 		if (!Changed)
 			return "";
 		//See if a change happened!
-		if (old != HeadDescriptor.describeFaceOther(this)) {
+		if (old != FaceDescriptor.describeFaceOther(this)) {
 			//Gain fem?
 			if (goal > oldN)
 				output = "\n\n<b>Your facial features soften as your body becomes more feminine. (+" + strength + ")</b>";
@@ -320,128 +320,8 @@ export default abstract class Character extends Creature implements UpdateInterf
 		return output;
 	}
 
-	public modThickness(goal: number, strength: number = 1): string {
-		if (goal == this.thickness)
-			return "";
-		//Lose weight fatty!
-		if (goal < this.thickness && goal < 50) {
-			this.thickness -= strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.thickness < goal)
-				this.thickness = goal;
-		}
-		//Sup tubby!
-		if (goal > this.thickness && goal > 50) {
-			this.thickness += strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.thickness > goal)
-				this.thickness = goal;
-		}
 
-		//DIsplay 'U GOT FAT'
-		if (goal >= this.thickness && goal >= 50)
-			return "\n\nYour center of balance changes a little bit as your body noticeably widens. (+" + strength + " body thickness)";
-		//GET THIN BITCH
-		else if (goal <= this.thickness && goal <= 50)
-			return "\n\nEach movement feels a tiny bit easier than the last.  Did you just lose a little weight!? (+" + strength + " thin)";
-		return "";
-	}
 
-	public modTone(goal: number, strength: number = 1): string {
-		if (goal == this.tone)
-			return "";
-		//Lose muscle visibility!
-		if (goal < this.tone && goal < 50) {
-			this.tone -= strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.tone < goal) {
-				this.tone = goal;
-				return "\n\nYou've lost some tone, but can't lose any more this way. (-" + strength + " muscle tone)";
-			}
-		}
-		//MOAR hulkness
-		if (goal > this.tone && goal > 50) {
-			this.tone += strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.tone > goal) {
-				this.tone = goal;
-				return "\n\nYou've gained some muscle tone, but can't gain any more this way. (+" + strength + " muscle tone)";
-			}
-		}
-		//DIsplay BITCH I WORK OUT
-		if (goal >= this.tone && goal > 50)
-			return "\n\nYour body feels a little more solid as you move, and your muscles look slightly more visible. (+" + strength + " muscle tone)";
-		//Display DERP I HAVE GIRL MUSCLES
-		else if (goal <= this.tone && goal < 50)
-			return "\n\nMoving brings with it a little more jiggle than you're used to.  You don't seem to have gained weight, but your muscles look less visible. (-" + strength + " muscle tone)";
-		return "";
-	}
-
-	//Run this every hour to 'fix' this.femininity.
-	public fixFemininity(): string {
-		let output: string = "";
-		//Genderless/herms share the same bounds
-		if (this.gender == Gender.NONE || this.gender == Gender.HERM) {
-			if (this.femininity < 20) {
-				output += "\n<b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
-				if (this.hasBeard()) {
-					output += "  As if that wasn't bad enough, your " + this.beard() + " falls out too!";
-					this.beardLength = 0;
-					this.beardStyle = 0;
-				}
-				output += "</b>\n";
-				this.femininity = 20;
-			}
-			else if (this.femininity > 85) {
-				output += "\n<b>You find your overly feminine face loses a little bit of its former female beauty due to your body's changing hormones.</b>\n";
-				this.femininity = 85;
-			}
-		}
-		//GURLS!
-		else if (this.gender == 2) {
-			if (this.femininity < 30) {
-				output += "\n<b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
-				if (this.hasBeard()) {
-					output += "  As if that wasn't bad enough, your " + this.beard() + " falls out too!";
-					this.beardLength = 0;
-					this.beardStyle = 0;
-				}
-				output += "</b>\n";
-				this.femininity = 30;
-			}
-		}
-		//BOIZ!
-		else if (this.gender == 1) {
-			if (this.femininity > 70) {
-				output += "\n<b>You find your overly feminine face loses a little bit of its former female beauty due to your body's changing hormones.</b>\n";
-				this.femininity = 70;
-			}
-			if (this.femininity > 40 && this.hasBeard()) {
-				output += "\n<b>Your beard falls out, leaving you with " + HeadDescriptor.describeFace(this) + ".</b>\n";
-				this.beardLength = 0;
-				this.beardStyle = 0;
-			}
-		}
-		if (this.gender != 1 && this.hasBeard()) {
-			output += "\n<b>Your beard falls out, leaving you with " + HeadDescriptor.describeFace(this) + ".</b>\n";
-			this.beardLength = 0;
-			this.beardStyle = 0;
-		}
-		return output;
-	}
-
-	public hasBeard(): boolean {
-		return this.beardLength > 0;
-	}
-
-	public beard(): string {
-		if (this.hasBeard())
-			return "beard";
-		else {
-			//CoC_Settings.error("");
-			return "ERROR: NO BEARD! <b>YOU ARE NOT A VIKING AND SHOULD TELL FEN IMMEDIATELY.</b>";
-		}
-	}
 
 	public viridianChange(): boolean {
 		let cockSpot = this.lowerBody.cockSpot;
