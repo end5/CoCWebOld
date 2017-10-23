@@ -1,4 +1,4 @@
-import Creature from "../Body/Creature";
+import Creature from '../Creature';
 
 export default interface IPregnancyEvent {
     incubationDisplay(creature: Creature, incubationTime: number);

@@ -1,12 +1,12 @@
-import Butt from './Butt';
-import Creature from './Creature';
 import Pregnancy, { PregnancyType } from './Pregnancy';
-import Vagina from './Vagina';
-import VaginaSpot from './VaginaSpot';
-import MainScreen from '../display/MainScreen';
-import Player from '../Player';
-import UpdateInterface from '../UpdateInterface';
-import Utils from '../Utilities/Utils';
+import MainScreen from '../../display/MainScreen';
+import Player from '../../Player';
+import UpdateInterface from '../../UpdateInterface';
+import Utils from '../../Utilities/Utils';
+import Butt from '../Butt';
+import Creature from '../Creature';
+import Vagina from '../Vagina';
+import VaginaSpot from '../VaginaSpot';
 
 
 export default class PregnancyManager implements UpdateInterface {
@@ -109,7 +109,7 @@ export default class PregnancyManager implements UpdateInterface {
         return null;
     }
 
-    public get listLargestIncubationTime: Pregnancy[] {
+    public get listLargestIncubationTime(): Pregnancy[] {
         return this.wombs.slice().sort((first: Pregnancy, second: Pregnancy) => {
             return second.incubation - first.incubation;
         });

@@ -1,9 +1,9 @@
-﻿import Creature from "./Creature";
-import Game from "../Game/Game";
-import IPregnancyEvent from "./IPregnancyEvent";
-import MainScreen from "../display/MainScreen";
-import { SaveInterface } from "../SaveInterface";
-import Vagina from "./Vagina";
+﻿import IPregnancyEvent from './IPregnancyEvent';
+import MainScreen from '../../display/MainScreen';
+import Game from '../../Game/Game';
+import { SaveInterface } from '../../SaveInterface';
+import Creature from '../Creature';
+import Vagina from '../Vagina';
 
 export enum PregnancyType {
     IMP,
