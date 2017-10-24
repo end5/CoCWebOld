@@ -1,100 +1,27 @@
-import { CombatParty } from './CombatManager';
-import Character from '../Character';
+import Character from '../Character/Character';
 import MainScreen from '../display/MainScreen';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
-import Monster from '../Monster';
 import Player from '../Player';
 
+export enum CombatEndType {
+    Special,
+    HP,
+    Lust
+}
+
+export interface CombatEndEventFunction  {
+    (combatEndType: CombatEndType, target: Character);
+
+}
+
 export default class CombatEnd {
-    public static endHpVictory(): void {
-        monster.defeated_(true);
-    }
-
-    public static endLustVictory(): void {
-        monster.defeated_(false);
-    }
-
-    public static endHpLoss(): void {
-        monster.won_(true, false);
-    }
-
-    public static endLustLoss(): void {
-        if (player.statusAffects.has("Infested") && Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] == 0) {
-            Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] = 1;
-            infestOrgasm();
-            monster.won_(false, true);
-        } else {
-            monster.won_(false, false);
-        }
-    }
-
     public static combatCleanup(player: Player, playerParty: Character[], monsterParty: Character[]) {
         CombatEnd.clearStatuses(player);
         for (let index = 0; index < playerParty.length; index++)
             CombatEnd.clearStatuses(playerParty[index]);
         for (let index = 0; index < monsterParty.length; index++)
             CombatEnd.clearStatuses(monsterParty[index]);
-    }
-
-    public static cleanupAfterCombat(nextFunc: Function = null): void {
-        if (nextFunc == null) nextFunc = camp.returnToCampUseOneHour;
-        if (inCombat) {
-            //clear status
-            clearStatuses(false);
-            //Clear itemswapping in case it hung somehow
-            //No longer used:		itemSwapping = false;
-            //Player won
-            if (monster.stats.HP < 1 || monster.stats.lust > 99) {
-                awardPlayer();
-            }
-            //Player lost
-            else {
-                if (monster.statusAffects.get("Sparring").value1 == 2) {
-                    MainScreen.text("The cow-girl has defeated you in a practice fight!", true);
-                    MainScreen.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.", false);
-                    Game.inCombat = false;
-                    player.HP = 1;
-                    statScreenRefresh();
-                    doNext(nextFunc);
-                    return;
-                }
-                //Next button is handled within the minerva loss function
-                if (monster.statusAffects.has("PeachLootLoss")) {
-                    inCombat = false;
-                    player.HP = 1;
-                    statScreenRefresh();
-                    return;
-                }
-                if (monster.short == "Ember") {
-                    inCombat = false;
-                    player.HP = 1;
-                    statScreenRefresh();
-                    doNext(nextFunc);
-                    return;
-                }
-                temp = rand(10) + 1 + Math.round(monster.level / 2);
-                if (inDungeon) temp += 20 + monster.level * 2;
-                if (temp > player.stats.gems) temp = player.stats.gems;
-                let timePasses: number = monster.handleCombatLossText(inDungeon, temp); //Allows monsters to customize the loss text and the amount of time lost
-                player.stats.gems -= temp;
-                inCombat = false;
-                //BUNUS XPZ
-                if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
-                    player.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
-                    MainScreen.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
-                    Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
-                }
-                //Bonus lewts
-                if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] != "") {
-                    MainScreen.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
-                    inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(camp.returnToCamp, timePasses));
-                }
-                else doNext(createCallBackFunction(camp.returnToCamp, timePasses));
-            }
-        }
-        //Not actually in combat
-        else doNext(nextFunc);
     }
 
     public static clearStatuses(character: Character): void {

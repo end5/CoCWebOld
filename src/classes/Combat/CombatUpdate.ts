@@ -1,87 +1,23 @@
-import Character from '../Character';
+import Combat from './Combat';
+import Character from '../Character/Character';
+import { CharacterType } from '../Character/CharacterType';
 import ButtDescriptor from '../Descriptors/ButtDescriptor';
 import CockDescriptor from '../Descriptors/CockDescriptor';
+import GenderDescriptor from '../Descriptors/GenderDescriptor';
 import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
 import MainScreen from '../display/MainScreen';
+import StatusAffect from '../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../Game/Flags';
-import Monster from '../Monster';
-import Player from '../Player';
 import Utils from '../Utilities/Utils';
 
 export default class CombatUpdate {
-    public combatMiss(player: Player, monster: Monster): boolean {
-        return player.stats.spe - monster.stats.spe > 0 && Utils.rand(((player.stats.spe - monster.stats.spe) / 4) + 80) > 80;
-
-    }
-
-    public combatEvade(player: Player, monster: Monster): boolean {
-        return monster.short != "Kiha" && player.perks.has("Evade") && Utils.rand(100) < 10;
-
-    }
-
-    public combatFlexibility(player: Player, monster: Monster): boolean {
-        return player.perks.has("Flexibility") && Utils.rand(100) < 6;
-
-    }
-
-    public combatMisdirect(player: Player, monster: Monster): boolean {
-        return player.perks.has("Misdirection") && Utils.rand(100) < 10 && player.inventory.armor.displayName == "red, high-society bodysuit";
-    }
-
-    public static doDamage(character: Character, enemy: Character, damage: number, apply: boolean = true): number {
-        if (character.perks.has("Sadist")) {
-            damage *= 1.2;
-            character.stats.lust += 3;
-        }
-
-        // Uma's Massage Bonuses
-        if (character.statusAffects.has("UmasMassage")) {
-            if (character.statusAffects.get("UmasMassage").value1 == UmasShop.MASSAGE_POWER) {
-                damage *= character.statusAffects.get("UmasMassage").value2;
-            }
-        }
-
-        damage = Math.round(damage);
-
-        if (damage < 0) damage = 1;
-        if (apply) enemy.stats.HP -= damage;
-        //Isabella gets mad
-        if (enemy.short == "Isabella") {
-            Flags.list[FlagEnum.ISABELLA_AFFECTION]--;
-            //Keep in bounds
-            if (Flags.list[FlagEnum.ISABELLA_AFFECTION] < 0)
-                Flags.list[FlagEnum.ISABELLA_AFFECTION] = 0;
-        }
-        //Interrupt gigaflare if necessary.
-        if (enemy.statusAffects.has("Gigafire"))
-            enemy.statusAffects.get("Gigafire").value1 += damage;
-        return damage;
-    }
-
-    public static combatRegeneration(character: Character, combat: boolean = true): void {
-        let healingPercent: number = 0;
-        if (character.perks.has("Regeneration")) healingPercent += 1;
-        if (character.perks.has("Regeneration2")) healingPercent += 2;
-        if (character.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
-        if (character.inventory.armor.displayName == "goo armor") healingPercent += 2;
-        if (character.perks.has("LustyRegeneration")) healingPercent += 1;
-        if (healingPercent > 5) healingPercent = 5;
-        character.stats.HP += Math.round(character.stats.maxHP() * healingPercent / 100);
-    }
-
-    public static fatigueRecovery(character: Character): void {
-        character.stats.fatigue--;
-        if (character.perks.has("EnlightenedNinetails") || character.perks.has("CorruptedNinetails"))
-            character.stats.fatigue -= (1 + Utils.rand(3));
-    }
-
     public static combatStatusAffectsUpdate(playerParty: Character[], monsterParty: Character[]): void {
         //old outfit used for fetish cultists
         let oldOutfit: string = "";
         let changed: boolean = false;
 
-        let player = playerParty[0];
-        let monster = monsterParty[0];
+        const player: Character = playerParty[0];
+        const monster: Character = monsterParty[0];
 
         if (player.statusAffects.has("Sealed")) {
             //Countdown and remove as necessary
@@ -179,8 +115,8 @@ export default class CombatUpdate {
             //Bleed effect:
             else {
                 let bleed: number = (2 + Utils.rand(4)) / 100;
-                bleed *= player.stats.HP;
-                bleed = takeDamage(bleed);
+                bleed *= player.combat.HP;
+                bleed = player.combat.loseHP(bleed, null);
                 MainScreen.text("<b>You gasp and wince in pain, feeling fresh blood pump from your wounds. (" + bleed + ")</b>\n\n", false);
             }
         }
@@ -189,25 +125,19 @@ export default class CombatUpdate {
             MainScreen.text("<b>Your muscles twitch in agony as the acid keeps burning you. (" + slap + ")</b>\n\n", false);
         }
         if (player.perks.has("ArousingAura") && monster.stats.lustVuln > 0 && player.stats.cor >= 70) {
-            if (monster.stats.lust < 50) MainScreen.text("Your aura seeps into " + monster.a + monster.short + " but does not have any visible effects just yet.\n\n", false);
+            if (monster.stats.lust < 50) MainScreen.text("Your aura seeps into " + monster.desc.a + monster.desc.short + " but does not have any visible effects just yet.\n\n", false);
             else if (monster.stats.lust < 60) {
-                // No monster plural
-                //if (!monster.plural)
-                MainScreen.text(monster.capitalA + monster.short + " starts to squirm a little from your unholy presence.\n\n", false);
-                //else MainScreen.text(monster.capitalA + monster.short + " start to squirm a little from your unholy presence.\n\n", false);
+                if (!monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " starts to squirm a little from your unholy presence.\n\n", false);
+                else MainScreen.text(monster.desc.capitalA + monster.desc.short + " start to squirm a little from your unholy presence.\n\n", false);
             }
-            else if (monster.stats.lust < 75) MainScreen.text("Your arousing aura seems to be visibly affecting " + monster.a + monster.short + ", making " + monster.pronoun2 + " squirm uncomfortably.\n\n", false);
+            else if (monster.stats.lust < 75) MainScreen.text("Your arousing aura seems to be visibly affecting " + monster.desc.a + monster.desc.short + ", making " + monster.desc.objectivePronoun + " squirm uncomfortably.\n\n", false);
             else if (monster.stats.lust < 85) {
-                // No monster plural
-                //if (!monster.plural)
-                MainScreen.text(monster.capitalA + monster.short + "'s skin colors red as " + monster.pronoun1 + " inadvertantly basks in your presence.\n\n", false);
-                //else MainScreen.text(monster.capitalA + monster.short + "' skin colors red as " + monster.pronoun1 + " inadvertantly bask in your presence.\n\n", false);
+                if (!monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s skin colors red as " + monster.desc.subjectivePronoun + " inadvertantly basks in your presence.\n\n", false);
+                else MainScreen.text(monster.desc.capitalA + monster.desc.short + "' skin colors red as " + monster.desc.subjectivePronoun + " inadvertantly bask in your presence.\n\n", false);
             }
             else {
-                // No monster plural
-                //if (!monster.plural)
-                MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begins to shake and steal glances at your body.\n\n", false);
-                //else MainScreen.text("The effects of your aura are quite pronounced on " + monster.a + monster.short + " as " + monster.pronoun1 + " begin to shake and steal glances at your body.\n\n", false);
+                if (!monster.desc.plural) MainScreen.text("The effects of your aura are quite pronounced on " + monster.desc.a + monster.desc.short + " as " + monster.desc.subjectivePronoun + " begins to shake and steal glances at your body.\n\n", false);
+                else MainScreen.text("The effects of your aura are quite pronounced on " + monster.desc.a + monster.desc.short + " as " + monster.desc.subjectivePronoun + " begin to shake and steal glances at your body.\n\n", false);
             }
             monster.stats.lust += monster.stats.lustVuln * (2 + Utils.rand(4));
         }
@@ -261,7 +191,7 @@ export default class CombatUpdate {
             }
         }
         //Harpy lip gloss
-        if (player.lowerBody.cockSpot.hasCock() && player.statusAffects.has("Luststick") && (monster.short == "harpy" || monster.short == "Sophie")) {
+        if (player.lowerBody.cockSpot.hasCock() && player.statusAffects.has("Luststick") && (monster.desc.short == "harpy" || monster.desc.short == "Sophie")) {
             //Chance to cleanse!
             if (player.perks.has("Medicine") && Utils.rand(100) <= 14) {
                 MainScreen.text("You manage to cleanse the harpy lip-gloss from your system with your knowledge of medicine!\n\n", false);
@@ -289,7 +219,7 @@ export default class CombatUpdate {
             //Effect 
             MainScreen.text("Your lips burn with an unexpected flash of heat.  They sting and burn with unholy energies as a puff of ectoplasmic gas escapes your lips.  That puff must be a part of your soul!  It darts through the air to the succubus, who slurps it down like a delicious snack.  You feel feverishly hot and exhausted...\n\n", false);
             player.stats.lust += 5;
-            takeDamage(15);
+            player.combat.loseHP(15, null);
         }
         if (player.statusAffects.has("DemonSeed")) {
             MainScreen.text("You feel something shift inside you, making you feel warm.  Finding the desire to fight this... hunk gets harder and harder.\n\n", false);
@@ -304,10 +234,8 @@ export default class CombatUpdate {
             player.stats.lust += (Utils.rand(player.stats.lib / 5) + 3 + Utils.rand(5));
             if (player.lowerBody.cockSpot.count() > 1) MainScreen.text("Each of y", false);
             else MainScreen.text("Y", false);
-            // No monster plural
-            //if (monster.plural) MainScreen.text("our " + CockDescriptor.describeMultiCockShort(player) + " dribbles pre-cum as you think about plowing " + monster.a + monster.short + " right here and now, fucking " + monster.pronoun3 + " " + monster.VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s until they're totally fertilized and pregnant.\n\n", false);
-            //else
-            MainScreen.text("our " + CockDescriptor.describeMultiCockShort(player) + " dribbles pre-cum as you think about plowing " + monster.a + monster.short + " right here and now, fucking " + monster.pronoun3 + " " + VaginaDescriptor.describeVagina(monster, monster.lowerBody.vaginaSpot.get(0)) + " until it's totally fertilized and pregnant.\n\n", false);
+            if (monster.desc.plural) MainScreen.text("our " + CockDescriptor.describeMultiCockShort(player) + " dribbles pre-cum as you think about plowing " + monster.desc.a + monster.desc.short + " right here and now, fucking " + monster.desc.possessivePronoun + " " + VaginaDescriptor.describeVagina(monster, monster.lowerBody.vaginaSpot.get(0)) + "s until they're totally fertilized and pregnant.\n\n", false);
+            else MainScreen.text("our " + CockDescriptor.describeMultiCockShort(player) + " dribbles pre-cum as you think about plowing " + monster.desc.a + monster.desc.short + " right here and now, fucking " + monster.desc.possessivePronoun + " " + VaginaDescriptor.describeVagina(monster, monster.lowerBody.vaginaSpot.get(0)) + " until it's totally fertilized and pregnant.\n\n", false);
         }
         if (player.statusAffects.has("NagaVenom")) {
             //Chance to cleanse!
@@ -324,9 +252,9 @@ export default class CombatUpdate {
                 //stats(0,0,-2,0,0,0,0,0);
                 player.stats.spe -= 2;
             }
-            else takeDamage(5);
+            else player.combat.loseHP(5, null);
             MainScreen.text("You wince in pain and try to collect yourself, the naga's venom still plaguing you.\n\n", false);
-            takeDamage(2);
+            player.combat.loseHP(2, null);
         }
         else if (player.statusAffects.has("TemporaryHeat")) {
             //Chance to cleanse!
@@ -357,7 +285,7 @@ export default class CombatUpdate {
             }
             else {
                 MainScreen.text("The poison continues to work on your body, wracking you with pain!\n\n", false);
-                takeDamage(8 + Utils.rand(player.stats.maxHP() / 20));
+                player.combat.loseHP(8 + Utils.rand(player.stats.maxHP() / 20), null);
             }
         }
         //Bondage straps + bondage fetish
@@ -365,8 +293,168 @@ export default class CombatUpdate {
             MainScreen.text("The feeling of the tight, leather straps holding tightly to your body while exposing so much of it turns you on a little bit more.\n\n", false);
             player.stats.lust += 2;
         }
-        CombatUpdate.combatRegeneration(player);
-        CombatUpdate.combatRegeneration(monster);
+        Combat.combatRegeneration(player);
+        Combat.combatRegeneration(monster);
     }
 
+    public static monsterCombatStatusAffectsUpdate(player: Character, monster: Character): void {
+        monster = monster;
+        if (monster.statusAffects.has("MilkyUrta")) {
+            Game.sceneManager.urtaQuest.milkyUrtaTic();
+        }
+        //Countdown
+        if (monster.statusAffects.has("TentacleCoolDown")) {
+            monster.statusAffects.get("TentacleCoolDown").value1 -= 1;
+            if (monster.statusAffects.get("TentacleCoolDown").value1 == 0) {
+                monster.statusAffects.remove("TentacleCoolDown");
+            }
+        }
+        if (monster.statusAffects.has("CoonWhip")) {
+            if (monster.statusAffects.get("CoonWhip").value2 <= 0) {
+
+                // handled elsewhere
+                //monster.inventory.armor.defense += monster.statusAffects.get("CoonWhip").value1;
+
+                MainScreen.text("<b>Tail whip wears off!</b>\n\n");
+                monster.statusAffects.remove("CoonWhip");
+            }
+            else {
+                monster.statusAffects.get("CoonWhip").value2 -= 1;
+                MainScreen.text("<b>Tail whip is currently reducing your foe");
+                if (monster.desc.plural) MainScreen.text("s'");
+                else MainScreen.text("'s");
+                MainScreen.text(" armor by " + monster.statusAffects.get("CoonWhip").value1 + ".</b>\n\n")
+            }
+        }
+        if (monster.statusAffects.has("Blind")) {
+            monster.statusAffects.get("Blind").value1 -= 1;
+            if (monster.statusAffects.get("Blind").value1 <= 0) {
+                MainScreen.text("<b>" + monster.desc.capitalA + monster.desc.short + (monster.desc.plural ? " are" : " is") + " no longer blind!</b>\n\n", false);
+                monster.statusAffects.remove("Blind");
+            }
+            else MainScreen.text("<b>" + monster.desc.capitalA + monster.desc.short + (monster.desc.plural ? " are" : " is") + " currently blind!</b>\n\n", false);
+        }
+        if (monster.statusAffects.has("Earthshield")) {
+            MainScreen.text("<b>" + monster.desc.capitalA + monster.desc.short + " is protected by a shield of rocks!</b>\n\n");
+        }
+        if (monster.statusAffects.has("Sandstorm")) {
+            //Blinded:
+            if (player.statusAffects.has("Blind")) {
+                MainScreen.text("<b>You blink the sand from your eyes, but you're sure that more will get you if you don't end it soon!</b>\n\n");
+                player.statusAffects.remove("Blind");
+            }
+            else {
+                if (monster.statusAffects.get("Sandstorm").value1 == 0 || monster.statusAffects.get("Sandstorm").value1 % 4 == 0) {
+                    player.statusAffects.add(new StatusAffect("Blind", 0, 0, 0, 0));
+                    MainScreen.text("<b>The sand is in your eyes!  You're blinded this turn!</b>\n\n");
+                }
+                else {
+                    MainScreen.text("<b>The grainy mess cuts at any exposed flesh and gets into every crack and crevice of your armor.");
+                    let hpChange: number = player.combat.loseHP(1 + Utils.rand(2), null);
+                    MainScreen.text(" (" + hpChange + ")");
+                    MainScreen.text("</b>\n\n");
+                }
+            }
+            monster.statusAffects.get("Sandstorm").value1 += 1;
+        }
+        if (monster.statusAffects.has("Stunned")) {
+            MainScreen.text("<b>" + monster.desc.capitalA + monster.desc.short + " is still stunned!</b>\n\n", false);
+        }
+        if (monster.statusAffects.has("Shell")) {
+            if (monster.statusAffects.get("Shell").value1 >= 0) {
+                MainScreen.text("<b>A wall of many hues shimmers around " + monster.desc.a + monster.desc.short + ".</b>\n\n");
+                monster.statusAffects.get("Shell").value1 -= 1;
+            }
+            else {
+                MainScreen.text("<b>The magical barrier " + monster.desc.a + monster.desc.short + " erected fades away to nothing at last.</b>\n\n");
+                monster.statusAffects.remove("Shell");
+            }
+        }
+        if (monster.statusAffects.has("IzmaBleed")) {
+            //Countdown to heal
+            monster.statusAffects.get("IzmaBleed").value1 -= 1;
+            //Heal wounds
+            if (monster.statusAffects.get("IzmaBleed").value1 <= 0) {
+                MainScreen.text("The wounds you left on " + monster.desc.a + monster.desc.short + " stop bleeding so profusely.\n\n", false);
+                monster.statusAffects.remove("IzmaBleed");
+            }
+            //Deal damage if still wounded.
+            else {
+                let hpLoss: number = player.combat.loseHP(monster.stats.maxHP() * (3 + Utils.rand(4)) / 100, null);
+                if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " bleed profusely from the jagged wounds your weapon left behind. (" + hpLoss + ")\n\n", false);
+                else MainScreen.text(monster.desc.capitalA + monster.desc.short + " bleeds profusely from the jagged wounds your weapon left behind. (" + hpLoss + ")\n\n", false);
+            }
+        }
+        if (monster.statusAffects.has("Timer")) {
+            if (monster.statusAffects.get("Timer").value1 <= 0)
+                monster.statusAffects.remove("Timer");
+            monster.statusAffects.get("Timer").value1 -= 1;
+        }
+        if (monster.statusAffects.has("LustStick")) {
+            //LoT Effect Messages:
+            switch (monster.statusAffects.get("LustStick").value1) {
+                //First:
+                case 1:
+                    if (monster.desc.plural) MainScreen.text("One of " + monster.desc.a + monster.desc.short + " pants and crosses " + GenderDescriptor.mf(monster, "his", "her") + " eyes for a moment.  " + GenderDescriptor.mf(monster, "His", "Her") + " dick flexes and bulges, twitching as " + GenderDescriptor.mf(monster, "he", "she") + " loses himself in a lipstick-fueled fantasy.  When " + GenderDescriptor.mf(monster, "he", "she") + " recovers, you lick your lips and watch " + GenderDescriptor.mf(monster, "his", "her") + " blush spread.\n\n", false);
+                    else MainScreen.text(monster.desc.capitalA + monster.desc.short + " pants and crosses " + monster.desc.possessivePronoun + " eyes for a moment.  " + GenderDescriptor.mf(monster, "His", "Her") + " dick flexes and bulges, twitching as " + monster.desc.subjectivePronoun + " loses " + GenderDescriptor.mf(monster, "himself", "herself") + " in a lipstick-fueled fantasy.  When " + monster.desc.subjectivePronoun + " recovers, you lick your lips and watch " + GenderDescriptor.mf(monster, "his", "her") + " blush spread.\n\n", false);
+                    break;
+                //Second:
+                case 2:
+                    if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " moan out loud, " + monster.desc.possessivePronoun + " dicks leaking and dribbling while " + monster.desc.subjectivePronoun + " struggle not to touch " + monster.desc.objectivePronoun + ".\n\n", false);
+                    else MainScreen.text(monster.desc.capitalA + monster.desc.short + " moans out loud, " + monster.desc.possessivePronoun + " dick leaking and dribbling while " + monster.desc.subjectivePronoun + " struggles not to touch it.\n\n", false);
+                    break;
+                //Third:
+                case 3:
+                    if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " pump " + monster.desc.possessivePronoun + " hips futilely, air-humping non-existent partners.  Clearly your lipstick is getting to " + monster.desc.objectivePronoun + ".\n\n", false);
+                    else MainScreen.text(monster.desc.capitalA + monster.desc.short + " pumps " + monster.desc.possessivePronoun + " hips futilely, air-humping a non-existent partner.  Clearly your lipstick is getting to " + monster.desc.objectivePronoun + ".\n\n", false);
+                    break;
+                //Fourth:
+                case 4:
+                    if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " close " + monster.desc.possessivePronoun + " eyes and grunt, " + monster.desc.possessivePronoun + " cocks twitching, bouncing, and leaking pre-cum.\n\n", false);
+                    else MainScreen.text(monster.desc.capitalA + monster.desc.short + " closes " + monster.desc.objectivePronoun + " eyes and grunts, " + monster.desc.possessivePronoun + " cock twitching, bouncing, and leaking pre-cum.\n\n", false);
+                    break;
+                //Fifth and repeat:
+                default:
+                    if (monster.desc.plural) MainScreen.text("Drops of pre-cum roll steadily out of their dicks.  It's a marvel " + monster.desc.subjectivePronoun + " haven't given in to " + monster.desc.possessivePronoun + " lusts yet.\n\n", false);
+                    else MainScreen.text("Drops of pre-cum roll steadily out of " + monster.desc.a + monster.desc.short + "'s dick.  It's a marvel " + monster.desc.subjectivePronoun + " hasn't given in to " + monster.desc.possessivePronoun + " lust yet.\n\n", false);
+                    break;
+            }
+            monster.statusAffects.get("LustStick").value1 += 1;
+            //Damage = 5 + bonus score minus
+            //Reduced by lust vuln of course
+            monster.stats.lust += Math.round(monster.stats.lustVuln * (5 + monster.statusAffects.get("LustStick").value2));
+        }
+        if (monster.statusAffects.has("PCTailTangle")) {
+            //when Entwined
+            MainScreen.text("You are bound tightly in the kitsune's tails.  <b>The only thing you can do is try to struggle free!</b>\n\n");
+            MainScreen.text("Stimulated by the coils of fur, you find yourself growing more and more aroused...\n\n");
+            player.stats.lust += 5 + player.stats.sens / 10;
+        }
+        if (monster.statusAffects.has("QueenBind")) {
+            MainScreen.text("You're utterly restrained by the Harpy Queen's magical ropes!\n\n");
+            if (Flags.list[FlagEnum.PC_FETISH] >= 2)
+                player.stats.lust += 3;
+        }
+        if (monster.charType == CharacterType.SecretarialSuccubus || monster.charType == CharacterType.MilkySuccubus) {
+            if (player.stats.lust < 45) MainScreen.text("There is something in the air around your opponent that makes you feel warm.\n\n", false);
+            if (player.stats.lust >= 45 && player.stats.lust < 70) MainScreen.text("You aren't sure why but you have difficulty keeping your eyes off your opponent's lewd form.\n\n", false);
+            if (player.stats.lust >= 70 && player.stats.lust < 90) MainScreen.text("You blush when you catch yourself staring at your foe's rack, watching it wobble with every step she takes.\n\n", false);
+            if (player.stats.lust >= 90) MainScreen.text("You have trouble keeping your greedy hands away from your groin.  It would be so easy to just lay down and masturbate to the sight of your curvy enemy.  The succubus looks at you with a sexy, knowing expression.\n\n", false);
+            player.stats.lust += 1 + Utils.rand(8);
+        }
+        //[LUST GAINED PER ROUND] - Omnibus
+        if (monster.statusAffects.has("LustAura")) {
+            if (player.stats.lust < 33) MainScreen.text("Your groin tingles warmly.  The demon's aura is starting to get to you.\n\n", false);
+            if (player.stats.lust >= 33 && player.stats.lust < 66) MainScreen.text("You blush as the demon's aura seeps into you, arousing you more and more.\n\n", false);
+            if (player.stats.lust >= 66) {
+                MainScreen.text("You flush bright red with desire as the lust in the air worms its way inside you.  ", false);
+                let randomNumber = Utils.rand(4);
+                if (randomNumber == 0) MainScreen.text("You have a hard time not dropping to your knees to service her right now.\n\n", false);
+                if (randomNumber == 2) MainScreen.text("The urge to bury your face in her breasts and suckle her pink nipples nearly overwhelms you.\n\n", false);
+                if (randomNumber == 1) MainScreen.text("You swoon and lick your lips, tasting the scent of the demon's pussy in the air.\n\n", false);
+                if (randomNumber == 3) MainScreen.text("She winks at you and licks her lips, and you can't help but imagine her tongue sliding all over your body.  You regain composure moments before throwing yourself at her.  That was close.\n\n", false);
+            }
+            player.stats.lust += 3 + Math.floor(player.stats.lib / 20 + player.stats.cor / 30);
+        }
+    }
 }
