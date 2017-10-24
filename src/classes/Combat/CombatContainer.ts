@@ -63,14 +63,26 @@ export default abstract class CombatContainer {
      * @param target 
      */
     public abstract claimsVictory(winType: CombatEndType, target: Character): void;
+
+    /**
+     * Called before the target onVictory function call.
+     * @param winType 
+     * @param target 
+     */
+    protected abstract onEnemyVictory(winType: CombatEndType, target: Character): void;
     
     /**
      * Calls after combat is over. Used for displaying defeated text.
      * @param loseType 
      * @param target 
      */
-    public abstract defeated(loseType: CombatEndType, target: Character): void;
+    protected abstract onVictory(loseType: CombatEndType, target: Character): void;
 
+    public victory(loseType: CombatEndType, target: Character): void {
+        target.combat.onEnemyVictory(loseType, this.char);
+        this.onVictory(loseType, target);
+    }
+    
     /**
      * Used if you want to describe something happening after enemy victory.
      * @param loseType 

@@ -137,18 +137,18 @@ export default class CombatManager {
             // do player party lose
             for (let index: number = 0; index < this.playerCombatParty.defeatEvents.length; index++) {
                 let defeatEvent = this.playerCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.defeated(defeatEvent.how, defeatEvent.loser);
+                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
             }
             for (let index: number = 0; index < this.playerCombatParty.defeatEvents.length; index++) {
                 let defeatEvent = this.playerCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.defeated(defeatEvent.how, defeatEvent.loser);
+                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
             }
         }
         else if (this.playerCombatParty.ableMembers.length == 0) {
             // do monster party lose
             for (let index: number = 0; index < this.monsterCombatParty.defeatEvents.length; index++) {
                 let defeatEvent = this.playerCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.defeated(defeatEvent.how, defeatEvent.loser);
+                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
                 CombatDrops.awardPlayer(this.player, defeatEvent.loser);
             }
         }
