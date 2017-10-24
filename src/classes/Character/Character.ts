@@ -4,6 +4,7 @@ import Cock, { CockType } from '../Body/Cock';
 import { Gender, SkinType } from '../Body/Creature';
 import Creature from '../Body/Creature';
 import { FaceType } from '../Body/Face';
+import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
 import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import MainScreen from '../display/MainScreen';
@@ -20,6 +21,10 @@ export default abstract class Character extends Creature implements UpdateInterf
 	public charType: CharacterType;
 	public readonly inventory: CharacterInventory;
 	public readonly desc: CharacterDescription;
+	protected combatContainer: CombatContainer;
+	public get combat(): CombatContainer {
+		return this.combatContainer;
+	}
 
 	public constructor(type: CharacterType) {
 		super();
@@ -51,29 +56,6 @@ export default abstract class Character extends Creature implements UpdateInterf
 		this.regeneration()
 	}
 
-	public get HP(): number {
-		return this.stats.HP;
-	}
-
-	public gainHP(value: number, source: Character) {
-		this.stats.HP += value;
-	}
-
-	public loseHP(value: number, source: Character) {
-		if (source) {
-			//Isabella gets mad
-			if (this.charType == CharacterType.Isabella && source.charType == CharacterType.Player) {
-				Flags.list[FlagEnum.ISABELLA_AFFECTION]--;
-				//Keep in bounds
-				if (Flags.list[FlagEnum.ISABELLA_AFFECTION] < 0)
-					Flags.list[FlagEnum.ISABELLA_AFFECTION] = 0;
-			}
-		}
-		//Interrupt gigaflare if necessary.
-		if (this.statusAffects.has("Gigafire"))
-			this.statusAffects.get("Gigafire").value1 += value;
-		this.stats.HP -= value;
-	}
 
 	private regeneration() {
 		let healingPercent = 0;
