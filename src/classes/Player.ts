@@ -6,11 +6,56 @@ import { TailType } from './Body/LowerBody';
 import { WingType } from './Body/UpperBody';
 import Character from './Character/Character';
 import { CharacterType } from './Character/CharacterType';
+import CombatContainer from './Combat/CombatContainer';
+import { CombatEndType } from './Combat/CombatEnd';
+import MainScreen from './display/MainScreen';
 import StatusAffect from './Effects/StatusAffect';
 import Flags, { FlagEnum } from './Game/Flags';
 import Item from './Items/Item';
 import KeyItem from './Items/KeyItem';
 import Utils from './Utilities/Utils';
+
+class PlayerCombatContainer extends CombatContainer {
+    public hasDefeated(enemy: Character): boolean {
+        return false;
+    }
+
+    public claimsVictory(winType: CombatEndType, enemy: Character): void {
+        if (winType == CombatEndType.HP) {
+            MainScreen.text("You defeat " + enemy.desc.a + enemy.desc.short + ".\n", true);
+        }
+        else if (winType == CombatEndType.Lust) {
+            MainScreen.text("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.", true);
+        }
+    }
+
+    protected onEnemyVictory(winType: CombatEndType, enemy: Character): void {
+        if (this.char.statusAffects.has("Infested") && Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] == 0) {
+            Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] = 1;
+            infestOrgasm();
+        }
+    }
+
+    protected onVictory(loseType: CombatEndType, enemy: Character): void {
+        if (loseType == CombatEndType.HP) {
+            MainScreen.text("Your wounds are too great to bear, and you fall unconscious.", true);
+        }
+        else if (loseType == CombatEndType.Lust) {
+            MainScreen.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
+        }
+    }
+    
+    public defeatAftermath(loseType: CombatEndType, enemy: Character): void {
+        let temp: number = Utils.rand(10) + 1;
+        if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
+        MainScreen.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
+        this.char.inventory.gems -= temp;
+
+
+        
+        MainScreen.doNext(Game.camp.returnToCampUseEightHours);
+    }
+}
 
 export default class Player extends Character {
     public keyItems: KeyItem[];
@@ -52,6 +97,9 @@ export default class Player extends Character {
         // Inventory
         this.inventory.items.unlock(6);
         this.keyItems = [];
+
+        // Combat
+        this.combatContainer = new PlayerCombatContainer(this);
     }
 
 
@@ -135,6 +183,5 @@ export default class Player extends Character {
     public minotaurNeed(): boolean {
         return Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1;
     }
-
 }
 
