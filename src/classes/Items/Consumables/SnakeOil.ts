@@ -83,7 +83,7 @@ export default class SnakeOil extends Consumable {
         if (changes == 0 && player.upperBody.head.face.tongueType == TongueType.SNAKE && player.upperBody.head.face.faceType != FaceType.SNAKE_FANGS && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nWithout warning, you feel your canine teeth jump almost an inch in size, clashing on your gums, cutting yourself quite badly. As you attempt to find a new way to close your mouth without dislocating your jaw, you notice that they are dripping with a bitter, khaki liquid.  Watch out, and <b>try not to bite your tongue with your poisonous fangs!</b>", false);
             if (player.upperBody.head.face.faceType != FaceType.HUMAN && player.upperBody.head.face.faceType != FaceType.SHARK_TEETH && player.upperBody.head.face.faceType != FaceType.BUNNY && player.upperBody.head.face.faceType != FaceType.SPIDER_FANGS) {
-                MainScreen.text("  As the change progresses, your " + HeadDescriptor.describeFace(player) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
+                MainScreen.text("  As the change progresses, your " + FaceDescriptor.describeFace(player) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
             }
             player.upperBody.head.face.faceType = FaceType.SNAKE_FANGS;
             changes++;

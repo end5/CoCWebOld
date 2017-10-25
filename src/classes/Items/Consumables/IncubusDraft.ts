@@ -13,7 +13,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BreastModifier from '../../Modifiers/BreastModifiers';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -72,9 +72,9 @@ export default class IncubusDraft extends Consumable {
             else
                 MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.", false);
             if (Utils.rand(4) == 0)
-                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
             else
-                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
 
             player.stats.int += 1;
             player.stats.lib += 2;
@@ -99,9 +99,9 @@ export default class IncubusDraft extends Consumable {
             selectedCock = player.lowerBody.cockSpot.listShortestCocks[0];
             cockGrowth = 0;
             if (Utils.rand(4) == 0)
-                cockGrowth = CockModifiers.growCock(player, selectedCock, 3);
+                cockGrowth = CockModifier.growCock(player, selectedCock, 3);
             else
-                cockGrowth = CockModifiers.growCock(player, selectedCock, 1);
+                cockGrowth = CockModifier.growCock(player, selectedCock, 1);
 
             player.stats.int += 1;
             player.stats.lib += 2;
@@ -156,8 +156,8 @@ export default class IncubusDraft extends Consumable {
             MainScreen.text("\n\nYour cocks fill to full-size... and begin growing obscenely.  ", false);
             for (let index: number = 0; index < cockCount; index++) {
                 selectedCock = player.lowerBody.cockSpot.get(index);
-                cockGrowth = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 2);
-                cockThickness = CockModifiers.thickenCock(selectedCock, 1);
+                cockGrowth = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 2);
+                cockThickness = CockModifier.thickenCock(selectedCock, 1);
                 if (cockThickness < .1)
                     selectedCock.cockThickness += .05;
             }
@@ -184,8 +184,8 @@ export default class IncubusDraft extends Consumable {
         if (cockCount == 1) {
             MainScreen.text("\n\nYour cock fills to its normal size and begins growing... ", false);
             selectedCock = player.lowerBody.cockSpot.get(0);
-            cockThickness = CockModifiers.thickenCock(selectedCock, 1);
-            cockGrowth = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 2);
+            cockThickness = CockModifier.thickenCock(selectedCock, 1);
+            cockGrowth = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 2);
             CreatureChange.lengthChange(player, cockGrowth, cockCount);
             //Display the degree of thickness change.
             if (cockThickness >= 1) {

@@ -19,7 +19,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -252,8 +252,8 @@ export default class MinotaurBlood extends Consumable {
                 //Thickness too if small enough
                 if (selectedCock.cockThickness < 5) {
                     //Increase by 2 + Utils.rand(8), and store the actual amount in temp
-                    let growthAmount: number = CockModifiers.growCock(player, selectedCock, 2 + Utils.rand(8));
-                    growthAmount += CockModifiers.thickenCock(selectedCock, 1);
+                    let growthAmount: number = CockModifier.growCock(player, selectedCock, 2 + Utils.rand(8));
+                    growthAmount += CockModifier.thickenCock(selectedCock, 1);
                     //Comment on length changes
                     if (growthAmount > 6) MainScreen.text("\n\nGasping in sudden pleasure, your " + CockDescriptor.describeCock(player, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.", false);
                     if (growthAmount <= 6 && growthAmount >= 3) MainScreen.text("\n\nYou pant in delight as a few inches of " + CockDescriptor.describeCock(player, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.", false);
@@ -264,7 +264,7 @@ export default class MinotaurBlood extends Consumable {
                 //Just length...
                 else {
                     //Increase by 2 + Utils.rand(8), and store the actual amount in temp
-                    let growthAmount: number = CockModifiers.growCock(player, selectedCock, 2 + Utils.rand(8));
+                    let growthAmount: number = CockModifier.growCock(player, selectedCock, 2 + Utils.rand(8));
                     //Comment on length changes
                     if (growthAmount > 6) MainScreen.text("\n\nGasping in sudden pleasure, your " + CockDescriptor.describeCock(player, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.", false);
                     if (growthAmount <= 6 && growthAmount >= 3) MainScreen.text("\n\nYou pant in delight as a few inches of " + CockDescriptor.describeCock(player, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.", false);
@@ -289,7 +289,7 @@ export default class MinotaurBlood extends Consumable {
                 //Text for dogdicks
                 if (selectedCock.cockType == CockType.DOG) MainScreen.text("\n\nYour " + CockDescriptor.nounCock(CockType.DOG) + " begins to feel odd...  You pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond its traditional size.  You notice your knot vanishing, the extra flesh pushing more fresh horsecock out from your sheath.  <b>Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + "</b>, and you jerk yourself off, splattering thick ropes of cum with intense force.", false);
                 selectedCock.cockType = CockType.HORSE;
-                CockModifiers.growCock(player, selectedCock, 4);
+                CockModifier.growCock(player, selectedCock, 4);
                 player.stats.lib += 5;
                 player.stats.sens += 4;
                 player.stats.lust += 35;

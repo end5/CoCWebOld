@@ -9,7 +9,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BreastModifier from '../../Modifiers/BreastModifiers';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -105,12 +105,12 @@ export default class SuccubiMilk extends Consumable {
                         if (longestCock.cockThickness * 8 > longestCock.cockLength) longestCock.cockThickness -= .2;
                         if (longestCock.cockThickness < .5) longestCock.cockThickness = .5;
                     }
-                    lengthenAmount += CockModifiers.growCock(player, longestCock, (Utils.rand(3) + 1) * -1);
+                    lengthenAmount += CockModifier.growCock(player, longestCock, (Utils.rand(3) + 1) * -1);
                     MainScreen.text("\n\n", false);
                     CreatureChange.lengthChange(player, lengthenAmount, 1);
                     if (longestCock.cockLength < 2) {
                         MainScreen.text("  ", false);
-                        CockModifiers.killCocks(player, 1);
+                        CockModifier.killCocks(player, 1);
                     }
                 }
             }
@@ -134,11 +134,11 @@ export default class SuccubiMilk extends Consumable {
                 //Shrink said cock
                 if (longestCock.cockLength < 6 && longestCock.cockLength >= 2.9)
                     longestCock.cockLength -= .5;
-                let lengthChange: number = CockModifiers.growCock(player, longestCock, -1 * (Utils.rand(3) + 1));
+                let lengthChange: number = CockModifier.growCock(player, longestCock, -1 * (Utils.rand(3) + 1));
                 CreatureChange.lengthChange(player, lengthChange, 1);
                 if (longestCock.cockLength < 3) {
                     MainScreen.text("  ", false);
-                    CockModifiers.killCocks(player, 1);
+                    CockModifier.killCocks(player, 1);
                 }
             }
             if (player.lowerBody.vaginaSpot.count() > 0) {

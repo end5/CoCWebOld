@@ -7,7 +7,7 @@ import InventoryDisplay from '../../display/InventoryDisplay';
 import MainScreen, { ClickFunction } from '../../display/MainScreen';
 import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
 import BreastModifier from '../../Modifiers/BreastModifiers';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -81,7 +81,7 @@ export default class GroPlus extends Consumable {
         MainScreen.text("You sink the needle into the base of your " + CockDescriptor.describeMultiCockShort(player) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
         if (player.lowerBody.cockSpot.count() == 1) {
             MainScreen.text("Your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " twitches and thickens, pouring more than an inch of thick new length from your ");
-            CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), 4);
+            CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), 4);
             player.lowerBody.cockSpot.get(0).cockLength += 1; // This was forcing "what was said" to match "what actually happened" no matter what increase/growCock /actually/ did.
             player.lowerBody.cockSpot.get(0).cockThickness += 0.5; // And growCock never actually touched thickness. Nor does the new version. Thickness mod was stripped out entirely.
         }
@@ -89,7 +89,7 @@ export default class GroPlus extends Consumable {
         else {
             MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(player) + " twitch and thicken, each member pouring out more than an inch of new length from your ");
             for (let index: number = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), 2);
+                CockModifier.growCock(player, player.lowerBody.cockSpot.get(index), 2);
                 player.lowerBody.cockSpot.get(index).cockLength += 1;
                 player.lowerBody.cockSpot.get(index).cockThickness += 0.5;
             }

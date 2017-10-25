@@ -392,7 +392,7 @@ export default class Reptilum extends Consumable {
         }
         //-Lizard-like face.
         if (player.upperBody.head.face.faceType != FaceType.LIZARD && player.skinType == SkinType.SCALES && player.upperBody.head.earType == EarType.LIZARD && player.lowerBody.tailType == TailType.LIZARD && player.lowerBody.type == LowerBodyType.LIZARD && changes < changeLimit && Utils.rand(5) == 0) {
-            MainScreen.text("\n\nTerrible agony wracks your " + HeadDescriptor.describeFace(player) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>", false);
+            MainScreen.text("\n\nTerrible agony wracks your " + FaceDescriptor.describeFace(player) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>", false);
             player.upperBody.head.face.faceType = FaceType.LIZARD;
         }
         if (Utils.rand(4) == 0 && player.upperBody.gills && changes < changeLimit) {

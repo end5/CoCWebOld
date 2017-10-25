@@ -17,7 +17,7 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -199,7 +199,7 @@ export default class Equinum extends Consumable {
                     if (selectedCock.cockType == CockType.HUMAN) {
                         MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.", false);
                         selectedCock.cockType = CockType.HORSE;
-                        CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 4);
+                        CockModifier.growCock(player, selectedCock, Utils.rand(4) + 4);
                         cockTF = true;
                         player.stats.lib += 5;
                         player.stats.sens += 4;
@@ -208,7 +208,7 @@ export default class Equinum extends Consumable {
                     else if (selectedCock.cockType == CockType.DOG) {
                         MainScreen.text("\n\nYour " + CockDescriptor.nounCock(CockType.DOG) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond it's traditional size.  You notice your knot vanishing, the extra flesh pushing more horsecock out from your sheath.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.", false);
                         selectedCock.cockType = CockType.HORSE;
-                        CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 4);
+                        CockModifier.growCock(player, selectedCock, Utils.rand(4) + 4);
                         cockTF = true;
                         player.stats.lib += 5;
                         player.stats.sens += 4;
@@ -217,7 +217,7 @@ export default class Equinum extends Consumable {
                     else if (selectedCock.cockType == CockType.TENTACLE) {
                         MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.describeCock(player, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.", false);
                         selectedCock.cockType = CockType.HORSE;
-                        CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 4);
+                        CockModifier.growCock(player, selectedCock, Utils.rand(4) + 4);
                         cockTF = true;
                         player.stats.lib += 5;
                         player.stats.sens += 4;
@@ -226,7 +226,7 @@ export default class Equinum extends Consumable {
                     else if (selectedCock.cockType != CockType.HORSE && selectedCock.cockType != CockType.DEMON) {
                         MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.describeCock(player, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.", false);
                         selectedCock.cockType = CockType.HORSE;
-                        CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 4);
+                        CockModifier.growCock(player, selectedCock, Utils.rand(4) + 4);
                         cockTF = true;
                         player.stats.lib += 5;
                         player.stats.sens += 4;
@@ -256,13 +256,13 @@ export default class Equinum extends Consumable {
                         MainScreen.text("  Your sheath tingles and begins growing larger as the cock's base shifts to lie inside it.", false);
                     else
                         MainScreen.text("  You feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your " + CockDescriptor.describeCock(player, selectedCock) + "'s root, tightening and pulling your " + CockDescriptor.describeCock(player, selectedCock) + " inside its depths.", false);
-                    CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 4);
+                    CockModifier.growCock(player, selectedCock, Utils.rand(4) + 4);
                     MainScreen.text("  The shaft suddenly explodes with movement, growing longer and developing a thick flared head leaking steady stream of animal-cum.", false);
                     MainScreen.text("  <b>You now have a horse-cock.</b>", false);
                 }
                 //Make cock thicker if not thick already!
                 if (selectedCock.cockThickness <= 2)
-                    CockModifiers.thickenCock(selectedCock, 1);
+                    CockModifier.thickenCock(selectedCock, 1);
                 changes++;
             }
             //Players cocks are all horse-type - increase size!
@@ -272,7 +272,7 @@ export default class Equinum extends Consumable {
                 let selectedCock: Cock;
                 if (cockSpot.count() == 1) {
                     selectedCock = cockSpot.get(0);
-                    growthAmount = CockModifiers.growCock(player, selectedCock, Utils.rand(3) + 1);
+                    growthAmount = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 1);
                     player.stats.sens += 1;
                     player.stats.lust += 10;
                 }
@@ -280,7 +280,7 @@ export default class Equinum extends Consumable {
                 else {
                     //Grow smallest cock!
                     selectedCock = cockSpot.listSmallestCockArea[0];
-                    growthAmount = CockModifiers.growCock(player, selectedCock, Utils.rand(4) + 1);
+                    growthAmount = CockModifier.growCock(player, selectedCock, Utils.rand(4) + 1);
                     player.stats.sens += 1;
                     player.stats.lust += 10;
                 }
@@ -293,7 +293,7 @@ export default class Equinum extends Consumable {
             //Chance of thickness + daydream
             if (Utils.rand(2) == 0 && changes < changeLimit && cockSpot.countType(CockType.HORSE) > 0) {
                 let selectedCock: Cock = cockSpot.listThinnestCocks[0];
-                CockModifiers.thickenCock(selectedCock, 0.5);
+                CockModifier.thickenCock(selectedCock, 0.5);
                 MainScreen.text("\n\nYour " + CockDescriptor.nounCock(CockType.HORSE) + " thickens inside its sheath, growing larger and fatter as your veins thicken, becoming more noticeable.  It feels right", false);
                 if (player.stats.cor + player.stats.lib < 50)
                     MainScreen.text(" to have such a splendid tool.  You idly daydream about cunts and pussies, your " + CockDescriptor.nounCock(CockType.HORSE) + " plowing them relentlessly, stuffing them pregnant with cum", false);

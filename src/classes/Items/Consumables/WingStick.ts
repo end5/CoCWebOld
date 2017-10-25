@@ -26,7 +26,7 @@ export default class WingStick extends Consumable {
 		}
 		else { //Not dodged
 			let damage:number = 40 + Utils.rand(61);
-			MainScreen.text(Game.monster.capitalA + Game.monster.desc.short + " is hit with the wingstick!  It breaks apart as it lacerates " + Game.monster.desc.objectivePronoun + ". (" + damage + ")");
+			MainScreen.text(Game.monster.desc.capitalA + Game.monster.desc.short + " is hit with the wingstick!  It breaks apart as it lacerates " + Game.monster.desc.objectivePronoun + ". (" + damage + ")");
 			Game.monster.stats.HPChange(-damage);
             if (Game.monster.stats.HP < 0) Game.monster.stats.HP = 0;
 		}

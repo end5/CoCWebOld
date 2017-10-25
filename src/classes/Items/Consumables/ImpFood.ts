@@ -2,7 +2,7 @@ import Consumable from './Consumable';
 import { SkinType } from '../../Body/Creature';
 import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -16,7 +16,7 @@ export default class ImpFood extends Consumable {
         if (player.lowerBody.cockSpot.count() > 0) {
             MainScreen.text("The food tastes strange and corrupt - you can't really think of a better word for it, but it's unclean.", false);
             if (player.lowerBody.cockSpot.get(0).cockLength < 12) {
-                let growthAmount = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(2) + 2);
+                let growthAmount = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(2) + 2);
                 MainScreen.text("\n\n", false);
                 CreatureChange.lengthChange(player, growthAmount, 1);
             }

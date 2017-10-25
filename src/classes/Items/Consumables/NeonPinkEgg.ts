@@ -284,7 +284,7 @@ export default class NeonPinkEgg extends Consumable {
             //Human(ish) face
             if (player.upperBody.head.face.faceType == FaceType.HUMAN || player.upperBody.head.face.faceType == FaceType.SHARK_TEETH) MainScreen.text("You catch your nose twitching on its own at the bottom of your vision, but as soon as you focus on it, it stops.  A moment later, some of your teeth tingle and brush past your lips, exposing a white pair of buckteeth!  <b>Your face has taken on some rabbit-like playeristics!</b>", false);
             //Crazy furry TF shit
-            else MainScreen.text("You grunt as your " + HeadDescriptor.describeFace(player) + " twists and reforms.  Even your teeth ache as their positions are rearranged to match some new, undetermined order.  When the process finishes, <b>you're left with a perfectly human looking face, save for your constantly twitching nose and prominent buck-teeth.</b>", false);
+            else MainScreen.text("You grunt as your " + FaceDescriptor.describeFace(player) + " twists and reforms.  Even your teeth ache as their positions are rearranged to match some new, undetermined order.  When the process finishes, <b>you're left with a perfectly human looking face, save for your constantly twitching nose and prominent buck-teeth.</b>", false);
             player.upperBody.head.face.faceType = FaceType.BUNNY;
         }
         //DAH BUNBUN EARZ - requires poofbutt!

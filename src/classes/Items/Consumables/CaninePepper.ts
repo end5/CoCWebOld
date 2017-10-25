@@ -15,7 +15,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
@@ -431,7 +431,7 @@ export default class CaninePepper extends Consumable {
                 if (firstNotDogCock.cockType != CockType.DEMON)
                     firstNotDogCock.cockType = CockType.DOG;
                 firstNotDogCock.knotMultiplier = 1.1;
-                CockModifiers.thickenCock(firstNotDogCock, 2);
+                CockModifier.thickenCock(firstNotDogCock, 2);
 
                 changes++;
 
@@ -460,12 +460,12 @@ export default class CaninePepper extends Consumable {
             //Oversized pepper
             if (this.type == CaninePepperType.Oversized) {
                 let shortestCock: Cock = cockSpot.listShortestCocks[0];
-                let cockGrowthAmount: number = CockModifiers.growCock(player, shortestCock, Utils.rand(4) + 3);
+                let cockGrowthAmount: number = CockModifier.growCock(player, shortestCock, Utils.rand(4) + 3);
                 player.stats.sens += 1;
                 player.stats.lust += 10;
 
                 if (cockSpot.count() >= 1 && shortestCock.cockThickness <= 2)
-                    CockModifiers.thickenCock(shortestCock, 1);
+                    CockModifier.thickenCock(shortestCock, 1);
 
                 if (cockGrowthAmount > 2)
                     MainScreen.text("\n\nYour " + CockDescriptor.describeCock(player, shortestCock) + " tightens painfully, inches of bulging dick-flesh pouring out from your crotch as it grows longer.  Thick pre forms at the pointed tip, drawn out from the pleasure of the change.", false);

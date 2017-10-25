@@ -16,7 +16,7 @@ import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BreastModifier from '../../Modifiers/BreastModifiers';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -120,7 +120,7 @@ export default class LaBova extends Consumable {
                 biggestCock.cockLength -= .5;
                 cockGrowth -= .5;
             }
-            cockGrowth += CockModifiers.growCock(player, biggestCock, (Utils.rand(3) + 1) * -1);
+            cockGrowth += CockModifier.growCock(player, biggestCock, (Utils.rand(3) + 1) * -1);
             CreatureChange.lengthChange(player, cockGrowth, 1);
             if (biggestCock.cockLength < 2) {
                 MainScreen.text("  ", false);
@@ -137,7 +137,7 @@ export default class LaBova extends Consumable {
                     player.lowerBody.cockSpot.remove(player, biggestCock);
                 }
                 else {
-                    CockModifiers.killCocks(player, 1);
+                    CockModifier.killCocks(player, 1);
                     player.updateGender();
                 }
             }

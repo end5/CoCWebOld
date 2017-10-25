@@ -11,7 +11,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BreastModifier from '../../Modifiers/BreastModifiers';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -173,7 +173,7 @@ export default class Eggs extends Consumable {
         else {
             //Remove a dick
             if (player.lowerBody.cockSpot.hasCock()) {
-                CockModifiers.killCocks(player, -1);
+                CockModifier.killCocks(player, -1);
                 MainScreen.text("\n\n", false);
                 player.updateGender();
             }
@@ -215,8 +215,8 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.", false);
 
                     for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 2);
-                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.get(index), 1);
+                        cockAmountLengthened += CockModifier.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 2);
+                        cockAmountThickened += CockModifier.thickenCock(player.lowerBody.cockSpot.get(index), 1);
                     }
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
@@ -243,8 +243,8 @@ export default class Eggs extends Consumable {
                 //SINGLEZ
                 if (player.lowerBody.cockSpot.count() == 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing... ", false);
-                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1);
-                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 2);
+                    cockAmountThickened = CockModifier.thickenCock(player.lowerBody.cockSpot.get(0), 1);
+                    cockAmountLengthened = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 2);
                     CreatureChange.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -307,8 +307,8 @@ export default class Eggs extends Consumable {
                 if (player.lowerBody.cockSpot.count() > 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCock(player) + " fill to full-size... and begin growing obscenely.  ", false);
                     for (let index = 0; index < player.lowerBody.cockSpot.count(); index++) {
-                        cockAmountLengthened += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 5);
-                        cockAmountThickened += CockModifiers.thickenCock(player.lowerBody.cockSpot.get(index), 1.5);
+                        cockAmountLengthened += CockModifier.growCock(player, player.lowerBody.cockSpot.get(index), Utils.rand(3) + 5);
+                        cockAmountThickened += CockModifier.thickenCock(player.lowerBody.cockSpot.get(index), 1.5);
                     }
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
@@ -334,8 +334,8 @@ export default class Eggs extends Consumable {
                 //SINGLEZ
                 if (player.lowerBody.cockSpot.count() == 1) {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing...", false);
-                    cockAmountThickened = CockModifiers.thickenCock(player.lowerBody.cockSpot.get(0), 1.5);
-                    cockAmountLengthened = CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 5);
+                    cockAmountThickened = CockModifier.thickenCock(player.lowerBody.cockSpot.get(0), 1.5);
+                    cockAmountLengthened = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 5);
                     CreatureChange.lengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {

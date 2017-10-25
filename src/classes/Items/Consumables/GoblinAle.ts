@@ -11,7 +11,7 @@ import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -80,7 +80,7 @@ export default class GoblinAle extends Consumable {
         //Multidick killa!
         if (player.lowerBody.cockSpot.count() > 1 && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\n", false);
-            CockModifiers.killCocks(player, 1);
+            CockModifier.killCocks(player, 1);
             changes++;
         }
         //Boost vaginal capacity without gaping
@@ -108,7 +108,7 @@ export default class GoblinAle extends Consumable {
                     player.lowerBody.cockSpot.get(0).cockLength -= .5;
                     temp3 -= .5;
                 }
-                temp3 += CockModifiers.growCock(player, player.lowerBody.cockSpot.get(0), (Utils.rand(3) + 1) * -1);
+                temp3 += CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), (Utils.rand(3) + 1) * -1);
                 CreatureChange.lengthChange(player, temp3, 1);
             }
         }

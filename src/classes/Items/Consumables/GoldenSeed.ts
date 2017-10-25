@@ -87,7 +87,7 @@ export default class GoldenSeed extends Consumable {
             if (player.stats.lib < 90) player.stats.lib += 1;
             //(sub 40 lib)
             if (player.stats.lib < 40) {
-                MainScreen.text("\n\nA passing flush colors your " + HeadDescriptor.describeFace(player) + " for a second as you daydream about sex. You blink it away, realizing the item seems to have affected your libido.", false);
+                MainScreen.text("\n\nA passing flush colors your " + FaceDescriptor.describeFace(player) + " for a second as you daydream about sex. You blink it away, realizing the item seems to have affected your libido.", false);
                 if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text(" The moistness of your " +  VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " seems to agree.", false);
                 else if (player.lowerBody.cockSpot.hasCock()) MainScreen.text(" The hardness of " + CockDescriptor.describeMultiCockSimpleOne(player) + " seems to agree.", false);
                 player.stats.lust += 5;
@@ -306,7 +306,7 @@ export default class GoldenSeed extends Consumable {
         }
         //-Human face
         if (player.upperBody.head.face.faceType != FaceType.HUMAN && changes < changeLimit && (this.enhanced || (player.upperBody.head.earType == EarType.HUMAN || player.upperBody.head.earType == EarType.ELFIN)) && Utils.rand(4) == 0) {
-            MainScreen.text("\n\nSudden agony sweeps over your " + HeadDescriptor.describeFace(player) + ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.", false);
+            MainScreen.text("\n\nSudden agony sweeps over your " + FaceDescriptor.describeFace(player) + ", your visage turning hideous as bones twist and your jawline shifts. The pain slowly vanishes, leaving you weeping into your fingers. When you pull your hands away you realize you've been left with a completely normal, human face.", false);
             player.upperBody.head.face.faceType = FaceType.HUMAN;
             changes++;
         }

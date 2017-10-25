@@ -72,7 +72,7 @@ export default class WhiskerFruit extends Consumable {
         //Intelliloss
         if (Utils.rand(4) == 0 && changes < changeLimit) {
             //low intelligence
-            if (player.stats.int < 15) MainScreen.text("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + HeadDescriptor.describeFace(player) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.", false);
+            if (player.stats.int < 15) MainScreen.text("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + FaceDescriptor.describeFace(player) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.", false);
             //medium intelligence
             else if (player.stats.int < 50) {
                 MainScreen.text("\n\nYour mind feels somewhat sluggish, and you wonder if you should just lie down ", false);

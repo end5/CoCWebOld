@@ -9,7 +9,7 @@ import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
-import CockModifiers from '../../Modifiers/CockModifiers';
+import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
 
@@ -127,7 +127,7 @@ export default class TrapOil extends Consumable {
                         if (selectedCock.cockThickness < .5) selectedCock.cockThickness = .5;
                     }
                     selectedCock.cockLength -= 0.5;
-                    CockModifiers.growCock(player, selectedCock, Math.round(selectedCock.cockLength * 0.33) * -1);
+                    CockModifier.growCock(player, selectedCock, Math.round(selectedCock.cockLength * 0.33) * -1);
                 }
             }
             changes++;
