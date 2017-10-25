@@ -44,17 +44,63 @@ class PlayerCombatContainer extends CombatContainer {
             MainScreen.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
         }
     }
-    
+
     public defeatAftermath(loseType: CombatEndType, enemy: Character): void {
-        let temp: number = Utils.rand(10) + 1;
-        if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
-        MainScreen.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
-        this.char.inventory.gems -= temp;
+        if (monster.statusAffects.get("Sparring").value1 == 2) {
+            MainScreen.text("The cow-girl has defeated you in a practice fight!", true);
+            MainScreen.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.", false);
+            Game.inCombat = false;
+            player.HP = 1;
+            statScreenRefresh();
+            doNext(nextFunc);
+            return;
+        }
+        else if (monster.statusAffects.has("PeachLootLoss")) {
+            inCombat = false;
+            player.HP = 1;
+            statScreenRefresh();
+            return;
+        }
+        else if (monster.desc.short == "Ember") {
+            inCombat = false;
+            player.HP = 1;
+            statScreenRefresh();
+            doNext(nextFunc);
+            return;
+        }
+        else {
+            let temp: number = Utils.rand(10) + 1;
+            if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
+            MainScreen.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
+            this.char.inventory.gems -= temp;
+        }
 
+        let temp = rand(10) + 1 + Math.round(monster.level / 2);
+        if (inDungeon) temp += 20 + monster.level * 2;
+        if (temp > player.stats.gems) temp = player.stats.gems;
+        let timePasses: number = monster.handleCombatLossText(inDungeon, temp); //Allows monsters to customize the loss text and the amount of time lost
+        player.stats.gems -= temp;
+        inCombat = false;
+        //BUNUS XPZ
+        if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
+            player.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
+            MainScreen.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
+            Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
+        }
+        //Bonus lewts
+        if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] != "") {
+            MainScreen.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
+            inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(camp.returnToCamp, timePasses));
+        }
+        else doNext(createCallBackFunction(camp.returnToCamp, timePasses));
 
-        
         MainScreen.doNext(Game.camp.returnToCampUseEightHours);
     }
+
+    public victoryAftermath(loseType: CombatEndType, enemy: Character): void {
+        MainScreen.doNext(Game.camp.returnToCampUseOneHour);
+    }
+
 }
 
 export default class Player extends Character {
