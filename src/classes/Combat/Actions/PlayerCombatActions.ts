@@ -74,13 +74,13 @@ export default class PlayerCombatActions implements CombatActions {
             }
         }
         //Worms are special
-        if (monster.short == "worms") {
+        if (monster.desc.short == "worms") {
             //50% chance of hit (int boost)
             if (Utils.rand(100) + player.stats.int / 3 >= 50) {
                 temp = int(player.stats.str / 5 - Utils.rand(5));
                 if (temp == 0) temp = 1;
                 MainScreen.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + temp + " damage.\n\n", false);
-                monster.stats.HP -= temp;
+                monster.stats.HPChange(-temp);
                 if (monster.stats.HP <= 0) {
                     doNext(endHpVictory);
                     return;
@@ -200,7 +200,7 @@ export default class PlayerCombatActions implements CombatActions {
 
     public run(player: Player, monster: Monster, success: boolean) {
         //ANEMONE OVERRULES NORMAL RUN
-        if (monster.short == "anemone") {
+        if (monster.desc.short == "anemone") {
             //Autosuccess - less than 60 lust
             if (player.stats.lust < 60) {
                 MainScreen.text("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.", true);
@@ -223,7 +223,7 @@ export default class PlayerCombatActions implements CombatActions {
             }
         }
         //Ember is SPUCIAL
-        if (monster.short == "Ember") {
+        if (monster.desc.short == "Ember") {
             //GET AWAY
             if (success) {
                 if (player.perks.has("Runner")) MainScreen.text("Using your skill at running, y");
@@ -240,14 +240,14 @@ export default class PlayerCombatActions implements CombatActions {
         //SUCCESSFUL FLEE
         if (success) {
             //Fliers flee!
-            if (player.canFly()) MainScreen.text(monster.capitalA + monster.short + " can't catch you.", false);
+            if (player.canFly()) MainScreen.text(monster.desc.capitalA + monster.desc.short + " can't catch you.", false);
             //sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
             else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has("Runner")) {
-                MainScreen.text("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.pronoun1 + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + monster.pronoun2 + " behind with your clumsy, jerky, short-range flight.");
+                MainScreen.text("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.desc.subjectivePronoun + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + monster.desc.objectivePronoun + " behind with your clumsy, jerky, short-range flight.");
             }
             //Non-fliers flee
-            else MainScreen.text(monster.capitalA + monster.short + " rapidly disappears into the shifting landscape behind you.", false);
-            if (monster.short == "Izma") {
+            else MainScreen.text(monster.desc.capitalA + monster.desc.short + " rapidly disappears into the shifting landscape behind you.", false);
+            if (monster.desc.short == "Izma") {
                 MainScreen.text("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.", false);
             }
             return;
@@ -255,21 +255,21 @@ export default class PlayerCombatActions implements CombatActions {
         //Runner perk chance
         else if (success) {
             MainScreen.text("Thanks to your talent for running, you manage to escape.", false);
-            if (monster.short == "Izma") {
+            if (monster.desc.short == "Izma") {
                 MainScreen.text("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.", false);
             }
             return;
         }
         //FAIL FLEE
         else {
-            if (monster.short == "Holli") {
+            if (monster.desc.short == "Holli") {
                 <Holli>monster.escapeFailWithHolli();
                 return;
             }
             //Flyers get special failure message.
             if (player.canFly()) {
-                if (monster.plural) MainScreen.text(monster.capitalA + monster.short + " manage to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!", false);
-                else MainScreen.text(monster.capitalA + monster.short + " manages to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!", false);
+                if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " manage to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!", false);
+                else MainScreen.text(monster.desc.capitalA + monster.desc.short + " manages to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!", false);
             }
             //fail
             else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has("Runner")) MainScreen.text("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
@@ -312,8 +312,8 @@ export default class PlayerCombatActions implements CombatActions {
                     else if (player.lowerBody.butt.buttRating >= 20) MainScreen.text("Your " + player.skinTone + ButtDescriptor.describeButt(player) + " wobbles so heavily that you're unable to move quick enough to escape.", false);
                 }
                 //NORMAL RUN FAIL MESSAGES
-                else if (monster.plural) MainScreen.text(monster.capitalA + monster.short + " stay hot on your heels, denying you a chance at escape!", false);
-                else MainScreen.text(monster.capitalA + monster.short + " stays hot on your heels, denying you a chance at escape!", false);
+                else if (monster.desc.plural) MainScreen.text(monster.desc.capitalA + monster.desc.short + " stay hot on your heels, denying you a chance at escape!", false);
+                else MainScreen.text(monster.desc.capitalA + monster.desc.short + " stays hot on your heels, denying you a chance at escape!", false);
             }
         }
     }
@@ -525,29 +525,29 @@ export default class PlayerCombatActions implements CombatActions {
             temp2 = 25 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
         else if (player.lowerBody.balls > 0 && player.lowerBody.ballSize >= 10 && Utils.rand(2) == 0) {
-            MainScreen.text("You daydream about fucking " + monster.a + monster.short + ", feeling your balls swell with seed as you prepare to fuck " + monster.pronoun2 + " full of cum.\n", false);
+            MainScreen.text("You daydream about fucking " + monster.desc.a+ monster.desc.short + ", feeling your balls swell with seed as you prepare to fuck " + monster.desc.objectivePronoun + " full of cum.\n", false);
             temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8);
             MainScreen.text("You aren't sure if it's just the fantasy, but your " + BallsDescriptor.describeBalls(true, true, player) + " do feel fuller than before...\n", false);
             player.hoursSinceCum += 50;
         }
         else if (player.upperBody.chest.BreastRatingLargest[0].breastRating >= 6 && Utils.rand(2) == 0) {
-            MainScreen.text("You fantasize about grabbing " + monster.a + monster.short + " and shoving " + monster.pronoun2 + " in between your jiggling mammaries, nearly suffocating " + monster.pronoun2 + " as you have your way.\n", false);
+            MainScreen.text("You fantasize about grabbing " + monster.desc.a+ monster.desc.short + " and shoving " + monster.desc.objectivePronoun + " in between your jiggling mammaries, nearly suffocating " + monster.desc.objectivePronoun + " as you have your way.\n", false);
             temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
         else if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier >= 6 && Utils.rand(2) == 0) {
-            MainScreen.text("You fantasize about grabbing " + monster.a + monster.short + " and forcing " + monster.pronoun2 + " against a " + BreastDescriptor.describeNipple(0) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n", false);
+            MainScreen.text("You fantasize about grabbing " + monster.desc.a+ monster.desc.short + " and forcing " + monster.desc.objectivePronoun + " against a " + BreastDescriptor.describeNipple(0) + ", and feeling your milk let down.  The desire to forcefeed SOMETHING makes your nipples hard and moist with milk.\n", false);
             temp2 = 5 + Utils.rand(player.stats.lib / 8 + player.stats.cor / 8)
         }
         else {
-            MainScreen.text("You fill your mind with perverted thoughts about " + monster.a + monster.short + ", picturing " + monster.pronoun2 + " in all kinds of perverse situations with you.\n", true);
+            MainScreen.text("You fill your mind with perverted thoughts about " + monster.desc.a+ monster.desc.short + ", picturing " + monster.desc.objectivePronoun + " in all kinds of perverse situations with you.\n", true);
             temp2 = 10 + Utils.rand(player.stats.lib / 5 + player.stats.cor / 8);
         }
-        if (temp2 >= 20) MainScreen.text("The fantasy is so vivid and pleasurable you wish it was happening now.  You wonder if " + monster.a + monster.short + " can tell what you were thinking.\n\n", false);
+        if (temp2 >= 20) MainScreen.text("The fantasy is so vivid and pleasurable you wish it was happening now.  You wonder if " + monster.desc.a+ monster.desc.short + " can tell what you were thinking.\n\n", false);
         else MainScreen.text("\n", false);
         player.stats.lust += temp2;
         player.stats.resisted += false;
         if (player.stats.lust > 99) {
-            if (monster.short == "pod") {
+            if (monster.desc.short == "pod") {
                 MainScreen.text("<b>You nearly orgasm, but the terror of the situation reasserts itself, muting your body's need for release.  If you don't escape soon, you have no doubt you'll be too fucked up to ever try again!</b>\n\n", false);
                 player.stats.lust = 99;
                 player.stats.lust += -25;

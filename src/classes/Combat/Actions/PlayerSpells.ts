@@ -1,5 +1,7 @@
 import LearnedSpellAction from './LearnedSpellAction';
 import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import Character from '../../Character/Character';
+import { CharacterType } from '../../Character/CharacterType';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import GenderDescriptor from '../../Descriptors/GenderDescriptor';
@@ -8,21 +10,21 @@ import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
-import Monster from '../../Monster';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import Combat from '../Combat';
 
 export class SpellArouse extends LearnedSpellAction {
     public readonly baseCost: number = 15;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has("Shell")) {
-            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
         MainScreen.text("You make a series of arcane gestures, drawing on your own lust to inflict it upon your foe!\n", true);
         //Worms be immune
-        if (monster.short == "worms") {
+        if (monster.desc.short == "worms") {
             MainScreen.text("The worms appear to be unaffected by your magic!", false);
             MainScreen.text("\n\n", false);
             return;
@@ -33,53 +35,51 @@ export class SpellArouse extends LearnedSpellAction {
         }
         monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * player.spellMod() + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
         if (monster.stats.lust < 30)
-            MainScreen.text(monster.capitalA + monster.short + " squirms as the magic affects " + monster.pronoun2 + ".  ", false);
+            MainScreen.text(monster.desc.capitalA + monster.desc.short + " squirms as the magic affects " + monster.desc.objectivePronoun + ".  ", false);
         if (monster.stats.lust >= 30 && monster.stats.lust < 60) {
-            // Removed because monster is no longer plural
-            //if (monster.plural) MainScreen.text(monster.capitalA + monster.short + " stagger, suddenly weak and having trouble focusing on staying upright.  ", false);
-            //else
-            MainScreen.text(monster.capitalA + monster.short + " staggers, suddenly weak and having trouble focusing on staying upright.  ", false);
+            if (monster.desc.plural)
+                MainScreen.text(monster.desc.capitalA + monster.desc.short + " stagger, suddenly weak and having trouble focusing on staying upright.  ", false);
+            else
+                MainScreen.text(monster.desc.capitalA + monster.desc.short + " staggers, suddenly weak and having trouble focusing on staying upright.  ", false);
         }
         if (monster.stats.lust >= 60) {
-            MainScreen.text(monster.capitalA + monster.short + "'");
-            // Removed because monster is no longer plural
-            //if (!monster.plural) MainScreen.text("s");
+            MainScreen.text(monster.desc.capitalA + monster.desc.short + "'");
+            if (!monster.desc.plural) MainScreen.text("s");
             MainScreen.text(" eyes glaze over with desire for a moment.  ", false);
         }
         if (monster.lowerBody.cockSpot.count() > 0) {
             if (monster.stats.lust >= 60 && monster.lowerBody.cockSpot.count() > 0)
-                MainScreen.text("You see " + monster.pronoun3 + " " + CockDescriptor.describeMultiCockShort(player) + " dribble pre-cum.  ", false);
+                MainScreen.text("You see " + monster.desc.possessivePronoun + " " + CockDescriptor.describeMultiCockShort(player) + " dribble pre-cum.  ", false);
             if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.lowerBody.cockSpot.count() == 1)
-                MainScreen.text(monster.capitalA + monster.short + "'s " + CockDescriptor.describeCockShort(player.lowerBody.cockSpot.get(0)) + " hardens, distracting " + monster.pronoun2 + " further.  ", false);
+                MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + CockDescriptor.describeCockShort(player.lowerBody.cockSpot.get(0)) + " hardens, distracting " + monster.desc.objectivePronoun + " further.  ", false);
             if (monster.stats.lust >= 30 && monster.stats.lust < 60 && monster.lowerBody.cockSpot.count() > 1)
-                MainScreen.text("You see " + monster.pronoun3 + " " + CockDescriptor.describeMultiCockShort(player) + " harden uncomfortably.  ", false);
+                MainScreen.text("You see " + monster.desc.possessivePronoun + " " + CockDescriptor.describeMultiCockShort(player) + " harden uncomfortably.  ", false);
         }
         if (monster.lowerBody.vaginaSpot.count() > 0) {
             const firstVagina: Vagina = player.lowerBody.vaginaSpot.get(0);
-            // Removed because monster is no longer plural
-            /*if (monster.plural) {
+            if (monster.desc.plural) {
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.NORMAL)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s dampen perceptibly.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s dampen perceptibly.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.WET)
-                    MainScreen.text(monster.capitalA + monster.short + "'s crotches become sticky with girl-lust.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s crotches become sticky with girl-lust.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.SLICK)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s become sloppy and wet.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s become sloppy and wet.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.DROOLING)
-                    MainScreen.text("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ", false);
+                    MainScreen.text("Thick runners of girl-lube stream down the insides of " + monster.desc.a + monster.desc.short + "'s thighs.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.SLAVERING)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s instantly soak " + monster.pronoun2 + " groin.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s instantly soak " + monster.desc.objectivePronoun + " groin.  ", false);
             }
-            else */{
+            else {
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.NORMAL)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " dampens perceptibly.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " dampens perceptibly.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.WET)
-                    MainScreen.text(monster.capitalA + monster.short + "'s crotch becomes sticky with girl-lust.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s crotch becomes sticky with girl-lust.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.SLICK)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " becomes sloppy and wet.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " becomes sloppy and wet.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.DROOLING)
-                    MainScreen.text("Thick runners of girl-lube stream down the insides of " + monster.a + monster.short + "'s thighs.  ", false);
+                    MainScreen.text("Thick runners of girl-lube stream down the insides of " + monster.desc.a + monster.desc.short + "'s thighs.  ", false);
                 if (monster.stats.lust >= 60 && firstVagina.vaginalWetness == VaginaWetness.SLAVERING)
-                    MainScreen.text(monster.capitalA + monster.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " instantly soaks her groin.  ", false);
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " instantly soaks her groin.  ", false);
             }
         }
         MainScreen.text("\n\n", false);
@@ -88,7 +88,7 @@ export class SpellArouse extends LearnedSpellAction {
 
 export class SpellHeal extends LearnedSpellAction {
     public readonly baseCost: number = 20;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         MainScreen.text("You focus on your body and its desire to end pain, trying to draw on your arousal without enhancing it.\n", true);
         //25% backfire!
@@ -109,7 +109,7 @@ export class SpellHeal extends LearnedSpellAction {
             if (player.inventory.armor.displayName == "skimpy nurse's outfit")
                 hpGain *= 1.2;
             MainScreen.text("You flush with success as your wounds begin to knit (+" + hpGain + ").", false);
-            player.stats.HP += hpGain;
+            player.combat.gainHP(hpGain, player);
         }
         MainScreen.text("\n\n", false);
     }
@@ -117,7 +117,7 @@ export class SpellHeal extends LearnedSpellAction {
 
 export class SpellMight extends LearnedSpellAction {
     public readonly baseCost: number = 25;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         MainScreen.text("You flush, drawing on your body's desires to empower your muscles and toughen you up.\n\n", true);
         //25% backfire!
@@ -152,7 +152,7 @@ export class SpellMight extends LearnedSpellAction {
 
 export class SpellChargeWeapon extends LearnedSpellAction {
     public readonly baseCost: number = 15;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         MainScreen.text("You utter words of power, summoning an electrical charge around your " + player.inventory.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n", true);
         player.statusAffects.add(new StatusAffect("ChargeWeapon", 10 * player.spellMod(), 0, 0, 0));
@@ -161,14 +161,14 @@ export class SpellChargeWeapon extends LearnedSpellAction {
 
 export class SpellBlind extends LearnedSpellAction {
     public readonly baseCost: number = 20;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         MainScreen.text("", true);
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has("Shell")) {
-            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
-        if (monster.type == MonsterType.JeanClaude) {
+        if (monster.charType == CharacterType.JeanClaude) {
             MainScreen.text("Jean-Claude howls, reeling backwards before turning back to you, rage clenching his dragon-like face and enflaming his eyes. Your spell seemed to cause him physical pain, but did nothing to blind his lidless sight.");
 
             MainScreen.text("\n\n“<i>You think your hedge magic will work on me, intrus?</i>” he snarls. “<i>Here- let me show you how it’s really done.</i>” The light of anger in his eyes intensifies, burning a retina-frying white as it demands you stare into it...");
@@ -177,8 +177,7 @@ export class SpellBlind extends LearnedSpellAction {
                 MainScreen.text("\n\nThe light sears into your eyes, but with the discipline of conscious effort you escape the hypnotic pull before it can mesmerize you, before Jean-Claude can blind you.");
 
                 MainScreen.text("\n\n“<i>You fight dirty,</i>” the monster snaps. He sounds genuinely outraged. “<i>I was told the interloper was a dangerous warrior, not a little [boy] who accepts duels of honour and then throws sand into his opponent’s eyes. Look into my eyes, little [boy]. Fair is fair.</i>”");
-
-                monster.stats.HP -= Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
+                monster.combat.loseHP(Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod()), player);
             }
             else {
                 MainScreen.text("\n\nThe light sears into your eyes and mind as you stare into it. It’s so powerful, so infinite, so exquisitely painful that you wonder why you’d ever want to look at anything else, at anything at- with a mighty effort, you tear yourself away from it, gasping. All you can see is the afterimages, blaring white and yellow across your vision. You swipe around you blindly as you hear Jean-Claude bark with laughter, trying to keep the monster at arm’s length.");
@@ -189,73 +188,71 @@ export class SpellBlind extends LearnedSpellAction {
             }
             return;
         }
-        MainScreen.text("You glare at " + monster.a + monster.short + " and point at " + monster.pronoun2 + ".  A bright flash erupts before " + monster.pronoun2 + "!\n", true);
-        if (monster.type == MonsterType.LivingStatue) {
+        MainScreen.text("You glare at " + monster.desc.a + monster.desc.short + " and point at " + monster.desc.objectivePronoun + ".  A bright flash erupts before " + monster.desc.objectivePronoun + "!\n", true);
+        if (monster.charType == CharacterType.LivingStatue) {
             // noop
         }
         else if (Utils.rand(3) != 0) {
-            MainScreen.text(" <b>" + monster.capitalA + monster.short + " ", false);
-            // Removed because monster is no longer plural
-            //if (monster.plural && monster.short != "imp horde") MainScreen.text("are blinded!</b>", false);
-            //else
-            MainScreen.text("is blinded!</b>", false);
+            MainScreen.text(" <b>" + monster.desc.capitalA + monster.desc.short + " ", false);
+            if (monster.desc.plural && monster.desc.short != "imp horde") MainScreen.text("are blinded!</b>", false);
+            else MainScreen.text("is blinded!</b>", false);
             monster.statusAffects.add(new StatusAffect("Blind", 5 * player.spellMod(), 0, 0, 0));
-            if (monster.short == "Isabella")
+            if (monster.desc.short == "Isabella")
                 if (isabellaFollowerScene.isabellaAccent()) MainScreen.text("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.", false);
                 else MainScreen.text("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.", false);
-            if (monster.short == "Kiha") MainScreen.text("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.", false);
-            if (monster.short == "plain girl") {
+            if (monster.desc.short == "Kiha") MainScreen.text("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.", false);
+            if (monster.desc.short == "plain girl") {
                 MainScreen.text("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.", false);
                 monster.statusAffects.remove("Blind");
             }
         }
-        else MainScreen.text(monster.capitalA + monster.short + " blinked!", false);
+        else MainScreen.text(monster.desc.capitalA + monster.desc.short + " blinked!", false);
         MainScreen.text("\n\n", false);
     }
 }
 
 export class SpellWhitefire extends LearnedSpellAction {
     public readonly baseCost: number = 30;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         MainScreen.text("", true);
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has("Shell")) {
-            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
-        if (monster.type == MonsterType.Doppleganger) {
+        if (monster.charType == CharacterType.Doppleganger) {
             <Doppleganger>monster.handleSpellResistance("whitefire");
             return;
         }
-        MainScreen.text("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.a + monster.short + " is enveloped in a flash of white flames!\n", true);
+        MainScreen.text("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.desc.a + monster.desc.short + " is enveloped in a flash of white flames!\n", true);
         let damage = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
         //High damage to goes.
-        if (monster.short == "goo-girl")
+        if (monster.desc.short == "goo-girl")
             damage = Math.round(damage * 1.5);
-        MainScreen.text(monster.capitalA + monster.short + " takes " + damage + " damage.", false);
+        MainScreen.text(monster.desc.capitalA + monster.desc.short + " takes " + damage + " damage.", false);
         //Using fire attacks on the goo]
-        if (monster.short == "goo-girl") {
+        if (monster.desc.short == "goo-girl") {
             MainScreen.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.", false);
             if (!monster.perks.has("Acid"))
                 monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
         }
         MainScreen.text("\n\n", false);
-        monster.stats.HP -= damage;
+        monster.combat.loseHP(damage, player);
     }
 }
 
 export class SpellCleansingPalm extends LearnedSpellAction {
     public readonly baseCost: number = 30;
-    public castSpell(player: Player, monster: Monster) {
+    public castSpell(player: Player, monster: Character) {
         MainScreen.clearText();
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has("Shell")) {
-            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.a + monster.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            MainScreen.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
 
-        if (monster.short == "Jojo") {
+        if (monster.desc.short == "Jojo") {
             // Not a completely corrupted monkmouse
             if (Game.monk < 2) {
                 MainScreen.text("You thrust your palm forward, sending a blast of pure energy towards Jojo. At the last second he sends a blast of his own against yours canceling it out\n\n");
@@ -263,7 +260,7 @@ export class SpellCleansingPalm extends LearnedSpellAction {
             }
         }
 
-        if (monster.type == MonsterType.LivingStatue) {
+        if (monster.charType == CharacterType.LivingStatue) {
             MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against the giant stone statue- to no effect!");
             return;
         }
@@ -274,20 +271,17 @@ export class SpellCleansingPalm extends LearnedSpellAction {
         let damage = Math.floor((player.stats.int / 4 + Utils.rand(player.stats.int / 3)) * (player.spellMod() * corruptionMulti));
 
         if (damage > 0) {
-            MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.a + monster.short + ", tossing");
-            // Removed because monster is no longer plural
-            //if ((monster as Monster).plural == true) MainScreen.text(" them");
-            //else
-            MainScreen.text(GenderDescriptor.mfn(monster.gender, " him", " her", " it"));
+            MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", tossing");
+            MainScreen.text(" " + monster.desc.objectivePronoun);
             MainScreen.text(" back a few feet.\n\n");
 
-            MainScreen.text(monster.capitalA + monster.short + " takes " + damage + " damage.\n\n");
+            MainScreen.text(monster.desc.capitalA + monster.desc.short + " takes " + damage + " damage.\n\n");
         }
         else {
             damage = 0;
-            MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.a + monster.short + ", which they ignore. It is probably best you don’t use this technique against the pure.\n\n");
+            MainScreen.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", which they ignore. It is probably best you don’t use this technique against the pure.\n\n");
         }
-        monster.stats.HP -= damage;
+        monster.combat.loseHP(damage, player);
     }
 }
 

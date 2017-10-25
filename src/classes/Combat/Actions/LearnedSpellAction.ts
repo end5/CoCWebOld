@@ -1,15 +1,15 @@
 import SpellAction from './SpellAction';
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Monster from '../../Monster';
 import Player from '../../Player';
 
 export default abstract class LearnedSpellAction extends SpellAction {
-    abstract castSpell(player: Player, monster: Monster);
+    abstract castSpell(player: Player, enemy: Character);
 
-    public use(player: Player, monster: Monster) {
-        this.castSpell(player, monster);
+    public use(player: Player, enemy: Character) {
+        this.castSpell(player, enemy);
         Flags.list[FlagEnum.SPELLS_CAST]++;
         this.spellPerkUnlock(player);
     }

@@ -1,5 +1,5 @@
 import SpecialAction from './SpecialAction';
-import Monster from '../../Monster';
+import Character from '../../Character/Character';
 import Player from '../../Player';
 
 export default abstract class SpellAction implements SpecialAction {
@@ -11,7 +11,7 @@ export default abstract class SpellAction implements SpecialAction {
         return "You are too tired to cast this spell.";
     }
 
-    abstract use(player: Player, monster: Monster);
+    abstract use(player: Player, monster: Character);
     
     abstract readonly baseCost: number;
     

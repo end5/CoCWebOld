@@ -4,7 +4,7 @@ import Player from '../../Player';
 export default class PlayerAttack {
     public approachAfterKnockback(): void {
         MainScreen.clearText();
-        MainScreen.text("You close the distance between you and " + monster.a + monster.short + " as quickly as possible.\n\n");
+        MainScreen.text("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
         player.statusAffects.remove("KnockedBack");
         enemyAI();
         return;
@@ -21,11 +21,11 @@ export default class PlayerAttack {
     private teaseAttack(): void {
         if (monster.stats.lustVuln == 0) {
             MainScreen.clearText();
-            MainScreen.text("You try to tease " + monster.a + monster.short + " with your body, but it doesn't have any effect on " + monster.pronoun2 + ".\n\n");
+            MainScreen.text("You try to tease " + monster.desc.a + monster.desc.short + " with your body, but it doesn't have any effect on " + monster.desc.objectivePronoun + ".\n\n");
             enemyAI();
         }
         //Worms are immune!
-        else if (monster.short == "worms") {
+        else if (monster.desc.short == "worms") {
             MainScreen.clearText();
             MainScreen.text("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass in a rather lewd manner. However, the creature fails to react to your suggestive actions.\n\n");
             enemyAI();
