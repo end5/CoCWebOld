@@ -1,0 +1,32 @@
+export default interface StatsInterface {
+    str(): number;
+    str(value: number): void;
+    tou(): number;
+    tou(value: number): void;
+    spe(): number;
+    spe(value: number);
+    int(): number;
+    int(value: number);
+    lib(): number;
+    lib(value: number);
+    sens(): number;
+    sens(value: number);
+    cor(): number;
+    cor(value: number);
+    fatigue(): number;
+    fatigue(value: number);
+    HP(): number;
+    HP(value: number);
+    lust(): number;
+    lust(value: number);
+    lustVuln(): number;
+    lustVuln(value: number);
+    XP(): number;
+    XP(value: number);
+    level(): number;
+    level(value: number);
+    gems(): number;
+    gems(value: number);
+    additionalXP(): number;
+    additionalXP(value: number);
+}
