@@ -6,14 +6,15 @@ import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import InventoryDisplay from '../../display/InventoryDisplay';
 import MainScreen, { ClickFunction } from '../../display/MainScreen';
 import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class GroPlus extends Consumable {
     public constructor() {
-        super("GroPlus", "GroPlus", "a needle filled with Gro+", 50, "This is a small needle with a reservoir full of blue liquid.  A faded label marks it as 'GroPlus'.  Its purpose seems obvious.");
+        super("GroPlus", new ItemDesc("GroPlus", "a needle filled with Gro+", "This is a small needle with a reservoir full of blue liquid.  A faded label marks it as 'GroPlus'.  Its purpose seems obvious."), 50);
     }
 
     public canUse(player: Player): boolean {

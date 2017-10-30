@@ -4,10 +4,11 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class CeruleanPotion extends Consumable {
     public constructor() {
-        super("Cerul P", "Cerulean P.", "a cerulean-tinted potion", CeruleanPotion.DefaultValue, "This is a mysterious bottle filled with a sky-blue liquid that sloshes gently inside.  Supposedly it will make you irresistible, though to what or who you cannot say.");
+        super("Cerul P", new ItemDesc("Cerulean P.", "a cerulean-tinted potion", "This is a mysterious bottle filled with a sky-blue liquid that sloshes gently inside.  Supposedly it will make you irresistible, though to what or who you cannot say."));
     }
 
     public use(player: Player) {

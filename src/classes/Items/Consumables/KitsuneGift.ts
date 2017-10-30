@@ -4,11 +4,12 @@ import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class KitsuneGift extends Consumable {
 
     public constructor() {
-        super("KitGift", "KitGift", "a kitsune's gift", KitsuneGift.DefaultValue, "A small square package given to you by a forest kitsune.  It is wrapped up in plain white paper and tied with a string.  Who knows what's inside?");
+        super("KitGift", new ItemDesc("KitGift", "a kitsune's gift", "A small square package given to you by a forest kitsune.  It is wrapped up in plain white paper and tied with a string.  Who knows what's inside?"));
     }
 
     public canUse(player: Player) {
@@ -72,7 +73,7 @@ export default class KitsuneGift extends Consumable {
                     Game.libraries.consumables.get("WhiteDy")
                 ][Utils.rand(4)];
 
-                MainScreen.text("\n\n<b>You've received " + randomHairDye.longName + " from the kitsune's gift!  How generous!</b>  ");
+                MainScreen.text("\n\n<b>You've received " + randomHairDye.desc.longName + " from the kitsune's gift!  How generous!</b>  ");
                 //add <color> Dye to inventory
                 if (!InventoryDisplay.isHoldingItem) {
                     InventoryDisplay.addItem(Game.libraries.consumables.get("FoxJewl"))
@@ -115,7 +116,7 @@ export default class KitsuneGift extends Consumable {
                 MainScreen.text("As the paper falls away, you carefully lift the cover of the box, your hands trembling nervously.  The inside of the box is lined with purple velvet, and sitting in the center is an artfully crafted paper doll.  Before your eyes, the doll springs to life, dancing about fancifully.  Without warning, it tosses a handful of sweet-smelling pink dust into your face, then hops over the rim of the box and gallavants off into the woods.  Before you know what has happened, you feel yourself growing hot and flushed, unable to keep your hands away from your groin.");
                 MainScreen.text("\n\n<b>Oh no!  The kitsune's familiar has hit you with a powerful aphrodisiac!  You are debilitatingly aroused and can think of nothing other than masturbating.</b>");
                 //+100 LUST
-                player.stats.lustChange(100, false);
+                player.stats.lustNoResist += 100;
                 break;
 
             //[Wither]

@@ -3,13 +3,14 @@ import BreastRow from '../../Body/BreastRow';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class TatteredScroll extends Consumable {
     public constructor() {
-        super("TScroll", "TScroll", "a tattered scroll", TatteredScroll.DefaultValue, "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it.");
+        super("TScroll", new ItemDesc("TScroll", "a tattered scroll", "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it."));
     }
 
     public use(player: Player) {

@@ -2,10 +2,11 @@ import Weapon from './Weapon';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class DragonShellShield extends Weapon {
     public constructor() {
-        super("DrgnShl", "DrgnShl", "dragon-shell shield", "a dragon-shell shield", "smack", 0, 1500, "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless.", "Large");
+        super("DrgnShl", new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, "Large");
     }
 
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally

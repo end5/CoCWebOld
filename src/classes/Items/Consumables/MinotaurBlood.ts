@@ -15,17 +15,19 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import CockModifier from '../../Modifiers/CockModifier';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class MinotaurBlood extends Consumable {
     public constructor() {
-        super("MinoBlo", "MinoBlo", "a vial of Minotaur blood", MinotaurBlood.DefaultValue, "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape.");
+        super("MinoBlo", new ItemDesc("MinoBlo", "a vial of Minotaur blood", "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape."));
     }
 
     public use(player: Player) {
@@ -302,7 +304,7 @@ export default class MinotaurBlood extends Consumable {
 
         //Males go into rut
         if (Utils.rand(4) == 0) {
-            CreatureChange.goIntoRut(player);
+            BodyModifier.displayGoIntoRut(player);
         }
 
         //Anti-masturbation status
@@ -430,8 +432,8 @@ export default class MinotaurBlood extends Consumable {
         }
         //Give you that mino build!
         if (Utils.rand(4) == 0) MainScreen.text(player.modFem(5, 10), false);
-        if (Utils.rand(4) == 0) MainScreen.text(player.modTone(85, 3), false);
-        if (Utils.rand(4) == 0) MainScreen.text(player.modThickness(70, 4), false);
+        if (Utils.rand(4) == 0) MainScreen.text(BodyModifier.displayModTone(player, 85, 3), false);
+        if (Utils.rand(4) == 0) MainScreen.text(BodyModifier.displayModThickness(player, 70, 4), false);
         //Default
         if (changes == 0) {
             MainScreen.text("\n\nMinotaur-like vitality surges through your body, invigorating and arousing you!\n", false);
@@ -439,7 +441,7 @@ export default class MinotaurBlood extends Consumable {
                 MainScreen.text("Your balls feel as if they've grown heavier with the weight of more sperm.\n", false);
                 player.hoursSinceCum += 200;
             }
-            CreatureChange.HPChange(player, 50);
+            StatModifier.displayPlayerHPChange(player, 50);
             player.stats.lust += 50;
         }
 

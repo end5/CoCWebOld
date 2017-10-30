@@ -1,14 +1,15 @@
 import Consumable from './Consumable';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class MarbleMilk extends Consumable {
     public constructor() {
-        super("Smart T", "Scholars T.", "a cup of scholar's tea", MarbleMilk.DefaultValue, "This powerful brew supposedly has mind-strengthening effects.");
+        super("M. Milk", new ItemDesc("M. Milk", "a clear bottle of milk from Marble", "A clear bottle of milk from Marble's breasts. It smells delicious."));
     }
 
     public use(player: Player) {
@@ -42,7 +43,7 @@ export default class MarbleMilk extends Consumable {
             MainScreen.text("You no longer feel the symptoms of withdrawal.\n\n", false);
         }
         //Heals the player 70-100 health
-        CreatureChange.HPChange(player, 70 + Utils.rand(31));
+        StatModifier.displayPlayerHPChange(player, 70 + Utils.rand(31));
         //Restores a portion of fatigue (once implemented)
         player.stats.fatigue -= 25;
         //If the player is addicted, this item negates the withdrawal effects for a few hours (suggest 6), there will need to be a check here to make sure the withdrawal effect doesn't reactivate while the player is under the effect of 'Marble's Milk'.

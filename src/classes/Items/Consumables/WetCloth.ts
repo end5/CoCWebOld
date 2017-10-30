@@ -9,10 +9,11 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class WetCloth extends Consumable {
     public constructor() {
-        super("WetClth", "WetClth", "a wet cloth dripping with slippery slime", WetCloth.DefaultValue, "Dripping with a viscous slime, you've no doubt rubbing this cloth on your body would have some kind of strange effect.");
+        super("WetClth", new ItemDesc("WetClth", "a wet cloth dripping with slippery slime", "Dripping with a viscous slime, you've no doubt rubbing this cloth on your body would have some kind of strange effect."));
     }
 
     public use(player: Player) {

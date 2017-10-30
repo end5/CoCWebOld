@@ -3,10 +3,11 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class HerbalContraceptive extends Consumable {
     public constructor() {
-        super("HrblCnt", "HrblCnt", "a bundle of verdant green leaves", HerbalContraceptive.DefaultValue, "A small bundle of verdant green leaves.");
+        super("HrblCnt", new ItemDesc("HrblCnt", "a bundle of verdant green leaves", "A small bundle of verdant green leaves."));
     }
 
     public use(player: Player) {

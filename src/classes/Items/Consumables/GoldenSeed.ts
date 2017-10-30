@@ -9,15 +9,18 @@ import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
+import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class GoldenSeed extends Consumable {
     private enhanced: boolean;
@@ -27,9 +30,9 @@ export default class GoldenSeed extends Consumable {
     //1 == enhanced - increase change limit and no pre-reqs for TF
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("GldSeed", "GoldenSeed", "a golden seed", GoldenSeed.DefaultValue, "This seed looks and smells absolutely delicious.  Though it has an unusual color, the harpies prize these nuts as delicious treats.  Eating one might induce some physical transformations.");
+            super("GldSeed", new ItemDesc("GoldenSeed", "a golden seed", "This seed looks and smells absolutely delicious.  Though it has an unusual color, the harpies prize these nuts as delicious treats.  Eating one might induce some physical transformations."));
         else
-            super("MagSeed", "MagSeed", "a magically-enhanced golden seed", GoldenSeed.DefaultValue, "This seed glows with power.  It's been enhanced by Lumi to unlock its full potential, allowing it to transform you more easily.");
+            super("MagSeed", new ItemDesc("MagSeed", "a magically-enhanced golden seed", "This seed glows with power.  It's been enhanced by Lumi to unlock its full potential, allowing it to transform you more easily."));
         this.enhanced = enhanced;
     }
 
@@ -238,7 +241,7 @@ export default class GoldenSeed extends Consumable {
         }
         //-Body thickness to 25ish
         if (player.thickness > 25 && changes < changeLimit && Utils.rand(3) == 0) {
-            MainScreen.text(player.modThickness(25, 3 + Utils.rand(4)), false);
+            MainScreen.text(BodyModifier.displayModThickness(player, 25, 3 + Utils.rand(4)), false);
             changes++;
         }
         //Remove odd eyes

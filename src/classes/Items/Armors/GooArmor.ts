@@ -3,10 +3,11 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class GooArmor extends Armor {
     public constructor() {
-        super("GooArmr", "GooArmr", "goo armor", "Valeria, the goo-girl armor", 22, 1, "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!");
+        super("GooArmr", new ItemDesc("GooArmr", "Valeria, the goo-girl armor", "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!"), "goo armor", 22, 1);
     }
 
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally

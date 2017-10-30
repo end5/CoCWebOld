@@ -10,15 +10,16 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class LaBova extends Consumable {
     /*Purified LaBova:
@@ -43,11 +44,11 @@ export default class LaBova extends Consumable {
     private tainted: boolean;
     public constructor(enhanced: boolean, tainted: boolean) {
         if (enhanced)
-            super("ProBova", "ProBova", "a bottle containing a misty fluid labeled \"ProBova\"", LaBova.DefaultValue, "This cloudy potion has been enhanced by the alchemist Lumi to imbue its drinker with cow-like attributes.");
+            super("ProBova", new ItemDesc("ProBova", "a bottle containing a misty fluid labeled \"ProBova\"", "This cloudy potion has been enhanced by the alchemist Lumi to imbue its drinker with cow-like attributes."));
         else if (tainted)
-            super("LaBova ", "La Bova", "a bottle containing a misty fluid labeled \"LaBova\"", LaBova.DefaultValue, "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off.");
+            super("LaBova ", new ItemDesc("La Bova", "a bottle containing a misty fluid labeled \"LaBova\"", "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off."));
         else
-            super("P.LBova", "P.LBova", "a bottle containing a white fluid labeled \"Pure LaBova\"", LaBova.DefaultValue, "A bottle containing a misty fluid with a grainy texture); it has a long neck and a ball-like base.  The label has a stylized picture of a well-endowed cow-girl nursing two guys while they jerk themselves off. It has been purified by Rathazul.");
+            super("P.LBova", new ItemDesc("P.LBova", "a bottle containing a white fluid labeled \"Pure LaBova\"", "A bottle containing a misty fluid with a grainy texture); it has a long neck and a ball-like base.  The label has a stylized picture of a well-endowed cow-girl nursing two guys while they jerk themselves off. It has been purified by Rathazul."));
         this.enhanced = enhanced;
         this.tainted = tainted;
     }
@@ -121,7 +122,7 @@ export default class LaBova extends Consumable {
                 cockGrowth -= .5;
             }
             cockGrowth += CockModifier.growCock(player, biggestCock, (Utils.rand(3) + 1) * -1);
-            CreatureChange.lengthChange(player, cockGrowth, 1);
+            CockModifier.displayLengthChange(player, cockGrowth, 1);
             if (biggestCock.cockLength < 2) {
                 MainScreen.text("  ", false);
                 if (player.lowerBody.cockSpot.count() == 1 && !player.lowerBody.vaginaSpot.hasVagina()) {
@@ -137,7 +138,7 @@ export default class LaBova extends Consumable {
                     player.lowerBody.cockSpot.remove(player, biggestCock);
                 }
                 else {
-                    CockModifier.killCocks(player, 1);
+                    CockModifier.displayKillCocks(player, 1);
                     player.updateGender();
                 }
             }
@@ -449,7 +450,7 @@ export default class LaBova extends Consumable {
             changes++;
         }
         if (Utils.rand(3) == 0) MainScreen.text(player.modFem(79, 3), false);
-        if (Utils.rand(3) == 0) MainScreen.text(player.modThickness(70, 4), false);
-        if (Utils.rand(5) == 0) MainScreen.text(player.modTone(10, 5), false);
+        if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModThickness(player, 70, 4), false);
+        if (Utils.rand(5) == 0) MainScreen.text(BodyModifier.displayModTone(player, 10, 5), false);
     }
 }

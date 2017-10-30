@@ -3,10 +3,11 @@ import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class FishFillet extends Consumable {
     public constructor() {
-        super("FishFil", "FishFil", "a fish fillet", FishFillet.DefaultValue, "A perfectly cooked piece of fish.  You're not sure what type of fish is, since you're fairly certain \"delicious\" is not a valid species.");
+        super("FishFil", new ItemDesc("FishFil", "a fish fillet", "A perfectly cooked piece of fish.  You're not sure what type of fish is, since you're fairly certain \"delicious\" is not a valid species."));
     }
 
     public use(player: Player) {

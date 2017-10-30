@@ -9,21 +9,22 @@ import { WingType } from '../../Body/UpperBody';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
     public constructor(tainted: boolean) {
         if (tainted)
-            super("IncubiD", "IncubiD", "an Incubi draft", IncubusDraft.DefaultValue, "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass.");
+            super("IncubiD", new ItemDesc("IncubiD", "an Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass."));
         else
-            super("P.Draft", "P.Draft", "an untainted Incubi draft", 20, "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass. Rathazul has purified this to prevent corruption upon use.");
+            super("P.Draft", new ItemDesc("P.Draft", "an untainted Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass. Rathazul has purified this to prevent corruption upon use."), 20);
         this.tainted = tainted;
     }
 
@@ -57,7 +58,7 @@ export default class IncubusDraft extends Consumable {
         if (Utils.rand(4) == 0 && this.tainted)
             MainScreen.text(player.modFem(5, 2), false);
         if (Utils.rand(4) == 0 && this.tainted)
-            MainScreen.text(player.modThickness(30, 2), false);
+            MainScreen.text(BodyModifier.displayModThickness(player, 30, 2), false);
     }
 
     private lowLevelChanges(player: Player) {
@@ -161,7 +162,7 @@ export default class IncubusDraft extends Consumable {
                 if (cockThickness < .1)
                     selectedCock.cockThickness += .05;
             }
-            CreatureChange.lengthChange(player, cockGrowth, cockCount);
+            CockModifier.displayLengthChange(player, cockGrowth, cockCount);
 
             //Display the degree of thickness change.
             if (cockThickness >= 1) {
@@ -186,7 +187,7 @@ export default class IncubusDraft extends Consumable {
             selectedCock = player.lowerBody.cockSpot.get(0);
             cockThickness = CockModifier.thickenCock(selectedCock, 1);
             cockGrowth = CockModifier.growCock(player, selectedCock, Utils.rand(3) + 2);
-            CreatureChange.lengthChange(player, cockGrowth, cockCount);
+            CockModifier.displayLengthChange(player, cockGrowth, cockCount);
             //Display the degree of thickness change.
             if (cockThickness >= 1) {
                 if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);

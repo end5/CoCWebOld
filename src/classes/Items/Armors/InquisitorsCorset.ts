@@ -4,10 +4,11 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class InquisitorsCorset extends Armor {
     public constructor() {
-        super("I.Corst", "I.Corst", "inquisitor's corset", "an inquisitor's corset", 4, 2000, "This sexualized and feminine red and gold ensemble carries with it the hopes of a shamed sorcerer.  Wearing it will cause spells to tax your health instead of exhausting you.", "Light");
+        super("I.Corst", new ItemDesc("I.Corst", "an inquisitor's corset", "This sexualized and feminine red and gold ensemble carries with it the hopes of a shamed sorcerer.  Wearing it will cause spells to tax your health instead of exhausting you."), "inquisitor's corset", 4, 2000, "Light");
     }
 
     public useText(player: Player): void {

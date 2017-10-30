@@ -6,12 +6,14 @@ import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import MainScreen from '../../display/MainScreen';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class RingtailFig extends Consumable {
     public constructor() {
-        super("RingFig", "RingFig", "a ringtail fig", RingtailFig.DefaultValue, "A dried fig with two lobes and thin dark rings just below its stem.  The skin is wrinkly and it looks vaguely like a bulging scrotum.");
+        super("RingFig", new ItemDesc("RingFig", "a ringtail fig", "A dried fig with two lobes and thin dark rings just below its stem.  The skin is wrinkly and it looks vaguely like a bulging scrotum."));
     }
 
     public use(player: Player) {
@@ -67,7 +69,7 @@ export default class RingtailFig extends Consumable {
         }
         //gain thickness or lose tone or whatever - standard message
         if (Utils.rand(4) == 0 && player.thickness < 80 && changes < changeLimit) {
-            MainScreen.text(player.modThickness(80, 2), false);
+            MainScreen.text(BodyModifier.displayModThickness(player, 80, 2), false);
             changes++;
         }
         //bodypart changes:

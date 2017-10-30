@@ -1,11 +1,13 @@
 import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class VitalityTincture extends Consumable {
     public constructor() {
-        super("Vital T", "Vitality T.", "a vitality tincture", VitalityTincture.DefaultValue, "This potent tea is supposedly good for strengthening the body.");
+        super("Vital T", new ItemDesc("Vitality T.", "a vitality tincture", "This potent tea is supposedly good for strengthening the body."));
     }
 
     public use(player: Player) {
@@ -28,6 +30,6 @@ export default class VitalityTincture extends Consumable {
         if (player.stats.HP += 50)
             MainScreen.text("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.", false);
         if (Utils.rand(3) == 0)
-            MainScreen.text(player.modTone(95, 3), false);
+            MainScreen.text(BodyModifier.displayModTone(player, 95, 3), false);
     }
 }

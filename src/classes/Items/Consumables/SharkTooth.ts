@@ -7,21 +7,23 @@ import { WingType } from '../../Body/UpperBody';
 import Vagina from '../../Body/Vagina';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
+import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class SharkTooth extends Consumable {
     private enhanced: boolean;
 
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("Shark.T", "Shark.T", "a sharp shark tooth", SharkTooth.DefaultValue, "A glinting white tooth, very sharp and intimidating.");
+            super("Shark.T", new ItemDesc("Shark.T", "a sharp shark tooth", "A glinting white tooth, very sharp and intimidating."));
         else
-            super("TSTooth", "TSTooth", "a glowing tiger shark tooth", SharkTooth.DefaultValue, "This looks like a normal shark tooth, though with an odd purple glow.");
+            super("TSTooth", new ItemDesc("TSTooth", "a glowing tiger shark tooth", "This looks like a normal shark tooth, though with an odd purple glow."));
         this.enhanced = enhanced;
     }
 

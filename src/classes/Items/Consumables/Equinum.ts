@@ -12,18 +12,20 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import CockModifier from '../../Modifiers/CockModifier';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Equinum extends Consumable {
     public constructor() {
-        super("Equinum", "Equinum", "a vial of Equinum", Equinum.DefaultValue, "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way.");
+        super("Equinum", new ItemDesc("Equinum", "a vial of Equinum", "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way."));
     }
 
     public warning(player: Player) {
@@ -363,7 +365,7 @@ export default class Equinum extends Consumable {
                 }
             }
             if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(2) == 0 && changes < changeLimit) {
-                if (CreatureChange.goIntoHeat(player)) {
+                if (BodyModifier.displayGoIntoHeat(player)) {
                     changes++;
                 }
             }
@@ -502,11 +504,11 @@ export default class Equinum extends Consumable {
             player.upperBody.gills = false;
             changes++;
         }
-        if (Utils.rand(3) == 0) MainScreen.text(player.modTone(60, 1), false);
+        if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModTone(player, 60, 1), false);
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            CreatureChange.HPChange(player, 20);
+            StatModifier.displayPlayerHPChange(player, 20);
             player.stats.lust += 3;
         }
 

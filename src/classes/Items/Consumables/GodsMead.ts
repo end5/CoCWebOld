@@ -3,10 +3,11 @@ import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class GodsMead extends Consumable {
     public constructor() {
-        super("GodMead", "GodMead", "a pint of god's mead");
+        super("GodMead", new ItemDesc("GodMead", "a pint of god's mead"));
     }
 
     public use(player: Player) {

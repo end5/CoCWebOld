@@ -2,10 +2,11 @@ import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class PurityPeach extends Consumable {
     public constructor() {
-        super("PurPeac", "PurPeac", "a pure peach", 10, "This is a peach from Minerva's spring, yellowy-orange with red stripes all over it.");
+        super("PurPeac", new ItemDesc("PurPeac", "a pure peach", "This is a peach from Minerva's spring, yellowy-orange with red stripes all over it."), 10);
     }
 
     public use(player: Player) {

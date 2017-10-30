@@ -1,10 +1,11 @@
 import Weapon from './Weapon';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class LargeHammer extends Weapon {
     public constructor() {
-        super("L.Hammr", "L.Hammr", "large hammer", "Marble's large hammer", "smash", 16, 90, "This two-handed warhammer looks pretty devastating.  You took it from Marble after she refused your advances.", "Large");
+        super("L.Hammr", new ItemDesc("L.Hammr", "Marble's large hammer", "This two-handed warhammer looks pretty devastating.  You took it from Marble after she refused your advances."), "large hammer", "smash", 16, 90, "Large");
     }
 
     public canUse(player: Player): boolean {

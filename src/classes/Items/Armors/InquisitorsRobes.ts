@@ -1,10 +1,11 @@
-import ArmorWithPerk from "./ArmorWithPerk";
-import MainScreen from "../../display/MainScreen";
-import Perk from "../../Effects/Perk";
+import ArmorWithPerk from './ArmorWithPerk';
+import MainScreen from '../../display/MainScreen';
+import Perk from '../../Effects/Perk';
+import ItemDesc from '../ItemDesc';
 
 export default class InquisitorsRobes extends ArmorWithPerk {
 	public constructor() {
-		super("I.Robes", "I.Robes", "inquisitor's robes", "inquisitor's robes", 8, 2000, "These foreboding red and gold robes are embroidered with the symbols of a lost kingdom.  Wearing them will cause spells to tax your health instead of exhausting you.", "Light", new Perk("BloodMage", 0, 0, 0, 0));
+		super("I.Robes", new ItemDesc("I.Robes", "inquisitor's robes", "These foreboding red and gold robes are embroidered with the symbols of a lost kingdom.  Wearing them will cause spells to tax your health instead of exhausting you."), "inquisitor's robes", 8, 2000, "Light", new Perk("BloodMage", 0, 0, 0, 0));
 	}
 		
 	public useText():void {

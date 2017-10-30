@@ -3,11 +3,12 @@ import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class WingStick extends Consumable {
 		
 	public constructor() {
-		super("W.Stick", "Wingstick", "a wingstick", 16, "A tri-bladed throwing weapon.  Though good for only a single use, it's guaranteed to do high damage if it hits.  (Cost: 16) (DMG: 40-100)");
+		super("W.Stick", new ItemDesc("Wingstick", "a wingstick", "A tri-bladed throwing weapon.  Though good for only a single use, it's guaranteed to do high damage if it hits.  (Cost: 16) (DMG: 40-100)"), 16);
 	}
 		
 	public canUse(player: Player): boolean {

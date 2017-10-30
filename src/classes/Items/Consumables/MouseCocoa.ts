@@ -12,10 +12,11 @@ import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class MouseCocoa extends Consumable {
     public constructor() {
-        super("MouseCo", "MouseCo", "a handful of mouse cocoa", MouseCocoa.DefaultValue, "A handful of rare aromatic beans with sharp creases in the middle, making them look like small mouse ears.  Allegedly very popular and plentiful before the mice-folk were wiped out.");
+        super("MouseCo", new ItemDesc("MouseCo", "a handful of mouse cocoa", "A handful of rare aromatic beans with sharp creases in the middle, making them look like small mouse ears.  Allegedly very popular and plentiful before the mice-folk were wiped out."));
     }
 
     public use(player: Player) {

@@ -2,10 +2,11 @@ import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class IsabellaMilk extends Consumable {
     public constructor() {
-        super("IzyMilk", "IzyMilk", "a bottle of Isabella's milk", IsabellaMilk.DefaultValue, "This is a bottle of Isabella's milk.  Isabella seems fairly certain it will invigorate you.");
+        super("IzyMilk", new ItemDesc("IzyMilk", "a bottle of Isabella's milk", "This is a bottle of Isabella's milk.  Isabella seems fairly certain it will invigorate you."));
     }
 
     public use(player: Player) {

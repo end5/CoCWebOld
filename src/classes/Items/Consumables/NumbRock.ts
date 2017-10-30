@@ -8,10 +8,11 @@ import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class NumbRock extends Consumable {
     public constructor() {
-        super("NumbRox", "Numb Rox", "a strange packet of candy called 'Numb Rocks'", 15, "This packet of innocuous looking 'candy' guarantees to reduce troublesome sensations and taste delicious.");
+        super("NumbRox", new ItemDesc("Numb Rox", "a strange packet of candy called 'Numb Rocks'", "This packet of innocuous looking 'candy' guarantees to reduce troublesome sensations and taste delicious."), 15);
     }
 
     public use(player: Player) {

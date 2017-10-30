@@ -10,20 +10,21 @@ import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class FoxBerry extends Consumable {
     private enhanced: boolean;
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("FoxBery", "Fox Berry", "a fox berry", FoxBerry.DefaultValue, "This large orange berry is heavy in your hands.  It may have gotten its name from its bright orange coloration.  You're certain it is no mere fruit.");
+            super("FoxBery", new ItemDesc("Fox Berry", "a fox berry", "This large orange berry is heavy in your hands.  It may have gotten its name from its bright orange coloration.  You're certain it is no mere fruit."));
         else
-            super("VixVigr", "VixVigr", "a bottle labelled \"Vixen's Vigor\"", 30, "This small medicine bottle contains something called \"Vixen's Vigor\", supposedly distilled from common fox-berries.  It is supposed to be a great deal more potent, and a small warning label warns of \"extra boobs\", whatever that means.");
+            super("VixVigr", new ItemDesc("VixVigr", "a bottle labelled \"Vixen's Vigor\"", "This small medicine bottle contains something called \"Vixen's Vigor\", supposedly distilled from common fox-berries.  It is supposed to be a great deal more potent, and a small warning label warns of \"extra boobs\", whatever that means."), 30);
         this.enhanced = enhanced;
     }
 
@@ -267,7 +268,7 @@ export default class FoxBerry extends Consumable {
         }
         //HEAT!
         if (player.statusAffects.get("Heat").value2 < 30 && Utils.rand(6) == 0 && changes < changeLimit) {
-            if (CreatureChange.goIntoHeat(player)) {
+            if (BodyModifier.displayGoIntoHeat(player)) {
                 changes++;
             }
         }

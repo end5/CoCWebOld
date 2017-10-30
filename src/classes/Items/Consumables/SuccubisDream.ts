@@ -4,10 +4,11 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class SuccubisDream extends Consumable {
     public constructor() {
-        super("S.Dream", "S.Dream", "a bottle of 'Succubus' Dream'", SuccubisDream.DefaultValue, "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency.");
+        super("S.Dream", new ItemDesc("S.Dream", "a bottle of 'Succubus' Dream'", "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency."));
     }
 
     public use(player: Player) {

@@ -2,10 +2,11 @@ import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class SheepMilk extends Consumable {
     public constructor() {
-        super("SheepMk", "SheepMk", "a bottle of sheep milk", SheepMilk.DefaultValue, "This bottle of sheep milk is said to have corruption-fighting properties.  It may be useful.");
+        super("SheepMk", new ItemDesc("SheepMk", "a bottle of sheep milk", "This bottle of sheep milk is said to have corruption-fighting properties.  It may be useful."));
     }
 
     public use(player: Player) {

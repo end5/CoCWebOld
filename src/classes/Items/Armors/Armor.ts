@@ -1,7 +1,8 @@
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
-import Item from '../Item';
+import Item, { ItemType } from '../Item';
+import ItemDesc from '../ItemDesc';
 
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
@@ -11,8 +12,8 @@ export default class Armor extends Item {
     public readonly displayName: string;
     private _supportsBulge: boolean;
 
-    constructor(key: string, shortName: string, displayname: string, longName: string, defense: number, value: number = 0, description: string = null, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
-        super(key, shortName, longName, value, description);
+    constructor(key: string, itemDesc: ItemDesc, displayname: string, defense: number, value?: number, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
+        super(key, ItemType.Armor, itemDesc, value);
         this.displayName = displayname;
         this.defense = defense;
         this.armorClass = armorClass;
@@ -31,7 +32,7 @@ export default class Armor extends Item {
     }
 
     public useText(player: Player): void {
-        MainScreen.text("You equip " + this.longName + ".  ");
+        MainScreen.text("You equip " + this.desc.longName + ".  ");
     }
 
     public equip(player: Player): Armor { //This item is being equipped by the player. Add any perks, etc. - This function should only handle mechanics, not text output

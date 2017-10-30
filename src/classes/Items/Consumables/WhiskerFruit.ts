@@ -7,18 +7,21 @@ import { EarType } from '../../Body/Head';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
+import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class WhiskerFruit extends Consumable {
     public constructor() {
-        super("W.Fruit", "W.Fruit", "a piece of whisker-fruit", WhiskerFruit.DefaultValue, "This small, peach-sized fruit has tiny whisker-like protrusions growing from the sides.");
+        super("W.Fruit", new ItemDesc("W.Fruit", "a piece of whisker-fruit", "This small, peach-sized fruit has tiny whisker-like protrusions growing from the sides."));
     }
 
     public use(player: Player) {
@@ -300,12 +303,12 @@ export default class WhiskerFruit extends Consumable {
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            CreatureChange.HPChange(player, 50);
+            StatModifier.displayPlayerHPChange(player, 50);
             player.stats.lust += 3;
         }
         if (changes < changeLimit) {
-            if (Utils.rand(2) == 0) MainScreen.text(player.modThickness(5, 2), false);
-            if (Utils.rand(2) == 0) MainScreen.text(player.modTone(76, 2), false);
+            if (Utils.rand(2) == 0) MainScreen.text(BodyModifier.displayModThickness(player, 5, 2), false);
+            if (Utils.rand(2) == 0) MainScreen.text(BodyModifier.displayModTone(player, 76, 2), false);
             if (player.gender < 2) if (Utils.rand(2) == 0) MainScreen.text(player.modFem(65, 1), false);
             else MainScreen.text(player.modFem(85, 2), false);
         }

@@ -1,14 +1,15 @@
 import Consumable from './Consumable';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Coal extends Consumable {
     public constructor() {
-        super("Coal   ", "Coal   ", "two pieces of coal");
+        super("Coal   ", new ItemDesc("Coal", "two pieces of coal"));
     }
 
     public use(player: Player) {
@@ -16,11 +17,11 @@ export default class Coal extends Consumable {
         MainScreen.text("", true);
         MainScreen.text("You handle the coal rocks experimentally and they crumble to dust in your hands!  You cough as you breathe in the cloud, sputtering and wheezing.  After a minute of terrible coughing, you recover and realize there's no remaining trace of the rocks, not even a sooty stain on your hands!", false);
         //Try to go into intense heat
-        if (CreatureChange.goIntoHeat(player, 2)) {
+        if (BodyModifier.displayGoIntoHeat(player, 2)) {
             changes++;
         }
         //Males go into rut
-        else if (CreatureChange.goIntoRut(player)) {
+        else if (BodyModifier.displayGoIntoRut(player)) {
             changes++;
         }
         else {

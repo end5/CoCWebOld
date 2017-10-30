@@ -3,10 +3,11 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class WhiteSpellbook extends Consumable {
     public constructor() {
-        super("W. Book", "W. Book", "a small book with a pristine white cover", 40, "This white book is totally unmarked, and the cover is devoid of any lettering or title.  A shiny brass clasp keeps the covers closed until you are ready to read it.");
+        super("W. Book", new ItemDesc("W. Book", "a small book with a pristine white cover", "This white book is totally unmarked, and the cover is devoid of any lettering or title.  A shiny brass clasp keeps the covers closed until you are ready to read it."), 40);
     }
 
     public use(player: Player) {

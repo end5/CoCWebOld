@@ -1,10 +1,11 @@
 import Armor from './Armor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class FurLoincloth extends Armor {
     public constructor() {
-        super("FurLoin", "FurLoin", "revealing fur loincloths", "a front and back set of loincloths", 0, 100, "A pair of loincloths to cover your crotch and butt.  Typically worn by people named 'Conan'.", "Light");
+        super("FurLoin", new ItemDesc("FurLoin", "a front and back set of loincloths", "A pair of loincloths to cover your crotch and butt.  Typically worn by people named 'Conan'."), "revealing fur loincloths", 0, 100, "Light");
     }
 
     public description(player: Player): string {

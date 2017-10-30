@@ -4,10 +4,11 @@ import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class SeductiveArmor extends Armor {
     public constructor() {
-        super("SeductA", "SeductA", "scandalously seductive armor", "a set of scandalously seductive armor", 0, 1, "A complete suit of scalemail shaped to hug tightly against every curve, it has a solid steel chest-plate with obscenely large nipples molded into it.  The armor does nothing to cover the backside, exposing the wearer's cheeks to the world.");
+        super("SeductA", new ItemDesc("SeductA", "a set of scandalously seductive armor", "A complete suit of scalemail shaped to hug tightly against every curve, it has a solid steel chest-plate with obscenely large nipples molded into it.  The armor does nothing to cover the backside, exposing the wearer's cheeks to the world."), "scandalously seductive armor", 0, 1);
     }
 
     public useText(player: Player): void {

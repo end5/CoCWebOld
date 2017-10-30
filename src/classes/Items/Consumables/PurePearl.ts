@@ -2,10 +2,11 @@ import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class PurePearl extends Consumable {
     public constructor() {
-        super("P.Pearl", "P.Pearl", "a pure pearl", 1000);
+        super("P.Pearl", new ItemDesc("P.Pearl", "a pure pearl"), 1000);
     }
 
     public use(player: Player) {

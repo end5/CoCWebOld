@@ -4,17 +4,18 @@ import { EyeType, FaceType } from '../../Body/Face';
 import { EarType, HairType } from '../../Body/Head';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class FerretFruit extends Consumable {
     public constructor() {
-        super("Frrtfrt", "Frrtfrt", "a ferret fruit", FerretFruit.DefaultValue, "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach.");
+        super("Frrtfrt", new ItemDesc("Frrtfrt", "a ferret fruit", "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach."));
     }
 
     public use(player: Player) {
@@ -161,7 +162,7 @@ export default class FerretFruit extends Consumable {
         }
         //Go into heat
         if (Utils.rand(3) == 0 && changes < changeLimit) {
-            if (CreatureChange.goIntoHeat(player)) {
+            if (BodyModifier.displayGoIntoHeat(player)) {
                 changes++;
             }
         }

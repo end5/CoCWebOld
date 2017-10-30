@@ -1,19 +1,20 @@
 import Consumable from './Consumable';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class LustDraft extends Consumable {
     private enhanced: boolean;
     public constructor(enhanced: boolean) {
         if (enhanced)
-            super("F.Draft", "F.Draft", "a vial of roiling red fluid labeled \"Fuck Draft\"", LustDraft.DefaultValue, "This vial of red fluid bubbles constantly inside the glass, as if eager to escape.  It smells very strongly, though its odor is difficult to identify.  The word \"Fuck\" is inscribed on the side of the vial.");
+            super("F.Draft", new ItemDesc("F.Draft", "a vial of roiling red fluid labeled \"Fuck Draft\"", "This vial of red fluid bubbles constantly inside the glass, as if eager to escape.  It smells very strongly, though its odor is difficult to identify.  The word \"Fuck\" is inscribed on the side of the vial."));
         else
-            super("L.Draft", "LustDraft", "a vial of roiling bubble-gum pink fluid", 20, "This vial of bright pink fluid bubbles constantly inside the glass, as if eager to escape.  It smells very sweet, and has \"Lust\" inscribed on the side of the vial.");
+            super("L.Draft", new ItemDesc("LustDraft", "a vial of roiling bubble-gum pink fluid", "This vial of bright pink fluid bubbles constantly inside the glass, as if eager to escape.  It smells very sweet, and has \"Lust\" inscribed on the side of the vial."), 20);
         this.enhanced = enhanced;
     }
 
@@ -23,14 +24,14 @@ export default class LustDraft extends Consumable {
         if (this.enhanced) MainScreen.text("red", false);
         else MainScreen.text("pink", false);
         MainScreen.text(" potion, and its unnatural warmth immediately flows to your groin.", false);
-        player.stats.lustChange(30 + Utils.rand(player.stats.lib / 10), false);
+        player.stats.lustNoResist += 30 + Utils.rand(player.stats.lib / 10);
 
         //Heat/Rut for those that can have them if "fuck draft"
         if (this.enhanced) {
             //Try to go into intense heat.
-            CreatureChange.goIntoHeat(player, 2);
+            BodyModifier.displayGoIntoHeat(player, 2);
             //Males go into rut
-            CreatureChange.goIntoRut(player);
+            BodyModifier.displayGoIntoRut(player);
         }
         //ORGAZMO
         if (player.stats.lust >= 100 && !Game.inCombat) {

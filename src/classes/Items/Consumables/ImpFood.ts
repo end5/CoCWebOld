@@ -1,14 +1,15 @@
 import Consumable from './Consumable';
 import { SkinType } from '../../Body/Creature';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import CockModifier from '../../Modifiers/CockModifier';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class ImpFood extends Consumable {
     public constructor() {
-        super("ImpFood", "ImpFood", "a parcel of imp food", ImpFood.DefaultValue, "This is a small parcel of reddish-brown bread stuffed with some kind of meat.  It smells delicious.");
+        super("ImpFood", new ItemDesc("ImpFood", "a parcel of imp food", "This is a small parcel of reddish-brown bread stuffed with some kind of meat.  It smells delicious."));
     }
 
     public use(player: Player) {
@@ -18,10 +19,10 @@ export default class ImpFood extends Consumable {
             if (player.lowerBody.cockSpot.get(0).cockLength < 12) {
                 let growthAmount = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(2) + 2);
                 MainScreen.text("\n\n", false);
-                CreatureChange.lengthChange(player, growthAmount, 1);
+                CockModifier.displayLengthChange(player, growthAmount, 1);
             }
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            CreatureChange.HPChange(player, 30 + player.stats.tou / 3);
+            StatModifier.displayPlayerHPChange(player, 30 + player.stats.tou / 3);
             player.stats.lust += 3;
             player.stats.cor += 1;
             //Shrinkage!
@@ -41,7 +42,7 @@ export default class ImpFood extends Consumable {
         }
         else {
             MainScreen.text("The food tastes... corrupt, for lack of a better word.\n", false);
-            CreatureChange.HPChange(player, 20 + player.stats.tou / 3);
+            StatModifier.displayPlayerHPChange(player, 20 + player.stats.tou / 3);
             player.stats.lust += 3;
             player.stats.cor += 1;
         }

@@ -1,13 +1,14 @@
 import Consumable from './Consumable';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import MainScreen from '../../display/MainScreen';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Lactaid extends Consumable {
     public constructor() {
-        super("Lactaid", "Lactaid", "a pink bottle labelled \"Lactaid\"", Lactaid.DefaultValue, "Judging by the name printed on this bottle, 'Lactaid' probably has an effect on the ability to lactate, and you doubt that effect is a reduction.");
+        super("Lactaid", new ItemDesc("Lactaid", "a pink bottle labelled \"Lactaid\"", "Judging by the name printed on this bottle, 'Lactaid' probably has an effect on the ability to lactate, and you doubt that effect is a reduction."));
     }
 
     public use(player: Player) {

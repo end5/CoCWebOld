@@ -6,10 +6,11 @@ import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class ShriveledTentacle extends Consumable {
     public constructor() {
-        super("DryTent", "DryTent", "a shriveled tentacle", ShriveledTentacle.DefaultValue, "A dried tentacle from one of the lake anemones.  It's probably edible, but the stingers are still a little active.");
+        super("DryTent", new ItemDesc("DryTent", "a shriveled tentacle", "A dried tentacle from one of the lake anemones.  It's probably edible, but the stingers are still a little active."));
     }
 
     public use(player: Player) {

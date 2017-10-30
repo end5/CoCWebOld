@@ -15,6 +15,7 @@ import Perk from '../../Effects/Perk';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class BeeHoney extends Consumable {
     private static PURE_HONEY_VALUE: number = 40;
@@ -37,7 +38,7 @@ export default class BeeHoney extends Consumable {
             honeyDesc = "This fine crystal vial is filled with a thick amber liquid that glitters " + (pure ? "" : "dully ") + "in the light.  You can smell a sweet scent, even though it is tightly corked.";
             honeyValue = (pure ? BeeHoney.PURE_HONEY_VALUE : BeeHoney.DefaultValue);
         }
-        super(honeyName, honeyName, honeyLong, honeyValue, honeyDesc);
+        super(honeyName, new ItemDesc(honeyName, honeyLong, honeyDesc), honeyValue);
     }
 
     public canUse(player: Player) {

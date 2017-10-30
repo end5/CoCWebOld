@@ -1,10 +1,11 @@
 import Player from '../../Player';
-import Item from '../Item';
+import Item, { ItemType } from '../Item';
+import ItemDesc from '../ItemDesc';
 
 export default class Consumable extends Item {
     private readonly mutationFunc: Function;
-    constructor(key: string, shortName: string = null, longName: string = null, value: number = 0, description: string = null, mutationFunc: Function = null) {
-        super(key, shortName, longName, value, description);
+    constructor(key: string, itemDesc: ItemDesc, value?: number, mutationFunc: Function = null) {
+        super(key, ItemType.Consumable, itemDesc, value);
         this.mutationFunc = mutationFunc;
     }
 

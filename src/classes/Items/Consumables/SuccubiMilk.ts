@@ -5,22 +5,23 @@ import Cock from '../../Body/Cock';
 import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class SuccubiMilk extends Consumable {
     public readonly tainted: boolean;
 
     public constructor(tainted: boolean) {
         if (tainted)
-            super("SucMilk", "SucMilk", "a bottle of Succubi milk", SuccubiMilk.DefaultValue, "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"");
+            super("SucMilk", new ItemDesc("SucMilk", "a bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\""));
         else
-            super("P.S.Mlk", "P.S.Mlk", "an untainted bottle of Succubi milk", 20, "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"  Purified by Rathazul to prevent corruption.");
+            super("P.S.Mlk", new ItemDesc("P.S.Mlk", "an untainted bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"  Purified by Rathazul to prevent corruption."), 20);
         this.tainted = tainted;
     }
 
@@ -107,10 +108,10 @@ export default class SuccubiMilk extends Consumable {
                     }
                     lengthenAmount += CockModifier.growCock(player, longestCock, (Utils.rand(3) + 1) * -1);
                     MainScreen.text("\n\n", false);
-                    CreatureChange.lengthChange(player, lengthenAmount, 1);
+                    CockModifier.displayLengthChange(player, lengthenAmount, 1);
                     if (longestCock.cockLength < 2) {
                         MainScreen.text("  ", false);
-                        CockModifier.killCocks(player, 1);
+                        CockModifier.displayKillCocks(player, 1);
                     }
                 }
             }
@@ -135,10 +136,10 @@ export default class SuccubiMilk extends Consumable {
                 if (longestCock.cockLength < 6 && longestCock.cockLength >= 2.9)
                     longestCock.cockLength -= .5;
                 let lengthChange: number = CockModifier.growCock(player, longestCock, -1 * (Utils.rand(3) + 1));
-                CreatureChange.lengthChange(player, lengthChange, 1);
+                CockModifier.displayLengthChange(player, lengthChange, 1);
                 if (longestCock.cockLength < 3) {
                     MainScreen.text("  ", false);
-                    CockModifier.killCocks(player, 1);
+                    CockModifier.displayKillCocks(player, 1);
                 }
             }
             if (player.lowerBody.vaginaSpot.count() > 0) {
@@ -213,11 +214,11 @@ export default class SuccubiMilk extends Consumable {
         if (Utils.rand(40) + player.stats.cor / 3 > 35 && this.tainted) GenericTransforms.demonChanges(player);
         if (this.tainted) {
             MainScreen.text(player.modFem(100, 2), false);
-            if (Utils.rand(3) == 0) MainScreen.text(player.modTone(15, 2), false);
+            if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModTone(player, 15, 2), false);
         }
         else {
             MainScreen.text(player.modFem(90, 1), false);
-            if (Utils.rand(3) == 0) MainScreen.text(player.modTone(20, 2), false);
+            if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModTone(player, 20, 2), false);
         }
         player.updateGender();
     }

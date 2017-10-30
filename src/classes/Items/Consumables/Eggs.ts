@@ -7,13 +7,14 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BodyModifier from '../../Modifiers/BodyModifier';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export enum EggType {
     Black,
@@ -32,46 +33,46 @@ export default class Eggs extends Consumable {
         if (large) {
             switch (eggType) {
                 case EggType.Black:
-                    super("L.BlkEg", "L.BlkEg", "a large rubbery black egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!");
+                    super("L.BlkEg", new ItemDesc("L.BlkEg", "a large rubbery black egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!"));
                     break;
                 case EggType.Blue:
-                    super("L.BluEg", "L.BluEg", "a large blue and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.BluEg", new ItemDesc("L.BluEg", "a large blue and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Brown:
-                    super("L.BrnEg", "L.BrnEg", "a large brown and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.BrnEg", new ItemDesc("L.BrnEg", "a large brown and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Pink:
-                    super("L.PnkEg", "L.PnkEg", "a large pink and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.PnkEg", new ItemDesc("L.PnkEg", "a large pink and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Purple:
-                    super("L.PrpEg", "L.PrpEg", "a large purple and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("L.PrpEg", new ItemDesc("L.PrpEg", "a large purple and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 default:
                 case EggType.White:
-                    super("L.WhtEg", "L.WhtEg", "a large white egg", Eggs.DefaultValue, "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food.");
+                    super("L.WhtEg", new ItemDesc("L.WhtEg", "a large white egg", "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food."));
                     break;
             }
         }
         else {
             switch (eggType) {
                 case EggType.Black:
-                    super("BlackEg", "BlackEg", "a rubbery black egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BlackEg", new ItemDesc("BlackEg", "a rubbery black egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Blue:
-                    super("BlueEgg", "BlueEgg", "a blue and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BlueEgg", new ItemDesc("BlueEgg", "a blue and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Brown:
-                    super("BrownEg", "BrownEg", "a brown and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("BrownEg", new ItemDesc("BrownEg", "a brown and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Pink:
-                    super("PinkEgg", "PinkEgg", "a pink and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("PinkEgg", new ItemDesc("PinkEgg", "a pink and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Purple:
-                    super("PurplEg", "PurplEg", "a purple and white mottled egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food.");
+                    super("PurplEg", new ItemDesc("PurplEg", "a purple and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 default:
                 case EggType.White:
-                    super("WhiteEg", "WhiteEg", "a milky-white egg", Eggs.DefaultValue, "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food.");
+                    super("WhiteEg", new ItemDesc("WhiteEg", "a milky-white egg", "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
             }
         }
@@ -116,9 +117,9 @@ export default class Eggs extends Consumable {
         }
         if (Utils.chance(33)) {
             if (this.large)
-                MainScreen.text(player.modThickness(100, 8), false);
+                MainScreen.text(BodyModifier.displayModThickness(player, 100, 8), false);
             else
-                MainScreen.text(player.modThickness(95, 3), false);
+                MainScreen.text(BodyModifier.displayModThickness(player, 95, 3), false);
         }
     }
 
@@ -135,9 +136,9 @@ export default class Eggs extends Consumable {
         }
         if (Utils.chance(33)) {
             if (this.large)
-                MainScreen.text(player.modThickness(80, 8), false);
+                MainScreen.text(BodyModifier.displayModThickness(player, 80, 8), false);
             else
-                MainScreen.text(player.modThickness(80, 3), false);
+                MainScreen.text(BodyModifier.displayModThickness(player, 80, 3), false);
         }
     }
 
@@ -173,7 +174,7 @@ export default class Eggs extends Consumable {
         else {
             //Remove a dick
             if (player.lowerBody.cockSpot.hasCock()) {
-                CockModifier.killCocks(player, -1);
+                CockModifier.displayKillCocks(player, -1);
                 MainScreen.text("\n\n", false);
                 player.updateGender();
             }
@@ -221,7 +222,7 @@ export default class Eggs extends Consumable {
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
 
-                    CreatureChange.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
+                    CockModifier.displayLengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
 
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
@@ -245,7 +246,7 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing... ", false);
                     cockAmountThickened = CockModifier.thickenCock(player.lowerBody.cockSpot.get(0), 1);
                     cockAmountLengthened = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 2);
-                    CreatureChange.lengthChange(player, cockAmountLengthened, 1);
+                    CockModifier.displayLengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
@@ -313,7 +314,7 @@ export default class Eggs extends Consumable {
                     cockAmountLengthened /= player.lowerBody.cockSpot.count();
                     cockAmountThickened /= player.lowerBody.cockSpot.count();
 
-                    CreatureChange.lengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
+                    CockModifier.displayLengthChange(player, cockAmountLengthened, player.lowerBody.cockSpot.count());
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);
@@ -336,7 +337,7 @@ export default class Eggs extends Consumable {
                     MainScreen.text("\n\nYour " + CockDescriptor.describeMultiCockShort(player) + " fills to its normal size... and begins growing...", false);
                     cockAmountThickened = CockModifier.thickenCock(player.lowerBody.cockSpot.get(0), 1.5);
                     cockAmountLengthened = CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), Utils.rand(3) + 5);
-                    CreatureChange.lengthChange(player, cockAmountLengthened, 1);
+                    CockModifier.displayLengthChange(player, cockAmountLengthened, 1);
                     //Display the degree of thickness change.
                     if (cockAmountThickened >= 1) {
                         if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(player) + " spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.", false);

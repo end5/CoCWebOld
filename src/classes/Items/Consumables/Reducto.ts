@@ -8,14 +8,15 @@ import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import InventoryDisplay from '../../display/InventoryDisplay';
 import MainScreen, { ClickFunction } from '../../display/MainScreen';
 import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
-import BreastModifier from '../../Modifiers/BreastModifiers';
+import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Reducto extends Consumable {
 
     public constructor() {
-        super("Reducto", "Reducto", "a salve marked as 'Reducto'", 30, "This container full of paste can be used to shrink a body part down by a significant amount.");
+        super("Reducto", new ItemDesc("Reducto", "a salve marked as 'Reducto'", "This container full of paste can be used to shrink a body part down by a significant amount."), 30);
     }
 
     public canUse(player: Player): boolean {

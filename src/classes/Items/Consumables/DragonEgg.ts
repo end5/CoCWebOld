@@ -3,10 +3,11 @@ import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class DragonEgg extends Consumable {
     public constructor() {
-        super("DrgnEgg", "DrgnEgg", "an unfertilized dragon egg", DragonEgg.DefaultValue, "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches.");
+        super("DrgnEgg", new ItemDesc("DrgnEgg", "an unfertilized dragon egg", "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches."));
     }
 
     public use(player: Player) {

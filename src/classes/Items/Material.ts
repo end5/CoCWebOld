@@ -1,11 +1,23 @@
-import Item from './Item';
+import Item, { ItemType } from './Item';
+import ItemDesc from './ItemDesc';
 import MainScreen from '../display/MainScreen';
+import Game from '../Game/Game';
 import Player from '../Player';
 
 export default class Material extends Item {
+    serialize(): string {
+        let saveObject = {};
+        saveObject[super.serialKey] = super.serialize();
+        saveObject["_useText"] = this._useText;
+        return JSON.stringify(saveObject);
+    }
+    deserialize(saveObject: object) {
+        if (Game.libraries.materials.has(saveObject["objectKey"]))
+            Game.libraries.materials.get(saveObject["objectKey"]);
+    }
     private readonly _useText: string;
-    constructor(key: string, shortName: string = null, longName: string = null, value: number = 0, description: string = null, useText: string) {
-        super(key, shortName, longName, value, description);
+    constructor(key: string, itemDesc: ItemDesc, useText?: string, value?: number) {
+        super(key, ItemType.Material, itemDesc, value);
         this._useText = useText;
     }
 

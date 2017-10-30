@@ -11,14 +11,16 @@ import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import CockModifier from '../../Modifiers/CockModifier';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export enum CaninePepperType {
     Normal,
@@ -40,22 +42,22 @@ export default class CaninePepper extends Consumable {
         switch (pepperType) {
             default:
             case CaninePepperType.Normal:
-                super("CanineP", "CanineP", "a Canine pepper", CaninePepper.DefaultValue, "The pepper is shiny and red, bulbous at the base but long and narrow at the tip.  It smells spicy.");
+                super("CanineP", new ItemDesc("CanineP", "a Canine pepper", "The pepper is shiny and red, bulbous at the base but long and narrow at the tip.  It smells spicy."));
                 break;
             case CaninePepperType.Oversized:
-                super("LargePp", "LargePp", "an overly large canine pepper", 10, "This large canine pepper is much bigger than any normal peppers you've seen.");
+                super("LargePp", new ItemDesc("LargePp", "an overly large canine pepper", "This large canine pepper is much bigger than any normal peppers you've seen."), 10);
                 break;
             case CaninePepperType.Double:
-                super("DblPepp", "DblPepp", "a double canine pepper", 10, "This canine pepper is actually two that have grown together due to some freak coincidence.");
+                super("DblPepp", new ItemDesc("DblPepp", "a double canine pepper", "This canine pepper is actually two that have grown together due to some freak coincidence."), 10);
                 break;
             case CaninePepperType.Black:
-                super("BlackPp", "BlackPp", "a solid black canine pepper", 10, "This solid black canine pepper is smooth and shiny, but something about it doesn't seem quite right...");
+                super("BlackPp", new ItemDesc("BlackPp", "a solid black canine pepper", "This solid black canine pepper is smooth and shiny, but something about it doesn't seem quite right..."), 10);
                 break;
             case CaninePepperType.Knotty:
-                super("KnottyP", "KnottyP", "a knotty canine pepper", 10, "This knotted pepper is very swollen, with a massive, distended knot near the base.");
+                super("KnottyP", new ItemDesc("KnottyP", "a knotty canine pepper", "This knotted pepper is very swollen, with a massive, distended knot near the base."), 10);
                 break;
             case CaninePepperType.Bulbous:
-                super("BulbyPp", "BulbyPp", "a bulbous pepper", 10, "This bulbous pepper has a slightly different shape than the other canine peppers, with two large orb-like protrusions at the base.");
+                super("BulbyPp", new ItemDesc("BulbyPp", "a bulbous pepper", "This bulbous pepper has a slightly different shape than the other canine peppers, with two large orb-like protrusions at the base."), 10);
                 break;
         }
         this.type = pepperType;
@@ -585,7 +587,7 @@ export default class CaninePepper extends Consumable {
         }
         //Go into heat
         if (Utils.rand(2) == 0 && changes < changeLimit) {
-            if (CreatureChange.goIntoHeat(player)) {
+            if (BodyModifier.displayGoIntoHeat(player)) {
                 changes++;
             }
         }
@@ -768,7 +770,7 @@ export default class CaninePepper extends Consumable {
         //If no changes yay
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            CreatureChange.HPChange(player, 20);
+            StatModifier.displayPlayerHPChange(player, 20);
             player.stats.lust += 3;
         }
     }

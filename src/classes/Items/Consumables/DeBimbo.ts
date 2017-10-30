@@ -1,10 +1,11 @@
 import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class DeBimbo extends Consumable {
     public constructor() {
-        super("Debimbo", "Debimbo", "a bottle marked as 'Debimbo'", 250);
+        super("Debimbo", new ItemDesc("Debimbo", "a bottle marked as 'Debimbo'"), 250);
     }
 
     public description(player: Player): string {

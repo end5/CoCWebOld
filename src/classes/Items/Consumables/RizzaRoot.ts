@@ -3,10 +3,11 @@ import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class RizzaRoot extends Consumable {
     public constructor() {
-        super("RizzaRt", "Rizza Root", "a tube of rizza root stUtils.rands", 10, "A small ceramic tube full of fine red root stUtils.rands.  They smell something like citrus fruit.");
+        super("RizzaRt", new ItemDesc("Rizza Root", "a tube of rizza root stUtils.rands", "A small ceramic tube full of fine red root stUtils.rands.  They smell something like citrus fruit."), 10);
     }
 
     public canUse(player: Player): boolean {

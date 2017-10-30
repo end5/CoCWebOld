@@ -2,10 +2,11 @@ import Armor from './Armor';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class LeatherArmorSegments extends Armor {
     public constructor() {
-        super("UrtaLta", "UrtaLta", "leather armor segments", "leather armor segments", 5, 76, null, "Light", true);
+        super("UrtaLta", new ItemDesc("UrtaLta", "leather armor segments"), "leather armor segments", 5, 76, "Light", true);
     }
 
     public removeText(): void {

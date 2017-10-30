@@ -7,20 +7,22 @@ import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
+import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Reptilum extends Consumable {
     public constructor() {
-        super("Reptlum", "Reptlum", "a vial of Reptilum", Reptilum.DefaultValue, "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way.");
+        super("Reptlum", new ItemDesc("Reptlum", "a vial of Reptilum", "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way."));
     }
 
     private getFirstNonLizzyCock(player: Player): Cock {
@@ -403,7 +405,7 @@ export default class Reptilum extends Consumable {
         //FAILSAFE CHANGE
         if (changes == 0) {
             MainScreen.text("\n\nInhuman vitality spreads through your body, invigorating you!\n", false);
-            CreatureChange.HPChange(player, 50);
+            StatModifier.displayPlayerHPChange(player, 50);
             player.stats.lust += 3;
         }
     }

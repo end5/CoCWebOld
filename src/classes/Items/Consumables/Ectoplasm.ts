@@ -4,11 +4,12 @@ import { SkinType } from '../../Body/Creature';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
+import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 //Miscellaneous
 //ITEM GAINED FROM LUST WINS
@@ -18,7 +19,7 @@ import Utils from '../../Utilities/Utils';
 //Bottle of Ectoplasm Text
 export default class Ectoplasm extends Consumable {
     public constructor() {
-        super("EctoPls", "EctoPls", "a bottle of ectoplasm", Ectoplasm.DefaultValue, "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it.");
+        super("EctoPls", new ItemDesc("EctoPls", "a bottle of ectoplasm", "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it."));
     }
 
     public use(player: Player) {
@@ -100,7 +101,7 @@ export default class Ectoplasm extends Consumable {
         //Effect Script 8: 100% chance of healing
         if (changes == 0) {
             MainScreen.text("You feel strangely refreshed, as if you just gobbled down a bottle of sunshine.  A smile graces your lips as vitality fills you.  ", false);
-            CreatureChange.HPChange(player, player.stats.level * 5 + 10);
+            StatModifier.displayPlayerHPChange(player, player.stats.level * 5 + 10);
             changes++;
         }
         //Incorporeality Perk Text:  You seem to have inherited some of the spiritual powers of the residents of the afterlife!  While you wouldn't consider doing it for long due to its instability, you can temporarily become incorporeal for the sake of taking over enemies and giving them a taste of ghostly libido.

@@ -1,11 +1,11 @@
 import Weapon from './Weapon';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class Spellblade extends Weapon {
-
     public constructor() {
-        super("S.Blade", "S.Blade", "inscribed spellblade", "a spellblade", "slash", 8, 500, "Forged not by a swordsmith but a sorceress, this arcane-infused blade amplifies your magic.  Unlike the wizard staves it is based on, this weapon also has a sharp edge, a technological innovation which has proven historically useful in battle.", "Wizard's Focus");
+        super("S.Blade", new ItemDesc("S.Blade", "a spellblade", "Forged not by a swordsmith but a sorceress, this arcane-infused blade amplifies your magic.  Unlike the wizard staves it is based on, this weapon also has a sharp edge, a technological innovation which has proven historically useful in battle."), "inscribed spellblade", "slash", 8, 500, "Wizard's Focus");
     }
 
     public equip(player: Player): Weapon {

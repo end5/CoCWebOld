@@ -5,10 +5,11 @@ import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Game from '../../Game/Game';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class SluttySwimwear extends ArmorWithPerk {
     public constructor() {
-        super("S.Swmwr", "S.Swmwr", "slutty swimwear", "a skimpy black bikini", 0, 6, "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually.", "Light", new Perk("SluttySeduction", 6, 0, 0, 0), "", true);
+        super("S.Swmwr", new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", new Perk("SluttySeduction", 6, 0, 0, 0), "", true);
     }
 
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally

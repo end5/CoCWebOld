@@ -8,10 +8,11 @@ import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class BimboLiqueur extends Consumable {
     public constructor() {
-        super("BimboLq", "BimboLq", "a potent bottle of 'Bimbo Liqueur'", 1000, "This small bottle of liqueur is labelled 'Bimbo Liqueur'.  There's a HUGE warning label about the effects being strong and usually permanent, so you should handle this with care.");
+        super("BimboLq", new ItemDesc("BimboLq", "a potent bottle of 'Bimbo Liqueur'", "This small bottle of liqueur is labelled 'Bimbo Liqueur'.  There's a HUGE warning label about the effects being strong and usually permanent, so you should handle this with care."), 1000);
     }
 
     public canUse(player: Player) {

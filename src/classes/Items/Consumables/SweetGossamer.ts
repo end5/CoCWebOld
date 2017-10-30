@@ -19,14 +19,15 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class SweetGossamer extends Consumable {
     private sweet: boolean;
     public constructor(sweet: boolean) {
         if (!sweet)
-            super("B.Gossr", "B.Gossr", "a bundle of black, gossamer webbing", SweetGossamer.DefaultValue, "These strands of gooey black gossamer seem quite unlike the normal silk that driders produce.  It smells sweet and is clearly edible, but who knows what it might do to you?");
+            super("B.Gossr", new ItemDesc("B.Gossr", "a bundle of black, gossamer webbing", "These strands of gooey black gossamer seem quite unlike the normal silk that driders produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
         else
-            super("S.Gossr", "S.Gossr", "a bundle of pink, gossamer webbing", SweetGossamer.DefaultValue, "These strands of gooey pink gossamer seem quite unlike the normal silk that spider-morphs produce.  It smells sweet and is clearly edible, but who knows what it might do to you?");
+            super("S.Gossr", new ItemDesc("S.Gossr", "a bundle of pink, gossamer webbing", "These strands of gooey pink gossamer seem quite unlike the normal silk that spider-morphs produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
         this.sweet = sweet;
     }
 

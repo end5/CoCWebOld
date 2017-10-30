@@ -1,13 +1,14 @@
 import Armor, { ArmorClass } from './Armor';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class ArmorWithPerk extends Armor {
     public readonly perk: Perk;
     public readonly perkDesc: string
 
-    public constructor(key: string, shortName: string, name: string, longName: string, defense: number, value: number, description: string, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
-        super(key, shortName, name, longName, defense, value, description, armorClass, supportsBulge);
+    public constructor(key: string, itemDesc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
+        super(key, itemDesc, displayName, defense, value, armorClass, supportsBulge);
         this.perk = perk;
         this.perkDesc = perkDesc;
     }

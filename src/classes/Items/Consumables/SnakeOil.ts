@@ -3,12 +3,14 @@ import { FaceType, TongueType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Head';
 import { LowerBodyType } from '../../Body/LowerBody';
 import { WingType } from '../../Body/UpperBody';
+import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 //9)� Transformation Item - Snake Oil (S. Oil)
 /*Effects:
@@ -36,7 +38,7 @@ import Utils from '../../Utilities/Utils';
 
 export default class SnakeOil extends Consumable {
     public constructor() {
-        super("SnakOil", "SnakOil", "a vial of snake oil", SnakeOil.DefaultValue, "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable.");
+        super("SnakOil", new ItemDesc("SnakOil", "a vial of snake oil", "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."));
     }
 
     public use(player: Player) {

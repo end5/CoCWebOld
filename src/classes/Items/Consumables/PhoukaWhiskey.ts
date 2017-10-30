@@ -5,11 +5,12 @@ import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class PhoukaWhiskey extends Consumable {
 
     public constructor() {
-        super("P_Whsky", "Ph. Whiskey", "a small bottle of whiskey", 20, "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat.");
+        super("P_Whsky", new ItemDesc("Ph. Whiskey", "a small bottle of whiskey", "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat."), 20);
     }
 
     public canUse(player: Player): boolean {

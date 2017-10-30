@@ -2,10 +2,11 @@ import Consumable from './Consumable';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class PrincessPucker extends Consumable {
     public constructor() {
-        super("PrnsPkr", "PrnsPkr", "a vial of pinkish fluid", PrincessPucker.DefaultValue, "A vial filled with a viscous pink liquid.");
+        super("PrnsPkr", new ItemDesc("PrnsPkr", "a vial of pinkish fluid", "A vial filled with a viscous pink liquid."));
     }
 
     public use(player: Player) {

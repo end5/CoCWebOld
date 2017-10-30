@@ -11,10 +11,11 @@ import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class Hummus extends Consumable {
     public constructor() {
-        super("Hummus ", "Hummus ", "a blob of cheesy-looking hummus", Hummus.DefaultValue, "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it.");
+        super("Hummus ", new ItemDesc("Hummus ", "a blob of cheesy-looking hummus", "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it."));
     }
 
     public use(player: Player) {

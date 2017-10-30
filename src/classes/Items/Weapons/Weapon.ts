@@ -1,16 +1,16 @@
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
-import Item from '../Item';
+import Item, { ItemType } from '../Item';
+import ItemDesc from '../ItemDesc';
 
-export default class Weapon extends Item
-{
+export default class Weapon extends Item {
     public readonly verb: string;
     public readonly attack: number;
     public readonly perk: string;
     public readonly displayname: string;
 
-    public constructor(key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = "") {
-        super(key, shortName, longName, value, description);
+    public constructor(key: string, itemDesc: ItemDesc, displayname: string, verb: string, attack: number, value?: number, perk: string = "") {
+        super(key, ItemType.Weapon, itemDesc, value);
         this.displayname = displayname;
         this.verb = verb;
         this.attack = attack;
@@ -25,7 +25,7 @@ export default class Weapon extends Item
     }
 
     public useText(player: Player) {
-        MainScreen.text("You equip " + this.longName + ".  ");
+        MainScreen.text("You equip " + this.desc.longName + ".  ");
     }
 
     public equip(player: Player): Weapon { //This item is being equipped by the player. Add any perks, etc. - This should only handle mechanics, not text output

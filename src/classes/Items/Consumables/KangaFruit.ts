@@ -15,6 +15,7 @@ import Game from '../../Game/Game';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
     /*
      General Effects:
@@ -43,9 +44,9 @@ export default class KangaFruit extends Consumable {
 
     public constructor(enhanced: boolean) {
         if (enhanced)
-            super("MghtyVg", "MghtyVg", "a mightily enhanced piece of kanga fruit", KangaFruit.DefaultValue, "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them.  It glows slightly from Lumi's enhancements.");
+            super("MghtyVg", new ItemDesc("MghtyVg", "a mightily enhanced piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them.  It glows slightly from Lumi's enhancements."));
         else
-            super("KangaFt", "KangaFruit", "a piece of kanga fruit", KangaFruit.DefaultValue, "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them.");
+            super("KangaFt", new ItemDesc("KangaFruit", "a piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them."));
         this.enhanced = enhanced;
     }
 

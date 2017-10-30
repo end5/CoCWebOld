@@ -1,10 +1,11 @@
 import Weapon from './Weapon';
 import Perk from '../../Effects/Perk';
 import Player from '../../Player';
+import ItemDesc from '../ItemDesc';
 
 export default class EldritchStaff extends Weapon {
     public constructor() {
-        super("E.Staff", "E.Staff", "eldritch staff", "an eldritch staff", "thwack", 10, EldritchStaff.DefaultValue, "This eldritch staff once belonged to the Harpy Queen, who was killed after her defeat at your hands.  It fairly sizzles with magical power.", "Wizard's Focus");
+        super("E.Staff", new ItemDesc("E.Staff", "an eldritch staff", "This eldritch staff once belonged to the Harpy Queen, who was killed after her defeat at your hands.  It fairly sizzles with magical power."), "eldritch staff", "thwack", 10, EldritchStaff.DefaultValue, "Wizard's Focus");
     }
 
     public equip(player: Player): Weapon {

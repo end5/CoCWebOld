@@ -9,13 +9,15 @@ import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import StatusAffect from '../../Effects/StatusAffect';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class TrapOil extends Consumable {
     public constructor() {
-        super("TrapOil", "TrapOil", "a vial of trap oil", TrapOil.DefaultValue, "A round, opaque glass vial filled with a clear, viscous fluid.  It has a symbol inscribed on it, a circle with a cross and arrow pointing out of it in opposite directions.  It looks and smells entirely innocuous.");
+        super("TrapOil", new ItemDesc("TrapOil", "a vial of trap oil", "A round, opaque glass vial filled with a clear, viscous fluid.  It has a symbol inscribed on it, a circle with a cross and arrow pointing out of it in opposite directions.  It looks and smells entirely innocuous."));
     }
 
     public use(player: Player) {
@@ -59,7 +61,7 @@ export default class TrapOil extends Consumable {
         //Body Mass Loss:
         if (player.thickness > 40 && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\nYou feel an odd tightening sensation in your midriff, as if you were becoming narrower and lither.  You frown downwards, and then turn your arms around, examining them closely.  Is it just you or have you lost weight?");
-            player.modThickness(40, 3);
+            BodyModifier.displayModThickness(player, 40, 3);
             changes++;
         }
 

@@ -12,15 +12,16 @@ import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class FoxJewel extends Consumable {
     private mystic: boolean;
 
     public constructor(mystic: boolean) {
         if (mystic)
-            super("MystJwl", "MystJwl", "a mystic jewel", 20, "The flames within this jewel glow brighter than before, and have taken on a sinister purple hue.  It has been enhanced to increase its potency, allowing it to transform you more easily, but may have odd side-effects...");
+            super("MystJwl", new ItemDesc("MystJwl", "a mystic jewel", "The flames within this jewel glow brighter than before, and have taken on a sinister purple hue.  It has been enhanced to increase its potency, allowing it to transform you more easily, but may have odd side-effects..."), 20);
         else
-            super("FoxJewl", "Fox Jewel", "a fox jewel", FoxJewel.DefaultValue, "A shining teardrop-shaped jewel.  An eerie blue flame dances beneath the surface.");
+            super("FoxJewl", new ItemDesc("Fox Jewel", "a fox jewel", "A shining teardrop-shaped jewel.  An eerie blue flame dances beneath the surface."));
         this.mystic = mystic;
     }
 

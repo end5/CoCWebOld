@@ -7,17 +7,18 @@ import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CreatureChange from '../../display/CreatureChange';
 import MainScreen from '../../display/MainScreen';
 import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class GoblinAle extends Consumable {
     public constructor() {
-        super("Gob.Ale", "Gob.Ale", "a flagon of potent goblin ale", GoblinAle.DefaultValue, "This sealed flagon of 'Goblin Ale' sloshes noisily with alcoholic brew.  Judging by the markings on the flagon, it's a VERY strong drink, and not to be trifled with.");
+        super("Gob.Ale", new ItemDesc("Gob.Ale", "a flagon of potent goblin ale", "This sealed flagon of 'Goblin Ale' sloshes noisily with alcoholic brew.  Judging by the markings on the flagon, it's a VERY strong drink, and not to be trifled with."));
     }
 
     public use(player: Player) {
@@ -80,7 +81,7 @@ export default class GoblinAle extends Consumable {
         //Multidick killa!
         if (player.lowerBody.cockSpot.count() > 1 && Utils.rand(3) == 0 && changes < changeLimit) {
             MainScreen.text("\n\n", false);
-            CockModifier.killCocks(player, 1);
+            CockModifier.displayKillCocks(player, 1);
             changes++;
         }
         //Boost vaginal capacity without gaping
@@ -109,7 +110,7 @@ export default class GoblinAle extends Consumable {
                     temp3 -= .5;
                 }
                 temp3 += CockModifier.growCock(player, player.lowerBody.cockSpot.get(0), (Utils.rand(3) + 1) * -1);
-                CreatureChange.lengthChange(player, temp3, 1);
+                CockModifier.displayLengthChange(player, temp3, 1);
             }
         }
         //GENERAL APPEARANCE STUFF BELOW
@@ -214,8 +215,8 @@ export default class GoblinAle extends Consumable {
         }
         if (changes < changeLimit && Utils.rand(3) == 0) {
             if (Utils.rand(2) == 0) player.modFem(85, 3);
-            if (Utils.rand(2) == 0) player.modThickness(20, 3);
-            if (Utils.rand(2) == 0) player.modTone(15, 5);
+            if (Utils.rand(2) == 0) BodyModifier.displayModThickness(player, 20, 3);
+            if (Utils.rand(2) == 0) BodyModifier.displayModTone(player, 15, 5);
         }
     }
 }

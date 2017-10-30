@@ -1,8 +1,9 @@
-import Armor from "./Armor";
+import Armor from './Armor';
+import ItemDesc from '../ItemDesc';
 
 export default class ComfortableUnderclothes extends Armor {
     public constructor() {
-        super("c.under", "c.under", "comfortable underclothes", "comfortable underclothes", 0, 0, "comfortable underclothes", "");
+        super("c.under", new ItemDesc("c.under", "comfortable underclothes", "comfortable underclothes"), "comfortable underclothes", 0, 0, "");
     }
 
     public playerRemove(): Armor {

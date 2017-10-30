@@ -18,11 +18,12 @@ import Perk from '../../Effects/Perk';
 import Player from '../../Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
+import ItemDesc from '../ItemDesc';
 
 export default class NeonPinkEgg extends Consumable {
     private pregnantChange: boolean
     public constructor(pregnantChange: boolean) {
-        super("NPnkEgg", "NPnkEgg", "a neon pink egg", NeonPinkEgg.DefaultValue, "This is an oblong egg with an unnatural neon pink coloration.  It tingles in your hand with odd energies that make you feel as if you could jump straight into the sky.");
+        super("NPnkEgg", new ItemDesc("NPnkEgg", "a neon pink egg", "This is an oblong egg with an unnatural neon pink coloration.  It tingles in your hand with odd energies that make you feel as if you could jump straight into the sky."));
         this.pregnantChange = pregnantChange;
     }
 
