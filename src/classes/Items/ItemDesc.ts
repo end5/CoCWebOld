@@ -1,21 +1,18 @@
 import Player from '../Player';
 import KeyObject from '../Utilities/KeyObject';
 
-export default class ItemDesc extends KeyObject {
+export default class ItemDesc {
     public readonly shortName: string;  // Short name to be displayed on buttons
     public readonly longName: string;   // A full name of the item, to be described in text
-    private readonly desc: string;      // Detailed description to use on tooltips
-    public readonly value: number;      // Item base price
+    private readonly detailedDesc: string;      // Detailed description to use on tooltips
 
-    public constructor(key: string, shortName: string = null, longName: string = null, value: number = 0, description: string = null) {
-        super(key);
-        this.shortName = shortName || key;
+    public constructor(shortName: string = null, longName: string = null, detailedDesc: string = null) {
+        this.shortName = shortName;
         this.longName = longName || this.shortName;
-        this.desc = description || this.longName;
-        this.value = value;
+        this.detailedDesc = detailedDesc || this.longName;
     }
 
     public description(player?: Player): string {
-        return this.desc;
+        return this.detailedDesc;
     }
 }

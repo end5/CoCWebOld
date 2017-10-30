@@ -1,10 +1,37 @@
 import ItemDesc from './ItemDesc';
+import Game from '../Game/Game';
 import Player from '../Player';
+import { SerializeInterface } from '../SerializeInterface';
+import KeyObject from '../Utilities/KeyObject';
 
-export default abstract class Item extends ItemDesc {
+export enum ItemType {
+    Material,
+    KeyItem,
+    Weapon,
+    Armor,
+    Consumable
+}
+
+export default abstract class Item extends KeyObject implements SerializeInterface {
+    serialKey: string = "Item";
+    serialize(): string {
+        let saveObject: object = {};
+        saveObject["objectKey"] = this.objectKey;
+        saveObject["itemType"] = this.itemType;
+        return JSON.stringify(saveObject);
+    }
+    deserialize(saveObject: object) { };
+    
     public static readonly DefaultValue: number = 6;
-    constructor(key: string, shortName: string = null, longName: string = null, value: number = Item.DefaultValue, description: string = null) {
-        super(key, shortName, longName, value, description);
+    public readonly itemType: ItemType;
+    public readonly value: number;
+    public readonly desc: ItemDesc;
+    
+    constructor(key: string, itemType: ItemType, itemDesc: ItemDesc, value: number = Item.DefaultValue) {
+        super(key);
+        this.itemType = itemType;
+        this.value = value;
+        this.desc = itemDesc;
     }
 
     abstract canUse(player: Player): boolean;
