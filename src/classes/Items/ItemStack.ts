@@ -1,6 +1,19 @@
-﻿import Item from "./Item";
+﻿import Item from './Item';
+import Game from '../Game/Game';
+import { SerializeInterface } from '../SerializeInterface';
 
-export default class ItemStack<T extends Item> {
+export default class ItemStack<T extends Item> implements SerializeInterface {
+    serialKey: string = "ItemStack";
+    serialize(): string {
+        let saveObject: object = {};
+        saveObject["_quantity"] = this._quantity;
+        saveObject["_item"] = this._item.serialize();
+        return JSON.stringify(saveObject);
+    }
+    deserialize(saveObject: object) {
+        this._quantity = saveObject["_quantity"];
+        this._item = Game.libraries.lookupItem(saveObject["_item"].uniqueKey, saveObject["_item"].itemType);
+    }
     public static MAX_ITEM_AMOUNT = 5;
 
     private _item: Item;
