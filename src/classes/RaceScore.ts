@@ -1,6 +1,16 @@
-﻿import Player from "./Player";
-import { HornType } from "./Body/Head";
-import { TailType } from "./Body/LowerBody";
+﻿import { CockType } from './Body/Cock';
+import { SkinType } from './Body/Creature';
+import { EyeType, FaceType, TongueType } from './Body/Face';
+import {
+    AntennaeType,
+    EarType,
+    HairType,
+    HornType
+    } from './Body/Head';
+import { LowerBodyType, TailType } from './Body/LowerBody';
+import { ArmType, WingType } from './Body/UpperBody';
+import { VaginaType } from './Body/Vagina';
+import Player from './Player';
 
 export default class RaceScore {
     public static demonScore(player: Player): number {
@@ -105,7 +115,7 @@ export default class RaceScore {
         let counter: number = 0;
         if (player.statusAffects.has("BlackNipples"))
             counter++;
-        if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).type == VaginaType.BLACK_SAND_TRAP)
+        if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).vaginaType == VaginaType.BLACK_SAND_TRAP)
             counter++;
         if (player.upperBody.head.face.eyeType == EyeType.BLACK_EYES_SAND_TRAP)
             counter++;
