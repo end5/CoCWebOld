@@ -1,6 +1,6 @@
 ﻿import Chest from './Chest';
 import Head from './Head';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
 export enum ArmType {
     HUMAN, HARPY, SPIDER
@@ -10,7 +10,7 @@ export enum WingType {
     NONE, BEE_LIKE_SMALL, BEE_LIKE_LARGE, HARPY, IMP, BAT_LIKE_TINY, BAT_LIKE_LARGE, SHARK_FIN, FEATHERED_LARGE, DRACONIC_SMALL, DRACONIC_LARGE, GIANT_DRAGONFLY
 }
 
-export default class UpperBody implements SaveInterface {
+export default class UpperBody implements SerializeInterface {
     public head: Head;
     public gills: boolean;
     public armType: ArmType;
@@ -27,23 +27,23 @@ export default class UpperBody implements SaveInterface {
         this.wingDesc = "non-existant";
     }
 
-    saveKey: string = "UpperBody";
-    save(): object {
+    serialKey: string = "UpperBody";
+    serialize(): string {
         let saveObject: object = {};
-        saveObject[this.head.saveKey] = this.head.save();
+        saveObject[this.head.serialKey] = this.head.serialize();
         saveObject["Gills"] = this.gills;
         saveObject["ArmType"] = this.armType;
-        saveObject[this.chest.saveKey] = this.chest.save();
+        saveObject[this.chest.serialKey] = this.chest.serialize();
         saveObject["WingType"] = this.wingType;
         saveObject["WingDesc"] = this.wingDesc;
 
-        return saveObject;
+        return JSON.stringify(saveObject);
     }
-    load(saveObject: object) {
-        this.head.load(saveObject[this.head.saveKey]);
+    deserialize(saveObject: object) {
+        this.head.deserialize(saveObject[this.head.serialKey]);
         this.gills = saveObject["Gills"];
         this.armType = saveObject["ArmType"];
-        this.chest.load(saveObject[this.chest.saveKey]);
+        this.chest.deserialize(saveObject[this.chest.serialKey]);
         this.wingType = saveObject["WingType"];
         this.wingDesc = saveObject["WingDesc"];
     }

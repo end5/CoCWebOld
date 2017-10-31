@@ -1,8 +1,8 @@
 ﻿import Cock, { CockType } from './Cock';
 import Creature from './Creature';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
-export default class CockSpot implements SaveInterface {
+export default class CockSpot implements SerializeInterface {
     private _cocks: Cock[];
 
     public constructor() {
@@ -217,24 +217,24 @@ export default class CockSpot implements SaveInterface {
         return false;
     }
 
-    saveKey: string = "CockSpot";
-    save(): object {
+    serialKey: string = "CockSpot";
+    serialize(): string {
         let saveObject: object;
         saveObject["length"] = this._cocks.length;
         for (let index = 0; index < this._cocks.length; index++) {
-            saveObject[index] = this._cocks[index].save();
+            saveObject[index] = this._cocks[index].serialize();
         }
-        return saveObject;
+        return JSON.stringify(saveObject);
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         if (!saveObject["length"] || saveObject["length"] < 0) {
-            console.error("Chest length non zero.");
+            console.error("Cock amount non zero.");
             return;
         }
         this._cocks = [];
         for (let index = 0; index < saveObject["length"]; index++) {
             this._cocks.push(new Cock());
-            this._cocks[index].load(saveObject[index]);
+            this._cocks[index].deserialize(saveObject[index]);
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿import Face from './Face';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
@@ -17,13 +17,16 @@ export enum AntennaeType {
     NONE, BEE
 }
 
-export default class Head implements SaveInterface{
+export default class Head implements SerializeInterface {
     public hairType: HairType;
     public hairColor: string;
     public hairLength: number;
 
     public earType: EarType;
     public earValue: number;
+    public earsPierced: number;
+    public earsPShort: string;
+    public earsPLong: string;
 
     public hornType: HornType;
     public horns: number;
@@ -39,6 +42,9 @@ export default class Head implements SaveInterface{
 
         this.earType = EarType.HUMAN;
         this.earValue = 0;
+        this.earsPierced = 0;
+        this.earsPShort = "";
+        this.earsPLong = "";
 
         this.hornType = HornType.NONE;
         this.horns = 0;
@@ -48,30 +54,36 @@ export default class Head implements SaveInterface{
         this.face = new Face();
     }
 
-    saveKey: string;
-    save(): object {
+    serialKey: string = "Head";
+    serialize(): string {
         let saveObject: object = {};
         saveObject["hairType"] = this.hairType;
         saveObject["hairColor"] = this.hairColor;
         saveObject["hairLength"] = this.hairLength;
         saveObject["earType"] = this.earType;
         saveObject["earValue"] = this.earValue;
+        saveObject["earsPierced"] = this.earsPierced;
+        saveObject["earsPShort"] = this.earsPShort;
+        saveObject["earsPLong"] = this.earsPLong;
         saveObject["hornType"] = this.hornType;
         saveObject["horns"] = this.horns;
         saveObject["antennae"] = this.antennae;
-        saveObject[this.face.saveKey] = this.face.save();
-        return saveObject;
+        saveObject[this.face.serialKey] = this.face.serialize();
+        return JSON.stringify(saveObject);
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.hairType = saveObject["hairType"];
         this.hairColor = saveObject["hairColor"];
         this.hairLength = saveObject["hairLength"];
         this.earType = saveObject["earType"];
         this.earValue = saveObject["earValue"];
+        this.earsPierced = saveObject["earsPierced"];
+        this.earsPShort = saveObject["earsPShort"];
+        this.earsPLong = saveObject["earsPLong"];
         this.hornType = saveObject["hornType"];
         this.horns = saveObject["horns"];
         this.antennae = saveObject["antennae"];
-        this.face.load(saveObject[this.face.saveKey]);
+        this.face.deserialize(saveObject[this.face.serialKey]);
     }
 
 }

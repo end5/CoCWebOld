@@ -1,10 +1,10 @@
-﻿import KeyObject from "./KeyObject";
+﻿import KeyObject from './KeyObject';
 
-export class LibraryEntry extends KeyObject {
+export class LibraryKey extends KeyObject {
 
 }
 
-export default class Library<T extends LibraryEntry> {
+export default class Library<T extends LibraryKey> {
     private _library: object;
 
     public get(key: string): T {
@@ -12,11 +12,11 @@ export default class Library<T extends LibraryEntry> {
     }
 
     protected add(entry: T) {
-        this._library[entry.objectKey] = entry;
+        this._library[entry.uniqueKey] = entry;
     }
 
-    public has(objectKey: string) {
-        return this._library[objectKey] != undefined ? true : false;
+    public has(uniqueKey: string) {
+        return this._library[uniqueKey] != undefined ? true : false;
     }
 
     public constructor() {

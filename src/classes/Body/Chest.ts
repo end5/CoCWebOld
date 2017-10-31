@@ -1,7 +1,7 @@
 ﻿import BreastRow from './BreastRow';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
-export default class Chest implements SaveInterface {
+export default class Chest implements SerializeInterface {
     private breastRows: BreastRow[];
 
     public constructor() {
@@ -208,16 +208,16 @@ export default class Chest implements SaveInterface {
         return false;
     }
 
-    saveKey: string = "Chest";
-    save(): object {
+    serialKey: string = "Chest";
+    serialize(): string {
         let saveObject: object;
         saveObject["length"] = this.breastRows.length;
         for (let index = 0; index < this.breastRows.length; index++) {
-            saveObject[index] = this.breastRows[index].save();
+            saveObject[index] = this.breastRows[index].serialize();
         }
-        return saveObject;
+        return JSON.stringify(saveObject);
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         if (!saveObject["length"] || saveObject["length"] < 0) {
             console.error("Chest length non zero.");
             return;
@@ -225,7 +225,7 @@ export default class Chest implements SaveInterface {
         this.breastRows = [];
         for (let index = 0; index < saveObject["length"]; index++) {
             this.breastRows.push(new BreastRow());
-            this.breastRows[index].load(saveObject[index]);
+            this.breastRows[index].deserialize(saveObject[index]);
         }
     }
 

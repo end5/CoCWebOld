@@ -171,7 +171,7 @@ export default class Player extends Character {
 
     public hasKeyItem(objectKey: string): boolean {
         for (let index = 0; index < this.keyItems.length; index++) {
-            if (this.keyItems[index].objectKey == name)
+            if (this.keyItems[index].uniqueKey == name)
                 return true;
         }
         return false;

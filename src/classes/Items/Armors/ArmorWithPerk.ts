@@ -14,15 +14,15 @@ export default class ArmorWithPerk extends Armor {
     }
 
     public equip(player: Player): Armor { //This item is being equipped by the player. Add any perks, etc.
-        while (player.perks.has(this.perk.objectKey))
-            player.perks.remove(this.perk.objectKey);
+        while (player.perks.has(this.perk.uniqueKey))
+            player.perks.remove(this.perk.uniqueKey);
         player.perks.add(this.perk.clone());
         return super.equip(player);
     }
 
     public unequip(player: Player): Armor { //This item is being removed by the player. Remove any perks, etc.
-        while (player.perks.has(this.perk.objectKey))
-            player.perks.remove(this.perk.objectKey);
+        while (player.perks.has(this.perk.uniqueKey))
+            player.perks.remove(this.perk.uniqueKey);
         return super.unequip(player);
     }
 }

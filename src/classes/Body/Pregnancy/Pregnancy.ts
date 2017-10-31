@@ -1,7 +1,7 @@
 ﻿import IPregnancyEvent from './IPregnancyEvent';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
-import { SaveInterface } from '../../SaveInterface';
+import { SerializeInterface } from '../../SerializeInterface';
 import Creature from '../Creature';
 import Vagina from '../Vagina';
 
@@ -85,7 +85,7 @@ export enum IncubationTime {
     SALAMANDER = 336
 }
 
-export default class Pregnancy implements SaveInterface {
+export default class Pregnancy implements SerializeInterface {
     public type: PregnancyType;
     public incubation: IncubationTime;
     protected event: IPregnancyEvent;
@@ -108,15 +108,15 @@ export default class Pregnancy implements SaveInterface {
         this.event.birth(creature);
     }
 
-    public saveKey: string = "Pregnancy";
-    public save(): object {
-        return {
+    serialKey: string = "Pregnancy";
+    serialize(): string {
+        return JSON.stringify({
             "type": this.type,
             "incubation": this.incubation,
             "event": this.event
-        };
+        });
     }
-    public load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.type = saveObject["type"];
         this.incubation = saveObject["incubation"];
         this.event = saveObject["event"];

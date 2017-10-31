@@ -1,8 +1,8 @@
 import Character from './Character';
 import GenderDescriptor from '../Descriptors/GenderDescriptor';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
-export default class Description implements SaveInterface {
+export default class Description implements SerializeInterface {
     private character: Character;
     private subjective: string;
     private objective: string;
@@ -31,7 +31,7 @@ export default class Description implements SaveInterface {
     public get short(): string {
         return this.short;
     }
-    
+
     public get long(): string {
         return this.long;
     }
@@ -39,14 +39,14 @@ export default class Description implements SaveInterface {
     public get plural(): boolean {
         return this.plural;
     }
-    
+
     /**
      * Returns subjective pronoun. (ie. he/she/it/they)
      */
     public get subjectivePronoun(): string {
         return this.subjective;
     }
-    
+
     /**
      * Returns objective pronoun. (ie. him/her/it/them)
      */
@@ -72,23 +72,23 @@ export default class Description implements SaveInterface {
      * Returns "A" if singular, "The" if plural.
      */
     public get capitalA(): string {
-		if (this.article.length == 0) return "";
-		return this.article.charAt(0).toUpperCase() + this.article.substr(1);
+        if (this.article.length == 0) return "";
+        return this.article.charAt(0).toUpperCase() + this.article.substr(1);
     }
-    
-    saveKey: string = "Description";
-    save(): object {
-        let saveObject: object = {};
-        saveObject["subjective"] = this.subjective;
-        saveObject["objective"] = this.objective;
-        saveObject["possessive"] = this.possessive;
-        saveObject["article"] = this.article;
-        saveObject["shortDesc"] = this.short;
-        saveObject["longDesc"] = this.long;
-        saveObject["isPlural"] = this.plural;
-        return saveObject;
+
+    serialKey: string = "Description";
+    serialize(): string {
+        return JSON.stringify({
+            "subjective": this.subjective,
+            "objective": this.objective,
+            "possessive": this.possessive,
+            "article": this.article,
+            "shortDesc": this.short,
+            "longDesc": this.long,
+            "isPlural": this.plural
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.subjective = saveObject["subjective"];
         this.objective = saveObject["objective"];
         this.possessive = saveObject["possessive"];

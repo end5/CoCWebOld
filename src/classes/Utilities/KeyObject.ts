@@ -1,11 +1,11 @@
 ﻿export default class KeyObject {
-    private _objectKey: string;
+    private _uniqueKey: string;
 
     public constructor(key: string) {
-        this._objectKey = key;
+        this._uniqueKey = key;
     }
 
-    public get objectKey(): string {
-        return this._objectKey;
+    public get uniqueKey(): string {
+        return this._uniqueKey;
     }
 }

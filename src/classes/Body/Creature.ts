@@ -12,7 +12,7 @@ import CockDescriptor from '../Descriptors/CockDescriptor';
 import MainScreen from '../display/MainScreen';
 import Perk from '../Effects/Perk';
 import StatusAffect from '../Effects/StatusAffect';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 import ComponentList from '../Utilities/ComponentList';
 import Utils from '../Utilities/Utils';
 
@@ -24,7 +24,7 @@ export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class Creature implements SaveInterface {
+export default class Creature implements SerializeInterface {
     //Appearance Variables
     public gender: Gender;
     public tallness: number;
@@ -307,12 +307,12 @@ export default class Creature implements SaveInterface {
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
-            this.stats.libChange(5 * intensity, true);
+            this.stats.libBimbo += 5 * intensity;
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
             this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
-            this.stats.libChange(15 * intensity, true);
+            this.stats.libBimbo += 15 * intensity;
         }
     }
 
@@ -323,14 +323,14 @@ export default class Creature implements SaveInterface {
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
-            this.stats.libChange(5 * intensity, true);
+            this.stats.libBimbo += 5 * intensity;
         }
         else {
             //v1 - bonus cum production
             //v2 - bonus this.stats.libido
             //v3 - time remaining!
             this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
-            this.stats.libChange(5 * intensity, true);
+            this.stats.libBimbo += 5 * intensity;
         }
     }
 
@@ -355,8 +355,8 @@ export default class Creature implements SaveInterface {
         return (this.bonusFertility + this.fertility);
     }
 
-    saveKey: string = "Body";
-    save(): object {
+    serialKey: string = "Body";
+    serialize(): string {
         let saveObject: object = {};
         saveObject["gender"] = this.gender;
         saveObject["tallness"] = this.tallness;
@@ -373,17 +373,17 @@ export default class Creature implements SaveInterface {
         saveObject["cumMultiplier"] = this.cumMultiplier;
         saveObject["hoursSinceCum"] = this.hoursSinceCum;
 
-        saveObject[this.upperBody.saveKey] = this.upperBody.save();
-        saveObject[this.lowerBody.saveKey] = this.lowerBody.save();
+        saveObject[this.upperBody.serialKey] = this.upperBody.serialize();
+        saveObject[this.lowerBody.serialKey] = this.lowerBody.serialize();
 
-        saveObject[this.baseStats.saveKey] = this.baseStats.save();
-        saveObject[this.statusAffects.saveKey] = this.statusAffects.save();
-        saveObject[this.perks.saveKey] = this.perks.save();
+        saveObject[this.baseStats.serialKey] = this.baseStats.serialize();
+        saveObject[this.statusAffects.serialKey] = this.statusAffects.serialize();
+        saveObject[this.perks.serialKey] = this.perks.serialize();
         
-        return saveObject;
+        return JSON.stringify(saveObject);
     }
 
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.gender = saveObject["gender"];
         this.tallness = saveObject["tallness"];
         this.skinType = saveObject["skinType"];
@@ -399,12 +399,12 @@ export default class Creature implements SaveInterface {
         this.cumMultiplier = saveObject["cumMultiplier"];
         this.hoursSinceCum = saveObject["hoursSinceCum"];
 
-        this.upperBody.load(saveObject[this.upperBody.saveKey]);
-        this.lowerBody.load(saveObject[this.lowerBody.saveKey]);
+        this.upperBody.deserialize(saveObject[this.upperBody.serialKey]);
+        this.lowerBody.deserialize(saveObject[this.lowerBody.serialKey]);
 
-        this.baseStats.load(saveObject[this.baseStats.saveKey]);
-        this.statusAffects.load(saveObject[this.statusAffects.saveKey]);
-        this.perks.load(saveObject[this.perks.saveKey]);
+        this.baseStats.deserialize(saveObject[this.baseStats.serialKey]);
+        this.statusAffects.deserialize(saveObject[this.statusAffects.serialKey]);
+        this.perks.deserialize(saveObject[this.perks.serialKey]);
         
         this.stats = new CreatureStatsWrapper(this, this.baseStats);
     }

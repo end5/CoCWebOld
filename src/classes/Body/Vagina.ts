@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from '../SaveInterface';
+﻿import { SerializeInterface } from '../SerializeInterface';
 import Utils from '../Utilities/Utils';
 
 export enum VaginaType {
@@ -13,7 +13,7 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export default class Vagina implements SaveInterface {
+export default class Vagina implements SerializeInterface {
     public vaginaType: VaginaType = VaginaType.HUMAN;
     public virgin: boolean = true;
 
@@ -87,9 +87,9 @@ export default class Vagina implements SaveInterface {
         return 10000;
     }
 
-    saveKey: string = "Vagina";
-    save(): object {
-        return {
+    serialKey: string = "Vagina";
+    serialize(): string {
+        return JSON.stringify({
             "vaginaType": this.vaginaType,
             "virgin": this.virgin,
             "vaginalWetness": this.vaginalWetness,
@@ -102,9 +102,9 @@ export default class Vagina implements SaveInterface {
             "clitPierced": this.clitPierced,
             "clitPShort": this.clitPShort,
             "clitPLong": this.clitPLong
-        };
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.vaginaType = saveObject["vaginaType"];
         this.virgin = saveObject["virgin"];
         this.vaginalWetness = saveObject["vaginalWetness"];

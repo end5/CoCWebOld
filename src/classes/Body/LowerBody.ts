@@ -2,7 +2,7 @@
 import CockSpot from './CockSpot';
 import Ovipositor from './Ovipositor';
 import VaginaSpot from './VaginaSpot';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
 export enum LowerBodyType {
     HUMAN, HOOFED, DOG, NAGA, CENTAUR, DEMONIC_HIGH_HEELS, DEMONIC_CLAWS, BEE,
@@ -18,7 +18,7 @@ export enum TailType {
     NONE, HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export default class LowerBody implements SaveInterface {
+export default class LowerBody implements SerializeInterface {
     public type: LowerBodyType;
     public hipRating: HipRating;
 
@@ -122,36 +122,36 @@ export default class LowerBody implements SaveInterface {
                 return false;
         }
     }
-    saveKey: string = "LowerBody";
-    save(): object {
+    serialKey: string = "LowerBody";
+    serialize(): string {
         let saveObject: object = {};
         saveObject["type"] = this.type;
         saveObject["hipRating"] = this.hipRating;
         saveObject["tailType"] = this.tailType;
         saveObject["tailVenom"] = this.tailVenom;
         saveObject["tailRecharge"] = this.tailRecharge;
-        saveObject[this._cocks.saveKey] = this._cocks.save();
+        saveObject[this._cocks.serialKey] = this._cocks.serialize();
         saveObject["balls"] = this.balls;
         saveObject["ballSize"] = this.ballSize;
-        saveObject[this._vaginas.saveKey] = this._vaginas.save();
-        saveObject[this.butt.saveKey] = this.butt.save();
-        saveObject[this._ovipositor.saveKey] = this._ovipositor.save();
+        saveObject[this._vaginas.serialKey] = this._vaginas.serialize();
+        saveObject[this.butt.serialKey] = this.butt.serialize();
+        saveObject[this._ovipositor.serialKey] = this._ovipositor.serialize();
         saveObject["_hasOvipositor"] = this._hasOvipositor;
 
-        return saveObject;
+        return JSON.stringify(saveObject);
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.type = saveObject["type"];
         this.hipRating = saveObject["hipRating"];
         this.tailType = saveObject["tailType"];
         this.tailVenom = saveObject["tailVenom"];
         this.tailRecharge = saveObject["tailRecharge"];
-        this._cocks.load(saveObject[this._cocks.saveKey]);
+        this._cocks.deserialize(saveObject[this._cocks.serialKey]);
         this.balls = saveObject["balls"];
         this.ballSize = saveObject["ballSize"];
-        this._vaginas.load(saveObject[this._vaginas.saveKey]);
-        this.butt.load(saveObject[this.butt.saveKey]);
-        this._ovipositor.load(saveObject[this._ovipositor.saveKey]);
+        this._vaginas.deserialize(saveObject[this._vaginas.serialKey]);
+        this.butt.deserialize(saveObject[this.butt.serialKey]);
+        this._ovipositor.deserialize(saveObject[this._ovipositor.serialKey]);
         this._hasOvipositor = saveObject["_hasOvipositor"];
     }
 }

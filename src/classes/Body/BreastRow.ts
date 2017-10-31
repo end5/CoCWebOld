@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from '../SaveInterface';
+﻿import { SerializeInterface } from '../SerializeInterface';
 
 export enum BreastCup {
     FLAT, A, B, C, D, DD, DD_BIG, E, E_BIG, EE, EE_BIG, F, F_BIG, FF, FF_BIG,
@@ -11,7 +11,7 @@ export enum BreastCup {
     X, X_LARGE, XX, XX_LARGE, Y, Y_LARGE, YY, YY_LARGE, Z, Z_LARGE, ZZ, ZZ_LARGE, ZZZ, ZZZ_LARGE
 }
 
-export default class BreastRow implements SaveInterface {
+export default class BreastRow implements SerializeInterface {
     public breasts: number;
     public nipplesPerBreast: number;
     public breastRating: number;
@@ -45,9 +45,9 @@ export default class BreastRow implements SaveInterface {
 
     }
 
-    saveKey: string = "BreastRow";
-    save(): object {
-        return {
+    serialKey: string = "BreastRow";
+    serialize(): string {
+        return JSON.stringify({
             "breasts": this.breasts,
             "nipplesPerBreast": this.nipplesPerBreast,
             "breastRating": this.breastRating,
@@ -59,9 +59,9 @@ export default class BreastRow implements SaveInterface {
             "nipplesPierced": this.nipplesPierced,
             "nipplesPiercedShort": this.nipplesPiercedShort,
             "nipplesPiercedLong": this.nipplesPiercedLong
-        };
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.breasts = saveObject["breasts"];
         this.nipplesPerBreast = saveObject["nipplesPerBreast"];
         this.breastRating = saveObject["breastRating"];

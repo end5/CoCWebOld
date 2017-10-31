@@ -16,7 +16,7 @@ export default abstract class Item extends KeyObject implements SerializeInterfa
     serialKey: string = "Item";
     serialize(): string {
         let saveObject: object = {};
-        saveObject["objectKey"] = this.objectKey;
+        saveObject["uniqueKey"] = this.uniqueKey;
         saveObject["itemType"] = this.itemType;
         return JSON.stringify(saveObject);
     }

@@ -1,6 +1,6 @@
-import { SaveInterface } from "../SaveInterface";
+import { SerializeInterface } from '../SaveInterface';
 
-export default class Flags implements SaveInterface {
+export default class Flags implements SerializeInterface {
     private static flags: object = {};
 
     public static get list(): object {
@@ -11,13 +11,13 @@ export default class Flags implements SaveInterface {
         this.flags = {};
     }
 
-    saveKey: string = "Flags";
-    save(): object {
+    serialKey: string = "Flags";
+    serialize(): object {
         return { saveKey: Flags.flags };
     }
 
-    load(object: object) {
-        Flags.flags = object[this.saveKey];
+    deserialize(object: object) {
+        Flags.flags = object[this.serialKey];
     }
 }
 

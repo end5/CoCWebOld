@@ -1,11 +1,11 @@
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 import Utils from '../Utilities/Utils';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
-export default class Cock implements SaveInterface {
+export default class Cock implements SerializeInterface {
     private _cockLength: number;
     private _cockThickness: number;
     private _cockType: CockType;
@@ -133,9 +133,9 @@ export default class Cock implements SaveInterface {
         }
     }
 
-    saveKey: string = "Cock";
-    save(): object {
-        return {
+    serialKey: string = "Cock";
+    serialize(): string {
+        return JSON.stringify({
             "_cockLength": this._cockLength,
             "_cockThickness": this._cockThickness,
             "_cockType": this._cockType,
@@ -145,9 +145,9 @@ export default class Cock implements SaveInterface {
             "_piercedShortDesc": this._piercedShortDesc,
             "_piercedLongDesc": this._piercedLongDesc,
             "_sock": this._sock
-        };
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this._cockLength = saveObject["_cockLength"];
         this._cockThickness = saveObject["_cockThickness"];
         this._cockType = saveObject["_cockType"];

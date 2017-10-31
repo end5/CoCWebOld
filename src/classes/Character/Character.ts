@@ -6,18 +6,18 @@ import Creature from '../Body/Creature';
 import { FaceType } from '../Body/Face';
 import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
+import FaceDescriptor from '../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import MainScreen from '../display/MainScreen';
 import StatusAffect from '../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
 import CharacterInventory from '../Inventory/CharacterInventory';
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 import UpdateInterface from '../UpdateInterface';
 import Utils from '../Utilities/Utils';
 
-export default abstract class Character extends Creature implements UpdateInterface, SaveInterface {
-
+export default abstract class Character extends Creature implements UpdateInterface, SerializeInterface {
 	public charType: CharacterType;
 	public readonly inventory: CharacterInventory;
 	public readonly desc: CharacterDescription;
@@ -33,27 +33,27 @@ export default abstract class Character extends Creature implements UpdateInterf
 		this.desc = new CharacterDescription(this);
 	}
 
-    saveKey: string = "Character";
-    save(): object {
+    serialKey: string = "Character";
+    serialize(): string {
         let saveObject: object = {};
         saveObject["charType"] = this.charType;
-        saveObject[this.inventory.saveKey] = this.inventory.save();
-		saveObject[this.desc.saveKey] = this.desc.save();
-		saveObject[super.saveKey] = super.save();
-        return saveObject;
+        saveObject[this.inventory.serialKey] = this.inventory.serialize();
+		saveObject[this.desc.serialKey] = this.desc.serialize();
+		saveObject[super.serialKey] = super.serialize();
+        return JSON.stringify(saveObject);
     }
 
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.charType = saveObject["charType"];
-        this.inventory.load(saveObject[this.inventory.saveKey]);
-        this.desc.load(saveObject[this.desc.saveKey]);
-        super.load(saveObject[super.saveKey]);
+        this.inventory.deserialize(saveObject[this.inventory.serialKey]);
+        this.desc.deserialize(saveObject[this.desc.serialKey]);
+        super.deserialize(saveObject[super.serialKey]);
     }
 
 
 	public update(hours: number) {
 		this.pregnancy.update(hours);
-		this.regeneration()
+		this.regeneration();
 	}
 
 
@@ -210,7 +210,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 		if (this.perks.has("Sadist")) {
 			value += 0.2;
 			// Add 3 before resistances
-			this.stats.lustChange(this.stats.lust + 3, false);
+			this.stats.lustNoResist += 3;
 		}
 		return value;
 	}
@@ -253,55 +253,6 @@ export default abstract class Character extends Creature implements UpdateInterf
 		return delta;
 	}
 
-	//Modify this.femininity!
-	public modFem(goal: number, strength: number = 1): string {
-		let output: string = "";
-		let old: string = FaceDescriptor.describeFaceOther(this);
-		let oldN: number = this.femininity;
-		let Changed: boolean = false;
-		//If already perfect!
-		if (goal == this.femininity)
-			return "";
-		//If turning MANLYMAN
-		if (goal < this.femininity && goal <= 50) {
-			this.femininity -= strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.femininity < goal)
-				this.femininity = goal;
-			Changed = true;
-		}
-		//if turning GIRLGIRLY, like duh!
-		if (goal > this.femininity && goal >= 50) {
-			this.femininity += strength;
-			//YOUVE GONE TOO FAR! TURN BACK!
-			if (this.femininity > goal)
-				this.femininity = goal;
-			Changed = true;
-		}
-		//Fix if it went out of bounds!
-		if (!this.perks.has("Androgyny"))
-			this.fixFemininity();
-		//Abort if nothing changed!
-		if (!Changed)
-			return "";
-		//See if a change happened!
-		if (old != FaceDescriptor.describeFaceOther(this)) {
-			//Gain fem?
-			if (goal > oldN)
-				output = "\n\n<b>Your facial features soften as your body becomes more feminine. (+" + strength + ")</b>";
-			if (goal < oldN)
-				output = "\n\n<b>Your facial features harden as your body becomes more masculine. (+" + strength + ")</b>";
-		}
-		//Barely noticable change!
-		else {
-			if (goal > oldN)
-				output = "\n\nThere's a tingling in your " + HeadDescriptor.nounFace(this.upperBody.head.face) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
-			else if (goal < oldN)
-				output = "\n\nThere's a tingling in your " + HeadDescriptor.nounFace(this.upperBody.head.face) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
-		}
-		return output;
-	}
-
 
 
 
@@ -314,7 +265,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 	}
 
 	public orgasm(): void {
-        this.stats.lustChange(0, false);
+        this.stats.lustNoResist = 0;
         this.hoursSinceCum = 0;
         let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
         if (gildedCockSocks > 0) {

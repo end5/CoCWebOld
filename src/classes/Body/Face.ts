@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from '../SaveInterface';
+﻿import { SerializeInterface } from '../SerializeInterface';
 
 export enum FaceType {
     HUMAN, HORSE, DOG, COW_MINOTAUR, SHARK_TEETH, SNAKE_FANGS,
@@ -14,7 +14,7 @@ export enum EyeType {
     HUMAN, FOUR_SPIDER_EYES, BLACK_EYES_SAND_TRAP
 }
 
-export default class Face implements SaveInterface {
+export default class Face implements SerializeInterface {
     public faceType: FaceType;
     public eyeType: EyeType;
     public tongueType: TongueType;
@@ -31,9 +31,6 @@ export default class Face implements SaveInterface {
     public eyebrowPierced: number;
     public eyebrowPShort: string;
     public eyebrowPLong: string;
-    public earsPierced: number;
-    public earsPShort: string;
-    public earsPLong: string;
     public nosePierced: number;
     public nosePShort: string;
     public nosePLong: string;
@@ -52,9 +49,6 @@ export default class Face implements SaveInterface {
         this.eyebrowPierced = 0;
         this.eyebrowPShort = "";
         this.eyebrowPLong = "";
-        this.earsPierced = 0;
-        this.earsPShort = "";
-        this.earsPLong = "";
         this.nosePierced = 0;
         this.nosePShort = "";
         this.nosePLong = "";
@@ -80,9 +74,9 @@ export default class Face implements SaveInterface {
 		return this.beardLength > 0;
 	}
 
-    saveKey: string = "Face";
-    save(): object {
-        return {
+    serialKey: string = "Face";
+    serialize(): string {
+        return JSON.stringify({
             "faceType": this.faceType,
             "eyeType": this.eyeType,
             "tongueType": this.tongueType,
@@ -95,15 +89,12 @@ export default class Face implements SaveInterface {
             "eyebrowPierced": this.eyebrowPierced,
             "eyebrowPShort": this.eyebrowPShort,
             "eyebrowPLong": this.eyebrowPLong,
-            "earsPierced": this.earsPierced,
-            "earsPShort": this.earsPShort,
-            "earsPLong": this.earsPLong,
             "nosePierced": this.nosePierced,
             "nosePShort": this.nosePShort,
             "nosePLong": this.nosePLong
-        };
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.faceType = saveObject["faceType"];
         this.eyeType = saveObject["eyeType"];
         this.tongueType = saveObject["tongueType"];
@@ -116,9 +107,6 @@ export default class Face implements SaveInterface {
         this.eyebrowPierced = saveObject["eyebrowPierced"];
         this.eyebrowPShort = saveObject["eyebrowPShort"];
         this.eyebrowPLong = saveObject["eyebrowPLong"];
-        this.earsPierced = saveObject["earsPierced"];
-        this.earsPShort = saveObject["earsPShort"];
-        this.earsPLong = saveObject["earsPLong"];
         this.nosePierced = saveObject["nosePierced"];
         this.nosePShort = saveObject["nosePShort"];
         this.nosePLong = saveObject["nosePLong"];

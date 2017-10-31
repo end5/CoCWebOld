@@ -1,4 +1,4 @@
-import KeyObject from "./KeyObject";
+import KeyObject from './KeyObject';
 
 export default abstract class ValueContainer<T extends KeyObject> extends KeyObject {
     public readonly object: T;
@@ -8,7 +8,7 @@ export default abstract class ValueContainer<T extends KeyObject> extends KeyObj
     public value4: number;
 
     public constructor(keyObject: T, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        super(keyObject.objectKey);
+        super(keyObject.uniqueKey);
         this.object = keyObject
         this.value1 = value1;
         this.value2 = value2;
@@ -17,6 +17,6 @@ export default abstract class ValueContainer<T extends KeyObject> extends KeyObj
     }
 
     public toString(): string {
-        return "[" + this.objectKey + "," + this.value1 + "," + this.value2 + "," + this.value3 + "," + this.value4 + "]";
+        return "[" + this.uniqueKey + "," + this.value1 + "," + this.value2 + "," + this.value3 + "," + this.value4 + "]";
     }
 }

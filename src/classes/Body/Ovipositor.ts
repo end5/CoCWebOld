@@ -1,6 +1,6 @@
-﻿import { SaveInterface } from '../SaveInterface';
+﻿import { SerializeInterface } from '../SerializeInterface';
 
-export default class Ovipositor implements SaveInterface {
+export default class Ovipositor implements SerializeInterface {
     private _eggs: number;
     private _fertilizedEggs: number;
 
@@ -39,14 +39,14 @@ export default class Ovipositor implements SaveInterface {
         return this._fertilizedEggs;
     }
 
-    saveKey: string = "Ovipositor";
-    save(): object {
-        return {
+    serialKey: string = "Ovipositor";
+    serialize(): string {
+        return JSON.stringify({
             "_eggs": this._eggs,
             "_fertilizedEggs": this._fertilizedEggs
-        };
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this._eggs = saveObject["_eggs"];
         this._fertilizedEggs = saveObject["_fertilizedEggs"];
     }

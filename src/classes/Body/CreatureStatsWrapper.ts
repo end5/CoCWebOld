@@ -2,7 +2,6 @@
 import Stats from './Stats';
 import Character from '../Character/Character';
 import Flags, { FlagEnum } from '../Game/Flags';
-import { SaveInterface } from '../SaveInterface';
 
 export default class CreatureStatsWrapper {
     private body: Creature;

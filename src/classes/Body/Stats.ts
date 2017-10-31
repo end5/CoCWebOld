@@ -1,6 +1,6 @@
-import { SaveInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
-export default class Stats implements SaveInterface {
+export default class Stats implements SerializeInterface {
     //Primary stats
     public str: number;
     public tou: number;
@@ -42,26 +42,26 @@ export default class Stats implements SaveInterface {
         this.additionalXP = 0;
     }
 
-    saveKey: string = "Stats";
-    save(): object {
-        let saveObject: object;
-        saveObject["str"] = this.str;
-        saveObject["tou"] = this.tou;
-        saveObject["spe"] = this.spe;
-        saveObject["int"] = this.int;
-        saveObject["lib"] = this.lib;
-        saveObject["sens"] = this.sens;
-        saveObject["cor"] = this.cor;
-        saveObject["fatigue"] = this.fatigue;
-        saveObject["HP"] = this.HP;
-        saveObject["lust"] = this.lust;
-        saveObject["lustVuln"] = this.lustVuln;
-        saveObject["XP"] = this.XP;
-        saveObject["level"] = this.level;
-        saveObject["additionalXP"] = this.additionalXP;
-        return saveObject;
+    serialKey: string = "Stats";
+    serialize(): string {
+        return JSON.stringify({
+            "str": this.str,
+            "tou": this.tou,
+            "spe": this.spe,
+            "int": this.int,
+            "lib": this.lib,
+            "sens": this.sens,
+            "cor": this.cor,
+            "fatigue": this.fatigue,
+            "HP": this.HP,
+            "lust": this.lust,
+            "lustVuln": this.lustVuln,
+            "XP": this.XP,
+            "level": this.level,
+            "additionalXP": this.additionalXP
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.str = saveObject["str"];
         this.tou = saveObject["tou"];
         this.spe = saveObject["spe"];

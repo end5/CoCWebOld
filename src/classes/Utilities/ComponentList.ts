@@ -1,10 +1,11 @@
-﻿import KeyObject from "./KeyObject";
+﻿import KeyObject from './KeyObject';
+import { SerializeInterface } from '../SerializeInterface';
 
 export class Component extends KeyObject {
 
 }
 
-export default class ComponentList<T extends Component> {
+export default class ComponentList<T extends Component> implements SerializeInterface {
     private _list: T[];
 
     public constructor() {
@@ -17,7 +18,7 @@ export default class ComponentList<T extends Component> {
 
     public has(name: string): boolean {
         for (let index = 0; index < this._list.length; index++) {
-            if (this._list[index].objectKey == name) {
+            if (this._list[index].uniqueKey == name) {
                 return true;
             }
         }
@@ -26,7 +27,7 @@ export default class ComponentList<T extends Component> {
 
     public indexOf(name: string): number {
         for (let index = 0; index < this._list.length; index++) {
-            if (this._list[index].objectKey == name) {
+            if (this._list[index].uniqueKey == name) {
                 return index;
             }
         }
@@ -41,7 +42,7 @@ export default class ComponentList<T extends Component> {
 
     public get(name: string): T {
         for (let item of this._list) {
-            if (item.objectKey == name)
+            if (item.uniqueKey == name)
                 return item;
         }
         return null;
@@ -49,5 +50,15 @@ export default class ComponentList<T extends Component> {
 
     public clear() {
         this._list = [];
+    }
+
+    public readonly serialKey: string = "ComponentList";
+    public serialize(): object {
+        let saveObject: object = {};
+        saveObject["list"] = JSON.stringify(this._list);
+        return saveObject;
+    }
+    public deserialize(saveObject: object) {
+        this._list = JSON.parse(saveObject["list"]);
     }
 }

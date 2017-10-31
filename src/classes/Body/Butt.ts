@@ -1,4 +1,4 @@
-﻿import { SaveInterface } from '../SaveInterface';
+﻿import { SerializeInterface } from '../SerializeInterface';
 
 export enum ButtWetness {
     DRY, NORMAL, MOIST, SLIMY, DROOLING, SLIME_DROOLING
@@ -9,23 +9,23 @@ export enum ButtLooseness {
 }
 
 export enum ButtRating {
-    BUTTLESS            = 0,
-    TIGHT               = 2,
-    AVERAGE             = 4,
-    NOTICEABLE          = 6,
-    LARGE               = 8,
-    JIGGLY              = 10,
-    EXPANSIVE           = 13,
-    HUGE                = 16,
-    INCONCEIVABLY_BIG   = 20
+    BUTTLESS = 0,
+    TIGHT = 2,
+    AVERAGE = 4,
+    NOTICEABLE = 6,
+    LARGE = 8,
+    JIGGLY = 10,
+    EXPANSIVE = 13,
+    HUGE = 16,
+    INCONCEIVABLY_BIG = 20
 }
 
-export default class Butt implements SaveInterface {
+export default class Butt implements SerializeInterface {
     public analWetness: ButtWetness;
     public analLooseness: ButtLooseness;
     //Used to determine thickness of knot relative to normal thickness
     //Used during sex to determine how full it currently is.  For multi-dick sex.
-    public fullness:number;
+    public fullness: number;
     public buttRating: ButtRating;
 
     public constructor() {
@@ -35,16 +35,16 @@ export default class Butt implements SaveInterface {
         this.buttRating = ButtRating.BUTTLESS;
     }
 
-    saveKey: string = "Butt";
-    save(): object {
-        let saveObject: object = {};
-        saveObject["analWetness"] = this.analWetness;
-        saveObject["analLooseness"] = this.analLooseness;
-        saveObject["fullness"] = this.fullness;
-        saveObject["buttRating"] = this.buttRating;
-        return saveObject;
+    serialKey: string = "Butt";
+    serialize(): string {
+        return JSON.stringify({
+            "analWetness": this.analWetness,
+            "analLooseness": this.analLooseness,
+            "fullness": this.fullness,
+            "buttRating": this.buttRating,
+        });
     }
-    load(saveObject: object) {
+    deserialize(saveObject: object) {
         this.analWetness = saveObject["analWetness"];
         this.analLooseness = saveObject["analLooseness"];
         this.fullness = saveObject["fullness"];

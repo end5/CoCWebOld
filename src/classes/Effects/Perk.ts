@@ -16,6 +16,6 @@ export default class Perk extends ValueContainer<PerkDesc> {
     }
 
     public clone(): Perk {
-        return new Perk(this.objectKey, this.value1, this.value2, this.value3, this.value4);
+        return new Perk(this.uniqueKey, this.value1, this.value2, this.value3, this.value4);
     }
 }

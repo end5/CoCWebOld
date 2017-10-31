@@ -1,5 +1,5 @@
-import { SaveInterface } from "./SaveInterface";
-import Game from "./Game/Game";
+import Game from './Game/Game';
+import { SerializeInterface } from './SaveInterface';
 
 export default class SaveManager {
     private static _activeSlot: number;
