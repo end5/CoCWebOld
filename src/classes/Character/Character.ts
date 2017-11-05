@@ -13,6 +13,8 @@ import StatusAffect from '../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
 import CharacterInventory from '../Inventory/CharacterInventory';
+import Armor from '../Items/Armors/Armor';
+import Weapon from '../Items/Weapons/Weapon';
 import { SerializeInterface } from '../SerializeInterface';
 import UpdateInterface from '../UpdateInterface';
 import Utils from '../Utilities/Utils';
@@ -26,10 +28,10 @@ export default abstract class Character extends Creature implements UpdateInterf
 		return this.combatContainer;
 	}
 
-	public constructor(type: CharacterType) {
+	public constructor(type: CharacterType, defaultWeapon: Weapon, defaultArmor: Armor) {
 		super();
 		this.charType = type;
-		this.inventory = new CharacterInventory();
+		this.inventory = new CharacterInventory(defaultWeapon, defaultArmor);
 		this.desc = new CharacterDescription(this);
 	}
 
@@ -61,8 +63,8 @@ export default abstract class Character extends Creature implements UpdateInterf
 		let healingPercent = 0;
 		if (this.perks.has("Regeneration")) healingPercent += 2;
 		if (this.perks.has("Regeneration2")) healingPercent += 4;
-		if (this.inventory.armor.displayName == "skimpy nurse's outfit") healingPercent += 2;
-		if (this.inventory.armor.displayName == "goo armor") healingPercent += 3;
+		if (this.inventory.armorSlot.equipment.displayName == "skimpy nurse's outfit") healingPercent += 2;
+		if (this.inventory.armorSlot.equipment.displayName == "goo armor") healingPercent += 3;
 		if (this.perks.has("LustyRegeneration")) healingPercent += 2;
 		if (healingPercent > 10) healingPercent = 10;
 		this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
@@ -128,7 +130,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 	}
 
 	public defense(): number {
-		let armorDef: number = this.inventory.armor.defense;
+		let armorDef: number = this.inventory.armorSlot.equipment.defense;
 		//Blacksmith history!
 		if (armorDef > 0 && this.perks.has("HistorySmith")) {
 			armorDef = Math.round(armorDef * 1.1);
@@ -148,9 +150,9 @@ export default abstract class Character extends Creature implements UpdateInterf
 		if (this.skinAdj == "smooth") armorDef += 1;
 		//Agility boosts armor ratings!
 		if (this.perks.has("Agility")) {
-			if (this.inventory.armor.armorClass == "Light")
+			if (this.inventory.armorSlot.equipment.armorClass == "Light")
 				armorDef += Math.round(this.stats.spe / 8);
-			else if (this.inventory.armor.armorClass == "Medium")
+			else if (this.inventory.armorSlot.equipment.armorClass == "Medium")
 				armorDef += Math.round(this.stats.spe / 13);
 		}
 		//Berzerking removes armor
@@ -171,10 +173,10 @@ export default abstract class Character extends Creature implements UpdateInterf
 	}
 
 	public weaponAttack(): number {
-		let attack: number = this.inventory.weapon.attack;
-		if (this.perks.has("WeaponMastery") && this.inventory.weapon.perk == "Large" && this.stats.str > 60)
+		let attack: number = this.inventory.weaponSlot.equipment.attack;
+		if (this.perks.has("WeaponMastery") && this.inventory.weaponSlot.equipment.perk == "Large" && this.stats.str > 60)
 			attack *= 2;
-		if (this.perks.has("LightningStrikes") && this.stats.spe >= 60 && this.inventory.weapon.perk != "Large") {
+		if (this.perks.has("LightningStrikes") && this.stats.spe >= 60 && this.inventory.weaponSlot.equipment.perk != "Large") {
 			attack += Math.round((this.stats.spe - 50) / 3);
 		}
 		if (this.statusAffects.has("Berzerking"))
