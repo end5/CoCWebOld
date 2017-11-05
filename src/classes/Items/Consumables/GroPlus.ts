@@ -108,7 +108,7 @@ export default class GroPlus extends Consumable {
         player.slimeFeed();
         MainScreen.text("You sink the needle into each of your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         //Grow nipples
-        MainScreen.text("Your nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
+        MainScreen.text("Your nipples engorge, prodding hard against the inside of your " + player.inventory.armorSlot.equipment.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");
         player.upperBody.chest.get(Utils.rand(player.upperBody.chest.count() - 1)).nippleLength += (Utils.rand(2) + 3) / 10;
         player.stats.lust += 15;
         //NIPPLECUNTZZZ

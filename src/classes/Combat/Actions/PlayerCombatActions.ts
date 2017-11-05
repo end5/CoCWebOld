@@ -215,7 +215,7 @@ export default class PlayerCombatActions implements CombatActions {
                 }
                 //Run failed:
                 else {
-                    MainScreen.text("You try to shake off the fog and run but the anemone slinks over to you and her tentacles wrap around your waist.  <i>\"Stay?\"</i> she asks, pressing her small breasts into you as a tentacle slides inside your " + player.inventory.armor.displayName + " and down to your nethers.  The combined stimulation of the rubbing and the tingling venom causes your knees to buckle, hampering your resolve and ending your escape attempt.", false);
+                    MainScreen.text("You try to shake off the fog and run but the anemone slinks over to you and her tentacles wrap around your waist.  <i>\"Stay?\"</i> she asks, pressing her small breasts into you as a tentacle slides inside your " + player.inventory.armorSlot.equipment.displayName + " and down to your nethers.  The combined stimulation of the rubbing and the tingling venom causes your knees to buckle, hampering your resolve and ending your escape attempt.", false);
                     //(gain lust, temp lose spd/str)
                     <Anemone>monster.applyVenom((4 + player.stats.sens / 20));
                     return;
@@ -518,7 +518,7 @@ export default class PlayerCombatActions implements CombatActions {
         let temp2: number = 0;
         doNext(combatMenu);
         MainScreen.text("", true);
-        if (player.inventory.armor.displayName == "goo armor") {
+        if (player.inventory.armorSlot.equipment.displayName == "goo armor") {
             MainScreen.text("As you fantasize, you feel Valeria rubbing her gooey body all across your sensitive skin");
             if (player.gender > 0) MainScreen.text(" and genitals");
             MainScreen.text(", arousing you even further.\n");

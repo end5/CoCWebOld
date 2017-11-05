@@ -123,7 +123,7 @@ export default class SweetGossamer extends Consumable {
             }
             //If something got thickened
             if (cockGotThickened) {
-                MainScreen.text("\n\nYou can feel your " + CockDescriptor.describeMultiCockShort(player) + " filling out in your " + player.inventory.armor.displayName + ". Pulling ", false);
+                MainScreen.text("\n\nYou can feel your " + CockDescriptor.describeMultiCockShort(player) + " filling out in your " + player.inventory.armorSlot.equipment.displayName + ". Pulling ", false);
                 if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("it", false);
                 else MainScreen.text("them", false);
                 MainScreen.text(" out, you look closely.  ", false);
@@ -192,7 +192,7 @@ export default class SweetGossamer extends Consumable {
         }
         //-Nipples reduction to 1 per tit.
         if (player.upperBody.chest.averageNipplesPerBreast() > 1 && changes < changeLimit && Utils.rand(4) == 0) {
-            MainScreen.text("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(player) + " and vanishes.  You stick a hand under your " + player.inventory.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ", false);
+            MainScreen.text("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(player) + " and vanishes.  You stick a hand under your " + player.inventory.armorSlot.equipment.displayName + " and discover that your extra nipples are missing!  You're down to just one per ", false);
             if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1) MainScreen.text("'breast'.", false);
             else MainScreen.text("breast.", false);
             changes++;

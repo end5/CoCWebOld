@@ -35,7 +35,7 @@ export default class BroBrew extends Consumable {
 
             //female
             if (!player.lowerBody.cockSpot.hasCock()) {
-                MainScreen.text("The beverage isn't done yet, however, and it makes it perfectly clear with a building pleasure in your groin.  You can only cry in ecstasy and loosen the bottoms of your " + player.inventory.armor.displayName + " just in time for a little penis to spring forth.  You watch, enthralled, as blood quickly stiffens the shaft to its full length � then keeps on going!  Before long, you have a quivering 10-inch maleness, just ready to stuff into a welcoming box.", false);
+                MainScreen.text("The beverage isn't done yet, however, and it makes it perfectly clear with a building pleasure in your groin.  You can only cry in ecstasy and loosen the bottoms of your " + player.inventory.armorSlot.equipment.displayName + " just in time for a little penis to spring forth.  You watch, enthralled, as blood quickly stiffens the shaft to its full length � then keeps on going!  Before long, you have a quivering 10-inch maleness, just ready to stuff into a welcoming box.", false);
                 cock = new Cock();
                 cock.cockLength = 10;
                 cock.cockThickness = 2;
@@ -149,7 +149,7 @@ export default class BroBrew extends Consumable {
         }
         //(No dick)
         else {
-            MainScreen.text("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.armor.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + LowerBodyDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!", false);
+            MainScreen.text("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.armorSlot.equipment.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + LowerBodyDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!", false);
             if (player.lowerBody.balls == 0)
                 MainScreen.text("  Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LowerBodyDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.", false);
             MainScreen.text("\n\n", false);
@@ -177,7 +177,7 @@ export default class BroBrew extends Consumable {
             MainScreen.text("Lastly, the change hits your face.  You can feel your jawbones shifting and sliding around, your skin changing to accommodate your face's new shape.  Once it's finished, you feel your impeccable square jaw and give a wide, easy-going grin.  You look awesome!\n\n", false);
             player.modFem(0, 100);
         }
-        MainScreen.text("You finish admiring yourself and adjust your " + player.inventory.armor.displayName + " to better fit your new physique.  Maybe there's some bitches around you can fuck.  Hell, as good as you look, you might have other dudes wanting you to fuck them too, no homo.\n\n", false);
+        MainScreen.text("You finish admiring yourself and adjust your " + player.inventory.armorSlot.equipment.displayName + " to better fit your new physique.  Maybe there's some bitches around you can fuck.  Hell, as good as you look, you might have other dudes wanting you to fuck them too, no homo.\n\n", false);
         //max tone.  Thickness + 50
         player.modTone(100, 100);
         player.modThickness(100, 50);

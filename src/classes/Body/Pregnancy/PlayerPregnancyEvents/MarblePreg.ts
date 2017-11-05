@@ -118,7 +118,7 @@ export default class MarblePreg implements IPregnancyEvent {
                 //increase the size of the PC�s hips, as per normal for pregnancies, increase birth counter
                 if (player.lowerBody.hipRating < 10) {
                     player.lowerBody.hipRating++;
-                    MainScreen.text("After the birth your " + player.inventory.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
+                    MainScreen.text("After the birth your " + player.inventory.armorSlot.equipment.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
                 }
                 if (Flags.list[FlagEnum.MARBLE_BOYS] == 0)
                 // has Marble had male kids before?
@@ -149,7 +149,7 @@ export default class MarblePreg implements IPregnancyEvent {
             //increase the size of the PC's hips, as per normal for pregnancies, increase birth counter
             if (player.lowerBody.hipRating < 10) {
                 player.lowerBody.hipRating++;
-                MainScreen.text("\n\nAfter the birth your " + player.inventory.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
+                MainScreen.text("\n\nAfter the birth your " + player.inventory.armorSlot.equipment.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
             }
         }
         MainScreen.text("\n", false);

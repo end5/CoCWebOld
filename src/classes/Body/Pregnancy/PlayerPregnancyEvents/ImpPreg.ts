@@ -110,7 +110,7 @@ export default class ImpPreg implements IPregnancyEvent {
         }
         else if (player.lowerBody.hipRating < 10) {
             player.lowerBody.hipRating++;
-            MainScreen.text("\n\nAfter the birth your " + player.inventory.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
+            MainScreen.text("\n\nAfter the birth your " + player.inventory.armorSlot.equipment.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".", false);
         }
         MainScreen.text("\n", false);
     }

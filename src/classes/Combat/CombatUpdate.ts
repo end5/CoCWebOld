@@ -289,7 +289,7 @@ export default class CombatUpdate {
             }
         }
         //Bondage straps + bondage fetish
-        if (Flags.list[FlagEnum.PC_FETISH] >= 2 && player.inventory.armor.displayName == "barely-decent bondage straps") {
+        if (Flags.list[FlagEnum.PC_FETISH] >= 2 && player.inventory.armorSlot.equipment.displayName == "barely-decent bondage straps") {
             MainScreen.text("The feeling of the tight, leather straps holding tightly to your body while exposing so much of it turns you on a little bit more.\n\n", false);
             player.stats.lust += 2;
         }
@@ -313,7 +313,7 @@ export default class CombatUpdate {
             if (monster.statusAffects.get("CoonWhip").value2 <= 0) {
 
                 // handled elsewhere
-                //monster.inventory.armor.defense += monster.statusAffects.get("CoonWhip").value1;
+                //monster.inventory.armorSlot.equipment.defense += monster.statusAffects.get("CoonWhip").value1;
 
                 MainScreen.text("<b>Tail whip wears off!</b>\n\n");
                 monster.statusAffects.remove("CoonWhip");

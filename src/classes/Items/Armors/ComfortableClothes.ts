@@ -11,7 +11,7 @@ export default class ComfortableClothes extends Armor {
     use(player: Player) { }
     
     public supportsBulge(player: Player): boolean {
-        return player.inventory.armorDescMod != "crotch-hugging clothes";
+        return player.inventory.armorSlot.descMod != "crotch-hugging clothes";
     }
     
     equipText(): void { }

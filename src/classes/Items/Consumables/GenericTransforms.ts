@@ -127,7 +127,7 @@ export default class GenericTransforms {
             //No wings
             else if (player.upperBody.wingType == WingType.NONE) {
                 MainScreen.text("\n\n", false);
-                MainScreen.text("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + player.inventory.armor.displayName + ".  <b>You now have tiny demonic wings</b>.", false);
+                MainScreen.text("A knot of pain forms in your shoulders as they tense up.  With a surprising force, a pair of small demonic wings sprout from your back, ripping a pair of holes in the back of your " + player.inventory.armorSlot.equipment.displayName + ".  <b>You now have tiny demonic wings</b>.", false);
                 player.upperBody.wingType = WingType.BAT_LIKE_TINY;
                 player.upperBody.wingDesc = "tiny, bat-like";
             }

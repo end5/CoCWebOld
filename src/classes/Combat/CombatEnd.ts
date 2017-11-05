@@ -139,8 +139,8 @@ export default class CombatEnd {
         }
         if (character.statusAffects.has("Disarmed")) {
             character.statusAffects.remove("Disarmed");
-            if (character.inventory.weapon == Game.libraries.weapons.get("Fists")) {
-                character.inventory.weapon = Game.libraries.weapons.get(Flags.list[FlagEnum.PLAYER_DISARMED_WEAPON_ID]);
+            if (character.inventory.weaponSlot.equipment == Game.libraries.weapons.get("Fists")) {
+                character.inventory.weaponSlot.equipment = Game.libraries.weapons.get(Flags.list[FlagEnum.PLAYER_DISARMED_WEAPON_ID]);
             }
             else {
                 Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] = Flags.list[FlagEnum.PLAYER_DISARMED_WEAPON_ID];

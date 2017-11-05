@@ -35,7 +35,7 @@ export default class LustDraft extends Consumable {
         }
         //ORGAZMO
         if (player.stats.lust >= 100 && !Game.inCombat) {
-            MainScreen.text("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + player.inventory.armor.displayName + " and look down as your ", false);
+            MainScreen.text("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + player.inventory.armorSlot.equipment.displayName + " and look down as your ", false);
             if (player.lowerBody.cockSpot.count() > 0) {
                 MainScreen.text(CockDescriptor.describeMultiCockShort(player) + " erupts in front of you, liberally spraying the ground around you.  ", false);
             }

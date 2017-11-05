@@ -106,7 +106,7 @@ export class SpellHeal extends LearnedSpellAction {
         }
         else {
             let hpGain = Math.floor((player.stats.int / (2 + Utils.rand(3)) * player.spellMod()) * (player.stats.maxHP() / 150));
-            if (player.inventory.armor.displayName == "skimpy nurse's outfit")
+            if (player.inventory.armorSlot.equipment.displayName == "skimpy nurse's outfit")
                 hpGain *= 1.2;
             MainScreen.text("You flush with success as your wounds begin to knit (+" + hpGain + ").", false);
             player.combat.gainHP(hpGain, player);
@@ -154,7 +154,7 @@ export class SpellChargeWeapon extends LearnedSpellAction {
     public readonly baseCost: number = 15;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
-        MainScreen.text("You utter words of power, summoning an electrical charge around your " + player.inventory.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n", true);
+        MainScreen.text("You utter words of power, summoning an electrical charge around your " + player.inventory.weaponSlot.equipment.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n", true);
         player.statusAffects.add(new StatusAffect("ChargeWeapon", 10 * player.spellMod(), 0, 0, 0));
     }
 }

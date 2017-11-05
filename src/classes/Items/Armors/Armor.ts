@@ -22,7 +22,7 @@ export default abstract class Armor extends EquipableItem {
         this._supportsBulge = supportsBulge;
     }
 
-    public supportsBulge(character: Character): boolean { return this._supportsBulge && character.inventory.armorDescMod == ""; }
+    public supportsBulge(character: Character): boolean { return this._supportsBulge && character.inventory.armorSlot.descMod == ""; }
     //For most clothes if the armorDescMod is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
     public canUse(character: Character): boolean {
@@ -44,8 +44,8 @@ export default abstract class Armor extends EquipableItem {
     public unequip(character: Character) {
         while (character.perks.has("BulgeArmor"))
             character.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
-        if (character.inventory.armorDescMod.length > 0)
-            character.inventory.armorDescMod = "";
+        if (character.inventory.armorSlot.descMod.length > 0)
+            character.inventory.armorSlot.descMod = "";
         this.onUnequip(character);
     }
 

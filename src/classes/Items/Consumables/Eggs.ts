@@ -371,7 +371,7 @@ export default class Eggs extends Consumable {
         if (!this.large) {
             //Grow nipples
             if (player.upperBody.chest.BreastRatingLargest[0].nippleLength < 3 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
-                MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.", false);
+                MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armorSlot.equipment.displayName + ".  Abruptly you realize they've gotten almost a quarter inch longer.", false);
                 player.upperBody.chest.BreastRatingLargest[0].nippleLength += .2;
                 player.stats.lust += 15;
             }
@@ -380,7 +380,7 @@ export default class Eggs extends Consumable {
         else {
             //Grow nipples
             if (player.upperBody.chest.BreastRatingLargest[0].nippleLength < 3 && player.upperBody.chest.BreastRatingLargest[0].breastRating > 0) {
-                MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.", false);
+                MainScreen.text("\n\nYour nipples engorge, prodding hard against the inside of your " + player.inventory.armorSlot.equipment.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.", false);
                 player.upperBody.chest.BreastRatingLargest[0].nippleLength += (Utils.rand(2) + 3) / 10;
                 player.stats.lust += 15;
             }

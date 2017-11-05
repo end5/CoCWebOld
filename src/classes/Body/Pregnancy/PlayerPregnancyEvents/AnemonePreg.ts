@@ -74,7 +74,7 @@ export default class AnemonePreg implements IPregnancyEvent {
             player.lowerBody.vaginaSpot.add(new Vagina());
             player.updateGender();
         }
-        MainScreen.text("Your " + player.inventory.armor.displayName + " feels damp around the groin and you reach down to check the area.  The  " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " you feel is dilated and slick with unusual wetness; your water must have broken!\n\n", false);
+        MainScreen.text("Your " + player.inventory.armorSlot.equipment.displayName + " feels damp around the groin and you reach down to check the area.  The  " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " you feel is dilated and slick with unusual wetness; your water must have broken!\n\n", false);
 
         MainScreen.text("Hurriedly you strip off your gear and sit down with your back against a rock.  Focusing yourself, you attempt to prepare for labor; you try to remember your recent partners and worry about what kind of monstrous infant you might have to force out of your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  The first contraction comes and you push as hard as you can, to be rewarded with the feeling of something sliding out between your labia.  You attempt a few more pushes but nothing further seems forthcoming; curious, you look down at your crotch only to discover a blue stalk sticking proudly out of your vagina!\n\n", false);
 

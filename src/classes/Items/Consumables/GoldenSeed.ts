@@ -115,12 +115,12 @@ export default class GoldenSeed extends Consumable {
                             if (player.lowerBody.cockSpot.count() > 2) MainScreen.text("es rub ", false);
                             else MainScreen.text("rubs ", false);
                             MainScreen.text("the skin over her taut, empty belly, drooling your need atop her.  ", false);
-                            MainScreen.text("You jolt from the vision unexpectedly, finding your " + CockDescriptor.describeMultiCockSimpleOne(player) + " is as hard as it was in the dream. The inside of your " + player.inventory.armor.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.", false);
+                            MainScreen.text("You jolt from the vision unexpectedly, finding your " + CockDescriptor.describeMultiCockSimpleOne(player) + " is as hard as it was in the dream. The inside of your " + player.inventory.armorSlot.equipment.displayName + " is quite messy from all the pre-cum you've drooled. Perhaps you can find a harpy nearby to lie with.", false);
                         }
                     }
                     //(male 2)
                     else {
-                        MainScreen.text("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + CockDescriptor.describeMultiCockSimpleOne(player) + " inside your " + player.inventory.armor.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.", false);
+                        MainScreen.text("In your fantasy you're lying back in the nest your harem built for you, stroking your dick and watching the sexy bird-girl spread her thighs to deposit another egg onto the pile. The lewd moans do nothing to sate your need, and you beckon for another submissive harpy to approach. She does, her thick thighs swaying to show her understanding of your needs. The bird-woman crawls into your lap, sinking down atop your shaft to snuggle it with her molten heat. She begins kissing you, smearing your mouth with her drugged lipstick until you release the first of many loads. You sigh, riding the bliss, secure in the knowledge that this 'wife' won't let up until she's gravid with another egg. Then it'll be her sister-wife's turn. The tightness of " + CockDescriptor.describeMultiCockSimpleOne(player) + " inside your " + player.inventory.armorSlot.equipment.displayName + " rouses you from the dream, reminding you that you're just standing there, leaking your need into your gear.", false);
                     }
                 }
                 //Cunts!
@@ -131,11 +131,11 @@ export default class GoldenSeed extends Consumable {
                         if (player.upperBody.chest.hasFuckableNipples()) MainScreen.text("and pussy leaking over ", false);
                         else if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier >= 1.5) MainScreen.text("dripping milk inside ", false);
                         else MainScreen.text("rubbing inside ", false);
-                        MainScreen.text("your " + player.inventory.armor.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?", false);
+                        MainScreen.text("your " + player.inventory.armorSlot.equipment.displayName + " shocks you from the dream, leaving you with nothing but the moistness of your loins for company. Maybe next year you'll find the mate of your dreams?", false);
                     }
                     //(female 2)
                     else {
-                        MainScreen.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s pull you out of the fantasy as they rub inside your " + player.inventory.armor.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.", false);
+                        MainScreen.text("In your fantasy you're sprawled on your back, thick thighs splayed wide while you're taken by a virile male. The poor stud was wandering the desert all alone, following some map, but soon you had his bright red rod sliding between your butt-cheeks, the pointed tip releasing runnels of submission to lubricate your loins. You let him mount your pussy before you grabbed him with your powerful thighs and took off. He panicked at first, but the extra blood flow just made him bigger. He soon forgot his fear and focused on the primal needs of all males � mating with a gorgeous harpy. You look back at him and wink, feeling his knot build inside you. Your aching, tender " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s pull you out of the fantasy as they rub inside your " + player.inventory.armorSlot.equipment.displayName + ". Maybe once your quest is over you'll be able to find a shy, fertile male to mold into the perfect cum-pump.", false);
                     }
                 }
             }
@@ -151,7 +151,7 @@ export default class GoldenSeed extends Consumable {
             //(dick)
             else if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("\n\nAn itch starts on your groin, just below your " + CockDescriptor.describeMultiCockShort(player) + ". You pull your manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>", false);
             //(neither)
-            else MainScreen.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + player.inventory.armor.displayName + " to discover your bUtils.Utils.rand new vagina, complete with pussy lips and a tiny clit.</b>", false);
+            else MainScreen.text("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + player.inventory.armorSlot.equipment.displayName + " to discover your bUtils.Utils.rand new vagina, complete with pussy lips and a tiny clit.</b>", false);
             let newVagina = new Vagina();
             newVagina.clitLength = .25;
             player.lowerBody.vaginaSpot.add(newVagina);
@@ -189,7 +189,7 @@ export default class GoldenSeed extends Consumable {
         //-Grow tits to a B-cup if below.
         if (changes < changeLimit && player.upperBody.chest.get(0).breastRating < 2 && Utils.rand(3) == 0) {
             changes++;
-            MainScreen.text("\n\nYour chest starts to tingle, the " + player.skinDesc + " warming under your " + player.inventory.armor.displayName + ". Reaching inside to feel the tender flesh, you're quite surprised when it puffs into your fingers, growing larger and larger until it settles into a pair of B-cup breasts.", false);
+            MainScreen.text("\n\nYour chest starts to tingle, the " + player.skinDesc + " warming under your " + player.inventory.armorSlot.equipment.displayName + ". Reaching inside to feel the tender flesh, you're quite surprised when it puffs into your fingers, growing larger and larger until it settles into a pair of B-cup breasts.", false);
             if (player.upperBody.chest.get(0).breastRating < 1) MainScreen.text("  <b>You have breasts now!</b>", false);
             player.upperBody.chest.get(0).breastRating = 2;
         }
@@ -231,7 +231,7 @@ export default class GoldenSeed extends Consumable {
         if (player.lowerBody.butt.buttRating < 8 && changes < changeLimit && Utils.rand(3) == 0) {
             player.lowerBody.butt.buttRating++;
             changes++;
-            MainScreen.text("\n\nA slight jiggle works through your rear, but instead of stopping it starts again. You can actually feel your " + player.inventory.armor.displayName + " being filled out by the growing cheeks. When it stops, you find yourself the proud owner of a " + ButtDescriptor.describeButt(player) + ".", false);
+            MainScreen.text("\n\nA slight jiggle works through your rear, but instead of stopping it starts again. You can actually feel your " + player.inventory.armorSlot.equipment.displayName + " being filled out by the growing cheeks. When it stops, you find yourself the proud owner of a " + ButtDescriptor.describeButt(player) + ".", false);
         }
         //-Narrow booty if crazy huge.
         if (player.lowerBody.butt.buttRating >= 14 && changes < changeLimit && Utils.rand(4) == 0) {
@@ -282,7 +282,7 @@ export default class GoldenSeed extends Consumable {
         }
         //-Propah Wings
         if (player.upperBody.wingType == WingType.NONE && changes < changeLimit && (this.enhanced || player.upperBody.armType == ArmType.HARPY) && Utils.rand(4) == 0) {
-            MainScreen.text("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + player.skinDesc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + player.inventory.armor.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your bUtils.Utils.rand new, " + player.upperBody.head.hairColor + " wings.</b>", false);
+            MainScreen.text("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + player.skinDesc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + player.inventory.armorSlot.equipment.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your bUtils.Utils.rand new, " + player.upperBody.head.hairColor + " wings.</b>", false);
             player.upperBody.wingType = WingType.FEATHERED_LARGE;
             player.upperBody.wingDesc = "large, feathered";
             changes++;

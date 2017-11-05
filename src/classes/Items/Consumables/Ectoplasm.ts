@@ -61,7 +61,7 @@ export default class Ectoplasm extends Consumable {
         //Effect script a:  (human wang)
         if (player.lowerBody.cockSpot.hasCock() && changes < changeLimit) {
             if (Utils.rand(3) == 0 && player.lowerBody.cockSpot.get(0).cockType != CockType.HUMAN) {
-                MainScreen.text("\n\nA strange tingling begins behind your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + player.inventory.armor.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>", false);
+                MainScreen.text("\n\nA strange tingling begins behind your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + player.inventory.armorSlot.equipment.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>", false);
                 player.lowerBody.cockSpot.get(0).cockType = CockType.HUMAN;
                 changes++;
             }

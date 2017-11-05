@@ -105,10 +105,10 @@ export default class NeonPinkEgg extends Consumable {
                 MainScreen.text("\n\nYou fan your neck and start to pant as your " + player.skinTone + " skin begins to flush red with heat", false);
                 if (player.skinType > SkinType.PLAIN) MainScreen.text(" through your " + player.skinDesc, false);
                 MainScreen.text(".  ", false);
-                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard � so very hard.", false);
+                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armorSlot.equipment.displayName + ".  You struggle to fight down your heightened libido, but it's hard � so very hard.", false);
                 else if (player.gender == 0) MainScreen.text("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.", false);
                 else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard � so very hard.", false);
-                else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
+                else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armorSlot.equipment.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
             }
             //MEGALIBIDO
             else {
@@ -134,7 +134,7 @@ export default class NeonPinkEgg extends Consumable {
             //(BIG boost 1/3 chance)
             else {
                 player.stats.sens += 15;
-                MainScreen.text("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + player.inventory.armor.displayName + " rubs your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s deliciously", false);
+                MainScreen.text("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + player.inventory.armorSlot.equipment.displayName + " rubs your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s deliciously", false);
                 if (player.upperBody.chest.hasFuckableNipples()) {
                     MainScreen.text(", sticking to the ", false);
                     if (player.upperBody.chest.LactationMultipierLargest[0].lactationMultiplier > 2) MainScreen.text("milk-leaking nipple-twats", false);
@@ -348,10 +348,10 @@ export default class NeonPinkEgg extends Consumable {
                 MainScreen.text("\n\nYou fan your neck and start to pant as your " + player.skinTone + " skin begins to flush red with heat", false);
                 if (player.skinType > SkinType.PLAIN) MainScreen.text(" through your " + player.skinDesc, false);
                 MainScreen.text(".  ", false);
-                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard � so very hard.", false);
+                if (player.gender == 1) MainScreen.text("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.armorSlot.equipment.displayName + ".  You struggle to fight down your heightened libido, but it's hard � so very hard.", false);
                 else if (player.gender == 0) MainScreen.text("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.", false);
                 else if (player.gender == 2) MainScreen.text("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard � so very hard.", false);
-                else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
+                else MainScreen.text("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.armorSlot.equipment.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.", false);
             }
             //MEGALIBIDO
             else {
