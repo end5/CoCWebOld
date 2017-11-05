@@ -45,7 +45,6 @@ export default class BreastRow implements SerializeInterface {
 
     }
 
-    serialKey: string = "BreastRow";
     serialize(): string {
         return JSON.stringify({
             "breasts": this.breasts,

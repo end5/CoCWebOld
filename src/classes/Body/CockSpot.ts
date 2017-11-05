@@ -217,7 +217,6 @@ export default class CockSpot implements SerializeInterface {
         return false;
     }
 
-    serialKey: string = "CockSpot";
     serialize(): string {
         let saveObject: object;
         saveObject["length"] = this._cocks.length;

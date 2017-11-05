@@ -30,20 +30,20 @@ export default class UpperBody implements SerializeInterface {
     serialKey: string = "UpperBody";
     serialize(): string {
         let saveObject: object = {};
-        saveObject[this.head.serialKey] = this.head.serialize();
+        saveObject["head"] = this.head.serialize();
         saveObject["Gills"] = this.gills;
         saveObject["ArmType"] = this.armType;
-        saveObject[this.chest.serialKey] = this.chest.serialize();
+        saveObject["chest"] = this.chest.serialize();
         saveObject["WingType"] = this.wingType;
         saveObject["WingDesc"] = this.wingDesc;
 
         return JSON.stringify(saveObject);
     }
     deserialize(saveObject: object) {
-        this.head.deserialize(saveObject[this.head.serialKey]);
+        this.head.deserialize(saveObject["head"]);
         this.gills = saveObject["Gills"];
         this.armType = saveObject["ArmType"];
-        this.chest.deserialize(saveObject[this.chest.serialKey]);
+        this.chest.deserialize(saveObject["chest"]);
         this.wingType = saveObject["WingType"];
         this.wingDesc = saveObject["WingDesc"];
     }

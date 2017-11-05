@@ -37,16 +37,16 @@ export default abstract class Character extends Creature implements UpdateInterf
     serialize(): string {
         let saveObject: object = {};
         saveObject["charType"] = this.charType;
-        saveObject[this.inventory.serialKey] = this.inventory.serialize();
-		saveObject[this.desc.serialKey] = this.desc.serialize();
+        saveObject["inventory"] = this.inventory.serialize();
+		saveObject["desc"] = this.desc.serialize();
 		saveObject[super.serialKey] = super.serialize();
         return JSON.stringify(saveObject);
     }
 
     deserialize(saveObject: object) {
         this.charType = saveObject["charType"];
-        this.inventory.deserialize(saveObject[this.inventory.serialKey]);
-        this.desc.deserialize(saveObject[this.desc.serialKey]);
+        this.inventory.deserialize(saveObject["inventory"]);
+        this.desc.deserialize(saveObject["desc"]);
         super.deserialize(saveObject[super.serialKey]);
     }
 

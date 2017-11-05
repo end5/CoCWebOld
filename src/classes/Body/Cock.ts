@@ -133,7 +133,6 @@ export default class Cock implements SerializeInterface {
         }
     }
 
-    serialKey: string = "Cock";
     serialize(): string {
         return JSON.stringify({
             "_cockLength": this._cockLength,

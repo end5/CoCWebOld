@@ -373,12 +373,12 @@ export default class Creature implements SerializeInterface {
         saveObject["cumMultiplier"] = this.cumMultiplier;
         saveObject["hoursSinceCum"] = this.hoursSinceCum;
 
-        saveObject[this.upperBody.serialKey] = this.upperBody.serialize();
-        saveObject[this.lowerBody.serialKey] = this.lowerBody.serialize();
+        saveObject["upperBody"] = this.upperBody.serialize();
+        saveObject["lowerBody"] = this.lowerBody.serialize();
 
-        saveObject[this.baseStats.serialKey] = this.baseStats.serialize();
-        saveObject[this.statusAffects.serialKey] = this.statusAffects.serialize();
-        saveObject[this.perks.serialKey] = this.perks.serialize();
+        saveObject["baseStats"] = this.baseStats.serialize();
+        saveObject["statusAffects"] = this.statusAffects.serialize();
+        saveObject["perks"] = this.perks.serialize();
         
         return JSON.stringify(saveObject);
     }
@@ -399,12 +399,12 @@ export default class Creature implements SerializeInterface {
         this.cumMultiplier = saveObject["cumMultiplier"];
         this.hoursSinceCum = saveObject["hoursSinceCum"];
 
-        this.upperBody.deserialize(saveObject[this.upperBody.serialKey]);
-        this.lowerBody.deserialize(saveObject[this.lowerBody.serialKey]);
+        this.upperBody.deserialize(saveObject["upperBody"]);
+        this.lowerBody.deserialize(saveObject["lowerBody"]);
 
-        this.baseStats.deserialize(saveObject[this.baseStats.serialKey]);
-        this.statusAffects.deserialize(saveObject[this.statusAffects.serialKey]);
-        this.perks.deserialize(saveObject[this.perks.serialKey]);
+        this.baseStats.deserialize(saveObject["baseStats"]);
+        this.statusAffects.deserialize(saveObject["statusAffects"]);
+        this.perks.deserialize(saveObject["perks"]);
         
         this.stats = new CreatureStatsWrapper(this, this.baseStats);
     }

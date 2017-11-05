@@ -35,7 +35,6 @@ export default class Butt implements SerializeInterface {
         this.buttRating = ButtRating.BUTTLESS;
     }
 
-    serialKey: string = "Butt";
     serialize(): string {
         return JSON.stringify({
             "analWetness": this.analWetness,

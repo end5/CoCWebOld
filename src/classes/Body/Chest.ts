@@ -208,7 +208,6 @@ export default class Chest implements SerializeInterface {
         return false;
     }
 
-    serialKey: string = "Chest";
     serialize(): string {
         let saveObject: object;
         saveObject["length"] = this.breastRows.length;

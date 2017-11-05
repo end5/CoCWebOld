@@ -68,7 +68,7 @@ export default class Head implements SerializeInterface {
         saveObject["hornType"] = this.hornType;
         saveObject["horns"] = this.horns;
         saveObject["antennae"] = this.antennae;
-        saveObject[this.face.serialKey] = this.face.serialize();
+        saveObject["face"] = this.face.serialize();
         return JSON.stringify(saveObject);
     }
     deserialize(saveObject: object) {
@@ -83,7 +83,7 @@ export default class Head implements SerializeInterface {
         this.hornType = saveObject["hornType"];
         this.horns = saveObject["horns"];
         this.antennae = saveObject["antennae"];
-        this.face.deserialize(saveObject[this.face.serialKey]);
+        this.face.deserialize(saveObject["face"]);
     }
 
 }

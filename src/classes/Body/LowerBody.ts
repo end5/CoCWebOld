@@ -130,12 +130,12 @@ export default class LowerBody implements SerializeInterface {
         saveObject["tailType"] = this.tailType;
         saveObject["tailVenom"] = this.tailVenom;
         saveObject["tailRecharge"] = this.tailRecharge;
-        saveObject[this._cocks.serialKey] = this._cocks.serialize();
+        saveObject["_cocks"] = this._cocks.serialize();
         saveObject["balls"] = this.balls;
         saveObject["ballSize"] = this.ballSize;
-        saveObject[this._vaginas.serialKey] = this._vaginas.serialize();
-        saveObject[this.butt.serialKey] = this.butt.serialize();
-        saveObject[this._ovipositor.serialKey] = this._ovipositor.serialize();
+        saveObject["_vaginas"] = this._vaginas.serialize();
+        saveObject["butt"] = this.butt.serialize();
+        saveObject["_ovipositor"] = this._ovipositor.serialize();
         saveObject["_hasOvipositor"] = this._hasOvipositor;
 
         return JSON.stringify(saveObject);
@@ -146,12 +146,12 @@ export default class LowerBody implements SerializeInterface {
         this.tailType = saveObject["tailType"];
         this.tailVenom = saveObject["tailVenom"];
         this.tailRecharge = saveObject["tailRecharge"];
-        this._cocks.deserialize(saveObject[this._cocks.serialKey]);
+        this._cocks.deserialize(saveObject["_cocks"]);
         this.balls = saveObject["balls"];
         this.ballSize = saveObject["ballSize"];
-        this._vaginas.deserialize(saveObject[this._vaginas.serialKey]);
-        this.butt.deserialize(saveObject[this.butt.serialKey]);
-        this._ovipositor.deserialize(saveObject[this._ovipositor.serialKey]);
+        this._vaginas.deserialize(saveObject["_vaginas"]);
+        this.butt.deserialize(saveObject["butt"]);
+        this._ovipositor.deserialize(saveObject["_ovipositor"]);
         this._hasOvipositor = saveObject["_hasOvipositor"];
     }
 }
