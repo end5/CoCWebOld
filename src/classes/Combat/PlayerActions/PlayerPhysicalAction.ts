@@ -1,18 +1,19 @@
-import SpecialAction from './SpecialAction';
-import Creature from '../../Body/Creature';
+import PlayerCombatAction from './PlayerCombatAction';
 import Character from '../../Character/Character';
 import Player from '../../Player';
+import PhysicalAction from '../PhysicalAction';
 
-export abstract class PhysicalAction implements SpecialAction {
+export default abstract class PlayerPhysicalAction implements PlayerCombatAction, PhysicalAction {
     abstract canUse(player: Player, enemy: Character): boolean;
     abstract reasonCannotUse(): string;
     abstract use(player: Player, enemy: Character);
     
-    public readonly baseCost: number;
-    public physicalCost(creature: Creature): number {
+    abstract readonly baseCost: number;
+    
+    public physicalCost(character: Character): number {
         let mod: number = this.baseCost;
         let costPercent: number = 100;
-        if (creature.perks.has("IronMan")) 
+        if (character.perks.has("IronMan")) 
             costPercent -= 50;
         mod *= costPercent / 100;
         return mod;

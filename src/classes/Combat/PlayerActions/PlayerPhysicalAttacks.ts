@@ -1,5 +1,5 @@
-import { PhysicalAction } from './PhysicalAction';
-import SpecialAction from './SpecialAction';
+import PlayerCombatAction from './PlayerCombatAction';
+import PlayerPhysicalAction from './PlayerPhysicalAction';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
@@ -39,7 +39,7 @@ import Utils from '../../Utilities/Utils';
 	tailWhipAttack
 */
 
-export class AnemoneSting implements SpecialAction {
+export class AnemoneSting implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return true;
     }
@@ -98,7 +98,7 @@ export class AnemoneSting implements SpecialAction {
     }
 }
 
-export class Bite extends PhysicalAction {
+export class Bite extends PlayerPhysicalAction {
     public baseCost: number = 25;
     private reason: string;
     public canUse(player: Player, monster: Character): boolean {
@@ -169,7 +169,7 @@ export class Bite extends PhysicalAction {
     }
 }
 
-export class NagaBiteAttack extends PhysicalAction {
+export class NagaBiteAttack extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -214,7 +214,7 @@ export class NagaBiteAttack extends PhysicalAction {
     }
 }
 
-export class SpiderBiteAttack extends PhysicalAction {
+export class SpiderBiteAttack extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -265,7 +265,7 @@ export class SpiderBiteAttack extends PhysicalAction {
     }
 }
 
-export class FireBow extends PhysicalAction {
+export class FireBow extends PlayerPhysicalAction {
     public readonly baseCost: number = 25;
     private reason: string;
     public canUse(player: Player, monster: Character): boolean {
@@ -382,7 +382,7 @@ export class FireBow extends PhysicalAction {
     }
 }
 
-export class Kick extends PhysicalAction {
+export class Kick extends PlayerPhysicalAction {
     public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -506,7 +506,7 @@ export class Kick extends PhysicalAction {
     }
 }
 
-export class Gore extends PhysicalAction {
+export class Gore extends PlayerPhysicalAction {
     public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -602,7 +602,7 @@ export class Gore extends PhysicalAction {
     }
 }
 
-export class Kiss implements SpecialAction {
+export class Kiss implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return !player.statusAffects.has("Blind");
     }
@@ -705,7 +705,7 @@ export class Kiss implements SpecialAction {
     }
 }
 
-export class Sting implements SpecialAction {
+export class Sting implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
     }
@@ -774,7 +774,7 @@ export class Sting implements SpecialAction {
     }
 }
 
-export class Web implements SpecialAction {
+export class Web implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
     }
@@ -819,7 +819,7 @@ export class Web implements SpecialAction {
     }
 }
 
-export class TailWhip implements SpecialAction {
+export class TailWhip implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return true;
     }

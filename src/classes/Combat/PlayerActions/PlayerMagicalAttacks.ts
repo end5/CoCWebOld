@@ -1,5 +1,5 @@
-import SpecialAction from './SpecialAction';
-import SpellAction from './SpellAction';
+import PlayerCombatAction from './PlayerCombatAction';
+import PlayerSpellAction from './PlayerSpellAction';
 import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import MainScreen from '../../display/MainScreen';
@@ -33,7 +33,7 @@ import Utils from '../../Utilities/Utils';
     immolationSpell
 */
 
-export class Berserk implements SpecialAction {
+export class Berserk implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return !player.statusAffects.has("Berzerking");
     }
@@ -49,7 +49,7 @@ export class Berserk implements SpecialAction {
     }
 }
 
-export class DragonBreath extends SpellAction {
+export class DragonBreath extends PlayerSpellAction {
     private reason: string;
     public readonly baseCost: number = 20;
     public canUse(player: Player): boolean {
@@ -146,7 +146,7 @@ export class DragonBreath extends SpellAction {
     }
 }
 
-export class Fireball implements SpecialAction {
+export class Fireball implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return player.stats.fatigue + 20 <= 100;
     }
@@ -237,7 +237,7 @@ export class Fireball implements SpecialAction {
     }
 }
 
-export class Hellfire extends SpellAction {
+export class Hellfire extends PlayerSpellAction {
     public readonly baseCost: number = 20;
     public reasonCannotUse(): string {
         return "You are too tired to breathe fire.\n";
@@ -312,7 +312,7 @@ export class Hellfire extends SpellAction {
     }
 }
 
-export class Possess implements SpecialAction {
+export class Possess implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return true;
     }
@@ -350,7 +350,7 @@ export class Possess implements SpecialAction {
     }
 }
 
-export class SuperWhisperAttack extends SpellAction {
+export class SuperWhisperAttack extends PlayerSpellAction {
     public readonly baseCost: number = 10;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -408,7 +408,7 @@ export class SuperWhisperAttack extends SpellAction {
     }
 }
 
-export class CorruptedFoxFire extends SpellAction {
+export class CorruptedFoxFire extends PlayerSpellAction {
     public readonly baseCost: number = 35;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -450,7 +450,7 @@ export class CorruptedFoxFire extends SpellAction {
     }
 }
 
-export class KitsuneTerror extends SpellAction {
+export class KitsuneTerror extends PlayerSpellAction {
     public readonly baseCost: number = 20;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -497,7 +497,7 @@ export class KitsuneTerror extends SpellAction {
     }
 }
 
-export class FoxFire extends SpellAction {
+export class FoxFire extends PlayerSpellAction {
     public readonly baseCost: number = 35;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -541,7 +541,7 @@ export class FoxFire extends SpellAction {
     }
 }
 
-export class KitsuneIllusion extends SpellAction {
+export class KitsuneIllusion extends PlayerSpellAction {
     public readonly baseCost: number = 25;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -587,7 +587,7 @@ export class KitsuneIllusion extends SpellAction {
     }
 }
 
-export class ImmolationSpell implements SpecialAction {
+export class ImmolationSpell implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return player.statusAffects.has("ImmolationSpell");
     }
@@ -607,7 +607,7 @@ export class ImmolationSpell implements SpecialAction {
     }
 }
 
-export class ShieldingSpell implements SpecialAction {
+export class ShieldingSpell implements PlayerCombatAction {
     public canUse(player: Player): boolean {
         return player.statusAffects.has("ShieldingSpell");
     }

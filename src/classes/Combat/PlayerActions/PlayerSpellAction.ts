@@ -1,8 +1,9 @@
-import SpecialAction from './SpecialAction';
+import PlayerCombatAction from './PlayerCombatAction';
 import Character from '../../Character/Character';
 import Player from '../../Player';
+import SpellAction from '../SpellAction';
 
-export default abstract class SpellAction implements SpecialAction {
+export default abstract class PlayerSpellAction implements PlayerCombatAction, SpellAction {
     public canUse(player: Player): boolean {
         return player.perks.has("BloodMage") || player.stats.fatigue + this.spellCost(player) <= 100;
     }

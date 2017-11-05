@@ -1,11 +1,11 @@
-import SpellAction from './SpellAction';
+import PlayerSpellAction from './PlayerSpellAction';
 import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Perk from '../../Effects/Perk';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 
-export default abstract class LearnedSpellAction extends SpellAction {
+export default abstract class LearnedSpellAction extends PlayerSpellAction {
     abstract castSpell(player: Player, enemy: Character);
 
     public use(player: Player, enemy: Character) {
