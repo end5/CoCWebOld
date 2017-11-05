@@ -7,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default abstract class Weapon extends EquipableItem {
     public readonly verb: string;
-    protected readonly attack: number;
+    public readonly attack: number;
     public readonly perk: string;
     public readonly displayname: string;
 
