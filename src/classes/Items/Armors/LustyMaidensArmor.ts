@@ -66,29 +66,32 @@ export default class LustyMaidensArmor extends Armor {
         return true;
     }
 
-    public equip(player: Player): Armor {
-        // new perks for stats checks
-        if (!player.perks.has("lusty maiden's armor"))
-            player.perks.add(new Perk("lusty maiden's armor", 0, 0, 0, 0));
+    use(player: Player) { }
+    
+    equipText(): void {}
+    unequipText(): void {}
 
-        while (player.perks.has("SluttySeduction"))
-            player.perks.remove("SluttySeduction");
-        if (player.lowerBody.vaginaSpot.NotVirgin.length > 0) {
-            player.perks.add(new Perk("SluttySeduction", 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
+    onEquip(character: Character): void {
+        // new perks for stats checks
+        if (!character.perks.has("lusty maiden's armor"))
+            character.perks.add(new Perk("lusty maiden's armor", 0, 0, 0, 0));
+
+        while (character.perks.has("SluttySeduction"))
+            character.perks.remove("SluttySeduction");
+        if (character.lowerBody.vaginaSpot.NotVirgin.length > 0) {
+            character.perks.add(new Perk("SluttySeduction", 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
         }
         else {
-            player.perks.add(new Perk("SluttySeduction", 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
+            character.perks.add(new Perk("SluttySeduction", 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
         }
-        return super.equip(player);
     }
 
-    public unequip(player: Player): Armor {
-        if (player.perks.has("lusty maiden's armor"))
-            player.perks.remove("lusty maiden's armor");
-        while (player.perks.has("SluttySeduction")) player.perks.remove("SluttySeduction");
-        return super.unequip(player);
+    onUnequip(character: Character): void {
+        if (character.perks.has("lusty maiden's armor"))
+            character.perks.remove("lusty maiden's armor");
+        while (character.perks.has("SluttySeduction")) character.perks.remove("SluttySeduction");
     }
-
+    
     //"Chaste" Paizuri - works for most foes with penises.
     public lustyMaidenPaizuri(player: Player = null, monster: Character = null): void {
         if (player == null) player = player;

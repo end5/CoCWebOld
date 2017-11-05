@@ -12,6 +12,7 @@ export default class SluttySwimwear extends ArmorWithPerk {
         super("S.Swmwr", new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", new Perk("SluttySeduction", 6, 0, 0, 0), "", true);
     }
 
+    use(player: Player) { }
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally
         player.stats.lust += 5;
         if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1)
@@ -45,5 +46,11 @@ export default class SluttySwimwear extends ArmorWithPerk {
         }
         MainScreen.text("\n\n");
     }
+    
+    equipText(): void { }
+    unequipText(): void { }
+
+    onEquip(): void { }
+    onUnequip(): void { }
 }
 

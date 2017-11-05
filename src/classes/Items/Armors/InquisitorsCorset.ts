@@ -1,4 +1,5 @@
 import Armor from './Armor';
+import Character from '../../Character/Character';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import MainScreen from '../../display/MainScreen';
@@ -10,6 +11,8 @@ export default class InquisitorsCorset extends Armor {
     public constructor() {
         super("I.Corst", new ItemDesc("I.Corst", "an inquisitor's corset", "This sexualized and feminine red and gold ensemble carries with it the hopes of a shamed sorcerer.  Wearing it will cause spells to tax your health instead of exhausting you."), "inquisitor's corset", 4, 2000, "Light");
     }
+
+    use(player: Player) { }
 
     public useText(player: Player): void {
         MainScreen.text("You remove the clothing you received from the underground chamber in the swamp.  The sexual nature of the clothing excites you a bit, as does the knowledge that it will be functional in combat.  You quickly disrobe, eager to try it on.\n\n");
@@ -33,22 +36,23 @@ export default class InquisitorsCorset extends Armor {
         player.stats.lust += 5;
     }
 
-    public equip(player: Player): Armor {
-        while (player.perks.has("BloodMage"))
-            player.perks.remove("BloodMage");
-        while (player.perks.has("SluttySeduction"))
-            player.perks.remove("SluttySeduction");
-        player.perks.add(new Perk("BloodMage", 0, 0, 0, 0));
-        player.perks.add(new Perk("SluttySeduction", 10, 0, 0, 0));
-        return super.equip(player);
+    equipText(): void { }
+    unequipText(): void { }
+
+    onEquip(character: Character): void {
+        while (character.perks.has("BloodMage"))
+            character.perks.remove("BloodMage");
+        while (character.perks.has("SluttySeduction"))
+            character.perks.remove("SluttySeduction");
+        character.perks.add(new Perk("BloodMage", 0, 0, 0, 0));
+        character.perks.add(new Perk("SluttySeduction", 10, 0, 0, 0));
     }
 
-    public unequip(player: Player): Armor {
-        while (player.perks.has("BloodMage"))
-            player.perks.remove("BloodMage");
-        while (player.perks.has("SluttySeduction"))
-            player.perks.remove("SluttySeduction");
-        return super.unequip(player);
+    onUnequip(character: Character): void {
+        while (character.perks.has("BloodMage"))
+            character.perks.remove("BloodMage");
+        while (character.perks.has("SluttySeduction"))
+            character.perks.remove("SluttySeduction");
     }
 }
 

@@ -1,4 +1,5 @@
 import Armor from './Armor';
+import Character from '../../Character/Character';
 import GenderDescriptor from '../../Descriptors/GenderDescriptor';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
@@ -11,6 +12,7 @@ export default class SeductiveArmor extends Armor {
         super("SeductA", new ItemDesc("SeductA", "a set of scandalously seductive armor", "A complete suit of scalemail shaped to hug tightly against every curve, it has a solid steel chest-plate with obscenely large nipples molded into it.  The armor does nothing to cover the backside, exposing the wearer's cheeks to the world."), "scandalously seductive armor", 0, 1);
     }
 
+    use(player: Player) { }
     public useText(player: Player): void {
         if (!Game.sceneManager.ceraphFollowerScene.ceraphIsFollower()) {
             MainScreen.text("After struggling to get it on, you feel a sudden shift in your scandalous new armor.  To your horror, it begins folding into itself, revealing more and more of your " + player.skinDesc + " and the comfortable underclothes you had on underneath it.  The transforming armor gradually covers less and less of you until it's little more than a pair of huge nipple-coverings and a silver chain.  A loud KA-CHUNK startles you, and then you're screaming as you feel something stabbing through your nipples.  Goosebumps cover your flesh as you twist in unexpected agony.\n\n");
@@ -31,9 +33,12 @@ export default class SeductiveArmor extends Armor {
         }
     }
 
-    public equip(player: Player): Armor {
-        super.equip(player);
-        return Game.libraries.armor.get("COMFORTABLE_UNDERCLOTHES"); //After seductive armor magic the player is left in their underclothes
+    equipText(): void { }
+    unequipText(): void { }
+
+    onEquip(character: Character): void {
+        //return Game.libraries.armor.get("COMFORTABLE_UNDERCLOTHES"); //After seductive armor magic the player is left in their underclothes
     }
+    onUnequip(character: Character): void { }
 }
 
