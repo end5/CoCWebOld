@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import ItemDesc from '../ItemDesc';
@@ -15,4 +16,9 @@ export default class HugeWarhammer extends Weapon {
         return false;
     }
 
+    equip(character: Character): void {}
+    unequip(character: Character): void {}
+    equipText(): void {}
+    unequipText(): void {}
+    use(player: Player) {}
 }

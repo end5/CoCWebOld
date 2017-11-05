@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import Player from '../../Player';
@@ -20,4 +21,9 @@ export default class BeautifulSword extends Weapon {
         return false;
     }
 
+    equip(character: Character): void {}
+    unequip(character: Character): void {}
+    equipText(): void {}
+    unequipText(): void {}
+    use(player: Player) {}
 }

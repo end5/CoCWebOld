@@ -1,5 +1,7 @@
 import Weapon from './Weapon';
+import Character from '../../Character/Character';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../../Player';
 import ItemDesc from '../ItemDesc';
 
 export default class RaphaelsRapier extends Weapon {
@@ -10,5 +12,11 @@ export default class RaphaelsRapier extends Weapon {
     public get attack(): number {
         return 8 + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] * 2;
     }
+    
+    equip(character: Character): void {}
+    unequip(character: Character): void {}
+    equipText(): void {}
+    unequipText(): void {}
+    use(player: Player) {}
 }
 

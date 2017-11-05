@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
@@ -22,5 +23,11 @@ export default class DragonShellShield extends Weapon {
         }
         Flags.list[FlagEnum.TIMES_EQUIPPED_EMBER_SHIELD]++;
     }
+    
+    equip(character: Character): void {}
+    unequip(character: Character): void {}
+    equipText(): void {}
+    unequipText(): void {}
+    use(player: Player) {}
 }
 

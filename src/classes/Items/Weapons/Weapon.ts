@@ -1,11 +1,13 @@
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
+import EquipableItem from '../EquipableItem';
 import Item, { ItemType } from '../Item';
 import ItemDesc from '../ItemDesc';
 
-export default class Weapon extends Item {
+export default abstract class Weapon extends EquipableItem {
     public readonly verb: string;
-    public readonly attack: number;
+    protected readonly attack: number;
     public readonly perk: string;
     public readonly displayname: string;
 
@@ -21,21 +23,17 @@ export default class Weapon extends Item {
         return true;
     }
 
-    public use(player: Player) {
-    }
-
     public useText(player: Player) {
         MainScreen.text("You equip " + this.desc.longName + ".  ");
     }
-
-    public equip(player: Player): Weapon { //This item is being equipped by the player. Add any perks, etc. - This should only handle mechanics, not text output
-        return this;
-    }
-
-    public unequip(player: Player): Weapon { //This item is being removed by the player. Remove any perks, etc. - This should only handle mechanics, not text output
-        return this;
-    }
-
-    public removeText() { } //Produces any text seen when removing the armor normally
 }
 
+export class GenericWeapon extends Weapon {
+    use(player: Player) { }
+
+    equip(character: Character): void { }
+    unequip(character: Character): void { }
+    
+    equipText(): void { }
+    unequipText(): void { }
+}

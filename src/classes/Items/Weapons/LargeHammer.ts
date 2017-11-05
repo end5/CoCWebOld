@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import Character from '../../Character/Character';
 import MainScreen from '../../display/MainScreen';
 import Player from '../../Player';
 import ItemDesc from '../ItemDesc';
@@ -14,4 +15,10 @@ export default class LargeHammer extends Weapon {
         MainScreen.text("This hammer is too large for you to wield effectively.  ");
         return false;
     }
+    
+    equip(character: Character): void { }
+    unequip(character: Character): void { }
+    equipText(): void { }
+    unequipText(): void { }
+    use(player: Player) { }
 }
