@@ -4,6 +4,7 @@ import Player from '../../Player';
 import PhysicalAction from '../PhysicalAction';
 
 export default abstract class PlayerPhysicalAction implements PlayerCombatAction, PhysicalAction {
+    abstract isPossible(player: Player): boolean;
     abstract canUse(player: Player, enemy: Character): boolean;
     abstract reasonCannotUse(): string;
     abstract use(player: Player, enemy: Character);

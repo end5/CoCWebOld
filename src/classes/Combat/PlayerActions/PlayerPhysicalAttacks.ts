@@ -1,5 +1,7 @@
 import PlayerCombatAction from './PlayerCombatAction';
 import PlayerPhysicalAction from './PlayerPhysicalAction';
+import { FaceType } from '../../Body/Face';
+import { HornType } from '../../Body/Head';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
@@ -40,6 +42,10 @@ import Utils from '../../Utilities/Utils';
 */
 
 export class AnemoneSting implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.upperBody.head.hairType == 4;
+    }
+
     public canUse(player: Player): boolean {
         return true;
     }
@@ -62,13 +68,13 @@ export class AnemoneSting implements PlayerCombatAction {
         prob += hairLength;
         if (prob <= Utils.rand(101)) {
             //-miss a sting
-            if (monster.desc.plural) MainScreen.text("You rush " + monster.desc.a+ monster.desc.short + ", whipping your hair around to catch them with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.", false);
+            if (monster.desc.plural) MainScreen.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch them with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.", false);
             else
-                MainScreen.text("You rush " + monster.desc.a+ monster.desc.short + ", whipping your hair around to catch it with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.", false);
+                MainScreen.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch it with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.", false);
         }
         //Success!
         else {
-            MainScreen.text("You rush " + monster.desc.a+ monster.desc.short + ", whipping your hair around like a genie", false);
+            MainScreen.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around like a genie", false);
             MainScreen.text(", and manage to land a few swipes with your tentacles.  ", false);
             if (monster.desc.plural) MainScreen.text("As the venom infiltrates " + monster.desc.possessivePronoun + " bodies, " + monster.desc.subjectivePronoun + " twitch and begin to move more slowly, hampered half by paralysis and half by arousal.", false);
             else
@@ -99,6 +105,10 @@ export class AnemoneSting implements PlayerCombatAction {
 }
 
 export class Bite extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.upperBody.head.face.faceType == FaceType.SHARK_TEETH;
+    }
+
     public baseCost: number = 25;
     private reason: string;
     public canUse(player: Player, monster: Character): boolean {
@@ -151,25 +161,29 @@ export class Bite extends PlayerPhysicalAction {
 
         if (damage <= 0) {
             damage = 0;
-            MainScreen.text("Your bite is deflected or blocked by " + monster.desc.a+ monster.desc.short + ".", false);
+            MainScreen.text("Your bite is deflected or blocked by " + monster.desc.a + monster.desc.short + ".", false);
         }
         if (damage > 0 && damage < 10) {
-            MainScreen.text("You bite doesn't do much damage to " + monster.desc.a+ monster.desc.short + "! (" + damage + ")", false);
+            MainScreen.text("You bite doesn't do much damage to " + monster.desc.a + monster.desc.short + "! (" + damage + ")", false);
         }
         if (damage >= 10 && damage < 20) {
-            MainScreen.text("You seriously wound " + monster.desc.a+ monster.desc.short + " with your bite! (" + damage + ")", false);
+            MainScreen.text("You seriously wound " + monster.desc.a + monster.desc.short + " with your bite! (" + damage + ")", false);
         }
         if (damage >= 20 && damage < 30) {
-            MainScreen.text("Your bite staggers " + monster.desc.a+ monster.desc.short + " with its force. (" + damage + ")", false);
+            MainScreen.text("Your bite staggers " + monster.desc.a + monster.desc.short + " with its force. (" + damage + ")", false);
         }
         if (damage >= 30) {
-            MainScreen.text("Your powerful bite <b>mutilates</b> " + monster.desc.a+ monster.desc.short + "! (" + damage + ")", false);
+            MainScreen.text("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")", false);
         }
         MainScreen.text("\n\n", false);
     }
 }
 
 export class NagaBiteAttack extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.upperBody.head.face.faceType == FaceType.SNAKE_FANGS;
+    }
+
     public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -196,7 +210,7 @@ export class NagaBiteAttack extends PlayerPhysicalAction {
             //(if monster = demons)
             if (monster.desc.short == "demons") MainScreen.text("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.", false);
             //(Otherwise) 
-            else MainScreen.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a+ monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.subjectivePronoun + " manages to react.", false);
+            else MainScreen.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.subjectivePronoun + " manages to react.", false);
             //The following is how the enemy reacts over time to poison. It is displayed after the description paragraph,instead of lust
             monster.stats.str -= 5 + Utils.rand(5);
             monster.stats.spe -= 5 + Utils.rand(5);
@@ -208,13 +222,17 @@ export class NagaBiteAttack extends PlayerPhysicalAction {
             else monster.statusAffects.add(new StatusAffect("NagaVenom", 1, 0, 0, 0));
         }
         else {
-            MainScreen.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a+ monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.", false);
+            MainScreen.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.", false);
         }
         MainScreen.text("\n\n", false);
     }
 }
 
 export class SpiderBiteAttack extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.upperBody.head.face.faceType == FaceType.SPIDER_FANGS;
+    }
+
     public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -243,15 +261,15 @@ export class SpiderBiteAttack extends PlayerPhysicalAction {
             //(Otherwise) 
             else {
                 if (!monster.desc.plural)
-                    MainScreen.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a+ monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a+ monster.desc.subjectivePronoun + " manages to react.", false);
+                    MainScreen.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manages to react.", false);
                 else
-                MainScreen.text("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.desc.a+ monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a+ monster.desc.subjectivePronoun + " manage to react.", false);
+                    MainScreen.text("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manage to react.", false);
             }
             //React
             if (monster.stats.lustVuln == 0) MainScreen.text("  Your aphrodisiac toxin has no effect!", false);
             else {
                 if (monster.desc.plural)
-                MainScreen.text("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.", false);
+                    MainScreen.text("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.", false);
                 else
                     MainScreen.text("  " + GenderDescriptor.mf(monster, "He", "She") + " flushes hotly and " + GenderDescriptor.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."), false);
                 monster.stats.lust += 25 * monster.stats.lustVuln;
@@ -259,13 +277,17 @@ export class SpiderBiteAttack extends PlayerPhysicalAction {
             }
         }
         else {
-            MainScreen.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a+ monster.desc.short + " manages to counter your lunge, pushing you back out of range.", false);
+            MainScreen.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, pushing you back out of range.", false);
         }
         MainScreen.text("\n\n", false);
     }
 }
 
 export class FireBow extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.hasKeyItem("Bow");
+    }
+
     public readonly baseCost: number = 25;
     private reason: string;
     public canUse(player: Player, monster: Character): boolean {
@@ -304,16 +326,16 @@ export class FireBow extends PlayerPhysicalAction {
             MainScreen.text("Fumbling a bit, you nock an arrow and fire!\n");
         }
         else if (player.statusAffects.get("Kelt").value1 < 50) {
-            MainScreen.text("You pull an arrow and fire it at " + monster.desc.a+ monster.desc.short + "!\n");
+            MainScreen.text("You pull an arrow and fire it at " + monster.desc.a + monster.desc.short + "!\n");
         }
         else if (player.statusAffects.get("Kelt").value1 < 80) {
             MainScreen.text("With one smooth motion you draw, nock, and fire your deadly arrow at your opponent!\n");
         }
         else if (player.statusAffects.get("Kelt").value1 <= 99) {
-            MainScreen.text("In the blink of an eye you draw and fire your bow directly at " + monster.desc.a+ monster.desc.short + ".\n");
+            MainScreen.text("In the blink of an eye you draw and fire your bow directly at " + monster.desc.a + monster.desc.short + ".\n");
         }
         else {
-            MainScreen.text("You casually fire an arrow at " + monster.desc.a+ monster.desc.short + " with supreme skill.\n");
+            MainScreen.text("You casually fire an arrow at " + monster.desc.a + monster.desc.short + " with supreme skill.\n");
             //Keep it from going over 100
             player.statusAffects.get("Kelt").value1 = 100;
         }
@@ -358,7 +380,7 @@ export class FireBow extends PlayerPhysicalAction {
             if (monster.stats.int > 0)
                 MainScreen.text(monster.desc.capitalA + monster.desc.short + " shrugs as the arrow bounces off them harmlessly.\n\n");
             else
-                MainScreen.text("The arrow bounces harmlessly off " + monster.desc.a+ monster.desc.short + ".\n\n");
+                MainScreen.text("The arrow bounces harmlessly off " + monster.desc.a + monster.desc.short + ".\n\n");
             return;
         }
         if (monster.desc.short == "pod")
@@ -382,7 +404,65 @@ export class FireBow extends PlayerPhysicalAction {
     }
 }
 
+export class Constrict extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.lowerBody.type == LowerBodyType.NAGA;
+    }
+
+    public readonly baseCost: number = 10;
+    private reason: string = "";
+    public canUse(player: Player, monster: Character): boolean {
+        if (player.stats.fatigue + this.physicalCost(player) <= 100) {
+            this.reason = "You just don't have the energy to wrap yourself so tightly around someone right now...";
+            return false;
+        }
+        //Cannot be used on plural enemies
+        if (monster.desc.plural) {
+            this.reason = "You launch yourself at " + monster.desc.a + monster.desc.short + ", but with multiple enemies, wrapping one up would leave you completely open to attack.  You hastily slither backwards before you expose yourself to danger.";
+            return false;
+        }
+        if (monster.desc.short == "pod") {
+            this.reason = "You can't constrict something you're trapped inside of!";
+            return false;
+        }
+        return true;
+    }
+
+    public reasonCannotUse(): string {
+        return this.reason;
+    }
+
+    public use(player: Player, monster: Character) {
+        //Amily!
+        if (monster.statusAffects.has("Concentration")) {
+            MainScreen.text("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+            return;
+        }
+        //WRAP IT UPPP
+        if (Utils.rand(player.stats.spe + 40) > monster.stats.spe) {
+            if (monster.desc.short == "demons") {
+                MainScreen.text("You look at the crowd for a moment, wondering which of their number you should wrap up. Your glance lands upon a random demon amongst the crowd. You quickly slither through the demon crowd as it closes in around you and launch yourself towards your chosen prey. You grab him out of the sea of monsters, wrap your long snake tail around his form and squeeze tightly, grinning as you hear his roars of pleasure turn to cries of distress.", false);
+            }
+            //(Otherwise)
+            else {
+                MainScreen.text("You launch yourself at " + monster.desc.a + monster.desc.short + " and wrap yourself around " + monster.desc.objectivePronoun + ". You squeeze " + monster.desc.objectivePronoun + " tightly and hear " + monster.desc.objectivePronoun + " cry out in pain.", false);
+            }
+            monster.statusAffects.add(new StatusAffect("Constricted", 1 + Utils.rand(4), 0, 0, 0));
+        }
+        //Failure
+        else {
+            //Failure (-10 HPs) -
+            MainScreen.text("You launch yourself at your opponent and attempt to wrap yourself around " + monster.desc.objectivePronoun + ". Before you can even get close enough, " + monster.desc.a + monster.desc.short + " jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back.", false);
+            player.combat.loseHP(5, null);
+        }
+    }
+}
+
 export class Kick extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.lowerBody.isTaur() || player.lowerBody.type == LowerBodyType.HOOFED || player.lowerBody.type == LowerBodyType.BUNNY || player.lowerBody.type == LowerBodyType.KANGAROO;
+    }
+
     public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -479,7 +559,7 @@ export class Kick extends PlayerPhysicalAction {
         damage *= player.physicalAttackMod();
         //(None yet!)
         if (damage > 0) damage = monster.combat.loseHP(damage, player);
-        
+
         //BLOCKED
         if (damage <= 0) {
             damage = 0;
@@ -507,6 +587,10 @@ export class Kick extends PlayerPhysicalAction {
 }
 
 export class Gore extends PlayerPhysicalAction {
+    public isPossible(player: Player): boolean {
+        return player.upperBody.head.hornType == HornType.COW_MINOTAUR && player.upperBody.head.horns >= 6;
+    }
+
     public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
@@ -557,7 +641,7 @@ export class Gore extends PlayerPhysicalAction {
             if (horns > 40) horns = 40;
             //normal
             if (Utils.rand(4) > 0) {
-                MainScreen.text("You lower your head and charge, skewering " + monster.desc.a+ monster.desc.short + " on one of your bullhorns!  ");
+                MainScreen.text("You lower your head and charge, skewering " + monster.desc.a + monster.desc.short + " on one of your bullhorns!  ");
                 //As normal attack + horn length bonus
                 damage = Math.floor(player.stats.str + horns * 2 - Utils.rand(monster.stats.tou) - monster.defense());
             }
@@ -565,7 +649,7 @@ export class Gore extends PlayerPhysicalAction {
             else {
                 //doubles horn bonus damage
                 damage = Math.floor(player.stats.str + horns * 4 - Utils.rand(monster.stats.tou) - monster.defense());
-                MainScreen.text("You lower your head and charge, slamming into " + monster.desc.a+ monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
+                MainScreen.text("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
             }
             //Bonus damage for rut!
             if (player.inRut && monster.lowerBody.cockSpot.count() > 0) {
@@ -595,14 +679,36 @@ export class Gore extends PlayerPhysicalAction {
                 MainScreen.text("You lower your head and charge Vala, but she just flutters up higher, grabs hold of your horns as you close the distance, and smears her juicy, fragrant cunt against your nose.  The sensual smell and her excited moans stun you for a second, allowing her to continue to use you as a masturbation aid, but she quickly tires of such foreplay and flutters back with a wink.\n\n");
                 player.stats.lust += 5;
             }
-            else MainScreen.text("You lower your head and charge " + monster.desc.a+ monster.desc.short + ", only to be sidestepped at the last moment!");
+            else MainScreen.text("You lower your head and charge " + monster.desc.a + monster.desc.short + ", only to be sidestepped at the last moment!");
         }
         //New line before monster attack
         MainScreen.text("\n\n");
     }
 }
 
+export class Infest implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("Infested") && player.statusAffects.get("Infested").value1 == 5 && player.lowerBody.cockSpot.hasCock();
+    }
+
+    public canUse(player: Player): boolean {
+        return true;
+    }
+
+    public reasonCannotUse(): string {
+        return "";
+    }
+
+    public use(player: Player, monster: Character) {
+        this.playerInfest();
+    }
+}
+
 export class Kiss implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("LustStickApplied");
+    }
+
     public canUse(player: Player): boolean {
         return !player.statusAffects.has("Blind");
     }
@@ -616,7 +722,7 @@ export class Kiss implements PlayerCombatAction {
         switch (Utils.rand(6)) {
             case 1:
                 //Attack text 1:
-                MainScreen.text("You hop up to " + monster.desc.a+ monster.desc.short + " and attempt to plant a kiss on " + monster.desc.possessivePronoun + ".", false);
+                MainScreen.text("You hop up to " + monster.desc.a + monster.desc.short + " and attempt to plant a kiss on " + monster.desc.possessivePronoun + ".", false);
                 break;
             //Attack text 2:
             case 2:
@@ -624,19 +730,19 @@ export class Kiss implements PlayerCombatAction {
                 break;
             //Attack text 3: 
             case 3:
-                MainScreen.text("Swaying sensually, you wiggle up to " + monster.desc.a+ monster.desc.short + " and attempt to plant a nice wet kiss on " + monster.desc.objectivePronoun + ".", false);
+                MainScreen.text("Swaying sensually, you wiggle up to " + monster.desc.a + monster.desc.short + " and attempt to plant a nice wet kiss on " + monster.desc.objectivePronoun + ".", false);
                 break;
             //Attack text 4:
             case 4:
-                MainScreen.text("Lunging forward, you fly through the air at " + monster.desc.a+ monster.desc.short + " with your lips puckered and ready to smear drugs all over " + monster.desc.objectivePronoun + ".", false);
+                MainScreen.text("Lunging forward, you fly through the air at " + monster.desc.a + monster.desc.short + " with your lips puckered and ready to smear drugs all over " + monster.desc.objectivePronoun + ".", false);
                 break;
             //Attack text 5:
             case 5:
-                MainScreen.text("You lean over, your lips swollen with lust, wet with your wanting slobber as you close in on " + monster.desc.a+ monster.desc.short + ".", false);
+                MainScreen.text("You lean over, your lips swollen with lust, wet with your wanting slobber as you close in on " + monster.desc.a + monster.desc.short + ".", false);
                 break;
             //Attack text 6:
             default:
-                MainScreen.text("Pursing your drug-laced lips, you close on " + monster.desc.a+ monster.desc.short + " and try to plant a nice, wet kiss on " + monster.desc.objectivePronoun + ".", false);
+                MainScreen.text("Pursing your drug-laced lips, you close on " + monster.desc.a + monster.desc.short + " and try to plant a nice, wet kiss on " + monster.desc.objectivePronoun + ".", false);
                 break;
         }
         //Dodged!
@@ -649,21 +755,21 @@ export class Kiss implements PlayerCombatAction {
                     break;
                 //Dodge 2:
                 case 2:
-                    if (monster.desc.plural) MainScreen.text("  Unfortunately, you're too slow, and " + monster.desc.a+ monster.desc.short + " slips out of the way before you can lay a wet one on one of them.\n\n", false);
-                    else MainScreen.text("  Unfortunately, you're too slow, and " + monster.desc.a+ monster.desc.short + " slips out of the way before you can lay a wet one on " + monster.desc.objectivePronoun + ".\n\n", false);
+                    if (monster.desc.plural) MainScreen.text("  Unfortunately, you're too slow, and " + monster.desc.a + monster.desc.short + " slips out of the way before you can lay a wet one on one of them.\n\n", false);
+                    else MainScreen.text("  Unfortunately, you're too slow, and " + monster.desc.a + monster.desc.short + " slips out of the way before you can lay a wet one on " + monster.desc.objectivePronoun + ".\n\n", false);
                     break;
                 //Dodge 3:
                 default:
-                    if (monster.desc.plural) MainScreen.text("  Sadly, " + monster.desc.a+ monster.desc.short + " moves aside, denying you the chance to give one of them a smooch.\n\n", false);
-                    else MainScreen.text("  Sadly, " + monster.desc.a+ monster.desc.short + " moves aside, denying you the chance to give " + monster.desc.objectivePronoun + " a smooch.\n\n", false);
+                    if (monster.desc.plural) MainScreen.text("  Sadly, " + monster.desc.a + monster.desc.short + " moves aside, denying you the chance to give one of them a smooch.\n\n", false);
+                    else MainScreen.text("  Sadly, " + monster.desc.a + monster.desc.short + " moves aside, denying you the chance to give " + monster.desc.objectivePronoun + " a smooch.\n\n", false);
                     break;
             }
             return;
         }
         //Success but no effect:
         if (monster.stats.lustVuln <= 0 || !monster.lowerBody.cockSpot.hasCock()) {
-            if (monster.desc.plural) MainScreen.text("  Mouth presses against mouth, and you allow your tongue to stick out to taste the saliva of one of their number, making sure to give them a big dose.  Pulling back, you look at " + monster.desc.a+ monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n", false);
-            else MainScreen.text("  Mouth presses against mouth, and you allow your tongue to stick to taste " + monster.desc.possessivePronoun + "'s saliva as you make sure to give them a big dose.  Pulling back, you look at " + monster.desc.a+ monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n", false);
+            if (monster.desc.plural) MainScreen.text("  Mouth presses against mouth, and you allow your tongue to stick out to taste the saliva of one of their number, making sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n", false);
+            else MainScreen.text("  Mouth presses against mouth, and you allow your tongue to stick to taste " + monster.desc.possessivePronoun + "'s saliva as you make sure to give them a big dose.  Pulling back, you look at " + monster.desc.a + monster.desc.short + " and immediately regret wasting the time on the kiss.  It had no effect!\n\n", false);
             return;
         }
         let damage: number = 0;
@@ -671,21 +777,21 @@ export class Kiss implements PlayerCombatAction {
             //Success 1:
             case 1:
                 if (monster.desc.plural) MainScreen.text("  Success!  A spit-soaked kiss lands right on one of their mouths.  The victim quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n", false);
-                else MainScreen.text("  Success!  A spit-soaked kiss lands right on " + monster.desc.a+ monster.desc.short + "'s mouth.  " + GenderDescriptor.mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n", false);
+                else MainScreen.text("  Success!  A spit-soaked kiss lands right on " + monster.desc.a + monster.desc.short + "'s mouth.  " + GenderDescriptor.mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n", false);
                 damage = 15;
                 break;
             //Success 2:
             case 2:
                 if (monster.desc.plural) MainScreen.text("  Gold-gilt lips press into one of their mouths, the victim's lips melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every bit of their mouth with your lipstick before you let them go.\n\n", false);
-                else MainScreen.text("  Gold-gilt lips press into " + monster.desc.a+ monster.desc.short + ", " + monster.desc.possessivePronoun + " mouth melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every inch of " + monster.desc.possessivePronoun + " with your lipstick before you let " + monster.desc.objectivePronoun + " go.\n\n", false);
+                else MainScreen.text("  Gold-gilt lips press into " + monster.desc.a + monster.desc.short + ", " + monster.desc.possessivePronoun + " mouth melding with yours.  You take your time with your suddenly cooperative captive and make sure to cover every inch of " + monster.desc.possessivePronoun + " with your lipstick before you let " + monster.desc.objectivePronoun + " go.\n\n", false);
                 damage = 20;
                 break;
             //CRITICAL SUCCESS (3)
             case 3:
                 if (monster.desc.plural)
-                    MainScreen.text("  You slip past " + monster.desc.a+ monster.desc.short + "'s guard and press your lips against one of them.  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + GenderDescriptor.mf(monster, "his", "her") + " tongue sliding into your mouth as " + GenderDescriptor.mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + GenderDescriptor.mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a+ monster.desc.short + " is still standing there, licking " + GenderDescriptor.mf(monster, "his", "her") + " his lips while " + GenderDescriptor.mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + GenderDescriptor.mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n", false);
+                    MainScreen.text("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against one of them.  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + GenderDescriptor.mf(monster, "his", "her") + " tongue sliding into your mouth as " + GenderDescriptor.mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + GenderDescriptor.mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a + monster.desc.short + " is still standing there, licking " + GenderDescriptor.mf(monster, "his", "her") + " his lips while " + GenderDescriptor.mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + GenderDescriptor.mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n", false);
                 else
-                    MainScreen.text("  You slip past " + monster.desc.a+ monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n", false);
+                    MainScreen.text("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n", false);
                 damage = 30;
                 break;
             //Success 4:
@@ -706,6 +812,10 @@ export class Kiss implements PlayerCombatAction {
 }
 
 export class Sting implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.lowerBody.tailType == TailType.BEE_ABDOMEN;
+    }
+
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
     }
@@ -738,11 +848,11 @@ export class Sting implements PlayerCombatAction {
         }
         //determine if avoided with defense.
         if (monster.defense() - player.stats.level >= 10 && Utils.rand(4) > 0) {
-            MainScreen.text("Despite your best efforts, your sting attack can't penetrate " + monster.desc.a+ monster.desc.short + "'s defenses.\n\n");
+            MainScreen.text("Despite your best efforts, your sting attack can't penetrate " + monster.desc.a + monster.desc.short + "'s defenses.\n\n");
             return;
         }
         //Sting successful!
-        MainScreen.text("Searing pain lances through " + monster.desc.a+ monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
+        MainScreen.text("Searing pain lances through " + monster.desc.a + monster.desc.short + " as you manage to sting " + monster.desc.objectivePronoun + "!  ");
         if (monster.desc.plural) MainScreen.text("You watch as " + monster.desc.subjectivePronoun + " stagger back a step and nearly trip, flushing hotly.");
         else MainScreen.text("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, flushing hotly.");
         //Tabulate damage!
@@ -775,6 +885,10 @@ export class Sting implements PlayerCombatAction {
 }
 
 export class Web implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.lowerBody.tailType == TailType.SPIDER_ABDOMEN;
+    }
+
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
     }
@@ -795,11 +909,11 @@ export class Web implements PlayerCombatAction {
         if (player.statusAffects.has("Blind")) {
             MainScreen.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ", false);
         }
-        else MainScreen.text("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a+ monster.desc.short + "!  ", false);
+        else MainScreen.text("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ", false);
         //Determine if dodged!
         if ((player.statusAffects.has("Blind") && Utils.rand(2) == 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
-            MainScreen.text("You miss " + monster.desc.a+ monster.desc.short + " completely - ", false);
+            MainScreen.text("You miss " + monster.desc.a + monster.desc.short + " completely - ", false);
             MainScreen.text(monster.desc.subjectivePronoun + " moved out of the way!\n\n", false);
             return;
         }
@@ -810,8 +924,8 @@ export class Web implements PlayerCombatAction {
         }
         //LAND A HIT!
         else {
-            if (!monster.desc.plural) MainScreen.text("The adhesive strands cover " + monster.desc.a+ monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".", false);
-            else MainScreen.text("The adhesive strands cover " + monster.desc.a+ monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".", false);
+            if (!monster.desc.plural) MainScreen.text("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".", false);
+            else MainScreen.text("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".", false);
             monster.stats.spe -= 45;
             if (monster.stats.spe < 0) monster.stats.spe = 0;
         }
@@ -820,6 +934,10 @@ export class Web implements PlayerCombatAction {
 }
 
 export class TailWhip implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.lowerBody.tailType == (TailType.SHARK || TailType.LIZARD || TailType.KANGAROO || TailType.DRACONIC || TailType.RACCOON);
+    }
+
     public canUse(player: Player): boolean {
         return true;
     }

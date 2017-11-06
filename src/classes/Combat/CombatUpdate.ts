@@ -1,4 +1,4 @@
-import Combat from './Combat';
+import CombatUtils from './CombatUtils';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import ButtDescriptor from '../Descriptors/ButtDescriptor';
@@ -8,6 +8,7 @@ import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
 import MainScreen from '../display/MainScreen';
 import StatusAffect from '../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../Game/Flags';
+import Game from '../Game/Game';
 import Utils from '../Utilities/Utils';
 
 export default class CombatUpdate {
@@ -293,8 +294,8 @@ export default class CombatUpdate {
             MainScreen.text("The feeling of the tight, leather straps holding tightly to your body while exposing so much of it turns you on a little bit more.\n\n", false);
             player.stats.lust += 2;
         }
-        Combat.combatRegeneration(player);
-        Combat.combatRegeneration(monster);
+        CombatUtils.combatRegeneration(player);
+        CombatUtils.combatRegeneration(monster);
     }
 
     public static monsterCombatStatusAffectsUpdate(player: Character, monster: Character): void {

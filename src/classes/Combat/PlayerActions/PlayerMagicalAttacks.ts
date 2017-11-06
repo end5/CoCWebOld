@@ -34,6 +34,10 @@ import Utils from '../../Utilities/Utils';
 */
 
 export class Berserk implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("Berzerker");
+    }
+
     public canUse(player: Player): boolean {
         return !player.statusAffects.has("Berzerking");
     }
@@ -50,6 +54,10 @@ export class Berserk implements PlayerCombatAction {
 }
 
 export class DragonBreath extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("Dragonfire");
+    }
+
     private reason: string;
     public readonly baseCost: number = 20;
     public canUse(player: Player): boolean {
@@ -147,6 +155,10 @@ export class DragonBreath extends PlayerSpellAction {
 }
 
 export class Fireball implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("FireLord");
+    }
+
     public canUse(player: Player): boolean {
         return player.stats.fatigue + 20 <= 100;
     }
@@ -238,6 +250,10 @@ export class Fireball implements PlayerCombatAction {
 }
 
 export class Hellfire extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("Hellfire");
+    }
+
     public readonly baseCost: number = 20;
     public reasonCannotUse(): string {
         return "You are too tired to breathe fire.\n";
@@ -313,6 +329,10 @@ export class Hellfire extends PlayerSpellAction {
 }
 
 export class Possess implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("Incorporeality");
+    }
+
     public canUse(player: Player): boolean {
         return true;
     }
@@ -351,6 +371,10 @@ export class Possess implements PlayerCombatAction {
 }
 
 export class SuperWhisperAttack extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("Whispered");
+    }
+
     public readonly baseCost: number = 10;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -409,6 +433,10 @@ export class SuperWhisperAttack extends PlayerSpellAction {
 }
 
 export class CorruptedFoxFire extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("CorruptedNinetails");
+    }
+
     public readonly baseCost: number = 35;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -451,6 +479,10 @@ export class CorruptedFoxFire extends PlayerSpellAction {
 }
 
 export class KitsuneTerror extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("CorruptedNinetails");
+    }
+
     public readonly baseCost: number = 20;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -498,6 +530,10 @@ export class KitsuneTerror extends PlayerSpellAction {
 }
 
 export class FoxFire extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("EnlightenedNinetails");
+    }
+
     public readonly baseCost: number = 35;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -542,6 +578,10 @@ export class FoxFire extends PlayerSpellAction {
 }
 
 export class KitsuneIllusion extends PlayerSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("EnlightenedNinetails");
+    }
+
     public readonly baseCost: number = 25;
     private reason: string;
     public canUse(player: Player): boolean {
@@ -588,6 +628,10 @@ export class KitsuneIllusion extends PlayerSpellAction {
 }
 
 export class ImmolationSpell implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("ImmolationSpell");
+    }
+
     public canUse(player: Player): boolean {
         return player.statusAffects.has("ImmolationSpell");
     }
@@ -608,6 +652,10 @@ export class ImmolationSpell implements PlayerCombatAction {
 }
 
 export class ShieldingSpell implements PlayerCombatAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("ShieldingSpell");
+    }
+
     public canUse(player: Player): boolean {
         return player.statusAffects.has("ShieldingSpell");
     }

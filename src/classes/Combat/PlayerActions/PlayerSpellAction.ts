@@ -4,12 +4,18 @@ import Player from '../../Player';
 import SpellAction from '../SpellAction';
 
 export default abstract class PlayerSpellAction implements PlayerCombatAction, SpellAction {
-    public canUse(player: Player): boolean {
-        return player.perks.has("BloodMage") || player.stats.fatigue + this.spellCost(player) <= 100;
+    abstract isPossible(player: Player): boolean;
+    public canUse(player: Player, monster?: Character): boolean {
+        if (player.perks.has("BloodMage") || player.stats.fatigue + this.spellCost(player) <= 100) {
+            this.reason = "You are too tired to cast this spell.";
+            return false;
+        }
+        return true;
     }
     
+    protected reason: string;
     public reasonCannotUse(): string {
-        return "You are too tired to cast this spell.";
+        return this.reason;
     }
 
     abstract use(player: Player, monster: Character);

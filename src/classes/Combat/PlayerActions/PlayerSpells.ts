@@ -12,9 +12,35 @@ import StatusAffect from '../../Effects/StatusAffect';
 import Game from '../../Game/Game';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
-import Combat from '../Combat';
+import CombatUtils from '../CombatUtils';
 
-export class SpellArouse extends LearnedSpellAction {
+abstract class BlackMagic extends LearnedSpellAction {
+    public canUse(player: Player, monster?: Character): boolean {
+        if (player.stats.lust < 50) {
+            this.reason = "You aren't turned on enough to use any black magics.\n\n";
+            return false;
+        }
+        return super.canUse(player);
+    }
+}
+
+abstract class WhiteMagic extends LearnedSpellAction {
+    public canUse(player: Player, monster?: Character): boolean {
+        let whiteLustCap: number = 75;
+        if (player.perks.has("Enlightened") && player.stats.cor < 10)
+            whiteLustCap += 10;
+        if (player.stats.lust >= whiteLustCap) {
+            this.reason = "You are far too aroused to focus on white magic.\n\n";
+            return false;
+        }
+        return super.canUse(player);
+    }
+}
+
+export class SpellArouse extends BlackMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsArouse");
+    }
     public readonly baseCost: number = 15;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
@@ -86,7 +112,10 @@ export class SpellArouse extends LearnedSpellAction {
     }
 }
 
-export class SpellHeal extends LearnedSpellAction {
+export class SpellHeal extends BlackMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsHeal");
+    }
     public readonly baseCost: number = 20;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
@@ -115,7 +144,18 @@ export class SpellHeal extends LearnedSpellAction {
     }
 }
 
-export class SpellMight extends LearnedSpellAction {
+export class SpellMight extends BlackMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsMight");
+    }
+    public canUse(player: Player): boolean {
+        if (player.statusAffects.has("Might")) {
+            this.reason = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
+            return false;
+        }
+        return super.canUse(player);
+    }
+
     public readonly baseCost: number = 25;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
@@ -150,7 +190,17 @@ export class SpellMight extends LearnedSpellAction {
     }
 }
 
-export class SpellChargeWeapon extends LearnedSpellAction {
+export class SpellChargeWeapon extends WhiteMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsCharge");
+    }
+    public canUse(player: Player): boolean {
+        if (player.statusAffects.has("ChargeWeapon")) {
+            this.reason = "<b>Charge weapon is already active and cannot be cast again.</b>\n\n";
+            return false;
+        }
+        return super.canUse(player);
+    }
     public readonly baseCost: number = 15;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
@@ -159,7 +209,17 @@ export class SpellChargeWeapon extends LearnedSpellAction {
     }
 }
 
-export class SpellBlind extends LearnedSpellAction {
+export class SpellBlind extends WhiteMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsBind");
+    }
+    public canUse(player: Player, monster: Character): boolean {
+        if (monster.statusAffects.has("Blind")) {
+            this.reason = "<b>" + monster.desc.capitalA + monster.desc.short + " is already affected by blind.</b>\n\n";
+            return false;
+        }
+        return super.canUse(player);
+    }
     public readonly baseCost: number = 20;
     public castSpell(player: Player, monster: Character) {
         MainScreen.text("", true);
@@ -211,7 +271,10 @@ export class SpellBlind extends LearnedSpellAction {
     }
 }
 
-export class SpellWhitefire extends LearnedSpellAction {
+export class SpellWhitefire extends WhiteMagic {
+    public isPossible(player: Player): boolean {
+        return player.statusAffects.has("KnowsWhitefire");
+    }
     public readonly baseCost: number = 30;
     public castSpell(player: Player, monster: Character) {
         MainScreen.text("", true);
@@ -243,6 +306,9 @@ export class SpellWhitefire extends LearnedSpellAction {
 }
 
 export class SpellCleansingPalm extends LearnedSpellAction {
+    public isPossible(player: Player): boolean {
+        return player.perks.has("CleansingPalm") && player.stats.cor < 10;
+    }
     public readonly baseCost: number = 30;
     public castSpell(player: Player, monster: Character) {
         MainScreen.clearText();

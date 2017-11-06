@@ -5,25 +5,13 @@ import StatusAffect from '../../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player';
 import Utils from '../../Utilities/Utils';
+import CombatUtils from '../CombatUtils';
 
 export default class PlayerAttack {
-    public approachAfterKnockback(): void {
-        MainScreen.clearText();
-        MainScreen.text("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
-        player.statusAffects.remove("KnockedBack");
-    }
-
-    private canUseMagic(): boolean {
-        if (player.statusAffects.has("ThroatPunch")) return false;
-        if (player.statusAffects.has("WebSilence")) return false;
-        if (player.statusAffects.has("GooArmorSilence")) return false;
-        return true;
-    }
-
-    public use(player: Player, monster: Character): number {
+    private miss(player: Player, monster: Character): void {
         if (!player.statusAffects.has("FirstAttack")) {
             MainScreen.text("", true);
-            fatigueRecovery();
+            CombatUtils.fatigueRecovery(player);
         }
         if (player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value2 == 0) {
             MainScreen.text("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal attack impossible!  Maybe you could try something else?\n\n", false);
@@ -72,7 +60,6 @@ export default class PlayerAttack {
                 MainScreen.text("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You find yourself staring directly into the basilisk's face!  Quickly you snap your eyes shut and recoil backwards, swinging madly at the lizard to force it back, but the damage has been done; you can see the terrible grey eyes behind your closed lids, and you feel a great weight settle on your bones as it becomes harder to move.", false);
                 Basilisk.basiliskSpeed(player, 20);
                 player.statusAffects.remove("FirstAttack");
-                combatRoundOver();
                 return;
             }
             //Counter attack fails: (Utils.random chance if PC int > 50 spd > 60; PC takes small physical damage but no block or spd penalty)
@@ -98,8 +85,6 @@ export default class PlayerAttack {
             }
             return;
         }
-
-        let damage: number = 0;
         //Determine if dodged!
         if ((player.statusAffects.has("Blind") && Utils.rand(2) == 0) || (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             //Akbal dodges special education
@@ -110,9 +95,12 @@ export default class PlayerAttack {
                 MainScreen.text("You swing your [weapon] ferociously, confident that you can strike a crushing blow.  To your surprise, you stumble awkwardly as the attack passes straight through her - a mirage!  You curse as you hear a giggle behind you, turning to face her once again.\n\n");
             }
             else {
-                if (monster.stats.spe - player.stats.spe < 8) MainScreen.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!", false);
-                if (monster.stats.spe - player.stats.spe >= 8 && monster.stats.spe - player.stats.spe < 20) MainScreen.text(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!", false);
-                if (monster.stats.spe - player.stats.spe >= 20) MainScreen.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.", false);
+                if (monster.stats.spe - player.stats.spe < 8)
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!", false);
+                if (monster.stats.spe - player.stats.spe >= 8 && monster.stats.spe - player.stats.spe < 20)
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!", false);
+                if (monster.stats.spe - player.stats.spe >= 20)
+                    MainScreen.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.", false);
                 MainScreen.text("\n", false);
                 if (player.statusAffects.has("FirstAttack")) {
                     this.use(player, monster);
@@ -132,6 +120,11 @@ export default class PlayerAttack {
             else MainScreen.text("\n", false);
             return;
         }
+
+    }
+
+    private determineDamage(player: Player, monster: Character): number {
+        let damage: number = 0;
         //Determine damage
         /*Determine damage - str modified by enemy toughness!
         if(player.hasPerk("Double Attack") >= 0 && player.stats.str <= 60) {
@@ -184,7 +177,10 @@ export default class PlayerAttack {
 
         //One final round
         damage = Math.round(damage);
+        return damage;
+    }
 
+    private applyDamage(player: Player, monster: Character, damage: number): void {
         //ANEMONE SHIT
         if (monster.desc.short == "anemone") {
             //hit successful:
@@ -234,7 +230,7 @@ export default class PlayerAttack {
             if (crit) MainScreen.text(" <b>*CRIT*</b>");
         }
         if (player.perks.has("BrutalBlows") && player.stats.str > 75) {
-            if (monster.defense() > 0) MainScreen.text("\nYour hits are so brutal that you damage " + monster.a + monster.desc.short + "'s defenses!");
+            if (monster.defense() > 0) MainScreen.text("\nYour hits are so brutal that you damage " + monster.desc.a + monster.desc.short + "'s defenses!");
             if (monster.defense() - 10 > 0) monster.defense() -= 10;
             else monster.defense() = 0;
         }
@@ -287,7 +283,6 @@ export default class PlayerAttack {
                     }
                 }
             }
-
         }
 
         if (monster.charType == CharacterType.JeanClaude && !player.statusAffects.has("FirstAttack")) {
@@ -322,5 +317,11 @@ export default class PlayerAttack {
             }
             MainScreen.text("\n", false);
         }
+    }
+
+    public use(player: Player, monster: Character): void {
+        this.miss(player, monster);
+        let damage = this.determineDamage(player, monster);
+        this.applyDamage(player, monster, damage);
     }
 }
