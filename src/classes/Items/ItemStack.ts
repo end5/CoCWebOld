@@ -3,7 +3,6 @@ import Game from '../Game/Game';
 import { SerializeInterface } from '../SerializeInterface';
 
 export default class ItemStack<T extends Item> implements SerializeInterface {
-    serialKey: string = "ItemStack";
     serialize(): string {
         let saveObject: object = {};
         saveObject["_quantity"] = this._quantity;

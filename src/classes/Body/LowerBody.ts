@@ -122,7 +122,6 @@ export default class LowerBody implements SerializeInterface {
                 return false;
         }
     }
-    serialKey: string = "LowerBody";
     serialize(): string {
         let saveObject: object = {};
         saveObject["type"] = this.type;

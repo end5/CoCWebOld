@@ -355,7 +355,6 @@ export default class Creature implements SerializeInterface {
         return (this.bonusFertility + this.fertility);
     }
 
-    serialKey: string = "Body";
     serialize(): string {
         let saveObject: object = {};
         saveObject["gender"] = this.gender;

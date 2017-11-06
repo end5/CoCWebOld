@@ -54,7 +54,6 @@ export default class Head implements SerializeInterface {
         this.face = new Face();
     }
 
-    serialKey: string = "Head";
     serialize(): string {
         let saveObject: object = {};
         saveObject["hairType"] = this.hairType;

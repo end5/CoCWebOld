@@ -3,7 +3,6 @@ import ItemStack from '../Items/ItemStack';
 import { SerializeInterface } from '../SerializeInterface';
 
 export default class Inventory<T extends Item> implements SerializeInterface {
-    serialKey: string = "Inventory";
     serialize(): string {
         let saveObject: object = {};
         saveObject["length"] = this.itemSlots.length;

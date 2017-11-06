@@ -108,7 +108,6 @@ export default class Pregnancy implements SerializeInterface {
         this.event.birth(creature);
     }
 
-    serialKey: string = "Pregnancy";
     serialize(): string {
         return JSON.stringify({
             "type": this.type,

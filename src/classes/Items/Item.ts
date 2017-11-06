@@ -13,7 +13,6 @@ export enum ItemType {
 }
 
 export default abstract class Item extends KeyObject implements SerializeInterface {
-    serialKey: string = "Item";
     serialize(): string {
         let saveObject: object = {};
         saveObject["uniqueKey"] = this.uniqueKey;

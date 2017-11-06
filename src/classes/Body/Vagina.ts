@@ -87,7 +87,6 @@ export default class Vagina implements SerializeInterface {
         return 10000;
     }
 
-    serialKey: string = "Vagina";
     serialize(): string {
         return JSON.stringify({
             "vaginaType": this.vaginaType,

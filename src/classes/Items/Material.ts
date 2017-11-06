@@ -7,7 +7,7 @@ import Player from '../Player';
 export default class Material extends Item {
     serialize(): string {
         let saveObject = {};
-        saveObject[super.serialKey] = super.serialize();
+        saveObject["Item"] = super.serialize();
         saveObject["_useText"] = this._useText;
         return JSON.stringify(saveObject);
     }

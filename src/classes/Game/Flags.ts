@@ -1,4 +1,4 @@
-import { SerializeInterface } from '../SaveInterface';
+import { SerializeInterface } from '../SerializeInterface';
 
 export default class Flags implements SerializeInterface {
     private static flags: object = {};
@@ -11,13 +11,12 @@ export default class Flags implements SerializeInterface {
         this.flags = {};
     }
 
-    serialKey: string = "Flags";
-    serialize(): object {
-        return { saveKey: Flags.flags };
+    serialize(): string {
+        return JSON.stringify({ "Flags": Flags.flags });
     }
 
     deserialize(object: object) {
-        Flags.flags = object[this.serialKey];
+        Flags.flags = object["Flags"];
     }
 }
 

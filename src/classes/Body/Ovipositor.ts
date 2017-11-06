@@ -39,7 +39,6 @@ export default class Ovipositor implements SerializeInterface {
         return this._fertilizedEggs;
     }
 
-    serialKey: string = "Ovipositor";
     serialize(): string {
         return JSON.stringify({
             "_eggs": this._eggs,

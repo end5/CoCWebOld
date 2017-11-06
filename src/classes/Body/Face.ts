@@ -74,7 +74,6 @@ export default class Face implements SerializeInterface {
 		return this.beardLength > 0;
 	}
 
-    serialKey: string = "Face";
     serialize(): string {
         return JSON.stringify({
             "faceType": this.faceType,

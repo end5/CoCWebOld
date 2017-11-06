@@ -27,7 +27,6 @@ export default class UpperBody implements SerializeInterface {
         this.wingDesc = "non-existant";
     }
 
-    serialKey: string = "UpperBody";
     serialize(): string {
         let saveObject: object = {};
         saveObject["head"] = this.head.serialize();

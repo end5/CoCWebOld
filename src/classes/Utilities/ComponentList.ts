@@ -52,11 +52,10 @@ export default class ComponentList<T extends Component> implements SerializeInte
         this._list = [];
     }
 
-    public readonly serialKey: string = "ComponentList";
-    public serialize(): object {
-        let saveObject: object = {};
-        saveObject["list"] = JSON.stringify(this._list);
-        return saveObject;
+    public serialize(): string {
+        return JSON.stringify({
+            "list": JSON.stringify(this._list)
+        });
     }
     public deserialize(saveObject: object) {
         this._list = JSON.parse(saveObject["list"]);

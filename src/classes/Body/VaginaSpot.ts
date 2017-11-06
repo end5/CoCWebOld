@@ -91,7 +91,6 @@ export default class VaginaSpot implements SerializeInterface {
         return average / this._vaginas.length;
     }
 
-    serialKey: string = "VaginaSpot";
     serialize(): string {
         let saveObject: object;
         saveObject["length"] = this._vaginas.length;

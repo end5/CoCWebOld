@@ -76,7 +76,6 @@ export default class Description implements SerializeInterface {
         return this.article.charAt(0).toUpperCase() + this.article.substr(1);
     }
 
-    serialKey: string = "Description";
     serialize(): string {
         return JSON.stringify({
             "subjective": this.subjective,

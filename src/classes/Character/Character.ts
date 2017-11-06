@@ -35,13 +35,12 @@ export default abstract class Character extends Creature implements UpdateInterf
 		this.desc = new CharacterDescription(this);
 	}
 
-    serialKey: string = "Character";
     serialize(): string {
         let saveObject: object = {};
         saveObject["charType"] = this.charType;
         saveObject["inventory"] = this.inventory.serialize();
 		saveObject["desc"] = this.desc.serialize();
-		saveObject[super.serialKey] = super.serialize();
+		saveObject["Creature"] = super.serialize();
         return JSON.stringify(saveObject);
     }
 
@@ -49,7 +48,7 @@ export default abstract class Character extends Creature implements UpdateInterf
         this.charType = saveObject["charType"];
         this.inventory.deserialize(saveObject["inventory"]);
         this.desc.deserialize(saveObject["desc"]);
-        super.deserialize(saveObject[super.serialKey]);
+        super.deserialize(saveObject["Creature"]);
     }
 
 

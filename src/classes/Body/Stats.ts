@@ -42,7 +42,6 @@ export default class Stats implements SerializeInterface {
         this.additionalXP = 0;
     }
 
-    serialKey: string = "Stats";
     serialize(): string {
         return JSON.stringify({
             "str": this.str,
