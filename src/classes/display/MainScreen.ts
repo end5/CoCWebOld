@@ -1,6 +1,6 @@
-﻿import HtmlUtils from "../Utilities/HtmlUtils";
-import Player from "../Player";
-import Game from "../Game/Game";
+﻿import Game from '../Game/Game';
+import Player from '../Player';
+import HtmlUtils from '../Utilities/HtmlUtils';
 
 export enum StatType {
     Strength,
@@ -205,6 +205,14 @@ export default class MainScreen {
         else {
             MainScreen.mainTextDisplay.innerText += text;
         }
+    }
+
+    public static italic(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
+        MainScreen.html('<i>' + text + '</i>');
+    }
+
+    public static bold(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
+        MainScreen.html('<b>' + text + '</b>');
     }
 
     public static html(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
