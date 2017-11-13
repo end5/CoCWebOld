@@ -1,15 +1,13 @@
-import KeyObject from './KeyObject';
+import LibraryEntry from './LibraryEntry';
 
-export default abstract class ValueContainer<T extends KeyObject> extends KeyObject {
-    public readonly object: T;
+export default abstract class ValueContainer extends LibraryEntry {
     public value1: number;
     public value2: number;
     public value3: number;
     public value4: number;
 
-    public constructor(keyObject: T, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        super(keyObject.uniqueKey);
-        this.object = keyObject
+    public constructor(keyObject: string, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
+        super(keyObject);
         this.value1 = value1;
         this.value2 = value2;
         this.value3 = value3;

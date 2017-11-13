@@ -1,21 +1,12 @@
+import Effect from './Effect';
 import PerkDesc from './PerkDesc';
+import { PerkType } from './PerkType';
 import Game from '../Game/Game';
-import ValueContainer from '../Utilities/ValueContainer';
 
-export default class Perk extends ValueContainer<PerkDesc> {
-    public constructor(perkDescKey: string, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        let perkDesc: PerkDesc;
-        if (!Game.libraries.perkDesc.has(perkDescKey)) {
-            console.trace("Perk Description " + perkDescKey + " does not exist.");
-            return;
-        }
-        else
-            perkDesc = Game.libraries.perkDesc.get(perkDescKey);
-
-        super(perkDesc, value1, value2, value3, value4);
-    }
-
-    public clone(): Perk {
-        return new Perk(this.uniqueKey, this.value1, this.value2, this.value3, this.value4);
+export default class Perk extends Effect {
+    public readonly type: PerkType;
+    public constructor(type: PerkType, desc: PerkDesc, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
+        super(type, desc, value1, value2, value3, value4);
+        this.type = type;
     }
 }
