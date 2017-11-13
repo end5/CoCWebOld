@@ -1,4 +1,4 @@
-﻿export default class KeyObject {
+﻿export default class LibraryEntry {
     private _uniqueKey: string;
 
     public constructor(key: string) {

@@ -1,10 +1,6 @@
-﻿import KeyObject from './KeyObject';
+﻿import LibraryEntry from './LibraryEntry';
 
-export class LibraryKey extends KeyObject {
-
-}
-
-export default class Library<T extends LibraryKey> {
+export default class Library<T extends LibraryEntry> {
     private _library: object;
 
     public get(key: string): T {
