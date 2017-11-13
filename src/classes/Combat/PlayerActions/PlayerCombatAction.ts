@@ -1,7 +1,7 @@
 import Creature from '../../Body/Creature';
 import Character from '../../Character/Character';
 import Player from '../../Player';
-import KeyObject from '../../Utilities/KeyObject';
+import LibraryEntry from '../../Utilities/LibraryEntry';
 import CombatAction from '../CombatAction';
 
 export default interface PlayerCombatAction extends CombatAction {

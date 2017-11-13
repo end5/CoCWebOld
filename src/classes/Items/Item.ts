@@ -2,7 +2,7 @@ import ItemDesc from './ItemDesc';
 import Game from '../Game/Game';
 import Player from '../Player';
 import { SerializeInterface } from '../SerializeInterface';
-import KeyObject from '../Utilities/KeyObject';
+import LibraryEntry from '../Utilities/LibraryEntry';
 
 export enum ItemType {
     Material,
@@ -12,7 +12,7 @@ export enum ItemType {
     Consumable
 }
 
-export default abstract class Item extends KeyObject implements SerializeInterface {
+export default abstract class Item extends LibraryEntry implements SerializeInterface {
     serialize(): string {
         let saveObject: object = {};
         saveObject["uniqueKey"] = this.uniqueKey;

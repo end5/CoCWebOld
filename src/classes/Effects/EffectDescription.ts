@@ -1,7 +1,7 @@
 import Character from '../Character/Character';
-import KeyObject from '../Utilities/KeyObject';
+import LibraryEntry from '../Utilities/LibraryEntry';
 
-export default class EffectDescription extends KeyObject {
+export default class EffectDescription extends LibraryEntry {
     public readonly name: string;
     private readonly desc: string;
     public readonly longDesc: string;

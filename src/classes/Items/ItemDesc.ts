@@ -1,5 +1,5 @@
 import Player from '../Player';
-import KeyObject from '../Utilities/KeyObject';
+import LibraryEntry from '../Utilities/LibraryEntry';
 
 export default class ItemDesc {
     public readonly shortName: string;  // Short name to be displayed on buttons

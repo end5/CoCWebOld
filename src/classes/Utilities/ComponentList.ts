@@ -1,7 +1,7 @@
-﻿import KeyObject from './KeyObject';
+﻿import LibraryEntry from './LibraryEntry';
 import { SerializeInterface } from '../SerializeInterface';
 
-export class Component extends KeyObject {
+export class Component extends LibraryEntry {
 
 }
 
