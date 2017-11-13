@@ -1,9 +1,9 @@
 import ItemDesc from './ItemDesc';
 import Material from './Material';
 import Game from '../Game/Game';
-import Library from '../Utilities/Library';
+import KeyedLibrary from '../Utilities/Library';
 
-export default class MaterialLib extends Library<Material>
+export default class MaterialLib extends KeyedLibrary<Material>
 {
     public constructor() {
         super();

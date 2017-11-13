@@ -68,10 +68,10 @@ import WetCloth from './WetCloth';
 import WhiskerFruit from './WhiskerFruit';
 import WhiteSpellbook from './WhiteSpellbook';
 import WingStick from './WingStick';
-import Library from '../../Utilities/Library';
+import KeyedLibrary from '../../Utilities/Library';
 import Utils from '../../Utilities/Utils';
 
-export default class ConsumableLib extends Library<Consumable> {
+export default class ConsumableLib extends KeyedLibrary<Consumable> {
     public constructor() {
         super();
         this.add(new BeeHoney(false, false));

@@ -9,11 +9,11 @@ import LustyMaidensArmor from './LustyMaidensArmor';
 import SeductiveArmor from './SeductiveArmor';
 import SluttySwimwear from './SluttySwimwear';
 import Perk from '../../Effects/Perk';
-import Library from '../../Utilities/Library';
+import KeyedLibrary from '../../Utilities/Library';
 import ItemDesc from '../ItemDesc';
 
 // key: string, shortName: string, displayname: string, longName: string, defense: number, value: number = 0, description: string = null, armorClass: ArmorClass = "Light", supportsBulge: boolean = false
-export default class ArmorLib extends Library<Armor> {
+export default class ArmorLib extends KeyedLibrary<Armor> {
     public constructor() {
         super();
         this.add(new GenericArmor("c.under", new ItemDesc("c.under", "comfortable underclothes", "comfortable underclothes"), "comfortable underclothes", 0, 0, ""));

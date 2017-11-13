@@ -10,10 +10,10 @@ import RaphaelsRapier from './RaphaelsRapier';
 import Spellblade from './Spellblade';
 import Weapon, { GenericWeapon } from './Weapon';
 import WizardsStaff from './WizardsStaff';
-import Library from '../../Utilities/Library';
+import KeyedLibrary from '../../Utilities/Library';
 import ItemDesc from '../ItemDesc';
 // key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = ""
-export default class WeaponLib extends Library<Weapon> {
+export default class WeaponLib extends KeyedLibrary<Weapon> {
     public constructor() {
         super();
         this.add(new GenericWeapon("Fists  ", new ItemDesc("Fists", "fists"), "fists", "punch", 0));
