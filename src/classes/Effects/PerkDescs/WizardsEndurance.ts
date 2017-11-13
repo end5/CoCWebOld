@@ -1,7 +1,7 @@
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class WizardsEndurancePerk extends PerkDesc {
+export default class WizardsEndurance extends PerkDesc {
     public description(perk?: Perk): string {
 		return "Reduces fatigue cost of spells by " + perk.value1 + "%.";
     }

@@ -1,7 +1,7 @@
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class SluttySeductionPerk extends PerkDesc {
+export default class SluttySeduction extends PerkDesc {
     public description(perk?: Perk): string {
         return "Increases odds of successfully teasing and lust damage of successful teases by " + perk.value1 + " points."
     }

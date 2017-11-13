@@ -2,15 +2,15 @@ import Character from '../../Character/Character';
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class ControlledBreathPerk extends PerkDesc {
+export default class Enlightened extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
-        if (character.stats.cor >= 30)
+        if (character.stats.cor >= 10)
             return "<b>DISABLED</b> - Corruption too high!";
         else
             return super.description();
     }
 
     public constructor() {
-        super("Controlled Breath", "Controlled Breath", "Jojo’s training allows you to recover more quickly. Increases rate of fatigue regeneration by 10%");
+        super("Enlightened", "Enlightened", "Jojo’s tutelage has given you a master’s focus and you can feel the universe in all its glory spread out before you. You’ve finally surpassed your teacher.");
     }
 }

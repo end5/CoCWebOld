@@ -2,15 +2,15 @@ import Character from '../../Character/Character';
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class CleansingPalmPerk extends PerkDesc {
+export default class ControlledBreath extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
-        if (character.stats.cor >= 10)
+        if (character.stats.cor >= 30)
             return "<b>DISABLED</b> - Corruption too high!";
         else
             return super.description();
     }
 
     public constructor() {
-        super("Cleansing Palm", "Cleansing Palm", "A ranged fighting technique of Jojo’s order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.");
+        super("Controlled Breath", "Controlled Breath", "Jojo’s training allows you to recover more quickly. Increases rate of fatigue regeneration by 10%");
     }
 }

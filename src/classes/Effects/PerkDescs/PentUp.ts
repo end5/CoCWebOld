@@ -1,7 +1,7 @@
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class PentUpPerk extends PerkDesc {
+export default class PentUp extends PerkDesc {
     public description(perk?: Perk): string {
         return "Increases minimum lust by " + Math.round(perk.value1) + " and makes you more vulnerable to seduction.";
     }

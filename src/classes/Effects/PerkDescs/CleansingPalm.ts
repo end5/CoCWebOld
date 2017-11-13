@@ -2,7 +2,7 @@ import Character from '../../Character/Character';
 import Perk from '../Perk';
 import PerkDesc from '../PerkDesc';
 
-export default class EnlightenedPerk extends PerkDesc {
+export default class CleansingPalm extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.cor >= 10)
             return "<b>DISABLED</b> - Corruption too high!";
@@ -11,6 +11,6 @@ export default class EnlightenedPerk extends PerkDesc {
     }
 
     public constructor() {
-        super("Enlightened", "Enlightened", "Jojo’s tutelage has given you a master’s focus and you can feel the universe in all its glory spread out before you. You’ve finally surpassed your teacher.");
+        super("Cleansing Palm", "Cleansing Palm", "A ranged fighting technique of Jojo’s order, allows you to blast your enemies with waves of pure spiritual energy, weakening them and hurting the corrupt.");
     }
 }
