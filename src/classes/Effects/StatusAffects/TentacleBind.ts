@@ -3,7 +3,11 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import StatusAffect from '../StatusAffect';
 
 export class TentacleBind extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatUpdate(character: Character): string {
         if (Flags.list[FlagEnum.PC_FETISH] >= 2) {
             character.stats.lust += 3;
             return "Wrapped tightly in the tentacles, you find it hard to resist becoming more and more aroused...\n\n";

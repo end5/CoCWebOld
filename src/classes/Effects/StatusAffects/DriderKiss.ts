@@ -2,7 +2,11 @@ import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
 
 export class DriderKiss extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatUpdate(character: Character): string {
         //(VENOM OVER TIME: WEAK)
         if (character.statusAffects.get("DriderKiss").value1 == 0) {
             character.stats.lust += 8;

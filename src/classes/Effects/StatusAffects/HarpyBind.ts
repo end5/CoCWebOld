@@ -3,7 +3,11 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import StatusAffect from '../StatusAffect';
 
 export class HarpyBind extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatUpdate(character: Character): string {
         if (Flags.list[FlagEnum.PC_FETISH] >= 2) {
             character.stats.lust += 3;
             return "The harpies are holding you down and restraining you, making the struggle all the sweeter!\n\n";

@@ -2,7 +2,11 @@ import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
 
 export class Sealed extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatUpdate(character: Character): string {
         //Countdown and remove as necessary
         if (character.statusAffects.get("Sealed").value1 > 0) {
             character.statusAffects.get("Sealed").value1--;

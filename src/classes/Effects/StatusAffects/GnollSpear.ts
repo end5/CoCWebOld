@@ -1,12 +1,16 @@
 import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
 
-export class HolliConstrict extends StatusAffect {
+export class GnollSpear extends StatusAffect {
     public removeOnCombatEnd(): boolean {
         return true;
     }
 
+    public combatEnd(character: Character) {
+        character.stats.spe += this.value1;
+    }
+
     public combatUpdate(character: Character): string {
-        return "<b>You're tangled up in Holli's verdant limbs!  All you can do is try to struggle free...</b>\n\n";
+        return "";
     }
 }

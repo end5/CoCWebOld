@@ -3,7 +3,15 @@ import Utils from '../../Utilities/Utils';
 import StatusAffect from '../StatusAffect';
 
 export class NagaVenom extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatEnd(character: Character) {
+        character.stats.spe += character.statusAffects.get("NagaVenom").value1;        
+    }
+
+    public combatUpdate(character: Character): string {
         if (character.perks.has("Medicine") && Utils.rand(100) <= 14) {
             character.stats.spe += character.statusAffects.get("NagaVenom").value1;
             character.statusAffects.remove("NagaVenom");

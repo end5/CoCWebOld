@@ -3,7 +3,11 @@ import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import StatusAffect from '../StatusAffect';
 
 export class StoneLust extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+
+    public combatUpdate(character: Character): string {
         if (character.lowerBody.vaginaSpot.count() > 0) {
             if (character.stats.lust < 40) return "You squirm as the smooth stone orb vibrates within you.\n\n";
             if (character.stats.lust >= 40 && character.stats.lust < 70) return "You involuntarily clench around the magical stone in your twat, in response to the constant erotic vibrations.\n\n";

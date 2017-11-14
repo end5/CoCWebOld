@@ -3,7 +3,11 @@ import Utils from '../../Utilities/Utils';
 import StatusAffect from '../StatusAffect';
 
 export class WebSilence extends StatusAffect {
-    public update(character: Character): string {
+    public removeOnCombatEnd(): boolean {
+        return true;
+    }
+    
+    public combatUpdate(character: Character): string {
         if (character.statusAffects.get("WebSilence").value1 >= 2 || Utils.rand(20) + 1 + character.stats.str / 10 >= 15) {
             character.statusAffects.remove("WebSilence");
             return "You rip off the webbing that covers your mouth with a cry of pain, finally able to breathe normally again!  Now you can cast spells!\n\n";

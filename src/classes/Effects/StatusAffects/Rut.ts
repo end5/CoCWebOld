@@ -5,7 +5,7 @@ import Utils from '../../Utilities/Utils';
 import StatusAffect from '../StatusAffect';
 
 export class Rut extends StatusAffect {
-    public update(character: Character, enemy: Character): string {
+    public combatUpdate(character: Character, enemy: Character): string {
         if (character.lowerBody.cockSpot.count() > 0 && enemy.lowerBody.vaginaSpot.hasVagina()) {
             character.stats.lust += (Utils.rand(character.stats.lib / 5) + 3 + Utils.rand(5));
             let out: string;
