@@ -94,7 +94,7 @@ export default class StatusAffectDescLib extends Library<StatusAffectDesc> {
         this.add(new StatusAffectDesc(StatusAffectType.LactationReduc3, "LactationReduc3", "Lactation Reduc3", ""));
         this.add(new StatusAffectDesc(StatusAffectType.LootEgg, "LootEgg", "lootEgg", ""));
         this.add(new StatusAffectDesc(StatusAffectType.LostVillagerSpecial, "LostVillagerSpecial", "lostVillagerSpecial", ""));
-        this.add(new StatusAffectDesc(StatusAffectType.Luststick, "Luststick", "Luststick", ""));
+        this.add(new StatusAffectDesc(StatusAffectType.LustStick, "Luststick", "Luststick", ""));
         this.add(new StatusAffectDesc(StatusAffectType.LustStickApplied, "LustStickApplied", "Lust Stick Applied", ""));
         this.add(new StatusAffectDesc(StatusAffectType.LustyTongue, "LustyTongue", "LustyTongue", ""));
         this.add(new StatusAffectDesc(StatusAffectType.MalonVisitedPostAddiction, "MalonVisitedPostAddiction", "Malon Visited Post Addiction", ""));

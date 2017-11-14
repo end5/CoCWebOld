@@ -27,7 +27,7 @@ export default class PerkFactory {
             PerkFactory.perkDescLib = new PerkDescLib();
     }
 
-    public static create(type: PerkType, value1: number, value2: number, value3: number, value4: number): Perk {
+    public static create(type: PerkType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0): Perk {
         const desc = PerkFactory.perkDescLib.get(type);
         if (PerkFactory.perkLib.has(type)) {
             return new (PerkFactory.perkLib.get(type))(type, desc, value1, value2, value3, value4);

@@ -89,7 +89,7 @@ export enum StatusAffectType {
     LactationReduc3 = "LactationReduc3",
     LootEgg = "LootEgg",
     LostVillagerSpecial = "LostVillagerSpecial",
-    Luststick = "Luststick",
+    LustStick = "LustStick",
     LustStickApplied = "LustStickApplied",
     LustyTongue = "LustyTongue",
     MalonVisitedPostAddiction = "MalonVisitedPostAddiction",
@@ -192,7 +192,6 @@ export enum StatusAffectType {
     Level = "Level",
     KitsuneFight = "KitsuneFight",
     LustAura = "LustAura",
-    LustStick = "LustStick",
     Milk = "Milk",
     MilkyUrta = "MilkyUrta",
     MinoMilk = "MinoMilk",
@@ -288,5 +287,7 @@ export enum StatusAffectType {
     TentagrappleCooldown = "TentagrappleCooldown",
     ShowerDotEffect = "ShowerDotEffect",
     GardenerSapSpeed = "GardenerSapSpeed",
-    VineHealUsed = "VineHealUsed"
+    VineHealUsed = "VineHealUsed",
+
+    SuccubusAura = "SuccubusAura"
 }

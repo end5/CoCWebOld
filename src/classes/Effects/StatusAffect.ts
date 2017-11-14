@@ -2,8 +2,6 @@
 import StatusAffectDesc from './StatusAffectDesc';
 import { StatusAffectType } from './StatusAffectType';
 import Character from '../Character/Character';
-import Game from '../Game/Game';
-import { SerializeInterface } from '../SerializeInterface';
 
 export default abstract class StatusAffect extends Effect {
     public readonly type: StatusAffectType;
