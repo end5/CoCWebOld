@@ -1,10 +1,10 @@
 import CombatDrops from './CombatDrops';
 import CombatEnd, { CombatEndEventFunction, CombatEndType } from './CombatEnd';
-import CombatUpdate from './CombatUpdate';
+import CombatUtils from './CombatUtils';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import MainScreen from '../display/MainScreen';
-import CombatMenu from '../display/Menus/CombatMenu';
+import StatusAffect from '../Effects/StatusAffect';
 import Item from '../Items/Item';
 import ItemStack from '../Items/ItemStack';
 import Player from '../Player';
@@ -30,7 +30,7 @@ class CombatParty {
         this.ableMembers = party.slice();
     }
 
-    public readyPartyMember(): Character {
+    public activePartyMember(): Character {
         return this.ableMembers[0];
     }
 
@@ -38,7 +38,7 @@ class CombatParty {
         this.defeatEvents.push(new DefeatEvent(victor, this.ableMembers[0], combatEndType));
     }
 
-    public readyNextPartyMember() {
+    public selectNextPartyMember() {
         if (this.ableMembers.length > 0)
             this.ableMembers.push(this.ableMembers.shift());
     }
@@ -53,6 +53,10 @@ class CombatParty {
             else if (defender.stats.lust > 99) {
                 attacker.combat.claimsVictory(CombatEndType.Lust, defender);
                 this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.Lust));
+            }
+            else if (attacker.combat.hasEscaped(defender)) {
+                attacker.combat.claimsVictory(CombatEndType.Escape, defender);
+                this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.Escape));
             }
             else if (attacker.combat.hasDefeated(defender)) {
                 attacker.combat.claimsVictory(CombatEndType.Special, defender);
@@ -72,45 +76,58 @@ export interface SpecialEnding {
 
 export default class CombatManager {
     private player: Player;
-    private playerParty: Character[];
-    private monsterParty: Character[];
+    private allyParty: Character[];
+    private enemyParty: Character[];
     private combatCleanUp: boolean;
     private specialEnding: SpecialEnding;
-    public playerCombatParty: CombatParty;
-    public monsterCombatParty: CombatParty;
+    public allyCombatParty: CombatParty;
+    public enemyCombatParty: CombatParty;
+    private allyPartyTurn: boolean;
 
-    public constructor(player: Player, playerParty: Character[], monsterParty: Character[], specialEnding: SpecialEnding = null, combatCleanUp: boolean = true) {
+    public constructor(player: Player, allyParty: Character[], enemyParty: Character[], specialEnding: SpecialEnding = null, combatCleanUp: boolean = true) {
         this.player = player;
-        this.playerParty = playerParty;
-        this.monsterParty = monsterParty;
-        this.playerCombatParty = new CombatParty(playerParty.concat(player));
-        this.monsterCombatParty = new CombatParty(monsterParty);
+        this.allyParty = allyParty;
+        this.enemyParty = enemyParty;
+        this.allyCombatParty = new CombatParty(allyParty.concat(player));
+        this.enemyCombatParty = new CombatParty(enemyParty);
 
         this.combatCleanUp = combatCleanUp;
         this.specialEnding = specialEnding;
+
+        this.allyPartyTurn = true;
     }
 
     public performCombatRound() {
-        const player = this.playerCombatParty.readyPartyMember();
-        const enemy = this.monsterCombatParty.readyPartyMember();
-        if (this.playerCombatParty.ableMembers.length > 0 && this.monsterCombatParty.ableMembers.length > 0) {
-            if (player.charType == CharacterType.Player) {
-                // player pick action
-                CombatMenu.display(this.player);
-            }
-            else {
-                //do ai
-                player;
-            }
-            this.monsterCombatParty.resolveAttacker(player);
+        if (this.allyPartyTurn) {
+            this.performAllyPartyTurn();
         }
+        else {
+            this.performEnemyPartyTurn();
+        }
+    }
 
-        if (this.playerCombatParty.ableMembers.length > 0 && this.monsterCombatParty.ableMembers.length > 0) {
-            //do ai
-            enemy;
-            this.playerCombatParty.resolveAttacker(enemy);
+    private performAllyPartyTurn() {
+        const activeMember = this.allyCombatParty.activePartyMember();
+        // Should be:
+        // activeMember == Game.player
+        if (activeMember.charType == CharacterType.Player) {
+            // player pick action
+            CombatMenu.display(this.player);
         }
-        this.resolveCombatRound();
+        else {
+            //do ai
+            activeMember;
+        }
+        this.enemyCombatParty.resolveAttacker(activeMember);
+        this.resolveEndTurn(activeMember);
+    }
+
+    private performEnemyPartyTurn() {
+        const activeMember = this.enemyCombatParty.activePartyMember();
+        //do ai
+        activeMember;
+        this.allyCombatParty.resolveAttacker(activeMember);
+        this.resolveEndTurn(activeMember);
     }
 
     /*private resolvePlayerRound() {
@@ -126,42 +143,54 @@ export default class CombatManager {
         
     }*/
 
-    private resolveCombatRound() {
-        this.playerCombatParty.readyNextPartyMember();
-        this.monsterCombatParty.readyNextPartyMember();
-        CombatUpdate.combatStatusAffectsUpdate(this.playerCombatParty.ableMembers, this.monsterCombatParty.ableMembers);
-        if (this.playerCombatParty.ableMembers.length == 0 || this.monsterCombatParty.ableMembers.length == 0) {
+    private statusAffectUpdate(selectedChar: Character, allyParty: Character[], enemyParty: Character[]): void {
+        const allyChar: Character = allyParty[0];
+        const enemyChar: Character = enemyParty[0];
+
+        allyChar.statusAffects.iterate((statusAffect: StatusAffect) => {
+            statusAffect.combatUpdate(selectedChar, enemyChar);
+        });
+
+        CombatUtils.combatRegeneration(selectedChar);
+    }
+
+
+    private resolveEndTurn(character: Character) {
+        if (this.allyPartyTurn) {
+            this.statusAffectUpdate(character, this.allyCombatParty.ableMembers, this.enemyCombatParty.ableMembers);
+            this.allyCombatParty.selectNextPartyMember();
+        }
+        else {
+            this.statusAffectUpdate(character, this.enemyCombatParty.ableMembers, this.allyCombatParty.ableMembers);
+            this.enemyCombatParty.selectNextPartyMember();
+        }
+        if (this.allyCombatParty.ableMembers.length == 0 || this.enemyCombatParty.ableMembers.length == 0) {
             if (!this.specialEnding) {
                 this.displayDefeatEvents();
                 if (this.combatCleanUp)
-                    CombatEnd.combatCleanup(this.player, this.playerParty, this.monsterParty);
+                    CombatEnd.combatCleanup(this.player, this.allyParty, this.enemyParty);
             }
             else {
                 if (this.combatCleanUp)
-                    CombatEnd.combatCleanup(this.player, this.playerParty, this.monsterParty);
-                this.specialEnding(this.player, this.playerParty, this.monsterParty);
+                    CombatEnd.combatCleanup(this.player, this.allyParty, this.enemyParty);
+                this.specialEnding(this.player, this.allyParty, this.enemyParty);
             }
         }
     }
 
     private displayDefeatEvents() {
-        if (this.playerCombatParty.ableMembers.length == 0) {
-            // do player party lose
-            for (let index: number = 0; index < this.playerCombatParty.defeatEvents.length; index++) {
-                let defeatEvent = this.playerCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
-            }
-            for (let index: number = 0; index < this.playerCombatParty.defeatEvents.length; index++) {
-                let defeatEvent = this.playerCombatParty.defeatEvents[index];
+        if (this.allyCombatParty.ableMembers.length == 0) {
+            for (let index: number = 0; index < this.allyCombatParty.defeatEvents.length; index++) {
+                let defeatEvent = this.allyCombatParty.defeatEvents[index];
                 defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
             }
         }
-        else if (this.playerCombatParty.ableMembers.length == 0) {
-            // do monster party lose
-            for (let index: number = 0; index < this.monsterCombatParty.defeatEvents.length; index++) {
-                let defeatEvent = this.playerCombatParty.defeatEvents[index];
+        else if (this.allyCombatParty.ableMembers.length == 0) {
+            for (let index: number = 0; index < this.enemyCombatParty.defeatEvents.length; index++) {
+                let defeatEvent = this.allyCombatParty.defeatEvents[index];
                 defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
-                CombatDrops.awardPlayer(this.player, defeatEvent.loser);
+                if (defeatEvent.how != CombatEndType.Escape)
+                    CombatDrops.awardPlayer(this.player, defeatEvent.loser);
             }
         }
     }
