@@ -1,105 +1,18 @@
-﻿import { ButtLooseness, ButtWetness } from './Body/Butt';
-import { SkinType } from './Body/Creature';
-import { FaceType, TongueType } from './Body/Face';
-import { HornType } from './Body/Head';
-import { TailType } from './Body/LowerBody';
-import { WingType } from './Body/UpperBody';
-import Character from './Character/Character';
-import { CharacterType } from './Character/CharacterType';
-import CombatContainer from './Combat/CombatContainer';
-import { CombatEndType } from './Combat/CombatEnd';
-import DisplayText from './display/DisplayText';
-import StatusAffect from './Effects/StatusAffect';
-import Flags, { FlagEnum } from './Game/Flags';
-import Game from './Game/Game';
-import Item from './Items/Item';
-import KeyItem from './Items/KeyItem';
-import Utils from './Utilities/Utils';
-
-class PlayerCombatContainer extends CombatContainer {
-    public hasDefeated(enemy: Character): boolean {
-        return false;
-    }
-
-    public claimsVictory(winType: CombatEndType, enemy: Character): void {
-        if (winType == CombatEndType.HP) {
-            DisplayText.text("You defeat " + enemy.desc.a + enemy.desc.short + ".\n", true);
-        }
-        else if (winType == CombatEndType.Lust) {
-            DisplayText.text("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.", true);
-        }
-    }
-
-    protected beforeEnemyVictoryScene(winType: CombatEndType, enemy: Character): void {
-        if (this.char.statusAffects.has("Infested") && Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] == 0) {
-            Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] = 1;
-            infestOrgasm();
-        }
-    }
-victoryScene
-    protected onVictory(loseType: CombatEndType, enemy: Character): void {
-        if (loseType == CombatEndType.HP) {
-            DisplayText.text("Your wounds are too great to bear, and you fall unconscious.", true);
-        }
-        else if (loseType == CombatEndType.Lust) {
-            DisplayText.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
-        }
-    }
-
-    public defeatAftermath(loseType: CombatEndType, enemy: Character): void {
-        if (monster.statusAffects.get("Sparring").value1 == 2) {
-            DisplayText.text("The cow-girl has defeated you in a practice fight!", true);
-            DisplayText.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
-            Game.inCombat = false;
-            player.HP = 1;
-            doNext(nextFunc);
-            return;
-        }
-        else if (monster.statusAffects.has("PeachLootLoss")) {
-            inCombat = false;
-            player.HP = 1;
-            return;
-        }
-        else if (monster.desc.short == "Ember") {
-            inCombat = false;
-            player.HP = 1;
-            doNext(nextFunc);
-            return;
-        }
-        else {
-            let temp: number = Utils.rand(10) + 1;
-            if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
-            DisplayText.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.");
-            this.char.inventory.gems -= temp;
-        }
-
-        let temp = rand(10) + 1 + Math.round(monster.level / 2);
-        if (inDungeon) temp += 20 + monster.level * 2;
-        if (temp > player.stats.gems) temp = player.stats.gems;
-        let timePasses: number = monster.handleCombatLossText(inDungeon, temp); //Allows monsters to customize the loss text and the amount of time lost
-        player.stats.gems -= temp;
-        inCombat = false;
-        //BUNUS XPZ
-        if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
-            player.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
-            DisplayText.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
-            Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
-        }
-        //Bonus lewts
-        if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] != "") {
-            DisplayText.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
-            inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(camp.returnToCamp, timePasses));
-        }
-        else doNext(createCallBackFunction(camp.returnToCamp, timePasses));
-
-        DisplayText.doNext(Game.camp.returnToCampUseEightHours);
-    }
-
-    public victoryAftermath(loseType: CombatEndType, enemy: Character): void {
-        DisplayText.doNext(Game.camp.returnToCampUseOneHour);
-    }
-
-}
+﻿import PlayerCombatContainer from './PlayerCombatContainer';
+import { ButtLooseness, ButtWetness } from '../Body/Butt';
+import { SkinType } from '../Body/Creature';
+import { FaceType, TongueType } from '../Body/Face';
+import { HornType } from '../Body/Head';
+import { TailType } from '../Body/LowerBody';
+import { WingType } from '../Body/UpperBody';
+import Character from '../Character/Character';
+import { CharacterType } from '../Character/CharacterType';
+import { PerkType } from '../Effects/PerkType';
+import StatusAffectFactory from '../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../Effects/StatusAffectType';
+import Flags, { FlagEnum } from '../Game/Flags';
+import Game from '../Game/Game';
+import Utils from '../Utilities/Utils';
 
 export default class Player extends Character {
     public keyItems: KeyItem[];
@@ -177,15 +90,15 @@ export default class Player extends Character {
     }
 
     public slimeFeed(): void {
-        if (this.statusAffects.has("SlimeCraving")) {
+        if (this.statusAffects.has(StatusAffectType.SlimeCraving)) {
             //Reset craving value
-            this.statusAffects.get("SlimeCraving").value1 = 0;
+            this.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
             //Flag to display feed update and restore stats in event parser
-            if (!this.statusAffects.has("SlimeCravingFeed")) {
+            if (!this.statusAffects.has(StatusAffectType.SlimeCravingFeed)) {
                 this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0));
             }
         }
-        if (this.perks.has("Diapause")) {
+        if (this.perks.has(PerkType.Diapause)) {
             Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] += 3 + Utils.rand(33);
             Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 1;
         }
@@ -223,7 +136,7 @@ export default class Player extends Character {
     }
 
     public minotaurAddicted(): boolean {
-        return this.perks.has("MinotaurCumAddict") || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] >= 1;
+        return this.perks.has(PerkType.MinotaurCumAddict) || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] >= 1;
     }
     public minotaurNeed(): boolean {
         return Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_STATE] > 1;
