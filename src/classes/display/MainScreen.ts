@@ -1,5 +1,6 @@
-﻿import Game from '../Game/Game';
-import Player from '../Player';
+﻿import DisplayText from './DisplayText';
+import Game from '../Game/Game';
+import Player from '../Player/Player';
 import HtmlUtils from '../Utilities/HtmlUtils';
 
 export enum StatType {
@@ -117,6 +118,8 @@ export default class MainScreen {
         MainScreen.timeDayPanel = HtmlUtils.loadFromId("timeDay");
         MainScreen.timeHourPanel = HtmlUtils.loadFromId("timeHour");
 
+        DisplayText.register(MainScreen.mainTextDisplay);
+
     }
 
     // Top Buttons
@@ -190,51 +193,6 @@ export default class MainScreen {
         MainScreen.timeHourPanel.innerText = hour.toString();
     }
 
-    // Main text display
-    public static text(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
-        if (purgeText) {
-            MainScreen.clearText();
-        }
-
-        text = this.parser.recursiveParser(text, parseAsMarkdown);
-
-        //OUTPUT!
-        if (purgeText) {
-            MainScreen.mainTextDisplay.innerText = text;
-        }
-        else {
-            MainScreen.mainTextDisplay.innerText += text;
-        }
-    }
-
-    public static italic(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
-        MainScreen.html('<i>' + text + '</i>');
-    }
-
-    public static bold(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
-        MainScreen.html('<b>' + text + '</b>');
-    }
-
-    public static html(text: string, purgeText: boolean = false, parseAsMarkdown: boolean = false) {
-        if (purgeText) {
-            MainScreen.clearText();
-        }
-
-        text = this.parser.recursiveParser(text, parseAsMarkdown);
-
-        //OUTPUT!
-        if (purgeText) {
-            MainScreen.mainTextDisplay.innerHTML = text;
-        }
-        else {
-            MainScreen.mainTextDisplay.innerHTML += text;
-        }
-    }
-
-    public static clearText() {
-        MainScreen.mainTextDisplay.innerText = "";
-    }
-
     // Bottom buttons
     public static showButton(buttonNumber: number) {
         if (buttonNumber >= 0 && buttonNumber < 10) {
@@ -268,7 +226,7 @@ export default class MainScreen {
             button.removeEventListener('click', MainScreen.bottomButtonFuncs[buttonNumber]);
             MainScreen.bottomButtonFuncs[buttonNumber] = func;
             button.addEventListener('click', MainScreen.bottomButtonFuncs[buttonNumber]);
-       }
+        }
     }
 
     public static displayChoices(text: string[], func: ClickFunction[]) {
