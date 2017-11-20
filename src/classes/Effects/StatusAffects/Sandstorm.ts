@@ -14,14 +14,14 @@ export class Sandstorm extends StatusAffect {
         if (character.charType == CharacterType.Player) {
         }
         else {
-            character.statusAffects.get("Sandstorm").value1 += 1;
+            character.statusAffects.get(StatusAffectType.Sandstorm).value1 += 1;
             //Blinded:
-            if (enemy.statusAffects.has("Blind")) {
-                enemy.statusAffects.remove("Blind");
+            if (enemy.statusAffects.has(StatusAffectType.Blind)) {
+                enemy.statusAffects.remove(StatusAffectType.Blind);
                 return "<b>You blink the sand from your eyes, but you're sure that more will get you if you don't end it soon!</b>\n\n";
             }
             else {
-                if (character.statusAffects.get("Sandstorm").value1 == 0 || character.statusAffects.get("Sandstorm").value1 % 4 == 0) {
+                if (character.statusAffects.get(StatusAffectType.Sandstorm).value1 == 0 || character.statusAffects.get(StatusAffectType.Sandstorm).value1 % 4 == 0) {
                     enemy.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Blind, 0, 0, 0, 0));
                     return "<b>The sand is in your eyes!  You're blinded this turn!</b>\n\n";
                 }

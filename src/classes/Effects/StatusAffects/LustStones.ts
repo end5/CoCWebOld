@@ -1,5 +1,6 @@
 import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
+import { StatusAffectType } from '../StatusAffectType';
 
 export class LustStones extends StatusAffect {
     public removeOnCombatEnd(): boolean {
@@ -7,7 +8,7 @@ export class LustStones extends StatusAffect {
     }
 
     public combatUpdate(character: Character): string {
-        character.stats.lust += character.statusAffects.get("LustStones").value1 + 4;
+        character.stats.lust += character.statusAffects.get(StatusAffectType.LustStones).value1 + 4;
         //[When witches activate the stones for goo bodies]
         if (character.lowerBody.isGoo()) {
             return "<b>The stones start vibrating again, making your liquid body ripple with pleasure.  The witches snicker at the odd sight you are right now.\n\n</b>";

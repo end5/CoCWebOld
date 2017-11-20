@@ -1,5 +1,6 @@
 import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
+import { StatusAffectType } from '../StatusAffectType';
 
 export class DriderKiss extends StatusAffect {
     public removeOnCombatEnd(): boolean {
@@ -8,12 +9,12 @@ export class DriderKiss extends StatusAffect {
 
     public combatUpdate(character: Character): string {
         //(VENOM OVER TIME: WEAK)
-        if (character.statusAffects.get("DriderKiss").value1 == 0) {
+        if (character.statusAffects.get(StatusAffectType.DriderKiss).value1 == 0) {
             character.stats.lust += 8;
             return "Your heart hammers a little faster as a vision of the drider's nude, exotic body on top of you assails you.  It'll only get worse if she kisses you again...\n\n";
         }
         //(VENOM OVER TIME: MEDIUM)
-        else if (character.statusAffects.get("DriderKiss").value1 == 1) {
+        else if (character.statusAffects.get(StatusAffectType.DriderKiss).value1 == 1) {
             character.stats.lust += 15;
             let out = "You shudder and moan, nearly touching yourself as your ";
             if (character.gender > 0) out += "loins tingle and leak, hungry for the drider's every touch.";

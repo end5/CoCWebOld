@@ -11,8 +11,8 @@ export class TemporaryHeat extends StatusAffect {
     }
 
     public combatUpdate(character: Character): string {
-        if (character.perks.has("Medicine") && Utils.rand(100) <= 14) {
-            character.statusAffects.remove("TemporaryHeat");
+        if (character.perks.has(PerkType.Medicine) && Utils.rand(100) <= 14) {
+            character.statusAffects.remove(StatusAffectType.TemporaryHeat);
             return "You manage to cleanse the heat and rut drug from your system with your knowledge of medicine!\n\n";
         }
         else {

@@ -1,5 +1,6 @@
 import Character from '../../Character/Character';
 import StatusAffect from '../StatusAffect';
+import { StatusAffectType } from '../StatusAffectType';
 
 export class Web extends StatusAffect {
     public removeOnCombatEnd(): boolean {
@@ -7,7 +8,7 @@ export class Web extends StatusAffect {
     }
 
     public combatEnd(character: Character) {
-        character.stats.spe += character.statusAffects.get("Web").value1;
+        character.stats.spe += character.statusAffects.get(StatusAffectType.Web).value1;
     }
 
     public combatUpdate(character: Character): string {

@@ -10,8 +10,8 @@ export class LustStick extends StatusAffect {
         if (character.charType == CharacterType.Player) {
             if (character.lowerBody.cockSpot.hasCock() && enemy.charType == (CharacterType.Harpy | CharacterType.Sophie)) {
                 //Chance to cleanse!
-                if (character.perks.has("Medicine") && Utils.rand(100) <= 14) {
-                    character.statusAffects.remove("Luststick");
+                if (character.perks.has(PerkType.Medicine) && Utils.rand(100) <= 14) {
+                    character.statusAffects.remove(StatusAffectType.Luststick);
                     return "You manage to cleanse the harpy lip-gloss from your system with your knowledge of medicine!\n\n";
                 }
                 else if (Utils.rand(5) == 0) {
@@ -22,11 +22,11 @@ export class LustStick extends StatusAffect {
             }
         }
         else { // Monster
-            character.statusAffects.get("LustStick").value1 += 1;
+            character.statusAffects.get(StatusAffectType.LustStick).value1 += 1;
             //Damage = 5 + bonus score minus
             //Reduced by lust vuln of course
-            character.stats.lust += Math.round(character.stats.lustVuln * (5 + character.statusAffects.get("LustStick").value2));
-            switch (character.statusAffects.get("LustStick").value1) {
+            character.stats.lust += Math.round(character.stats.lustVuln * (5 + character.statusAffects.get(StatusAffectType.LustStick).value2));
+            switch (character.statusAffects.get(StatusAffectType.LustStick).value1) {
                 //First:
                 case 1:
                     if (character.desc.plural) return "One of " + character.desc.a + character.desc.short + " pants and crosses " + GenderDescriptor.mf(character, "his", "her") + " eyes for a moment.  " + GenderDescriptor.mf(character, "His", "Her") + " dick flexes and bulges, twitching as " + GenderDescriptor.mf(character, "he", "she") + " loses himself in a lipstick-fueled fantasy.  When " + GenderDescriptor.mf(character, "he", "she") + " recovers, you lick your lips and watch " + GenderDescriptor.mf(character, "his", "her") + " blush spread.\n\n";

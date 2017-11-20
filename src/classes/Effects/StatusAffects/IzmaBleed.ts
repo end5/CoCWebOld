@@ -2,6 +2,7 @@ import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import Utils from '../../Utilities/Utils';
 import StatusAffect from '../StatusAffect';
+import { StatusAffectType } from '../StatusAffectType';
 
 export class IzmaBleed extends StatusAffect {
     public removeOnCombatEnd(): boolean {
@@ -10,8 +11,8 @@ export class IzmaBleed extends StatusAffect {
 
     public combatUpdate(character: Character, enemy: Character): string {
         if (character.charType == CharacterType.Player) {
-            if (character.statusAffects.get("IzmaBleed").value1 <= 0) {
-                character.statusAffects.remove("IzmaBleed");
+            if (character.statusAffects.get(StatusAffectType.IzmaBleed).value1 <= 0) {
+                character.statusAffects.remove(StatusAffectType.IzmaBleed);
                 return "<b>You sigh with relief; your bleeding has slowed considerably.</b>\n\n";
             }
             //Bleed effect:
@@ -24,10 +25,10 @@ export class IzmaBleed extends StatusAffect {
         }
         else {
             //Countdown to heal
-            character.statusAffects.get("IzmaBleed").value1 -= 1;
+            character.statusAffects.get(StatusAffectType.IzmaBleed).value1 -= 1;
             //Heal wounds
-            if (character.statusAffects.get("IzmaBleed").value1 <= 0) {
-                character.statusAffects.remove("IzmaBleed");
+            if (character.statusAffects.get(StatusAffectType.IzmaBleed).value1 <= 0) {
+                character.statusAffects.remove(StatusAffectType.IzmaBleed);
                 return "The wounds you left on " + character.desc.a + character.desc.short + " stop bleeding so profusely.\n\n";
             }
             //Deal damage if still wounded.
