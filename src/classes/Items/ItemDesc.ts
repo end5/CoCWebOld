@@ -1,4 +1,4 @@
-import Player from '../Player';
+import Player from '../Player/Player';
 import LibraryEntry from '../Utilities/LibraryEntry';
 
 export default class ItemDesc {

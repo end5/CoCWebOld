@@ -1,6 +1,6 @@
 import ItemDesc from './ItemDesc';
 import Game from '../Game/Game';
-import Player from '../Player';
+import Player from '../Player/Player';
 import { SerializeInterface } from '../SerializeInterface';
 import LibraryEntry from '../Utilities/LibraryEntry';
 

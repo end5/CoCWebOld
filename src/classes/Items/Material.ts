@@ -1,8 +1,8 @@
 import Item, { ItemType } from './Item';
 import ItemDesc from './ItemDesc';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
 import Game from '../Game/Game';
-import Player from '../Player';
+import Player from '../Player/Player';
 
 export default class Material extends Item {
     serialize(): string {
@@ -29,6 +29,6 @@ export default class Material extends Item {
     }
 
     public useText(player: Player) {
-        MainScreen.text(this._useText);
+        DisplayText.text(this._useText);
     }
 }
