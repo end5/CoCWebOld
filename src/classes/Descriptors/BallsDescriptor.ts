@@ -20,7 +20,7 @@ export default class BallsDescriptor {
         let description: string = "";
         let options: string[] = [];
 
-        if (plural && (!body.statusAffects.has("Uniball"))) {
+        if (plural && (!body.statusAffects.has(StatusAffectType.Uniball))) {
             if (body.lowerBody.balls == 1) {
                 if (withArticle) {
                     options = ["a single",
@@ -102,7 +102,7 @@ export default class BallsDescriptor {
 
         }
         //UNIBALL
-        if (body.statusAffects.has("Uniball")) {
+        if (body.statusAffects.has(StatusAffectType.Uniball)) {
             if (description)
                 description += " ";
             options = ["tightly-compressed",
@@ -166,7 +166,7 @@ export default class BallsDescriptor {
         if (plural)
             description += "s";
 
-        if (body.statusAffects.has("Uniball") && Utils.rand(2) == 0) {
+        if (body.statusAffects.has(StatusAffectType.Uniball) && Utils.rand(2) == 0) {
             if (Utils.rand(3) == 0)
                 description += " merged into a cute, spherical package";
             else if (Utils.rand(2) == 0)

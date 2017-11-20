@@ -1,5 +1,5 @@
 ﻿import GenderDescriptor from './GenderDescriptor';
-import Player from '../Player';
+import Player from '../Player/Player';
 import RaceScore from '../RaceScore';
 
 export default class PlayerDescriptor {

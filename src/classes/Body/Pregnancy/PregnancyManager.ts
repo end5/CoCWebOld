@@ -1,6 +1,6 @@
 import Pregnancy, { PregnancyType } from './Pregnancy';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import UpdateInterface from '../../UpdateInterface';
 import Utils from '../../Utilities/Utils';
 import Butt from '../Butt';
@@ -54,7 +54,7 @@ export default class PregnancyManager implements UpdateInterface {
                     if (this.wombs[index].canBirth(this.body)) {
                         if (!this.body.lowerBody.vaginaSpot.hasVagina()) {
                             if (this.body instanceof Player)
-                                MainScreen.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ", false);
+                                DisplayText.text("You feel a terrible pressure in your groin... then an incredible pain accompanied by the rending of flesh.  You look down and behold a vagina.  ");
                             this.body.lowerBody.vaginaSpot.add(new Vagina());
                             this.body.updateGender();
                         }
@@ -123,7 +123,7 @@ export default class PregnancyManager implements UpdateInterface {
     //If arg == 1 then override any contraceptives and guarantee fertilization
     public knockUp(vaginaNumber: number, pregnancy: Pregnancy, beat: number = 100, arg: number = 0): void {
         //Contraceptives cancel!
-        if (this.body.statusAffects.has("Contraceptives") && arg < 1)
+        if (this.body.statusAffects.has(StatusAffectType.Contraceptives) && arg < 1)
             return;
         if (this.canKnockUp() && vaginaNumber < this.vaginaSpot.count()) {
             // length check
@@ -142,7 +142,7 @@ export default class PregnancyManager implements UpdateInterface {
             }
             //Chance for eggs fertilization - ovi elixir and imps excluded!
             if (pregnancy.type != (PregnancyType.IMP && PregnancyType.OVIELIXIR_EGGS && PregnancyType.ANEMONE) &&
-                (this.body.perks.has("SpiderOvipositor") || this.body.perks.has("BeeOvipositor")) &&
+                (this.body.perks.has(PerkType.SpiderOvipositor) || this.body.perks.has(PerkType.BeeOvipositor)) &&
                 (this.body.totalFertility() + bonus > Utils.rand(beat)))
                 this.body.lowerBody.ovipositor.fertilizeEggs();
         }
@@ -154,7 +154,7 @@ export default class PregnancyManager implements UpdateInterface {
     //fertility must be >= random(0-beat)
     public buttKnockUp(pregnancy: Pregnancy, beat: number = 100, arg: number = 0): void {
         //Contraceptives cancel!
-        if (this.body.statusAffects.has("Contraceptives") && arg < 1)
+        if (this.body.statusAffects.has(StatusAffectType.Contraceptives) && arg < 1)
             return;
         let bonus: number = 0;
         //If arg = 1 (always pregnant), bonus = 9000

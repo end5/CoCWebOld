@@ -4,7 +4,9 @@ import CockSpot from '../Body/CockSpot';
 import Creature from '../Body/Creature';
 import BallsDescriptor from '../Descriptors/BallsDescriptor';
 import CockDescriptor from '../Descriptors/CockDescriptor';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Utils from '../Utilities/Utils';
 
@@ -28,7 +30,7 @@ export default class CockModifier {
     public static growCock(body: Creature, cock: Cock, lengthDelta: number): number {
         let bigCock: boolean = false;
 
-        if (body.perks.has("BigCock"))
+        if (body.perks.has(PerkType.BigCock))
             bigCock = true;
 
         if (lengthDelta == 0) {
@@ -189,33 +191,33 @@ export default class CockModifier {
         //Texts
         if (removed == 1) {
             if (cocks.count() == 0) {
-                MainScreen.text("<b>Your manhood shrinks into your body, disappearing completely.</b>", false);
-                if (creature.statusAffects.has("Infested")) MainScreen.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.", false);
+                DisplayText.text("<b>Your manhood shrinks into your body, disappearing completely.</b>");
+                if (creature.statusAffects.has(StatusAffectType.Infested)) DisplayText.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.");
             }
             if (cocks.count() == 1) {
-                MainScreen.text("<b>Your smallest penis disappears, shrinking into your body and leaving you with just one " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".</b>", false);
+                DisplayText.text("<b>Your smallest penis disappears, shrinking into your body and leaving you with just one " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".</b>");
             }
             if (cocks.count() > 1) {
-                MainScreen.text("<b>Your smallest penis disappears forever, leaving you with just your " + CockDescriptor.describeMultiCockShort(creature) + ".</b>", false);
+                DisplayText.text("<b>Your smallest penis disappears forever, leaving you with just your " + CockDescriptor.describeMultiCockShort(creature) + ".</b>");
             }
         }
         if (removed > 1) {
             if (cocks.count() == 0) {
-                MainScreen.text("<b>All your male endowments shrink smaller and smaller, disappearing one at a time.</b>", false);
-                if (creature.statusAffects.has("Infested")) MainScreen.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.", false);
+                DisplayText.text("<b>All your male endowments shrink smaller and smaller, disappearing one at a time.</b>");
+                if (creature.statusAffects.has(StatusAffectType.Infested)) DisplayText.text("  Like rats fleeing a sinking ship, a stream of worms squirts free from your withering member, slithering away.");
             }
             if (cocks.count() == 1) {
-                MainScreen.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with just your " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".", false);
+                DisplayText.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with just your " + CockDescriptor.describeCock(creature, creature.lowerBody.cockSpot.get(0)) + ".");
             }
             if (cocks.count() > 1) {
-                MainScreen.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with " + CockDescriptor.describeMultiCockShort(creature) + ".", false);
+                DisplayText.text("<b>You feel " + Utils.numToCardinalText(removed) + " cocks disappear into your groin, leaving you with " + CockDescriptor.describeMultiCockShort(creature) + ".");
             }
         }
         //remove infestation if cockless
-        if (cocks.count() == 0 && creature.statusAffects.has("Infested"))
-            creature.statusAffects.remove("Infested");
+        if (cocks.count() == 0 && creature.statusAffects.has(StatusAffectType.Infested))
+            creature.statusAffects.remove(StatusAffectType.Infested);
         if (cocks.count() == 0 && creature.lowerBody.balls > 0) {
-            MainScreen.text("  <b>Your " + BallsDescriptor.describeSack(creature) + " and " + BallsDescriptor.describeBallsShort(creature) + " shrink and disappear, vanishing into your groin.</b>", false);
+            DisplayText.text("  <b>Your " + BallsDescriptor.describeSack(creature) + " and " + BallsDescriptor.describeBallsShort(creature) + " shrink and disappear, vanishing into your groin.</b>");
             creature.lowerBody.balls = 0;
             creature.lowerBody.ballSize = 1;
         }
@@ -234,130 +236,130 @@ export default class CockModifier {
         //DIsplay the degree of length change.
         if (lengthChange <= 1 && lengthChange > 0) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeCock(body, firstCock) + " has grown slightly longer.", false);
+                DisplayText.text("Your " + CockDescriptor.describeCock(body, firstCock) + " has grown slightly longer.");
             if (cocks.count() > 1) {
                 if (ncocks == 1)
-                    MainScreen.text("One of your " + CockDescriptor.describeMultiCockShort(body) + " grows slightly longer.", false);
+                    DisplayText.text("One of your " + CockDescriptor.describeMultiCockShort(body) + " grows slightly longer.");
                 if (ncocks > 1 && ncocks < cocks.count())
-                    MainScreen.text("Some of your " + CockDescriptor.describeMultiCockShort(body) + " grow slightly longer.", false);
+                    DisplayText.text("Some of your " + CockDescriptor.describeMultiCockShort(body) + " grow slightly longer.");
                 if (ncocks == cocks.count())
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " seem to fill up... growing a little bit larger.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " seem to fill up... growing a little bit larger.");
             }
         }
         if (lengthChange > 1 && lengthChange < 3) {
             if (cocks.count() == 1)
-                MainScreen.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeCock(body, firstCock) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.", false);
+                DisplayText.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeCock(body, firstCock) + " grows permanently longer - at least an inch - and leaks pre-cum from the pleasure of the change.");
             if (cocks.count() > 1) {
                 if (ncocks == cocks.count())
-                    MainScreen.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeMultiCockShort(body) + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.", false);
+                    DisplayText.text("A very pleasurable feeling spreads from your groin as your " + CockDescriptor.describeMultiCockShort(body) + " grow permanently longer - at least an inch - and leak plenty of pre-cum from the pleasure of the change.");
                 if (ncocks == 1)
-                    MainScreen.text("A very pleasurable feeling spreads from your groin as one of your " + CockDescriptor.describeMultiCockShort(body) + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.", false);
+                    DisplayText.text("A very pleasurable feeling spreads from your groin as one of your " + CockDescriptor.describeMultiCockShort(body) + " grows permanently longer, by at least an inch, and leaks plenty of pre-cum from the pleasure of the change.");
                 if (ncocks > 1 && ncocks < cocks.count())
-                    MainScreen.text("A very pleasurable feeling spreads from your groin as " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " grow permanently longer, by at least an inch, and leak plenty of pre-cum from the pleasure of the change.", false);
+                    DisplayText.text("A very pleasurable feeling spreads from your groin as " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " grow permanently longer, by at least an inch, and leak plenty of pre-cum from the pleasure of the change.");
             }
         }
         if (lengthChange >= 3) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeCock(body, firstCock) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.", false);
+                DisplayText.text("Your " + CockDescriptor.describeCock(body, firstCock) + " feels incredibly tight as a few more inches of length seem to pour out from your crotch.");
             if (cocks.count() > 1) {
                 if (ncocks == 1)
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly tight as one of their number begins to grow inch after inch of length.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly tight as one of their number begins to grow inch after inch of length.");
                 if (ncocks > 1 && ncocks < cocks.count())
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly number as " + Utils.numToCardinalText(ncocks) + " of them begin to grow inch after inch of added length.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly number as " + Utils.numToCardinalText(ncocks) + " of them begin to grow inch after inch of added length.");
                 if (ncocks == cocks.count())
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly tight as inch after inch of length pour out from your groin.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " feel incredibly tight as inch after inch of length pour out from your groin.");
             }
         }
         //Display LengthChange
         if (lengthChange > 0) {
             if (firstCock.cockLength >= 8 && firstCock.cockLength - lengthChange < 8) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>Most men would be overly proud to have a tool as long as yours.</b>", false);
+                    DisplayText.text("  <b>Most men would be overly proud to have a tool as long as yours.</b>");
                 if (cocks.count() > 1)
-                    MainScreen.text("  <b>Most men would be overly proud to have one cock as long as yours, let alone " + CockDescriptor.describeMultiCock(body) + ".</b>", false);
+                    DisplayText.text("  <b>Most men would be overly proud to have one cock as long as yours, let alone " + CockDescriptor.describeMultiCock(body) + ".</b>");
             }
             if (firstCock.cockLength >= 12 && firstCock.cockLength - lengthChange < 12) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it nearly swings to your knee at its full length.</b>", false);
+                    DisplayText.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it nearly swings to your knee at its full length.</b>");
                 if (cocks.count() > 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they nearly reach your knees when at full length.</b>", false);
+                    DisplayText.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they nearly reach your knees when at full length.</b>");
             }
             if (firstCock.cockLength >= 16 && firstCock.cockLength - lengthChange < 16) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " would look more at home on a large horse than you.</b>", false);
+                    DisplayText.text("  <b>Your " + CockDescriptor.describeCock(body, firstCock) + " would look more at home on a large horse than you.</b>");
                 if (cocks.count() > 1)
-                    MainScreen.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " would look more at home on a large horse than on your body.</b>", false);
+                    DisplayText.text("  <b>Your " + CockDescriptor.describeMultiCockShort(body) + " would look more at home on a large horse than on your body.</b>");
                 if (body.upperBody.chest.BreastRatingLargest[0].breastRating >= BreastCup.C) {
                     if (cocks.count() == 1)
-                        MainScreen.text("  You could easily stuff your " + CockDescriptor.describeCock(body, firstCock) + " between your breasts and give yourself the titty-fuck of a lifetime.", false);
+                        DisplayText.text("  You could easily stuff your " + CockDescriptor.describeCock(body, firstCock) + " between your breasts and give yourself the titty-fuck of a lifetime.");
                     if (cocks.count() > 1)
-                        MainScreen.text("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.", false);
+                        DisplayText.text("  They reach so far up your chest it would be easy to stuff a few cocks between your breasts and give yourself the titty-fuck of a lifetime.");
                 }
                 else {
                     if (cocks.count() == 1)
-                        MainScreen.text("  Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.", false);
+                        DisplayText.text("  Your " + CockDescriptor.describeCock(body, firstCock) + " is so long it easily reaches your chest.  The possibility of autofellatio is now a foregone conclusion.");
                     if (cocks.count() > 1)
-                        MainScreen.text("  Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they easily reach your chest.  Autofellatio would be about as hard as looking down.", false);
+                        DisplayText.text("  Your " + CockDescriptor.describeMultiCockShort(body) + " are so long they easily reach your chest.  Autofellatio would be about as hard as looking down.");
                 }
             }
             if (firstCock.cockLength >= 20 && firstCock.cockLength - lengthChange < 20) {
                 if (cocks.count() == 1)
-                    MainScreen.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeCock(body, firstCock) + " wasn't enough, the tip of your " + CockDescriptor.describeCock(body, firstCock) + " keeps poking its way into your view every time you get hard.</b>", false);
+                    DisplayText.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeCock(body, firstCock) + " wasn't enough, the tip of your " + CockDescriptor.describeCock(body, firstCock) + " keeps poking its way into your view every time you get hard.</b>");
                 if (cocks.count() > 1)
-                    MainScreen.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeMultiCockShort(body) + " wasn't bad enough, every time you get hard, the tips of your " + CockDescriptor.describeMultiCockShort(body) + " wave before you, obscuring the lower portions of your vision.</b>", false);
+                    DisplayText.text("  <b>As if the pulsing heat of your " + CockDescriptor.describeMultiCockShort(body) + " wasn't bad enough, every time you get hard, the tips of your " + CockDescriptor.describeMultiCockShort(body) + " wave before you, obscuring the lower portions of your vision.</b>");
                 if (body.stats.cor > 40 && body.stats.cor <= 60) {
                     if (cocks.count() > 1)
-                        MainScreen.text("  You wonder if there is a demon or beast out there that could take the full length of one of your " + CockDescriptor.describeMultiCockShort(body) + "?", false);
+                        DisplayText.text("  You wonder if there is a demon or beast out there that could take the full length of one of your " + CockDescriptor.describeMultiCockShort(body) + "?");
                     if (cocks.count() == 1)
-                        MainScreen.text("  You wonder if there is a demon or beast out there that could handle your full length.", false);
+                        DisplayText.text("  You wonder if there is a demon or beast out there that could handle your full length.");
                 }
                 if (body.stats.cor > 60 && body.stats.cor <= 80) {
                     if (cocks.count() > 1)
-                        MainScreen.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeMultiCockShort(body) + " to their hilts, milking you dry.\n\nYou smile at the pleasant thought.", false);
+                        DisplayText.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeMultiCockShort(body) + " to their hilts, milking you dry.\n\nYou smile at the pleasant thought.");
                     if (cocks.count() == 1)
-                        MainScreen.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeCock(body, firstCock) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.", false);
+                        DisplayText.text("  You daydream about being attacked by a massive tentacle beast, its tentacles engulfing your " + CockDescriptor.describeCock(body, firstCock) + " to the hilt, milking it of all your cum.\n\nYou smile at the pleasant thought.");
                 }
                 if (body.stats.cor > 80) {
                     if (cocks.count() > 1)
-                        MainScreen.text("  You find yourself fantasizing about impaling nubile young champions on your " + CockDescriptor.describeMultiCockShort(body) + " in a year's time.", false);
+                        DisplayText.text("  You find yourself fantasizing about impaling nubile young champions on your " + CockDescriptor.describeMultiCockShort(body) + " in a year's time.");
                 }
             }
         }
         //Display the degree of length loss.
         if (lengthChange < 0 && lengthChange >= -1) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " has shrunk to a slightly shorter length.", false);
+                DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " has shrunk to a slightly shorter length.");
             if (cocks.count() > 1) {
                 if (ncocks == cocks.count())
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " have shrunk to a slightly shorter length.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " have shrunk to a slightly shorter length.");
                 if (ncocks > 1 && ncocks < cocks.count())
-                    MainScreen.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " have shrunk to a slightly shorter length.", false);
+                    DisplayText.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " have shrunk to a slightly shorter length.");
                 if (ncocks == 1)
-                    MainScreen.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " has shrunk to a slightly shorter length.", false);
+                    DisplayText.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " has shrunk to a slightly shorter length.");
             }
         }
         if (lengthChange < -1 && lengthChange > -3) {
             if (cocks.count() == 1)
-                MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " shrinks smaller, flesh vanishing into your groin.", false);
+                DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " shrinks smaller, flesh vanishing into your groin.");
             if (cocks.count() > 1) {
                 if (ncocks == cocks.count())
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.");
                 if (ncocks == 1)
-                    MainScreen.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.", false);
+                    DisplayText.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.");
                 if (ncocks > 1 && ncocks < cocks.count())
-                    MainScreen.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.", false);
+                    DisplayText.text("You feel " + Utils.numToCardinalText(ncocks) + " of your " + CockDescriptor.describeMultiCockShort(body) + " shrink smaller, the flesh vanishing into your groin.");
             }
         }
         if (lengthChange <= -3) {
             if (cocks.count() == 1)
-                MainScreen.text("A large portion of your " + CockDescriptor.describeMultiCockShort(body) + "'s length shrinks and vanishes.", false);
+                DisplayText.text("A large portion of your " + CockDescriptor.describeMultiCockShort(body) + "'s length shrinks and vanishes.");
             if (cocks.count() > 1) {
                 if (ncocks == cocks.count())
-                    MainScreen.text("A large portion of your " + CockDescriptor.describeMultiCockShort(body) + " receeds towards your groin, receding rapidly in length.", false);
+                    DisplayText.text("A large portion of your " + CockDescriptor.describeMultiCockShort(body) + " receeds towards your groin, receding rapidly in length.");
                 if (ncocks == 1)
-                    MainScreen.text("A single member of your " + CockDescriptor.describeMultiCockShort(body) + " vanishes into your groin, receding rapidly in length.", false);
+                    DisplayText.text("A single member of your " + CockDescriptor.describeMultiCockShort(body) + " vanishes into your groin, receding rapidly in length.");
                 if (ncocks > 1 && cocks.count() > ncocks)
-                    MainScreen.text("Your " + CockDescriptor.describeMultiCockShort(body) + " tingles as " + Utils.numToCardinalText(ncocks) + " of your members vanish into your groin, receding rapidly in length.", false);
+                    DisplayText.text("Your " + CockDescriptor.describeMultiCockShort(body) + " tingles as " + Utils.numToCardinalText(ncocks) + " of your members vanish into your groin, receding rapidly in length.");
             }
         }
     }

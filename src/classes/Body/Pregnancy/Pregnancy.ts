@@ -1,5 +1,5 @@
 ﻿import IPregnancyEvent from './IPregnancyEvent';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
 import { SerializeInterface } from '../../SerializeInterface';
 import Creature from '../Creature';

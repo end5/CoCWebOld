@@ -8,7 +8,7 @@ import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
 import FaceDescriptor from '../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../Descriptors/HeadDescriptor';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
 import StatusAffect from '../Effects/StatusAffect';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
@@ -60,11 +60,11 @@ export default abstract class Character extends Creature implements UpdateInterf
 
 	private regeneration() {
 		let healingPercent = 0;
-		if (this.perks.has("Regeneration")) healingPercent += 2;
-		if (this.perks.has("Regeneration2")) healingPercent += 4;
+		if (this.perks.has(PerkType.Regeneration)) healingPercent += 2;
+		if (this.perks.has(PerkType.Regeneration2)) healingPercent += 4;
 		if (this.inventory.armorSlot.equipment.displayName == "skimpy nurse's outfit") healingPercent += 2;
 		if (this.inventory.armorSlot.equipment.displayName == "goo armor") healingPercent += 3;
-		if (this.perks.has("LustyRegeneration")) healingPercent += 2;
+		if (this.perks.has(PerkType.LustyRegeneration)) healingPercent += 2;
 		if (healingPercent > 10) healingPercent = 10;
 		this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
 	}
@@ -74,41 +74,41 @@ export default abstract class Character extends Creature implements UpdateInterf
 		//EZ MOAD half damage
 		if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1)
 			damage /= 2;
-		if (this.statusAffects.has("Shielding")) {
+		if (this.statusAffects.has(StatusAffectType.Shielding)) {
 			damage -= 30;
 			if (damage < 1)
 				damage = 1;
 		}
 		//Black cat beer = 25% reduction!
-		if (this.statusAffects.get("BlackCatBeer").value1 > 0)
+		if (this.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
 			damage = Math.round(damage * .75);
 
 		//Take damage you masochist!
-		if (this.perks.has("Masochist") && this.stats.lib >= 60) {
+		if (this.perks.has(PerkType.Masochist) && this.stats.lib >= 60) {
 			damage = Math.round(damage * .7);
 			this.stats.lust += 2;
 			//Dont let it round too far down!
 			if (damage < 1)
 				damage = 1;
 		}
-		if (this.perks.has("ImmovableObject") && this.stats.tou >= 75) {
+		if (this.perks.has(PerkType.ImmovableObject) && this.stats.tou >= 75) {
 			damage = Math.round(damage * .8);
 			if (damage < 1)
 				damage = 1;
 		}
 
 		// Uma's Massage bonuses
-		if (this.statusAffects.has("UmasMassage")) {
-			if (this.statusAffects.get("UmasMassage").value1 == UmasShop.MASSAGE_RELAXATION) {
-				damage = Math.round(damage * this.statusAffects.get("UmasMassage").value2);
+		if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
+			if (this.statusAffects.get(StatusAffectType.UmasMassage).value1 == UmasShop.MASSAGE_RELAXATION) {
+				damage = Math.round(damage * this.statusAffects.get(StatusAffectType.UmasMassage).value2);
 			}
 		}
 
 		// Uma's Accupuncture Bonuses
 		let modArmorDef: number = 0;
-		if (this.perks.has("ChiReflowDefense"))
+		if (this.perks.has(PerkType.ChiReflowDefense))
 			modArmorDef = ((this.defense() * UmasShop.NEEDLEWORK_DEFENSE_DEFENSE_MULTI) - this.defense());
-		if (this.perks.has("ChiReflowAttack"))
+		if (this.perks.has(PerkType.ChiReflowAttack))
 			modArmorDef = ((this.defense() * UmasShop.NEEDLEWORK_ATTACK_DEFENSE_MULTI) - this.defense());
 		damage -= modArmorDef;
 		if (damage < 0) damage = 0;
@@ -131,12 +131,12 @@ export default abstract class Character extends Creature implements UpdateInterf
 	public defense(): number {
 		let armorDef: number = this.inventory.armorSlot.equipment.defense;
 		//Blacksmith history!
-		if (armorDef > 0 && this.perks.has("HistorySmith")) {
+		if (armorDef > 0 && this.perks.has(PerkType.HistorySmith)) {
 			armorDef = Math.round(armorDef * 1.1);
 			armorDef += 1;
 		}
 		//Skin armor perk
-		if (this.perks.has("ThickSkin")) {
+		if (this.perks.has(PerkType.ThickSkin)) {
 			armorDef += 2;
 			if (this.skinType > SkinType.PLAIN) armorDef += 1;
 		}
@@ -148,23 +148,23 @@ export default abstract class Character extends Creature implements UpdateInterf
 		//'Thick' dermis descriptor adds 1!
 		if (this.skinAdj == "smooth") armorDef += 1;
 		//Agility boosts armor ratings!
-		if (this.perks.has("Agility")) {
+		if (this.perks.has(PerkType.Agility)) {
 			if (this.inventory.armorSlot.equipment.armorClass == "Light")
 				armorDef += Math.round(this.stats.spe / 8);
 			else if (this.inventory.armorSlot.equipment.armorClass == "Medium")
 				armorDef += Math.round(this.stats.spe / 13);
 		}
 		//Berzerking removes armor
-		if (this.statusAffects.has("Berzerking")) {
+		if (this.statusAffects.has(StatusAffectType.Berzerking)) {
 			armorDef = 0;
 		}
-		if (this.statusAffects.has("CoonWhip")) {
-			armorDef -= this.statusAffects.get("CoonWhip").value1;
+		if (this.statusAffects.has(StatusAffectType.CoonWhip)) {
+			armorDef -= this.statusAffects.get(StatusAffectType.CoonWhip).value1;
 			if (armorDef < 0)
 				armorDef = 0;
 		}
-		if (this.statusAffects.has("TailWhip")) {
-			armorDef -= this.statusAffects.get("TailWhip").value1;
+		if (this.statusAffects.has(StatusAffectType.TailWhip)) {
+			armorDef -= this.statusAffects.get(StatusAffectType.TailWhip).value1;
 			if (armorDef < 0)
 				armorDef = 0;
 		}
@@ -173,15 +173,15 @@ export default abstract class Character extends Creature implements UpdateInterf
 
 	public weaponAttack(): number {
 		let attack: number = this.inventory.weaponSlot.equipment.attack;
-		if (this.perks.has("WeaponMastery") && this.inventory.weaponSlot.equipment.perk == "Large" && this.stats.str > 60)
+		if (this.perks.has(PerkType.WeaponMastery) && this.inventory.weaponSlot.equipment.perk == "Large" && this.stats.str > 60)
 			attack *= 2;
-		if (this.perks.has("LightningStrikes") && this.stats.spe >= 60 && this.inventory.weaponSlot.equipment.perk != "Large") {
+		if (this.perks.has(PerkType.LightningStrikes) && this.stats.spe >= 60 && this.inventory.weaponSlot.equipment.perk != "Large") {
 			attack += Math.round((this.stats.spe - 50) / 3);
 		}
-		if (this.statusAffects.has("Berzerking"))
+		if (this.statusAffects.has(StatusAffectType.Berzerking))
 			attack += 30;
 
-		attack += this.statusAffects.get("ChargeWeapon").value1;
+		attack += this.statusAffects.get(StatusAffectType.ChargeWeapon).value1;
 
 
 		return attack;
@@ -189,16 +189,16 @@ export default abstract class Character extends Creature implements UpdateInterf
 
 	public regularAttackMod(): number {
 		let value = this.physicalAttackMod();
-		if (this.perks.has("ChiReflowAttack")) {
+		if (this.perks.has(PerkType.ChiReflowAttack)) {
 			value += 1 - UmasShop.NEEDLEWORK_ATTACK_REGULAR_MULTI;
 		}
-		if (this.perks.has("ChiReflowMagic")) {
+		if (this.perks.has(PerkType.ChiReflowMagic)) {
 			value += 1 - UmasShop.NEEDLEWORK_MAGIC_REGULAR_MULTI;
 		}
 		// Uma's Massage Bonuses
-		if (this.statusAffects.has("UmasMassage")) {
-			if (this.statusAffects.get("UmasMassage").value1 == UmasShop.MASSAGE_POWER) {
-				value += 1 - this.statusAffects.get("UmasMassage").value2;
+		if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
+			if (this.statusAffects.get(StatusAffectType.UmasMassage).value1 == UmasShop.MASSAGE_POWER) {
+				value += 1 - this.statusAffects.get(StatusAffectType.UmasMassage).value2;
 			}
 		}
 		return value;
@@ -206,9 +206,9 @@ export default abstract class Character extends Creature implements UpdateInterf
 
 	public physicalAttackMod(): number {
 		let value = 1;
-		if (this.perks.has("HistoryFighter"))
+		if (this.perks.has(PerkType.HistoryFighter))
 			value += 0.1;
-		if (this.perks.has("Sadist")) {
+		if (this.perks.has(PerkType.Sadist)) {
 			value += 0.2;
 			// Add 3 before resistances
 			this.stats.lustNoResist += 3;
@@ -218,19 +218,19 @@ export default abstract class Character extends Creature implements UpdateInterf
 
 	public magicalAttackMod(): number {
 		let mod = this.spellMod();
-		if (this.perks.has("ChiReflowMagic"))
+		if (this.perks.has(PerkType.ChiReflowMagic))
 			mod += 1 - UmasShop.NEEDLEWORK_MAGIC_SPELL_MULTI;
 		return mod;
 	}
 
 	public spellMod(): number {
 		let mod: number = 1;
-		if (this.perks.has("Archmage") && this.stats.int >= 75) mod += .5;
-		if (this.perks.has("Channeling") && this.stats.int >= 60) mod += .5;
-		if (this.perks.has("Mage") && this.stats.int >= 50) mod += .5;
-		if (this.perks.has("Spellpower") && this.stats.int >= 50) mod += .5;
-		if (this.perks.has("WizardsFocus")) {
-			mod += this.perks.get("WizardsFocus").value1;
+		if (this.perks.has(PerkType.Archmage) && this.stats.int >= 75) mod += .5;
+		if (this.perks.has(PerkType.Channeling) && this.stats.int >= 60) mod += .5;
+		if (this.perks.has(PerkType.Mage) && this.stats.int >= 50) mod += .5;
+		if (this.perks.has(PerkType.Spellpower) && this.stats.int >= 50) mod += .5;
+		if (this.perks.has(PerkType.WizardsFocus)) {
+			mod += this.perks.get(PerkType.WizardsFocus).value1;
 		}
 		return mod;
 	}
@@ -240,12 +240,12 @@ export default abstract class Character extends Creature implements UpdateInterf
 			return delta;
 		}
 		else if (delta > 0) {
-			if (this.perks.has("MessyOrgasms")) {
+			if (this.perks.has(PerkType.MessyOrgasms)) {
 				delta *= 1.5
 			}
 		}
 		else if (delta < 0) {
-			if (this.perks.has("MessyOrgasms")) {
+			if (this.perks.has(PerkType.MessyOrgasms)) {
 				delta *= 0.5
 			}
 		}
@@ -272,27 +272,27 @@ export default abstract class Character extends Creature implements UpdateInterf
         if (gildedCockSocks > 0) {
             let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.listLargestCockArea);
             let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
-            MainScreen.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
+            DisplayText.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
             this.inventory.gems += bonusGems;
         }
 	}
 	
 	public milked(): void {
-        this.statusAffects.has("LactationReduction")
-        if (this.statusAffects.has("LactationReduction"))
-            this.statusAffects.get("LactationReduction").value1 = 0;
-        if (this.statusAffects.has("LactationReduc0"))
-            this.statusAffects.remove("LactationReduc0");
-        if (this.statusAffects.has("LactationReduc1"))
-            this.statusAffects.remove("LactationReduc1");
-        if (this.statusAffects.has("LactationReduc2"))
-            this.statusAffects.remove("LactationReduc2");
-        if (this.statusAffects.has("LactationReduc3"))
-            this.statusAffects.remove("LactationReduc3");
-        if (this.statusAffects.has("Feeder")) {
+        this.statusAffects.has(StatusAffectType.LactationReduction)
+        if (this.statusAffects.has(StatusAffectType.LactationReduction))
+            this.statusAffects.get(StatusAffectType.LactationReduction).value1 = 0;
+        if (this.statusAffects.has(StatusAffectType.LactationReduc0))
+            this.statusAffects.remove(StatusAffectType.LactationReduc0);
+        if (this.statusAffects.has(StatusAffectType.LactationReduc1))
+            this.statusAffects.remove(StatusAffectType.LactationReduc1);
+        if (this.statusAffects.has(StatusAffectType.LactationReduc2))
+            this.statusAffects.remove(StatusAffectType.LactationReduc2);
+        if (this.statusAffects.has(StatusAffectType.LactationReduc3))
+            this.statusAffects.remove(StatusAffectType.LactationReduc3);
+        if (this.statusAffects.has(StatusAffectType.Feeder)) {
             //You've now been milked, reset the timer for that
-            this.statusAffects.get("Feeder").value1 = 1;
-            this.statusAffects.get("Feeder").value2 = 0;
+            this.statusAffects.get(StatusAffectType.Feeder).value1 = 1;
+            this.statusAffects.get(StatusAffectType.Feeder).value2 = 0;
         }
 	}
 	

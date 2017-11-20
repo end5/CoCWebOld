@@ -9,11 +9,15 @@ import Stats from './Stats';
 import UpperBody, { WingType } from './UpperBody';
 import Vagina, { VaginaLooseness } from './Vagina';
 import CockDescriptor from '../Descriptors/CockDescriptor';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
 import Perk from '../Effects/Perk';
+import PerkList from '../Effects/PerkList';
+import { PerkType } from '../Effects/PerkType';
 import StatusAffect from '../Effects/StatusAffect';
+import StatusAffectFactory from '../Effects/StatusAffectFactory';
+import StatusAffectList from '../Effects/StatusAffectList';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import { SerializeInterface } from '../SerializeInterface';
-import ComponentList from '../Utilities/ComponentList';
 import Utils from '../Utilities/Utils';
 
 export enum Gender {
@@ -53,8 +57,8 @@ export default class Creature implements SerializeInterface {
 
     private baseStats: Stats;
     public stats: CreatureStatsWrapper;
-    public statusAffects: ComponentList<StatusAffect>;
-    public perks: ComponentList<Perk>;
+    public statusAffects: StatusAffectList;
+    public perks: PerkList;
 
     public constructor() {
         this.gender = Gender.NONE;
@@ -79,13 +83,13 @@ export default class Creature implements SerializeInterface {
 
         this.baseStats = new Stats();
         this.stats = new CreatureStatsWrapper(this, this.baseStats);
-        this.statusAffects = new ComponentList<StatusAffect>();
-        this.perks = new ComponentList<Perk>();
+        this.statusAffects = new StatusAffectList();
+        this.perks = new PerkList();
     }
 
     public get femininity(): number {
-        if (this.statusAffects.has("UmasMassage")) {
-            let statAffect: StatusAffect = this.statusAffects.get("UmasMassage");
+        if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
+            let statAffect: StatusAffect = this.statusAffects.get(StatusAffectType.UmasMassage);
             if (statAffect.value1 == UmasShop.MASSAGE_MODELLING_BONUS)
                 this._femininity += statAffect.value2;
         }
@@ -120,19 +124,19 @@ export default class Creature implements SerializeInterface {
             bonus = 20;
 
         //Wet pussy provides 20 ponumber boost
-        if (this.perks.has("WetPussy"))
+        if (this.perks.has(PerkType.WetPussy))
             bonus += 20;
-        if (this.perks.has("HistorySlut"))
+        if (this.perks.has(PerkType.HistorySlut))
             bonus += 20;
-        if (this.perks.has("OneTrackMind"))
+        if (this.perks.has(PerkType.OneTrackMind))
             bonus += 10;
-        if (this.perks.has("Cornucopia"))
+        if (this.perks.has(PerkType.Cornucopia))
             bonus += 30;
-        if (this.perks.has("FerasBoonWideOpen"))
+        if (this.perks.has(PerkType.FerasBoonWideOpen))
             bonus += 25;
-        if (this.perks.has("FerasBoonMilkingTwat"))
+        if (this.perks.has(PerkType.FerasBoonMilkingTwat))
             bonus += 40;
-        total = (bonus + this.statusAffects.get("BonusVCapacity").value1 + 8 * loosestVagina.vaginalLooseness * loosestVagina.vaginalLooseness) *
+        total = (bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 8 * loosestVagina.vaginalLooseness * loosestVagina.vaginalLooseness) *
             (1 + wettestVagina.vaginalWetness / 10);
         return total;
     }
@@ -142,15 +146,15 @@ export default class Creature implements SerializeInterface {
         //Centaurs = +30 capacity
         if (this.lowerBody.type == LowerBodyType.CENTAUR)
             bonus = 30;
-        if (this.perks.has("HistorySlut"))
+        if (this.perks.has(PerkType.HistorySlut))
             bonus += 20;
-        if (this.perks.has("Cornucopia"))
+        if (this.perks.has(PerkType.Cornucopia))
             bonus += 30;
-        if (this.perks.has("OneTrackMind"))
+        if (this.perks.has(PerkType.OneTrackMind))
             bonus += 10;
         if (this.lowerBody.butt.analWetness > 0)
             bonus += 15;
-        return ((bonus + this.statusAffects.get("BonusVCapacity").value1 + 6 * this.lowerBody.butt.analLooseness * this.lowerBody.butt.analLooseness) * (1 + this.lowerBody.butt.analWetness / 10));
+        return ((bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 6 * this.lowerBody.butt.analLooseness * this.lowerBody.butt.analLooseness) * (1 + this.lowerBody.butt.analWetness / 10));
     }
 
     //Calculate bonus virility rating!
@@ -165,24 +169,24 @@ export default class Creature implements SerializeInterface {
             percent += 0.01;
         if (this.cumQ() >= 1600)
             percent += 0.02;
-        if (this.perks.has("BroBody"))
+        if (this.perks.has(PerkType.BroBody))
             percent += 0.05;
-        if (this.perks.has("MaraesGiftStud"))
+        if (this.perks.has(PerkType.MaraesGiftStud))
             percent += 0.15;
-        if (this.perks.has("FerasBoonAlpha"))
+        if (this.perks.has(PerkType.FerasBoonAlpha))
             percent += 0.10;
-        if (this.perks.has("ElvenBounty") && this.perks.get("ElvenBounty").value1 > 0)
+        if (this.perks.has(PerkType.ElvenBounty) && this.perks.get(PerkType.ElvenBounty).value1 > 0)
             percent += 0.05;
-        if (this.perks.has("FertilityPlus"))
+        if (this.perks.has(PerkType.FertilityPlus))
             percent += 0.03;
-        if (this.perks.has("PiercedFertite"))
+        if (this.perks.has(PerkType.PiercedFertite))
             percent += 0.03;
-        if (this.perks.has("OneTrackMind"))
+        if (this.perks.has(PerkType.OneTrackMind))
             percent += 0.03;
-        if (this.perks.has("MagicalVirility"))
+        if (this.perks.has(PerkType.MagicalVirility))
             percent += 0.05;
         //Messy Orgasms?
-        if (this.perks.has("MessyOrgasms"))
+        if (this.perks.has(PerkType.MessyOrgasms))
             percent += 0.03;
         if (percent > 1)
             percent = 1;
@@ -200,34 +204,34 @@ export default class Creature implements SerializeInterface {
         //trace("CUM ESTIMATE: " + number(1.25*2*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(no balls), " + number(ballSize*balls*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(withballs)");
         let lustCoefficient: number = (this.stats.lust + 50) / 10;
         //Pilgrim's bounty maxxes lust coefficient
-        if (this.perks.has("PilgrimsBounty"))
+        if (this.perks.has(PerkType.PilgrimsBounty))
             lustCoefficient = 150 / 10;
         if (this.lowerBody.balls == 0)
             quantity = Math.floor(1.25 * 2 * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
         else
             quantity = Math.floor(this.lowerBody.ballSize * this.lowerBody.balls * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
-        if (this.perks.has("BroBody"))
+        if (this.perks.has(PerkType.BroBody))
             quantity *= 1.3;
-        if (this.perks.has("FertilityPlus"))
+        if (this.perks.has(PerkType.FertilityPlus))
             quantity *= 1.5;
-        if (this.perks.has("MessyOrgasms"))
+        if (this.perks.has(PerkType.MessyOrgasms))
             quantity *= 1.5;
-        if (this.perks.has("OneTrackMind"))
+        if (this.perks.has(PerkType.OneTrackMind))
             quantity *= 1.1;
-        if (this.perks.has("MaraesGiftStud"))
+        if (this.perks.has(PerkType.MaraesGiftStud))
             quantity += 350;
-        if (this.perks.has("FerasBoonAlpha"))
+        if (this.perks.has(PerkType.FerasBoonAlpha))
             quantity += 200;
-        if (this.perks.has("MagicalVirility"))
+        if (this.perks.has(PerkType.MagicalVirility))
             quantity += 200;
-        if (this.perks.has("FerasBoonSeeder"))
+        if (this.perks.has(PerkType.FerasBoonSeeder))
             quantity += 1000;
         //if(hasPerk("Elven Bounty") >= 0) quantity += 250;;
-        quantity += this.perks.get("ElvenBounty").value1;
-        if (this.perks.has("BroBody"))
+        quantity += this.perks.get(PerkType.ElvenBounty).value1;
+        if (this.perks.has(PerkType.BroBody))
             quantity += 200;
-        quantity += this.statusAffects.get("Rut").value1;
-        quantity *= (1 + (2 * this.perks.get("PiercedFertite").value1) / 100);
+        quantity += this.statusAffects.get(StatusAffectType.Rut).value1;
+        quantity *= (1 + (2 * this.perks.get(PerkType.PiercedFertite).value1) / 100);
         //trace("Final Cum Volume: " + number(quantity) + "mLs.");
         //if (quantity < 0) trace("SOMETHING HORRIBLY WRONG WITH CUM CALCULATIONS");
         if (quantity < 2)
@@ -244,10 +248,10 @@ export default class Creature implements SerializeInterface {
         //(Large – 0.8 - Size 10 + 4 Multi)
         //(HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
-        if (!this.statusAffects.has("LactationEndurance"))
-            this.statusAffects.add(new StatusAffect("LactationEndurance", 1, 0, 0, 0));
-        total = chest.BreastRatingLargest[0].breastRating * 10 * chest.averageLactation() * this.statusAffects.get("LactationEndurance").value1 * chest.countBreasts();
-        if (this.statusAffects.get("LactationReduction").value1 >= 48)
+        if (!this.statusAffects.has(StatusAffectType.LactationEndurance))
+            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
+        total = chest.BreastRatingLargest[0].breastRating * 10 * chest.averageLactation() * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
+        if (this.statusAffects.get(StatusAffectType.LactationReduction).value1 >= 48)
             total = total * 1.5;
         return total;
     }
@@ -259,7 +263,7 @@ export default class Creature implements SerializeInterface {
     //PC can fly?
     public canFly(): boolean {
         //web also makes false!
-        if (this.statusAffects.has("Web"))
+        if (this.statusAffects.has(StatusAffectType.Web))
             return false;
         switch (this.upperBody.wingType) {
             case WingType.BAT_LIKE_LARGE:
@@ -286,11 +290,11 @@ export default class Creature implements SerializeInterface {
 
 
     public get inHeat(): boolean {
-        return this.statusAffects.has("Heat");
+        return this.statusAffects.has(StatusAffectType.Heat);
     }
 
     public get inRut(): boolean {
-        return this.statusAffects.has("Rut");
+        return this.statusAffects.has(StatusAffectType.Rut);
     }
 
     public canGoIntoHeat() {
@@ -303,7 +307,7 @@ export default class Creature implements SerializeInterface {
 
     public goIntoHeat(intensity: number = 1) {
         if (this.inHeat) {
-            let statusAffectHeat: StatusAffect = this.statusAffects.get("Heat");
+            let statusAffectHeat: StatusAffect = this.statusAffects.get(StatusAffectType.Heat);
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
@@ -311,7 +315,7 @@ export default class Creature implements SerializeInterface {
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
-            this.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
             this.stats.libBimbo += 15 * intensity;
         }
     }
@@ -319,7 +323,7 @@ export default class Creature implements SerializeInterface {
     public goIntoRut(intensity: number = 1) {
         //Has rut, intensify it!
         if (this.inRut) {
-            let statusAffectRut: StatusAffect = this.statusAffects.get("Rut");
+            let statusAffectRut: StatusAffect = this.statusAffects.get(StatusAffectType.Rut);
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
@@ -329,7 +333,7 @@ export default class Creature implements SerializeInterface {
             //v1 - bonus cum production
             //v2 - bonus this.stats.libido
             //v3 - time remaining!
-            this.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
             this.stats.libBimbo += 5 * intensity;
         }
     }
@@ -337,17 +341,17 @@ export default class Creature implements SerializeInterface {
     public get bonusFertility(): number {
         let counter: number = 0;
         if (this.inHeat)
-            counter += this.statusAffects.get("Heat").value1;
-        if (this.perks.has("FertilityPlus"))
+            counter += this.statusAffects.get(StatusAffectType.Heat).value1;
+        if (this.perks.has(PerkType.FertilityPlus))
             counter += 15;
-        if (this.perks.has("MaraesGiftFertility"))
+        if (this.perks.has(PerkType.MaraesGiftFertility))
             counter += 50;
-        if (this.perks.has("FerasBoonBreedingBitch"))
+        if (this.perks.has(PerkType.FerasBoonBreedingBitch))
             counter += 30;
-        if (this.perks.has("MagicalFertility"))
+        if (this.perks.has(PerkType.MagicalFertility))
             counter += 10;
-        counter += this.perks.get("ElvenBounty").value2;
-        counter += this.perks.get("PiercedFertite").value1;
+        counter += this.perks.get(PerkType.ElvenBounty).value2;
+        counter += this.perks.get(PerkType.PiercedFertite).value1;
         return counter;
     }
 

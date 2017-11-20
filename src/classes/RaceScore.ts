@@ -10,7 +10,8 @@ import {
 import { LowerBodyType, TailType } from './Body/LowerBody';
 import { ArmType, WingType } from './Body/UpperBody';
 import { VaginaType } from './Body/Vagina';
-import Player from './Player';
+import { StatusAffectType } from './Effects/StatusAffectType';
+import Player from './Player/Player';
 
 export default class RaceScore {
     public static demonScore(player: Player): number {
@@ -113,7 +114,7 @@ export default class RaceScore {
 
     public static sandTrapScore(player: Player): number {
         let counter: number = 0;
-        if (player.statusAffects.has("BlackNipples"))
+        if (player.statusAffects.has(StatusAffectType.BlackNipples))
             counter++;
         if (player.lowerBody.vaginaSpot.hasVagina() && player.lowerBody.vaginaSpot.get(0).vaginaType == VaginaType.BLACK_SAND_TRAP)
             counter++;
@@ -121,7 +122,7 @@ export default class RaceScore {
             counter++;
         if (player.upperBody.wingType == 12)
             counter++;
-        if (player.statusAffects.has("Uniball"))
+        if (player.statusAffects.has(StatusAffectType.Uniball))
             counter++;
         return counter;
     }
@@ -439,7 +440,7 @@ export default class RaceScore {
             gooCounter++;
         if (player.lowerBody.vaginaSpot.get(0).capacity() > 9000)
             gooCounter++;
-        if (player.statusAffects.has("SlimeCraving"))
+        if (player.statusAffects.has(StatusAffectType.SlimeCraving))
             gooCounter++;
         return gooCounter;
     }

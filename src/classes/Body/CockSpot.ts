@@ -17,7 +17,7 @@ export default class CockSpot implements SerializeInterface {
         let index = this._cocks.indexOf(cock);
         if (index >= 0) {
             if (cock.sock == "viridian") {
-                body.perks.remove("LustyRegeneration");
+                body.perks.remove(PerkType.LustyRegeneration);
             }
             else if (cock.sock == "cockring") {
                 let numRings: number = 0;
@@ -27,9 +27,9 @@ export default class CockSpot implements SerializeInterface {
                 }
 
                 if (numRings == 0)
-                    body.perks.remove("PentUp");
+                    body.perks.remove(PerkType.PentUp);
                 else
-                    body.perks.get("PentUp").value1 = 5 + (numRings * 5);
+                    body.perks.get(PerkType.PentUp).value1 = 5 + (numRings * 5);
             }
             this._cocks.splice(index, 1);
         }

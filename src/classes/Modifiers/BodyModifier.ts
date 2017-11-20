@@ -1,12 +1,15 @@
 import Creature, { Gender } from '../Body/Creature';
 import CockDescriptor from '../Descriptors/CockDescriptor';
 import FaceDescriptor from '../Descriptors/FaceDescriptor';
+import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
-import MainScreen from '../display/MainScreen';
-import StatusAffect from '../Effects/StatusAffect';
+import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
+import StatusAffectFactory from '../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 
 export default class BodyModifier {
-    public displayModThickness(creature: Creature, goal: number, strength: number = 1): string {
+    public static displayModThickness(creature: Creature, goal: number, strength: number = 1): string {
 		if (goal == creature.thickness)
 			return "";
 		//Lose weight fatty!
@@ -33,7 +36,7 @@ export default class BodyModifier {
 		return "";
 	}
 
-	public displayModTone(creature: Creature, goal: number, strength: number = 1): string {
+	public static displayModTone(creature: Creature, goal: number, strength: number = 1): string {
 		if (goal == creature.tone)
 			return "";
 		//Lose muscle visibility!
@@ -63,8 +66,57 @@ export default class BodyModifier {
 		return "";
 	}
 
+	//Modify this.femininity!
+	public static displayModFem(creature: Creature, goal: number, strength: number = 1): string {
+		let output: string = "";
+		let old: string = FaceDescriptor.describeFaceOther(creature);
+		let oldN: number = creature.femininity;
+		let Changed: boolean = false;
+		//If already perfect!
+		if (goal == creature.femininity)
+			return "";
+		//If turning MANLYMAN
+		if (goal < creature.femininity && goal <= 50) {
+			creature.femininity -= strength;
+			//YOUVE GONE TOO FAR! TURN BACK!
+			if (creature.femininity < goal)
+			creature.femininity = goal;
+			Changed = true;
+		}
+		//if turning GIRLGIRLY, like duh!
+		if (goal > creature.femininity && goal >= 50) {
+			creature.femininity += strength;
+			//YOUVE GONE TOO FAR! TURN BACK!
+			if (creature.femininity > goal)
+			creature.femininity = goal;
+			Changed = true;
+		}
+		//Fix if it went out of bounds!
+		if (!creature.perks.has(PerkType.Androgyny))
+			BodyModifier.displayFixFemininity(creature);
+		//Abort if nothing changed!
+		if (!Changed)
+			return "";
+		//See if a change happened!
+		if (old != FaceDescriptor.describeFaceOther(creature)) {
+			//Gain fem?
+			if (goal > oldN)
+				output = "\n\n<b>Your facial features soften as your body becomes more feminine. (+" + strength + ")</b>";
+			if (goal < oldN)
+				output = "\n\n<b>Your facial features harden as your body becomes more masculine. (+" + strength + ")</b>";
+		}
+		//Barely noticable change!
+		else {
+			if (goal > oldN)
+				output = "\n\nThere's a tingling in your " + FaceDescriptor.describeFace(creature) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
+			else if (goal < oldN)
+				output = "\n\nThere's a tingling in your " + FaceDescriptor.describeFace(creature) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
+		}
+		return output;
+	}
+
 	//Run creature every hour to 'fix' creature.femininity.
-	public displayFixFemininity(creature: Creature): string {
+	public static displayFixFemininity(creature: Creature): string {
 		let output: string = "";
 		//Genderless/herms share the same bounds
 		if (creature.gender == Gender.NONE || creature.gender == Gender.HERM) {
@@ -126,8 +178,8 @@ export default class BodyModifier {
     public static displayGoIntoHeat(body: Creature, intensity: number = 1) {
         //Already in heat, intensify further.
         if (body.inHeat) {
-            MainScreen.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.", false);
-            const statusAffectHeat: StatusAffect = body.statusAffects.get("Heat");
+            DisplayText.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
+            const statusAffectHeat: StatusAffect = body.statusAffects.get(StatusAffectType.Heat);
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
@@ -135,8 +187,8 @@ export default class BodyModifier {
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
-            MainScreen.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>", false);
-            body.statusAffects.add(new StatusAffect("Heat", 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            DisplayText.text("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(body, body.lowerBody.vaginaSpot.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
+            body.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
             body.stats.libBimbo += 15 * intensity;
         }
     }
@@ -151,19 +203,19 @@ export default class BodyModifier {
     public static displayGoIntoRut(body: Creature, intensity: number = 1) {
         //Has rut, intensify it!
         if (body.inRut) {
-            MainScreen.text("\n\nYour " + CockDescriptor.describeCock(body, body.lowerBody.cockSpot.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.", false);
-            const statusAffectRut: StatusAffect = body.statusAffects.get("Rut");
+            DisplayText.text("\n\nYour " + CockDescriptor.describeCock(body, body.lowerBody.cockSpot.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
+            const statusAffectRut: StatusAffect = body.statusAffects.get(StatusAffectType.Rut);
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
             body.stats.libBimbo += 5 * intensity;
         }
         else {
-            MainScreen.text("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!", false);
+            DisplayText.text("\n\nYou stand up a bit straighter and look around, sniffing the air and searching for a mate.  Wait, what!?  It's hard to shake the thought from your head - you really could use a nice fertile hole to impregnate.  You slap your forehead and realize <b>you've gone into rut</b>!");
             //v1 - bonus cum production
             //v2 - bonus libido
             //v3 - time remaining!
-            body.statusAffects.add(new StatusAffect("Rut", 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            body.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
             body.stats.libBimbo += 5 * intensity;
         }
     }

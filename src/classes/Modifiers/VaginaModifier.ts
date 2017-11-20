@@ -1,8 +1,10 @@
 ﻿import Creature from '../Body/Creature';
 import Vagina, { VaginaLooseness } from '../Body/Vagina';
 import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
-import MainScreen from '../display/MainScreen';
-import StatusAffect from '../Effects/StatusAffect';
+import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
+import StatusAffectFactory from '../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import Utils from '../Utilities/Utils';
 
 export default class VaginaModifier {
@@ -11,7 +13,7 @@ export default class VaginaModifier {
             return false;
         let stretched: boolean = false;
         let loosestVagina = creature.lowerBody.vaginaSpot.LoosenessMost[0];
-        if (creature.perks.has("FerasBoonMilkingTwat") || loosestVagina.vaginalLooseness <= VaginaLooseness.NORMAL) {
+        if (creature.perks.has(PerkType.FerasBoonMilkingTwat) || loosestVagina.vaginalLooseness <= VaginaLooseness.NORMAL) {
             //cArea > capacity = autostreeeeetch.
             if (vaginaArea >= creature.vaginalCapacity()) {
                 if (loosestVagina.vaginalLooseness >= VaginaLooseness.LEVEL_CLOWN_CAR)
@@ -36,11 +38,11 @@ export default class VaginaModifier {
         //Delay anti-stretching
         if (vaginaArea >= .5 * creature.vaginalCapacity()) {
             //Cunt Stretched used to determine how long since last enlargement
-            if (!creature.statusAffects.has("CuntStretched"))
-                creature.statusAffects.add(new StatusAffect("CuntStretched", 0, 0, 0, 0));
+            if (!creature.statusAffects.has(StatusAffectType.CuntStretched))
+                creature.statusAffects.add(StatusAffectFactory.create(StatusAffectType.CuntStretched, 0, 0, 0, 0));
             //Reset the timer on it to 0 when restretched.
             else
-                creature.statusAffects.get("CuntStretched").value1 = 0;
+                creature.statusAffects.get(StatusAffectType.CuntStretched).value1 = 0;
         }
         return stretched;
     }
@@ -53,32 +55,32 @@ export default class VaginaModifier {
         let stretched: boolean = VaginaModifier.stretchVagina(creature, cArea);
         let devirgined: boolean = wasVirgin && !firstVagina.virgin;
         if (devirgined) {
-            if (spacingsF) MainScreen.text("  ");
-            MainScreen.text("<b>Your hymen is torn, robbing you of your virginity.</b>", false);
-            if (spacingsB) MainScreen.text("  ");
+            if (spacingsF) DisplayText.text("  ");
+            DisplayText.text("<b>Your hymen is torn, robbing you of your virginity.</b>");
+            if (spacingsB) DisplayText.text("  ");
         }
         //STRETCH SUCCESSFUL - begin flavor text if outputting it!
         if (display && stretched) {
             //Virgins get different formatting
             if (devirgined) {
                 //If no spaces after virgin loss
-                if (!spacingsB) MainScreen.text("  ");
+                if (!spacingsB) DisplayText.text("  ");
             }
             //Non virgins as usual
-            else if (spacingsF) MainScreen.text("  ");
+            else if (spacingsF) DisplayText.text("  ");
             if (firstVagina.vaginalLooseness == VaginaLooseness.LEVEL_CLOWN_CAR)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
             if (firstVagina.vaginalLooseness == VaginaLooseness.GAPING_WIDE)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched so wide that it gapes continually.</b>");
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched so wide that it gapes continually.</b>");
             if (firstVagina.vaginalLooseness == VaginaLooseness.GAPING)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
             if (firstVagina.vaginalLooseness == VaginaLooseness.LOOSE)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now very loose.</b>", false);
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now very loose.</b>");
             if (firstVagina.vaginalLooseness == VaginaLooseness.NORMAL)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now a little loose.</b>", false);
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is now a little loose.</b>");
             if (firstVagina.vaginalLooseness == VaginaLooseness.TIGHT)
-                MainScreen.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched out to a more normal size.</b>");
-            if (spacingsB) MainScreen.text("  ");
+                DisplayText.text("<b>Your " + VaginaDescriptor.describeVagina(creature, firstVagina) + " is stretched out to a more normal size.</b>");
+            if (spacingsB) DisplayText.text("  ");
         }
         return stretched;
     }

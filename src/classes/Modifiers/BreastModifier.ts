@@ -2,7 +2,9 @@
 import Creature from '../Body/Creature';
 import Character from '../Character/Character';
 import BreastDescriptor from '../Descriptors/BreastDescriptor';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Utils from '../Utilities/Utils';
 
@@ -13,7 +15,7 @@ export default class BreastModifier {
             return;
 
         //Chance for "big tits" perked characters to grow larger!
-        if (body.perks.has("BigTits") && Utils.chance(33) && amount < 1)
+        if (body.perks.has(PerkType.BigTits) && Utils.chance(33) && amount < 1)
             amount = 1;
         //Select smallest breast, grow it, move on
         while (rowsGrown > 0) {
@@ -22,7 +24,7 @@ export default class BreastModifier {
                 let smallestBreastRating: number = chest.BreastRatingSmallest[0].breastRating;
 
                 //Diminishing returns!
-                if (body.perks.has("BigTits")) {
+                if (body.perks.has(PerkType.BigTits)) {
                     growthAmount /= smallestBreastRating > 3 ? 1.3 : 1.5;
                     growthAmount /= smallestBreastRating > 7 ? 1.5 : 2;
                     growthAmount /= smallestBreastRating > 9 ? 1.5 : 2;
@@ -40,14 +42,14 @@ export default class BreastModifier {
         if (chest.count() == 0)
             return;
 
-        if (body.perks.has("BigTits") && Utils.chance(33) && amount < 1)
+        if (body.perks.has(PerkType.BigTits) && Utils.chance(33) && amount < 1)
             amount = 1;
 
         if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
-            if (body.perks.has("BigTits")) {
+            if (body.perks.has(PerkType.BigTits)) {
                 amount /= topBreastRow > 3 ? 1.3 : 1.5;
                 amount /= topBreastRow > 7 ? 1.5 : 2;
                 amount /= topBreastRow > 9 ? 1.5 : 2;
@@ -72,14 +74,14 @@ export default class BreastModifier {
         if (chest.count() == 0)
             return;
 
-        if (body.perks.has("BigTits") && Utils.chance(33) && amount < 1)
+        if (body.perks.has(PerkType.BigTits) && Utils.chance(33) && amount < 1)
             amount = 1;
 
         if (!Flags.list[FlagEnum.HYPER_HAPPY]) {
             let topBreastRow: number = chest.get(0).breastRating;
 
             //Diminishing returns!
-            if (body.perks.has("BigTits")) {
+            if (body.perks.has(PerkType.BigTits)) {
                 amount /= topBreastRow > 3 ? 1.3 : 1.5;
                 amount /= topBreastRow > 7 ? 1.5 : 2;
                 amount /= topBreastRow > 9 ? 1.5 : 2;
@@ -120,19 +122,19 @@ export default class BreastModifier {
                 let superShrink: boolean = false;
                 topRow.breastRating--;
                 //Shrink again 50% chance
-                if (topRow.breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has("BigTits")) {
+                if (topRow.breastRating >= 1 && Utils.rand(100 / 2) && !body.perks.has(PerkType.BigTits)) {
                     superShrink = true;
                     topRow.breastRating--;
                 }
                 if (topRow.breastRating < 0) topRow.breastRating = 0;
                 //Talk about shrinkage
-                if (!superShrink) MainScreen.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.", false);
-                if (superShrink) MainScreen.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.", false);
+                if (!superShrink) DisplayText.text("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.");
+                if (superShrink) DisplayText.text("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.breastRating) + "s.");
             }
         }
         else if (body.upperBody.chest.count() > 1) {
             //multiple
-            MainScreen.text("\n", false);
+            DisplayText.text("\n");
             //temp2 = amount changed
             //temp3 = counter
             let shrinkAmount: number = 0;
@@ -143,16 +145,16 @@ export default class BreastModifier {
                     body.upperBody.chest.get(breastRowIndex).breastRating--;
                     if (body.upperBody.chest.get(breastRowIndex).breastRating < 0) body.upperBody.chest.get(breastRowIndex).breastRating = 0;
                     shrinkAmount++;
-                    MainScreen.text("\n", false);
-                    if (breastRowIndex < body.upperBody.chest.count() - 1) MainScreen.text("...and y", false);
-                    else MainScreen.text("Y", false);
-                    MainScreen.text("our " + BreastDescriptor.describeBreastRow(body.upperBody.chest.get(breastRowIndex)) + " shrink, dropping to " + BreastDescriptor.breastCup(body.upperBody.chest.get(breastRowIndex).breastRating) + "s.", false);
+                    DisplayText.text("\n");
+                    if (breastRowIndex < body.upperBody.chest.count() - 1) DisplayText.text("...and y");
+                    else DisplayText.text("Y");
+                    DisplayText.text("our " + BreastDescriptor.describeBreastRow(body.upperBody.chest.get(breastRowIndex)) + " shrink, dropping to " + BreastDescriptor.breastCup(body.upperBody.chest.get(breastRowIndex).breastRating) + "s.");
                 }
                 if (body.upperBody.chest.get(breastRowIndex).breastRating < 0) body.upperBody.chest.get(breastRowIndex).breastRating = 0;
             }
-            if (shrinkAmount == 2) MainScreen.text("\nYou feel so much lighter after the change.", false);
-            if (shrinkAmount == 3) MainScreen.text("\nWithout the extra weight you feel particularly limber.", false);
-            if (shrinkAmount >= 4) MainScreen.text("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.", false);
+            if (shrinkAmount == 2) DisplayText.text("\nYou feel so much lighter after the change.");
+            if (shrinkAmount == 3) DisplayText.text("\nWithout the extra weight you feel particularly limber.");
+            if (shrinkAmount >= 4) DisplayText.text("\nIt feels as if the weight of the world has been lifted from your shoulders, or in this case, your chest.");
         }
     }
     
@@ -165,16 +167,16 @@ export default class BreastModifier {
         let temp2: number = 0;
         //Prevent lactation decrease if lactating.
         if (boostAmt >= 0) {
-            if (character.statusAffects.has("LactationReduction"))
-                character.statusAffects.get("LactationReduction").value1 = 0;
-            if (character.statusAffects.has("LactationReduc0"))
-                character.statusAffects.remove("LactationReduc0");
-            if (character.statusAffects.has("LactationReduc1"))
-                character.statusAffects.remove("LactationReduc1");
-            if (character.statusAffects.has("LactationReduc2"))
-                character.statusAffects.remove("LactationReduc2");
-            if (character.statusAffects.has("LactationReduc3"))
-                character.statusAffects.remove("LactationReduc3");
+            if (character.statusAffects.has(StatusAffectType.LactationReduction))
+                character.statusAffects.get(StatusAffectType.LactationReduction).value1 = 0;
+            if (character.statusAffects.has(StatusAffectType.LactationReduc0))
+                character.statusAffects.remove(StatusAffectType.LactationReduc0);
+            if (character.statusAffects.has(StatusAffectType.LactationReduc1))
+                character.statusAffects.remove(StatusAffectType.LactationReduc1);
+            if (character.statusAffects.has(StatusAffectType.LactationReduc2))
+                character.statusAffects.remove(StatusAffectType.LactationReduc2);
+            if (character.statusAffects.has(StatusAffectType.LactationReduc3))
+                character.statusAffects.remove(StatusAffectType.LactationReduc3);
         }
         if (boostAmt > 0) {
             while (boostAmt > 0) {
