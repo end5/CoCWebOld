@@ -1,3 +1,5 @@
+import LustyMaidensArmor from '../Items/Armors/LustyMaidensArmor';
+
 export enum PerkType {
     // UNSORTED perks TODO these are mostly incorrect perks: tested but never created
     Brawler = "Brawler",
@@ -166,5 +168,8 @@ export enum PerkType {
 
 
     // Monster perks
-    Acid = "Acid"
+    Acid = "Acid",
+
+    // Added
+    LustyMaidensArmor = "LustyMaidnesArmor"
 }

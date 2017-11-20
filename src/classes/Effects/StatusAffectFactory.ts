@@ -77,9 +77,9 @@ export default class StatusAffectFactory {
 
     public constructor() {
         if (!StatusAffectFactory.statusAffectLib)
-            StatusAffectFactory.statusAffectLib = StatusAffectFactory.createLib();
+            StatusAffectFactory.statusAffectLib = new StatusAffectLib();
         if (!StatusAffectFactory.statusAffectDescLib)
-            StatusAffectFactory.statusAffectDescLib = StatusAffectFactory.createDescLib();
+            StatusAffectFactory.statusAffectDescLib = new StatusAffectDescLib();
     }
 
     public static create(type: StatusAffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0): StatusAffect {

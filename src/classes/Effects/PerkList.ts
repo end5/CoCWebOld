@@ -1,8 +1,9 @@
 import Perk from './Perk';
 import PerkFactory from './PerkFactory';
+import { PerkType } from './PerkType';
 import ComponentList from '../Utilities/ComponentList';
 
-export default class PerkList extends ComponentList<Perk> {
+export default class PerkList extends ComponentList<Perk, PerkType> {
     public serialize(): string {
         let saveObject = {};
         this.iterate((item: Perk) => {

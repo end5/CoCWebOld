@@ -1,8 +1,9 @@
 import StatusAffect from './StatusAffect';
 import StatusAffectFactory from './StatusAffectFactory';
+import { StatusAffectType } from './StatusAffectType';
 import ComponentList from '../Utilities/ComponentList';
 
-export default class StatusAffectList extends ComponentList<StatusAffect> {
+export default class StatusAffectList extends ComponentList<StatusAffect, StatusAffectType> {
     public serialize(): string {
         let saveObject = {};
         this.iterate((item: StatusAffect) => {
