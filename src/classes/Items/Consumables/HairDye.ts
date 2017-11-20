@@ -1,7 +1,7 @@
 import Consumable from './Consumable';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -96,19 +96,20 @@ export default class HairDye extends Consumable {
     }
 
     public use(player: Player) {
+            DisplayText.clear();
         if (player.upperBody.head.hairColor.indexOf("rubbery") != -1 || player.upperBody.head.hairColor.indexOf("latex-textured") != -1) {
-            MainScreen.text("You massage the dye into your " + HeadDescriptor.describeHair(player) + " but the dye cannot penetrate the impermeable material your hair is composed of.", true);
+            DisplayText.text("You massage the dye into your " + HeadDescriptor.describeHair(player) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
             return;
         }
         if (player.upperBody.head.hairLength == 0) {
-            MainScreen.text("You rub the dye into your bald head, but it has no effect.", true);
+            DisplayText.text("You rub the dye into your bald head, but it has no effect.");
             return;
         }
-        MainScreen.text("You rub the dye into your " + HeadDescriptor.describeHair(player) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ", true);
+        DisplayText.text("You rub the dye into your " + HeadDescriptor.describeHair(player) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
         player.upperBody.head.hairColor = this.getColor(this.type);
-        MainScreen.text("You now have " + HeadDescriptor.describeHair(player) + ".", false);
+        DisplayText.text("You now have " + HeadDescriptor.describeHair(player) + ".");
         if (player.stats.lust > 50) {
-            MainScreen.text("\n\nThe cool water calms your urges somewhat, letting you think more clearly.", false);
+            DisplayText.text("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
             player.stats.lust += -15;
         }
     }

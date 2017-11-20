@@ -1,7 +1,8 @@
 import Character from '../../Character/Character';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
 import Game from '../../Game/Game';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import EquipableItem from '../EquipableItem';
 import { ItemType } from '../Item';
 import ItemDesc from '../ItemDesc';
@@ -30,7 +31,7 @@ export default abstract class Armor extends EquipableItem {
     }
 
     public useText(character: Character): void {
-        MainScreen.text("You equip " + this.desc.longName + ".  ");
+        DisplayText.text("You equip " + this.desc.longName + ".  ");
     }
 
     public equip(character: Character) {
@@ -42,8 +43,8 @@ export default abstract class Armor extends EquipableItem {
      * @param character 
      */
     public unequip(character: Character) {
-        while (character.perks.has("BulgeArmor"))
-            character.perks.remove("BulgeArmor"); //TODO remove this Exgartuan hack
+        while (character.perks.has(PerkType.BulgeArmor))
+            character.perks.remove(PerkType.BulgeArmor); //TODO remove this Exgartuan hack
         if (character.inventory.armorSlot.descMod.length > 0)
             character.inventory.armorSlot.descMod = "";
         this.onUnequip(character);

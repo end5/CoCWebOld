@@ -1,7 +1,8 @@
 import Consumable from './Consumable';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -11,26 +12,26 @@ export default class SensitivityDraft extends Consumable {
     }
 
     public use(player: Player) {
-        MainScreen.text("", true);
-        MainScreen.text("You pop the cork on this small vial and drink down the clear liquid.  It makes your lips and tongue tingle strangely, letting you feel each globule of spit in your mouth and each breath of air as it slides past your lips.", false);
+        DisplayText.clear();
+        DisplayText.text("You pop the cork on this small vial and drink down the clear liquid.  It makes your lips and tongue tingle strangely, letting you feel each globule of spit in your mouth and each breath of air as it slides past your lips.");
 
-        if (player.statusAffects.has("Dys")) {
-            MainScreen.text("\n\nThankfully, the draft invigorates your groin, replacing the numbness with waves of raw sensation.  It seems your crotch is back to normal and <b>you can masturbate again!</b>", false);
-            player.statusAffects.remove("Dys");
+        if (player.statusAffects.has(StatusAffectType.Dys)) {
+            DisplayText.text("\n\nThankfully, the draft invigorates your groin, replacing the numbness with waves of raw sensation.  It seems your crotch is back to normal and <b>you can masturbate again!</b>");
+            player.statusAffects.remove(StatusAffectType.Dys);
         }
-        if (Utils.rand(4) == 0 && !player.statusAffects.has("LustyTongue")) {
-            MainScreen.text("The constant tingling in your mouth grows and grows, particularly around your lips, until they feel as sensitive as ", false);
-            if (player.lowerBody.vaginaSpot.hasVagina()) MainScreen.text("your", false);
-            else MainScreen.text("a woman's", false);
-            MainScreen.text(" lower lips.  You'll have to be careful not to lick them!", false);
+        if (Utils.rand(4) == 0 && !player.statusAffects.has(StatusAffectType.LustyTongue)) {
+            DisplayText.text("The constant tingling in your mouth grows and grows, particularly around your lips, until they feel as sensitive as ");
+            if (player.lowerBody.vaginaSpot.hasVagina()) DisplayText.text("your");
+            else DisplayText.text("a woman's");
+            DisplayText.text(" lower lips.  You'll have to be careful not to lick them!");
             //(Lustytongue status)
-            player.statusAffects.add(new StatusAffect("LustyTongue", 25, 0, 0, 0));
+            player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.LustyTongue, 25, 0, 0, 0));
         }
-        MainScreen.text("\n\nAfter the wave of sensation passes, your " + player.skinDesc + " feels a little more receptive to touch.  ", false);
+        DisplayText.text("\n\nAfter the wave of sensation passes, your " + player.skinDesc + " feels a little more receptive to touch.  ");
         if (player.stats.lust > 70 || player.stats.lib > 70) {
-            MainScreen.text("You shiver and think of how much better it'll make sex and masturbation.", false);
+            DisplayText.text("You shiver and think of how much better it'll make sex and masturbation.");
         }
-        else MainScreen.text("You worry it'll make it harder to resist the attentions of a demon.", false);
+        else DisplayText.text("You worry it'll make it harder to resist the attentions of a demon.");
         player.stats.sens += 10;
         player.stats.lust += 5;
     }

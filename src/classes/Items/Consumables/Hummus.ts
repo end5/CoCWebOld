@@ -7,8 +7,9 @@ import { AntennaeType, EarType, HornType } from '../../Body/Head';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import { ArmType, WingType } from '../../Body/UpperBody';
 import Vagina from '../../Body/Vagina';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
@@ -19,13 +20,13 @@ export default class Hummus extends Consumable {
     }
 
     public use(player: Player) {
-        MainScreen.text("", true);
+        DisplayText.clear();
         /*if (Game.debug) {
-            MainScreen.text("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.", false);
+            DisplayText.text("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
             player.inventory.items.destroyItems(consumables.HUMMUS_, 1);
             return;
         }*/
-        MainScreen.text("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.", false);
+        DisplayText.text("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
         player.stats.str = 30;
         player.stats.spe = 30;
         player.stats.tou = 30;
@@ -36,10 +37,10 @@ export default class Hummus extends Consumable {
         player.stats.lust = 10;
         player.upperBody.head.hairType = 0;
         if (RaceScore.humanScore(player) > 4) {
-            MainScreen.text("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?", false);
+            DisplayText.text("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
         }
         else {
-            MainScreen.text("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?", false);
+            DisplayText.text("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
         }
         player.upperBody.armType = ArmType.HUMAN;
         player.upperBody.head.face.eyeType = EyeType.HUMAN;
@@ -110,8 +111,8 @@ export default class Hummus extends Consumable {
         }
         else player.upperBody.chest.get(0).breastRating = 0;
         player.upperBody.gills = false;
-        player.statusAffects.remove("Uniball");
-        player.statusAffects.remove("BlackNipples");
+        player.statusAffects.remove(StatusAffectType.Uniball);
+        player.statusAffects.remove(StatusAffectType.BlackNipples);
         player.lowerBody.vaginaSpot.get(0).vaginaType = 0;
     }
 }

@@ -1,7 +1,7 @@
 import Consumable from './Consumable';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import BodyModifier from '../../Modifiers/BodyModifier';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -12,7 +12,8 @@ export default class VitalityTincture extends Consumable {
 
     public use(player: Player) {
         player.slimeFeed();
-        MainScreen.text("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.", true);
+        DisplayText.clear();
+        DisplayText.text("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.");
         //str change
         let strChange: number = Utils.rand(3);
         player.stats.str = strChange;
@@ -28,8 +29,8 @@ export default class VitalityTincture extends Consumable {
         player.stats.tou = strChange;
         //Chance of fitness change
         if (player.stats.HP += 50)
-            MainScreen.text("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.", false);
+            DisplayText.text("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.");
         if (Utils.rand(3) == 0)
-            MainScreen.text(BodyModifier.displayModTone(player, 95, 3), false);
+            DisplayText.text(BodyModifier.displayModTone(player, 95, 3));
     }
 }

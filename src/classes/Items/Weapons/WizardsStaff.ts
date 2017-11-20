@@ -1,7 +1,9 @@
 import Weapon from './Weapon';
 import Character from '../../Character/Character';
 import Perk from '../../Effects/Perk';
-import Player from '../../Player';
+import PerkFactory from '../../Effects/PerkFactory';
+import { PerkType } from '../../Effects/PerkType';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class WizardsStaff extends Weapon {
@@ -10,14 +12,14 @@ export default class WizardsStaff extends Weapon {
     }
 
     public equip(character: Character): void {
-        while (character.perks.has("WizardsFocus"))
-            character.perks.remove("WizardsFocus");
-        character.perks.add(new Perk("WizardsFocus", 0.4, 0, 0, 0));
+        while (character.perks.has(PerkType.WizardsFocus))
+            character.perks.remove(PerkType.WizardsFocus);
+        character.perks.add(PerkFactory.create(PerkType.WizardsFocus, 0.4, 0, 0, 0));
     }
 
     public unequip(character: Character): void {
-        while (character.perks.has("WizardsFocus"))
-            character.perks.remove("WizardsFocus");
+        while (character.perks.has(PerkType.WizardsFocus))
+            character.perks.remove(PerkType.WizardsFocus);
     }
 
     equipText(): void { }

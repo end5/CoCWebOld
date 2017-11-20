@@ -1,6 +1,6 @@
 import Consumable from './Consumable';
 import Game from '../../Game/Game';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class BlackCatBeer extends Consumable {

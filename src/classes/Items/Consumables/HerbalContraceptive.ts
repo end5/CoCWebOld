@@ -1,7 +1,9 @@
 import Consumable from './Consumable';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import StatusAffect from '../../Effects/StatusAffect';
-import Player from '../../Player';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -11,11 +13,11 @@ export default class HerbalContraceptive extends Consumable {
     }
 
     public use(player: Player) {
-        MainScreen.clearText();
-
+        DisplayText.clear();
+        
         // Placeholder, sue me
-        MainScreen.text("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
+        DisplayText.text("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
 
-        player.statusAffects.add(new StatusAffect("Contraceptives", 1, 48, 0, 0));
+        player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Contraceptives, 1, 48, 0, 0));
     }
 }

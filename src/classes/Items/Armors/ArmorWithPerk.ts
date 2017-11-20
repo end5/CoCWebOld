@@ -1,7 +1,8 @@
 import Armor, { ArmorClass } from './Armor';
 import Character from '../../Character/Character';
 import Perk from '../../Effects/Perk';
-import Player from '../../Player';
+import PerkFactory from '../../Effects/PerkFactory';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default abstract class ArmorWithPerk extends Armor {
@@ -15,15 +16,15 @@ export default abstract class ArmorWithPerk extends Armor {
     }
 
     public equip(character: Character): void {
-        while (character.perks.has(this.perk.uniqueKey))
-            character.perks.remove(this.perk.uniqueKey);
-        character.perks.add(this.perk.clone());
+        while (character.perks.has(this.perk.type))
+            character.perks.remove(this.perk.type);
+        character.perks.add(PerkFactory.copy(this.perk));
         super.equip(character);
     }
 
     public unequip(character: Character): void {
-        while (character.perks.has(this.perk.uniqueKey))
-            character.perks.remove(this.perk.uniqueKey);
+        while (character.perks.has(this.perk.type))
+            character.perks.remove(this.perk.type);
         super.unequip(character);
     }
 }

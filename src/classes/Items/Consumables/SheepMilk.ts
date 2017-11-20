@@ -1,6 +1,6 @@
 import Consumable from './Consumable';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -10,7 +10,8 @@ export default class SheepMilk extends Consumable {
     }
 
     public use(player: Player) {
-        MainScreen.text("You gulp the bottle's contents, and its sweet taste immediately invigorates you, making you feel calm and concentrated", true);
+        DisplayText.clear();
+        DisplayText.text("You gulp the bottle's contents, and its sweet taste immediately invigorates you, making you feel calm and concentrated");
         //-30 fatigue, -2 libido, -10 lust]
         player.stats.fatigue -= 30;
         player.stats.lib += -.25;

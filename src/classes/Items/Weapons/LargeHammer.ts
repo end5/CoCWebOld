@@ -1,7 +1,7 @@
 import Weapon from './Weapon';
 import Character from '../../Character/Character';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class LargeHammer extends Weapon {
@@ -12,7 +12,7 @@ export default class LargeHammer extends Weapon {
     public canUse(player: Player): boolean {
         if (player.tallness >= 60)
             return true;
-        MainScreen.text("This hammer is too large for you to wield effectively.  ");
+        DisplayText.text("This hammer is too large for you to wield effectively.  ");
         return false;
     }
     

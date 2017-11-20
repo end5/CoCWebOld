@@ -1,6 +1,6 @@
 import Character from '../../Character/Character';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import EquipableItem from '../EquipableItem';
 import Item, { ItemType } from '../Item';
 import ItemDesc from '../ItemDesc';
@@ -24,7 +24,7 @@ export default abstract class Weapon extends EquipableItem {
     }
 
     public useText(player: Player) {
-        MainScreen.text("You equip " + this.desc.longName + ".  ");
+        DisplayText.text("You equip " + this.desc.longName + ".  ");
     }
 }
 

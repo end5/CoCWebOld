@@ -1,10 +1,10 @@
 import Consumable from './Consumable';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
 import BodyModifier from '../../Modifiers/BodyModifier';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -20,10 +20,11 @@ export default class LustDraft extends Consumable {
 
     public use(player: Player) {
         player.slimeFeed();
-        MainScreen.text("You drink the ", true);
-        if (this.enhanced) MainScreen.text("red", false);
-        else MainScreen.text("pink", false);
-        MainScreen.text(" potion, and its unnatural warmth immediately flows to your groin.", false);
+        DisplayText.clear();
+        DisplayText.text("You drink the ");
+        if (this.enhanced) DisplayText.text("red");
+        else DisplayText.text("pink");
+        DisplayText.text(" potion, and its unnatural warmth immediately flows to your groin.");
         player.stats.lustNoResist += 30 + Utils.rand(player.stats.lib / 10);
 
         //Heat/Rut for those that can have them if "fuck draft"
@@ -35,24 +36,24 @@ export default class LustDraft extends Consumable {
         }
         //ORGAZMO
         if (player.stats.lust >= 100 && !Game.inCombat) {
-            MainScreen.text("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + player.inventory.armorSlot.equipment.displayName + " and look down as your ", false);
+            DisplayText.text("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + player.inventory.armorSlot.equipment.displayName + " and look down as your ");
             if (player.lowerBody.cockSpot.count() > 0) {
-                MainScreen.text(CockDescriptor.describeMultiCockShort(player) + " erupts in front of you, liberally spraying the ground around you.  ", false);
+                DisplayText.text(CockDescriptor.describeMultiCockShort(player) + " erupts in front of you, liberally spraying the ground around you.  ");
             }
             if (player.lowerBody.cockSpot.count() > 0 && player.lowerBody.vaginaSpot.count() > 0) {
-                MainScreen.text("At the same time your ", false);
+                DisplayText.text("At the same time your ");
             }
             if (player.lowerBody.vaginaSpot.count() > 0) {
-                MainScreen.text(VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " soaks your thighs.  ", false);
+                DisplayText.text(VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " soaks your thighs.  ");
             }
-            if (player.gender == 0) MainScreen.text("body begins to quiver with orgasmic bliss.  ", false);
-            MainScreen.text("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.", false);
+            if (player.gender == 0) DisplayText.text("body begins to quiver with orgasmic bliss.  ");
+            DisplayText.text("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");
             //increase player libido, and maybe sensitivity too?
             player.orgasm();
             player.stats.lib += 2;
             player.stats.sens += 1;
         }
         if (player.stats.lust > 100) player.stats.lust = 100;
-        MainScreen.text("\n\n", false);
+        DisplayText.text("\n\n");
     }
 }

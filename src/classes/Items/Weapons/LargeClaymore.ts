@@ -1,6 +1,7 @@
 import Weapon from './Weapon';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import Character from '../../Character/Character';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class LargeClaymore extends Weapon {
@@ -11,7 +12,13 @@ export default class LargeClaymore extends Weapon {
     public canUse(player: Player): boolean {
         if (player.stats.str >= 40)
             return true;
-        MainScreen.text("You aren't strong enough to handle such a heavy weapon!  ");
+        DisplayText.text("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
+    
+    equip(character: Character): void { }
+    unequip(character: Character): void { }
+    equipText(): void { }
+    unequipText(): void { }
+    use(player: Player) { }
 }

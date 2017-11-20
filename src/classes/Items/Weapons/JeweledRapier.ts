@@ -1,7 +1,7 @@
 import Weapon from './Weapon';
 import Character from '../../Character/Character';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class JeweledRapier extends Weapon {

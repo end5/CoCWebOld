@@ -1,7 +1,7 @@
 import Weapon from './Weapon';
 import Character from '../../Character/Character';
-import MainScreen from '../../display/MainScreen';
-import Player from '../../Player';
+import DisplayText from '../../display/DisplayText';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class HugeWarhammer extends Weapon {
@@ -12,7 +12,7 @@ export default class HugeWarhammer extends Weapon {
     public canUse(player: Player): boolean {
         if (player.stats.str >= 80)
             return true;
-        MainScreen.text("You aren't strong enough to handle such a heavy weapon!  ");
+        DisplayText.text("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
 

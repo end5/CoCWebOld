@@ -1,7 +1,7 @@
 import Armor from './Armor';
 import Character from '../../Character/Character';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class FurLoincloth extends Armor {

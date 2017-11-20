@@ -1,8 +1,8 @@
 import Armor from './Armor';
 import Character from '../../Character/Character';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class LeatherArmorSegments extends Armor {
@@ -14,7 +14,7 @@ export default class LeatherArmorSegments extends Armor {
 
     equipText(): void {}
     unequipText(): void {
-        MainScreen.text("You have your old set of " + this.desc.longName + " left over.  ");
+        DisplayText.text("You have your old set of " + this.desc.longName + " left over.  ");
     }
 
     onEquip(character: Character): void {}

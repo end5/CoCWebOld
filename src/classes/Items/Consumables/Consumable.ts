@@ -1,4 +1,4 @@
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import Item, { ItemType } from '../Item';
 import ItemDesc from '../ItemDesc';
 

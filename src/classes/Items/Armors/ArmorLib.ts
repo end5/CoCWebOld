@@ -9,6 +9,8 @@ import LustyMaidensArmor from './LustyMaidensArmor';
 import SeductiveArmor from './SeductiveArmor';
 import SluttySwimwear from './SluttySwimwear';
 import Perk from '../../Effects/Perk';
+import PerkFactory from '../../Effects/PerkFactory';
+import { PerkType } from '../../Effects/PerkType';
 import KeyedLibrary from '../../Utilities/Library';
 import ItemDesc from '../ItemDesc';
 
@@ -37,20 +39,20 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "BimboSk",
             new ItemDesc("BimboSk", "a skirt that looks like it belongs on a bimbo", "A tight, cleavage-inducing halter top and an extremely short miniskirt.  The sexual allure of this item is undoubtable."),
             "bimbo skirt", 1, 50, "Light",
-            new Perk("SluttySeduction", 10, 0, 0, 0), "Your delightfully slutty yet upbeat garb helps you seduce your foes!"
+            PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0), "Your delightfully slutty yet upbeat garb helps you seduce your foes!"
         ));
         this.add(new GenericArmorWithPerk(
             "BonStrp",
             new ItemDesc("BonStrp", "a set of bondage straps", "These leather straps and well-placed hooks are actually designed in such a way as to be worn as clothing.  While they technically would cover your naughty bits, virtually every other inch of your body would be exposed."),
             "barely-decent bondage straps", 0, 600, "Light",
-            new Perk("SluttySeduction", 10, 0, 0, 0), "Your fetishy bondage outfit allows you access to an improved form of 'Tease'."
+            PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0), "Your fetishy bondage outfit allows you access to an improved form of 'Tease'."
         ));
         this.add(new ComfortableClothes());
         this.add(new GenericArmorWithPerk(
             "ChBikni",
             new ItemDesc("Chn Bikini", "a chainmail bikini", "A revealing chainmail bikini that barely covers anything.  The bottom half is little more than a triangle of metal and a leather thong."),
             "revealing chainmail bikini", 2, 700, "Light",
-            new Perk("SluttySeduction", 5, 0, 0, 0), "Your revealing chain bikini allows you access to 'Seduce', an improved form of 'Tease'.", true
+            PerkFactory.create(PerkType.SluttySeduction, 5, 0, 0, 0), "Your revealing chain bikini allows you access to 'Seduce', an improved form of 'Tease'.", true
         ));
         this.add(new GenericArmor(
             "ClssyCl",
@@ -79,7 +81,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "IndecSt",
             new ItemDesc("Indec StAr", "a suit of practically indecent steel armor", "This suit of steel 'armor' has two round disks that barely cover the nipples, a tight chainmail bikini, and circular butt-plates."),
             "practically indecent steel armor", 5, 800, "Medium",
-            new Perk("SluttySeduction", 6, 0, 0, 0), "Your incredibly revealing steel armor allows you access to 'Seduce', an improved form of 'Tease'.", true
+            PerkFactory.create(PerkType.SluttySeduction, 6, 0, 0, 0), "Your incredibly revealing steel armor allows you access to 'Seduce', an improved form of 'Tease'.", true
         ));
         this.add(new GenericArmor(
             "LeathrA",
@@ -108,7 +110,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             new ItemDesc(
                 "NurseCl", "a nurse's outfit", "This borderline obscene nurse's outfit would barely cover your hips and crotch.  The midriff is totally exposed, and the white top leaves plenty of room for cleavage.  A tiny white hat tops off the whole ensemble."),
             "skimpy nurse's outfit", 0, 800, "Light",
-            new Perk("SluttySeduction", 8, 0, 0, 0), "Your fetishy nurse outfit allows you access to an improved form of 'Tease'."
+            PerkFactory.create(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy nurse outfit allows you access to an improved form of 'Tease'."
         ));
         this.add(new GenericArmor(
             "Overall",
@@ -124,7 +126,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "RbbrClt",
             new ItemDesc("Rbbr Fetish", "a set of revealing rubber fetish clothes", "A revealing set of fetish-wear.  Upgrades your tease attack with the \"Slutty Seduction\" perk."),
             "rubber fetish clothes", 3, 1000, "Light",
-            new Perk("SluttySeduction", 8, 0, 0, 0), "Your fetishy rubberwear allows you access to 'Seduce', an improved form of 'Tease'.", true
+            PerkFactory.create(PerkType.SluttySeduction, 8, 0, 0, 0), "Your fetishy rubberwear allows you access to 'Seduce', an improved form of 'Tease'.", true
         ));
         this.add(new SluttySwimwear());
         this.add(new GenericArmor(
@@ -137,7 +139,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "SS.Robe",
             new ItemDesc("SS.Robe", "a spider-silk robes", "This robe looks incredibly comfortable.  It's made from alchemically enhanced spider-silk, and embroidered with what looks like magical glyphs around the sleeves and hood."),
             "spider-silk robes", 6, 950, "Light",
-            new Perk("WizardsEndurance", 30, 0, 0, 0)
+            PerkFactory.create(PerkType.WizardsEndurance, 30, 0, 0, 0)
         ));
         this.add(new GenericArmor(
             "SSArmor",
@@ -148,7 +150,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "T.BSuit",
             new ItemDesc("Bodysuit", "a semi-transparent, curve-hugging bodysuit", "A semi-transparent bodysuit."),
             "semi-transparent bodysuit", 0, 1300, "Light",
-            new Perk("SluttySeduction", 7, 0, 0, 0), "Your clingy transparent bodysuit allows you access to 'Seduce', an improved form of 'Tease'."
+            PerkFactory.create(PerkType.SluttySeduction, 7, 0, 0, 0), "Your clingy transparent bodysuit allows you access to 'Seduce', an improved form of 'Tease'."
         ));
         this.add(new GenericArmor(
             "TubeTop",
@@ -159,7 +161,7 @@ export default class ArmorLib extends KeyedLibrary<Armor> {
             "W.Robes",
             new ItemDesc("W.Robes", "a wizard's robes", "These robes appear to have once belonged to a female wizard.  They're long with a slit up the side and full billowing sleeves.  The top is surprisingly low cut.  Somehow you know wearing it would aid your spellcasting."),
             "wizard's robes", 1, 50, "Light",
-            new Perk("WizardsEndurance", 25, 0, 0, 0)
+            PerkFactory.create(PerkType.WizardsEndurance, 25, 0, 0, 0)
         ));
     }
 }

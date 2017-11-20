@@ -1,14 +1,14 @@
 import Consumable from './Consumable';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
-import MainScreen from '../../display/MainScreen';
-import StatusAffect from '../../Effects/StatusAffect';
+import DisplayText from '../../display/DisplayText';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class PhoukaWhiskey extends Consumable {
-
     public constructor() {
         super("P_Whsky", new ItemDesc("Ph. Whiskey", "a small bottle of whiskey", "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat."), 20);
     }
@@ -16,16 +16,16 @@ export default class PhoukaWhiskey extends Consumable {
     public canUse(player: Player): boolean {
         switch (this.phoukaWhiskeyAcceptable(player)) {
             case -4:
-                MainScreen.text("You stare at the bottle for a moment, but decide not to risk harming one of the children growing inside you.\n\n");
+                DisplayText.text("You stare at the bottle for a moment, but decide not to risk harming one of the children growing inside you.\n\n");
                 return false;
             case -3:
-                MainScreen.text("You stare at the bottle for a moment, but decide not to risk harming either of the children growing inside you.\n\n");
+                DisplayText.text("You stare at the bottle for a moment, but decide not to risk harming either of the children growing inside you.\n\n");
                 return false;
             case -2:
-                MainScreen.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your colon.\n\n");
+                DisplayText.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your colon.\n\n");
                 return false;
             case -1:
-                MainScreen.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your womb.\n\n");
+                DisplayText.text("You stare at the bottle for a moment, but decide not to risk harming the child growing inside your womb.\n\n");
                 return false;
             default:
         }
@@ -36,18 +36,18 @@ export default class PhoukaWhiskey extends Consumable {
         player.slimeFeed();
         switch (this.phoukaWhiskeyDrink(player)) {
             case 0: //Player isn't pregnant
-                MainScreen.text("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");
+                DisplayText.text("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");
                 player.stats.cor += Utils.rand(2) + 1; //These gains are permanent
                 player.stats.lust += Utils.rand(8) + 1;
                 break;
             case 1: //Child is a phouka or satyr, loves alcohol
-                MainScreen.text("You uncork the bottle and drink some whiskey, hoping it will help with the gnawing hunger for alcohol you've had since this baby started growing inside you.\n\nYou down the booze in one shot and a wave of contentment washes over you.  It seems your passenger enjoyed the meal.");
+                DisplayText.text("You uncork the bottle and drink some whiskey, hoping it will help with the gnawing hunger for alcohol you've had since this baby started growing inside you.\n\nYou down the booze in one shot and a wave of contentment washes over you.  It seems your passenger enjoyed the meal.");
                 break;
             case 2: //Child is a faerie but will become a phouka with this drink
-                MainScreen.text("At first you feel your baby struggle against the whiskey, then it seems to grow content and enjoy it.");
+                DisplayText.text("At first you feel your baby struggle against the whiskey, then it seems to grow content and enjoy it.");
                 break;
             case 3: //Child is a faerie, hates phouka whiskey
-                MainScreen.text("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
+                DisplayText.text("You feel queasy and want to throw up.  There's a pain in your belly and you realize the baby you're carrying didn't like that at all.");
         }
         Flags.list[FlagEnum.PREGNANCY_CORRUPTION]++; //Faerie or phouka babies become more corrupted, no effect if the player is not pregnant or on other types of babies
         this.phoukaWhiskeyAddStatus(player);
@@ -92,36 +92,35 @@ export default class PhoukaWhiskey extends Consumable {
         let sensChange: number = (player.stats.sens < 10 ? player.stats.sens : 10);
         let speedChange: number = (player.stats.spe < 20 ? player.stats.spe : 20);
         let intChange: number = (player.stats.int < 20 ? player.stats.int : 20);
-        if (player.statusAffects.has("PhoukaWhiskeyAffect")) {
-            let drinksSoFar: number = player.statusAffects.get("PhoukaWhiskeyAffect").value2;
+        if (player.statusAffects.has(StatusAffectType.PhoukaWhiskeyAffect)) {
+            let drinksSoFar: number = player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2;
             if (drinksSoFar < 4)
-                player.statusAffects.get("PhoukaWhiskeyAffect").value1 = 8 - (2 * drinksSoFar);
+                player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value1 = 8 - (2 * drinksSoFar);
             else
-                player.statusAffects.get("PhoukaWhiskeyAffect").value1 = 1; //Always get at least one more hour of drunkenness
-            player.statusAffects.get("PhoukaWhiskeyAffect").value2 = 1;
-            player.statusAffects.get("PhoukaWhiskeyAffect").value3 = 256 * libidoChange + sensChange;
-            player.statusAffects.get("PhoukaWhiskeyAffect").value4 = 256 * speedChange + intChange;
-            MainScreen.text("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
+                player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value1 = 1; //Always get at least one more hour of drunkenness
+            player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2 = 1;
+            player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value3 = 256 * libidoChange + sensChange;
+            player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value4 = 256 * speedChange + intChange;
+            DisplayText.text("\n\nOh, it tastes so good.  This stuff just slides down your throat.");
             player.stats.lib += libidoChange;
             player.stats.sens -= sensChange;
             player.stats.spe -= speedChange;
             player.stats.int -= intChange;
         }
         else { //First time
-            player.statusAffects.add(new StatusAffect("PhoukaWhiskeyAffect", 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange));
+            player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange));
             //The four stats we’re affecting get paired together to save space. This way we don’t need a second StatusAffect to store more info.
             player.stats.lib += libidoChange;
             player.stats.sens -= sensChange;
             player.stats.spe -= speedChange;
             player.stats.int -= intChange;
         }
-        MainScreen.updateStats(player);
     }
 
     public phoukaWhiskeyExpires(player: Player) {
-        let numDrunk: number = player.statusAffects.get("PhoukaWhiskeyAffect").value2;
-        let libidoSensCombined: number = player.statusAffects.get("PhoukaWhiskeyAffect").value3;
-        let intSpeedCombined: number = player.statusAffects.get("PhoukaWhiskeyAffect").value4;
+        let numDrunk: number = player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value2;
+        let libidoSensCombined: number = player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value3;
+        let intSpeedCombined: number = player.statusAffects.get(StatusAffectType.PhoukaWhiskeyAffect).value4;
 
         let sensChange: number = libidoSensCombined & 255;
         let libidoChange: number = (libidoSensCombined - sensChange) / 256;
@@ -132,14 +131,13 @@ export default class PhoukaWhiskey extends Consumable {
         player.stats.sens += sensChange;
         player.stats.spe += speedChange;
         player.stats.int += intChange;
-        player.statusAffects.remove("PhoukaWhiskeyAffect");
+        player.statusAffects.remove(StatusAffectType.PhoukaWhiskeyAffect);
         if (numDrunk > 3)
-            MainScreen.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
+            DisplayText.text("\n<b>The dizzy sensation dies away and is replaced by a throbbing pain that starts in your skull and then seems to run all through your body, seizing up your joints and making your stomach turn.  The world feels like it’s off kilter and you aren’t in any shape to face it.  You suppose you could down another whiskey, but right now that doesn’t seem like such a good idea.</b>\n");
         else if (numDrunk > 1)
-            MainScreen.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
+            DisplayText.text("\n<b>The fuzzy, happy feeling ebbs away.  With it goes the warmth and carefree feelings.  Your head aches and you wonder if you should have another whiskey, just to tide you over</b>\n");
         else
-            MainScreen.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
-        MainScreen.updateStats(player);
+            DisplayText.text("\n<b>The fuzzy, happy feeling ebbs away.  The weight of the world’s problems seems to settle on you once more.  It was nice while it lasted and you wouldn’t mind having another whiskey.</b>\n");
     }
 }
 

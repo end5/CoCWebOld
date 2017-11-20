@@ -5,12 +5,13 @@ import Cock from '../../Body/Cock';
 import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
-import Player from '../../Player';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -28,38 +29,39 @@ export default class SuccubiMilk extends Consumable {
     public use(player: Player) {
         player.slimeFeed();
         let chance: number = Utils.rand(100);
-        if (player.perks.has("HistoryAlchemist")) chance += 10;
+        if (player.perks.has(PerkType.HistoryAlchemist)) chance += 10;
         if (chance >= 90 && !this.tainted) chance -= 10;
-        if (player.stats.cor < 35) MainScreen.text("You wonder why in the gods' names you would drink such a thing, but you have to admit, it is the best thing you have ever tasted.", true);
+        DisplayText.clear();
+        if (player.stats.cor < 35) DisplayText.text("You wonder why in the gods' names you would drink such a thing, but you have to admit, it is the best thing you have ever tasted.");
         if (player.stats.cor >= 35 && player.stats.cor < 70) {
-            MainScreen.text("You savor the incredible flavor as you greedily gulp it down.", true);
+            DisplayText.text("You savor the incredible flavor as you greedily gulp it down.");
             if (player.gender == 2 || player.gender == 3) {
-                MainScreen.text("  The taste alone makes your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " feel ", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) MainScreen.text("tingly.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.NORMAL) MainScreen.text("wet.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.WET) MainScreen.text("sloppy and wet.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLICK) MainScreen.text("sopping and juicy.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.DROOLING) MainScreen.text("dripping wet.", false);
+                DisplayText.text("  The taste alone makes your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " feel ");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) DisplayText.text("tingly.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.NORMAL) DisplayText.text("wet.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.WET) DisplayText.text("sloppy and wet.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLICK) DisplayText.text("sopping and juicy.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.DROOLING) DisplayText.text("dripping wet.");
             }
-            else if (player.lowerBody.cockSpot.hasCock()) MainScreen.text("  You feel a building arousal, but it doesn't affect your cock.", false);
+            else if (player.lowerBody.cockSpot.hasCock()) DisplayText.text("  You feel a building arousal, but it doesn't affect your cock.");
         }
         if (player.stats.cor >= 70) {
-            MainScreen.text("You pour the milk down your throat, chugging the stuff as fast as you can.  You want more.", true);
+            DisplayText.text("You pour the milk down your throat, chugging the stuff as fast as you can.  You want more.");
             if (player.gender == 2 || player.gender == 3) {
-                MainScreen.text("  Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)), false);
-                if (player.lowerBody.vaginaSpot.count() > 1) MainScreen.text(" quiver in orgasm, ", false);
-                if (player.lowerBody.vaginaSpot.count() == 1) MainScreen.text(" quivers in orgasm, ", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) MainScreen.text("becoming slightly sticky.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.NORMAL) MainScreen.text("leaving your undergarments sticky.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.WET) MainScreen.text("wet with girlcum.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLICK) MainScreen.text("staining your undergarments with cum.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DROOLING) MainScreen.text("leaving cunt-juice trickling down your leg.", false);
-                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.SLAVERING) MainScreen.text("spraying your undergarments liberally with slick girl-cum.", false);
+                DisplayText.text("  Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)));
+                if (player.lowerBody.vaginaSpot.count() > 1) DisplayText.text(" quiver in orgasm, ");
+                if (player.lowerBody.vaginaSpot.count() == 1) DisplayText.text(" quivers in orgasm, ");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) DisplayText.text("becoming slightly sticky.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.NORMAL) DisplayText.text("leaving your undergarments sticky.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.WET) DisplayText.text("wet with girlcum.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLICK) DisplayText.text("staining your undergarments with cum.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DROOLING) DisplayText.text("leaving cunt-juice trickling down your leg.");
+                if (player.lowerBody.vaginaSpot.get(0).vaginalWetness >= VaginaWetness.SLAVERING) DisplayText.text("spraying your undergarments liberally with slick girl-cum.");
                 player.orgasm();
             }
             else if (player.gender != 0) {
-                if (player.lowerBody.cockSpot.count() == 1) MainScreen.text("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(player) + " remains unaffected.", false);
-                else MainScreen.text("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(player) + " remain unaffected.", false);
+                if (player.lowerBody.cockSpot.count() == 1) DisplayText.text("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(player) + " remains unaffected.");
+                else DisplayText.text("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(player) + " remain unaffected.");
             }
         }
         if (this.tainted) {
@@ -80,15 +82,15 @@ export default class SuccubiMilk extends Consumable {
                 if (player.upperBody.chest.get(0).breastRating < 5 && Utils.rand(4) == 0) breastGrowth++;
                 if (player.upperBody.chest.get(0).breastRating < 6 && Utils.rand(5) == 0) breastGrowth++;
             }
-            MainScreen.text("\n\n", false);
+            DisplayText.text("\n\n");
             if (player.upperBody.chest.count() == 0) {
-                MainScreen.text("A perfect pair of B cup breasts, complete with tiny nipples, form on your chest.", false);
+                DisplayText.text("A perfect pair of B cup breasts, complete with tiny nipples, form on your chest.");
                 const newBreastRow: BreastRow = new BreastRow();
                 newBreastRow.breasts = 2;
                 newBreastRow.nipplesPerBreast = 1;
                 newBreastRow.breastRating = 2;
                 player.upperBody.chest.add(newBreastRow);
-                MainScreen.text("\n", false);
+                DisplayText.text("\n");
             }
             else
                 BreastModifier.growTopBreastRow(player, breastGrowth, player.upperBody.chest.count(), true);
@@ -107,10 +109,10 @@ export default class SuccubiMilk extends Consumable {
                         if (longestCock.cockThickness < .5) longestCock.cockThickness = .5;
                     }
                     lengthenAmount += CockModifier.growCock(player, longestCock, (Utils.rand(3) + 1) * -1);
-                    MainScreen.text("\n\n", false);
+                    DisplayText.text("\n\n");
                     CockModifier.displayLengthChange(player, lengthenAmount, 1);
                     if (longestCock.cockLength < 2) {
-                        MainScreen.text("  ", false);
+                        DisplayText.text("  ");
                         CockModifier.displayKillCocks(player, 1);
                     }
                 }
@@ -124,13 +126,13 @@ export default class SuccubiMilk extends Consumable {
             newVagina.clitLength = .25;
             player.lowerBody.vaginaSpot.add(newVagina);
             if (player.fertility <= 5) player.fertility = 6;
-            MainScreen.text("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "</b>!", false);
+            DisplayText.text("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "</b>!");
         }
         //Increase pussy wetness or grow one!!
         else if (chance > 75 && chance < 90) {
             //Shrink cawk
             if (player.lowerBody.cockSpot.count() > 0 && !Flags.list[FlagEnum.HYPER_HAPPY]) {
-                MainScreen.text("\n\n", false);
+                DisplayText.text("\n\n");
                 const longestCock: Cock = player.lowerBody.cockSpot.listLongestCocks[0];
                 //Shrink said cock
                 if (longestCock.cockLength < 6 && longestCock.cockLength >= 2.9)
@@ -138,38 +140,38 @@ export default class SuccubiMilk extends Consumable {
                 let lengthChange: number = CockModifier.growCock(player, longestCock, -1 * (Utils.rand(3) + 1));
                 CockModifier.displayLengthChange(player, lengthChange, 1);
                 if (longestCock.cockLength < 3) {
-                    MainScreen.text("  ", false);
+                    DisplayText.text("  ");
                     CockModifier.displayKillCocks(player, 1);
                 }
             }
             if (player.lowerBody.vaginaSpot.count() > 0) {
-                MainScreen.text("\n\n", false);
+                DisplayText.text("\n\n");
                 //0 = dry, 1 = wet, 2 = extra wet, 3 = always slick, 4 = drools constantly, 5 = female ejaculator
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLAVERING) {
-                    if (player.lowerBody.vaginaSpot.count() == 1) MainScreen.text("Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " gushes fluids down your leg as you spontaneously orgasm.", false);
-                    else MainScreen.text("Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.", false);
+                    if (player.lowerBody.vaginaSpot.count() == 1) DisplayText.text("Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " gushes fluids down your leg as you spontaneously orgasm.");
+                    else DisplayText.text("Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.");
                     player.orgasm();
                     if (this.tainted) player.stats.cor += 1;
                 }
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DROOLING) {
-                    if (player.lowerBody.vaginaSpot.count() == 1) MainScreen.text("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.", false);
-                    if (player.lowerBody.vaginaSpot.count() > 1) MainScreen.text("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.", false);
+                    if (player.lowerBody.vaginaSpot.count() == 1) DisplayText.text("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.");
+                    if (player.lowerBody.vaginaSpot.count() > 1) DisplayText.text("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.");
                     player.orgasm();
                     if (this.tainted) player.stats.cor += 1;
                 }
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.SLICK) {
-                    if (player.lowerBody.vaginaSpot.count() == 1) MainScreen.text("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " now drools lubricant constantly down your leg.", false);
-                    if (player.lowerBody.vaginaSpot.count() > 1) MainScreen.text("You feel sudden trickles of fluids down your leg.  You smell the stuff and realize it's your pussies-juices.  They seem to drool lubricant constantly down your legs.", false);
+                    if (player.lowerBody.vaginaSpot.count() == 1) DisplayText.text("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " now drools lubricant constantly down your leg.");
+                    if (player.lowerBody.vaginaSpot.count() > 1) DisplayText.text("You feel sudden trickles of fluids down your leg.  You smell the stuff and realize it's your pussies-juices.  They seem to drool lubricant constantly down your legs.");
                 }
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.WET) {
-                    MainScreen.text("You flush in sexual arousal as you realize how moist your cunt-lips have become.  Once you've calmed down a bit you realize they're still slick and ready to fuck, and always will be.", false);
+                    DisplayText.text("You flush in sexual arousal as you realize how moist your cunt-lips have become.  Once you've calmed down a bit you realize they're still slick and ready to fuck, and always will be.");
                 }
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.NORMAL) {
-                    if (player.lowerBody.vaginaSpot.count() == 1) MainScreen.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " felt much wetter than normal.", false);
-                    else MainScreen.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " were much wetter than normal.", false);
+                    if (player.lowerBody.vaginaSpot.count() == 1) DisplayText.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " felt much wetter than normal.");
+                    else DisplayText.text("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + " were much wetter than normal.");
                 }
                 if (player.lowerBody.vaginaSpot.get(0).vaginalWetness == VaginaWetness.DRY) {
-                    MainScreen.text("You feel a tingling in your crotch, but cannot identify it.", false);
+                    DisplayText.text("You feel a tingling in your crotch, but cannot identify it.");
                 }
                 for (let index: number = 0; index < player.lowerBody.vaginaSpot.count(); index++)
                     if (player.lowerBody.vaginaSpot.get(index).vaginalWetness < VaginaWetness.SLAVERING)
@@ -179,10 +181,10 @@ export default class SuccubiMilk extends Consumable {
         if (chance >= 90) {
             if (player.skinTone == "blue" || player.skinTone == "purple" || player.skinTone == "indigo" || player.skinTone == "shiny black") {
                 if (player.lowerBody.vaginaSpot.count() > 0) {
-                    MainScreen.text("\n\nYour heart begins beating harder and harder as heat floods to your groin.  You feel your clit peeking out from under its hood, growing larger and longer as it takes in more and more blood.", false);
-                    if (player.lowerBody.vaginaSpot.get(0).clitLength > 3 && !player.perks.has("BigClit")) MainScreen.text("  After some time it shrinks, returning to its normal aroused size.  You guess it can't get any bigger.", false);
-                    if (player.lowerBody.vaginaSpot.get(0).clitLength > 5 && player.perks.has("BigClit")) MainScreen.text("  Eventually it shrinks back down to its normal (but still HUGE) size.  You guess it can't get any bigger.", false);
-                    if (((player.perks.has("BigClit")) && player.lowerBody.vaginaSpot.get(0).clitLength < 6)
+                    DisplayText.text("\n\nYour heart begins beating harder and harder as heat floods to your groin.  You feel your clit peeking out from under its hood, growing larger and longer as it takes in more and more blood.");
+                    if (player.lowerBody.vaginaSpot.get(0).clitLength > 3 && !player.perks.has(PerkType.BigClit)) DisplayText.text("  After some time it shrinks, returning to its normal aroused size.  You guess it can't get any bigger.");
+                    if (player.lowerBody.vaginaSpot.get(0).clitLength > 5 && player.perks.has(PerkType.BigClit)) DisplayText.text("  Eventually it shrinks back down to its normal (but still HUGE) size.  You guess it can't get any bigger.");
+                    if (((player.perks.has(PerkType.BigClit)) && player.lowerBody.vaginaSpot.get(0).clitLength < 6)
                         || player.lowerBody.vaginaSpot.get(0).clitLength < 3) {
                         player.lowerBody.vaginaSpot.get(0).clitLength += (Utils.rand(4) + 2) / 10;
                     }
@@ -196,7 +198,7 @@ export default class SuccubiMilk extends Consumable {
                     newVagina.virgin = true;
                     newVagina.clitLength = .25;
                     player.lowerBody.vaginaSpot.add(newVagina);
-                    MainScreen.text("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "</b>!", false);
+                    DisplayText.text("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(player, player.lowerBody.vaginaSpot.get(0)) + "</b>!");
                 }
             }
             else {
@@ -205,7 +207,7 @@ export default class SuccubiMilk extends Consumable {
                 if (chance == 1 || chance == 2) player.skinTone = "indigo";
                 if (chance == 3 || chance == 4 || chance == 5) player.skinTone = "purple";
                 if (chance > 5) player.skinTone = "blue";
-                MainScreen.text("\n\nA tingling sensation runs across your skin in waves, growing stronger as <b>your skin's tone slowly shifts, darkening to become " + player.skinTone + " in color.</b>", false);
+                DisplayText.text("\n\nA tingling sensation runs across your skin in waves, growing stronger as <b>your skin's tone slowly shifts, darkening to become " + player.skinTone + " in color.</b>");
                 if (this.tainted) player.stats.cor += 1;
                 else player.stats.cor += 0;
             }
@@ -213,12 +215,12 @@ export default class SuccubiMilk extends Consumable {
         //Demonic changes - higher chance with higher corruption.
         if (Utils.rand(40) + player.stats.cor / 3 > 35 && this.tainted) GenericTransforms.demonChanges(player);
         if (this.tainted) {
-            MainScreen.text(player.modFem(100, 2), false);
-            if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModTone(player, 15, 2), false);
+            DisplayText.text(player.modFem(100, 2));
+            if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModTone(player, 15, 2));
         }
         else {
-            MainScreen.text(player.modFem(90, 1), false);
-            if (Utils.rand(3) == 0) MainScreen.text(BodyModifier.displayModTone(player, 20, 2), false);
+            DisplayText.text(player.modFem(90, 1));
+            if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModTone(player, 20, 2));
         }
         player.updateGender();
     }

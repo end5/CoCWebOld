@@ -1,10 +1,12 @@
 import Consumable from './Consumable';
-import OvielixirEggsPreg from '../../Body/Pregnancy/PlayerPregnancyEvents/OvielixirEggsPreg';
 import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import Vagina from '../../Body/Vagina';
-import MainScreen from '../../display/MainScreen';
+import DisplayText from '../../display/DisplayText';
 import StatusAffect from '../../Effects/StatusAffect';
-import Player from '../../Player';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Player from '../../Player/Player';
+import OvielixirEggsPreg from '../../Player/PregnancyEvents/OvielixirEggsPreg';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
@@ -16,7 +18,7 @@ export default class OvipositionElixir extends Consumable {
 
     public canUse(player: Player): boolean {
         if (player.lowerBody.vaginaSpot.hasVagina()) return true;
-        MainScreen.text("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
+        DisplayText.text("You pop the cork and prepare to drink the stuff, but the smell nearly makes you gag.  You cork it hastily.\n\n");
         return false;
     }
 
@@ -35,44 +37,44 @@ export default class OvipositionElixir extends Consumable {
      */
     public use(player: Player) {
         player.slimeFeed();
-        MainScreen.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
+        DisplayText.text("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
         if (player.pregnancy.isPregnantWith(PregnancyType.GOO_STUFFED)) {
-            MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
+            DisplayText.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
         if (player.pregnancy.isPregnantWith(PregnancyType.WORM_STUFFED)) {
-            MainScreen.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
+            DisplayText.text("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with the worms filling your womb the ovielixir is unable to work its magic on you.");
             return;
         }
         if (!player.pregnancy.isPregnant()) { //If the player is not pregnant, get preggers with eggs!
-            MainScreen.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
+            DisplayText.text("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
             player.pregnancy.knockUp(player.pregnancy.getNotPregVagina[0], new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS, new OvielixirEggsPreg()), 1, 1);
-            player.statusAffects.add(new StatusAffect("Eggs", Utils.rand(6), 0, Utils.rand(3) + 5, 0));
+            player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Eggs, Utils.rand(6), 0, Utils.rand(3) + 5, 0));
             return;
         }
         let changeOccurred: boolean = false;
         if (player.pregnancy.isPregnantWith(PregnancyType.OVIELIXIR_EGGS)) { //If player already has eggs, chance of size increase!
-            if (player.statusAffects.has("Eggs")) {
+            if (player.statusAffects.has(StatusAffectType.Eggs)) {
                 //If eggs are small, chance of increase!
-                if (player.statusAffects.get("Eggs").value2 == 0) {
+                if (player.statusAffects.get(StatusAffectType.Eggs).value2 == 0) {
                     //1 in 2 chance!
                     if (Utils.rand(3) == 0) {
-                        player.statusAffects.get("Eggs").value2 = 1;
-                        MainScreen.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
+                        player.statusAffects.get(StatusAffectType.Eggs).value2 = 1;
+                        DisplayText.text("\n\nYour pregnant belly suddenly feels heavier and more bloated than before.  You wonder what the elixir just did.");
                         changeOccurred = true;
                     }
                 }
                 //Chance of quantity increase!
                 if (Utils.rand(2) == 0) {
-                    MainScreen.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
-                    player.statusAffects.get("Eggs").value3 = Utils.rand(4 + 1);
+                    DisplayText.text("\n\nA rumble radiates from your uterus as it shifts uncomfortably and your belly gets a bit larger.");
+                    player.statusAffects.get(StatusAffectType.Eggs).value3 = Utils.rand(4 + 1);
                     changeOccurred = true;
                 }
             }
         }
         // If no changes, speed up all pregnancies.
         if (!changeOccurred && player.pregnancy.isPregnant()) {
-            MainScreen.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
+            DisplayText.text("\n\nYou gasp as your pregnancy suddenly leaps forwards, your belly bulging outward a few inches as it gets closer to time for birthing.");
             for (let index: number = 0; index < player.pregnancy.count(); index++) {
                 let pregnancy: Pregnancy = player.pregnancy.vaginaPregnancy(index);
                 if (pregnancy.incubation > 20 && pregnancy.type != PregnancyType.BUNNY) {
