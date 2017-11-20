@@ -8,9 +8,10 @@ import Character from './Character/Character';
 import { CharacterType } from './Character/CharacterType';
 import CombatContainer from './Combat/CombatContainer';
 import { CombatEndType } from './Combat/CombatEnd';
-import MainScreen from './display/MainScreen';
+import DisplayText from './display/DisplayText';
 import StatusAffect from './Effects/StatusAffect';
 import Flags, { FlagEnum } from './Game/Flags';
+import Game from './Game/Game';
 import Item from './Items/Item';
 import KeyItem from './Items/KeyItem';
 import Utils from './Utilities/Utils';
@@ -22,56 +23,53 @@ class PlayerCombatContainer extends CombatContainer {
 
     public claimsVictory(winType: CombatEndType, enemy: Character): void {
         if (winType == CombatEndType.HP) {
-            MainScreen.text("You defeat " + enemy.desc.a + enemy.desc.short + ".\n", true);
+            DisplayText.text("You defeat " + enemy.desc.a + enemy.desc.short + ".\n", true);
         }
         else if (winType == CombatEndType.Lust) {
-            MainScreen.text("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.", true);
+            DisplayText.text("You smile as " + enemy.desc.a + enemy.desc.short + " collapses and begins masturbating feverishly.", true);
         }
     }
 
-    protected onEnemyVictory(winType: CombatEndType, enemy: Character): void {
+    protected beforeEnemyVictoryScene(winType: CombatEndType, enemy: Character): void {
         if (this.char.statusAffects.has("Infested") && Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] == 0) {
             Flags.list[FlagEnum.CAME_WORMS_AFTER_COMBAT] = 1;
             infestOrgasm();
         }
     }
-
+victoryScene
     protected onVictory(loseType: CombatEndType, enemy: Character): void {
         if (loseType == CombatEndType.HP) {
-            MainScreen.text("Your wounds are too great to bear, and you fall unconscious.", true);
+            DisplayText.text("Your wounds are too great to bear, and you fall unconscious.", true);
         }
         else if (loseType == CombatEndType.Lust) {
-            MainScreen.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
+            DisplayText.text("Your desire reaches uncontrollable levels, and you end up openly masturbating.\n\nThe lust and pleasure cause you to black out for hours on end.", true);
         }
     }
 
     public defeatAftermath(loseType: CombatEndType, enemy: Character): void {
         if (monster.statusAffects.get("Sparring").value1 == 2) {
-            MainScreen.text("The cow-girl has defeated you in a practice fight!", true);
-            MainScreen.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.", false);
+            DisplayText.text("The cow-girl has defeated you in a practice fight!", true);
+            DisplayText.text("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
             Game.inCombat = false;
             player.HP = 1;
-            statScreenRefresh();
             doNext(nextFunc);
             return;
         }
         else if (monster.statusAffects.has("PeachLootLoss")) {
             inCombat = false;
             player.HP = 1;
-            statScreenRefresh();
             return;
         }
         else if (monster.desc.short == "Ember") {
             inCombat = false;
             player.HP = 1;
-            statScreenRefresh();
             doNext(nextFunc);
             return;
         }
         else {
             let temp: number = Utils.rand(10) + 1;
             if (temp > this.char.inventory.gems) temp = this.char.inventory.gems;
-            MainScreen.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.", false);
+            DisplayText.text("\n\nYou'll probably wake up in eight hours or so, missing " + temp + " gems.");
             this.char.inventory.gems -= temp;
         }
 
@@ -84,21 +82,21 @@ class PlayerCombatContainer extends CombatContainer {
         //BUNUS XPZ
         if (Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] > 0) {
             player.XP += Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE];
-            MainScreen.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
+            DisplayText.text("  Somehow you managed to gain " + Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] + " XP from the situation.");
             Flags.list[FlagEnum.COMBAT_BONUS_XP_VALUE] = 0;
         }
         //Bonus lewts
         if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] != "") {
-            MainScreen.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
+            DisplayText.text("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
             inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(camp.returnToCamp, timePasses));
         }
         else doNext(createCallBackFunction(camp.returnToCamp, timePasses));
 
-        MainScreen.doNext(Game.camp.returnToCampUseEightHours);
+        DisplayText.doNext(Game.camp.returnToCampUseEightHours);
     }
 
     public victoryAftermath(loseType: CombatEndType, enemy: Character): void {
-        MainScreen.doNext(Game.camp.returnToCampUseOneHour);
+        DisplayText.doNext(Game.camp.returnToCampUseOneHour);
     }
 
 }
@@ -107,7 +105,7 @@ export default class Player extends Character {
     public keyItems: KeyItem[];
 
     public constructor() {
-        super(CharacterType.Player);
+        super(CharacterType.Player, Game.libraries.weapon.get("Fists"), null);
         // Reset all standard stats
         this.stats.str = 15;
         this.stats.tou = 15;
@@ -143,6 +141,7 @@ export default class Player extends Character {
         // Inventory
         this.inventory.items.unlock(6);
         this.keyItems = [];
+        this.inventory.armorSlot.equip(Game.libraries.armor.get("c.under"));
 
         // Combat
         this.combatContainer = new PlayerCombatContainer(this);
@@ -183,7 +182,7 @@ export default class Player extends Character {
             this.statusAffects.get("SlimeCraving").value1 = 0;
             //Flag to display feed update and restore stats in event parser
             if (!this.statusAffects.has("SlimeCravingFeed")) {
-                this.statusAffects.add(new StatusAffect("SlimeCravingFeed", 0, 0, 0, 0));
+                this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0));
             }
         }
         if (this.perks.has("Diapause")) {
