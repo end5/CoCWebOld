@@ -1,10 +1,11 @@
 import Character from '../../../Character/Character';
-import Player from '../../../Player/Player';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class Infest implements PlayerCombatAction {
+export class Infest implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("Infested") && player.statusAffects.get("Infested").value1 == 5 && player.lowerBody.cockSpot.hasCock();
+        return player.statusAffects.has(StatusAffectType.Infested) && player.statusAffects.get(StatusAffectType.Infested).value1 == 5 && player.lowerBody.cockSpot.hasCock();
     }
 
     public canUse(player: Player): boolean {

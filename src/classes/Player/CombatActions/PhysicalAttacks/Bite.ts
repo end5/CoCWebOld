@@ -1,11 +1,12 @@
 import { FaceType } from '../../../Body/Face';
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class Bite extends PlayerPhysicalAction {
+export class Bite extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.upperBody.head.face.faceType == FaceType.SHARK_TEETH;
     }
@@ -33,15 +34,15 @@ export default class Bite extends PlayerPhysicalAction {
         player.stats.fatiguePhysical(this.baseCost);
         //Amily!
         DisplayText.clear();
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         DisplayText.text("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
-        if (player.statusAffects.has("Blind"))
+        if (player.statusAffects.has(StatusAffectType.Blind))
             DisplayText.text("In hindsight, trying to bite someone while blind was probably a bad idea... ");
         //Determine if dodged!
-        if ((player.statusAffects.has("Blind") && Utils.rand(3) != 0) ||
+        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(3) != 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Math.floor(Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
             if (monster.stats.spe - player.stats.spe < 8)
                 DisplayText.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");

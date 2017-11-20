@@ -6,15 +6,15 @@ import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
+import Player from '../../Player';
 
-export default class SpellMight extends BlackMagic {
+export class Might extends BlackMagic {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("KnowsMight");
+        return player.statusAffects.has(StatusAffectType.KnowsMight);
     }
     public canUse(player: Player): boolean {
-        if (player.statusAffects.has("Might")) {
+        if (player.statusAffects.has(StatusAffectType.Might)) {
             this.reason = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
@@ -47,10 +47,10 @@ export default class SpellMight extends BlackMagic {
             let tempTou = temp;
             if (player.stats.str + temp > 100) tempStr = 100 - player.stats.str;
             if (player.stats.tou + temp > 100) tempTou = 100 - player.stats.tou;
-            player.statusAffects.get("Might").value1 = tempStr;
-            player.statusAffects.get("Might").value2 = tempTou;
-            player.stats.str += player.statusAffects.get("Might").value1;
-            player.stats.tou += player.statusAffects.get("Might").value2;
+            player.statusAffects.get(StatusAffectType.Might).value1 = tempStr;
+            player.statusAffects.get(StatusAffectType.Might).value2 = tempTou;
+            player.stats.str += player.statusAffects.get(StatusAffectType.Might).value1;
+            player.stats.tou += player.statusAffects.get(StatusAffectType.Might).value2;
         }
         DisplayText.text("\n\n");
     }

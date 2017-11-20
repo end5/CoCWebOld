@@ -1,10 +1,10 @@
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class AnemoneSting implements PlayerCombatAction {
+export class AnemoneSting implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
         return player.upperBody.head.hairType == 4;
     }

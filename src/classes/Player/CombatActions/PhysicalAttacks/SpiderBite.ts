@@ -3,11 +3,12 @@ import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import GenderDescriptor from '../../../Descriptors/GenderDescriptor';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class SpiderBite extends PlayerPhysicalAction {
+export class SpiderBite extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.upperBody.head.face.faceType == FaceType.SPIDER_FANGS;
     }
@@ -25,7 +26,7 @@ export default class SpiderBite extends PlayerPhysicalAction {
         DisplayText.clear();
         player.stats.fatiguePhysical(this.baseCost);
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }

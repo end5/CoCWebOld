@@ -1,12 +1,13 @@
 import { LowerBodyType, TailType } from '../../../Body/LowerBody';
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../../Game/Flags';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class Kick extends PlayerPhysicalAction {
+export class Kick extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.lowerBody.isTaur() || player.lowerBody.type == LowerBodyType.HOOFED || player.lowerBody.type == LowerBodyType.BUNNY || player.lowerBody.type == LowerBodyType.KANGAROO;
     }
@@ -47,12 +48,12 @@ export default class Kick extends PlayerPhysicalAction {
             return;
         }
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
-            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n", true);
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         //Blind
-        if (player.statusAffects.has("Blind")) {
+        if (player.statusAffects.has(StatusAffectType.Blind)) {
             DisplayText.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         //Worms are special
@@ -74,7 +75,7 @@ export default class Kick extends PlayerPhysicalAction {
         }
         let damage: number;
         //Determine if dodged!
-        if ((player.statusAffects.has("Blind") && Utils.rand(2) == 0) ||
+        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) == 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             //Akbal dodges special education
             if (monster.desc.short == "Akbal") DisplayText.text("Akbal moves like lightning, weaving in and out of your furious attack with the speed and grace befitting his jaguar body.\n");

@@ -1,16 +1,18 @@
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { PerkType } from '../../../Effects/PerkType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class ImmolationSpell implements PlayerCombatAction {
+export class ImmolationSpell implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
-        return player.perks.has("ImmolationSpell");
+        return player.statusAffects.has(StatusAffectType.ImmolationSpell);
     }
 
     public canUse(player: Player): boolean {
-        return player.statusAffects.has("ImmolationSpell");
+        return player.statusAffects.has(StatusAffectType.ImmolationSpell);
     }
 
     public reasonCannotUse(): string {
@@ -23,7 +25,7 @@ export default class ImmolationSpell implements PlayerCombatAction {
         let damage: number = Math.floor(75 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * this.spellMod(player));
         damage = monster.combat.loseHP(damage, player);
         DisplayText.text(" (" + damage + ")\n\n");
-        player.statusAffects.remove("ImmolationSpell");
+        player.statusAffects.remove(StatusAffectType.ImmolationSpell);
         arianScene.clearTalisman();
     }
 }

@@ -1,10 +1,11 @@
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class FireBow extends PlayerPhysicalAction {
+export class FireBow extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.hasKeyItem("Bow");
     }
@@ -21,7 +22,7 @@ export default class FireBow extends PlayerPhysicalAction {
         // ??????????????????????????????????????????????????????????????
         // ??????????????????????????????????????????????????????????????
         // wat VVVVVVVVVVVVVVVV
-        if (monster.statusAffects.has("BowDisabled")) {
+        if (monster.statusAffects.has(StatusAffectType.BowDisabled)) {
             this.reason = "You can't use your bow right now!";
             return false;
         }
@@ -38,35 +39,35 @@ export default class FireBow extends PlayerPhysicalAction {
         //Keep logic sane if this attack brings victory
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
         //Prep messages vary by skill.
-        if (player.statusAffects.get("Kelt").value1 < 30) {
+        if (player.statusAffects.get(StatusAffectType.Kelt).value1 < 30) {
             DisplayText.text("Fumbling a bit, you nock an arrow and fire!\n");
         }
-        else if (player.statusAffects.get("Kelt").value1 < 50) {
+        else if (player.statusAffects.get(StatusAffectType.Kelt).value1 < 50) {
             DisplayText.text("You pull an arrow and fire it at " + monster.desc.a + monster.desc.short + "!\n");
         }
-        else if (player.statusAffects.get("Kelt").value1 < 80) {
+        else if (player.statusAffects.get(StatusAffectType.Kelt).value1 < 80) {
             DisplayText.text("With one smooth motion you draw, nock, and fire your deadly arrow at your opponent!\n");
         }
-        else if (player.statusAffects.get("Kelt").value1 <= 99) {
+        else if (player.statusAffects.get(StatusAffectType.Kelt).value1 <= 99) {
             DisplayText.text("In the blink of an eye you draw and fire your bow directly at " + monster.desc.a + monster.desc.short + ".\n");
         }
         else {
             DisplayText.text("You casually fire an arrow at " + monster.desc.a + monster.desc.short + " with supreme skill.\n");
             //Keep it from going over 100
-            player.statusAffects.get("Kelt").value1 = 100;
+            player.statusAffects.get(StatusAffectType.Kelt).value1 = 100;
         }
-        if (monster.statusAffects.has("Sandstorm") && Utils.rand(10) > 1) {
+        if (monster.statusAffects.has(StatusAffectType.Sandstorm) && Utils.rand(10) > 1) {
             DisplayText.text("Your shot is blown off target by the tornado of sand and wind.  Damn!\n\n");
             return;
         }
         //[Bow Response]
         if (monster.desc.short == "Isabella") {
-            if (monster.statusAffects.has("Blind"))
+            if (monster.statusAffects.has(StatusAffectType.Blind))
                 DisplayText.text("Isabella hears the shot and turns her shield towards it, completely blocking it with her wall of steel.\n\n");
             else DisplayText.text("You arrow thunks into Isabella's shield, completely blocked by the wall of steel.\n\n");
             if (isabellaFollowerScene.isabellaAccent())
@@ -85,17 +86,17 @@ export default class FireBow extends PlayerPhysicalAction {
             return;
         }
         //Blind miss chance
-        if (player.statusAffects.has("Blind")) {
+        if (player.statusAffects.has(StatusAffectType.Blind)) {
             DisplayText.text("The arrow hits something, but blind as you are, you don't have a chance in hell of hitting anything with a bow.\n\n");
             return;
         }
         //Miss chance 10% based on speed + 10% based on int + 20% based on skill
-        if (monster.desc.short != "pod" && player.stats.spe / 10 + player.stats.int / 10 + player.statusAffects.get("Kelt").value1 / 5 + 60 < Utils.rand(101)) {
+        if (monster.desc.short != "pod" && player.stats.spe / 10 + player.stats.int / 10 + player.statusAffects.get(StatusAffectType.Kelt).value1 / 5 + 60 < Utils.rand(101)) {
             DisplayText.text("The arrow goes wide, disappearing behind your foe.\n\n");
             return;
         }
         //Hit!  Damage calc! 20 +
-        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get("Kelt").value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.defense());
+        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get(StatusAffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.defense());
         if (damage < 0) damage = 0;
         if (damage == 0) {
             if (monster.stats.int > 0)

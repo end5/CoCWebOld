@@ -3,11 +3,11 @@ import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class Constrict extends PlayerPhysicalAction {
+export class Constrict extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.lowerBody.type == LowerBodyType.NAGA;
     }
@@ -37,8 +37,9 @@ export default class Constrict extends PlayerPhysicalAction {
 
     public use(player: Player, monster: Character) {
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
-            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.", true);
+        DisplayText.clear();
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
+            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
         //WRAP IT UPPP

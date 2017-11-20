@@ -1,19 +1,21 @@
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { PerkType } from '../../../Effects/PerkType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
+import Player from '../../Player';
 import LearnedSpellAction from '../LearnedSpellAction';
 
-export default class SpellCleansingPalm extends LearnedSpellAction {
+export class CleansingPalm extends LearnedSpellAction {
     public isPossible(player: Player): boolean {
-        return player.perks.has("CleansingPalm") && player.stats.cor < 10;
+        return player.perks.has(PerkType.CleansingPalm) && player.stats.cor < 10;
     }
     public readonly baseCost: number = 30;
     public castSpell(player: Player, monster: Character) {
         DisplayText.clear();
         player.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has("Shell")) {
+        if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }

@@ -3,14 +3,14 @@ import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
+import Player from '../../Player';
 
-export default class SpellChargeWeapon extends WhiteMagic {
+export class ChargeWeapon extends WhiteMagic {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("KnowsCharge");
+        return player.statusAffects.has(StatusAffectType.KnowsCharge);
     }
     public canUse(player: Player): boolean {
-        if (player.statusAffects.has("ChargeWeapon")) {
+        if (player.statusAffects.has(StatusAffectType.ChargeWeapon)) {
             this.reason = "<b>Charge weapon is already active and cannot be cast again.</b>\n\n";
             return false;
         }

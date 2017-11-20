@@ -1,21 +1,24 @@
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import PerkFactory from '../../../Effects/PerkFactory';
+import { PerkType } from '../../../Effects/PerkType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerSpellAction from '../Player/PlayerSpellAction';
+import Player from '../../Player';
+import PlayerSpellAction from '../PlayerSpellAction';
 
-export default class CorruptedFoxFire extends PlayerSpellAction {
+export class CorruptedFoxFire extends PlayerSpellAction {
     public isPossible(player: Player): boolean {
-        return player.perks.has("CorruptedNinetails");
+        return player.perks.has(PerkType.CorruptedNinetails);
     }
 
     public readonly baseCost: number = 35;
     public canUse(player: Player): boolean {
-        if (!player.perks.has("BloodMage") && player.stats.fatigue + this.spellCost(player) > 100) {
+        if (!player.perks.has(PerkType.BloodMage) && player.stats.fatigue + this.spellCost(player) > 100) {
             this.reason = "You are too tired to use this ability.";
             return false;
         }
-        if (player.statusAffects.has("ThroatPunch") || player.statusAffects.has("WebSilence")) {
+        if (player.statusAffects.has(StatusAffectType.ThroatPunch) || player.statusAffects.has(StatusAffectType.WebSilence)) {
             this.reason = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
@@ -37,8 +40,8 @@ export default class CorruptedFoxFire extends PlayerSpellAction {
         //Using fire attacks on the goo]
         if (monster.desc.short == "goo-girl") {
             DisplayText.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.");
-            if (!monster.perks.has("Acid"))
-                monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
+            if (!monster.perks.has(PerkType.Acid))
+                monster.perks.add(PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
         }
         damage = monster.combat.loseHP(damage, player);
         DisplayText.text("  (" + damage + ")\n\n");

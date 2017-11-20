@@ -4,17 +4,18 @@ import Character from '../../../Character/Character';
 import CockDescriptor from '../../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
+import Player from '../../Player';
 
 export class Arouse extends BlackMagic {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("KnowsArouse");
+        return player.statusAffects.has(StatusAffectType.KnowsArouse);
     }
     public readonly baseCost: number = 15;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has("Shell")) {
+        if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }

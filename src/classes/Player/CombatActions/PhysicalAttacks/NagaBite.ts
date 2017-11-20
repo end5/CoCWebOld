@@ -4,11 +4,11 @@ import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class NagaBite extends PlayerPhysicalAction {
+export class NagaBite extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.upperBody.head.face.faceType == FaceType.SNAKE_FANGS;
     }
@@ -26,7 +26,7 @@ export default class NagaBite extends PlayerPhysicalAction {
         DisplayText.clear();
         player.stats.fatiguePhysical(this.baseCost);
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
@@ -45,8 +45,8 @@ export default class NagaBite extends PlayerPhysicalAction {
             monster.stats.spe -= 5 + Utils.rand(5);
             if (monster.stats.str < 1) monster.stats.str = 1;
             if (monster.stats.spe < 1) monster.stats.spe = 1;
-            if (monster.statusAffects.has("NagaVenom")) {
-                monster.statusAffects.get("NagaVenom").value1 += 1;
+            if (monster.statusAffects.has(StatusAffectType.NagaVenom)) {
+                monster.statusAffects.get(StatusAffectType.NagaVenom).value1 += 1;
             }
             else monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.NagaVenom, 1, 0, 0, 0));
         }

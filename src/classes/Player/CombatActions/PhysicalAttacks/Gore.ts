@@ -1,11 +1,12 @@
 import { HornType } from '../../../Body/Head';
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerPhysicalAction from '../Player/PlayerPhysicalAction';
+import Player from '../../Player';
+import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
-export default class Gore extends PlayerPhysicalAction {
+export class Gore extends PlayerPhysicalAction {
     public isPossible(player: Player): boolean {
         return player.upperBody.head.hornType == HornType.COW_MINOTAUR && player.upperBody.head.horns >= 6;
     }
@@ -27,7 +28,7 @@ export default class Gore extends PlayerPhysicalAction {
         }
         player.stats.fatiguePhysical(this.baseCost);
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }

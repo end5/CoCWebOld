@@ -1,13 +1,14 @@
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { PerkType } from '../../../Effects/PerkType';
 import Utils from '../../../Utilities/Utils';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class Possess implements PlayerCombatAction {
+export class Possess implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
-        return player.perks.has("Incorporeality");
+        return player.perks.has(PerkType.Incorporeality);
     }
 
     public canUse(player: Player): boolean {
@@ -20,7 +21,7 @@ export default class Possess implements PlayerCombatAction {
 
     public use(player: Player, monster: Character) {
         DisplayText.clear();
-        if (monster.desc.short == "plain girl" || monster.perks.has("Incorporeality")) {
+        if (monster.desc.short == "plain girl" || monster.perks.has(PerkType.Incorporeality)) {
             DisplayText.text("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself toward the opponent's frame.  Sadly, it was doomed to fail, as you bounce right off your foe's ghostly form.");
         }
         else if (monster.charType == CharacterType.LivingStatue) {

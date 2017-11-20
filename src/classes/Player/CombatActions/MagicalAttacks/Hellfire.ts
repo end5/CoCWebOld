@@ -1,13 +1,15 @@
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import { PerkType } from '../../../Effects/PerkType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
-import PlayerSpellAction from '../Player/PlayerSpellAction';
+import Player from '../../Player';
+import PlayerSpellAction from '../PlayerSpellAction';
 
-export default class Hellfire extends PlayerSpellAction {
+export class Hellfire extends PlayerSpellAction {
     public isPossible(player: Player): boolean {
-        return player.perks.has("Hellfire");
+        return player.perks.has(PerkType.Hellfire);
     }
 
     public readonly baseCost: number = 20;
@@ -19,7 +21,7 @@ export default class Hellfire extends PlayerSpellAction {
         DisplayText.clear();
         player.stats.fatigueMagic(this.baseCost);
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -28,15 +30,15 @@ export default class Hellfire extends PlayerSpellAction {
             return;
         }
         let damage: number = (player.stats.level * 8 + Utils.rand(10) + player.stats.cor / 5);
-        if (!player.statusAffects.has("GooArmorSilence")) DisplayText.text("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
+        if (!player.statusAffects.has(StatusAffectType.GooArmorSilence)) DisplayText.text("You take in a deep breath and unleash a wave of corrupt red flames from deep within.");
 
-        if (player.statusAffects.has("WebSilence")) {
+        if (player.statusAffects.has(StatusAffectType.WebSilence)) {
             DisplayText.text("  <b>The fire burns through the webs blocking your mouth!</b>");
-            player.statusAffects.remove("WebSilence");
+            player.statusAffects.remove(StatusAffectType.WebSilence);
         }
-        if (player.statusAffects.has("GooArmorSilence")) {
+        if (player.statusAffects.has(StatusAffectType.GooArmorSilence)) {
             DisplayText.text("  <b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b>");
-            player.statusAffects.remove("GooArmorSilence");
+            player.statusAffects.remove(StatusAffectType.GooArmorSilence);
             damage += 25;
         }
         if (monster.desc.short == "Isabella") {
@@ -48,10 +50,10 @@ export default class Hellfire extends PlayerSpellAction {
         }
         else if (monster.desc.short == "Vala") {
             DisplayText.text("  Vala beats her wings with surprising strength, blowing the fireball back at you!  ");
-            if (player.perks.has("Evade") && Utils.rand(2) == 0) {
+            if (player.perks.has(PerkType.Evade) && Utils.rand(2) == 0) {
                 DisplayText.text("You dive out of the way and evade it!");
             }
-            else if (player.perks.has("Flexibility") && Utils.rand(4) == 0) {
+            else if (player.perks.has(PerkType.Flexibility) && Utils.rand(4) == 0) {
                 DisplayText.text("You use your flexibility to barely fold your body out of the way!");
             }
             else {
@@ -79,7 +81,7 @@ export default class Hellfire extends PlayerSpellAction {
             }
         }
         DisplayText.text("\n");
-        if (monster.desc.short == "Holli" && !monster.statusAffects.has("HolliBurning"))
+        if (monster.desc.short == "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
             <Holli>monster.lightHolliOnFireMagically();
     }
 }

@@ -3,11 +3,11 @@ import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class Sting implements PlayerCombatAction {
+export class Sting implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
         return player.lowerBody.tailType == TailType.BEE_ABDOMEN;
     }
@@ -29,7 +29,7 @@ export default class Sting implements PlayerCombatAction {
         }
         //Determine if dodged!
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
@@ -58,7 +58,7 @@ export default class Sting implements PlayerCombatAction {
         else if (player.stats.level < 20) damage += 30 + (player.stats.level - 10) * 2;
         else damage += 50;
         monster.stats.lust += monster.stats.lustVuln * damage;
-        if (!monster.statusAffects.has("lustvenom"))
+        if (!monster.statusAffects.has(StatusAffectType.lustvenom))
             monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.lustvenom, 0, 0, 0, 0));
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!

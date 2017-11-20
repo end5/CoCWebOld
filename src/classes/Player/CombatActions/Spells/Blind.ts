@@ -4,15 +4,15 @@ import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
+import Player from '../../Player';
 
-export default class SpellBlind extends WhiteMagic {
+export class Blind extends WhiteMagic {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("KnowsBind");
+        return player.statusAffects.has(StatusAffectType.KnowsBlind);
     }
     public canUse(player: Player, monster: Character): boolean {
-        if (monster.statusAffects.has("Blind")) {
+        if (monster.statusAffects.has(StatusAffectType.Blind)) {
             this.reason = "<b>" + monster.desc.capitalA + monster.desc.short + " is already affected by blind.</b>\n\n";
             return false;
         }
@@ -22,7 +22,7 @@ export default class SpellBlind extends WhiteMagic {
     public castSpell(player: Player, monster: Character) {
         DisplayText.clear();
         player.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has("Shell")) {
+        if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -61,7 +61,7 @@ export default class SpellBlind extends WhiteMagic {
             if (monster.desc.short == "Kiha") DisplayText.text("\n\n\"<i>You think blindness will slow me down?  Attacks like that are only effective on those who don't know how to see with their other senses!</i>\" Kiha cries defiantly.");
             if (monster.desc.short == "plain girl") {
                 DisplayText.text("  Remarkably, it seems as if your spell has had no effect on her, and you nearly get clipped by a roundhouse as you stand, confused. The girl flashes a radiant smile at you, and the battle continues.");
-                monster.statusAffects.remove("Blind");
+                monster.statusAffects.remove(StatusAffectType.Blind);
             }
         }
         else DisplayText.text(monster.desc.capitalA + monster.desc.short + " blinked!");

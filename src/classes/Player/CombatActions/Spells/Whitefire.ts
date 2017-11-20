@@ -2,19 +2,22 @@ import WhiteMagic from './WhiteMagic';
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
+import PerkFactory from '../../../Effects/PerkFactory';
+import { PerkType } from '../../../Effects/PerkType';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
+import Player from '../../Player';
 
-export default class SpellWhitefire extends WhiteMagic {
+export class Whitefire extends WhiteMagic {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("KnowsWhitefire");
+        return player.statusAffects.has(StatusAffectType.KnowsWhitefire);
     }
     public readonly baseCost: number = 30;
     public castSpell(player: Player, monster: Character) {
         DisplayText.clear();
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         player.stats.fatigueMagic(this.baseCost);
-        if (monster.statusAffects.has("Shell")) {
+        if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText.text("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
@@ -31,8 +34,8 @@ export default class SpellWhitefire extends WhiteMagic {
         //Using fire attacks on the goo]
         if (monster.desc.short == "goo-girl") {
             DisplayText.text("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skinTone + " skin has lost some of its shimmer.");
-            if (!monster.perks.has("Acid"))
-                monster.perks.add(new Perk("Acid", 0, 0, 0, 0));
+            if (!monster.perks.has(PerkType.Acid))
+                monster.perks.add(PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
         }
         DisplayText.text("\n\n");
         monster.combat.loseHP(damage, player);

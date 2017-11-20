@@ -3,17 +3,17 @@ import GenderDescriptor from '../../../Descriptors/GenderDescriptor';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Player from '../../../Player/Player';
 import Utils from '../../../Utilities/Utils';
-import PlayerCombatAction from '../Player/PlayerCombatAction';
+import Player from '../../Player';
+import PlayerCombatAction from '../PlayerCombatAction';
 
-export default class Kiss implements PlayerCombatAction {
+export class Kiss implements PlayerCombatAction {
     public isPossible(player: Player): boolean {
-        return player.statusAffects.has("LustStickApplied");
+        return player.statusAffects.has(StatusAffectType.LustStickApplied);
     }
 
     public canUse(player: Player): boolean {
-        return !player.statusAffects.has("Blind");
+        return !player.statusAffects.has(StatusAffectType.Blind);
     }
 
     public reasonCannotUse(): string {
@@ -104,10 +104,10 @@ export default class Kiss implements PlayerCombatAction {
                 break;
         }
         //Add status if not already drugged
-        if (!monster.statusAffects.has("LustStick"))
+        if (!monster.statusAffects.has(StatusAffectType.LustStick))
             monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.LustStick, 0, 0, 0, 0));
         //Else add bonus to round damage
-        else monster.statusAffects.get("LustStick").value2 = Math.round(damage / 10);
+        else monster.statusAffects.get(StatusAffectType.LustStick).value2 = Math.round(damage / 10);
         //Deal damage
         monster.stats.lust += Math.round(monster.stats.lustVuln * damage);
         //Sets up for end of combat, and if not, goes to AI.

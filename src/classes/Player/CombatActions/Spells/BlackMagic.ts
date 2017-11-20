@@ -1,5 +1,5 @@
 import Character from '../../../Character/Character';
-import Player from '../../../Player/Player';
+import Player from '../../Player';
 import LearnedSpellAction from '../LearnedSpellAction';
 
 export default abstract class BlackMagic extends LearnedSpellAction {
