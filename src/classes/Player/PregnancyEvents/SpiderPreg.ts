@@ -1,8 +1,8 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
-import { PregnancyType } from '../Pregnancy';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import DisplayText from '../../display/DisplayText';
+import Player from '../Player';
 
 export default class PregSpider implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

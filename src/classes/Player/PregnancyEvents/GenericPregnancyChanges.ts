@@ -1,6 +1,6 @@
-import Character from '../../../Character/Character';
-import DisplayText from '../../../display/DisplayText';
-import BreastModifier from '../../../Modifiers/BreastModifier';
+import Character from '../../Character/Character';
+import DisplayText from '../../display/DisplayText';
+import BreastModifier from '../../Modifiers/BreastModifier';
 
 export default class GenericPregnancyChanges {
     //Increase lactation!

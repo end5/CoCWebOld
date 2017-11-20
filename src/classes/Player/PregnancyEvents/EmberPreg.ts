@@ -1,7 +1,7 @@
-import DisplayText from '../../../display/DisplayText';
-import Flags, { FlagEnum } from '../../../Game/Flags';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import DisplayText from '../../display/DisplayText';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Player from '../Player';
 
 export default class EmberPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

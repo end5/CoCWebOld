@@ -1,12 +1,12 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import BreastModifier from '../../../Modifiers/BreastModifier';
-import VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../../../Player/Player';
-import Utils from '../../../Utilities/Utils';
-import { VaginaWetness } from '../../Vagina';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import { VaginaWetness } from '../../Body/Vagina';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import DisplayText from '../../display/DisplayText';
+import BreastModifier from '../../Modifiers/BreastModifier';
+import VaginaModifier from '../../Modifiers/VaginaModifier';
+import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class MousePreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

@@ -1,16 +1,16 @@
-import Cock, { CockType } from '../../../Body/Cock';
-import Vagina, { VaginaWetness } from '../../../Body/Vagina';
-import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
-import CockDescriptor from '../../../Descriptors/CockDescriptor';
-import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
-import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Flags, { FlagEnum } from '../../../Game/Flags';
-import VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../../../Player/Player';
-import Utils from '../../../Utilities/Utils';
-import IPregnancyEvent from '../IPregnancyEvent';
+import Cock, { CockType } from '../../Body/Cock';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import CockDescriptor from '../../Descriptors/CockDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import DisplayText from '../../display/DisplayText';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import VaginaModifier from '../../Modifiers/VaginaModifier';
+import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class AnemonePreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -165,7 +165,7 @@ export default class AnemonePreg implements IPregnancyEvent {
             player.orgasm();
             player.stats.lib += 2;
             player.stats.sens += 5;
-            if (!player.statusAffects.has("AnemoneArousal"))
+            if (!player.statusAffects.has(StatusAffectType.AnemoneArousal))
                 player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.AnemoneArousal, 0, 0, 0, 0));
         }
         DisplayText.text("Exhausted by the 'birth' and the climax, you slip into a doze.");

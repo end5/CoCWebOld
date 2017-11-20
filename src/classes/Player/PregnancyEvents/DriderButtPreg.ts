@@ -1,8 +1,8 @@
-import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import DisplayText from '../../display/DisplayText';
+import Player from '../Player';
 
 export default class ButtPregDrider implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

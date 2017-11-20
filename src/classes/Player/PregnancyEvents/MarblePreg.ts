@@ -1,14 +1,15 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
-import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import Flags, { FlagEnum } from '../../../Game/Flags';
-import BreastModifier from '../../../Modifiers/BreastModifier';
-import VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../../../Player/Player';
-import Utils from '../../../Utilities/Utils';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import DisplayText from '../../display/DisplayText';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import BreastModifier from '../../Modifiers/BreastModifier';
+import VaginaModifier from '../../Modifiers/VaginaModifier';
+import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class MarblePreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -136,7 +137,7 @@ export default class MarblePreg implements IPregnancyEvent {
                 DisplayText.text("\n\nFor the next few minutes, you can't do much else but squeeze the large form inside your belly out.  Marble tries to help a little, pulling your nether lips open even further to make room for the head.  You gasp as you push the head out, and you hear Marble give a little cry of joy.  \"<i>It's a daughter of mine!</i>\" she tells you, but you can barely hear her due to the focus you're putting into the task of bringing this child out.\n\n");
                 DisplayText.text("You give an almighty heave and finally manage to push the shoulders out. The rest is downhill from there.  Once you've pushed the child completely out, Marble lays you down on the ground.  You rest there for a few moments, trying to catch your breath after the relatively difficult birthing.  When you finally have a chance to get up, you see that Marble has a small cowgirl cradled in her arms, suckling on her nipple.  You can hardly believe that you managed to push out a girl that big!  Marble seems to understand and tells you that the child is actually a fair bit bigger now than when she came out.\n\n");
                 DisplayText.text("She helps you stand up and gives you the little girl to suckle for yourself.  ");
-                if (player.statusAffects.get("Marble").value4 >= 20) {
+                if (player.statusAffects.get(StatusAffectType.Marble).value4 >= 20) {
                     DisplayText.text("As the child contentedly drinks from your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + ", Marble tells you, \"<i>Sweetie, somehow I know that our kids won't have to worry about the addictive milk.  It will only make them healthy and strong.</i>\"  You nod at her and put the child into the nursery.  ");
                 }
                 else {

@@ -1,9 +1,9 @@
-import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import Player from '../../../Player/Player';
-import Utils from '../../../Utilities/Utils';
-import IPregnancyEvent from '../IPregnancyEvent';
-import { PregnancyType } from '../Pregnancy';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import DisplayText from '../../display/DisplayText';
+import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class ButtPregSandtrap implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

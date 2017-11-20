@@ -1,13 +1,13 @@
-import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
-import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import BreastModifier from '../../../Modifiers/BreastModifier';
-import Player from '../../../Player/Player';
-import Utils from '../../../Utilities/Utils';
-import { VaginaLooseness, VaginaWetness } from '../../Vagina';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import DisplayText from '../../display/DisplayText';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import BreastModifier from '../../Modifiers/BreastModifier';
+import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class ImpPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -60,7 +60,7 @@ export default class ImpPreg implements IPregnancyEvent {
     public birth(player: Player) {
         DisplayText.text("\n");
         //Add imp birth status - used to control frequency of night imp gangbag
-        if (player.statusAffects.has("BirthedImps")) player.statusAffects.get("BirthedImps").value1 = 1;
+        if (player.statusAffects.has(StatusAffectType.BirthedImps)) player.statusAffects.get(StatusAffectType.BirthedImps).value1 = 1;
         else player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.BirthedImps, 1, 0, 0, 0));
         DisplayText.text("A sudden gush of fluids erupts from your vagina - your water just broke.  You grunt painfully as you feel wriggling and squirming inside your belly, muscle contractions forcing it downwards.  ");
         if (player.stats.cor < 50) DisplayText.text("You rue the day you encountered that hateful imp.  ");

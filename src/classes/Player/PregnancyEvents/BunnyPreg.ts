@@ -1,15 +1,15 @@
-import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
-import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
-import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
-import DisplayText from '../../../display/DisplayText';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
-import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import NeonPinkEgg from '../../../Items/Consumables/NeonPinkEgg';
-import BreastModifier from '../../../Modifiers/BreastModifier';
-import VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../../Descriptors/ButtDescriptor';
+import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import DisplayText from '../../display/DisplayText';
+import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import NeonPinkEgg from '../../Items/Consumables/NeonPinkEgg';
+import BreastModifier from '../../Modifiers/BreastModifier';
+import VaginaModifier from '../../Modifiers/VaginaModifier';
+import Player from '../Player';
 
 export default class BunnyPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
@@ -97,8 +97,8 @@ export default class BunnyPreg implements IPregnancyEvent {
         BreastModifier.boostLactation(player, .01);
         //Boost capacity
         if (player.vaginalCapacity() < 300) {
-            if (!player.statusAffects.has("BonusVCapacity")) player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
-            player.statusAffects.get("BonusVCapacity").value1 = 10;
+            if (!player.statusAffects.has(StatusAffectType.BonusVCapacity)) player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+            player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 10;
         }
         player.orgasm();
         player.stats.lib += 1;

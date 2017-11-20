@@ -1,7 +1,7 @@
-import DisplayText from '../../../display/DisplayText';
-import NeonPinkEgg from '../../../Items/Consumables/NeonPinkEgg';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import DisplayText from '../../display/DisplayText';
+import NeonPinkEgg from '../../Items/Consumables/NeonPinkEgg';
+import Player from '../Player';
 
 export default class BunnyButtPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {

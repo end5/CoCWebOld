@@ -1,12 +1,12 @@
 import GenericPregnancyChanges from './GenericPregnancyChanges';
-import Vagina, { VaginaWetness } from '../../../Body/Vagina';
-import DisplayText, { DisplayTextFlag } from '../../../display/DisplayText';
-import Flags, { FlagEnum } from '../../../Game/Flags';
-import Game from '../../../Game/Game';
-import BreastModifier from '../../../Modifiers/BreastModifier';
-import VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../../../Player/Player';
-import IPregnancyEvent from '../IPregnancyEvent';
+import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
+import Vagina, { VaginaWetness } from '../../Body/Vagina';
+import DisplayText, { DisplayTextFlag } from '../../display/DisplayText';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import BreastModifier from '../../Modifiers/BreastModifier';
+import VaginaModifier from '../../Modifiers/VaginaModifier';
+import Player from '../Player';
 
 export default class AmilyPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
