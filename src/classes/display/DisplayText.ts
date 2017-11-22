@@ -1,3 +1,5 @@
+import TextElement from './TextElement';
+
 export enum DisplayTextFlag {
     None = 0,
     Bold = 1 << 0,
@@ -5,35 +7,46 @@ export enum DisplayTextFlag {
 }
 
 export default class DisplayText {
-    private static displayElement: HTMLElement;
-    public static register(element: HTMLElement) {
+    private static bufferOut: string = "";
+    private static bufferModified: boolean = false;
+    private static displayElement: TextElement;
+    public static register(element: TextElement) {
         DisplayText.displayElement = element;
     }
 
-    private static display(html: string) {
+    public static display() {
         if (DisplayText.displayElement) {
-            DisplayText.displayElement.innerHTML += html;
+            DisplayText.displayElement.setHtml(DisplayText.bufferOut);
         }
         else {
             console.warn("Display element not registered");
         }
     }
 
+    private static buffer(html: string) {
+        DisplayText.bufferOut += html;
+        DisplayText.bufferModified = true;
+    }
+
+    public static wasChanged(): boolean {
+        return DisplayText.bufferModified;
+    }
+
 
     public static newline(amount: number = 1) {
         while (amount > 0) {
             amount--;
-            DisplayText.display("\n");
+            DisplayText.buffer("\n");
         }
     }
 
     public static newParagraph() {
-        DisplayText.display("\n");
-        DisplayText.display("\n");
+        DisplayText.buffer("\n");
+        DisplayText.buffer("\n");
     }
 
     public static text(text: string, flags?: DisplayTextFlag) {
-        DisplayText.display(DisplayText.processFlags(text, flags));
+        DisplayText.buffer(DisplayText.processFlags(text, flags));
     }
 
     private static processFlags(text: string, flags: DisplayTextFlag): string {
@@ -45,11 +58,11 @@ export default class DisplayText {
     }
 
     public static textBold(text: string) {
-        DisplayText.display(DisplayText.processFlags(text, DisplayTextFlag.Bold));
+        DisplayText.buffer(DisplayText.processFlags(text, DisplayTextFlag.Bold));
     }
 
     public static textItalic(text: string) {
-        DisplayText.display(DisplayText.processFlags(text, DisplayTextFlag.Italic));
+        DisplayText.buffer(DisplayText.processFlags(text, DisplayTextFlag.Italic));
     }
 
     public static parseText(text: string) {
@@ -59,12 +72,12 @@ export default class DisplayText {
     }
 
     public static html(text: string) {
-        DisplayText.display(text);
+        DisplayText.buffer(text);
     }
 
     public static clear() {
         if (DisplayText.displayElement) {
-            DisplayText.displayElement.innerHTML = "";
+            DisplayText.displayElement.setHtml("");
         }
         else {
             console.warn("Display element not registered");
