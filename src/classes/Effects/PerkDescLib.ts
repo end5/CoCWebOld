@@ -1,25 +1,5 @@
 import PerkDesc from './PerkDesc';
-import Archmage from './PerkDesc/Archmage';
-import Berzerker from './PerkDesc/Berzerker';
-import BrutalBlows from './PerkDesc/BrutalBlows';
-import CleansingPalm from './PerkDesc/CleansingPalm';
-import ControlledBreathPerk from './PerkDesc/ControlledBreath';
-import DoubleAttack from './PerkDesc/DoubleAttack';
-import ElvenBounty from './PerkDesc/ElvenBounty';
-import Enlightened from './PerkDesc/Enlightened';
-import ImmovableObject from './PerkDesc/ImmovableObject';
-import LightningStrikes from './PerkDesc/LightningStrikes';
-import LungingAttacks from './PerkDesc/LungingAttacks';
-import PentUp from './PerkDesc/PentUp';
-import PiercedCrimstone from './PerkDesc/PiercedCrimstone';
-import PiercedFertite from './PerkDesc/PiercedFertite';
-import Resolute from './PerkDesc/Resolute';
-import SluttySeduction from './PerkDesc/SluttySeduction';
-import SpellcastingAffinity from './PerkDesc/SpellcastingAffinity';
-import Tactician from './PerkDesc/Tactician';
-import WeaponMastery from './PerkDesc/WeaponMastery';
-import WizardsEndurance from './PerkDesc/WizardsEndurance';
-import WizardsFocus from './PerkDesc/WizardsFocus';
+import PerkDescs from './PerkDescs';
 import { PerkType } from './PerkType';
 import Library from '../Utilities/Library';
 
@@ -89,19 +69,19 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.Agility, "Agility",
             "Boosts armor points by a portion of your speed on light/medium armors.",
             "You choose the 'Agility' perk, increasing the effectiveness of Light/Medium armors by a portion of your speed."));
-        this.add(new Archmage());
+        this.add(new PerkDescs.Archmage());
         this.add(new PerkDesc(PerkType.ArousingAura, "Arousing Aura",
             "Exude a lust-inducing aura (Req's corruption of 70 or more)",
             "You choose the 'Arousing Aura' perk, causing you to radiate an aura of lust when your corruption is over 70."));
-        this.add(new Berzerker());
-        this.add(new BrutalBlows());
+        this.add(new PerkDescs.Berzerker());
+        this.add(new PerkDescs.BrutalBlows());
         this.add(new PerkDesc(PerkType.Channeling, "Channeling",
             "Increases base spell strength by 50%.",
             "You choose the 'Channeling' perk, boosting the strength of your spellcasting!"));
         this.add(new PerkDesc(PerkType.CorruptedLibido, "Corrupted Libido",
             "Reduces lust gain by 10%.",
             "You choose the 'Corrupted Libido' perk.  As a result of your body's corruption, you've become a bit harder to turn on. (Lust gain reduced by 10%!)"));
-        this.add(new DoubleAttack());
+        this.add(new PerkDescs.DoubleAttack());
         this.add(new PerkDesc(PerkType.Evade, "Evade",
             "Increases chances of evading enemy attacks.",
             "You choose the 'Evade' perk, allowing you to avoid enemy attacks more often!"));
@@ -111,12 +91,12 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.HotBlooded, "Hot Blooded",
             "Raises minimum lust by up to 20.",
             "You choose the 'Hot Blooded' perk.  As a result of your enhanced libido, your lust no longer drops below 20! (If you already have some minimum lust, it will be increased by 10)"));
-        this.add(new ImmovableObject());
+        this.add(new PerkDescs.ImmovableObject());
         this.add(new PerkDesc(PerkType.IronMan, "Iron Man",
             "Reduces the fatigue cost of physical specials by 50%.",
             "You choose the 'Iron Man' perk, reducing the fatigue cost of physical special attacks by 50%"));
-        this.add(new LightningStrikes());
-        this.add(new LungingAttacks());
+        this.add(new PerkDescs.LightningStrikes());
+        this.add(new PerkDescs.LungingAttacks());
         this.add(new PerkDesc(PerkType.Mage, "Mage",
             "Increases base spell strength by 50%.",
             "You choose the 'Mage' perk.  You are able to focus your magical abilities even more keenly, boosting your base spell effects by 50%."));
@@ -141,7 +121,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.Resistance, "Resistance",
             "Reduces lust gain by 10%.",
             "You choose the 'Resistance' perk, reducing the rate at which your lust increases by 10%."));
-        this.add(new Resolute());
+        this.add(new PerkDescs.Resolute());
         this.add(new PerkDesc(PerkType.Runner, "Runner",
             "Increases chances of escaping combat.",
             "You choose the 'Runner' perk, increasing your chances to escape from your foes when fleeing!"));
@@ -163,7 +143,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.StrongBack2, "Strong Back 2: Strong Harder",
             "Enables fifth item slot.",
             "You choose the 'Strong Back 2: Strong Harder' perk, enabling a fifth item slot."));
-        this.add(new Tactician());
+        this.add(new PerkDescs.Tactician());
         this.add(new PerkDesc(PerkType.Tank, "Tank",
             "Raises max HP by 50.",
             "You choose the 'Tank' perk, giving you an additional 50 hp!"));
@@ -173,7 +153,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.ThunderousStrikes, "Thunderous Strikes",
             "+20% 'Attack' damage while strength is at or above 80.",
             "You choose the 'Thunderous Strikes' perk, increasing normal damage by 20% while your strength is over 80."));
-        this.add(new WeaponMastery());
+        this.add(new PerkDescs.WeaponMastery());
         this.add(new PerkDesc(PerkType.WellAdjusted, "Well Adjusted",
             "You gain half as much lust as time passes in Mareth.",
             "You choose the 'Well Adjusted' perk, reducing the amount of lust you naturally gain over time while in this strange land!"));
@@ -191,8 +171,8 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Speed reductions are halved but caps strength"));
 
         // Piercing perks
-        this.add(new PiercedCrimstone());
-        this.add(new PiercedFertite());
+        this.add(new PerkDescs.PiercedCrimstone());
+        this.add(new PerkDescs.PiercedFertite());
         this.add(new PerkDesc(PerkType.PiercedFurrite, "Pierced: Furrite", "Pierced: Furrite",
             "Increases chances of encountering 'furry' foes."));
         this.add(new PerkDesc(PerkType.PiercedLethite, "Pierced: Lethite", "Pierced: Lethite",
@@ -203,7 +183,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Regenerates 1% of HP per round in combat and 2% of HP per hour."));
         this.add(new PerkDesc(PerkType.MidasCock, "Midas Cock", "Midas Cock",
             "Increases the gems awarded from victory in battle."));
-        this.add(new PentUp());
+        this.add(new PerkDescs.PentUp());
         this.add(new PerkDesc(PerkType.PhallicPotential, "Phallic Potential", "Phallic Potential",
             "Increases the effects of penis-enlarging transformations."));
         this.add(new PerkDesc(PerkType.PhallicRestraint, "Phallic Restraint", "Phallic Restraint",
@@ -212,16 +192,16 @@ export default class PerkDescLib extends Library<PerkDesc>{
         // Armor perks
         this.add(new PerkDesc(PerkType.BloodMage, "Blood Mage", "Blood Mage",
             "Spellcasting now consumes health instead of fatigue!"));
-        this.add(new SluttySeduction());
-        this.add(new WizardsEndurance());
+        this.add(new PerkDescs.SluttySeduction());
+        this.add(new PerkDescs.WizardsEndurance());
 
         // Weapon perks
-        this.add(new WizardsFocus());
+        this.add(new PerkDescs.WizardsFocus());
 
         // Achievement perks
         this.add(new PerkDesc(PerkType.BroodMother, "Brood Mother", "Brood Mother",
             "Pregnancy moves twice as fast as a normal woman's."));
-        this.add(new SpellcastingAffinity());
+        this.add(new PerkDescs.SpellcastingAffinity());
 
         // Mutation perks
         this.add(new PerkDesc(PerkType.Androgyny, "Androgyny", "Androgyny",
@@ -278,7 +258,7 @@ export default class PerkDescLib extends Library<PerkDesc>{
             "Grants a 5 point damage bonus to dick-based tease attacks."));
         this.add(new PerkDesc(PerkType.Cornucopia, "Cornucopia", "Cornucopia",
             "Vaginal and Anal capacities increased by 30."));
-        this.add(new ElvenBounty());
+        this.add(new PerkDescs.ElvenBounty());
         this.add(new PerkDesc(PerkType.FerasBoonAlpha, "Fera's Boon - Alpha", "Fera's Boon - Alpha",
             "Increases the rate your cum builds up and cum production in general."));
         this.add(new PerkDesc(PerkType.FerasBoonBreedingBitch, "Fera's Boon - Breeding Bitch", "Fera's Boon - Breeding Bitch",
@@ -331,9 +311,9 @@ export default class PerkDescLib extends Library<PerkDesc>{
         this.add(new PerkDesc(PerkType.Whispered, "Whispered", "Whispered",
             "Akbal's blessings grant limited telepathy that can induce fear."));
 
-        this.add(new ControlledBreathPerk());
-        this.add(new CleansingPalm());
-        this.add(new Enlightened());
+        this.add(new PerkDescs.ControlledBreathPerk());
+        this.add(new PerkDescs.CleansingPalm());
+        this.add(new PerkDescs.Enlightened());
 
 
         // Monster perks
