@@ -1,7 +1,8 @@
 import ArmorWithPerk from './ArmorWithPerk';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
-import Perk from '../../Effects/Perk';
+import PerkFactory from '../../Effects/PerkFactory';
+import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 

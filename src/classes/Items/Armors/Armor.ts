@@ -34,6 +34,10 @@ export default abstract class Armor extends EquipableItem {
         DisplayText.text("You equip " + this.desc.longName + ".  ");
     }
 
+    public describe(): string {
+        return super.describe() + " (DEF: +" + this.defense + ")";
+    }
+
     public equip(character: Character) {
         this.onEquip(character);
     }
