@@ -1,0 +1,10 @@
+export { default as BeautifulSword } from './BeautifulSword';
+export { default as DragonShellShield } from './DragonShellShield';
+export { default as EldritchStaff } from './EldritchStaff';
+export { default as HugeWarhammer } from './HugeWarhammer';
+export { default as JeweledRapier } from './JeweledRapier';
+export { default as LargeClaymore } from './LargeClaymore';
+export { default as LargeHammer } from './LargeHammer';
+export { default as RaphaelsRapier } from './RaphaelsRapier';
+export { default as Spellblade } from './Spellblade';
+export { default as WizardsStaff } from './WizardsStaff';

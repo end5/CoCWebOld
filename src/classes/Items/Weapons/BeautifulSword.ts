@@ -7,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class BeautifulSword extends Weapon {
     public constructor() {
-        super("B.Sword", new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade.  (ATK: +Varies) (Cost: 400)"), "beautiful sword", "slash", 7, 400, "holySword");
+        super("B.Sword", new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade."), "beautiful sword", "slash", 7, 400, "holySword");
     }
 
     public get attack(): number {

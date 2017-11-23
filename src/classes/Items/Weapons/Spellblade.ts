@@ -1,6 +1,5 @@
 import Weapon from './Weapon';
 import Character from '../../Character/Character';
-import Perk from '../../Effects/Perk';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';

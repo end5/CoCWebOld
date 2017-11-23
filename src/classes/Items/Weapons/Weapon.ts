@@ -26,6 +26,10 @@ export default abstract class Weapon extends EquipableItem {
     public useText(player: Player) {
         DisplayText.text("You equip " + this.desc.longName + ".  ");
     }
+
+    public describe(): string {
+        return super.describe() + " (ATK: +" + this.attack + ")";
+    }
 }
 
 export class GenericWeapon extends Weapon {
