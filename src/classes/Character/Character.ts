@@ -9,7 +9,9 @@ import CockDescriptor from '../Descriptors/CockDescriptor';
 import FaceDescriptor from '../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
 import StatusAffect from '../Effects/StatusAffect';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
 import CharacterInventory from '../Inventory/CharacterInventory';
@@ -33,6 +35,9 @@ export default abstract class Character extends Creature implements UpdateInterf
 		this.charType = type;
 		this.inventory = new CharacterInventory(defaultWeapon, defaultArmor);
 		this.desc = new CharacterDescription(this);
+		if (type != CharacterType.Player) {
+			this.stats.XP = this.totalXP();
+		}
 	}
 
     serialize(): string {
@@ -57,6 +62,32 @@ export default abstract class Character extends Creature implements UpdateInterf
 		this.regeneration();
 	}
 
+	private totalXP(): number {
+		let playerLevel = Game.player.stats.level;
+        //
+        // 1) Nerf xp gains by 20% per level after first two level difference
+        // 2) No bonuses for underlevel!
+        // 3) Super high level folks (over 10 levels) only get 1 xp!
+        let difference: number = playerLevel - this.stats.level;
+        if (difference <= 2) difference = 0;
+        else difference -= 2;
+        if (difference > 4) difference = 4;
+        difference = (5 - difference) * 20.0 / 100.0;
+        if (playerLevel - this.stats.level > 10) return 1;
+        return Math.round(this.stats.additionalXP + (this.baseXP() + this.bonusXP()) * difference);
+    }
+
+    private baseXP(): number {
+        return [200, 10, 20, 30, 40, 50, 55, 60, 66, 75,//0-9
+            83, 85, 92, 100, 107, 115, 118, 121, 128, 135,//10-19
+            145][Math.round(this.stats.level)] || 200;
+    }
+
+    private bonusXP(): number {
+        return Utils.rand([200, 10, 20, 30, 40, 50, 55, 58, 66, 75,
+            83, 85, 85, 86, 92, 94, 96, 98, 99, 101,
+            107][Math.round(this.stats.level)] || 130);
+    }
 
 	private regeneration() {
 		let healingPercent = 0;

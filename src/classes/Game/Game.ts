@@ -1,12 +1,11 @@
-﻿import Libraries from "./Libraries";
-import Flags from "./Flags";
-import SaveManager from "../SaveManager";
-import Player from "../Player";
-import MainMenu from "../display/MainMenu";
-import TimeManager from "./TimeManager";
-import CampStorage from "../Inventory/CampStorage";
-import SceneManager from "../Scenes/SceneManager";
-import Monster from "../Monster";
+﻿import Flags from './Flags';
+import Initializer from './Initializer';
+import TimeManager from './TimeManager';
+import Character from '../Character/Character';
+import CampStorage from '../Inventory/CampStorage';
+import Player from '../Player/Player';
+import SaveManager from '../SaveManager';
+import SceneManager from '../Scenes/SceneManager';
 
 export enum GameState {
     Normal,
@@ -18,10 +17,9 @@ export enum GameState {
 
 export default class Game {
     static exgartuan: any;
-    static monster: Monster;
+    static monster: Character;
     static debug: boolean;
     private static instance: object;
-    public static libraries: Libraries;
     public static flags: Flags;
     public static state: GameState;
     public static player: Player;
@@ -31,9 +29,10 @@ export default class Game {
     public static campStorage: CampStorage;
 
     public constructor() {
+        new Initializer();
+        
         let components: object = {};
 
-        Game.libraries = new Libraries();
         Game.flags = new Flags();
 
         Game.instance = components;
@@ -43,7 +42,6 @@ export default class Game {
 
         // Time sensitive components
         Game.player = new Player();
-        Game.monster = null;
 
         Game.timeManager = new TimeManager();
         Game.sceneManager = new SceneManager();
