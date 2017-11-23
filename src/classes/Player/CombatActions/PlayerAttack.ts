@@ -1,13 +1,14 @@
+import PlayerCombatAction from './PlayerCombatAction';
 import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
+import CombatUtils from '../../Combat/CombatUtils';
 import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
-import CombatUtils from '../CombatUtils';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
+import Player from '../Player';
 
 export default class PlayerAttack implements PlayerCombatAction {
     isPossible(player: Player): boolean {
@@ -27,11 +28,11 @@ export default class PlayerAttack implements PlayerCombatAction {
     }
 
     private miss(player: Player, monster: Character): void {
-        if (!player.statusAffects.has("FirstAttack")) {
+        if (!player.statusAffects.has(StatusAffectType.FirstAttack)) {
             DisplayText.clear();
             CombatUtils.fatigueRecovery(player);
         }
-        if (player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value2 == 0) {
+        if (player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value2 == 0) {
             DisplayText.text("You attempt to attack, but at the last moment your body wrenches away, preventing you from even coming close to landing a blow!  The kitsune's seals have made normal attack impossible!  Maybe you could try something else?\n\n");
             return;
         }
@@ -40,17 +41,17 @@ export default class PlayerAttack implements PlayerCombatAction {
             return;
         }
         //Amily!
-        if (monster.statusAffects.has("Concentration")) {
+        if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText.clear();
             DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
-        if (monster.statusAffects.has("Level") && !player.statusAffects.has("FirstAttack")) {
+        if (monster.statusAffects.has(StatusAffectType.Level) && !player.statusAffects.has(StatusAffectType.FirstAttack)) {
             DisplayText.text("It's all or nothing!  With a bellowing cry you charge down the treacherous slope and smite the sandtrap as hard as you can!  ");
             <SandTrap>monster.trapLevel(-4);
         }
-        if (player.perks.has("DoubleAttack") && player.stats.spe >= 50 && Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] < 2) {
-            if (player.statusAffects.has("FirstAttack")) player.statusAffects.remove("FirstAttack");
+        if (player.perks.has(PerkType.DoubleAttack) && player.stats.spe >= 50 && Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] < 2) {
+            if (player.statusAffects.has(StatusAffectType.FirstAttack)) player.statusAffects.remove(StatusAffectType.FirstAttack);
             else {
                 //Always!
                 if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.FirstAttack, 0, 0, 0, 0));
@@ -61,8 +62,8 @@ export default class PlayerAttack implements PlayerCombatAction {
         //"Brawler perk". Urta only. Thanks to Fenoxo for pointing this out... Even though that should have been obvious :<
         //Urta has fists and the Brawler perk. Don't check for that because Urta can't drop her fists or lose the perk!
         else if (urtaQuest.isUrta()) {
-            if (player.statusAffects.has("FirstAttack")) {
-                player.statusAffects.remove("FirstAttack");
+            if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
+                player.statusAffects.remove(StatusAffectType.FirstAttack);
             }
             else {
                 player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.FirstAttack, 0, 0, 0, 0));
@@ -70,7 +71,7 @@ export default class PlayerAttack implements PlayerCombatAction {
             }
         }
         //Blind
-        if (player.statusAffects.has("Blind")) {
+        if (player.statusAffects.has(StatusAffectType.Blind)) {
             DisplayText.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
         if (monster.charType == CharacterType.Basilisk) {
@@ -78,7 +79,7 @@ export default class PlayerAttack implements PlayerCombatAction {
             if (player.stats.int / 5 + Utils.rand(20) < 25) {
                 DisplayText.text("Holding the basilisk in your peripheral vision, you charge forward to strike it.  Before the moment of impact, the reptile shifts its posture, dodging and flowing backward skillfully with your movements, trying to make eye contact with you. You find yourself staring directly into the basilisk's face!  Quickly you snap your eyes shut and recoil backwards, swinging madly at the lizard to force it back, but the damage has been done; you can see the terrible grey eyes behind your closed lids, and you feel a great weight settle on your bones as it becomes harder to move.");
                 Basilisk.basiliskSpeed(player, 20);
-                player.statusAffects.remove("FirstAttack");
+                player.statusAffects.remove(StatusAffectType.FirstAttack);
                 return;
             }
             //Counter attack fails: (Utils.random chance if PC int > 50 spd > 60; PC takes small physical damage but no block or spd penalty)
@@ -99,18 +100,18 @@ export default class PlayerAttack implements PlayerCombatAction {
             else {
                 DisplayText.text("You attempt to crush the worms with your reprisal, only to have the collective move its individual members, creating a void at the point of impact, leaving you to attack only empty air.\n\n");
             }
-            if (player.statusAffects.has("FirstAttack")) {
+            if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
                 return;
             }
             return;
         }
         //Determine if dodged!
-        if ((player.statusAffects.has("Blind") && Utils.rand(2) == 0) || (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
+        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) == 0) || (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
             //Akbal dodges special education
             if (monster.desc.short == "Akbal") DisplayText.text("Akbal moves like lightning, weaving in and out of your furious strikes with the speed and grace befitting his jaguar body.\n");
             else if (monster.desc.short == "plain girl") DisplayText.text("You wait patiently for your opponent to drop her guard. She ducks in and throws a right cross, which you roll away from before smacking your " + player.inventory.weaponSlot.equipment.displayname + " against her side. Astonishingly, the attack appears to phase right through her, not affecting her in the slightest. You glance down to your " + player.inventory.weaponSlot.equipment.displayname + " as if betrayed.\n");
             else if (monster.desc.short == "kitsune") {
-               ../Player/Player Miss:
+                // Player Miss:
                 DisplayText.text("You swing your [weapon] ferociously, confident that you can strike a crushing blow.  To your surprise, you stumble awkwardly as the attack passes straight through her - a mirage!  You curse as you hear a giggle behind you, turning to face her once again.\n\n");
             }
             else {
@@ -121,7 +122,7 @@ export default class PlayerAttack implements PlayerCombatAction {
                 if (monster.stats.spe - player.stats.spe >= 20)
                     DisplayText.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.");
                 DisplayText.text("\n");
-                if (player.statusAffects.has("FirstAttack")) {
+                if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
                     this.use(player, monster);
                     return;
                 }
@@ -130,9 +131,9 @@ export default class PlayerAttack implements PlayerCombatAction {
             return;
         }
         //BLOCKED ATTACK:
-        if (monster.statusAffects.has("Earthshield") && Utils.rand(4) == 0) {
+        if (monster.statusAffects.has(StatusAffectType.Earthshield) && Utils.rand(4) == 0) {
             DisplayText.text("Your strike is deflected by the wall of sand, dirt, and rock!  Damn!\n");
-            if (player.statusAffects.has("FirstAttack")) {
+            if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
                 this.use(player, monster);
                 return;
             }
@@ -154,17 +155,17 @@ export default class PlayerAttack implements PlayerCombatAction {
         }*/
         //BASIC DAMAGE STUFF
         //Double Attack Hybrid Reductions
-        if (player.perks.has("DoubleAttack") && player.stats.spe >= 50 && player.stats.str > 61 && Flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
+        if (player.perks.has(PerkType.DoubleAttack) && player.stats.spe >= 50 && player.stats.str > 61 && Flags[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
             damage = 60.5;
         }
         else damage = player.stats.str;
         //Weapon addition!
         damage += player.inventory.weaponSlot.equipment.attack;
         //Bonus sand trap damage!
-        if (monster.statusAffects.has("Level")) damage = Math.round(damage * 1.75);
+        if (monster.statusAffects.has(StatusAffectType.Level)) damage = Math.round(damage * 1.75);
         //Determine if critical hit!
         var crit: Boolean = false;
-        if (Utils.rand(100) <= 4 || (player.perks.has("Tactician") && player.stats.int >= 50 && (player.stats.int - 50) / 5 > Utils.rand(100))) {
+        if (Utils.rand(100) <= 4 || (player.perks.has(PerkType.Tactician) && player.stats.int >= 50 && (player.stats.int - 50) / 5 > Utils.rand(100))) {
             crit = true;
             damage *= 1.75;
         }
@@ -174,7 +175,7 @@ export default class PlayerAttack implements PlayerCombatAction {
         if (player.inventory.weaponSlot.equipment.displayname != "jeweled rapier" && player.inventory.weaponSlot.equipment.displayname != "deadly spear") {
             reduction += monster.defense();
             //Remove half armor for lunging strikes
-            if (player.perks.has("LungingAttacks"))
+            if (player.perks.has(PerkType.LungingAttacks))
                 reduction -= monster.defense() / 2;
         }
         //Take 5 off enemy armor for katana
@@ -188,11 +189,11 @@ export default class PlayerAttack implements PlayerCombatAction {
         damage -= reduction;
         //Damage post processing!
         //Thunderous Strikes
-        if (player.perks.has("ThunderousStrikes") && player.stats.str >= 80)
+        if (player.perks.has(PerkType.ThunderousStrikes) && player.stats.str >= 80)
             damage *= 1.2;
 
-        if (player.perks.has("ChiReflowMagic")) damage *= UmasShop.NEEDLEWORK_MAGIC_REGULAR_MULTI;
-        if (player.perks.has("ChiReflowAttack")) damage *= UmasShop.NEEDLEWORK_ATTACK_REGULAR_MULTI;
+        if (player.perks.has(PerkType.ChiReflowMagic)) damage *= UmasShop.NEEDLEWORK_MAGIC_REGULAR_MULTI;
+        if (player.perks.has(PerkType.ChiReflowAttack)) damage *= UmasShop.NEEDLEWORK_ATTACK_REGULAR_MULTI;
 
         //One final round
         damage = Math.round(damage);
@@ -211,7 +212,7 @@ export default class PlayerAttack implements PlayerCombatAction {
                     damage = 0;
                     //Kick back to main if no damage occured!
                     if (monster.stats.HP > 0 && monster.stats.lust < 100) {
-                        if (player.statusAffects.has("FirstAttack")) {
+                        if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
                             this.use(player, monster);
                             return;
                         }
@@ -224,8 +225,8 @@ export default class PlayerAttack implements PlayerCombatAction {
 
         // Have to put it before doDamage, because doDamage applies the change, as well as status effects and shit.
         if (monster.charType == CharacterType.Doppleganger) {
-            if (!monster.statusAffects.has("Stunned")) {
-                if (damage > 0 && player.perks.has("HistoryFighter")) damage *= 1.1;
+            if (!monster.statusAffects.has(StatusAffectType.Stunned)) {
+                if (damage > 0 && player.perks.has(PerkType.HistoryFighter)) damage *= 1.1;
                 if (damage > 0) damage = monster.combat.loseHP(damage, player);
 
                 <Doppleganger>monster.mirrorAttack(damage);
@@ -236,7 +237,7 @@ export default class PlayerAttack implements PlayerCombatAction {
         }
 
         if (damage > 0) {
-            if (player.perks.has("HistoryFighter")) damage *= 1.1;
+            if (player.perks.has(PerkType.HistoryFighter)) damage *= 1.1;
             damage = monster.combat.loseHP(damage, player);
         }
 
@@ -248,7 +249,7 @@ export default class PlayerAttack implements PlayerCombatAction {
             DisplayText.text("You hit " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
             if (crit) DisplayText.text(" <b>*CRIT*</b>");
         }
-        if (player.perks.has("BrutalBlows") && player.stats.str > 75) {
+        if (player.perks.has(PerkType.BrutalBlows) && player.stats.str > 75) {
             if (monster.defense() > 0) DisplayText.text("\nYour hits are so brutal that you damage " + monster.desc.a + monster.desc.short + "'s defenses!");
             if (monster.defense() - 10 > 0) monster.defense() -= 10;
             else monster.defense() = 0;
@@ -286,12 +287,12 @@ export default class PlayerAttack implements PlayerCombatAction {
             //Weapon Procs!
             if (player.inventory.weaponSlot.equipment.displayname == "huge warhammer" || player.inventory.weaponSlot.equipment.displayname == "spiked gauntlet" || player.inventory.weaponSlot.equipment.displayname == "hooked gauntlets") {
                 //10% chance
-                if (Utils.rand(10) == 0 && !monster.perks.has("Resolute")) {
+                if (Utils.rand(10) == 0 && !monster.perks.has(PerkType.Resolute)) {
                     DisplayText.text("\n" + monster.desc.capitalA + monster.desc.short + " reels from the brutal blow, stunned.");
                     monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Stunned, 0, 0, 0, 0));
                 }
                 //50% Bleed chance
-                if (player.inventory.weaponSlot.equipment.displayname == "hooked gauntlets" && Utils.rand(2) == 0 && monster.defense() < 10 && !monster.statusAffects.has("IzmaBleed")) {
+                if (player.inventory.weaponSlot.equipment.displayname == "hooked gauntlets" && Utils.rand(2) == 0 && monster.defense() < 10 && !monster.statusAffects.has(StatusAffectType.IzmaBleed)) {
                     if (monster.charType == CharacterType.LivingStatue) {
                         DisplayText.text("Despite the rents you've torn in its stony exterior, the statue does not bleed.");
                     }
@@ -304,7 +305,7 @@ export default class PlayerAttack implements PlayerCombatAction {
             }
         }
 
-        if (monster.charType == CharacterType.JeanClaude && !player.statusAffects.has("FirstAttack")) {
+        if (monster.charType == CharacterType.JeanClaude && !player.statusAffects.has(StatusAffectType.FirstAttack)) {
             if (monster.stats.HP < 1 || monster.stats.lust > 99) {
                 // noop
             }
@@ -330,7 +331,7 @@ export default class PlayerAttack implements PlayerCombatAction {
         DisplayText.text("\n");
         //Kick back to main if no damage occured!
         if (monster.stats.HP >= 1 && monster.stats.lust <= 99) {
-            if (player.statusAffects.has("FirstAttack")) {
+            if (player.statusAffects.has(StatusAffectType.FirstAttack)) {
                 this.use(player, monster);
                 return;
             }

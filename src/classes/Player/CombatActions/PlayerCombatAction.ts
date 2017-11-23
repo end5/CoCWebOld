@@ -1,8 +1,8 @@
 import Creature from '../../Body/Creature';
 import Character from '../../Character/Character';
-import Player from '../../Player/Player';
+import CombatAction from '../../Combat/Actions/CombatAction';
 import LibraryEntry from '../../Utilities/LibraryEntry';
-import CombatAction from '../CombatAction';
+import Player from '../Player';
 
 export default interface PlayerCombatAction extends CombatAction {
     isPossible(player: Player): boolean;

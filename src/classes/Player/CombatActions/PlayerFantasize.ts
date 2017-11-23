@@ -2,8 +2,9 @@ import Character from '../../Character/Character';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
+import MainScreen from '../../display/MainScreen';
 import Utils from '../../Utilities/Utils';
+import Player from '../Player';
 
 export default class PlayerFantasize {
     public use(player: Player, monster: Character) {
@@ -45,10 +46,10 @@ export default class PlayerFantasize {
                 player.stats.lust += -25;
             }
             else {
-                DisplayText.doNext(endLustLoss);
+                MainScreen.doNext(endLustLoss);
                 return;
             }
         }
-        DisplayText.doNext(combatMenu);
+        MainScreen.doNext(combatMenu);
     }
 }

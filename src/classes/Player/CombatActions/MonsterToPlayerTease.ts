@@ -2,7 +2,7 @@ import Character from '../../Character/Character';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
+import Player from '../Player';
 
 export default class MonsterToPlayerTease {
     public use(player: Player, monster: Character): void {

@@ -1,3 +1,4 @@
+import PlayerCombatAction from './PlayerCombatAction';
 import { CockType } from '../../Body/Cock';
 import { Gender } from '../../Body/Creature';
 import { TailType } from '../../Body/LowerBody';
@@ -13,11 +14,12 @@ import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
+import Player from '../Player';
 
 const enum TeaseType {
     ButtShake,                  //0 butt shake
@@ -84,13 +86,13 @@ export default class PlayerTease implements PlayerCombatAction {
     }
     private determineBaseDamage(player: Player): number {
         let damage: number = 6 + Utils.rand(3);
-        if (player.perks.has("SensualLover"))
+        if (player.perks.has(PerkType.SensualLover))
             damage += 2;
-        if (player.perks.has("Seduction"))
+        if (player.perks.has(PerkType.Seduction))
             damage += 5;
         //+ slutty armor bonus
-        if (player.perks.has("SluttySeduction"))
-            damage += player.perks.get("SluttySeduction").value1;
+        if (player.perks.has(PerkType.SluttySeduction))
+            damage += player.perks.get(PerkType.SluttySeduction).value1;
         damage += player.stats.level;
         damage += player.teaseLevel * 2;
         return damage;
@@ -102,24 +104,24 @@ export default class PlayerTease implements PlayerCombatAction {
         //5% chance for each tease level.
         chance += player.teaseLevel * 5;
         //10% for seduction perk
-        if (player.perks.has("Seduction")) chance += 10;
+        if (player.perks.has(PerkType.Seduction)) chance += 10;
         //10% for sexy armor types
-        if (player.perks.has("SluttySeduction")) chance += 10;
+        if (player.perks.has(PerkType.SluttySeduction)) chance += 10;
         //10% for bimbo shits
-        if (player.perks.has("BimboBody")) {
+        if (player.perks.has(PerkType.BimboBody)) {
             chance += 10;
         }
-        if (player.perks.has("BroBody")) {
+        if (player.perks.has(PerkType.BroBody)) {
             chance += 10;
         }
-        if (player.perks.has("FutaForm")) {
+        if (player.perks.has(PerkType.FutaForm)) {
             chance += 10;
         }
         //2 & 2 for seductive valentines!
-        if (player.perks.has("SensualLover")) {
+        if (player.perks.has(PerkType.SensualLover)) {
             chance += 2;
         }
-        if (player.perks.has("ChiReflowLust"))
+        if (player.perks.has(PerkType.ChiReflowLust))
             chance += UmasShop.NEEDLEWORK_LUST_TEASE_MULTI;
         return chance;
     }
@@ -256,7 +258,7 @@ export default class PlayerTease implements PlayerCombatAction {
         }
         //==EXTRAS========
         //12 Cat flexibility.
-        if (player.perks.has("Flexibility") && player.lowerBody.isBiped() && hasVagina) {
+        if (player.perks.has(PerkType.Flexibility) && player.lowerBody.isBiped() && hasVagina) {
             choices[TeaseType.CatFlexibility] += 2;
             if (vaginalWetness >= 3) choices[TeaseType.CatFlexibility]++;
             if (vaginalWetness >= 5) choices[TeaseType.CatFlexibility]++;
@@ -280,7 +282,7 @@ export default class PlayerTease implements PlayerCombatAction {
             if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
         }
         //14 Brood Mother
-        if (monster.lowerBody.cockSpot.hasCock() && hasVagina && player.perks.has("BroodMother") && !player.pregnancy.isPregnant() && !player.pregnancy.isButtPregnant()) {
+        if (monster.lowerBody.cockSpot.hasCock() && hasVagina && player.perks.has(PerkType.BroodMother) && !player.pregnancy.isPregnant() && !player.pregnancy.isButtPregnant()) {
             choices[TeaseType.BroodMother] += 3;
             if (player.inHeat) choices[TeaseType.BroodMother] += 7;
         }
@@ -338,11 +340,11 @@ export default class PlayerTease implements PlayerCombatAction {
             choices[TeaseType.TallTease] += 5;
         }
         //26 SMART PEEPS! 70+ int, arouse spell!
-        if (player.stats.int >= 70 && player.statusAffects.has("KnowsArouse")) {
+        if (player.stats.int >= 70 && player.statusAffects.has(StatusAffectType.KnowsArouse)) {
             choices[TeaseType.Smartness] += 3;
         }
         //27 FEEDER
-        if (player.perks.has("Feeder") && largestBreastRating >= 4) {
+        if (player.perks.has(PerkType.Feeder) && largestBreastRating >= 4) {
             choices[TeaseType.Feeder] += 3;
             if (largestBreastRating >= 10) choices[TeaseType.Feeder]++;
             if (largestBreastRating >= 15) choices[TeaseType.Feeder]++;
@@ -429,14 +431,14 @@ export default class PlayerTease implements PlayerCombatAction {
     }
 
     public use(player: Player, monster: Character): void {
-        DisplayText.text("", true);
+        DisplayText.clear();
         //You cant tease a blind guy!
-        if (monster.statusAffects.has("Blind")) {
-            DisplayText.text("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  It doesn't work - you blinded " + monster.desc.objectivePronoun + ", remember?\n\n", true);
+        if (monster.statusAffects.has(StatusAffectType.Blind)) {
+            DisplayText.text("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  It doesn't work - you blinded " + monster.desc.objectivePronoun + ", remember?\n\n");
             return;
         }
-        if (player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value2 == 1) {
-            DisplayText.text("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  Your artless twirls have no effect, as <b>your ability to tease is sealed.</b>\n\n", true);
+        if (player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value2 == 1) {
+            DisplayText.text("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  Your artless twirls have no effect, as <b>your ability to tease is sealed.</b>\n\n");
             return;
         }
         if (monster.desc.short == "Sirius, a naga hypnotist") {
@@ -444,19 +446,19 @@ export default class PlayerTease implements PlayerCombatAction {
             return;
         }
         if (monster.stats.lustVuln == 0) {
-            DisplayText.clearText();
+            DisplayText.clear();
             DisplayText.text("You try to tease " + monster.desc.a + monster.desc.short + " with your body, but it doesn't have any effect on " + monster.desc.objectivePronoun + ".\n\n");
             return;
         }
         if (monster.desc.short == "worms") {
-            DisplayText.clearText();
+            DisplayText.clear();
             DisplayText.text("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass in a rather lewd manner. However, the creature fails to react to your suggestive actions.\n\n");
             return;
         }
         fatigueRecovery();
-        let bimbo: boolean = player.perks.has("BimboBody") ? true : false;
-        let bro: boolean = player.perks.has("BroBody") ? true : false;
-        let futa: boolean = player.perks.has("FutaForm") ? true : false;
+        let bimbo: boolean = player.perks.has(PerkType.BimboBody) ? true : false;
+        let bro: boolean = player.perks.has(PerkType.BroBody) ? true : false;
+        let futa: boolean = player.perks.has(PerkType.FutaForm) ? true : false;
         let chance: number = this.determineBaseChance(player);
         let damage: number = this.determineBaseDamage(player);
         //10% for bimbo shits
@@ -526,7 +528,7 @@ export default class PlayerTease implements PlayerCombatAction {
                         if (player.lowerBody.cockSpot.count() == 1) DisplayText.text(CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)));
                         if (player.lowerBody.cockSpot.count() > 1) DisplayText.text(CockDescriptor.describeMultiCockShort(player));
                         DisplayText.text(" and ");
-                        if (player.perks.has("BulgeArmor")) {
+                        if (player.perks.has(PerkType.BulgeArmor)) {
                             damage += 5;
                         }
                         penis = true;
@@ -540,7 +542,7 @@ export default class PlayerTease implements PlayerCombatAction {
             case TeaseType.CockFlash:
                 if (player.lowerBody.isTaur() && player.lowerBody.cockSpot.countType(CockType.HORSE) > 0) {
                     DisplayText.text("You let out a bestial whinny and stomp your hooves at your enemy.  They prepare for an attack, but instead you kick your front hooves off the ground, revealing the hefty horsecock hanging beneath your belly.  You let it flop around, quickly getting rigid and to its full erect length.  You buck your hips as if you were fucking a mare in heat, letting your opponent know just what's in store for them if they surrender to pleasure...");
-                    if (player.perks.has("BulgeArmor")) damage += 5;
+                    if (player.perks.has(PerkType.BulgeArmor)) damage += 5;
                 }
                 else {
                     DisplayText.text("You open your " + player.inventory.armorSlot.equipment.displayName + ", revealing your ");
@@ -548,7 +550,7 @@ export default class PlayerTease implements PlayerCombatAction {
                     if (player.lowerBody.cockSpot.count() > 1) DisplayText.text(CockDescriptor.describeMultiCockShort(player));
                     if (player.lowerBody.vaginaSpot.hasVagina()) DisplayText.text(" and ");
                     //Bulgy bonus!
-                    if (player.perks.has("BulgeArmor")) {
+                    if (player.perks.has(PerkType.BulgeArmor)) {
                         damage += 5;
                         chance++;
                     }
@@ -596,13 +598,13 @@ export default class PlayerTease implements PlayerCombatAction {
                 break;
             //6 pussy flash
             case TeaseType.BimboPussyFlash:
-                if (player.perks.has("BimboBrains") || player.perks.has("FutaFaculties")) {
+                if (player.perks.has(PerkType.BimboBrains) || player.perks.has(PerkType.FutaFaculties)) {
                     DisplayText.text("You coyly open your " + player.inventory.armorSlot.equipment.displayName + " and giggle, \"<i>Is this, like, what you wanted to see?</i>\"  ");
                 }
                 else {
                     DisplayText.text("You coyly open your " + player.inventory.armorSlot.equipment.displayName + " and purr, \"<i>Does the thought of a hot, ");
                     if (futa) DisplayText.text("futanari ");
-                    else if (player.perks.has("BimboBody")) DisplayText.text("bimbo ");
+                    else if (player.perks.has(PerkType.BimboBody)) DisplayText.text("bimbo ");
                     else DisplayText.text("sexy ");
                     DisplayText.text("body turn you on?</i>\"  ");
                 }
@@ -615,7 +617,7 @@ export default class PlayerTease implements PlayerCombatAction {
                 if (player.lowerBody.cockSpot.count() > 0) DisplayText.text("  Meanwhile, " + CockDescriptor.describeMultiCockSimpleOne(player) + " bobs back and forth with your gyrating hips, adding to the display.");
                 //BONUSES!
                 if (player.lowerBody.cockSpot.hasCock()) {
-                    if (player.perks.has("BulgeArmor")) damage += 5;
+                    if (player.perks.has(PerkType.BulgeArmor)) damage += 5;
                     penis = true;
                 }
                 vagina = true;
@@ -632,7 +634,7 @@ export default class PlayerTease implements PlayerCombatAction {
             //8 Pec Dance
             case TeaseType.BroPecDance:
                 DisplayText.text("You place your hands on your hips and flex repeatedly, skillfully making your pecs alternatively bounce in a muscular dance.  ");
-                if (player.perks.has("BroBrains")) DisplayText.text("Damn, " + monster.desc.a + monster.desc.short + " has got to love this!");
+                if (player.perks.has(PerkType.BroBrains)) DisplayText.text("Damn, " + monster.desc.a + monster.desc.short + " has got to love this!");
                 else DisplayText.text(monster.desc.capitalA + monster.desc.short + " will probably enjoy the show, but you feel a bit silly doing this.");
                 chance += (player.tone - 75) / 5;
                 damage += (player.tone - 70) / 5;
@@ -641,7 +643,7 @@ export default class PlayerTease implements PlayerCombatAction {
             //9 Heroic Pose
             case TeaseType.BroHeroicPose:
                 DisplayText.text("You lift your arms and flex your incredibly muscular arms while flashing your most disarming smile.  ");
-                if (player.perks.has("BroBrains")) DisplayText.text(monster.desc.capitalA + monster.desc.short + " can't resist such a heroic pose!");
+                if (player.perks.has(PerkType.BroBrains)) DisplayText.text(monster.desc.capitalA + monster.desc.short + " can't resist such a heroic pose!");
                 else DisplayText.text("At least the physical changes to your body are proving useful!");
                 chance += (player.tone - 75) / 5;
                 damage += (player.tone - 70) / 5;
@@ -650,12 +652,12 @@ export default class PlayerTease implements PlayerCombatAction {
             //10 Bulgy groin thrust
             case TeaseType.BroBulgyGroinThrust:
                 DisplayText.text("You lean back and pump your hips at " + monster.desc.a + monster.desc.short + " in an incredibly vulgar display.  The bulging, barely-contained outline of your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " presses hard into your gear.  ");
-                if (player.perks.has("BroBrains")) DisplayText.text("No way could " + monster.desc.subjectivePronoun + " resist your huge cock!");
+                if (player.perks.has(PerkType.BroBrains)) DisplayText.text("No way could " + monster.desc.subjectivePronoun + " resist your huge cock!");
                 else DisplayText.text("This is so crude, but at the same time, you know it'll likely be effective.");
                 DisplayText.text("  You go on like that, humping the air for your foe");
                 DisplayText.text("'s");
                 DisplayText.text(" benefit, trying to entice them with your man-meat.");
-                if (player.perks.has("BulgeArmor")) damage += 5;
+                if (player.perks.has(PerkType.BulgeArmor)) damage += 5;
                 penis = true;
                 break;
             //11 Show off dick
@@ -663,10 +665,10 @@ export default class PlayerTease implements PlayerCombatAction {
                 if (Game.silly() && Utils.rand(2) == 0) DisplayText.text("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + monster.desc.a + monster.desc.short + ".");
                 else {
                     DisplayText.text("You open your " + player.inventory.armorSlot.equipment.displayName + " just enough to let your " + CockDescriptor.describeCock(player, player.lowerBody.cockSpot.get(0)) + " and " + BallsDescriptor.describeBalls(true, true, player) + " dangle free.  A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you.  ");
-                    if (player.perks.has("BroBrains")) DisplayText.text("Bitches love a cum-leaking cock.");
+                    if (player.perks.has(PerkType.BroBrains)) DisplayText.text("Bitches love a cum-leaking cock.");
                     else DisplayText.text("You've got to admit, you look pretty good down there.");
                 }
-                if (player.perks.has("BulgeArmor")) damage += 5;
+                if (player.perks.has(PerkType.BulgeArmor)) damage += 5;
                 penis = true;
                 break;
             //==EXTRAS========
@@ -1269,16 +1271,16 @@ export default class PlayerTease implements PlayerCombatAction {
             //NERF TEASE DAMAGE
             damage *= .7;
             bonusDamage *= .7;
-            if (player.perks.has("HistoryWhore")) {
+            if (player.perks.has(PerkType.HistoryWhore)) {
                 damage *= 1.15;
                 bonusDamage *= 1.15;
             }
-            if (player.perks.has("ChiReflowLust")) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
+            if (player.perks.has(PerkType.ChiReflowLust)) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
             if (monster.desc.plural) damage *= 1.3;
             damage = (damage + Utils.rand(bonusDamage)) * monster.stats.lustVuln;
 
             if (monster.charType == CharacterType.JeanClaude) <JeanClaude>monster.handleTease(damage, true);
-            else if (monster.charType == CharacterType.Doppleganger && !monster.statusAffects.has("Stunned")) <Doppleganger>monster.mirrorTease(damage, true);
+            else if (monster.charType == CharacterType.Doppleganger && !monster.statusAffects.has(StatusAffectType.Stunned)) <Doppleganger>monster.mirrorTease(damage, true);
             else monster.teased(damage);
 
             if (Flags.list[FlagEnum.PC_FETISH] >= 1 && !urtaQuest.isUrta()) {

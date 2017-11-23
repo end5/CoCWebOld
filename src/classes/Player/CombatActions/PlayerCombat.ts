@@ -1,29 +1,35 @@
 import LearnedSpellAction from './LearnedSpellAction';
+import { PlayerMagicalActionLib, PlayerPhysicalActionLib, PlayerSpellActionLib } from './PlayerActionLib';
+import PlayerActionPerform from './PlayerActionPerform';
+import PlayerAttack from './PlayerAttack';
+import PlayerCombatAction from './PlayerCombatAction';
+import PlayerFantasize from './PlayerFantasize';
+import PlayerRun from './PlayerRun';
+import PlayerStruggle from './PlayerStruggle';
+import PlayerTease from './PlayerTease';
+import PlayerWait from './PlayerWait';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
-import { PlayerMagicalActionLib, PlayerPhysicalActionLib, PlayerSpellActionLib } from ../Player/PlayerActionLib';
-import PlayerAttack from ../Player/PlayerAttack';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
-import PlayerCombatInterface from ../Player/PlayerCombatInterface';
-import PlayerFantasize from ../Player/PlayerFantasize';
-import PlayerRun from ../Player/PlayerRun';
-import PlayerStruggle from ../Player/PlayerStruggle';
-import PlayerTease from ../Player/PlayerTease';
-import PlayerWait from ../Player/PlayerWait';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Player from '../Player';
 
 export function hasSpells(player: Player): boolean {
     return spellCount(player) > 0;
 }
 
 export function spellCount(player: Player): number {
-    return ["KnowsArouse", "KnowsHeal", "KnowsMight", "KnowsCharge", "KnowsBlind", "KnowsWhitefire"]
-        .filter((name: string) => {
+    return [StatusAffectType.KnowsArouse,
+        StatusAffectType.KnowsHeal,
+        StatusAffectType.KnowsMight,
+        StatusAffectType.KnowsCharge,
+        StatusAffectType.KnowsBlind,
+        StatusAffectType.KnowsWhitefire]
+        .filter((name: StatusAffectType) => {
             return player.statusAffects.has(name);
         })
         .length;
 }
 
-export default class PlayerCombat implements PlayerCombatInterface {
+export default class PlayerCombat implements PlayerActionPerform {
     private magicalLib = new PlayerMagicalActionLib();
     private physicalLib = new PlayerPhysicalActionLib();
     private spellsLib = new PlayerSpellActionLib();
@@ -46,7 +52,7 @@ export default class PlayerCombat implements PlayerCombatInterface {
     public approach(): PlayerCombatAction {
         DisplayText.clear();
         DisplayText.text("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
-        player.statusAffects.remove("KnockedBack");
+        player.statusAffects.remove(StatusAffectType.KnockedBack);
     }
 
     public tease(): PlayerCombatAction {

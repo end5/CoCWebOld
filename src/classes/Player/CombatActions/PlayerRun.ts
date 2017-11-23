@@ -1,3 +1,4 @@
+import PlayerCombatAction from './PlayerCombatAction';
 import { EarType } from '../../Body/Head';
 import { TailType } from '../../Body/LowerBody';
 import Character from '../../Character/Character';
@@ -6,10 +7,11 @@ import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
-import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
+import Player from '../Player';
 
 export default class PlayerRun implements PlayerCombatAction {
     isPossible(player: Player): boolean {
@@ -23,16 +25,16 @@ export default class PlayerRun implements PlayerCombatAction {
     }
     public use(player: Player, monster: Character, success: boolean) {
         DisplayText.clear();
-        if (player.statusAffects.has("Sealed") && player.statusAffects.get("Sealed").value2 == 4) {
+        if (player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value2 == 4) {
             DisplayText.text("You try to run, but you just can't seem to escape.  <b>Your ability to run was sealed, and now you've wasted a chance to attack!</b>\n\n");
             return;
         }
         //Rut doesnt let you run from dicks.
         if (player.inRut && monster.lowerBody.cockSpot.count() > 0) {
-            DisplayText.text("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!", true);
+            DisplayText.text("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!");
             return;
         }/*
-        if(monster.statusAffects.has("Level") && player.canFly()) {
+        if(monster.statusAffects.has(StatusAffectType.Level) && player.canFly()) {
             DisplayText.clear();
             DisplayText.text("You flex the muscles in your back and, shaking clear of the sand, burst into the air!  Wasting no time you fly free of the sandtrap and its treacherous pit.  \"One day your wings will fall off, little ant,\" the snarling voice of the thwarted androgyne carries up to you as you make your escape.  \"And I will be waiting for you when they do!\"");
             Game.inCombat = false;
@@ -40,15 +42,15 @@ export default class PlayerRun implements PlayerCombatAction {
             doNext(camp.returnToCampUseOneHour);
             return;
         }*/
-        if (monster.statusAffects.has("GenericRunDisabled") || urtaQuest.isUrta()) {
+        if (monster.statusAffects.has(StatusAffectType.GenericRunDisabled) || urtaQuest.isUrta()) {
             DisplayText.text("You can't escape from this fight!");
             return;
         }
-        if (monster.statusAffects.has("Level") && monster.statusAffects.get("Level").value1 < 4) {
+        if (monster.statusAffects.has(StatusAffectType.Level) && monster.statusAffects.get(StatusAffectType.Level).value1 < 4) {
             DisplayText.text("You're too deeply mired to escape!  You'll have to <b>climb</b> some first!");
             return;
         }
-        if (monster.statusAffects.has("RunDisabled")) {
+        if (monster.statusAffects.has(StatusAffectType.RunDisabled)) {
             DisplayText.text("You'd like to run, but you can't scale the walls of the pit with so many demonic hands pulling you down!");
             return;
         }/*
@@ -80,7 +82,7 @@ export default class PlayerRun implements PlayerCombatAction {
         //Nonflying PCs
         else {
             //Stuck!
-            if (player.statusAffects.has("NoFlee")) {
+            if (player.statusAffects.has(StatusAffectType.NoFlee)) {
                 if (monster.desc.short == "goblin") DisplayText.text("You try to flee but get stuck in the sticky white goop surrounding you.\n\n");
                 else DisplayText.text("You put all your skills at running to work and make a supreme effort to escape, but are unable to get away!\n\n");
                 return;
@@ -93,7 +95,7 @@ export default class PlayerRun implements PlayerCombatAction {
         let escapeMod: number = 20 + monster.stats.level * 3;
         //if(debug) escapeMod -= 300;
         if (player.canFly()) escapeMod -= 20;
-        if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has("Runner"))
+        if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has(PerkType.Runner))
             escapeMod -= 25;
 
         //Big tits doesn't matter as much if ya can fly!
@@ -136,8 +138,8 @@ export default class PlayerRun implements PlayerCombatAction {
         //Ember is SPUCIAL
         if (monster.desc.short == "Ember") {
             //GET AWAY
-            if (player.stats.spe > Utils.rand(monster.stats.spe + escapeMod) || (player.perks.has("Runner") && Utils.rand(100) < 50)) {
-                if (player.perks.has("Runner")) DisplayText.text("Using your skill at running, y");
+            if (player.stats.spe > Utils.rand(monster.stats.spe + escapeMod) || (player.perks.has(PerkType.Runner) && Utils.rand(100) < 50)) {
+                if (player.perks.has(PerkType.Runner)) DisplayText.text("Using your skill at running, y");
                 else DisplayText.text("Y");
                 DisplayText.text("ou easily outpace the dragon, who begins hurling imprecations at you.  \"What the hell, [name], you weenie; are you so scared that you can't even stick out your punishment?\"");
                 DisplayText.text("\n\nNot to be outdone, you call back, \"Sucks to you!  If even the mighty Last Ember of Hope can't catch me, why do I need to train?  Later, little bird!\"");
@@ -153,7 +155,7 @@ export default class PlayerRun implements PlayerCombatAction {
             //Fliers flee!
             if (player.canFly()) DisplayText.text(monster.desc.capitalA + monster.desc.short + " can't catch you.");
             //sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
-            else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has("Runner")) {
+            else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has(PerkType.Runner)) {
                 DisplayText.text("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.desc.subjectivePronoun + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + monster.desc.objectivePronoun + " behind with your clumsy, jerky, short-range flight.");
             }
             //Non-fliers flee
@@ -164,7 +166,7 @@ export default class PlayerRun implements PlayerCombatAction {
             return;
         }
         //Runner perk chance
-        else if (player.perks.has("Runner") && Utils.rand(100) < 50) {
+        else if (player.perks.has(PerkType.Runner) && Utils.rand(100) < 50) {
             DisplayText.text("Thanks to your talent for running, you manage to escape.");
             if (monster.desc.short == "Izma") {
                 DisplayText.text("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.");
@@ -183,7 +185,7 @@ export default class PlayerRun implements PlayerCombatAction {
                 else DisplayText.text(monster.desc.capitalA + monster.desc.short + " manages to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!");
             }
             //fail
-            else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has("Runner")) DisplayText.text("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
+            else if (player.lowerBody.tailType == TailType.RACCOON && player.upperBody.head.earType == EarType.RACCOON && player.perks.has(PerkType.Runner)) DisplayText.text("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
             //Nonflyer messages
             else {
                 //Huge balls messages

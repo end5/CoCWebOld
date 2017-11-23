@@ -1,10 +1,7 @@
-import LearnedSpellAction from './LearnedSpellAction';
-import Character from '../../Character/Character';
-import Player from '../../Player/Player';
-import CombatInterface from '../CombatInterface';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
+import PlayerCombatAction from './PlayerCombatAction';
+import ActionPerform from '../../Combat/ActionPerform';
 
-export default interface PlayerCombatInterface extends CombatInterface {
+export default interface PlayerActionPerform extends ActionPerform {
     attack(): PlayerCombatAction;
     struggle(): PlayerCombatAction;
     approach(): PlayerCombatAction;

@@ -1,10 +1,10 @@
 import LearnedSpellAction from './LearnedSpellAction';
-import Player from '../../Player/Player';
+import MagicalAttack from './MagicalAttacks';
+import PhysicalAttack from './PhysicalAttacks';
+import PlayerCombatAction from './PlayerCombatAction';
+import Spells from './Spells';
 import Library from '../../Utilities/Library';
-import PlayerCombatAction from ../Player/PlayerCombatAction';
-import * as MagicalAttack from ../Player/PlayerMagicalAttacks';
-import * as PhysicalAttack from ../Player/PlayerPhysicalAttacks';
-import * as Spells from ../Player/PlayerSpells';
+import Player from '../Player';
 
 class PlayerActionLib<ActionType extends PlayerCombatAction> {
     protected list: ActionType[];
@@ -22,8 +22,8 @@ export class PlayerPhysicalActionLib extends PlayerActionLib<PlayerCombatAction>
         super();
         this.list.push(new PhysicalAttack.AnemoneSting());
         this.list.push(new PhysicalAttack.Bite());
-        this.list.push(new PhysicalAttack.NagaBiteAttack());
-        this.list.push(new PhysicalAttack.SpiderBiteAttack());
+        this.list.push(new PhysicalAttack.NagaBite());
+        this.list.push(new PhysicalAttack.SpiderBite());
         this.list.push(new PhysicalAttack.FireBow());
         this.list.push(new PhysicalAttack.Constrict());
         this.list.push(new PhysicalAttack.Kick());
@@ -57,12 +57,12 @@ export class PlayerMagicalActionLib extends PlayerActionLib<PlayerCombatAction> 
 export class PlayerSpellActionLib extends PlayerActionLib<LearnedSpellAction> {
     public constructor() {
         super();
-        this.list.push(new Spells.SpellArouse());
-        this.list.push(new Spells.SpellBlind());
-        this.list.push(new Spells.SpellChargeWeapon());
-        this.list.push(new Spells.SpellCleansingPalm());
-        this.list.push(new Spells.SpellHeal());
-        this.list.push(new Spells.SpellMight());
-        this.list.push(new Spells.SpellWhitefire());
+        this.list.push(new Spells.Arouse());
+        this.list.push(new Spells.Blind());
+        this.list.push(new Spells.ChargeWeapon());
+        this.list.push(new Spells.CleansingPalm());
+        this.list.push(new Spells.Heal());
+        this.list.push(new Spells.Might());
+        this.list.push(new Spells.Whitefire());
     }
 }
