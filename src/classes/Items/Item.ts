@@ -38,5 +38,9 @@ export default abstract class Item extends LibraryEntry implements SerializeInte
     abstract use(player: Player);
 
     abstract useText(player: Player);
+
+    public describe(): string {
+        return this.desc.description + " (Cost: " + this.value + ")";
+    }
 }
 
