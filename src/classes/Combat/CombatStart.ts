@@ -8,13 +8,13 @@ export default class CombatStart {
         //Flag the game as being "in combat"
         inCombat = true;
         monster = monster_;
-        if (monster.short == "Ember") {
-            monster.pronoun1 = emberScene.emberMF("he", "she");
-            monster.pronoun2 = emberScene.emberMF("him", "her");
-            monster.pronoun3 = emberScene.emberMF("his", "her");
+        if (monster.desc.short == "Ember") {
+            monster.desc.subjectivePronoun = emberScene.emberMF("he", "she");
+            monster.desc.objectivePronoun = emberScene.emberMF("him", "her");
+            monster.desc.possessivePronoun = emberScene.emberMF("his", "her");
         }
         //Reduce enemy def if player has precision!
-        if (player.perks.has("Precision") && player.stats.int >= 25) {
+        if (player.perks.has(PerkType.Precision) && player.stats.int >= 25) {
             if (monster.armorDef <= 10) monster.armorDef = 0;
             else monster.armorDef -= 10;
         }

@@ -1,13 +1,20 @@
+import CombatCleanup from './CombatCleanup';
 import CombatDrops from './CombatDrops';
-import CombatEnd, { CombatEndEventFunction, CombatEndType } from './CombatEnd';
 import CombatUtils from './CombatUtils';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
-import MainScreen from '../display/MainScreen';
+import DisplayText from '../display/DisplayText';
 import StatusAffect from '../Effects/StatusAffect';
 import Item from '../Items/Item';
 import ItemStack from '../Items/ItemStack';
-import Player from '../Player';
+import Player from '../Player/Player';
+
+export enum CombatEndType {
+    Special,
+    HP,
+    Lust,
+    Escape
+}
 
 class DefeatEvent {
     public readonly victor: Character;
@@ -47,19 +54,19 @@ class CombatParty {
         for (let index: number = 0; index < this.ableMembers.length; index++) {
             const defender = this.ableMembers[index];
             if (defender.stats.HP < 1) {
-                attacker.combat.claimsVictory(CombatEndType.HP, defender);
+                attacker.combat.end.claimsVictory(CombatEndType.HP, defender);
                 this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.HP));
             }
             else if (defender.stats.lust > 99) {
-                attacker.combat.claimsVictory(CombatEndType.Lust, defender);
+                attacker.combat.end.claimsVictory(CombatEndType.Lust, defender);
                 this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.Lust));
             }
-            else if (attacker.combat.hasEscaped(defender)) {
-                attacker.combat.claimsVictory(CombatEndType.Escape, defender);
+            else if (attacker.combat.end.hasEscaped(defender)) {
+                attacker.combat.end.claimsVictory(CombatEndType.Escape, defender);
                 this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.Escape));
             }
-            else if (attacker.combat.hasDefeated(defender)) {
-                attacker.combat.claimsVictory(CombatEndType.Special, defender);
+            else if (attacker.combat.end.hasDefeated(defender)) {
+                attacker.combat.end.claimsVictory(CombatEndType.Special, defender);
                 this.defeatEvents.push(new DefeatEvent(attacker, defender, CombatEndType.Special));
             }
         }
@@ -132,7 +139,7 @@ export default class CombatManager {
 
     /*private resolvePlayerRound() {
         
-        if (monster.statusAffects.has("Level")) {
+        if (monster.statusAffects.has(StatusAffectType.Level)) {
             if (<SandTrap>monster.trapLevel() <= 1) {
                 this.playerCombatParty.lostFight(CombatEndType.Special, desert.sandTrapScene.sandtrapmentLoss);
             }
@@ -168,11 +175,11 @@ export default class CombatManager {
             if (!this.specialEnding) {
                 this.displayDefeatEvents();
                 if (this.combatCleanUp)
-                    CombatEnd.combatCleanup(this.player, this.allyParty, this.enemyParty);
+                    CombatCleanup.performCleanup(this.player, this.allyParty, this.enemyParty);
             }
             else {
                 if (this.combatCleanUp)
-                    CombatEnd.combatCleanup(this.player, this.allyParty, this.enemyParty);
+                    CombatCleanup.performCleanup(this.player, this.allyParty, this.enemyParty);
                 this.specialEnding(this.player, this.allyParty, this.enemyParty);
             }
         }
@@ -182,13 +189,13 @@ export default class CombatManager {
         if (this.allyCombatParty.ableMembers.length == 0) {
             for (let index: number = 0; index < this.allyCombatParty.defeatEvents.length; index++) {
                 let defeatEvent = this.allyCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
+                defeatEvent.victor.combat.end.victory(defeatEvent.how, defeatEvent.loser);
             }
         }
         else if (this.allyCombatParty.ableMembers.length == 0) {
             for (let index: number = 0; index < this.enemyCombatParty.defeatEvents.length; index++) {
                 let defeatEvent = this.allyCombatParty.defeatEvents[index];
-                defeatEvent.victor.combat.victory(defeatEvent.how, defeatEvent.loser);
+                defeatEvent.victor.combat.end.victory(defeatEvent.how, defeatEvent.loser);
                 if (defeatEvent.how != CombatEndType.Escape)
                     CombatDrops.awardPlayer(this.player, defeatEvent.loser);
             }
