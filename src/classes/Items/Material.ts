@@ -6,14 +6,9 @@ import Player from '../Player/Player';
 
 export default class Material extends Item {
     serialize(): string {
-        let saveObject = {};
-        saveObject["Item"] = super.serialize();
+        let saveObject = super.serialize();
         saveObject["_useText"] = this._useText;
         return JSON.stringify(saveObject);
-    }
-    deserialize(saveObject: object) {
-        if (Game.libraries.materials.has(saveObject["objectKey"]))
-            Game.libraries.materials.get(saveObject["objectKey"]);
     }
     private readonly _useText: string;
     constructor(key: string, itemDesc: ItemDesc, useText?: string, value?: number) {

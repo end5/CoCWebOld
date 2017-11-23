@@ -1,18 +1,11 @@
 import ArmorLib from './Armors/ArmorLib';
 import ConsumableLib from './Consumables/ConsumableLib';
-import Item from './Item';
+import Item, { ItemType } from './Item';
 import ItemDesc from './ItemDesc';
 import Material from './Material';
 import MaterialLib from './MaterialLib';
 import WeaponLib from './Weapons/WeaponLib';
 import ConstructorLibrary from '../Utilities/ConstructorLibrary';
-
-export enum ItemType {
-    Armor = "Armor",
-    Weapon = "Weapon",
-    Consumable = "Consumable",
-    Material = "Material"
-}
 
 export default class ItemFactory {
     private static armorLib: ArmorLib;

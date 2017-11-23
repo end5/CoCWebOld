@@ -1,25 +1,31 @@
 ﻿import Item from './Item';
+import ItemFactory from './ItemFactory';
 import Game from '../Game/Game';
 import { SerializeInterface } from '../SerializeInterface';
 
 export default class ItemStack<T extends Item> implements SerializeInterface {
     serialize(): string {
         let saveObject: object = {};
-        saveObject["_quantity"] = this._quantity;
         saveObject["_item"] = this._item.serialize();
+        saveObject["_quantity"] = this._quantity;
+        saveObject["_maxQuantity"] = this._maxQuantity;
         return JSON.stringify(saveObject);
     }
     deserialize(saveObject: object) {
+        let item = saveObject["_item"] as Item;
+        this._item = ItemFactory.create(item.itemType, item.uniqueKey);
         this._quantity = saveObject["_quantity"];
-        this._item = Game.libraries.lookupItem(saveObject["_item"].uniqueKey, saveObject["_item"].itemType);
+        this._maxQuantity = saveObject["_maxQuantity"];
     }
-    public static MAX_ITEM_AMOUNT = 5;
-
+    
     private _item: Item;
     private _quantity: number;
-    public constructor(item: T = null, quantity: number = 0) {
+    private _maxQuantity: number;
+
+    public constructor(item: T = null, quantity: number = 0, maxQuantity: number = 5) {
         this._item = item;
         this._quantity = quantity;
+        this._maxQuantity = maxQuantity;
     }
 
     public get item(): Item {
@@ -36,11 +42,21 @@ export default class ItemStack<T extends Item> implements SerializeInterface {
 
     public set quantity(value: number) {
         if (this._item != null && value >= 0) {
-            this._quantity = value;
+            this._quantity = value <= this._maxQuantity ? value : this._maxQuantity;
             if (value == 0) {
                 this._item = null;
             }
         }
+    }
+
+    public get maxQuantity(): number {
+        return this._maxQuantity;
+    }
+
+    public set(itemStack: ItemStack<T>) {
+        this._item = itemStack._item;
+        this._quantity = itemStack._quantity;
+        this._maxQuantity = itemStack._maxQuantity;
     }
 
     public split(amount: number): ItemStack<T> {
