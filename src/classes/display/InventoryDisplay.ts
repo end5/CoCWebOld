@@ -1,12 +1,12 @@
-import MainScreen, { ClickFunction } from './MainScreen';
-import CombatMenu from './Menus/CombatMenu';
+import DisplayText from './DisplayText';
+import { ClickFunction } from './Elements/ButtonElement';
+import MainScreen from './MainScreen';
 import PlayerInventoryMenu from './Menus/PlayerInventoryMenu';
-import PlayerMenu from './Menus/PlayerMenu';
 import Game from '../Game/Game';
 import Inventory from '../Inventory/Inventory';
 import Item from '../Items/Item';
 import ItemStack from '../Items/ItemStack';
-import Player from '../Player';
+import Player from '../Player/Player';
 
 /* better inventory system
     other inv = null
@@ -34,7 +34,7 @@ import Player from '../Player';
     if (page == 2)
         6 = prev page
 */
-type ItemCallback = (player: Player, inventory: Inventory<Item>, itemSlot: number) => void;
+type ItemCallback = (player: Player, itemSlot: ItemStack<Item>) => void;
 
 export default class InventoryDisplay {
     private static prevMenu: ClickFunction;
@@ -83,16 +83,16 @@ export default class InventoryDisplay {
             InventoryDisplay.displayInventoryButtons(player, player.inventory.items, InventoryDisplay.useItem, PlayerInventoryMenu.display);
         }
         else {
-            MainScreen.text("There is no room for " + InventoryDisplay.heldItem.item.longName + " in your inventory.  You may replace the contents of a pouch with " + InventoryDisplay.heldItem.item.longName + " or abandon it.");
+            DisplayText.text("There is no room for " + InventoryDisplay.heldItem.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + InventoryDisplay.heldItem.item.desc.longName + " or abandon it.");
             InventoryDisplay.displayInventoryButtons(player, player.inventory.items, InventoryDisplay.putHeldItemIntoInventory, function () {
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
-            MainScreen.addButton(7, "Put Back", function () {
+            MainScreen.getBottomButton(7).modify("Put Back", function () {
                 InventoryDisplay.reverseActionFunc();
                 InventoryDisplay.reverseActionFunc = null;
                 MainScreen.doNext(InventoryDisplay.prevMenu);
             });
-            MainScreen.addButton(8, "Use Now", function () {
+            MainScreen.getBottomButton(8).modify("Use Now", function () {
                 if (InventoryDisplay.heldItem.item.canUse(player)) {
                     InventoryDisplay.heldItem.item.use(player);
                     InventoryDisplay.heldItem.item.useText(player);
@@ -101,7 +101,7 @@ export default class InventoryDisplay {
                     MainScreen.doNext(InventoryDisplay.prevMenu);
                 }
             });
-            MainScreen.addButton(9, "Abandon", function () {
+            MainScreen.getBottomButton(9).modify("Abandon", function () {
                 InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
                 InventoryDisplay.reverseActionFunc = null;
                 MainScreen.doNext(InventoryDisplay.prevMenu);
@@ -143,50 +143,51 @@ export default class InventoryDisplay {
 
     public static unequipFunction(player: Player): ClickFunction {
         return function () {
-            player.inventory.weapon.removeText();
-            InventoryDisplay.heldItem = new ItemStack(player.inventory.weapon.unequip(player), 1);
+            InventoryDisplay.heldItem = new ItemStack(player.inventory.weaponSlot.equipment, 1);
+            player.inventory.weaponSlot.equipment.unequipText();
+            player.inventory.weaponSlot.equipment.unequip(player);
             PlayerInventoryMenu.display(player);
         };
     }
 
-    private static useItem(player: Player, inventory: Inventory<Item>, itemSlot: number) {
-        let itemStack = inventory.get(itemSlot);
-        if (itemStack && itemStack.item.canUse(player)) {
-            InventoryDisplay.createReverseAction(inventory, itemSlot);
-            itemStack = itemStack.split(1);
-            itemStack.item.use(player);
-            itemStack.item.useText(player);
+    private static useItem(player: Player, itemSlot: ItemStack<Item>) {
+        if (itemSlot && itemSlot.item.canUse(player)) {
+            InventoryDisplay.createReverseAction(itemSlot);
+            itemSlot = itemSlot.split(1);
+            itemSlot.item.use(player);
+            itemSlot.item.useText(player);
         }
     }
 
-    private static putHeldItemIntoInventory(player: Player, inventory: Inventory<Item>, itemSlot: number) {
-
-        if (inventory.get(itemSlot).item == InventoryDisplay.heldItem.item)
-            MainScreen.text("You discard " + InventoryDisplay.heldItem.item.longName + " from the stack to make room for the new one.");
-        else if (inventory.get(itemSlot).quantity == 1)
-            MainScreen.text("You throw away " + inventory.get(itemSlot).item.longName + " and replace it with " + InventoryDisplay.heldItem.item.longName + ".");
+    private static putHeldItemIntoInventory(player: Player, itemSlot: ItemStack<Item>) {
+        if (itemSlot.item == InventoryDisplay.heldItem.item)
+            DisplayText.text("You discard " + InventoryDisplay.heldItem.item.desc.longName + " from the stack to make room for the new one.");
+        else if (itemSlot.quantity == 1)
+            DisplayText.text("You throw away " + itemSlot.item.desc.longName + " and replace it with " + InventoryDisplay.heldItem.item.desc.longName + ".");
         else
-            MainScreen.text("You throw away " + inventory.get(itemSlot).item.longName + "(x" + inventory.get(itemSlot).quantity + ") and replace it with " + InventoryDisplay.heldItem.item.longName + ".");
-        inventory.set(itemSlot, InventoryDisplay.heldItem);
+            DisplayText.text("You throw away " + itemSlot.item.desc.longName + "(x" + itemSlot.quantity + ") and replace it with " + InventoryDisplay.heldItem.item.desc.longName + ".");
+        itemSlot.item = InventoryDisplay.heldItem.item;
+        itemSlot.quantity = InventoryDisplay.heldItem.quantity;
         InventoryDisplay.heldItem = null;
     }
 
-    private static putHeldItemInPlayerEmptySlot(player: Player, inventory: Inventory<Item>, itemSlot: number) {
-        InventoryDisplay.putHeldItemIntoInventory(player, player.inventory.items, player.inventory.items.getEmptySlotIndex());
+    private static putHeldItemInPlayerEmptySlot(player: Player, itemSlot: ItemStack<Item>) {
+        InventoryDisplay.putHeldItemIntoInventory(player, player.inventory.items.getEmptySlot());
     }
 
-    private static holdItem(player: Player, inventory: Inventory<Item>, itemSlot: number) {
-        InventoryDisplay.heldItem = inventory.get(itemSlot).split(1);
-        InventoryDisplay.createReverseAction(inventory, itemSlot);
+    private static holdItem(player: Player, itemSlot: ItemStack<Item>) {
+        InventoryDisplay.heldItem = itemSlot.split(1);
+        InventoryDisplay.createReverseAction(itemSlot);
     }
 
-    private static createReverseAction(inventory: Inventory<Item>, itemSlot: number) {
+    private static createReverseAction (itemSlot: ItemStack<Item>) {
         InventoryDisplay.reverseActionFunc = function () {
-            let itemStack = inventory.get(itemSlot);
-            if (itemStack.quantity == 0)
-                inventory.set(itemSlot, InventoryDisplay.heldItem);
+            if (itemSlot.quantity == 0) {
+                itemSlot.item = InventoryDisplay.heldItem.item;
+                itemSlot.quantity = InventoryDisplay.heldItem.quantity;
+            }
             else
-                itemStack.quantity += InventoryDisplay.heldItem.quantity;
+                itemSlot.quantity += InventoryDisplay.heldItem.quantity;
             InventoryDisplay.heldItem = null;
         }
     }
@@ -196,11 +197,11 @@ export default class InventoryDisplay {
     }
 
     private static displayInventoryButtons(player: Player, displayedInv: Inventory<Item>, itemCallback: ItemCallback, clickFunction: ClickFunction) {
-        MainScreen.hideButtons();
-        for (let index = 0; index < displayedInv.length; index++) {
+        MainScreen.hideBottomButtons();
+        for (let index = 0; index < displayedInv.slotCount; index++) {
             if (displayedInv.get(index).quantity > 0) {
-                MainScreen.addButton(index, (displayedInv.get(index).item.shortName + " x" + displayedInv.get(index).quantity), function () {
-                    itemCallback(player, displayedInv, index);
+                MainScreen.getBottomButton(index).modify(displayedInv.get(index).item.desc.shortName + " x" + displayedInv.get(index).quantity, function () {
+                    itemCallback(player, displayedInv.get(index));
                     clickFunction(player);
                 });
             }

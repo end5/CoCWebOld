@@ -1,4 +1,5 @@
 import Item from '../Items/Item';
+import ItemFactory from '../Items/ItemFactory';
 import ItemStack from '../Items/ItemStack';
 import { SerializeInterface } from '../SerializeInterface';
 
@@ -45,20 +46,24 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         }
     }
 
-    public has(object: T, minQuantity: number = 1): boolean {
-        return this.count(object.uniqueKey) >= minQuantity;
-    }
-
-    public get length(): number {
+    public get slotCount(): number {
         return this.itemSlots.length;
     }
 
     public isEmpty(): boolean {
-        let count: number = 0;
         for (let index = 0; index < this.itemSlots.length; index++) {
-            count += this.itemSlots[index].quantity;
+            if (this.itemSlots[index].quantity != 0)
+                return false;
         }
-        return count > 0;
+        return true;
+    }
+
+    public has(type: string): boolean {
+        for (let index = 0; index < this.itemSlots.length; index++) {
+            if (this.itemSlots[index].item.uniqueKey == type)
+                return true;
+        }
+        return false;
     }
 
     public get(index: number): ItemStack<T> {
@@ -67,25 +72,13 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         }
     }
 
-    public set(index: number, itemstack: ItemStack<Item>) {
-        this.itemSlots[index].item = itemstack.item;
-        this.itemSlots[index].quantity = itemstack.quantity;
-    }
-
-    public count(objectKey: string): number {
+    public countType(type: string): number {
         let count: number = 0;
         for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].item.uniqueKey == objectKey)
+            if (this.itemSlots[index].item.uniqueKey == type)
                 count += this.itemSlots[index].quantity;
         }
         return count;
-    }
-
-    public roomInExistingStack(item: Item): boolean {
-        for (let index = 0; index < this.itemSlots.length; index++)
-            if (this.itemSlots[index].item == item && this.itemSlots[index].quantity != 0 && this.itemSlots[index].quantity < ItemStack.MAX_ITEM_AMOUNT)
-                return true;
-        return false;
     }
 
     public hasEmptySlot(): boolean {
@@ -95,11 +88,11 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         return false;
     }
 
-    public getEmptySlotIndex(): number {
+    public getEmptySlot(): ItemStack<Item> {
         for (let index = 0; index < this.itemSlots.length; index++)
             if (this.itemSlots[index].quantity <= 0)
-                return index;
-        return -1;
+                return this.itemSlots[index];
+        return null;
     }
 
 
@@ -113,7 +106,7 @@ export default class Inventory<T extends Item> implements SerializeInterface {
     }
 
     public consumeItem(item: Item, amount: number = 1) {
-        if (this.count(item.uniqueKey) >= amount) {
+        if (this.countType(item.uniqueKey) >= amount) {
             let lowestItemStacks: ItemStack<Item>[] = this.lowestQuantityItemStack(item);
             while (amount > 0) {
                 if (lowestItemStacks[0].quantity == 0)
