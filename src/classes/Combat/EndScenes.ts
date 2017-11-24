@@ -1,8 +1,8 @@
 import CharacterHolder from './CharacterHolder';
-import { CombatEndType } from './CombatManager';
+import { DefeatType } from './DefeatEvent';
 import Character from '../Character/Character';
 
-export default abstract class CombatEndRespond extends CharacterHolder {
+export default abstract class EndScenes extends CharacterHolder {
 
     /**
      * The default number of hours that pass when losing a fight.
@@ -26,7 +26,7 @@ export default abstract class CombatEndRespond extends CharacterHolder {
      * @param winType 
      * @param enemy 
      */
-    public abstract claimsVictory(winType: CombatEndType, enemy: Character): void;
+    public abstract claimsVictory(winType: DefeatType, enemy: Character): void;
 
     /**
      * Called before the enemy victory scene function call. Used for any logic that needs to be done before
@@ -34,17 +34,17 @@ export default abstract class CombatEndRespond extends CharacterHolder {
      * @param winType 
      * @param enemy 
      */
-    protected abstract beforeEnemyVictoryScene(winType: CombatEndType, enemy: Character): void;
+    protected abstract beforeEnemyVictoryScene(winType: DefeatType, enemy: Character): void;
 
     /**
      * Calls after combat is over. Used for displaying victory text.
      * @param loseType 
      * @param enemy 
      */
-    protected abstract victoryScene(loseType: CombatEndType, enemy: Character): void;
+    protected abstract victoryScene(loseType: DefeatType, enemy: Character): void;
 
-    public victory(loseType: CombatEndType, enemy: Character): void {
-        enemy.combat.end.beforeEnemyVictoryScene(loseType, this.char);
+    public victory(loseType: DefeatType, enemy: Character): void {
+        enemy.combat.endScenes.beforeEnemyVictoryScene(loseType, this.char);
         this.victoryScene(loseType, enemy);
     }
 
@@ -53,8 +53,8 @@ export default abstract class CombatEndRespond extends CharacterHolder {
      * @param loseType 
      * @param enemy 
      */
-    public abstract defeatAftermath(loseType: CombatEndType, enemy: Character): void;
+    public abstract defeatAftermath(loseType: DefeatType, enemy: Character): void;
 
-    public abstract victoryAftermath(loseType: CombatEndType, enemy: Character): void;
+    public abstract victoryAftermath(loseType: DefeatType, enemy: Character): void;
 
 }

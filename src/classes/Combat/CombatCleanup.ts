@@ -6,8 +6,6 @@ import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
 import Player from '../Player/Player';
 
-
-
 export default class CombatCleanup {
     private static clearCharacterStatusAffects(character: Character) {
         character.statusAffects.iterate(statusAffect => {
@@ -27,7 +25,7 @@ export default class CombatCleanup {
         }
         
 
-        // Really annoying and dont know how to handle
+        // Really annoying and dont know how to handle or what does
         if (player.statusAffects.has(StatusAffectType.TwuWuv)) {
             player.stats.int += monsterParty[0].statusAffects.get(StatusAffectType.TwuWuv).value1;
             player.statusAffects.remove(StatusAffectType.TwuWuv);
@@ -42,6 +40,7 @@ export default class CombatCleanup {
     }
 
     public static clearStatuses(character: Character): void {
+        // Too lazy to move into own classes
         if (character.statusAffects.has(StatusAffectType.Shielding)) character.statusAffects.remove(StatusAffectType.Shielding);
         if (character.statusAffects.has(StatusAffectType.Berzerking)) character.statusAffects.remove(StatusAffectType.Berzerking);
         if (character.statusAffects.has(StatusAffectType.TailWhip)) character.statusAffects.remove(StatusAffectType.TailWhip);

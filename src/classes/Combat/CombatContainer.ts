@@ -1,8 +1,8 @@
 import ActionPerform from './ActionPerform';
 import ActionRespond from './ActionRespond';
-import CombatEndRespond from './CombatEndRespond';
-import CombatHP from './CombatHP';
 import CombatRewards from './CombatRewards';
+import CombatStats from './CombatStats';
+import EndScenes from './EndScenes';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import DisplayText from '../display/DisplayText';
@@ -15,15 +15,15 @@ import Utils from '../Utilities/Utils';
 export default class CombatContainer {
     public readonly perform: ActionPerform;
     public readonly respond: ActionRespond;
-    public readonly end: CombatEndRespond;
+    public readonly endScenes: EndScenes;
 
-    public readonly hp: CombatHP;
+    public readonly stats: CombatStats;
     public readonly rewards: CombatRewards;
     
-    public constructor(character: Character, perform: ActionPerform, respond: ActionRespond, end: CombatEndRespond) {
+    public constructor(character: Character, perform: ActionPerform, respond: ActionRespond, end: EndScenes) {
         this.perform = perform;
         this.respond = respond;
-        this.end = end;
-        this.hp = new CombatHP(character);
+        this.endScenes = end;
+        this.stats = new CombatStats(character);
     }
 }
