@@ -220,23 +220,7 @@ export default class CreatureStatsWrapper {
     }
 
     public set HP(value: number) {
-        value -= this.stats.HP;
-
-        if (value > 0) {
-            //Increase by 20%!
-            if (this.body.perks.has(PerkType.HistoryHealer))
-                value *= 1.2;
-        }
-        if (value < 0) {
-            if (Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
-                this.stats.lust += value / 2;
-            }
-        }
-
-        this.stats.HP += value;
-
-        if (this.stats.HP > this.maxHP())
-            this.stats.HP = this.maxHP();
+        this.stats.HP = value;
         if (this.stats.HP < 0)
             this.stats.HP = 0;
     }
@@ -247,17 +231,25 @@ export default class CreatureStatsWrapper {
         if (this.body.perks.has(PerkType.Tank))
             max += 50;
         if (this.body.perks.has(PerkType.Tank2))
-            max += Math.round(this.stats.tou);
+            max += Math.round(this.body.stats.tou);
         if (this.body.perks.has(PerkType.ChiReflowDefense))
             max += UmasShop.NEEDLEWORK_DEFENSE_EXTRAstats.HP;
-        if (this.stats.level <= 20)
-            max += this.stats.level * 15;
+        if (this.body.stats.level <= 20)
+            max += this.body.stats.level * 15;
         else
             max += 20 * 15;
         max = Math.round(max);
         if (max > 999)
             max = 999;
-        return max;
+		return max + this.bonusHP;
+    }
+
+    public get bonusHP(): number {
+        return this.stats.bonusHP;
+    }
+
+    public set bonusHP(value: number) {
+        this.stats.bonusHP = value;
     }
 
     public get lust(): number {

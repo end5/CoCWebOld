@@ -13,6 +13,7 @@ export default class Stats implements SerializeInterface {
 
     //Combat Stats
     public HP: number;
+    public bonusHP: number;
     public lust: number;
     public lustVuln: number;
 
@@ -33,6 +34,7 @@ export default class Stats implements SerializeInterface {
 
         //Combat Stats
         this.HP = 0;
+        this.bonusHP = 0;
         this.lust = 0;
         this.lustVuln = 0;
 
@@ -53,6 +55,7 @@ export default class Stats implements SerializeInterface {
             "cor": this.cor,
             "fatigue": this.fatigue,
             "HP": this.HP,
+            "bonusHP": this.bonusHP,
             "lust": this.lust,
             "lustVuln": this.lustVuln,
             "XP": this.XP,
@@ -70,6 +73,7 @@ export default class Stats implements SerializeInterface {
         this.cor = saveObject["cor"];
         this.fatigue = saveObject["fatigue"];
         this.HP = saveObject["HP"];
+        this.bonusHP = saveObject["bonusHP"];
         this.lust = saveObject["lust"];
         this.lustVuln = saveObject["lustVuln"];
         this.XP = saveObject["XP"];
