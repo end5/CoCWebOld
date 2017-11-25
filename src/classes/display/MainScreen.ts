@@ -32,7 +32,7 @@ export default class MainScreen {
     public static BACK_BUTTON_ID = 9;
     public static YES_BUTTON_ID = 0;
     public static NO_BUTTON_ID = 1;
-       
+
     public constructor() {
         MainScreen.mainTextDisplay = new TextElement(HtmlUtils.loadFromId("mainTextDisplay"));
 
@@ -113,9 +113,44 @@ export default class MainScreen {
     }
 
     // Misc
-    public static displayChoices(text: string[], func: ClickFunction[]) {
-        for (let index = 0; index < text.length; index++) {
-            MainScreen.bottomButtons[index].modify(text[index], func[index]);
+    public static displayChoices(textList: string[], funcList: ClickFunction[]) {
+        if (textList.length <= MainScreen.NUM_BOT_BUTTONS) {
+            MainScreen.hideBottomButtons();
+            for (let index = 0; index < textList.length; index++) {
+                MainScreen.bottomButtons[index].modify(textList[index], funcList[index]);
+                MainScreen.bottomButtons[index].show();
+            }
+        }
+        else {
+            MainScreen.displayPage(0, textList, funcList);
+        }
+    }
+
+    private static displayPage(startingIndex: number, textList: string[], funcList: ClickFunction[]) {
+        MainScreen.hideBottomButtons();
+        for (let index = 0; index < MainScreen.NUM_BOT_BUTTONS - 2; index++) {
+            MainScreen.bottomButtons[index].modify(textList[index + startingIndex], funcList[index + startingIndex]);
+            MainScreen.bottomButtons[index].show();
+        }
+        
+        const hasPrevPage = startingIndex - MainScreen.NUM_BOT_BUTTONS - 2 > 0 ? true : false;
+        if (hasPrevPage) {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", function () {
+                MainScreen.displayPage(startingIndex - MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
+            });
+        }
+        else {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", null, true);
+        }
+
+        const hasNextPage = startingIndex + MainScreen.NUM_BOT_BUTTONS - 2 < textList.length ? true : false;
+        if (hasNextPage) {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", function () {
+                MainScreen.displayPage(startingIndex + MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
+            });
+        }
+        else {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", null, true);
         }
     }
 
