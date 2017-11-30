@@ -171,5 +171,5 @@ export enum PerkType {
     Acid = "Acid",
 
     // Added
-    LustyMaidensArmor = "LustyMaidnesArmor"
+    LustyMaidensArmor = "LustyMaidensArmor",
 }

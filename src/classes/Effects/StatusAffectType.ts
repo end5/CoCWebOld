@@ -200,14 +200,10 @@ export enum StatusAffectType {
     NoLoot = "NoLoot",
     PCTailTangle = "PCTailTangle",
     PeachLootLoss = "PeachLootLoss",
-    // @aimozg i don't know and do not fucking care if these two should be merged
     PhyllaFight = "PhyllaFight",
-    phyllafight = "phyllafight",
     Platoon = "Platoon",
     QueenBind = "QueenBind",
-    // @aimozg HA HA HA
     Round = "Round",
-    round = "round",
     RunDisabled = "RunDisabled",
     Shell = "Shell",
     SirenSong = "SirenSong",
