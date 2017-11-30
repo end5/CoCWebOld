@@ -8,10 +8,13 @@ import Player from '../../Player';
 import LearnedSpellAction from '../LearnedSpellAction';
 
 export class CleansingPalm extends LearnedSpellAction {
+    public name: string = "C.Palm";
+    public readonly baseCost: number = 30;
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.CleansingPalm) && player.stats.cor < 10;
     }
-    public readonly baseCost: number = 30;
+
     public castSpell(player: Player, monster: Character) {
         DisplayText.clear();
         player.stats.fatigueMagic(this.baseCost);
@@ -36,7 +39,7 @@ export class CleansingPalm extends LearnedSpellAction {
         let corruptionMulti: number = (monster.stats.cor - 20) / 25;
         if (corruptionMulti > 1.5) corruptionMulti = 1.5;
 
-        let damage = Math.floor((player.stats.int / 4 + Utils.rand(player.stats.int / 3)) * (player.spellMod() * corruptionMulti));
+        let damage = Math.floor((player.stats.int / 4 + Utils.rand(player.stats.int / 3)) * (player.combat.stats.spellMod() * corruptionMulti));
 
         if (damage > 0) {
             DisplayText.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", tossing");
@@ -49,7 +52,7 @@ export class CleansingPalm extends LearnedSpellAction {
             damage = 0;
             DisplayText.text("You thrust your palm forward, causing a blast of pure energy to slam against " + monster.desc.a + monster.desc.short + ", which they ignore. It is probably best you don’t use this technique against the pure.\n\n");
         }
-        monster.combat.loseHP(damage, player);
+        monster.combat.stats.loseHP(damage, player);
     }
 }
 

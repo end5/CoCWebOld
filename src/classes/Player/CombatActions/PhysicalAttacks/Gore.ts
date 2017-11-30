@@ -7,17 +7,16 @@ import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
 export class Gore extends PlayerPhysicalAction {
+    public name: string = "Gore";
+    public reasonCannotUse: string = "You're too fatigued to use a charge attack!";
+    public readonly baseCost: number = 15;
+    
     public isPossible(player: Player): boolean {
         return player.upperBody.head.hornType == HornType.COW_MINOTAUR && player.upperBody.head.horns >= 6;
     }
 
-    public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
-    }
-
-    public reasonCannotUse(): string {
-        return "You're too fatigued to use a charge attack!";
     }
 
     public use(player: Player, monster: Character) {
@@ -63,12 +62,12 @@ export class Gore extends PlayerPhysicalAction {
             if (Utils.rand(4) > 0) {
                 DisplayText.text("You lower your head and charge, skewering " + monster.desc.a + monster.desc.short + " on one of your bullhorns!  ");
                 //As normal attack + horn length bonus
-                damage = Math.floor(player.stats.str + horns * 2 - Utils.rand(monster.stats.tou) - monster.defense());
+                damage = Math.floor(player.stats.str + horns * 2 - Utils.rand(monster.stats.tou) - monster.combat.stats.defense());
             }
             //CRIT
             else {
                 //doubles horn bonus damage
-                damage = Math.floor(player.stats.str + horns * 4 - Utils.rand(monster.stats.tou) - monster.defense());
+                damage = Math.floor(player.stats.str + horns * 4 - Utils.rand(monster.stats.tou) - monster.combat.stats.defense());
                 DisplayText.text("You lower your head and charge, slamming into " + monster.desc.a + monster.desc.short + " and burying both your horns into " + monster.desc.objectivePronoun + "!  ");
             }
             //Bonus damage for rut!
@@ -79,13 +78,13 @@ export class Gore extends PlayerPhysicalAction {
             //Bonus per level damage
             damage += player.stats.level * 2;
             //Reduced by defense
-            damage -= monster.defense();
+            damage -= monster.combat.stats.defense();
             if (damage < 0) damage = 5;
             //CAP 'DAT SHIT
             if (damage > player.stats.level * 10 + 100) damage = player.stats.level * 10 + 100;
             if (damage > 0) {
-                damage *= player.physicalAttackMod();
-                damage = monster.combat.loseHP(damage, player);
+                damage *= player.combat.stats.physicalAttackMod();
+                damage = monster.combat.stats.loseHP(damage, player);
             }
             //Different horn damage messages
             if (damage < 20) DisplayText.text("You pull yourself free, dealing " + damage + " damage.");

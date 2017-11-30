@@ -1,24 +1,23 @@
-import PlayerCombatAction from './PlayerCombatAction';
 import Character from '../../Character/Character';
+import CombatAction from '../../Combat/Actions/CombatAction';
 import SpellAction from '../../Combat/Actions/SpellAction';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../Player';
 
-export default abstract class PlayerSpellAction implements PlayerCombatAction, SpellAction {
+export default abstract class PlayerSpellAction implements CombatAction, SpellAction {
+    abstract name: string;
+    public reasonCannotUse: string = "";
+    
     abstract isPossible(player: Player): boolean;
+
     public canUse(player: Player, monster?: Character): boolean {
         if (player.perks.has(PerkType.BloodMage) || player.stats.fatigue + this.spellCost(player) <= 100) {
-            this.reason = "You are too tired to cast this spell.";
+            this.reasonCannotUse = "You are too tired to cast this spell.";
             return false;
         }
         return true;
     }
     
-    protected reason: string;
-    public reasonCannotUse(): string {
-        return this.reason;
-    }
-
     abstract use(player: Player, monster: Character);
     
     abstract readonly baseCost: number;

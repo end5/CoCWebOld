@@ -1,23 +1,22 @@
 import { TailType } from '../../../Body/LowerBody';
 import Character from '../../../Character/Character';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class Sting implements PlayerCombatAction {
+export class Sting implements CombatAction {
+    public name: string = "Sting";
+    public reasonCannotUse: string = "You do not have enough venom to sting right now!";
+
     public isPossible(player: Player): boolean {
         return player.lowerBody.tailType == TailType.BEE_ABDOMEN;
     }
 
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
-    }
-
-    public reasonCannotUse(): string {
-        return "You do not have enough venom to sting right now!";
     }
 
     public use(player: Player, monster: Character) {
@@ -43,7 +42,7 @@ export class Sting implements PlayerCombatAction {
             return;
         }
         //determine if avoided with defense.
-        if (monster.defense() - player.stats.level >= 10 && Utils.rand(4) > 0) {
+        if (monster.combat.stats.defense() - player.stats.level >= 10 && Utils.rand(4) > 0) {
             DisplayText.text("Despite your best efforts, your sting attack can't penetrate " + monster.desc.a + monster.desc.short + "'s defenses.\n\n");
             return;
         }

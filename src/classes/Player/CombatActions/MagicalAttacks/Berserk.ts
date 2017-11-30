@@ -1,22 +1,21 @@
 import Character from '../../../Character/Character';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import { PerkType } from '../../../Effects/PerkType';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class Berserk implements PlayerCombatAction {
+export class Berserk implements CombatAction {
+    public name: string = "Berzerk";
+    public reasonCannotUse: string = "You're already pretty goddamn mad!";
+
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Berzerker);
     }
 
     public canUse(player: Player): boolean {
         return !player.statusAffects.has(StatusAffectType.Berzerking);
-    }
-
-    public reasonCannotUse(): string {
-        return "You're already pretty goddamn mad!";
     }
 
     public use(player: Player, monster: Character) {

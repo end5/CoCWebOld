@@ -10,25 +10,24 @@ import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class DragonBreath extends PlayerSpellAction {
+    public name: string = "DragonFire";
+    public readonly baseCost: number = 20;
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Dragonfire);
     }
-    public readonly baseCost: number = 20;
+
     public canUse(player: Player): boolean {
         if (!player.perks.has(PerkType.BloodMage) && player.stats.fatigue + this.spellCost(player) > 100) {
-            this.reason = "You are too tired to breathe fire.";
+            this.reasonCannotUse = "You are too tired to breathe fire.";
             return false;
         }
         //Not Ready Yet:
         if (player.statusAffects.has(StatusAffectType.DragonBreathCooldown)) {
-            this.reason = "You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...";
+            this.reasonCannotUse = "You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...";
             return false;
         }
         return true;
-    }
-
-    public reasonCannotUse(): string {
-        return this.reason;
     }
 
     public use(player: Player, monster: Character) {
@@ -73,7 +72,7 @@ export class DragonBreath extends PlayerSpellAction {
                 DisplayText.text("You use your flexibility to barely fold your body out of the way!");
             }
             else {
-                damage = player.combat.loseHP(damage, monster);
+                damage = player.combat.stats.loseHP(damage, monster);
                 DisplayText.text("Your own fire smacks into your face! (" + damage + ")");
             }
             DisplayText.text("\n\n");
@@ -84,7 +83,7 @@ export class DragonBreath extends PlayerSpellAction {
             if (!monster.perks.has(PerkType.Acid))
                 monster.perks.add(PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
             damage = Math.round(damage * 1.5);
-            damage = monster.combat.loseHP(damage, player);
+            damage = monster.combat.stats.loseHP(damage, player);
             monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Stunned, 0, 0, 0, 0));
             DisplayText.text("(" + damage + ")\n\n");
         }
@@ -99,7 +98,7 @@ export class DragonBreath extends PlayerSpellAction {
                 else DisplayText.text("are");
                 DisplayText.text("too resolute to be stunned by your attack.</b>");
             }
-            damage = monster.combat.loseHP(damage, player);
+            damage = monster.combat.stats.loseHP(damage, player);
             DisplayText.text(" (" + damage + ")");
         }
         DisplayText.text("\n\n");

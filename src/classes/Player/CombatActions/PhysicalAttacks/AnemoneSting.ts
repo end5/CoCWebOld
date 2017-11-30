@@ -1,20 +1,19 @@
 import Character from '../../../Character/Character';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class AnemoneSting implements PlayerCombatAction {
+export class AnemoneSting implements CombatAction {
+    public name: string = "AnemoneSting";
+    public reasonCannotUse: string = "";
+    
     public isPossible(player: Player): boolean {
         return player.upperBody.head.hairType == 4;
     }
 
     public canUse(player: Player): boolean {
         return true;
-    }
-
-    public reasonCannotUse(): string {
-        return "";
     }
 
     public use(player: Player, monster: Character) {

@@ -7,27 +7,25 @@ import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
 export class Bite extends PlayerPhysicalAction {
+    public name: string = "Bite";
+    public reasonCannotUse: string = "";
+    public baseCost: number = 25;
+
     public isPossible(player: Player): boolean {
         return player.upperBody.head.face.faceType == FaceType.SHARK_TEETH;
     }
 
-    public baseCost: number = 25;
-    private reason: string;
     public canUse(player: Player, monster: Character): boolean {
         if (player.stats.fatigue + this.physicalCost(player) > 100) {
-            this.reason = "You're too fatigued to use your shark-like jaws!";
+            this.reasonCannotUse = "You're too fatigued to use your shark-like jaws!";
             return false;
         }
         //Worms are special
         if (monster.desc.short == "worms") {
-            this.reason = "There is no way those are going anywhere near your mouth!\n\n";
+            this.reasonCannotUse = "There is no way those are going anywhere near your mouth!\n\n";
             return false;
         }
         return true;
-    }
-
-    public reasonCannotUse(): string {
-        return "";
     }
 
     public use(player: Player, monster: Character) {
@@ -54,12 +52,12 @@ export class Bite extends PlayerPhysicalAction {
             return;
         }
         //Determine damage - str modified by enemy toughness!
-        let damage: number = Math.floor((player.stats.str + 45) - Utils.rand(monster.stats.tou) - monster.defense());
+        let damage: number = Math.floor((player.stats.str + 45) - Utils.rand(monster.stats.tou) - monster.combat.stats.defense());
 
         //Deal damage and update based on perks
         if (damage > 0) {
-            damage *= monster.physicalAttackMod();
-            damage = monster.combat.loseHP(damage, player);
+            damage *= monster.combat.stats.physicalAttackMod();
+            damage = monster.combat.stats.loseHP(damage, player);
         }
 
         if (damage <= 0) {

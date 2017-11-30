@@ -8,12 +8,16 @@ import Flags, { FlagEnum } from '../Game/Flags';
 import Utils from '../Utilities/Utils';
 
 export default class CombatStats extends CharacterHolder {
-	private defenseMod: number = 0;
+	public defenseMod: number = 0;
 
 	public constructor(character: Character, bonusHP: number = 0) {
 		super(character);
 		this.char.stats.HP += bonusHP;
 		this.char.stats.bonusHP = bonusHP;
+	}
+
+	public HP(): number {
+		return this.char.stats.HP;
 	}
 
 	public HPRatio(): number {

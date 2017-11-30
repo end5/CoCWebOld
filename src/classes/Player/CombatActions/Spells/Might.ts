@@ -10,18 +10,21 @@ import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class Might extends BlackMagic {
+    public name: string = "Might";
+    public readonly baseCost: number = 25;
+    
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.KnowsMight);
     }
+
     public canUse(player: Player): boolean {
         if (player.statusAffects.has(StatusAffectType.Might)) {
-            this.reason = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
+            this.reasonCannotUse = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
         return super.canUse(player);
     }
 
-    public readonly baseCost: number = 25;
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         DisplayText.clear();
@@ -42,7 +45,7 @@ export class Might extends BlackMagic {
         else {
             DisplayText.text("The rush of success and power flows through your body.  You feel like you can do anything!");
             player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Might, 0, 0, 0, 0));
-            let temp = 5 * player.spellMod();
+            let temp = 5 * player.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;
             if (player.stats.str + temp > 100) tempStr = 100 - player.stats.str;

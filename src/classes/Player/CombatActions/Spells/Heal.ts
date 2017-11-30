@@ -9,10 +9,13 @@ import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class Heal extends BlackMagic {
+    public name: string = "Heal";
+    public readonly baseCost: number = 20;
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.KnowsHeal);
     }
-    public readonly baseCost: number = 20;
+    
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         DisplayText.clear();
@@ -31,11 +34,11 @@ export class Heal extends BlackMagic {
             player.stats.lust += 15;
         }
         else {
-            let hpGain = Math.floor((player.stats.int / (2 + Utils.rand(3)) * player.spellMod()) * (player.stats.maxHP() / 150));
+            let hpGain = Math.floor((player.stats.int / (2 + Utils.rand(3)) * player.combat.stats.spellMod()) * (player.stats.maxHP() / 150));
             if (player.inventory.armorSlot.equipment.displayName == "skimpy nurse's outfit")
                 hpGain *= 1.2;
             DisplayText.text("You flush with success as your wounds begin to knit (+" + hpGain + ").");
-            player.combat.gainHP(hpGain, player);
+            player.combat.stats.gainHP(hpGain, player);
         }
         DisplayText.text("\n\n");
     }

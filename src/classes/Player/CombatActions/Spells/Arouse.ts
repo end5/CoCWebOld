@@ -9,10 +9,13 @@ import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class Arouse extends BlackMagic {
+    public name: string = "Arouse";
+    public readonly baseCost: number = 15;
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.KnowsArouse);
     }
-    public readonly baseCost: number = 15;
+    
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
@@ -31,7 +34,7 @@ export class Arouse extends BlackMagic {
             DisplayText.text("It has no effect!  Your foe clearly does not experience lust in the same way as you.\n\n");
             return;
         }
-        monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * player.spellMod() + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
+        monster.stats.lust += monster.stats.lustVuln * (player.stats.int / 5 * player.combat.stats.spellMod() + Utils.rand(monster.stats.lib - monster.stats.int * 2 + monster.stats.cor) / 5);
         if (monster.stats.lust < 30)
             DisplayText.text(monster.desc.capitalA + monster.desc.short + " squirms as the magic affects " + monster.desc.objectivePronoun + ".  ");
         if (monster.stats.lust >= 30 && monster.stats.lust < 60) {

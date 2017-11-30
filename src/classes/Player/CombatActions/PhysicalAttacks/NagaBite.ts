@@ -9,17 +9,16 @@ import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
 export class NagaBite extends PlayerPhysicalAction {
+    public name: string = "Bite";
+    public reasonCannotUse: string = "You just don't have the energy to bite something right now...";
+    public readonly baseCost: number = 10;
+
     public isPossible(player: Player): boolean {
         return player.upperBody.head.face.faceType == FaceType.SNAKE_FANGS;
     }
 
-    public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
-    }
-
-    public reasonCannotUse(): string {
-        return "You just don't have the energy to bite something right now...";
     }
 
     public use(player: Player, monster: Character) {

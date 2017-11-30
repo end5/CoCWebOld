@@ -24,10 +24,11 @@ export default class CombatEffectList extends ComponentList<CombatEffect, Combat
         super.remove(type);
     }
 
-    public matchAbilityFlag(flag: CombatAbilityFlag): boolean {
+    public get combatAbilityFlag(): CombatAbilityFlag {
+        let flag = CombatAbilityFlag.All;
         for(let index = 0; index < this.count(); index++) {
             flag &= this.at(index).abilityFlag;
         }
-        return flag ? true : false;
+        return flag;
     }
 }

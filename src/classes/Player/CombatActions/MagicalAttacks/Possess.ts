@@ -1,22 +1,21 @@
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import { PerkType } from '../../../Effects/PerkType';
 import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class Possess implements PlayerCombatAction {
+export class Possess implements CombatAction {
+    public name: string = "Possess";
+    public reasonCannotUse: string = "";
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Incorporeality);
     }
 
     public canUse(player: Player): boolean {
         return true;
-    }
-
-    public reasonCannotUse(): string {
-        return "";
     }
 
     public use(player: Player, monster: Character) {

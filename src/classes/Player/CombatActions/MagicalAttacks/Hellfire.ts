@@ -8,13 +8,12 @@ import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class Hellfire extends PlayerSpellAction {
+    public name: string = "Hellfire";
+    public reasonCannotUse: string = "You are too tired to breathe fire.\n";
+    public readonly baseCost: number = 20;
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Hellfire);
-    }
-
-    public readonly baseCost: number = 20;
-    public reasonCannotUse(): string {
-        return "You are too tired to breathe fire.\n";
     }
 
     public use(player: Player, monster: Character) {
@@ -67,7 +66,7 @@ export class Hellfire extends PlayerSpellAction {
             if (monster.stats.int < 10) {
                 DisplayText.text("  Your foe lets out a shriek as their form is engulfed in the blistering flames.");
                 damage = Math.floor(damage);
-                damage = monster.combat.loseHP(damage, player);
+                damage = monster.combat.stats.loseHP(damage, player);
                 DisplayText.text("(" + damage + ")\n");
             }
             else {

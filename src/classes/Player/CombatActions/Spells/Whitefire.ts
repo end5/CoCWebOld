@@ -9,10 +9,13 @@ import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class Whitefire extends WhiteMagic {
+    public name: string = "Whitefire";
+    public readonly baseCost: number = 30;
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.KnowsWhitefire);
     }
-    public readonly baseCost: number = 30;
+    
     public castSpell(player: Player, monster: Character) {
         DisplayText.clear();
         //This is now automatic - newRound arg defaults to true:	menuLoc = 0;
@@ -26,7 +29,7 @@ export class Whitefire extends WhiteMagic {
             return;
         }
         DisplayText.text("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.desc.a + monster.desc.short + " is enveloped in a flash of white flames!\n");
-        let damage = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
+        let damage = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.combat.stats.spellMod());
         //High damage to goes.
         if (monster.desc.short == "goo-girl")
             damage = Math.round(damage * 1.5);
@@ -38,7 +41,7 @@ export class Whitefire extends WhiteMagic {
                 monster.perks.add(PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
         }
         DisplayText.text("\n\n");
-        monster.combat.loseHP(damage, player);
+        monster.combat.stats.loseHP(damage, player);
     }
 }
 

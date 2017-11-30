@@ -9,18 +9,20 @@ import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class SuperWhisperAttack extends PlayerSpellAction {
+    public name: string = "Whisper";
+    public readonly baseCost: number = 10;
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Whispered);
     }
 
-    public readonly baseCost: number = 10;
     public canUse(player: Player): boolean {
         if (!player.perks.has(PerkType.BloodMage) && player.stats.fatigue + this.spellCost(player) > 100) {
-            this.reason = "You are too tired to use this ability.";
+            this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
         if (player.statusAffects.has(StatusAffectType.ThroatPunch) || player.statusAffects.has(StatusAffectType.WebSilence)) {
-            this.reason = "You cannot focus to use this ability while you're having so much difficult breathing.";
+            this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
         return true;

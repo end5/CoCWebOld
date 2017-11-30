@@ -8,18 +8,20 @@ import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class FoxFire extends PlayerSpellAction {
+    public name: string = "FoxFire";
+    public readonly baseCost: number = 35;
+    
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.EnlightenedNinetails);
     }
 
-    public readonly baseCost: number = 35;
     public canUse(player: Player): boolean {
         if (!player.perks.has(PerkType.BloodMage) && player.stats.fatigue + this.spellCost(player) > 100) {
-            this.reason = "You are too tired to use this ability.";
+            this.reasonCannotUse = "You are too tired to use this ability.";
             return false;
         }
         if (player.statusAffects.has(StatusAffectType.ThroatPunch) || player.statusAffects.has(StatusAffectType.WebSilence)) {
-            this.reason = "You cannot focus to use this ability while you're having so much difficult breathing.";
+            this.reasonCannotUse = "You cannot focus to use this ability while you're having so much difficult breathing.";
             return false;
         }
         return true;
@@ -34,7 +36,7 @@ export class FoxFire extends PlayerSpellAction {
         }
         //Deals direct damage and lust regardless of enemy defenses.  Especially effective against corrupted targets.
         DisplayText.text("Holding out your palm, you conjure an ethereal blue flame that dances across your fingertips.  You launch it at " + monster.desc.a+ monster.desc.short + " with a ferocious throw, and it bursts on impact, showering dazzling azure sparks everywhere.");
-        let damage: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.spellMod());
+        let damage: number = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.combat.stats.spellMod());
         if (monster.stats.cor < 33) damage = Math.round(damage * .66);
         else if (monster.stats.cor < 50) damage = Math.round(damage * .8);
         //High damage to goes.
@@ -45,7 +47,7 @@ export class FoxFire extends PlayerSpellAction {
             if (!monster.perks.has(PerkType.Acid))
                 monster.perks.add(PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
         }
-        damage = monster.combat.loseHP(damage, player);
+        damage = monster.combat.stats.loseHP(damage, player);
         DisplayText.text("  (" + damage + ")\n\n");
     }
 }

@@ -6,15 +6,16 @@ import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
 export class FireBow extends PlayerPhysicalAction {
+    public name: string = "Fire Bow";
+    public readonly baseCost: number = 25;
+    
     public isPossible(player: Player): boolean {
         return player.hasKeyItem("Bow");
     }
 
-    public readonly baseCost: number = 25;
-    private reason: string;
     public canUse(player: Player, monster: Character): boolean {
         if (player.stats.fatigue + this.physicalCost(player) > 100) {
-            this.reason = "You're too fatigued to fire the bow!";
+            this.reasonCannotUse = "You're too fatigued to fire the bow!";
             return false;
         }
         // ??????????????????????????????????????????????????????????????
@@ -23,14 +24,10 @@ export class FireBow extends PlayerPhysicalAction {
         // ??????????????????????????????????????????????????????????????
         // wat VVVVVVVVVVVVVVVV
         if (monster.statusAffects.has(StatusAffectType.BowDisabled)) {
-            this.reason = "You can't use your bow right now!";
+            this.reasonCannotUse = "You can't use your bow right now!";
             return false;
         }
         return true;
-    }
-
-    public reasonCannotUse(): string {
-        return this.reason;
     }
 
     public use(player: Player, monster: Character) {
@@ -96,7 +93,7 @@ export class FireBow extends PlayerPhysicalAction {
             return;
         }
         //Hit!  Damage calc! 20 +
-        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get(StatusAffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.defense());
+        let damage: number = Math.floor((20 + player.stats.str / 3 + player.statusAffects.get(StatusAffectType.Kelt).value1 / 1.2) + player.stats.spe / 3 - Utils.rand(monster.stats.tou) - monster.combat.stats.defense());
         if (damage < 0) damage = 0;
         if (damage == 0) {
             if (monster.stats.int > 0)
@@ -110,11 +107,11 @@ export class FireBow extends PlayerPhysicalAction {
         else if (monster.desc.plural)
             DisplayText.text(monster.desc.capitalA + monster.desc.short + " look down at the arrow that now protrudes from one of " + monster.desc.possessivePronoun + " bodies");
         else DisplayText.text(monster.desc.capitalA + monster.desc.short + " looks down at the arrow that now protrudes from " + monster.desc.possessivePronoun + " body");
-        damage *= monster.physicalAttackMod();
-        damage = monster.combat.loseHP(damage, player);
+        damage *= monster.combat.stats.physicalAttackMod();
+        damage = monster.combat.stats.loseHP(damage, player);
         monster.stats.lust -= 20;
         if (monster.stats.lust < 0) monster.stats.lust = 0;
-        if (monster.combat.HP <= 0) {
+        if (monster.stats.HP <= 0) {
             if (monster.desc.short == "pod")
                 DisplayText.text(". (" + String(damage) + ")\n\n");
             else if (monster.desc.plural)

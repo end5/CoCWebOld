@@ -4,13 +4,7 @@ import CombatRewards from './CombatRewards';
 import CombatStats from './CombatStats';
 import EndScenes from './EndScenes';
 import Character from '../Character/Character';
-import { CharacterType } from '../Character/CharacterType';
-import DisplayText from '../display/DisplayText';
-import { StatusAffectType } from '../Effects/StatusAffectType';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Player from '../Player/Player';
-import ChainedDrop from '../Utilities/ChainedDrop';
-import Utils from '../Utilities/Utils';
+import CombatEffectList from '../Effects/CombatEffectList';
 
 export default class CombatContainer {
     public readonly perform: ActionPerform;
@@ -19,11 +13,16 @@ export default class CombatContainer {
 
     public readonly stats: CombatStats;
     public readonly rewards: CombatRewards;
+
+    public readonly effects: CombatEffectList;
     
+    public grappledEnemy: Character;
+
     public constructor(character: Character, perform: ActionPerform, respond: ActionRespond, end: EndScenes) {
         this.perform = perform;
         this.respond = respond;
         this.endScenes = end;
         this.stats = new CombatStats(character);
+        this.effects = new CombatEffectList(character);
     }
 }

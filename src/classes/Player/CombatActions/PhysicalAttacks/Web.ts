@@ -1,22 +1,21 @@
 import { TailType } from '../../../Body/LowerBody';
 import Character from '../../../Character/Character';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class Web implements PlayerCombatAction {
+export class Web implements CombatAction {
+    public name: string = "Web";
+    public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
+
     public isPossible(player: Player): boolean {
         return player.lowerBody.tailType == TailType.SPIDER_ABDOMEN;
     }
 
     public canUse(player: Player): boolean {
         return player.lowerBody.tailVenom >= 33;
-    }
-
-    public reasonCannotUse(): string {
-        return "You do not have enough webbing to shoot right now!";
     }
 
     public use(player: Player, monster: Character) {

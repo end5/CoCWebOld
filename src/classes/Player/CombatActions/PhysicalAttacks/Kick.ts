@@ -8,17 +8,16 @@ import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
 export class Kick extends PlayerPhysicalAction {
+    public name: string = "Kick";
+    public reasonCannotUse: string = "You're too fatigued to use a charge attack!";
+    public readonly baseCost: number = 15;
+
     public isPossible(player: Player): boolean {
         return player.lowerBody.isTaur() || player.lowerBody.type == LowerBodyType.HOOFED || player.lowerBody.type == LowerBodyType.BUNNY || player.lowerBody.type == LowerBodyType.KANGAROO;
     }
 
-    public readonly baseCost: number = 15;
     public canUse(player: Player): boolean {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
-    }
-
-    public reasonCannotUse(): string {
-        return "You're too fatigued to use a charge attack!";
     }
 
     public use(player: Player, monster: Character) {
@@ -63,7 +62,7 @@ export class Kick extends PlayerPhysicalAction {
                 let damage = Math.floor(player.stats.str / 5 - Utils.rand(5));
                 if (damage <= 0)
                     damage = 1;
-                damage = monster.combat.loseHP(damage, player);
+                damage = monster.combat.stats.loseHP(damage, player);
                 DisplayText.text("You strike at the amalgamation, crushing countless worms into goo, dealing " + damage + " damage.\n\n");
             }
             //Fail
@@ -101,13 +100,13 @@ export class Kick extends PlayerPhysicalAction {
         //Start figuring enemy damage resistance
         let reduction: number = Utils.rand(monster.stats.tou);
         //Add in enemy defense if needed
-        reduction += monster.defense();
+        reduction += monster.combat.stats.defense();
         //Apply AND DONE!
         damage -= reduction;
         //Damage post processing!
-        damage *= player.physicalAttackMod();
+        damage *= player.combat.stats.physicalAttackMod();
         //(None yet!)
-        if (damage > 0) damage = monster.combat.loseHP(damage, player);
+        if (damage > 0) damage = monster.combat.stats.loseHP(damage, player);
 
         //BLOCKED
         if (damage <= 0) {

@@ -1,13 +1,14 @@
-import PlayerCombatAction from './PlayerCombatAction';
 import Character from '../../Character/Character';
+import CombatAction from '../../Combat/Actions/CombatAction';
 import PhysicalAction from '../../Combat/Actions/PhysicalAction';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../Player';
 
-export default abstract class PlayerPhysicalAction implements PlayerCombatAction, PhysicalAction {
+export default abstract class PlayerPhysicalAction implements CombatAction, PhysicalAction {
+    abstract name: string;
+    public reasonCannotUse: string;
     abstract isPossible(player: Player): boolean;
     abstract canUse(player: Player, enemy: Character): boolean;
-    abstract reasonCannotUse(): string;
     abstract use(player: Player, enemy: Character);
     
     abstract readonly baseCost: number;

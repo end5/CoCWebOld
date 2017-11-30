@@ -1,23 +1,22 @@
 import Character from '../../../Character/Character';
+import CombatAction from '../../../Combat/Actions/CombatAction';
 import GenderDescriptor from '../../../Descriptors/GenderDescriptor';
 import DisplayText from '../../../display/DisplayText';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Utils from '../../../Utilities/Utils';
 import Player from '../../Player';
-import PlayerCombatAction from '../PlayerCombatAction';
 
-export class Kiss implements PlayerCombatAction {
+export class Kiss implements CombatAction {
+    public name: string = "Kiss";
+    public reasonCannotUse: string = "There's no way you'd be able to find their lips while you're blind!";
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.LustStickApplied);
     }
 
     public canUse(player: Player): boolean {
         return !player.statusAffects.has(StatusAffectType.Blind);
-    }
-
-    public reasonCannotUse(): string {
-        return "There's no way you'd be able to find their lips while you're blind!";
     }
 
     public use(player: Player, monster: Character) {

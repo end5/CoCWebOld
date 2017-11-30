@@ -9,7 +9,7 @@ export default abstract class WhiteMagic extends LearnedSpellAction {
         if (player.perks.has(PerkType.Enlightened) && player.stats.cor < 10)
             whiteLustCap += 10;
         if (player.stats.lust >= whiteLustCap) {
-            this.reason = "You are far too aroused to focus on white magic.\n\n";
+            this.reasonCannotUse = "You are far too aroused to focus on white magic.\n\n";
             return false;
         }
         return super.canUse(player);

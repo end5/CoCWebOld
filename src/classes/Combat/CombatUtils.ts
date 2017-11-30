@@ -1,4 +1,6 @@
 ﻿import Character from '../Character/Character';
+import DisplayText from '../display/DisplayText';
+import { PerkType } from '../Effects/PerkType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Utils from '../Utilities/Utils';
 
