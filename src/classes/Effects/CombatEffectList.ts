@@ -25,9 +25,9 @@ export default class CombatEffectList extends ComponentList<CombatEffect, Combat
     }
 
     public matchAbilityFlag(flag: CombatAbilityFlag): boolean {
-        this.iterate((item: CombatEffect) => {
-            flag &= item.abilityFlag;
-        });
+        for(let index = 0; index < this.count(); index++) {
+            flag &= this.at(index).abilityFlag;
+        }
         return flag ? true : false;
     }
 }

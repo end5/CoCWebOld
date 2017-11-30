@@ -6,12 +6,13 @@ import ComponentList from '../Utilities/ComponentList';
 export default class StatusAffectList extends ComponentList<StatusAffect, StatusAffectType> {
     public serialize(): string {
         let saveObject = {};
-        this.iterate((item: StatusAffect) => {
-            saveObject[item.uniqueKey] = item.serialize();
-        });
+        for(let index = 0; index < this.count(); index++) {
+            let statusAffect = this.at(index);
+            saveObject[statusAffect.uniqueKey] = statusAffect.serialize();
+        }
         return JSON.stringify(saveObject);
     }
-    
+
     public deserialize(saveObject: object) {
         this.clear();
         for (const key of Object.keys(saveObject)) {

@@ -6,9 +6,10 @@ import ComponentList from '../Utilities/ComponentList';
 export default class PerkList extends ComponentList<Perk, PerkType> {
     public serialize(): string {
         let saveObject = {};
-        this.iterate((item: Perk) => {
-            saveObject[item.uniqueKey] = item.serialize();
-        });
+        for(let index = 0; index < this.count(); index++) {
+            let perk = this.at(index);
+            saveObject[perk.uniqueKey] = perk.serialize();
+        }
         return JSON.stringify(saveObject);
     }
     
