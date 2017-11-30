@@ -1,9 +1,10 @@
-import { RandomDrop } from "RandomDrop";
-export class WeightedDrop implements RandomDrop {
+import RandomDrop from './RandomDrop';
+
+export default class WeightedDrop implements RandomDrop {
     private items: Array<any> = [];
     private sum: number = 0;
 
-    constructor(first: any = null, firstWeight: number = 0) {
+    public constructor(first: any = null, firstWeight: number = 0) {
         if (first != null) {
             this.items.push([first, firstWeight]);
             this.sum += firstWeight;

@@ -48,10 +48,12 @@ export default class ComponentList<Entry extends LibraryEntry, KeyType extends s
         this._list = [];
     }
 
-    public iterate(func: (item: Entry) => void) {
-        for (let index = 0; index < this._list.length; index++) {
-            func(this._list[index]);
-        }
+    public count(): number {
+        return this._list.length;
+    }
+
+    public at(index: number): Entry {
+        return this._list[index];
     }
 
     public serialize(): string {
