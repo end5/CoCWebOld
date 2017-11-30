@@ -1,9 +1,9 @@
 import PerkDesc from './PerkDesc';
 import PerkDescs from './PerkDescs';
 import { PerkType } from './PerkType';
-import Library from '../Utilities/Library';
+import ConstantLibrary from '../Utilities/ConstantLibrary';
 
-export default class PerkDescLib extends Library<PerkDesc>{
+export default class PerkDescLib extends ConstantLibrary<PerkDesc>{
     public constructor() {
         super();
         this.add(new PerkDesc(PerkType.Brawler, "Brawler",

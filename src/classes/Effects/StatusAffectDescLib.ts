@@ -1,8 +1,8 @@
 import StatusAffectDesc from './StatusAffectDesc';
 import { StatusAffectType } from './StatusAffectType';
-import Library from '../Utilities/Library';
+import ConstantLibrary from '../Utilities/ConstantLibrary';
 
-export default class StatusAffectDescLib extends Library<StatusAffectDesc> {
+export default class StatusAffectDescLib extends ConstantLibrary<StatusAffectDesc> {
     public constructor() {
         super();
         this.add(new StatusAffectDesc(StatusAffectType.AllNaturalOnaholeUsed, "AllNaturalOnaholeUsed", "all-natural onahole used", ""));
