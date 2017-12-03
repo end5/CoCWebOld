@@ -1,6 +1,7 @@
 import ScreenElement from './ScreenElement';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
+import Utils from '../../Utilities/Utils';
 
 
 export interface ClickFunction {
@@ -12,14 +13,51 @@ interface EventFunction {
 }
 
 export default class ButtonElement extends ScreenElement {
+    private static textColorActive = "Black";
+    private static textColorInactive = "DarkGrey";
     private clickFunc: EventFunction;
-    public modify(text: string, clickFunc: ClickFunction, disabled: boolean = false) {
-            this.show();
-            this.htmlElement.textContent = text;
-            this.htmlElement.removeEventListener('click', this.clickFunc);
-            this.clickFunc = function (evnt: Event) {
-                clickFunc(Game.player);
-            };
+    private lock: boolean = false;
+
+    public constructor(element?: HTMLAnchorElement) {
+        super(element);
+    }
+
+    protected create(): HTMLElement {
+        return document.createElement('a');
+    }
+
+    /**
+     * Modifies the text and click function in the button and shows the button.
+     * @param text The text that appears on the button.
+     * @param clickFunc The function that is called when clicked.
+     * @param disable Whether or not the button should be clickable.
+     */
+    public modify(text: string, clickFunc: ClickFunction, disable: boolean = false) {
+        this.htmlElement.textContent = text;
+
+        this.disable();
+        this.clickFunc = (evnt: Event) => {
+            clickFunc(Game.player);
+        };
+        if (!disable)
+            this.enable();
+
+        this.show();
+    }
+
+    public enable() {
+        if (!this.lock) {
+            this.lock = true;
             this.htmlElement.addEventListener('click', this.clickFunc);
+            this.htmlElement.style.color = ButtonElement.textColorActive;
+        }
+    }
+
+    public disable() {
+        if (this.lock) {
+            this.lock = false;
+            this.htmlElement.removeEventListener('click', this.clickFunc);
+            this.htmlElement.style.color = ButtonElement.textColorInactive;
+        }
     }
 }

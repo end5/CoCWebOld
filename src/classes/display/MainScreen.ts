@@ -1,8 +1,8 @@
-﻿import DisplayText from './DisplayText';
-import ButtonElement, { ClickFunction } from './Elements/ButtonElement';
+﻿import ButtonElement, { ClickFunction } from './Elements/ButtonElement';
 import ImageElement from './Elements/ImageElement';
 import StatsPanel from './Elements/StatsPanel';
 import TextElement from './Elements/TextElement';
+import MainDisplay from './MainDisplay';
 import Game from '../Game/Game';
 import Player from '../Player/Player';
 import HtmlUtils from '../Utilities/HtmlUtils';
@@ -17,7 +17,7 @@ export enum TopButton {
 }
 
 export default class MainScreen {
-    private static mainTextDisplay: TextElement;
+    public static readonly screen: MainDisplay = new MainDisplay();
     private static bottomButtons: ButtonElement[];
     private static topButtons: ButtonElement[];
     private static nameDisplay: TextElement;
@@ -34,26 +34,22 @@ export default class MainScreen {
     public static NO_BUTTON_ID = 1;
 
     public constructor() {
-        MainScreen.mainTextDisplay = new TextElement(HtmlUtils.loadFromId("mainTextDisplay"));
-
         MainScreen.bottomButtons = [];
         for (let index = 0; index < MainScreen.NUM_BOT_BUTTONS; index++) {
-            MainScreen.bottomButtons.push(new ButtonElement(HtmlUtils.loadFromId("button" + index)));
+            MainScreen.bottomButtons.push(new ButtonElement(<HTMLAnchorElement>HtmlUtils.loadFromId("button" + index)));
         }
 
         MainScreen.topButtons = [];
         for (let index = 0; index < MainScreen.NUM_TOP_BUTTONS; index++) {
-            MainScreen.topButtons.push(new ButtonElement(HtmlUtils.loadFromId("buttontop" + index)));
+            MainScreen.topButtons.push(new ButtonElement(<HTMLAnchorElement>HtmlUtils.loadFromId("buttontop" + index)));
         }
 
-        MainScreen.statsPanel = new StatsPanel(HtmlUtils.loadFromId("statsPanel"));
-        MainScreen.nameDisplay = new TextElement(HtmlUtils.loadFromId("nameDisplay"));
+        MainScreen.statsPanel = new StatsPanel(<HTMLAnchorElement>HtmlUtils.loadFromId("statsPanel"));
+        MainScreen.nameDisplay = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("nameDisplay"));
 
-        MainScreen.levelupIcon = new ImageElement(HtmlUtils.loadFromId("levelupIcon"));
-        MainScreen.timeDayElement = new TextElement(HtmlUtils.loadFromId("timeDay"));
-        MainScreen.timeHourElement = new TextElement(HtmlUtils.loadFromId("timeHour"));
-
-        DisplayText.register(MainScreen.mainTextDisplay);
+        MainScreen.levelupIcon = new ImageElement(<HTMLImageElement>HtmlUtils.loadFromId("levelupIcon"));
+        MainScreen.timeDayElement = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeDay"));
+        MainScreen.timeHourElement = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeHour"));
     }
 
     // Top Buttons
@@ -132,7 +128,7 @@ export default class MainScreen {
             MainScreen.bottomButtons[index].modify(textList[index + startingIndex], funcList[index + startingIndex]);
             MainScreen.bottomButtons[index].show();
         }
-        
+
         const hasPrevPage = startingIndex - MainScreen.NUM_BOT_BUTTONS - 2 > 0 ? true : false;
         if (hasPrevPage) {
             MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", function () {

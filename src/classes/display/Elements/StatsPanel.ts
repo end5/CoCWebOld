@@ -40,6 +40,10 @@ export default class StatsPanel extends ScreenElement {
         this.statPanels.push(new StatElement(HtmlUtils.loadFromId("GemsPanel")));
     }
 
+    protected create(): HTMLElement {
+        return null;
+    }
+
     public getStat(type: StatType): StatElement {
         return this.statPanels[type];
     }

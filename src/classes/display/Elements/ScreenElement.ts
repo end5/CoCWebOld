@@ -1,11 +1,11 @@
-import HtmlUtils from '../../Utilities/HtmlUtils';
-
-export default class ScreenElement {
+export default abstract class ScreenElement {
     protected htmlElement: HTMLElement;
     
-    public constructor(element: HTMLElement) {
-        this.htmlElement = element;
+    public constructor(element?: HTMLElement) {
+        this.htmlElement = element ? element : this.create();
     }
+
+    protected abstract create(): HTMLElement;
 
     public hide() {
         this.htmlElement.style.visibility = "hidden";
@@ -13,5 +13,13 @@ export default class ScreenElement {
 
     public show() {
         this.htmlElement.style.visibility = "visible";
+    }
+
+    public appendElement(element: ScreenElement) {
+        element.htmlElement = this.htmlElement.appendChild(element.htmlElement);
+    }
+
+    public removeElement(element: ScreenElement) {
+        this.htmlElement.removeChild(element.htmlElement);
     }
 }

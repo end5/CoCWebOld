@@ -17,6 +17,10 @@ export default class StatElement extends ScreenElement {
         this.statMax = 100;
     }
 
+    protected create(): HTMLElement {
+        return null;
+    }
+    
     public setStat(statCurrent: number, statMax: number = -1) {
         this.statCurrent = statCurrent;
         this.statCurrentElement.innerHTML = statCurrent.toString();
