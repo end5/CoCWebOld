@@ -307,7 +307,7 @@ export enum FlagEnum {
     UNKNOWN_FLAG_NUMBER_00283 = 283, // Sophie Disabled Forever
     TIMES_SOPHIE_HAS_DRUNK_OVI_ELIXIR = 284, // Has Ovi Event Procced?
     UNKNOWN_FLAG_NUMBER_00285 = 285, // Luststick Resistance builder - decrements by 1 every day, incremented by 1 for every 2 hours of luststick
-    UNKNOWN_FLAG_NUMBER_00286 = 286, // Have Ceraph's belly-button piercing
+    HAVE_CERAPH_PIERCING = 286, // Have Ceraph's belly-button piercing
     UNKNOWN_FLAG_NUMBER_00287 = 287, // Carrying Careph's token?
     CERAPH_HIDING_DICK = 288, // Ceraph Cock Hidden (1 = yes, 0 = cock floppin') - Ceraph's Demon Dong status 0=Visible, 1=Not visible
     UNKNOWN_FLAG_NUMBER_00289 = 289, // Times Ceraph Licked You Out

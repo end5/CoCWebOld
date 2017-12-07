@@ -1,5 +1,6 @@
 ﻿import Flags from './Flags';
 import Initializer from './Initializer';
+import Settings from './Settings';
 import TimeManager from './TimeManager';
 import Character from '../Character/Character';
 import CampStorage from '../Inventory/CampStorage';
@@ -27,6 +28,7 @@ export default class Game {
     public static timeManager: TimeManager;
     public static sceneManager: SceneManager;
     public static campStorage: CampStorage;
+    public static settings: Settings;
 
     public constructor() {
         new Initializer();
@@ -45,6 +47,8 @@ export default class Game {
 
         Game.timeManager = new TimeManager();
         Game.sceneManager = new SceneManager();
+
+        Game.settings = new Settings();
     }
 
     public static save(): object {
