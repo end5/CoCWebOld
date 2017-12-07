@@ -1,5 +1,7 @@
 import Pregnancy, { PregnancyType } from './Pregnancy';
 import DisplayText from '../../display/DisplayText';
+import { PerkType } from '../../Effects/PerkType';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
 import UpdateInterface from '../../UpdateInterface';
 import Utils from '../../Utilities/Utils';
@@ -7,7 +9,6 @@ import Butt from '../Butt';
 import Creature from '../Creature';
 import Vagina from '../Vagina';
 import VaginaSpot from '../VaginaSpot';
-
 
 export default class PregnancyManager implements UpdateInterface {
     protected body: Creature;
@@ -86,6 +87,17 @@ export default class PregnancyManager implements UpdateInterface {
 
     public isButtPregnantWith(pregType: PregnancyType): boolean {
         return this.isButtPregnant() && this.buttWomb.type == pregType;
+    }
+
+    public getPregnancy(pregType: PregnancyType): Pregnancy {
+        for (let index: number = 0; index < this.wombs.length; index++)
+            if (this.wombs[index] != null && this.wombs[index].type == pregType)
+                return this.wombs[index];
+        return null;
+    }
+
+    public getButtPregnancy(): Pregnancy {
+        return this.buttWomb;
     }
 
     public getPregVagina(): Vagina {
