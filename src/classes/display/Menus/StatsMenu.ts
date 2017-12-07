@@ -1,18 +1,28 @@
-export default class StatsMenu {
-    public displayStats(e: MouseEvent = null): void {
-        spriteSelect(-1);
-        MainScreen.text("", true);
+import Menu from './Menu';
+import Menus from './Menus';
+import { PerkType } from '../../Effects/PerkType';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Spells from '../../Player/CombatActions/Spells';
+import Player from '../../Player/Player';
+import DisplayText from '../DisplayText';
+import MainScreen from '../MainScreen';
+
+export default class StatsMenu implements Menu {
+    public display(player: Player) {
+        //spriteSelect(-1);
+        DisplayText.clear();
 
         // Begin Combat Stats
         let combatStats: string = "";
-        if (player.hasKeyItem("Bow") >= 0)
-            combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusAffects.get("Kelt").value1) + "\n";
+        if (player.hasKeyItem("Bow"))
+            combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusAffects.get(StatusAffectType.Kelt).value1) + "\n";
 
-        combatStats += "<b>Lust Resistance:</b> " + (100 - Math.round(lustPercent())) + "% (Higher is better.)\n";
+        combatStats += "<b>Lust Resistance:</b> " + (100 - Math.round(player.stats.lustPercent())) + "% (Higher is better.)\n";
 
-        combatStats += "<b>Spell Effect Multiplier:</b> " + (100 * spellMod()) + "%\n";
+        combatStats += "<b>Spell Effect Multiplier:</b> " + (100 * player.combat.stats.spellMod()) + "%\n";
 
-        combatStats += "<b>Spell Cost:</b> " + spellCost(100) + "%\n";
+        combatStats += "<b>Spell Cost:</b> " + (new Spells.Arouse()).spellCost(player) + "%\n";
 
         if (Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] > 0)
             combatStats += "<b>Rapier Skill (Out of 4):</b> " + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] + "\n";
@@ -20,14 +30,14 @@ export default class StatsMenu {
         combatStats += "<b>Tease Skill (Out of 5):</b>  " + player.teaseLevel + "\n";
 
         if (combatStats != "")
-            MainScreen.text("<b><u>Combat Stats</u></b>\n" + combatStats, false);
+            DisplayText.text("<b><u>Combat Stats</u></b>\n" + combatStats);
         // End Combat Stats
 
         // Begin Children Stats
         let childStats: string = "";
 
-        if (player.statusAffects.get("Birthed").value1 > 0)
-            childStats += "<b>Times Given Birth:</b> " + player.statusAffects.get("Birthed").value1 + "\n";
+        if (player.statusAffects.get(StatusAffectType.Birthed).value1 > 0)
+            childStats += "<b>Times Given Birth:</b> " + player.statusAffects.get(StatusAffectType.Birthed).value1 + "\n";
 
         if (Flags.list[FlagEnum.AMILY_MET] > 0)
             childStats += "<b>Litters With Amily:</b> " + (Flags.list[FlagEnum.AMILY_BIRTH_TOTAL] + Flags.list[FlagEnum.PC_TIMES_BIRTHED_AMILYKIDS]) + "\n";
@@ -104,7 +114,7 @@ export default class StatsMenu {
             childStats += "<b>Number of Adult Minotaur Offspring:</b> " + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] + "\n";
 
         if (childStats != "")
-            MainScreen.text("\n<b><u>Children</u></b>\n" + childStats, false);
+            DisplayText.text("\n<b><u>Children</u></b>\n" + childStats);
         // End Children Stats
 
         // Begin Body Stats
@@ -121,9 +131,9 @@ export default class StatsMenu {
         if (player.lactationQ() > 0)
             bodyStats += "<b>Milk Production:</b> " + Math.round(player.lactationQ()) + "mL\n";
 
-        if (player.statusAffects.has("Feeder")) {
-            bodyStats += "<b>Hours Since Last Time Breastfed Someone:</b>  " + player.statusAffects.get("Feeder").value2;
-            if (player.statusAffects.get("Feeder").value2 >= 72)
+        if (player.statusAffects.has(StatusAffectType.Feeder)) {
+            bodyStats += "<b>Hours Since Last Time Breastfed Someone:</b>  " + player.statusAffects.get(StatusAffectType.Feeder).value2;
+            if (player.statusAffects.get(StatusAffectType.Feeder).value2 >= 72)
                 bodyStats += " (Too long! Sensitivity Increasing!)";
 
             bodyStats += "\n";
@@ -131,14 +141,14 @@ export default class StatsMenu {
 
         bodyStats += "<b>Pregnancy Speed Multiplier:</b> ";
         let preg: number = 1;
-        if (player.perks.has("Diapause"))
+        if (player.perks.has(PerkType.Diapause))
             bodyStats += "? (Variable due to Diapause)\n";
         else {
-            if (player.perks.has("MaraesGiftFertility")) preg++;
-            if (player.perks.has("BroodMother")) preg++;
-            if (player.perks.has("FerasBoonBreedingBitch")) preg++;
-            if (player.perks.has("MagicalFertility")) preg++;
-            if (player.perks.has("FerasBoonWideOpen") || player.perks.has("FerasBoonMilkingTwat")) preg++;
+            if (player.perks.has(PerkType.MaraesGiftFertility)) preg++;
+            if (player.perks.has(PerkType.BroodMother)) preg++;
+            if (player.perks.has(PerkType.FerasBoonBreedingBitch)) preg++;
+            if (player.perks.has(PerkType.MagicalFertility)) preg++;
+            if (player.perks.has(PerkType.FerasBoonWideOpen) || player.perks.has(PerkType.FerasBoonMilkingTwat)) preg++;
             bodyStats += preg + "\n";
         }
 
@@ -149,8 +159,8 @@ export default class StatsMenu {
             let totalCockGirth: number = 0;
 
             for (let i: number = 0; i < player.lowerBody.cockSpot.count(); i++) {
-                totalCockLength += player.lowerBody.cockSpot.get(i].cockLength;
-                totalCockGirth += player.lowerBody.cockSpot.list[i).cockThickness
+                totalCockLength += player.lowerBody.cockSpot.get(i).cockLength;
+                totalCockGirth += player.lowerBody.cockSpot.get(i).cockThickness
             }
 
             bodyStats += "<b>Total Cock Length:</b> " + Math.round(totalCockLength) + " inches\n";
@@ -161,22 +171,22 @@ export default class StatsMenu {
         if (player.lowerBody.vaginaSpot.count() > 0)
             bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.lowerBody.vaginaSpot.get(0).vaginalLooseness) + "\n";
 
-        if (player.perks.has("SpiderOvipositor") || player.perks.has("BeeOvipositor"))
-            bodyStats += "<b>Ovipositor Total Egg Count: " + player.eggs() + "\nOvipositor Fertilized Egg Count: " + player.fertilizedEggs() + "</b>\n";
+        if (player.lowerBody.hasOvipositor()) // (player.perks.has(PerkType.SpiderOvipositor) || player.perks.has(PerkType.BeeOvipositor))
+            bodyStats += "<b>Ovipositor Total Egg Count: " + player.lowerBody.ovipositor.eggs + "\nOvipositor Fertilized Egg Count: " + player.lowerBody.ovipositor.fertilizedEggs + "</b>\n";
 
-        if (player.statusAffects.has("SlimeCraving")) {
-            if (player.statusAffects.get("SlimeCraving").value1 >= 18)
+        if (player.statusAffects.has(StatusAffectType.SlimeCraving)) {
+            if (player.statusAffects.get(StatusAffectType.SlimeCraving).value1 >= 18)
                 bodyStats += "<b>Slime Craving:</b> Active! You are currently losing strength and speed.  You should find fluids.\n";
             else {
-                if (player.perks.has("SlimeCore"))
-                    bodyStats += "<b>Slime Stored:</b> " + ((17 - player.statusAffects.get("SlimeCraving").value1) * 2) + " hours until you start losing strength.\n";
+                if (player.perks.has(PerkType.SlimeCore))
+                    bodyStats += "<b>Slime Stored:</b> " + ((17 - player.statusAffects.get(StatusAffectType.SlimeCraving).value1) * 2) + " hours until you start losing strength.\n";
                 else
-                    bodyStats += "<b>Slime Stored:</b> " + (17 - player.statusAffects.get("SlimeCraving").value1) + " hours until you start losing strength.\n";
+                    bodyStats += "<b>Slime Stored:</b> " + (17 - player.statusAffects.get(StatusAffectType.SlimeCraving).value1) + " hours until you start losing strength.\n";
             }
         }
 
         if (bodyStats != "")
-            MainScreen.text("\n<b><u>Body Stats</u></b>\n" + bodyStats, false);
+            DisplayText.text("\n<b><u>Body Stats</u></b>\n" + bodyStats);
         // End Body Stats
 
         // Begin Misc Stats
@@ -195,32 +205,32 @@ export default class StatsMenu {
             miscStats += "<b>Spells Cast:</b> " + Flags.list[FlagEnum.SPELLS_CAST] + "\n";
 
         if (miscStats != "")
-            MainScreen.text("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
+            DisplayText.text("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
         // End Misc Stats
 
         // Begin Addition Stats
         let addictStats: string = "";
         //Marble Milk Addition
-        if (player.statusAffects.get("$1").value3 > 0) {
+        if (player.statusAffects.get(StatusAffectType.Marble).value3 > 0) {
             addictStats += "<b>Marble Milk:</b> ";
-            if (!player.perks.has("MarbleResistant") && !player.perks.has("MarblesMilk"))
-                addictStats += Math.round(player.statusAffects.get("Marble").value2) + "%\n";
-            else if (player.perks.has("MarbleResistant"))
+            if (!player.perks.has(PerkType.MarbleResistant) && !player.perks.has(PerkType.MarblesMilk))
+                addictStats += Math.round(player.statusAffects.get(StatusAffectType.Marble).value2) + "%\n";
+            else if (player.perks.has(PerkType.MarbleResistant))
                 addictStats += "0%\n";
             else
                 addictStats += "100%\n";
         }
 
         // Mino Cum Addiction
-        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00340] > 0 || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 0 || player.perks.has("MinotaurCumAddict")) {
-            if (!player.perks.has("MinotaurCumAddict"))
+        if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00340] > 0 || Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] > 0 || player.perks.has(PerkType.MinotaurCumAddict)) {
+            if (!player.perks.has(PerkType.MinotaurCumAddict))
                 addictStats += "<b>Minotaur Cum:</b> " + Math.round(Flags.list[FlagEnum.MINOTAUR_CUM_ADDICTION_TRACKER] * 10) / 10 + "%\n";
             else
                 addictStats += "<b>Minotaur Cum:</b> 100+%\n";
         }
 
         if (addictStats != "")
-            MainScreen.text("\n<b><u>Addictions</u></b>\n" + addictStats, false);
+            DisplayText.text("\n<b><u>Addictions</u></b>\n" + addictStats);
         // End Addition Stats
 
         // Begin Interpersonal Stats
@@ -262,11 +272,11 @@ export default class StatsMenu {
             interpersonStats += "<b>Katherine Submissiveness:</b> " + telAdre.katherine.submissiveness() + "\n";
         }
 
-        if (player.statusAffects.has("Kelt") && Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) {
-            if (player.statusAffects.get("Kelt").value2 >= 130)
+        if (player.statusAffects.has(StatusAffectType.Kelt) && Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) {
+            if (player.statusAffects.get(StatusAffectType.Kelt).value2 >= 130)
                 interpersonStats += "<b>Submissiveness To Kelt:</b> " + 100 + "%\n";
             else
-                interpersonStats += "<b>Submissiveness To Kelt:</b> " + Math.round(player.statusAffects.get("Kelt").value2 / 130 * 100) + "%\n";
+                interpersonStats += "<b>Submissiveness To Kelt:</b> " + Math.round(player.statusAffects.get(StatusAffectType.Kelt).value2 / 130 * 100) + "%\n";
         }
 
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0)
@@ -310,30 +320,28 @@ export default class StatsMenu {
         }
 
         if (interpersonStats != "")
-            MainScreen.text("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats, false);
+            DisplayText.text("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats);
         // End Interpersonal Stats
 
         // Begin Ongoing Stat Effects
         let statEffects: string = "";
 
         if (player.inHeat)
-            statEffects += "Heat - " + Math.round(player.statusAffects.get("$1").value3) + " hours remaining\n";
+            statEffects += "Heat - " + Math.round(player.statusAffects.get(StatusAffectType.Heat).value3) + " hours remaining\n";
 
         if (player.inRut)
-            statEffects += "Rut - " + Math.round(player.statusAffects.get("$1").value3) + " hours remaining\n";
+            statEffects += "Rut - " + Math.round(player.statusAffects.get(StatusAffectType.Rut).value3) + " hours remaining\n";
 
-        if (player.statusAffects.get("Luststick").value1 > 0)
-            statEffects += "Luststick - " + Math.round(player.statusAffects.get("Luststick").value1) + " hours remaining\n";
+        if (player.statusAffects.get(StatusAffectType.LustStick).value1 > 0)
+            statEffects += "Luststick - " + Math.round(player.statusAffects.get(StatusAffectType.LustStick).value1) + " hours remaining\n";
 
-        if (player.statusAffects.get("BlackCatBeer").value1 > 0)
-            statEffects += "Black Cat Beer - " + player.statusAffects.get("BlackCatBeer").value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
+        if (player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
+            statEffects += "Black Cat Beer - " + player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
 
         if (statEffects != "")
-            MainScreen.text("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects, false);
+            DisplayText.text("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
         // End Ongoing Stat Effects
 
-        MainScreen.doNext(playerMenu);
+        MainScreen.doNext(Menus.PlayerMenu.display);
     }
-
-
 }

@@ -1,28 +1,27 @@
-import MainScreen, { TopButton } from "./MainScreen";
-import CreditsMenu from "./CreditsMenu";
-import InstructionsMenu from "./InstructionsMenu";
-import SettingsMenu from "./SettingsMenu";
-import PlayerMenu from "./PlayerMenu";
-import Game, { GameState } from "../Game/Game";
-import Flags, { FlagEnum } from "../Game/Flags";
-import VersionInfo from "../Game/VersionInfo";
-import CharCreationMenu from "./CharCreationMenu";
+import Menu from './Menu';
+import Menus from './Menus';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game, { GameState } from '../../Game/Game';
+import DateUtils from '../../Utilities/DateUtils';
+import DisplayText from '../DisplayText';
+import MainScreen, { TopButton } from '../MainScreen';
 
-export default class MainMenu {
+export default class MainMenu implements Menu {
     //MainMenu - kicks player out to the main menu
-    public static display() {
-        MainScreen.hideStatsPanel();
+    public display() {
+        MainScreen.getStatsPanel().hide();
         //Reset newgame buttons
         MainScreen.hideTopButtons();
-        MainScreen.setTopButton(TopButton.MainMenu, "New Game", CharCreationMenu.display);
-        MainScreen.showButton(TopButton.Data);
+        MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation.display);
+        MainScreen.getTopButton(TopButton.Data).show();
 
         Game.state = GameState.MainMenu;
 
-        MainScreen.text("<b>Corruption of Champions (" + VersionInfo.version + ")</b>", true);
-        MainScreen.text(VersionInfo.build);
+        DisplayText.clear();
+        DisplayText.bold("Corruption of Champions (" + VersionInfo.version + ")");
+        DisplayText.text(VersionInfo.build);
 
-        MainScreen.text(`<![CDATA[
+        DisplayText.text(`<![CDATA[
         <br>(Formerly Unnamed Text Game)  
         <u>Created by: Fenoxo</u>
 
@@ -47,22 +46,22 @@ export default class MainMenu {
 
         Also go play <u><a href='http://www.furaffinity.net/view/9830293/'>Nimin</a></u> by Xadera on furaffinity.
 
-	]]>`, false, true);
+	    ]]>`);
 
         if (debug)
-            MainScreen.text("\n\n<b>DEBUG MODE ENABLED:  ITEMS WILL NOT BE CONSUMED BY USE.</b>");
+            DisplayText.text("\n\n<b>DEBUG MODE ENABLED:  ITEMS WILL NOT BE CONSUMED BY USE.</b>");
         if (Flags.list[FlagEnum.SHOW_SPRITES_FLAG])
-            MainScreen.text("\n\n<b>Sprites disabled.</b>");
+            DisplayText.text("\n\n<b>Sprites disabled.</b>");
         if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG])
-            MainScreen.text("\n\n<b>Easy Mode On:  Bad-ends can be ignored.</b>");
+            DisplayText.text("\n\n<b>Easy Mode On:  Bad-ends can be ignored.</b>");
         if (Flags.list[FlagEnum.SILLY_MODE_ENABLE_FLAG])
-            MainScreen.text("\n\n<b>SILLY MODE ENGAGED: Crazy, nonsensical, and possibly hilarious things may occur.</b>");
-        if (isEaster())
-            MainScreen.text("\n\n<b>It's Easter!  Enjoy the eggs!</b>");
-        if (isValentine())
-            MainScreen.text("\n\n<b>It's Valentine's!</b>");
+            DisplayText.text("\n\n<b>SILLY MODE ENGAGED: Crazy, nonsensical, and possibly hilarious things may occur.</b>");
+        if (DateUtils.isEaster())
+            DisplayText.text("\n\n<b>It's Easter!  Enjoy the eggs!</b>");
+        if (DateUtils.isValentine())
+            DisplayText.text("\n\n<b>It's Valentine's!</b>");
         if (helFollower.isHeliaBirthday())
-            MainScreen.text("\n\n<b>It's Helia's Birthday Month!</b>");
+            DisplayText.text("\n\n<b>It's Helia's Birthday Month!</b>");
 
 
         let resume: () => void = null;
@@ -71,6 +70,6 @@ export default class MainMenu {
 
 
         MainScreen.displayChoices(["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-            [null, CreditsMenu.display, InstructionsMenu.display, null, SettingsMenu.display, resume]);
+            [null, Menus.Credits.display, Menus.Instructions.display, null, Menus.Settings.display, resume]);
     }
 }

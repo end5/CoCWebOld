@@ -1,29 +1,38 @@
-export default class GameOverMenu {
+import Menu from './Menu';
+import Menus from './Menus';
+import DisplayText from '../DisplayText';
+import MainScreen, { TopButton } from '../MainScreen';
+
+export default class GameOverMenu implements Menu {
+    public display() {
+        DisplayText.clear();
+        DisplayText.text("\n\n<b>GAME OVER</b>");
+        MainScreen.hideBottomButtons();
+        MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
+        MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);
+    }
+    /*
     public gameOver(clear: boolean = false): void { //Leaves text on screen unless clear is set to true
         if (testingBlockExiting) {
-            MainScreen.doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
+            DisplayText.doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
         }
         else {
-            if (clear) MainScreen.clearText();
-            MainScreen.text("\n\n<b>GAME OVER</b>");
-            MainScreen.hideButtons();
-            MainScreen.addButton(0, "Game Over", gameOverMenuOverride);
-            MainScreen.addButton(3, "NewGamePlus", charCreation.newGamePlus);
-            if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 || debug) MainScreen.addButton(4, "Debug Cheat", playerMenu);
+            if (clear) DisplayText.clear();
+            DisplayText.text("\n\n<b>GAME OVER</b>");
+            MainScreen.hideBottomButtons();
+            MainScreen.getBottomButton(0).modify("Game Over", gameOverMenuOverride);
+            MainScreen.getBottomButton(3).modify("NewGamePlus", charCreation.newGamePlus);
+            if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 || debug) DisplayText.getBottomButton(4).modify("Debug Cheat", playerMenu);
             gameOverMenuOverride();
 
         }
         inCombat = false;
         dungeonLoc = 0; //Replaces inDungeon = false;
     }
-
-    private gameOverMenuOverride(): void { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
-        mainView.showMenuButton(MainView.MENU_NEW_MAIN);
-        mainView.showMenuButton(MainView.MENU_DATA);
-        mainView.hideMenuButton(MainView.MENU_APPEARANCE);
-        mainView.hideMenuButton(MainView.MENU_LEVEL);
-        mainView.hideMenuButton(MainView.MENU_PERKS);
+    */
+    private gameOverMenuOverride() { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
+        MainScreen.hideTopButtons();
+        MainScreen.getTopButton(TopButton.MainMenu).show();
+        MainScreen.getTopButton(TopButton.Data).show();
     }
-
-
 }
