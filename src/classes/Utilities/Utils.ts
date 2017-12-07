@@ -49,14 +49,22 @@ export default class Utils {
         }
     }
 
-    public static rand(max): number {
-        return Math.floor(Math.random() * Math.floor(max)); //The maximum is exclusive and the minimum is inclusive
+    /**
+     * Returns the floor of a rand number from 0 to max. The maximum is exclusive and the minimum is inclusive.
+     * @param max 
+     */
+    public static rand(max: number): number {
+        return Math.floor(Math.random() * Math.floor(max)); //
     }
 
     public static chance(percent: number): boolean {
         if (percent > 100)
             percent = Math.random() * 100;
         return Math.random() * 100 < percent;
+    }
+
+    public static round(value: number, place: number = 1): number {
+        return Math.round(value * Math.pow(10, Math.floor(place))) / Math.pow(10, Math.floor(place));
     }
 }
 
