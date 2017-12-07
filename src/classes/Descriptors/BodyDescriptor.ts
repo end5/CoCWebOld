@@ -2,7 +2,7 @@
 import Player from '../Player/Player';
 import RaceScore from '../RaceScore';
 
-export default class PlayerDescriptor {
+export default class BodyDescriptor {
     public static describeBody(player: Player): string {
         let description: string = "";
         //OLD STUFF

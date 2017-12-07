@@ -5,11 +5,11 @@ import { AntennaeType, HornType } from '../../Body/Head';
 import { LowerBodyType, TailType } from '../../Body/LowerBody';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { WingType } from '../../Body/UpperBody';
+import BodyDescriptor from '../../Descriptors/BodyDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import PlayerDescriptor from '../../Descriptors/PlayerDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
@@ -282,7 +282,7 @@ export default class BeeHoney extends Consumable {
                 selectedCock.cockThickness += 0.1 * Utils.rand(5) + 0.5; //0.5 to 1 inches in thickness
                 player.stats.sens += 5;
             }
-            else if (cockSpot.get(0).cockType != CockType.BEE && PlayerDescriptor.describeRace(player) == "bee-morph") {
+            else if (cockSpot.get(0).cockType != CockType.BEE && BodyDescriptor.describeRace(player) == "bee-morph") {
                 selectedCock = cockSpot.get(0);
                 DisplayText.text("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + player.inventory.armorSlot.equipment.displayName + " and watch in fascination as your " + CockDescriptor.describeCock(player, selectedCock) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
                 DisplayText.text("It is entirely different from the usual feeling you get when you’re cock grows larger from imbibing transformative substances.  When the changes stop, the tip is shaped like a typical human mushroom cap covered in fine bee hair, but it feels nothing like what you’d expect a human dick to feel like.  Your whole length is incredibly sensitive, and touching it gives you incredible stimulation, but you’re sure that no matter how much you rub it, you aren’t going to cum by yourself.  You want cool honey covering it, you want tight walls surrounding it, you want to fertilize hundreds of eggs with it.  These desires are almost overwhelming, and it takes a lot of will not to just run off in search of the bee girl that gave you that special honey right now.  This isn’t good.\n\n");
