@@ -160,6 +160,13 @@ export default class CockSpot implements SerializeInterface {
         });
     }
 
+    public get listPiercedCocks(): Cock[] {
+        return this._cocks.filter((a: Cock) => {
+            if (a.pierced)
+                return a;
+        });
+    }
+
     public averageCockThickness(): number {
         let average: number = 0;
         for (let index = 0; index < this._cocks.length; index++)

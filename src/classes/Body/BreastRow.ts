@@ -23,7 +23,7 @@ export default class BreastRow implements SerializeInterface {
     public fuckable: boolean;
 
     public nippleLength: number;
-    public nipplesPierced: number;
+    public nipplesPierced: boolean;
     public nipplesPiercedShort: string;
     public nipplesPiercedLong: string;
 
@@ -39,7 +39,7 @@ export default class BreastRow implements SerializeInterface {
         this.fuckable = false;
 
         this.nippleLength = .25;
-        this.nipplesPierced = 0;
+        this.nipplesPierced = false;
         this.nipplesPiercedShort = "";
         this.nipplesPiercedLong = "";
 

@@ -136,6 +136,20 @@ export default class Chest implements SerializeInterface {
         });
     }
 
+    public get PiercedNipples(): BreastRow[] {
+        return this.breastRows.filter((a: BreastRow) => {
+            if (a.nipplesPierced)
+                return a;
+        });
+    }
+
+    public get NotPiercedNipples(): BreastRow[] {
+        return this.breastRows.filter((a: BreastRow) => {
+            if (!a.nipplesPierced)
+                return a;
+        });
+    }
+
     // Has ----------- V
 
     public hasNipples(): boolean {
