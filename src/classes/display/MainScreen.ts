@@ -26,12 +26,12 @@ export default class MainScreen {
     private static timeDayElement: TextElement;
     private static timeHourElement: TextElement;
 
-    private static NUM_TOP_BUTTONS = 6;
-    private static NUM_BOT_BUTTONS = 10;
-    public static NEXT_BUTTON_ID = 0;
-    public static BACK_BUTTON_ID = 9;
-    public static YES_BUTTON_ID = 0;
-    public static NO_BUTTON_ID = 1;
+    public static readonly NUM_TOP_BUTTONS = 6;
+    public static readonly NUM_BOT_BUTTONS = 10;
+    public static readonly NEXT_BUTTON_ID = 0;
+    public static readonly BACK_BUTTON_ID = MainScreen.NUM_BOT_BUTTONS - 1;
+    public static readonly YES_BUTTON_ID = 0;
+    public static readonly NO_BUTTON_ID = 1;
 
     public constructor() {
         MainScreen.bottomButtons = [];

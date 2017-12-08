@@ -1,36 +1,86 @@
-import DataMenu from './DataMenu';
-import MainScreen from './MainScreen';
-import SaveDisplay from './SaveDisplay';
-import Flags, { FlagEnum } from '../Game/Flags';
-import SaveManager from '../SaveManager';
+import Menu from './Menu';
+import Menus from './Menus';
+import { Gender } from '../../Body/Creature';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import SaveFile from '../../SaveFile';
+import SaveManager from '../../SaveManager';
+import DisplayText from '../DisplayText';
+import InputTextElement from '../Elements/InputTextElement';
+import ListItemElement from '../Elements/ListItemElement';
+import { TextFlag } from '../Elements/TextElement';
+import UnorderedListElement from '../Elements/UnorderedListElement';
+import MainDisplay from '../MainDisplay';
+import MainScreen from '../MainScreen';
 
-export default class SaveMenu {
-    public static display(): void {
-        MainScreen.text("", true);
+export default class SaveMenu implements Menu {
+    public display() {
+        DisplayText.clear();
+
+        const notesInputElement = new InputTextElement();
+        MainScreen.screen.mainDisplay.appendElement(notesInputElement);
+
         if (SaveManager.activeSlot() != 0)
-            MainScreen.text("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r", false);
-        MainScreen.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", false);
+            DisplayText.bold("Last saved or loaded from: " + SaveManager.activeSlot());
+        DisplayText.text("Slot: Sex,  Game Days Played", TextFlag.Bold | TextFlag.Underscore);
 
-        SaveDisplay.displaySaves();
+        this.displaySaves();
 
-        //if (player.slotName == "VOID")
-        //    MainScreen.text("\r\r", false);
-
-        MainScreen.text("<b>Leave the notes box blank if you don't wish to change notes.\r<u>NOTES:</u></b>", false);
+        DisplayText.bold("Leave the notes box blank if you don't wish to change notes.");
+        DisplayText.text("NOTES:", TextFlag.Bold | TextFlag.Underscore);
 
 
-
-        MainScreen.hideButtons();
+        MainScreen.hideBottomButtons();
         for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
             if (SaveManager.has(index)) {
-                MainScreen.addButton(index, "Slot " + index.toString(), function () { SaveMenu.confirmOverwrite(index) }, false);
+                MainScreen.getBottomButton(index).modify("Slot " + index.toString(), function () { this.confirmOverwrite(index) });
             }
         }
-        MainScreen.addButton(SaveManager.saveSlotCount(), "Back", DataMenu.display);
+        MainScreen.getBottomButton(SaveManager.saveSlotCount()).modify("Back", Menus.Data.display);
     }
 
-    private static confirmOverwrite(slotNumber: number) {
-        MainScreen.text("You are about to overwrite the following save: <b>" + Flags.list[FlagEnum.TEMP_STORAGE_SAVE_DELETION] + "</b>\n\nAre you sure you want to delete it?", true);
-        MainScreen.displayChoices(["No", "Yes"], [SaveMenu.display, function () { SaveManager.save(slotNumber) }]);
+    private confirmOverwrite(slotNumber: number) {
+        DisplayText.text("You are about to overwrite the following save: <b>");
+        DisplayText.bold(Flags.list[FlagEnum.TEMP_STORAGE_SAVE_DELETION]);
+        DisplayText.newParagraph();
+        DisplayText.text("Are you sure you want to delete it?");
+        MainScreen.displayChoices(["No", "Yes"], [Menus.Save.display, function () { SaveManager.save(slotNumber) }]);
+    }
+
+    public displaySaves() {
+        const saveListElement = new UnorderedListElement();
+        MainScreen.screen.mainDisplay.appendElement(saveListElement);
+
+        for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
+            const saveElement = new ListItemElement();
+            saveListElement.appendElement(saveElement);
+            this.saveInfo(<SaveFile>SaveManager.get(index), (index + 1).toString(), saveElement);
+        }
+    }
+
+    private saveInfo(saveFile: SaveFile, slotName: string, element: ListItemElement) {
+        element.text(slotName + ":  ");
+        if (saveFile) {
+            element.bold(saveFile.desc);
+            element.text(" - ");
+            if (saveFile.notes)
+                element.italic(saveFile.notes);
+            else
+                element.text("No notes available.");
+            element.newline();
+            element.text("Days - " + saveFile.days + "  Gender - ");
+            if (saveFile.gender == Gender.NONE)
+                element.text("U");
+            if (saveFile.gender == Gender.MALE)
+                element.text("M");
+            if (saveFile.gender == Gender.FEMALE)
+                element.text("F");
+            if (saveFile.gender == Gender.HERM)
+                element.text("H");
+            element.newline();
+        }
+        else {
+            element.bold("EMPTY");
+            element.newline(2);
+        }
     }
 }
