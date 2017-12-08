@@ -1,6 +1,7 @@
+import { ListEntryElement } from './ListItemElement';
 import ScreenElement from './ScreenElement';
 
-export default class ListElement extends ScreenElement {
+export default class UnorderedListElement extends ScreenElement {
     private list: ListEntryElement[];
     
     public constructor(element?: HTMLUListElement) {
@@ -29,15 +30,5 @@ export default class ListElement extends ScreenElement {
 
     public count(): number {
         return this.list.length;
-    }
-}
-
-export class ListEntryElement extends ScreenElement {
-    public constructor(element?: HTMLLIElement) {
-        super(element);
-    }
-    
-    protected create(): HTMLElement {
-        return document.createElement('li');
     }
 }

@@ -22,4 +22,8 @@ export default abstract class ScreenElement {
     public removeElement(element: ScreenElement) {
         this.htmlElement.removeChild(element.htmlElement);
     }
+
+    public get style(): CSSStyleDeclaration {
+        return this.htmlElement.style;
+    }
 }

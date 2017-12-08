@@ -7,18 +7,10 @@ export enum TextFlag {
     Underscore = 1 << 2
 }
 
-export default class TextElement extends ScreenElement {
+export default abstract class TextElement extends ScreenElement {
     private textBuffer: string = "";
     private bufferModified: boolean = false;
     private flags: TextFlag = TextFlag.None;
-
-    public constructor(element?: HTMLParagraphElement) {
-        super(element);
-    }
-
-    protected create(): HTMLElement {
-        return document.createElement('p');
-    }
 
     private store(text: string) {
         this.textBuffer += text;
