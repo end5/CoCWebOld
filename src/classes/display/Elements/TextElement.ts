@@ -79,6 +79,10 @@ export default abstract class TextElement extends ScreenElement {
     }
 
     public clear() {
+        while (this.htmlElement.hasChildNodes()) {
+            this.htmlElement.removeChild(this.htmlElement.lastChild);
+        }
         this.textBuffer = "";
+        this.store("");
     }
 }
