@@ -1,4 +1,5 @@
 import MainMenu from './MainMenu';
+import Menus from './Menus';
 import DisplayText from '../DisplayText';
 import MainScreen from '../MainScreen';
 
@@ -132,6 +133,6 @@ export default class CreditsMenu {
         DisplayText.text("<li> Gardeford (Helia x Bimbo Sophie Threesomes)</li>");
         DisplayText.text("</ul>");
         DisplayText.text("\nIf I'm missing anyone, please contact me ASAP!  I have done a terrible job keeping the credits up to date!");
-        MainScreen.doNext(MainMenu.display);
+        MainScreen.doNext(Menus.Main.display);
     }
 }

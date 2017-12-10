@@ -1,25 +1,19 @@
-import MainScreen from "./MainScreen";
-import SaveManager from "../SaveManager";
-import SaveDisplay from "./SaveDisplay";
-import DataMenu from "./DataMenu";
+import DataMenu from './DataMenu';
+import Menus from './Menus';
+import SaveDisplayMenu from './SaveDisplayMenu';
+import SaveManager from '../../SaveManager';
+import DisplayText from '../DisplayText';
+import MainScreen from '../MainScreen';
 
-export default class LoadMenu {
-    public static display(): void {
-        MainScreen.text("", true);
+export default class LoadMenu extends SaveDisplayMenu {
+    public display() {
+        DisplayText.clear();
         if (SaveManager.activeSlot() != 0)
-            MainScreen.text("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r", false);
-        MainScreen.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r", false);
+            DisplayText.text("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r");
+        DisplayText.text("<b><u>Slot: Sex,  Game Days Played</u></b>\r");
 
-        SaveDisplay.displaySaves();
-
-
-
-        MainScreen.hideButtons();
-        for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
-            if (SaveManager.has(index)) {
-                MainScreen.addButton(index, "Slot " + index.toString(), function () { SaveManager.load(index) }, false);
-            }
-        }
-        MainScreen.addButton(SaveManager.saveSlotCount(), "Back", DataMenu.display);
+        this.displaySaves();
+        
+        this.modifyBottomButtons(SaveManager.loadFromSlot, Menus.Data.display);
     }
 }

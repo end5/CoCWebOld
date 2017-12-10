@@ -1,11 +1,14 @@
 import DeleteMenu from './DeleteMenu';
 import LoadMenu from './LoadMenu';
 import Menu from './Menu';
+import Menus from './Menus';
 import SaveMenu from './SaveMenu';
 import Game, { GameState } from '../../Game/Game';
 import Player from '../../Player/Player';
 import SaveManager from '../../SaveManager';
 import DisplayText from '../DisplayText';
+import InputFileElement from '../Elements/InputFileElement';
+import TextAreaElement from '../Elements/TextAreaElement';
 import MainScreen from '../MainScreen';
 
 export default class DataMenu implements Menu {
@@ -28,12 +31,12 @@ export default class DataMenu implements Menu {
         MainScreen.hideBottomButtons();
 
         if (Game.state == GameState.GameOver || player.stats.str == 0 || inDungeon) {
-            MainScreen.getBottomButton(0).modify("Save", SaveMenu.display, true);
-            MainScreen.getBottomButton(5).modify("Save File", SaveManager.saveToFile, true);
+            MainScreen.getBottomButton(0).modify("Save", Menus.Save.display, true);
+            MainScreen.getBottomButton(5).modify("Save File", Menus.SaveFile.display, true);
         }
         else {
-            MainScreen.getBottomButton(0).modify("Save", SaveMenu.display);
-            MainScreen.getBottomButton(5).modify("Save File", SaveManager.saveToFile);
+            MainScreen.getBottomButton(0).modify("Save", Menus.Save.display);
+            MainScreen.getBottomButton(5).modify("Save File", Menus.SaveFile.display);
         }
 
         MainScreen.getBottomButton(1).modify("Load", LoadMenu.display);
@@ -43,14 +46,13 @@ export default class DataMenu implements Menu {
             MainScreen.getBottomButton(2).modify("AutoSav: OFF", SaveManager.autosaveToggle);
 
         MainScreen.getBottomButton(3).modify("Delete", DeleteMenu.display);
-        MainScreen.getBottomButton(6).modify("Load File", SaveManager.loadFromFile);
+        MainScreen.getBottomButton(6).modify("Load File", Menus.LoadFile.display);
 
         if (Game.state == GameState.GameOver)
-            MainScreen.getBottomButton(9).modify("Back", GameOverMenu.display);
+            MainScreen.getBottomButton(9).modify("Back", Menus.GameOver.display);
         if (player.stats.str == 0)
-            MainScreen.getBottomButton(9).modify("Back", MainMenu.display);
+            MainScreen.getBottomButton(9).modify("Back", Menus.MainMenu.display);
         else
-            MainScreen.getBottomButton(9).modify("Back", PlayerMenu.display);
+            MainScreen.getBottomButton(9).modify("Back", Menus.Player.display);
     }
-
 }

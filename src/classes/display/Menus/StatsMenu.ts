@@ -342,6 +342,6 @@ export default class StatsMenu implements Menu {
             DisplayText.text("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
         // End Ongoing Stat Effects
 
-        MainScreen.doNext(Menus.PlayerMenu.display);
+        MainScreen.doNext(Menus.Player.display);
     }
 }
