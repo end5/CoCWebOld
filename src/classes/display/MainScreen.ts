@@ -1,8 +1,8 @@
 ﻿import ButtonElement, { ClickFunction } from './Elements/ButtonElement';
 import ImageElement from './Elements/ImageElement';
+import ParagraphElement from './Elements/ParagraphElement';
 import StatsPanel from './Elements/StatsPanel';
 import TextElement from './Elements/TextElement';
-import MainDisplay from './MainDisplay';
 import Game from '../Game/Game';
 import Player from '../Player/Player';
 import HtmlUtils from '../Utilities/HtmlUtils';
@@ -17,7 +17,6 @@ export enum TopButton {
 }
 
 export default class MainScreen {
-    public static readonly screen: MainDisplay = new MainDisplay();
     private static bottomButtons: ButtonElement[];
     private static topButtons: ButtonElement[];
     private static nameDisplay: TextElement;
@@ -45,11 +44,11 @@ export default class MainScreen {
         }
 
         MainScreen.statsPanel = new StatsPanel(<HTMLAnchorElement>HtmlUtils.loadFromId("statsPanel"));
-        MainScreen.nameDisplay = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("nameDisplay"));
+        MainScreen.nameDisplay = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("nameDisplay"));
 
         MainScreen.levelupIcon = new ImageElement(<HTMLImageElement>HtmlUtils.loadFromId("levelupIcon"));
-        MainScreen.timeDayElement = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeDay"));
-        MainScreen.timeHourElement = new TextElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeHour"));
+        MainScreen.timeDayElement = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeDay"));
+        MainScreen.timeHourElement = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeHour"));
     }
 
     // Top Buttons
