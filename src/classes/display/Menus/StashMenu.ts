@@ -1,59 +1,61 @@
-import Player from "../Player";
-import MainScreen from "./MainScreen";
-import Flags, { FlagEnum } from "../Game/Flags";
-import Game from "../Game/Game";
-import PlayerMenu from "./PlayerMenu";
-import Inventory from "../Inventory/Inventory";
-import Item from "../Items/Item";
+import Menu from './Menu';
+import Menus from './Menus';
+import PlayerMenu from './PlayerMenu';
+import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
+import Player from '../../Player/Player';
+import DisplayText from '../DisplayText';
+import MainScreen from '../MainScreen';
 
-export default class StashMenu {
-    public static display(player: Player) {
-        MainScreen.clearText();
+export default class StashMenu implements Menu {
+    public display(player: Player) {
+        DisplayText.clear();
         spriteSelect(-1);
-        MainScreen.hideButtons();
+        MainScreen.hideBottomButtons();
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
             Game.sceneManager.anemoneScene.anemoneBarrelDescription();
             if (model.time.hours >= 6)
-                MainScreen.addButton(4, "Anemone", Game.sceneManager.anemoneScene.approachAnemoneBarrel);
+            MainScreen.getBottomButton(4).modify("Anemone", Game.sceneManager.anemoneScene.approachAnemoneBarrel);
         }
         if (player.hasKeyItem("Camp - Chest")) {
-            MainScreen.text("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
-            MainScreen.addButton(0, "Chest Store", pickItemToTakeFromStorage);
+            DisplayText.text("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
+            MainScreen.getBottomButton(0).modify("Chest Store", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.chest.isEmpty())
-                MainScreen.addButton(1, "Chest Take", pickItemToTakeFromStorage);
+            MainScreen.getBottomButton(1).modify("Chest Take", this.pickItemToTakeFromStorage);
         }
         //Weapon Rack
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
-            MainScreen.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
-            MainScreen.addButton(2, "W.Rack Put", pickItemToTakeFromStorage);
+            DisplayText.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
+            MainScreen.getBottomButton(2).modify("W.Rack Put", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.weaponRack.isEmpty())
-                MainScreen.addButton(3, "W.Rack Take", pickItemToTakeFromStorage);
-            MainScreen.text("\n\n");
+            MainScreen.getBottomButton(3).modify("W.Rack Take", this.pickItemToTakeFromStorage);
+            DisplayText.text("\n\n");
         }
         //Armor Rack
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
-            MainScreen.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
-            MainScreen.addButton(5, "A.Rack Put", pickItemToTakeFromStorage);
+            DisplayText.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
+            MainScreen.getBottomButton(5).modify("A.Rack Put", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.armorRack.isEmpty())
-                MainScreen.addButton(6, "A.Rack Take", pickItemToTakeFromStorage);
-            MainScreen.text("\n\n");
+            MainScreen.getBottomButton(6).modify("A.Rack Take", this.pickItemToTakeFromStorage);
+            DisplayText.text("\n\n");
         }
-        MainScreen.addButton(9, "Back", PlayerMenu.display);
+        MainScreen.addBackButton("Back", Menus.Player.display);
     }
 
-    private static pickItemToTakeFromStorage() {
-        MainScreen.clearText(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
+    private pickItemToTakeFromStorage() {
+        DisplayText.clear(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
         if (!itemAnyInStorage(storage, startSlot, endSlot)) { //If no items are left then return to the camp menu. Can only happen if the player removes the last item.
             playerMenu();
             return;
         }
-        MainScreen.text("What " + text + " slot do you wish to take an item from?");
+        DisplayText.text("What " + text + " slot do you wish to take an item from?");
         let button: number = 0;
-        MainScreen.hideButtons();
+        MainScreen.hideBottomButtons();
         for (let x: number = startSlot; x < endSlot; x++ , button++) {
-            if (storage[x].quantity > 0) MainScreen.addButton(button, (storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
+            if (storage[x].quantity > 0)
+            MainScreen.getBottomButton(button).modify((storage[x].itype.shortName + " x" + storage[x].quantity), createCallBackFunction2(pickFrom, storage, x));
         }
-        MainScreen.addButton(9, "Back", stash);
+        MainScreen.addBackButton("Back", this.display);
     }
 
 }

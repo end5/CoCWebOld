@@ -6,18 +6,16 @@ import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import DisplayText from '../DisplayText';
-import ButtonElement, { ClickFunction } from '../Elements/ButtonElement';
-import ListElement, { ListEntryElement } from '../Elements/ListElement';
-import ScreenElement from '../Elements/ScreenElement';
-import TextElement from '../Elements/TextElement';
+import ButtonElement from '../Elements/ButtonElement';
+import ListItemElement from '../Elements/ListItemElement';
+import ParagraphElement from '../Elements/ParagraphElement';
+import UnorderedListElement from '../Elements/UnorderedListElement';
 import MainScreen, { TopButton } from '../MainScreen';
 
 export default class PerkUpMenu implements Menu {
-    public display(player: Player, prevMenu: ClickFunction) {
+    private selectedPerk: Perk;
 
-    }
-
-    private perkBuyMenu(player: Player): void {
+    public display(player: Player) {
         DisplayText.clear();
         let perkList: Perk[] = this.getAvailablePerks(player);
 
@@ -25,46 +23,55 @@ export default class PerkUpMenu implements Menu {
             DisplayText.text("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + Utils.numToCardinalText(player.perkPoints) + " perk point");
             if (player.perkPoints > 1) DisplayText.text("s");
             DisplayText.text(".");
-            MainScreen.doNext(Menus.PlayerMenu);
+            MainScreen.doNext(Menus.Player.display);
         }
         else {
-            DisplayText.text("Please select a perk from the drop-down list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.\n\n");
+            DisplayText.text("Please select a perk from the list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.");
+            DisplayText.newParagraph();
 
-            // display perk screen
+            this.displayPerkList(player);
 
             MainScreen.getTopButton(TopButton.MainMenu).hide();
             MainScreen.hideBottomButtons();
-            MainScreen.getBottomButton(1).modify("Skip", Menus.PlayerMenu);
+            MainScreen.getBottomButton(0).modify("Okay", this.confirmPerk, true);
+            MainScreen.getBottomButton(1).modify("Skip", Menus.Player.display);
         }
     }
 
-    private changeHandler(event: Event): void {
+    private confirmPerk(player: Player) {
         DisplayText.clear();
-        DisplayText.text("You have selected the following perk:\n\n");
-        DisplayText.bold(selected.perkName + ": ");
-        DisplayText.text(selected.perkLongDesc);
+        DisplayText.text("You have selected the following perk:");
+        DisplayText.newParagraph();
+        DisplayText.bold(this.selectedPerk.desc.name + ": ");
+        DisplayText.text(this.selectedPerk.desc.longDesc);
         DisplayText.newParagraph();
         DisplayText.text("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
         MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Okay", function () { this.applyPerk(player, selected) });
-        MainScreen.getBottomButton(1).modify("Skip", Menus.PlayerMenu);
+        MainScreen.getBottomButton(0).modify("Okay", this.applyPerk);
+        MainScreen.getBottomButton(1).modify("Skip", Menus.Player.display);
     }
 
     private displayPerkList(player: Player) {
+        if (this.selectedPerk)
+            this.selectedPerk = null;
         const perkList = this.getAvailablePerks(player);
-        const perkListDisplay = new ListElement();
-        MainScreen.screen.mainDisplay.appendElement(perkListDisplay);
+        const perkListDisplay = new UnorderedListElement();
+        DisplayText.appendElement(perkListDisplay);
         perkList.forEach((perk) => {
-            const listEntry = new ListEntryElement();
+            const listEntry = new ListItemElement();
             perkListDisplay.appendElement(listEntry);
-            
+
             const buttonElement = new ButtonElement();
             listEntry.appendElement(buttonElement);
-            buttonElement.modify(perk.desc.name, null);
+            buttonElement.modify(perk.desc.name, () => {
+                this.selectedPerk = perk;
+                // Okay button is disabled until perk is selected
+                MainScreen.getBottomButton(0).enable();
+            });
 
-            const textElement = new TextElement();
-            listEntry.appendElement(textElement);
-            textElement.text(perk.desc.longDesc);
+            const longDescElement = new ParagraphElement();
+            listEntry.appendElement(longDescElement);
+            longDescElement.text(perk.desc.longDesc);
         })
     }
 
@@ -144,7 +151,8 @@ export default class PerkUpMenu implements Menu {
                 perkList.push(PerkFactory.create(PerkType.SpeedyRecovery));
             }
             //Agility - A small portion of your speed is applied to your defense rating when wearing light armors.
-            if (player.stats.spe > 75 && player.perks.has(PerkType.Runner) && (player.armorPerk == "Light" || player.armorPerk == "Medium")) {
+            if (player.stats.spe > 75 && player.perks.has(PerkType.Runner) && 
+                (player.inventory.armorSlot.equipment.armorClass == "Light" || player.inventory.armorSlot.equipment.armorClass == "Medium")) {
                 perkList.push(PerkFactory.create(PerkType.Agility));
             }
             if (player.stats.spe >= 60) {
@@ -172,7 +180,7 @@ export default class PerkUpMenu implements Menu {
         if (player.stats.level >= 6) {
             if (player.stats.int >= 50)
                 perkList.push(PerkFactory.create(PerkType.Tactician));
-            if (player.inventory.spellCount() > 0 && player.perks.has(PerkType.Spellpower) && player.perks.has(PerkType.Mage) && player.stats.int >= 60) {
+            if (player.combat.spellCount() > 0 && player.perks.has(PerkType.Spellpower) && player.perks.has(PerkType.Mage) && player.stats.int >= 60) {
                 perkList.push(PerkFactory.create(PerkType.Channeling));
             }
             if (player.stats.int >= 60) {
@@ -246,76 +254,18 @@ export default class PerkUpMenu implements Menu {
         return perkList;
     }
 
-    public applyPerk(player: Player, perk: Perk): void {
+    private applyPerk(player: Player) {
         DisplayText.clear();
         player.perkPoints--;
         //Apply perk here.
-        DisplayText.bold(perk.uniqueKey);
+        DisplayText.bold(this.selectedPerk.uniqueKey);
         DisplayText.text(" gained!");
-        player.perks.add(PerkFactory.copy(perk));
-        if (perk.type == PerkType.StrongBack2) player.inventory.items.unlock();
-        if (perk.type == PerkType.StrongBack) player.inventory.items.unlock();
-        if (perk.type == PerkType.Tank2) {
+        player.perks.add(PerkFactory.copy(this.selectedPerk));
+        if (this.selectedPerk.type == PerkType.StrongBack2) player.inventory.items.unlock();
+        if (this.selectedPerk.type == PerkType.StrongBack) player.inventory.items.unlock();
+        if (this.selectedPerk.type == PerkType.Tank2) {
             player.stats.HP += player.stats.tou;
         }
-        MainScreen.doNext(Menus.PlayerMenu.display);
+        MainScreen.doNext(Menus.Player.display);
     }
-
-    public levelUpGo(e: MouseEvent = null): void {
-        DisplayText.clear();
-        hideMenus();
-        mainView.hideMenuButton(MainView.MENU_NEW_MAIN);
-        //Level up
-        if (player.XP >= (player.stats.level) * 100) {
-            player.stats.level++;
-            player.perkPoints++;
-            DisplayText.text("<b>You are now level " + player.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
-            player.XP -= (player.stats.level - 1) * 100;
-            DisplayText.hideButtons();
-            DisplayText.addButton(0, "Strength", levelUpStatStrength);
-            DisplayText.addButton(1, "Toughness", levelUpStatToughness);
-            DisplayText.addButton(2, "Speed", levelUpStatSpeed);
-            DisplayText.addButton(3, "Intelligence", levelUpStatIntelligence);
-        }
-        //Spend perk points
-        else if (player.perkPoints > 0) {
-            perkBuyMenu();
-        }
-        else {
-            DisplayText.text("<b>ERROR.  LEVEL UP PUSHED WHEN PC CANNOT LEVEL OR GAIN PERKS.  PLEASE REPORT THE STEPS TO REPRODUCE THIS BUG TO FENOXO@GMAIL.COM OR THE FENOXO.COM BUG REPORT FORUM.</b>");
-            DisplayText.doNext(playerMenu);
-        }
-    }
-
-    private levelUpStatStrength(): void {
-        player.stats.str += 5; //Gain +5 Str due to level
-        DisplayText.clear();
-        DisplayText.text("Your muscles feel significantly stronger from your time adventuring.");
-        DisplayText.doNext(perkBuyMenu);
-    }
-
-    private levelUpStatToughness(): void {
-        player.stats.tou += 5; //Gain +5 Toughness due to level
-        trace("HP: " + player.HP + " MAX HP: " + maxHP());
-        updateStats(player);
-        DisplayText.clear();
-        DisplayText.text("You feel tougher from all the fights you have endured.");
-        DisplayText.doNext(perkBuyMenu);
-    }
-
-    private levelUpStatSpeed(): void {
-        player.stats.spe += 5; //Gain +5 speed due to level
-        DisplayText.clear();
-        DisplayText.text("Your time in combat has driven you to move faster.");
-        DisplayText.doNext(perkBuyMenu);
-    }
-
-    private levelUpStatIntelligence(): void {
-        player.stats.int += 5; //Gain +5 Intelligence due to level
-        DisplayText.clear();
-        DisplayText.text("Your time spent fighting the creatures of this realm has sharpened your wit.");
-        DisplayText.doNext(perkBuyMenu);
-    }
-
-
 }

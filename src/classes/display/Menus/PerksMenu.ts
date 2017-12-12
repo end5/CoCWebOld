@@ -3,12 +3,14 @@ import Menus from './Menus';
 import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
+import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import DisplayText from '../DisplayText';
+import { ClickFunction } from '../Elements/ButtonElement';
 import MainScreen from '../MainScreen';
 
 export default class PerksMenu implements Menu {
-    public display(player: Player, prevMenu: ClickFunction) {
+    public display(player: Player) {
         DisplayText.clear();
         for (let index = 0; index < player.perks.count(); index++) {
             DisplayText.bold(player.perks.at(index).type);
@@ -27,7 +29,7 @@ export default class PerksMenu implements Menu {
             DisplayText.bold("You can adjust your double attack settings.");
             MainScreen.getBottomButton(2).modify("Dbl Options", this.doubleAttackOptions);
         }
-        MainScreen.doNext(PlayerMenu.display);
+        MainScreen.doNext(Menus.Player.display);
     }
 
     public doubleAttackOptions(): void {

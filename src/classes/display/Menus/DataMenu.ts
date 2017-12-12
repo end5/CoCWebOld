@@ -39,13 +39,13 @@ export default class DataMenu implements Menu {
             MainScreen.getBottomButton(5).modify("Save File", Menus.SaveFile.display);
         }
 
-        MainScreen.getBottomButton(1).modify("Load", LoadMenu.display);
+        MainScreen.getBottomButton(1).modify("Load", Menus.Load.display);
         if (SaveManager.autoSave)
             MainScreen.getBottomButton(2).modify("AutoSav: ON", SaveManager.autosaveToggle);
         else
             MainScreen.getBottomButton(2).modify("AutoSav: OFF", SaveManager.autosaveToggle);
 
-        MainScreen.getBottomButton(3).modify("Delete", DeleteMenu.display);
+        MainScreen.getBottomButton(3).modify("Delete", Menus.Delete.display);
         MainScreen.getBottomButton(6).modify("Load File", Menus.LoadFile.display);
 
         if (Game.state == GameState.GameOver)

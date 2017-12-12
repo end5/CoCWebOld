@@ -1,64 +1,123 @@
-import MainScreen from "./MainScreen";
-import InputManager from "../InputManager";
+import Menu from './Menu';
+import Menus from './Menus';
+import BindableAction from '../../Input/BindableAction';
+import InputManager from '../../Input/InputManager';
+import Player from '../../Player/Player';
+import DisplayText from '../DisplayText';
+import ButtonElement, { ClickFunction } from '../Elements/ButtonElement';
+import ListItemElement from '../Elements/ListItemElement';
+import UnorderedListElement from '../Elements/UnorderedListElement';
+import MainScreen from '../MainScreen';
 
-export default class ControlsMenu {
-    public static display() {
+export default class ControlsMenu implements Menu {
+    public display() {
+        DisplayText.clear();
+        DisplayText.text("<b>Keyboard Control Bindings:</b>\n\n");
+        DisplayText.text("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
+        DisplayText.text("Custom bindings are stored inside your save game files.\n\n");
+        DisplayText.text("Duplicate keys are automatically unbound from their old control action.\n\n");
+        DisplayText.text("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
+        DisplayText.text("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
 
-        MainScreen.clearText();
-        MainScreen.text("<b>Keyboard Control Bindings:</b>\n\n");
-        MainScreen.text("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
-        MainScreen.text("Custom bindings are stored inside your save game files.\n\n");
-        MainScreen.text("Duplicate keys are automatically unbound from their old control action.\n\n");
-        MainScreen.text("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
-        MainScreen.text("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
+        const bindListElement = new UnorderedListElement();
+        DisplayText.appendElement(bindListElement);
 
-        // create buttons here
+        this.listBindableAction(bindListElement, "Stats", BindableAction.Stats);
+        this.listBindableAction(bindListElement, "Level Up", BindableAction.LevelUp);
+        this.listBindableAction(bindListElement, "Quicksave 1", BindableAction.Quicksave1);
+        this.listBindableAction(bindListElement, "Quicksave 2", BindableAction.Quicksave2);
+        this.listBindableAction(bindListElement, "Quicksave 3", BindableAction.Quicksave3);
+        this.listBindableAction(bindListElement, "Quicksave 4", BindableAction.Quicksave4);
+        this.listBindableAction(bindListElement, "Quicksave 5", BindableAction.Quicksave5);
+        this.listBindableAction(bindListElement, "Quickload 1", BindableAction.Quickload1);
+        this.listBindableAction(bindListElement, "Quickload 2", BindableAction.Quickload2);
+        this.listBindableAction(bindListElement, "Quickload 3", BindableAction.Quickload3);
+        this.listBindableAction(bindListElement, "Quickload 4", BindableAction.Quickload4);
+        this.listBindableAction(bindListElement, "Quickload 5", BindableAction.Quickload5);
+        this.listBindableAction(bindListElement, "Show Menu", BindableAction.MainMenu);
+        this.listBindableAction(bindListElement, "Data Menu", BindableAction.SaveLoad);
+        this.listBindableAction(bindListElement, "Appearance Page", BindableAction.Appearance);
+        this.listBindableAction(bindListElement, "No", BindableAction.No);
+        this.listBindableAction(bindListElement, "Yes", BindableAction.Yes);
+        this.listBindableAction(bindListElement, "Show Perks", BindableAction.Perks);
+        this.listBindableAction(bindListElement, "Continue", BindableAction.Back);
+        this.listBindableAction(bindListElement, "Cycle Background", BindableAction.CycleBackground);
+        this.listBindableAction(bindListElement, "Button 1", BindableAction.Button0);
+        this.listBindableAction(bindListElement, "Button 2", BindableAction.Button1);
+        this.listBindableAction(bindListElement, "Button 3", BindableAction.Button2);
+        this.listBindableAction(bindListElement, "Button 4", BindableAction.Button3);
+        this.listBindableAction(bindListElement, "Button 5", BindableAction.Button4);
+        this.listBindableAction(bindListElement, "Button 6", BindableAction.Button5);
+        this.listBindableAction(bindListElement, "Button 7", BindableAction.Button6);
+        this.listBindableAction(bindListElement, "Button 8", BindableAction.Button7);
+        this.listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
+        this.listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-        //
-
-        MainScreen.hideButtons();
-        MainScreen.addButton(0, "Reset Ctrls", ControlsMenu.resetControls);
-        MainScreen.addButton(1, "Clear Ctrls", ControlsMenu.clearControls);
-        MainScreen.addButton(9, "Back", ControlsMenu.hideControls);
-
+        MainScreen.hideBottomButtons();
+        MainScreen.getBottomButton(0).modify("Reset Ctrls", this.resetControls);
+        MainScreen.getBottomButton(1).modify("Clear Ctrls", this.clearControls);
+        MainScreen.addBackButton("Back", Menus.Settings.display);
     }
 
-    public static hideControls(): void {
-        InputManager.HideBindingPane();
+    private listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {
+        const bindElement = new ListItemElement();
+        bindListElement.appendElement(bindElement);
+        bindElement.bold(text);
+        
+        const button1 = new ButtonElement();
+        bindElement.appendElement(button1);
+        button1.modify(InputManager.get(bindableAction).primaryKey.toString(), (player: Player, event: KeyboardEvent) => {
+            const key = InputManager.get(bindableAction).primaryKey;
+            key.keyCode = event.keyCode;
+            key.shiftKey = event.shiftKey;
+            key.altKey = event.altKey;
+            key.ctrlKey = event.ctrlKey;
+            key.metaKey = event.metaKey;
+        });
 
-        settingsScreen();
+        const button2 = new ButtonElement();
+        bindElement.appendElement(button2);
+        button2.modify(InputManager.get(bindableAction).secondaryKey.toString(), (player: Player, event: KeyboardEvent) => {
+            const key = InputManager.get(bindableAction).secondaryKey;
+            key.keyCode = event.keyCode;
+            key.shiftKey = event.shiftKey;
+            key.altKey = event.altKey;
+            key.ctrlKey = event.ctrlKey;
+            key.metaKey = event.metaKey;
+        });
     }
 
-    public static resetControls(): void {
-        InputManager.HideBindingPane();
+    public resetControls() {
+        DisplayText.clear();
+        DisplayText.text("Are you sure you want to reset all of the currently bound controls to their defaults?");
 
-        MainScreen.text("Are you sure you want to reset all of the currently bound controls to their defaults?", true);
-
-        MainScreen.doYesNo(ControlsMenu.resetControlsYes, ControlsMenu.display);
+        MainScreen.doYesNo(this.resetControlsYes, this.display);
     }
 
-    public static resetControlsYes(): void {
-        InputManager.ResetToDefaults();
+    public resetControlsYes(): void {
+        InputManager.resetAll();
 
-        MainScreen.text("Controls have been reset to defaults!\n\n", true);
+        DisplayText.clear();
+        DisplayText.text("Controls have been reset to defaults!");
 
-        MainScreen.doNext(ControlsMenu.display);
+        MainScreen.doNext(this.display);
     }
 
-    public static clearControls(): void {
-        InputManager.HideBindingPane();
+    public clearControls(): void {
 
-        MainScreen.text("Are you sure you want to clear all of the currently bound controls?", true);
+        DisplayText.clear();
+        DisplayText.text("Are you sure you want to clear all of the currently bound controls?");
 
-        MainScreen.doYesNo(ControlsMenu.clearControlsYes, ControlsMenu.display);
+        MainScreen.doYesNo(this.clearControlsYes, this.display);
     }
 
-    public static clearControlsYes(): void {
-        InputManager.ClearAllBinds();
+    public clearControlsYes(): void {
+        InputManager.clearAll();
 
-        MainScreen.text("Controls have been cleared!", true);
+        DisplayText.clear();
+        DisplayText.text("Controls have been cleared!");
 
-        MainScreen.doNext(ControlsMenu.display);
+        MainScreen.doNext(this.display);
     }
     /*
     --Default controls
