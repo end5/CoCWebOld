@@ -5,7 +5,7 @@ import Utils from '../../Utilities/Utils';
 
 
 export interface ClickFunction {
-    (player: Player): void;
+    (player: Player, event?: Event, prevMenu?: ClickFunction): void;
 }
 
 interface EventFunction {
@@ -37,7 +37,7 @@ export default class ButtonElement extends ScreenElement {
 
         this.disable();
         this.clickFunc = (evnt: Event) => {
-            clickFunc(Game.player);
+            clickFunc(Game.player, evnt, clickFunc);
         };
         if (!disable)
             this.enable();
