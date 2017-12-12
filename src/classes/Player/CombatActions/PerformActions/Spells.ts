@@ -1,6 +1,8 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
+import { StatusAffectType } from '../../../Effects/StatusAffectType';
+import Player from '../../Player';
 import SpellActionLib from '../ActionLibs/SpellActionLib';
 
 export default class Spells implements CombatAction {

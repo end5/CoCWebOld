@@ -4,23 +4,6 @@ import CombatAction from '../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../Player';
 
-export function hasSpells(player: Player): boolean {
-    return spellCount(player) > 0;
-}
-
-export function spellCount(player: Player): number {
-    return [StatusAffectType.KnowsArouse,
-        StatusAffectType.KnowsHeal,
-        StatusAffectType.KnowsMight,
-        StatusAffectType.KnowsCharge,
-        StatusAffectType.KnowsBlind,
-        StatusAffectType.KnowsWhitefire]
-        .filter((name: StatusAffectType) => {
-            return player.statusAffects.has(name);
-        })
-        .length;
-}
-
 export default class PlayerActionPerform implements ActionPerform {
     mainAction: CombatAction = new PerformActions.MainAction();
     approach: CombatAction = new PerformActions.Approach();
