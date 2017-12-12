@@ -13,7 +13,29 @@ export default class SaveManager {
         SaveManager.saveSlots = [];
         SaveManager.saveSlots.length = SaveManager.saveSlotCount();
         SaveManager.autoSave = true;
-        SaveManager.read();
+        SaveManager.readSlots();
+    }
+
+    private static save(notes?: string): object {
+        const saveFile = <SaveFile>{};
+        saveFile.days = Game.days;
+        saveFile.name = Game.player.desc.short;
+        saveFile.game = Game.save();
+        saveFile.gender = Game.player.gender;
+        saveFile.notes = notes;
+        return saveFile;
+    }
+
+    private static load(save: object) {
+        Game.load(save);
+    }
+
+    private static writeSlots() {
+        document.cookie = JSON.stringify(SaveManager.saveSlots);
+    }
+
+    private static readSlots() {
+        SaveManager.saveSlots = JSON.parse(document.cookie);
     }
 
     public static activeSlot(): number {
@@ -28,39 +50,34 @@ export default class SaveManager {
         return SaveManager.saveSlots[number];
     }
 
-    public static save(number: number, notes?: string) {
-        const saveFile = <SaveFile>SaveManager.saveSlots[number];
-        saveFile.days = Game.days;
-        saveFile.name = Game.player.desc.short;
-        saveFile.game = Game.save();
-        saveFile.gender = Game.player.gender;
-        saveFile.notes = notes;
-        SaveManager.write();
-    }
-
-    public static load(number: number) {
-        SaveManager.read();
-        Game.load(SaveManager.saveSlots[number]);
-    }
-
     public static delete(number: number) {
         SaveManager.saveSlots[number] = null;
-        SaveManager.write();
+        SaveManager.writeSlots();
     }
 
     public static saveSlotCount(): number {
         return MainScreen.NUM_BOT_BUTTONS;
     }
 
-    private static write() {
-        document.cookie = JSON.stringify(SaveManager.saveSlots);
-    }
-
-    private static read() {
-        SaveManager.saveSlots = JSON.parse(document.cookie);
-    }
-
     public static autosaveToggle() {
         SaveManager.autoSave = !SaveManager.autoSave;
+    }
+
+    public static loadFromSlot(slotNumber: number) {
+        SaveManager.readSlots();
+        SaveManager.load(SaveManager.saveSlots[slotNumber]);
+    }
+
+    public static loadFromFile(save: object) {
+        SaveManager.load(save);
+    }
+
+    public static saveToSlot(slotNumber: number, notes?: string) {
+        SaveManager.saveSlots[slotNumber] = SaveManager.save(notes);
+        SaveManager.writeSlots();
+    }
+
+    public static saveToFile(notes?: string): object {
+        return SaveManager.save(notes);
     }
 }
