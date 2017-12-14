@@ -16,4 +16,8 @@ export default class Dictionary<Entry> {
     public has(key: string | number): boolean {
         return this.dictionary[key] !== undefined ? true : false;
     }
+
+    public clear() {
+        this.dictionary = {};
+    }
 }
