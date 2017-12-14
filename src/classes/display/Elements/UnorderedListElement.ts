@@ -1,16 +1,13 @@
-import { ListEntryElement } from './ListItemElement';
+import ListEntryElement from './ListItemElement';
 import ScreenElement from './ScreenElement';
 
 export default class UnorderedListElement extends ScreenElement {
     private list: ListEntryElement[];
     
-    public constructor(element?: HTMLUListElement) {
-        super(element);
+    public constructor() {
+        super();
+        this.htmlElement = document.createElement('ul');
         this.list = [];
-    }
-
-    protected create(): HTMLElement {
-        return document.createElement('ul');
     }
 
     public appendElement(element: ListEntryElement) {

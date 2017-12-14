@@ -1,11 +1,12 @@
 import ScreenElement from './ScreenElement';
 
 export default class ImageElement extends ScreenElement {
-    public constructor(element: HTMLImageElement) {
-        super(element);
+    public constructor() {
+        super();
+        this.htmlElement = document.createElement('img');
     }
 
-    protected create(): HTMLElement {
-        return document.createElement('img');
+    public load(location: string) {
+        (<HTMLImageElement>this.htmlElement).src = location;
     }
 }

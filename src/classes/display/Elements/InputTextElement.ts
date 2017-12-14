@@ -1,10 +1,10 @@
 import ScreenElement from './ScreenElement';
 
 export default class InputTextElement extends ScreenElement {
-    protected create(): HTMLElement {
-        const element = document.createElement("input");
-        element.type = "text";
-        return element;
+    public constructor() {
+        super();
+        this.htmlElement = document.createElement('input');
+        (<HTMLInputElement>this.htmlElement).type = "text";
     }
     
     public getText(): string {

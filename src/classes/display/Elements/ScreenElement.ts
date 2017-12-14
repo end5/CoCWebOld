@@ -1,11 +1,9 @@
 export default abstract class ScreenElement {
     protected htmlElement: HTMLElement;
     
-    public constructor(element?: HTMLElement) {
-        this.htmlElement = element ? element : this.create();
+    public setHTMLElement(element: HTMLElement) {
+        this.htmlElement = element;
     }
-
-    protected abstract create(): HTMLElement;
 
     public hide() {
         this.htmlElement.style.visibility = "hidden";

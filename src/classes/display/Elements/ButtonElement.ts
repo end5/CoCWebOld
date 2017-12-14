@@ -18,12 +18,9 @@ export default class ButtonElement extends ScreenElement {
     private clickFunc: EventFunction;
     private lock: boolean = false;
 
-    public constructor(element?: HTMLAnchorElement) {
-        super(element);
-    }
-
-    protected create(): HTMLElement {
-        return document.createElement('a');
+    public constructor() {
+        super();
+        this.htmlElement = document.createElement('a');
     }
 
     /**

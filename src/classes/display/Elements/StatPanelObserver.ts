@@ -1,24 +1,19 @@
 import ScreenElement from './ScreenElement';
 import HtmlUtils from '../../Utilities/HtmlUtils';
 
-export default class StatElement extends ScreenElement {
+export default class StatPanelObserver extends ScreenElement {
     private statBarElement: HTMLElement;
     private statCurrentElement: HTMLElement;
     private statMaxElement: HTMLElement;
     private statMax: number;
     private statCurrent: number;
 
-    public constructor(element: HTMLElement) {
-        super(element);
+    public setHTMLElement(element: HTMLElement) {
         this.statBarElement = HtmlUtils.loadFromClassName("statsBar", this.htmlElement);
         this.statCurrentElement = HtmlUtils.loadFromClassName("statsCurrent", this.htmlElement);
         this.statMaxElement = HtmlUtils.loadFromClassName("statsMax", this.htmlElement);
         this.statCurrent = 0;
         this.statMax = 100;
-    }
-
-    protected create(): HTMLElement {
-        return null;
     }
     
     public setStat(statCurrent: number, statMax: number = -1) {
