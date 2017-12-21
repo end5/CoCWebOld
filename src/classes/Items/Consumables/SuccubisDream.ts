@@ -1,15 +1,17 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class SuccubisDream extends Consumable {
     public constructor() {
-        super("S.Dream", new ItemDesc("S.Dream", "a bottle of 'Succubus' Dream'", "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency."));
+        super(ConsumableName.SuccubisDream, new ItemDesc("S.Dream", "a bottle of 'Succubus' Dream'", "This precious fluid is often given to men a succubus intends to play with for a long time, though this batch has been enhanced by Lumi to have even greater potency."));
     }
 
     public use(player: Player) {
@@ -95,7 +97,7 @@ export default class SuccubisDream extends Consumable {
             changes++;
         }
         if (player.lowerBody.balls > 0 && Utils.rand(3) == 0) {
-            DisplayText.text(player.modFem(12, 5));
+            DisplayText.text(BodyModifier.displayModFem(player, 12, 5));
         }
     }
 }

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Cock, { CockType } from '../../Body/Cock';
 import { Gender, SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
@@ -27,7 +28,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class Equinum extends Consumable {
     public constructor() {
-        super("Equinum", new ItemDesc("Equinum", "a vial of Equinum", "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way."));
+        super(ConsumableName.Equinum, new ItemDesc("Equinum", "a vial of Equinum", "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way."));
     }
 
     public warning(player: Player) {

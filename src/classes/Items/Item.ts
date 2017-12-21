@@ -1,4 +1,8 @@
+import ArmorName from './Armors/ArmorName';
+import ConsumableName from './Consumables/ConsumableName';
 import ItemDesc from './ItemDesc';
+import MaterialName from './Materials/MaterialName';
+import WeaponName from './Weapons/WeaponName';
 import Game from '../Game/Game';
 import Player from '../Player/Player';
 import { SerializeInterface } from '../SerializeInterface';
@@ -12,25 +16,20 @@ export enum ItemType {
     Consumable
 }
 
-export default abstract class Item extends LibraryEntry implements SerializeInterface {
-    serialize(): string {
-        let saveObject: object = {};
-        saveObject["uniqueKey"] = this.uniqueKey;
-        saveObject["itemType"] = this.itemType;
-        return JSON.stringify(saveObject);
-    }
-    deserialize(saveObject: object) { };
-    
+export type ItemName = WeaponName | ArmorName | ConsumableName | MaterialName;
+
+export default abstract class Item implements SerializeInterface {
     public static readonly DefaultValue: number = 6;
-    public readonly itemType: ItemType;
+    public readonly name: ItemName;
+    public readonly type: ItemType;
     public readonly value: number;
     public readonly desc: ItemDesc;
     
-    constructor(key: string, itemType: ItemType, itemDesc: ItemDesc, value: number = Item.DefaultValue) {
-        super(key);
-        this.itemType = itemType;
+    constructor(name: ItemName, type: ItemType, desc: ItemDesc, value: number = Item.DefaultValue) {
+        this.name = name;
+        this.type = type;
         this.value = value;
-        this.desc = itemDesc;
+        this.desc = desc;
     }
 
     abstract canUse(player: Player): boolean;
@@ -42,5 +41,14 @@ export default abstract class Item extends LibraryEntry implements SerializeInte
     public describe(): string {
         return this.desc.description + " (Cost: " + this.value + ")";
     }
+    
+    public serialize(): string {
+        return JSON.stringify({
+            name: this.name,
+            type: this.type
+        });
+    }
+    
+    public deserialize(saveObject: object) { };
 }
 

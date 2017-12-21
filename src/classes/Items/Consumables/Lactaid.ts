@@ -1,6 +1,8 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import DisplayText from '../../display/DisplayText';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
@@ -8,7 +10,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class Lactaid extends Consumable {
     public constructor() {
-        super("Lactaid", new ItemDesc("Lactaid", "a pink bottle labelled \"Lactaid\"", "Judging by the name printed on this bottle, 'Lactaid' probably has an effect on the ability to lactate, and you doubt that effect is a reduction."));
+        super(ConsumableName.Lactaid, new ItemDesc("Lactaid", "a pink bottle labelled \"Lactaid\"", "Judging by the name printed on this bottle, 'Lactaid' probably has an effect on the ability to lactate, and you doubt that effect is a reduction."));
     }
 
     public use(player: Player) {
@@ -40,7 +42,7 @@ export default class Lactaid extends Consumable {
         }
         player.stats.lust += 10;
         if (Utils.rand(3) == 0) {
-            DisplayText.text(player.modFem(95, 1));
+            DisplayText.text(BodyModifier.displayModFem(player, 95, 1));
         }
     }
 }

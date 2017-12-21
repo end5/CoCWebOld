@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import GenericTransforms from './GenericTransforms';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -23,9 +24,9 @@ export default class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
     public constructor(tainted: boolean) {
         if (tainted)
-            super("IncubiD", new ItemDesc("IncubiD", "an Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass."));
+            super(ConsumableName.IncubusDraft, new ItemDesc("IncubiD", "an Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass."));
         else
-            super("P.Draft", new ItemDesc("P.Draft", "an untainted Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass. Rathazul has purified this to prevent corruption upon use."), 20);
+            super(ConsumableName.IncubusDraftPure, new ItemDesc("P.Draft", "an untainted Incubi draft", "The cork-topped flask swishes with a slimy looking off-white fluid, purported to give incubi-like powers.  A stylized picture of a humanoid with a huge penis is etched into the glass. Rathazul has purified this to prevent corruption upon use."), 20);
         this.tainted = tainted;
     }
 
@@ -58,7 +59,7 @@ export default class IncubusDraft extends Consumable {
             GenericTransforms.demonChanges(player);
         player.updateGender();
         if (Utils.rand(4) == 0 && this.tainted)
-            DisplayText.text(player.modFem(5, 2));
+            DisplayText.text(BodyModifier.displayModFem(player, 5, 2));
         if (Utils.rand(4) == 0 && this.tainted)
             DisplayText.text(BodyModifier.displayModThickness(player, 30, 2));
     }

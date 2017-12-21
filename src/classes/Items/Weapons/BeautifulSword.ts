@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class BeautifulSword extends Weapon {
     public constructor() {
-        super("B.Sword", new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade."), "beautiful sword", "slash", 7, 400, "holySword");
+        super(WeaponName.BeautifulSword, new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade."), "beautiful sword", "slash", 7, 400, "holySword");
     }
 
     public get attack(): number {
@@ -21,9 +22,9 @@ export default class BeautifulSword extends Weapon {
         return false;
     }
 
-    equip(character: Character): void {}
-    unequip(character: Character): void {}
-    equipText(): void {}
-    unequipText(): void {}
-    use(player: Player) {}
+    public equip(character: Character): void {}
+    public unequip(character: Character): void {}
+    public equipText(): void {}
+    public unequipText(): void {}
+    public use(player: Player) {}
 }

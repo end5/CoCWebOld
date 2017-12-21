@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
 import { EarType, HairType } from '../../Body/Head';
@@ -15,7 +16,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class FerretFruit extends Consumable {
     public constructor() {
-        super("Frrtfrt", new ItemDesc("Frrtfrt", "a ferret fruit", "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach."));
+        super(ConsumableName.FerretFruit, new ItemDesc("Frrtfrt", "a ferret fruit", "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach."));
     }
 
     public use(player: Player) {

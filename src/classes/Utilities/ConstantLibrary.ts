@@ -1,6 +1,4 @@
-﻿import LibraryEntry from './LibraryEntry';
-
-export default class ConstantLibrary<Entry> {
+﻿export default class ConstantLibrary<Entry> {
     private _library: object;
     
     public constructor() {

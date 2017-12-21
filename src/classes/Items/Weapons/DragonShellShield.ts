@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class DragonShellShield extends Weapon {
     public constructor() {
-        super("DrgnShl", new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, "Large");
+        super(WeaponName.DragonShellShield, new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, "Large");
     }
 
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally
@@ -24,10 +25,10 @@ export default class DragonShellShield extends Weapon {
         Flags.list[FlagEnum.TIMES_EQUIPPED_EMBER_SHIELD]++;
     }
     
-    equip(character: Character): void {}
-    unequip(character: Character): void {}
-    equipText(): void {}
-    unequipText(): void {}
-    use(player: Player) {}
+    public equip(character: Character): void {}
+    public unequip(character: Character): void {}
+    public equipText(): void {}
+    public unequipText(): void {}
+    public use(player: Player) {}
 }
 

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { FaceType } from '../../Body/Face';
 import { EarType } from '../../Body/Head';
@@ -18,7 +19,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class MouseCocoa extends Consumable {
     public constructor() {
-        super("MouseCo", new ItemDesc("MouseCo", "a handful of mouse cocoa", "A handful of rare aromatic beans with sharp creases in the middle, making them look like small mouse ears.  Allegedly very popular and plentiful before the mice-folk were wiped out."));
+        super(ConsumableName.MouseCocoa, new ItemDesc("MouseCo", "a handful of mouse cocoa", "A handful of rare aromatic beans with sharp creases in the middle, making them look like small mouse ears.  Allegedly very popular and plentiful before the mice-folk were wiped out."));
     }
 
     public use(player: Player) {
@@ -95,7 +96,7 @@ export default class MouseCocoa extends Consumable {
                 if (intensified) {
                     DisplayText.text("\n\nYour womb feels achingly empty, and your temperature shoots up.  Try as you might, you can't stop fantasizing about being filled with semen, drenched inside and out with it, enough to make a baker's dozen offspring.  ");
                     //[(no mino cum in inventory)]
-                    if (!player.inventory.items.has(Game.libraries.consumables.get("MinoCum"))) {
+                    if (!player.inventory.items.has(ConsumableName.MinotaurCum)) {
                         DisplayText.text("<b>Your heat has intensified as much as your fertility has increased, which is a considerable amount!</b>");
                     }
                     else if (player.stats.lust < 100 || player.lowerBody.isTaur()) DisplayText.text("You even pull out a bottle of minotaur jism and spend several minutes considering the feasibility of pouring it directly in your [vagina], but regain your senses as you're unsealing the cap, setting it aside.  <b>Still, your heat is more intense than ever and your increasingly-fertile body is practically begging for dick - it'll be hard to resist any that come near!</b>");
@@ -105,7 +106,7 @@ export default class MouseCocoa extends Consumable {
                         //(consumes item, increment addiction/output addict message, small chance of mino preg, reduce lust)]", false);
                         player.minoCumAddiction(5);
                         player.pregnancy.knockUp(player.pregnancy.getNotPregVagina[0], new Pregnancy(PregnancyType.MINOTAUR, IncubationTime.MINOTAUR, new MinotaurPreg()), 175);
-                        player.inventory.items.consumeItem(Game.libraries.consumables.get("MinoCum"));
+                        player.inventory.items.consumeItem(ConsumableName.MinotaurCum);
                     }
                 }
                 else {

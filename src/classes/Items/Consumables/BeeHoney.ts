@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
 import { AntennaeType, HornType } from '../../Body/Head';
@@ -24,18 +25,18 @@ export default class BeeHoney extends Consumable {
     private static SPECIAL_HONEY_VALUE: number = 20;
 
     public constructor(pure: boolean, special: boolean) {
-        let honeyName: string;
+        let honeyName: ConsumableName;
         let honeyLong: string;
         let honeyDesc: string;
         let honeyValue: number;
         if (special) {
-            honeyName = "SpHoney";
+            honeyName = ConsumableName.BeeHoneySpecial;
             honeyLong = "a bottle of special bee honey";
             honeyDesc = "A clear crystal bottle of a dark brown fluid that you got from the bee handmaiden.  It gives off a strong sweet smell even though the bottle is still corked.";
             honeyValue = BeeHoney.SPECIAL_HONEY_VALUE;
         }
         else {
-            honeyName = (pure ? "PurHony" : "BeeHony");
+            honeyName = (pure ? ConsumableName.BeeHoneyPure : ConsumableName.BeeHoney);
             honeyLong = (pure ? "a crystal vial filled with glittering honey" : "a small vial filled with giant-bee honey");
             honeyDesc = "This fine crystal vial is filled with a thick amber liquid that glitters " + (pure ? "" : "dully ") + "in the light.  You can smell a sweet scent, even though it is tightly corked.";
             honeyValue = (pure ? BeeHoney.PURE_HONEY_VALUE : BeeHoney.DefaultValue);

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { FaceType } from '../../Body/Face';
 import { EarType } from '../../Body/Head';
@@ -13,7 +14,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class RingtailFig extends Consumable {
     public constructor() {
-        super("RingFig", new ItemDesc("RingFig", "a ringtail fig", "A dried fig with two lobes and thin dark rings just below its stem.  The skin is wrinkly and it looks vaguely like a bulging scrotum."));
+        super(ConsumableName.RingtailFig, new ItemDesc("RingFig", "a ringtail fig", "A dried fig with two lobes and thin dark rings just below its stem.  The skin is wrinkly and it looks vaguely like a bulging scrotum."));
     }
 
     public use(player: Player) {

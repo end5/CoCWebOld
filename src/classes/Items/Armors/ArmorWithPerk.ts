@@ -1,4 +1,5 @@
 import Armor, { ArmorClass } from './Armor';
+import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import Perk from '../../Effects/Perk';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -8,8 +9,8 @@ import ItemDesc from '../ItemDesc';
 export default abstract class ArmorWithPerk extends Armor {
     public readonly perk: Perk;
 
-    public constructor(key: string, itemDesc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
-        super(key, itemDesc, displayName, defense, value, armorClass, supportsBulge);
+    public constructor(name: ArmorName, desc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
+        super(name, desc, displayName, defense, value, armorClass, supportsBulge);
         this.perk = perk;
     }
 

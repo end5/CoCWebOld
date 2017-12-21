@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import StatusAffect from '../../Effects/StatusAffect';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -9,7 +10,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class HerbalContraceptive extends Consumable {
     public constructor() {
-        super("HrblCnt", new ItemDesc("HrblCnt", "a bundle of verdant green leaves", "A small bundle of verdant green leaves."));
+        super(ConsumableName.HerbalContraceptive, new ItemDesc("HrblCnt", "a bundle of verdant green leaves", "A small bundle of verdant green leaves."));
     }
 
     public use(player: Player) {

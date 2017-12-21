@@ -1,4 +1,4 @@
-export enum ArmorType {
+enum ArmorName {
     ComfortUndercloth = "c.under",
     GreenClothes = "G. Clothes",
     LongDress = "B.Dress",
@@ -36,3 +36,4 @@ export enum ArmorType {
 
     FurLoincloth = "FurLoin"
 }
+export default ArmorName;

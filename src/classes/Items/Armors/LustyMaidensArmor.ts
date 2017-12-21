@@ -1,4 +1,5 @@
 import Armor from './Armor';
+import ArmorName from './ArmorName';
 import { BreastCup } from '../../Body/BreastRow';
 import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
@@ -15,7 +16,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class LustyMaidensArmor extends Armor {
     public constructor() {
-        super("LMArmor", new ItemDesc("LMArmor", "a bikini-like set of armor that could only belong to a lusty maiden", "This skimpy chain bikini barely qualifies as armor.  Indeed, the chain is made from links much finer and lighter than normal, so fine that it feels almost silken under your fingertips.  A simple seal in the g-string-like undergarment states, \"Virgins only.\""), "lusty maiden's armor", 6, 400, "Light");
+        super(ArmorName.LustyMaidensArmor, new ItemDesc("LMArmor", "a bikini-like set of armor that could only belong to a lusty maiden", "This skimpy chain bikini barely qualifies as armor.  Indeed, the chain is made from links much finer and lighter than normal, so fine that it feels almost silken under your fingertips.  A simple seal in the g-string-like undergarment states, \"Virgins only.\""), "lusty maiden's armor", 6, 400, "Light");
     }
 
     public get defense(): number {
@@ -68,12 +69,12 @@ export default class LustyMaidensArmor extends Armor {
         return true;
     }
 
-    use(player: Player) { }
+    public use(player: Player) { }
     
-    equipText(): void {}
-    unequipText(): void {}
+    public equipText(): void {}
+    public unequipText(): void {}
 
-    onEquip(character: Character): void {
+    public onEquip(character: Character): void {
         // new perks for stats checks
         if (!character.perks.has(PerkType.LustyMaidensArmor))
             character.perks.add(PerkFactory.create(PerkType.LustyMaidensArmor, 0, 0, 0, 0));
@@ -88,7 +89,7 @@ export default class LustyMaidensArmor extends Armor {
         }
     }
 
-    onUnequip(character: Character): void {
+    public onUnequip(character: Character): void {
         if (character.perks.has(PerkType.LustyMaidensArmor))
             character.perks.remove(PerkType.LustyMaidensArmor);
         while (character.perks.has(PerkType.SluttySeduction)) character.perks.remove(PerkType.SluttySeduction);

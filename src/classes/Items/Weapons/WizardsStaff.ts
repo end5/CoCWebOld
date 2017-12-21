@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class WizardsStaff extends Weapon {
     public constructor() {
-        super("W.Staff", new ItemDesc("W. Staff", "a wizard's staff", "This staff is made of very old wood and seems to tingle to the touch.  The top has an odd zig-zag shape to it, and the wood is worn smooth from lots of use.  It probably belonged to a wizard at some point and would aid magic use."), "wizard's staff", "smack", 3, 350, "Wizard's Focus");
+        super(WeaponName.WizardsStaff, new ItemDesc("W. Staff", "a wizard's staff", "This staff is made of very old wood and seems to tingle to the touch.  The top has an odd zig-zag shape to it, and the wood is worn smooth from lots of use.  It probably belonged to a wizard at some point and would aid magic use."), "wizard's staff", "smack", 3, 350, "Wizard's Focus");
     }
 
     public equip(character: Character): void {
@@ -21,7 +22,7 @@ export default class WizardsStaff extends Weapon {
             character.perks.remove(PerkType.WizardsFocus);
     }
 
-    equipText(): void { }
-    unequipText(): void { }
-    use(player: Player) { }
+    public equipText(): void { }
+    public unequipText(): void { }
+    public use(player: Player) { }
 }

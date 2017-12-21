@@ -1,12 +1,14 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
+import { ClickFunction } from '../../display/Elements/ButtonElement';
 import InventoryDisplay from '../../display/InventoryDisplay';
-import MainScreen, { ClickFunction } from '../../display/MainScreen';
-import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
+import MainScreen from '../../display/MainScreen';
+import Menus from '../../display/Menus/Menus';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import CockModifier from '../../Modifiers/CockModifier';
 import Player from '../../Player/Player';
@@ -15,7 +17,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class GroPlus extends Consumable {
     public constructor() {
-        super("GroPlus", new ItemDesc("GroPlus", "a needle filled with Gro+", "This is a small needle with a reservoir full of blue liquid.  A faded label marks it as 'GroPlus'.  Its purpose seems obvious."), 50);
+        super(ConsumableName.GroPlus, new ItemDesc("GroPlus", "a needle filled with Gro+", "This is a small needle with a reservoir full of blue liquid.  A faded label marks it as 'GroPlus'.  Its purpose seems obvious."), 50);
     }
 
     public canUse(player: Player): boolean {
@@ -50,7 +52,7 @@ export default class GroPlus extends Consumable {
         }
         if (player.lowerBody.ballSize > 10) DisplayText.text("Walking gets even tougher with the swollen masses between your legs.  Maybe this was a bad idea.");
         player.stats.lust += 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private growPlusBreasts(player: Player): void {
@@ -62,7 +64,7 @@ export default class GroPlus extends Consumable {
         else
             BreastModifier.growSmallestBreastRow(player, Utils.rand(2) + 1, player.upperBody.chest.count(), true);
         player.stats.lust += 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private growPlusClit(player: Player): void {
@@ -74,7 +76,7 @@ export default class GroPlus extends Consumable {
 
         player.stats.sens += 2;
         player.stats.lust += 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private growPlusCock(player: Player): void {
@@ -101,7 +103,7 @@ export default class GroPlus extends Consumable {
         else DisplayText.text("crotch.");
         player.stats.sens += 2;
         player.stats.lust += 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private growPlusNipples(player: Player): void {
@@ -124,13 +126,13 @@ export default class GroPlus extends Consumable {
             //Talk about if anything was changed.
             if (nowFuckable) DisplayText.text("Your " + BreastDescriptor.describeAllBreasts(player) + " tingle with warmth that slowly migrates to your nipples, filling them with warmth.  You pant and moan, rubbing them with your fingers.  A trickle of wetness suddenly coats your finger as it slips inside the nipple.  Shocked, you pull the finger free.  <b>You now have fuckable nipples!</b>\n\n");
         }
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private growPlusCancel(player: Player): void {
         DisplayText.clear();
         DisplayText.text("You put the vial away.\n\n");
         InventoryDisplay.reverseAction();
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
    }
 }

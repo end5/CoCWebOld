@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -22,7 +23,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class WhiskerFruit extends Consumable {
     public constructor() {
-        super("W.Fruit", new ItemDesc("W.Fruit", "a piece of whisker-fruit", "This small, peach-sized fruit has tiny whisker-like protrusions growing from the sides."));
+        super(ConsumableName.WhiskerFruit, new ItemDesc("W.Fruit", "a piece of whisker-fruit", "This small, peach-sized fruit has tiny whisker-like protrusions growing from the sides."));
     }
 
     public use(player: Player) {
@@ -310,8 +311,8 @@ export default class WhiskerFruit extends Consumable {
         if (changes < changeLimit) {
             if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModThickness(player, 5, 2));
             if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModTone(player, 76, 2));
-            if (player.gender < 2) if (Utils.rand(2) == 0) DisplayText.text(player.modFem(65, 1));
-            else DisplayText.text(player.modFem(85, 2));
+            if (player.gender < 2) if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModFem(player, 65, 1));
+            else DisplayText.text(BodyModifier.displayModFem(player, 85, 2));
         }
     }
 }

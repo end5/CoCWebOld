@@ -1,29 +1,9 @@
-import Item from '../Items/Item';
+import Item, { ItemName } from '../Items/Item';
 import ItemFactory from '../Items/ItemFactory';
 import ItemStack from '../Items/ItemStack';
 import { SerializeInterface } from '../SerializeInterface';
 
 export default class Inventory<T extends Item> implements SerializeInterface {
-    serialize(): string {
-        let saveObject: object = {};
-        saveObject["length"] = this.itemSlots.length;
-        for (let index = 0; index < this.itemSlots.length; index++) {
-            saveObject[index] = this.itemSlots[index].serialize();
-        }
-        return JSON.stringify(saveObject);
-    }
-    deserialize(saveObject: object) {
-        if (!saveObject["length"] || saveObject["length"] < 0) {
-            console.error("Inventory amount non zero.");
-            return;
-        }
-        this.itemSlots = [];
-        for (let index = 0; index < saveObject["length"]; index++) {
-            this.itemSlots.push(new ItemStack());
-            this.itemSlots[index].deserialize(saveObject[index]);
-        }
-    }
-
     private itemSlots: ItemStack<T>[];
 
     public constructor() {
@@ -58,9 +38,9 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         return true;
     }
 
-    public has(type: string): boolean {
+    public has(itemName: ItemName): boolean {
         for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].item.uniqueKey == type)
+            if (this.itemSlots[index].item.name == itemName)
                 return true;
         }
         return false;
@@ -72,10 +52,10 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         }
     }
 
-    public countType(type: string): number {
+    public countName(itemName: ItemName): number {
         let count: number = 0;
         for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].item.uniqueKey == type)
+            if (this.itemSlots[index].item.name == itemName)
                 count += this.itemSlots[index].quantity;
         }
         return count;
@@ -95,22 +75,21 @@ export default class Inventory<T extends Item> implements SerializeInterface {
         return null;
     }
 
-
-    private lowestQuantityItemStack(item: Item): ItemStack<Item>[] {
+    private lowestQuantityItemStack(itemName: ItemName): ItemStack<Item>[] {
         return this.itemSlots.filter((itemStack: ItemStack<Item>) => {
-            if (itemStack.item == item)
+            if (itemStack.item.name == itemName)
                 return itemStack;
         }).sort((a: ItemStack<Item>, b: ItemStack<Item>) => {
             return b.quantity - a.quantity;
         });
     }
 
-    public consumeItem(item: Item, amount: number = 1) {
-        if (this.countType(item.uniqueKey) >= amount) {
-            let lowestItemStacks: ItemStack<Item>[] = this.lowestQuantityItemStack(item);
+    public consumeItem(itemName: ItemName, amount: number = 1) {
+        if (this.countName(itemName) >= amount) {
+            let lowestItemStacks: ItemStack<Item>[] = this.lowestQuantityItemStack(itemName);
             while (amount > 0) {
                 if (lowestItemStacks[0].quantity == 0)
-                    lowestItemStacks = this.lowestQuantityItemStack(item);
+                    lowestItemStacks = this.lowestQuantityItemStack(itemName);
 
                 if (amount > lowestItemStacks[0].quantity) {
                     amount -= lowestItemStacks[0].quantity;
@@ -121,6 +100,26 @@ export default class Inventory<T extends Item> implements SerializeInterface {
                     amount = 0;
                 }
             }
+        }
+    }
+
+    public serialize(): string {
+        let saveObject: object = {};
+        saveObject["length"] = this.itemSlots.length;
+        for (let index = 0; index < this.itemSlots.length; index++) {
+            saveObject[index] = this.itemSlots[index].serialize();
+        }
+        return JSON.stringify(saveObject);
+    }
+    public deserialize(saveObject: object) {
+        if (!saveObject["length"] || saveObject["length"] < 0) {
+            console.error("Inventory amount non zero.");
+            return;
+        }
+        this.itemSlots = [];
+        for (let index = 0; index < saveObject["length"]; index++) {
+            this.itemSlots.push(new ItemStack());
+            this.itemSlots[index].deserialize(saveObject[index]);
         }
     }
 }

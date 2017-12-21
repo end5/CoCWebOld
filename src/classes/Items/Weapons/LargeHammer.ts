@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class LargeHammer extends Weapon {
     public constructor() {
-        super("L.Hammr", new ItemDesc("L.Hammr", "Marble's large hammer", "This two-handed warhammer looks pretty devastating.  You took it from Marble after she refused your advances."), "large hammer", "smash", 16, 90, "Large");
+        super(WeaponName.LargeHammer, new ItemDesc("L.Hammr", "Marble's large hammer", "This two-handed warhammer looks pretty devastating.  You took it from Marble after she refused your advances."), "large hammer", "smash", 16, 90, "Large");
     }
 
     public canUse(player: Player): boolean {
@@ -16,9 +17,9 @@ export default class LargeHammer extends Weapon {
         return false;
     }
     
-    equip(character: Character): void { }
-    unequip(character: Character): void { }
-    equipText(): void { }
-    unequipText(): void { }
-    use(player: Player) { }
+    public equip(character: Character): void { }
+    public unequip(character: Character): void { }
+    public equipText(): void { }
+    public unequipText(): void { }
+    public use(player: Player) { }
 }

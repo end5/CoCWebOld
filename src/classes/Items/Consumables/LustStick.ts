@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -10,7 +11,7 @@ import ItemDesc from '../ItemDesc';
 export default class LustStick extends Consumable {
 
     public constructor() {
-        super("LustStk", new ItemDesc("LustStk", "a tube of golden lipstick", "This tube of golden lipstick is used by harpies to keep males aroused.  It has aphrodisiac properties on anyone with male genitalia and is most effective when applied to the lips or groin."));
+        super(ConsumableName.LustStick, new ItemDesc("LustStk", "a tube of golden lipstick", "This tube of golden lipstick is used by harpies to keep males aroused.  It has aphrodisiac properties on anyone with male genitalia and is most effective when applied to the lips or groin."));
     }
 
     public canUse(player: Player): boolean {

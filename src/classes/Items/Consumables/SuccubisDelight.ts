@@ -1,8 +1,10 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
@@ -11,9 +13,9 @@ export default class SuccubisDelight extends Consumable {
     public readonly tainted: boolean;
     public constructor(tainted: boolean) {
         if (tainted)
-            super("SDelite", new ItemDesc("Sucb.Delite", "a bottle of 'Succubi's Delight'", "This precious fluid is often given to men a succubus intends to play with for a long time."));
+            super(ConsumableName.SuccubisDelight, new ItemDesc("Sucb.Delite", "a bottle of 'Succubi's Delight'", "This precious fluid is often given to men a succubus intends to play with for a long time."));
         else
-            super("PSDelit", new ItemDesc("PSDelit", "an untainted bottle of \"Succubi's Delight\"", "This precious fluid is often given to men a succubus intends to play with for a long time.  It has been partially purified by Rathazul to prevent corruption."), 20);
+            super(ConsumableName.SuccubisDelightPure, new ItemDesc("PSDelit", "an untainted bottle of \"Succubi's Delight\"", "This precious fluid is often given to men a succubus intends to play with for a long time.  It has been partially purified by Rathazul to prevent corruption."), 20);
     }
 
     public use(player: Player) {
@@ -86,7 +88,7 @@ export default class SuccubisDelight extends Consumable {
             changes++;
         }
         if (player.lowerBody.balls > 0 && Utils.rand(3) == 0) {
-            DisplayText.text(player.modFem(12, 3));
+            DisplayText.text(BodyModifier.displayModFem(player, 12, 3));
         }
     }
 }

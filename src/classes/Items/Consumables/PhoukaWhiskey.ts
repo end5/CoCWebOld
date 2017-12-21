@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import DisplayText from '../../display/DisplayText';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -10,7 +11,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class PhoukaWhiskey extends Consumable {
     public constructor() {
-        super("P_Whsky", new ItemDesc("Ph. Whiskey", "a small bottle of whiskey", "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat."), 20);
+        super(ConsumableName.PhoukaWhiskey, new ItemDesc("Ph. Whiskey", "a small bottle of whiskey", "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat."), 20);
     }
 
     public canUse(player: Player): boolean {

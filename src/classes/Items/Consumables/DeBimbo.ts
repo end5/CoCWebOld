@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class DeBimbo extends Consumable {
     public constructor() {
-        super("Debimbo", new ItemDesc("Debimbo", "a bottle marked as 'Debimbo'"), 250);
+        super(ConsumableName.DeBimbo, new ItemDesc("Debimbo", "a bottle marked as 'Debimbo'"), 250);
     }
 
     public description(player: Player): string {

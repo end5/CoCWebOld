@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class EldritchStaff extends Weapon {
     public constructor() {
-        super("E.Staff", new ItemDesc("E.Staff", "an eldritch staff", "This eldritch staff once belonged to the Harpy Queen, who was killed after her defeat at your hands.  It fairly sizzles with magical power."), "eldritch staff", "thwack", 10, EldritchStaff.DefaultValue, "Wizard's Focus");
+        super(WeaponName.EldritchStaff, new ItemDesc("E.Staff", "an eldritch staff", "This eldritch staff once belonged to the Harpy Queen, who was killed after her defeat at your hands.  It fairly sizzles with magical power."), "eldritch staff", "thwack", 10, EldritchStaff.DefaultValue, "Wizard's Focus");
     }
 
     public equip(player: Player): void {
@@ -20,8 +21,8 @@ export default class EldritchStaff extends Weapon {
             player.perks.remove(PerkType.WizardsFocus);
     }
     
-    equipText(): void {}
-    unequipText(): void {}
-    use(player: Player) {}
+    public equipText(): void {}
+    public unequipText(): void {}
+    public use(player: Player) {}
 }
 

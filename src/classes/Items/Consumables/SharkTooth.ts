@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Cock from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
@@ -22,9 +23,9 @@ export default class SharkTooth extends Consumable {
 
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("Shark.T", new ItemDesc("Shark.T", "a sharp shark tooth", "A glinting white tooth, very sharp and intimidating."));
+            super(ConsumableName.SharkTooth, new ItemDesc("Shark.T", "a sharp shark tooth", "A glinting white tooth, very sharp and intimidating."));
         else
-            super("TSTooth", new ItemDesc("TSTooth", "a glowing tiger shark tooth", "This looks like a normal shark tooth, though with an odd purple glow."));
+            super(ConsumableName.SharkToothEnhanced, new ItemDesc("TSTooth", "a glowing tiger shark tooth", "This looks like a normal shark tooth, though with an odd purple glow."));
         this.enhanced = enhanced;
     }
 

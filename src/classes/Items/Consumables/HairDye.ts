@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
@@ -25,41 +26,41 @@ export default class HairDye extends Consumable {
     public constructor(type: HairDyeType) {
         switch (type) {
             case HairDyeType.Auburn:
-                super("AuburnD", new ItemDesc("AuburnD", "a vial of auburn hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeAuburn, new ItemDesc("AuburnD", "a vial of auburn hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Black:
-                super("Black D", new ItemDesc("Black D", "a vial of black hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeBlack, new ItemDesc("Black D", "a vial of black hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Blonde:
-                super("Blond D", new ItemDesc("Blond D", "a vial of blonde hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeBlonde, new ItemDesc("Blond D", "a vial of blonde hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.DarkBlue:
-                super("BlueDye", new ItemDesc("BlueDye", "a vial of blue hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeDarkBlue, new ItemDesc("BlueDye", "a vial of blue hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Brown:
-                super("Brown D", new ItemDesc("Brown D", "a vial of brown hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeBrown, new ItemDesc("Brown D", "a vial of brown hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Gray:
-                super("GrayDye", new ItemDesc("GrayDye", "a vial of gray hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeGray, new ItemDesc("GrayDye", "a vial of gray hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Green:
-                super("Green D", new ItemDesc("Green D", "a vial of green hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeGreen, new ItemDesc("Green D", "a vial of green hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.BrightOrange:
-                super("OrangDy", new ItemDesc("OrangDy", "a vial of brilliant orange hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeBrightOrange, new ItemDesc("OrangDy", "a vial of brilliant orange hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.NeonPink:
-                super("PinkDye", new ItemDesc("PinkDye", "a vial of bright pink hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeNeonPink, new ItemDesc("PinkDye", "a vial of bright pink hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Purple:
-                super("PurpDye", new ItemDesc("PurpDye", "a vial of purple hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyePurple, new ItemDesc("PurpDye", "a vial of purple hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             case HairDyeType.Red:
-                super("Red Dye", new ItemDesc("Red Dye", "a vial of red hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeRed, new ItemDesc("Red Dye", "a vial of red hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
             default:
             case HairDyeType.White:
-                super("WhiteDy", new ItemDesc("WhiteDy", "a vial of white hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
+                super(ConsumableName.HairDyeWhite, new ItemDesc("WhiteDy", "a vial of white hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
         }
         this.type = type;

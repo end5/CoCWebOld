@@ -1,9 +1,9 @@
 import Consumable from './Consumable';
-import KeyedLibrary from '../../Utilities/Library';
+import ConstantLibrary from '../../Utilities/ConstantLibrary';
 import Utils from '../../Utilities/Utils';
 import Consumables, { CaninePepperType, EggType, HairDyeType } from '.';
 
-export default class ConsumableLib extends KeyedLibrary<Consumable> {
+export default class ConsumableLib extends ConstantLibrary<Consumable> {
     public constructor() {
         super();
         this.add(new Consumables.BeeHoney(false, false));

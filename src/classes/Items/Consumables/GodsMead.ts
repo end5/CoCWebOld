@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class GodsMead extends Consumable {
     public constructor() {
-        super("GodMead", new ItemDesc("GodMead", "a pint of god's mead"));
+        super(ConsumableName.GodsMead, new ItemDesc("GodMead", "a pint of god's mead"));
     }
 
     public use(player: Player) {

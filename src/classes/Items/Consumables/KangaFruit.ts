@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
@@ -45,9 +46,9 @@ export default class KangaFruit extends Consumable {
 
     public constructor(enhanced: boolean) {
         if (enhanced)
-            super("MghtyVg", new ItemDesc("MghtyVg", "a mightily enhanced piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them.  It glows slightly from Lumi's enhancements."));
+            super(ConsumableName.KangaFruitEnhanced, new ItemDesc("MghtyVg", "a mightily enhanced piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them.  It glows slightly from Lumi's enhancements."));
         else
-            super("KangaFt", new ItemDesc("KangaFruit", "a piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them."));
+            super(ConsumableName.KangaFruit, new ItemDesc("KangaFruit", "a piece of kanga fruit", "A yellow, fibrous, tubular pod.  A split in the end reveals many lumpy, small seeds inside.  The smell of mild fermentation wafts from them."));
         this.enhanced = enhanced;
     }
 

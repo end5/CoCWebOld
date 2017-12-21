@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { LowerBodyType } from '../../Body/LowerBody';
 import { WingType } from '../../Body/UpperBody';
@@ -9,13 +10,14 @@ import DisplayText from '../../display/DisplayText';
 import StatusAffect from '../../Effects/StatusAffect';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class WetCloth extends Consumable {
     public constructor() {
-        super("WetClth", new ItemDesc("WetClth", "a wet cloth dripping with slippery slime", "Dripping with a viscous slime, you've no doubt rubbing this cloth on your body would have some kind of strange effect."));
+        super(ConsumableName.WetCloth, new ItemDesc("WetClth", "a wet cloth dripping with slippery slime", "Dripping with a viscous slime, you've no doubt rubbing this cloth on your body would have some kind of strange effect."));
     }
 
     public use(player: Player) {
@@ -153,8 +155,8 @@ export default class WetCloth extends Consumable {
                 player.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
             }
         }
-        if (Utils.rand(2) == 0) DisplayText.text(player.modFem(85, 3));
-        if (Utils.rand(2) == 0) DisplayText.text(player.modThickness(20, 3));
-        if (Utils.rand(2) == 0) DisplayText.text(player.modTone(15, 5));
+        if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModFem(player, 85, 3));
+        if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModThickness(player, 20, 3));
+        if (Utils.rand(2) == 0) DisplayText.text(BodyModifier.displayModTone(player, 15, 5));
     }
 }

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -24,9 +25,9 @@ export default class FoxBerry extends Consumable {
     private enhanced: boolean;
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("FoxBery", new ItemDesc("Fox Berry", "a fox berry", "This large orange berry is heavy in your hands.  It may have gotten its name from its bright orange coloration.  You're certain it is no mere fruit."));
+            super(ConsumableName.FoxBerry, new ItemDesc("Fox Berry", "a fox berry", "This large orange berry is heavy in your hands.  It may have gotten its name from its bright orange coloration.  You're certain it is no mere fruit."));
         else
-            super("VixVigr", new ItemDesc("VixVigr", "a bottle labelled \"Vixen's Vigor\"", "This small medicine bottle contains something called \"Vixen's Vigor\", supposedly distilled from common fox-berries.  It is supposed to be a great deal more potent, and a small warning label warns of \"extra boobs\", whatever that means."), 30);
+            super(ConsumableName.FoxBerryEnhanced, new ItemDesc("VixVigr", "a bottle labelled \"Vixen's Vigor\"", "This small medicine bottle contains something called \"Vixen's Vigor\", supposedly distilled from common fox-berries.  It is supposed to be a great deal more potent, and a small warning label warns of \"extra boobs\", whatever that means."), 30);
         this.enhanced = enhanced;
     }
 

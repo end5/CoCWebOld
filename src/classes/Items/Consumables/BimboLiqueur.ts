@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Vagina, { VaginaWetness } from '../../Body/Vagina';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
@@ -7,13 +8,14 @@ import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class BimboLiqueur extends Consumable {
     public constructor() {
-        super("BimboLq", new ItemDesc("BimboLq", "a potent bottle of 'Bimbo Liqueur'", "This small bottle of liqueur is labelled 'Bimbo Liqueur'.  There's a HUGE warning label about the effects being strong and usually permanent, so you should handle this with care."), 1000);
+        super(ConsumableName.BimboLiqueur, new ItemDesc("BimboLq", "a potent bottle of 'Bimbo Liqueur'", "This small bottle of liqueur is labelled 'Bimbo Liqueur'.  There's a HUGE warning label about the effects being strong and usually permanent, so you should handle this with care."), 1000);
     }
 
     public canUse(player: Player) {
@@ -189,7 +191,7 @@ export default class BimboLiqueur extends Consumable {
             player.stats.lib -= 4;
             player.stats.sens -= 25;
             //FULL ON BITCHFACE
-            player.modFem(100, 100);
+            BodyModifier.displayModFem(player, 100, 100);
             //Body
             //Tease/Seduce Boost
             //*boosts min lust and lust resistance)

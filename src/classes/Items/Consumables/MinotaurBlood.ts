@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Chest from '../../Body/Chest';
 import Cock, { CockType } from '../../Body/Cock';
 import CockSpot from '../../Body/CockSpot';
@@ -30,7 +31,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class MinotaurBlood extends Consumable {
     public constructor() {
-        super("MinoBlo", new ItemDesc("MinoBlo", "a vial of Minotaur blood", "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape."));
+        super(ConsumableName.MinotaurBlood, new ItemDesc("MinoBlo", "a vial of Minotaur blood", "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape."));
     }
 
     public use(player: Player) {
@@ -312,11 +313,11 @@ export default class MinotaurBlood extends Consumable {
         }
 
         //Anti-masturbation status
-        if (Utils.rand(4) == 0 && changes < changeLimit && !player.statusAffects.has(StatusAffectType.Dys)) {
+        if (Utils.rand(4) == 0 && changes < changeLimit && !player.statusAffects.has(StatusAffectType.Dysfunction)) {
             if (cockSpot.count() > 0) DisplayText.text("\n\nYour " + CockDescriptor.describeCock(player, cockSpot.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             else if (vaginaSpot.hasVagina()) DisplayText.text("\n\nYour " + VaginaDescriptor.describeVagina(player, vaginaSpot.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             if (cockSpot.count() > 0 || vaginaSpot.hasVagina()) {
-                player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Dys, 96, 0, 0, 0));
+                player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Dysfunction, 96, 0, 0, 0));
                 changes++;
             }
         }
@@ -435,7 +436,7 @@ export default class MinotaurBlood extends Consumable {
             changes++;
         }
         //Give you that mino build!
-        if (Utils.rand(4) == 0) DisplayText.text(player.modFem(5, 10));
+        if (Utils.rand(4) == 0) DisplayText.text(BodyModifier.displayModFem(player, 5, 10));
         if (Utils.rand(4) == 0) DisplayText.text(BodyModifier.displayModTone(player, 85, 3));
         if (Utils.rand(4) == 0) DisplayText.text(BodyModifier.displayModThickness(player, 70, 4));
         //Default

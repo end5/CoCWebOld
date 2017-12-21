@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { FaceType, TongueType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Head';
 import { LowerBodyType } from '../../Body/LowerBody';
@@ -39,7 +40,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class SnakeOil extends Consumable {
     public constructor() {
-        super("SnakOil", new ItemDesc("SnakOil", "a vial of snake oil", "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."));
+        super(ConsumableName.SnakeOil, new ItemDesc("SnakOil", "a vial of snake oil", "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."));
     }
 
     public use(player: Player) {

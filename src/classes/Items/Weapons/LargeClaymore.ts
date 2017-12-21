@@ -1,4 +1,5 @@
 import Weapon from './Weapon';
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class LargeClaymore extends Weapon {
     public constructor() {
-        super("Claymor", new ItemDesc("L.Claymore", "a large claymore", "A massive sword that a very strong warrior might use.  Requires 40 strength to use."), "large claymore", "cleaving sword-slash", 15, 1000, "Large");
+        super(WeaponName.LargeClaymore, new ItemDesc("L.Claymore", "a large claymore", "A massive sword that a very strong warrior might use.  Requires 40 strength to use."), "large claymore", "cleaving sword-slash", 15, 1000, "Large");
     }
 
     public canUse(player: Player): boolean {
@@ -16,9 +17,9 @@ export default class LargeClaymore extends Weapon {
         return false;
     }
     
-    equip(character: Character): void { }
-    unequip(character: Character): void { }
-    equipText(): void { }
-    unequipText(): void { }
-    use(player: Player) { }
+    public equip(character: Character): void { }
+    public unequip(character: Character): void { }
+    public equipText(): void { }
+    public unequipText(): void { }
+    public use(player: Player) { }
 }

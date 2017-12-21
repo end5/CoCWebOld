@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
@@ -24,7 +25,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class Reptilum extends Consumable {
     public constructor() {
-        super("Reptlum", new ItemDesc("Reptlum", "a vial of Reptilum", "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way."));
+        super(ConsumableName.Reptilum, new ItemDesc("Reptlum", "a vial of Reptilum", "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way."));
     }
 
     private getFirstNonLizzyCock(player: Player): Cock {

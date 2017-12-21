@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { HairType } from '../../Body/Head';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
@@ -7,9 +8,8 @@ import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class HairExtensionSerum extends Consumable {
-
     public constructor() {
-        super("ExtSerm", new ItemDesc("ExtSerm", "a bottle of hair extension serum", "This is a bottle of foamy pink liquid, purported by the label to increase the speed at which the user's hair grows."));
+        super(ConsumableName.HairExtensionSerum, new ItemDesc("ExtSerm", "a bottle of hair extension serum", "This is a bottle of foamy pink liquid, purported by the label to increase the speed at which the user's hair grows."));
     }
 
     public canUse(player: Player): boolean {

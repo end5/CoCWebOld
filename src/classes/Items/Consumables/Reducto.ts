@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { CockType } from '../../Body/Cock';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
@@ -6,8 +7,10 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
+import { ClickFunction } from '../../display/Elements/ButtonElement';
 import InventoryDisplay from '../../display/InventoryDisplay';
-import MainScreen, { ClickFunction } from '../../display/MainScreen';
+import MainScreen from '../../display/MainScreen';
+import Menus from '../../display/Menus/Menus';
 import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
@@ -17,7 +20,7 @@ import ItemDesc from '../ItemDesc';
 export default class Reducto extends Consumable {
 
     public constructor() {
-        super("Reducto", new ItemDesc("Reducto", "a salve marked as 'Reducto'", "This container full of paste can be used to shrink a body part down by a significant amount."), 30);
+        super(ConsumableName.Reducto, new ItemDesc("Reducto", "a salve marked as 'Reducto'", "This container full of paste can be used to shrink a body part down by a significant amount."), 30);
     }
 
     public canUse(player: Player): boolean {
@@ -49,7 +52,7 @@ export default class Reducto extends Consumable {
         DisplayText.text("You feel your scrotum shift, shrinking down along with your " + BallsDescriptor.describeBallsShort(player) + ".  Within a few seconds the paste has been totally absorbed and the shrinking stops.");
         player.stats.lib -= 2;
         player.stats.lust -= 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoBreasts(player: Player): void {
@@ -63,7 +66,7 @@ export default class Reducto extends Consumable {
         DisplayText.text("\nThe last of it wicks away into your skin, completing the changes.");
         player.stats.sens -= 2;
         player.stats.lust -= 5;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoButt(player: Player): void {
@@ -84,7 +87,7 @@ export default class Reducto extends Consumable {
         }
         player.stats.lib -= 2;
         player.stats.lust -= 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoClit(player: Player): void {
@@ -97,7 +100,7 @@ export default class Reducto extends Consumable {
         DisplayText.text("Your " + VaginaDescriptor.describeClit(player, vagina) + " shrinks rapidly, dwindling down to almost half its old size before it finishes absorbing the paste.");
         player.stats.sens += 2;
         player.stats.lust += 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoCock(player: Player): void {
@@ -124,7 +127,7 @@ export default class Reducto extends Consumable {
         }
         player.stats.sens -= 2;
         player.stats.lust -= 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoHips(player: Player): void {
@@ -145,7 +148,7 @@ export default class Reducto extends Consumable {
         }
         player.stats.lib -= 2;
         player.stats.lust -= 10;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoNipples(player: Player): void {
@@ -163,13 +166,13 @@ export default class Reducto extends Consumable {
         }
         player.stats.sens -= 5;
         player.stats.lust -= 5;
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 
     private reductoCancel(player: Player): void {
         DisplayText.clear();
         DisplayText.text("You put the salve away.\n\n");
         InventoryDisplay.reverseAction();
-        MainScreen.doNext(PlayerInventoryMenu.display);
+        MainScreen.doNext(Menus.Inventory.display);
     }
 }

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import DisplayText from '../../display/DisplayText';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -10,7 +11,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class Coal extends Consumable {
     public constructor() {
-        super("Coal   ", new ItemDesc("Coal", "two pieces of coal"));
+        super(ConsumableName.Coal, new ItemDesc("Coal", "two pieces of coal"));
     }
 
     public use(player: Player) {

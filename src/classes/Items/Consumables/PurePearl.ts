@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class PurePearl extends Consumable {
     public constructor() {
-        super("P.Pearl", new ItemDesc("P.Pearl", "a pure pearl"), 1000);
+        super(ConsumableName.PurePearl, new ItemDesc("P.Pearl", "a pure pearl"), 1000);
     }
 
     public use(player: Player) {

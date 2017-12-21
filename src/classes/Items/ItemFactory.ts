@@ -1,10 +1,14 @@
 import ArmorLib from './Armors/ArmorLib';
+import ArmorName from './Armors/ArmorName';
 import ConsumableLib from './Consumables/ConsumableLib';
-import Item, { ItemType } from './Item';
+import ConsumableName from './Consumables/ConsumableName';
+import Item, { ItemName, ItemType } from './Item';
 import ItemDesc from './ItemDesc';
-import Material from './Material';
-import MaterialLib from './MaterialLib';
+import Material from './Materials/Material';
+import MaterialLib from './Materials/MaterialLib';
+import MaterialName from './Materials/MaterialName';
 import WeaponLib from './Weapons/WeaponLib';
+import WeaponName from './Weapons/WeaponName';
 import ConstructorLibrary from '../Utilities/ConstructorLibrary';
 
 export default class ItemFactory {
@@ -24,7 +28,7 @@ export default class ItemFactory {
             ItemFactory.materialLib = new MaterialLib();
     }
 
-    public static create(type: ItemType, name: string): Item {
+    public static create(type: ItemType, name: ItemName): Item {
         switch(type) {
             case ItemType.Armor: {
                 if (ItemFactory.armorLib.has(name)) {
@@ -47,7 +51,7 @@ export default class ItemFactory {
                 }
             }
         }
-        console.error("Item " + name + " not found in " + type);
+        console.error("Item " + name + " not found.");
         return null;
     }
 }

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class PeppermintWhite extends Consumable {
     public constructor() {
-        super("PeppWht", new ItemDesc("PeppWht", "a vial of peppermint white", "This tightly corked glass bottle gives off a pepperminty smell and reminds you of the winter holidays.  How odd."), 120);
+        super(ConsumableName.PeppermintWhite, new ItemDesc("PeppWht", "a vial of peppermint white", "This tightly corked glass bottle gives off a pepperminty smell and reminds you of the winter holidays.  How odd."), 120);
     }
 
     public use(player: Player) {

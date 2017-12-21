@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { TailType } from '../../Body/LowerBody';
 import { WingType } from '../../Body/UpperBody';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
@@ -11,7 +12,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class ShriveledTentacle extends Consumable {
     public constructor() {
-        super("DryTent", new ItemDesc("DryTent", "a shriveled tentacle", "A dried tentacle from one of the lake anemones.  It's probably edible, but the stingers are still a little active."));
+        super(ConsumableName.ShriveledTentacle, new ItemDesc("DryTent", "a shriveled tentacle", "A dried tentacle from one of the lake anemones.  It's probably edible, but the stingers are still a little active."));
     }
 
     public use(player: Player) {

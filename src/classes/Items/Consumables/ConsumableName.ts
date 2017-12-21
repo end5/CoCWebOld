@@ -1,4 +1,4 @@
-export enum ConsumableType {
+enum ConsumableName {
     BeeHoneySpecial = "SpHoney",
     BeeHoneyPure = "PurHony",
     BeeHoney = "BeeHony",
@@ -110,3 +110,4 @@ export enum ConsumableType {
     WhiteSpellbook = "W. Book",
     WingStick = "W.Stick"
 }
+export default ConsumableName;

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
@@ -14,7 +15,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class NumbRock extends Consumable {
     public constructor() {
-        super("NumbRox", new ItemDesc("Numb Rox", "a strange packet of candy called 'Numb Rocks'", "This packet of innocuous looking 'candy' guarantees to reduce troublesome sensations and taste delicious."), 15);
+        super(ConsumableName.NumbRock, new ItemDesc("Numb Rox", "a strange packet of candy called 'Numb Rocks'", "This packet of innocuous looking 'candy' guarantees to reduce troublesome sensations and taste delicious."), 15);
     }
 
     public use(player: Player) {
@@ -27,7 +28,7 @@ export default class NumbRock extends Consumable {
             player.stats.lust -= 20 + Utils.rand(40);
         }
         if (Utils.rand(5) == 0) {
-            if (!player.statusAffects.has(StatusAffectType.Dys)) {
+            if (!player.statusAffects.has(StatusAffectType.Dysfunction)) {
                 DisplayText.text("\n\nUnfortunately, the skin of ");
                 if (player.lowerBody.cockSpot.count() > 0) {
                     DisplayText.text(CockDescriptor.describeMultiCockSimpleOne(player));
@@ -40,11 +41,11 @@ export default class NumbRock extends Consumable {
                 }
                 if (!(player.lowerBody.cockSpot.hasCock() || player.lowerBody.vaginaSpot.hasVagina())) DisplayText.text(ButtDescriptor.describeButthole(player) + " ");
                 DisplayText.text(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
-                player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Dys, 50 + Utils.rand(100), 0, 0, 0));
+                player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Dysfunction, 50 + Utils.rand(100), 0, 0, 0));
             }
             else {
                 DisplayText.text("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
-                player.statusAffects.get(StatusAffectType.Dys).value1 = 50 + Utils.rand(100);
+                player.statusAffects.get(StatusAffectType.Dysfunction).value1 = 50 + Utils.rand(100);
             }
         }
         else if (Utils.rand(4) == 0 && player.stats.int > 15) {

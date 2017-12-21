@@ -1,4 +1,5 @@
 import Armor from './Armor';
+import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
@@ -10,10 +11,10 @@ import ItemDesc from '../ItemDesc';
 
 export default class InquisitorsCorset extends Armor {
     public constructor() {
-        super("I.Corst", new ItemDesc("I.Corst", "an inquisitor's corset", "This sexualized and feminine red and gold ensemble carries with it the hopes of a shamed sorcerer.  Wearing it will cause spells to tax your health instead of exhausting you."), "inquisitor's corset", 4, 2000, "Light");
+        super(ArmorName.InquisitorsCorset, new ItemDesc("I.Corst", "an inquisitor's corset", "This sexualized and feminine red and gold ensemble carries with it the hopes of a shamed sorcerer.  Wearing it will cause spells to tax your health instead of exhausting you."), "inquisitor's corset", 4, 2000, "Light");
     }
 
-    use(player: Player) { }
+    public use(player: Player) { }
 
     public useText(player: Player): void {
         DisplayText.text("You remove the clothing you received from the underground chamber in the swamp.  The sexual nature of the clothing excites you a bit, as does the knowledge that it will be functional in combat.  You quickly disrobe, eager to try it on.\n\n");
@@ -37,10 +38,10 @@ export default class InquisitorsCorset extends Armor {
         player.stats.lust += 5;
     }
 
-    equipText(): void { }
-    unequipText(): void { }
+    public equipText(): void { }
+    public unequipText(): void { }
 
-    onEquip(character: Character): void {
+    public onEquip(character: Character): void {
         while (character.perks.has(PerkType.BloodMage))
             character.perks.remove(PerkType.BloodMage);
         while (character.perks.has(PerkType.SluttySeduction))
@@ -49,7 +50,7 @@ export default class InquisitorsCorset extends Armor {
         character.perks.add(PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0));
     }
 
-    onUnequip(character: Character): void {
+    public onUnequip(character: Character): void {
         while (character.perks.has(PerkType.BloodMage))
             character.perks.remove(PerkType.BloodMage);
         while (character.perks.has(PerkType.SluttySeduction))

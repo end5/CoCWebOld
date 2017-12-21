@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -11,7 +12,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class MarbleMilk extends Consumable {
     public constructor() {
-        super("M. Milk", new ItemDesc("M. Milk", "a clear bottle of milk from Marble", "A clear bottle of milk from Marble's breasts. It smells delicious."));
+        super(ConsumableName.MarbleMilk, new ItemDesc("M. Milk", "a clear bottle of milk from Marble", "A clear bottle of milk from Marble's breasts. It smells delicious."));
     }
 
     public use(player: Player) {

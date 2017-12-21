@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock, { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -44,22 +45,22 @@ export default class CaninePepper extends Consumable {
         switch (pepperType) {
             default:
             case CaninePepperType.Normal:
-                super("CanineP", new ItemDesc("CanineP", "a Canine pepper", "The pepper is shiny and red, bulbous at the base but long and narrow at the tip.  It smells spicy."));
+                super(ConsumableName.CaninePepper, new ItemDesc("CanineP", "a Canine pepper", "The pepper is shiny and red, bulbous at the base but long and narrow at the tip.  It smells spicy."));
                 break;
             case CaninePepperType.Oversized:
-                super("LargePp", new ItemDesc("LargePp", "an overly large canine pepper", "This large canine pepper is much bigger than any normal peppers you've seen."), 10);
+                super(ConsumableName.CaninePepperLarge, new ItemDesc("LargePp", "an overly large canine pepper", "This large canine pepper is much bigger than any normal peppers you've seen."), 10);
                 break;
             case CaninePepperType.Double:
-                super("DblPepp", new ItemDesc("DblPepp", "a double canine pepper", "This canine pepper is actually two that have grown together due to some freak coincidence."), 10);
+                super(ConsumableName.CaninePepperDouble, new ItemDesc("DblPepp", "a double canine pepper", "This canine pepper is actually two that have grown together due to some freak coincidence."), 10);
                 break;
             case CaninePepperType.Black:
-                super("BlackPp", new ItemDesc("BlackPp", "a solid black canine pepper", "This solid black canine pepper is smooth and shiny, but something about it doesn't seem quite right..."), 10);
+                super(ConsumableName.CaninePepperBlack, new ItemDesc("BlackPp", "a solid black canine pepper", "This solid black canine pepper is smooth and shiny, but something about it doesn't seem quite right..."), 10);
                 break;
             case CaninePepperType.Knotty:
-                super("KnottyP", new ItemDesc("KnottyP", "a knotty canine pepper", "This knotted pepper is very swollen, with a massive, distended knot near the base."), 10);
+                super(ConsumableName.CaninePepperKnotty, new ItemDesc("KnottyP", "a knotty canine pepper", "This knotted pepper is very swollen, with a massive, distended knot near the base."), 10);
                 break;
             case CaninePepperType.Bulbous:
-                super("BulbyPp", new ItemDesc("BulbyPp", "a bulbous pepper", "This bulbous pepper has a slightly different shape than the other canine peppers, with two large orb-like protrusions at the base."), 10);
+                super(ConsumableName.CaninePepperBulbous, new ItemDesc("BulbyPp", "a bulbous pepper", "This bulbous pepper has a slightly different shape than the other canine peppers, with two large orb-like protrusions at the base."), 10);
                 break;
         }
         this.type = pepperType;

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
@@ -8,7 +9,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class FishFillet extends Consumable {
     public constructor() {
-        super("FishFil", new ItemDesc("FishFil", "a fish fillet", "A perfectly cooked piece of fish.  You're not sure what type of fish is, since you're fairly certain \"delicious\" is not a valid species."));
+        super(ConsumableName.FishFillet, new ItemDesc("FishFil", "a fish fillet", "A perfectly cooked piece of fish.  You're not sure what type of fish is, since you're fairly certain \"delicious\" is not a valid species."));
     }
 
     public use(player: Player) {

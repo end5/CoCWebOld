@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import Vagina from '../../Body/Vagina';
 import DisplayText from '../../display/DisplayText';
@@ -13,7 +14,7 @@ import ItemDesc from '../ItemDesc';
 export default class OvipositionElixir extends Consumable {
 
     public constructor() {
-        super("OviElix", new ItemDesc("Ovi Elixir", "a hexagonal crystal bottle tagged with an image of an egg", "This hexagonal crystal bottle is filled with a strange green fluid.  A tag with a picture of an egg is tied to the neck of the bottle, indicating it is somehow connected to egg-laying."), 30);
+        super(ConsumableName.OvipositionElixir, new ItemDesc("Ovi Elixir", "a hexagonal crystal bottle tagged with an image of an egg", "This hexagonal crystal bottle is filled with a strange green fluid.  A tag with a picture of an egg is tied to the neck of the bottle, indicating it is somehow connected to egg-laying."), 30);
     }
 
     public canUse(player: Player): boolean {

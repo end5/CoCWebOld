@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
 import { EyeType } from '../../Body/Face';
@@ -19,7 +20,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class TrapOil extends Consumable {
     public constructor() {
-        super("TrapOil", new ItemDesc("TrapOil", "a vial of trap oil", "A round, opaque glass vial filled with a clear, viscous fluid.  It has a symbol inscribed on it, a circle with a cross and arrow pointing out of it in opposite directions.  It looks and smells entirely innocuous."));
+        super(ConsumableName.TrapOil, new ItemDesc("TrapOil", "a vial of trap oil", "A round, opaque glass vial filled with a clear, viscous fluid.  It has a symbol inscribed on it, a circle with a cross and arrow pointing out of it in opposite directions.  It looks and smells entirely innocuous."));
     }
 
     public use(player: Player) {

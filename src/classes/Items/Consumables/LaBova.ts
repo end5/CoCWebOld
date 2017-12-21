@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { FaceType } from '../../Body/Face';
 import { EarType, HornType } from '../../Body/Head';
@@ -46,11 +47,11 @@ export default class LaBova extends Consumable {
     private tainted: boolean;
     public constructor(enhanced: boolean, tainted: boolean) {
         if (enhanced)
-            super("ProBova", new ItemDesc("ProBova", "a bottle containing a misty fluid labeled \"ProBova\"", "This cloudy potion has been enhanced by the alchemist Lumi to imbue its drinker with cow-like attributes."));
+            super(ConsumableName.LaBovaEnhanced, new ItemDesc("ProBova", "a bottle containing a misty fluid labeled \"ProBova\"", "This cloudy potion has been enhanced by the alchemist Lumi to imbue its drinker with cow-like attributes."));
         else if (tainted)
-            super("LaBova ", new ItemDesc("La Bova", "a bottle containing a misty fluid labeled \"LaBova\"", "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off."));
+            super(ConsumableName.LaBova, new ItemDesc("La Bova", "a bottle containing a misty fluid labeled \"LaBova\"", "A bottle containing a misty fluid with a grainy texture, it has a long neck and a ball-like base.  The label has a stylized picture of a well endowed cowgirl nursing two guys while they jerk themselves off."));
         else
-            super("P.LBova", new ItemDesc("P.LBova", "a bottle containing a white fluid labeled \"Pure LaBova\"", "A bottle containing a misty fluid with a grainy texture); it has a long neck and a ball-like base.  The label has a stylized picture of a well-endowed cow-girl nursing two guys while they jerk themselves off. It has been purified by Rathazul."));
+            super(ConsumableName.LaBovaPure, new ItemDesc("P.LBova", "a bottle containing a white fluid labeled \"Pure LaBova\"", "A bottle containing a misty fluid with a grainy texture); it has a long neck and a ball-like base.  The label has a stylized picture of a well-endowed cow-girl nursing two guys while they jerk themselves off. It has been purified by Rathazul."));
         this.enhanced = enhanced;
         this.tainted = tainted;
     }
@@ -452,7 +453,7 @@ export default class LaBova extends Consumable {
             player.lowerBody.vaginaSpot.get(0).vaginaType = 0;
             changes++;
         }
-        if (Utils.rand(3) == 0) DisplayText.text(player.modFem(79, 3));
+        if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModFem(player, 79, 3));
         if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModThickness(player, 70, 4));
         if (Utils.rand(5) == 0) DisplayText.text(BodyModifier.displayModTone(player, 10, 5));
     }

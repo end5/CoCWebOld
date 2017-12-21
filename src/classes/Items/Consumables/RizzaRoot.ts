@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
@@ -8,7 +9,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class RizzaRoot extends Consumable {
     public constructor() {
-        super("RizzaRt", new ItemDesc("Rizza Root", "a tube of rizza root stUtils.rands", "A small ceramic tube full of fine red root stUtils.rands.  They smell something like citrus fruit."), 10);
+        super(ConsumableName.RizzaRoot, new ItemDesc("Rizza Root", "a tube of rizza root stUtils.rands", "A small ceramic tube full of fine red root stUtils.rands.  They smell something like citrus fruit."), 10);
     }
 
     public canUse(player: Player): boolean {

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { EarType } from '../../Body/Head';
 import { TailType } from '../../Body/LowerBody';
@@ -13,6 +14,7 @@ import StatusAffect from '../../Effects/StatusAffect';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
@@ -22,9 +24,9 @@ export default class FoxJewel extends Consumable {
 
     public constructor(mystic: boolean) {
         if (mystic)
-            super("MystJwl", new ItemDesc("MystJwl", "a mystic jewel", "The flames within this jewel glow brighter than before, and have taken on a sinister purple hue.  It has been enhanced to increase its potency, allowing it to transform you more easily, but may have odd side-effects..."), 20);
+            super(ConsumableName.FoxJewelEnhanced, new ItemDesc("MystJwl", "a mystic jewel", "The flames within this jewel glow brighter than before, and have taken on a sinister purple hue.  It has been enhanced to increase its potency, allowing it to transform you more easily, but may have odd side-effects..."), 20);
         else
-            super("FoxJewl", new ItemDesc("Fox Jewel", "a fox jewel", "A shining teardrop-shaped jewel.  An eerie blue flame dances beneath the surface."));
+            super(ConsumableName.FoxJewel, new ItemDesc("Fox Jewel", "a fox jewel", "A shining teardrop-shaped jewel.  An eerie blue flame dances beneath the surface."));
         this.mystic = mystic;
     }
 
@@ -88,7 +90,7 @@ export default class FoxJewel extends Consumable {
         //from high to low
         //Your facial features harden as your body becomes more androgynous.
         if (((this.mystic && Utils.rand(2) == 0) || (!this.mystic && Utils.rand(4) == 0)) && changes < changeLimit && player.femininity != 50) {
-            DisplayText.text(player.modFem(50, 2));
+            DisplayText.text(BodyModifier.displayModFem(player, 50, 2));
             changes++;
         }
         //[decrease muscle tone toward 40]

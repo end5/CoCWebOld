@@ -1,3 +1,4 @@
+import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
@@ -15,8 +16,8 @@ export default abstract class Armor extends EquipableItem {
     public readonly displayName: string;
     private _supportsBulge: boolean;
 
-    constructor(key: string, itemDesc: ItemDesc, displayname: string, defense: number, value?: number, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
-        super(key, ItemType.Armor, itemDesc, value);
+    constructor(name: ArmorName, desc: ItemDesc, displayname: string, defense: number, value?: number, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
+        super(name, ItemType.Armor, desc, value);
         this.displayName = displayname;
         this.defense = defense;
         this.armorClass = armorClass;
@@ -68,11 +69,11 @@ export default abstract class Armor extends EquipableItem {
 }
 
 export class GenericArmor extends Armor {
-    use(player: Player) { }
+    public use(player: Player) { }
     
-    equipText(): void { }
-    unequipText(): void { }
+    public equipText(): void { }
+    public unequipText(): void { }
 
-    onEquip(character: Character) { }
-    onUnequip(character: Character) { }
+    public onEquip(character: Character) { }
+    public onUnequip(character: Character) { }
 }

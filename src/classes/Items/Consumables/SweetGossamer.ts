@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -27,9 +28,9 @@ export default class SweetGossamer extends Consumable {
     private sweet: boolean;
     public constructor(sweet: boolean) {
         if (!sweet)
-            super("B.Gossr", new ItemDesc("B.Gossr", "a bundle of black, gossamer webbing", "These strands of gooey black gossamer seem quite unlike the normal silk that driders produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
+            super(ConsumableName.BlackGossamer, new ItemDesc("B.Gossr", "a bundle of black, gossamer webbing", "These strands of gooey black gossamer seem quite unlike the normal silk that driders produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
         else
-            super("S.Gossr", new ItemDesc("S.Gossr", "a bundle of pink, gossamer webbing", "These strands of gooey pink gossamer seem quite unlike the normal silk that spider-morphs produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
+            super(ConsumableName.SweetGossamer, new ItemDesc("S.Gossr", "a bundle of pink, gossamer webbing", "These strands of gooey pink gossamer seem quite unlike the normal silk that spider-morphs produce.  It smells sweet and is clearly edible, but who knows what it might do to you?"));
         this.sweet = sweet;
     }
 

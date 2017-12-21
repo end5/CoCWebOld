@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
@@ -20,7 +21,7 @@ import ItemDesc from '../ItemDesc';
 //Bottle of Ectoplasm Text
 export default class Ectoplasm extends Consumable {
     public constructor() {
-        super("EctoPls", new ItemDesc("EctoPls", "a bottle of ectoplasm", "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it."));
+        super(ConsumableName.Ectoplasm, new ItemDesc("EctoPls", "a bottle of ectoplasm", "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it."));
     }
 
     public use(player: Player) {

@@ -4,20 +4,6 @@ import Game from '../Game/Game';
 import { SerializeInterface } from '../SerializeInterface';
 
 export default class ItemStack<T extends Item> implements SerializeInterface {
-    serialize(): string {
-        let saveObject: object = {};
-        saveObject["_item"] = this._item.serialize();
-        saveObject["_quantity"] = this._quantity;
-        saveObject["_maxQuantity"] = this._maxQuantity;
-        return JSON.stringify(saveObject);
-    }
-    deserialize(saveObject: object) {
-        let item = saveObject["_item"] as Item;
-        this._item = ItemFactory.create(item.itemType, item.uniqueKey);
-        this._quantity = saveObject["_quantity"];
-        this._maxQuantity = saveObject["_maxQuantity"];
-    }
-    
     private _item: Item;
     private _quantity: number;
     private _maxQuantity: number;
@@ -70,5 +56,19 @@ export default class ItemStack<T extends Item> implements SerializeInterface {
 
             return returnItemStack;
         }
+    }
+
+    public serialize(): string {
+        let saveObject: object = {};
+        saveObject["_item"] = this._item.serialize();
+        saveObject["_quantity"] = this._quantity;
+        saveObject["_maxQuantity"] = this._maxQuantity;
+        return JSON.stringify(saveObject);
+    }
+    public deserialize(saveObject: object) {
+        let item = saveObject["_item"] as Item;
+        this._item = ItemFactory.create(item.type, item.name);
+        this._quantity = saveObject["_quantity"];
+        this._maxQuantity = saveObject["_maxQuantity"];
     }
 }

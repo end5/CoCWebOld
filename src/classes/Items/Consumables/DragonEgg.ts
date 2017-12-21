@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -9,7 +10,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class DragonEgg extends Consumable {
     public constructor() {
-        super("DrgnEgg", new ItemDesc("DrgnEgg", "an unfertilized dragon egg", "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches."));
+        super(ConsumableName.DragonEgg, new ItemDesc("DrgnEgg", "an unfertilized dragon egg", "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches."));
     }
 
     public use(player: Player) {

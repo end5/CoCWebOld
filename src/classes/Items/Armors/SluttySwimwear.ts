@@ -1,3 +1,4 @@
+import ArmorName from './ArmorName';
 import ArmorWithPerk from './ArmorWithPerk';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
@@ -10,10 +11,10 @@ import ItemDesc from '../ItemDesc';
 
 export default class SluttySwimwear extends ArmorWithPerk {
     public constructor() {
-        super("S.Swmwr", new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", PerkFactory.create(PerkType.SluttySeduction, 6, 0, 0, 0), "", true);
+        super(ArmorName.SluttySwimwear, new ItemDesc("S.Swmwr", "a skimpy black bikini", "An impossibly skimpy black bikini. You feel dirty just looking at it... and a little aroused, actually."), "slutty swimwear", 0, 6, "Light", PerkFactory.create(PerkType.SluttySeduction, 6, 0, 0, 0), "", true);
     }
 
-    use(player: Player) { }
+    public use(player: Player) { }
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally
         player.stats.lust += 5;
         if (player.upperBody.chest.BreastRatingLargest[0].breastRating < 1)
@@ -48,10 +49,10 @@ export default class SluttySwimwear extends ArmorWithPerk {
         DisplayText.text("\n\n");
     }
     
-    equipText(): void { }
-    unequipText(): void { }
+    public equipText(): void { }
+    public unequipText(): void { }
 
-    onEquip(): void { }
-    onUnequip(): void { }
+    public onEquip(): void { }
+    public onUnequip(): void { }
 }
 

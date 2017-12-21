@@ -1,4 +1,4 @@
-export enum WeaponType {
+enum WeaponName {
     Fists = "Fists  ",
     BeautifulSword = "B.Sword",
     LargeClaymore = "Claymor",
@@ -17,8 +17,9 @@ export enum WeaponType {
     Spellblade = "S.Blade",
     SpikedGauntlet = "S.Gaunt",
     Spear = "Spear  ",
-    SuccbiWhip = "SucWhip",
+    SuccubiWhip = "SucWhip",
     WizardsStaff = "W.Staff",
     HugeWarhammer = "Warhamr",
     Whip = "Whip   ",
 }
+export default WeaponName;

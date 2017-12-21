@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class PurpleFruit extends Consumable {
     public constructor() {
-        super("PrFruit", new ItemDesc("PrFruit", "a purple fruit", "This sweet-smelling produce looks like an eggplant, but feels almost squishy, and rubbery to the touch. Holding it to your ear, you think you can hear some fluid sloshing around inside."));
+        super(ConsumableName.PurpleFruit, new ItemDesc("PrFruit", "a purple fruit", "This sweet-smelling produce looks like an eggplant, but feels almost squishy, and rubbery to the touch. Holding it to your ear, you think you can hear some fluid sloshing around inside."));
     }
 
     public use(player: Player) {

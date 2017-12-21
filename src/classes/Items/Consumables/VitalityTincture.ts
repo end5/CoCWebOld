@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class VitalityTincture extends Consumable {
     public constructor() {
-        super("Vital T", new ItemDesc("Vitality T.", "a vitality tincture", "This potent tea is supposedly good for strengthening the body."));
+        super(ConsumableName.VitalityTincture, new ItemDesc("Vitality T.", "a vitality tincture", "This potent tea is supposedly good for strengthening the body."));
     }
 
     public use(player: Player) {

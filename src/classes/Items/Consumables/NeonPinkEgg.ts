@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { FaceType } from '../../Body/Face';
 import { EarType } from '../../Body/Head';
@@ -17,6 +18,7 @@ import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
 import Utils from '../../Utilities/Utils';
@@ -25,7 +27,7 @@ import ItemDesc from '../ItemDesc';
 export default class NeonPinkEgg extends Consumable {
     private pregnantChange: boolean
     public constructor(pregnantChange: boolean) {
-        super("NPnkEgg", new ItemDesc("NPnkEgg", "a neon pink egg", "This is an oblong egg with an unnatural neon pink coloration.  It tingles in your hand with odd energies that make you feel as if you could jump straight into the sky."));
+        super(ConsumableName.NeonPinkEgg, new ItemDesc("NPnkEgg", "a neon pink egg", "This is an oblong egg with an unnatural neon pink coloration.  It tingles in your hand with odd energies that make you feel as if you could jump straight into the sky."));
         this.pregnantChange = pregnantChange;
     }
 
@@ -164,8 +166,8 @@ export default class NeonPinkEgg extends Consumable {
         //Makes girls very girl(90), guys somewhat girly (61).
         if (changes < changeLimit && Utils.rand(2) == 0) {
             let buffer: string = "";
-            if (player.gender < 2) buffer += player.modFem(61, 4);
-            else buffer += player.modFem(90, 4);
+            if (player.gender < 2) buffer += BodyModifier.displayModFem(player, 61, 4);
+            else buffer += BodyModifier.displayModFem(player, 90, 4);
             if (buffer != "") {
                 DisplayText.text(buffer);
                 changes++;

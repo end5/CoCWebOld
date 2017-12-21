@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Vagina, { VaginaWetness } from '../../Body/Vagina';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
@@ -12,7 +13,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class MinotaurCum extends Consumable {
     public constructor() {
-        super("MinoCum", new ItemDesc("MinoCum", "a sealed bottle of minotaur cum", "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."), 60);
+        super(ConsumableName.MinotaurCum, new ItemDesc("MinoCum", "a sealed bottle of minotaur cum", "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."), 60);
     }
 
     public use(player: Player) {

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
@@ -6,7 +7,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class GiantChocolateCupcake extends Consumable {
     public constructor() {
-        super("CCupcak", new ItemDesc("CCupcak", "a gigantic, chocolate cupcake"), 250);
+        super(ConsumableName.GiantChocolateCupcake, new ItemDesc("CCupcak", "a gigantic, chocolate cupcake"), 250);
     }
 
     public use(player: Player) {

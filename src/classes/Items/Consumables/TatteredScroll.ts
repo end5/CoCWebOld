@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
@@ -11,7 +12,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class TatteredScroll extends Consumable {
     public constructor() {
-        super("TScroll", new ItemDesc("TScroll", "a tattered scroll", "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it."));
+        super(ConsumableName.TatteredScroll, new ItemDesc("TScroll", "a tattered scroll", "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it."));
     }
 
     public use(player: Player) {

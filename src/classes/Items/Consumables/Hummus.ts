@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
 import { SkinType } from '../../Body/Creature';
@@ -16,7 +17,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class Hummus extends Consumable {
     public constructor() {
-        super("Hummus ", new ItemDesc("Hummus ", "a blob of cheesy-looking hummus", "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it."));
+        super(ConsumableName.Hummus, new ItemDesc("Hummus ", "a blob of cheesy-looking hummus", "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it."));
     }
 
     public use(player: Player) {

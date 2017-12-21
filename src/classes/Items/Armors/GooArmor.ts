@@ -1,4 +1,5 @@
 import AbstractArmor from './Armor';
+import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import DisplayText from '../../display/DisplayText';
@@ -8,10 +9,10 @@ import ItemDesc from '../ItemDesc';
 
 export default class GooArmor extends AbstractArmor {
     public constructor() {
-        super("GooArmr", new ItemDesc("GooArmr", "Valeria, the goo-girl armor", "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!"), "goo armor", 22, 1);
+        super(ArmorName.GooArmor, new ItemDesc("GooArmr", "Valeria, the goo-girl armor", "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!"), "goo armor", 22, 1);
     }
 
-    use(player: Player) { }
+    public use(player: Player) { }
 
     public useText(player: Player): void { //Produces any text seen when equipping the armor normally
         DisplayText.text("With an ecstatic smile, the goo-armor jumps to her feet and throws her arms around your shoulders.  \"<i>Oh, this is going to be so much fun!  Thank you thank you thank you!  I promise I'll keep you nice and snug and safe, don't you worry.  Oooh, a real adventure again!  WHEEE!</i>\"");
@@ -34,16 +35,16 @@ export default class GooArmor extends AbstractArmor {
         DisplayText.text("\n\n\"<i>Well alright then, [name]!</i>\" Valeria says excitedly, \"<i>Let's go!</i>\"\n\n");
     }
 
-    equipText(): void { }
-    unequipText(): void { //Produces any text seen when removing the armor normally
+    public equipText(): void { }
+    public unequipText(): void { //Produces any text seen when removing the armor normally
         DisplayText.text("Valeria picks herself up and huffs, \"<i>Maybe we can adventure some more later on?</i>\" before undulating off towards your camp.\n\n(<b>Valeria now available in the followers tab!</b>)");
     }
 
-    onEquip(character: Character): void {
+    public onEquip(character: Character): void {
         Flags.list[FlagEnum.VALARIA_AT_CAMP] = 0;
     }
 
-    onUnequip(character: Character): void {
+    public onUnequip(character: Character): void {
         Flags.list[FlagEnum.VALARIA_AT_CAMP] = 1;
         // return null; //Can't put Valaria in your inventory
     }

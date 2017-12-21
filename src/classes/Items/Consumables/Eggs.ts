@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
@@ -33,46 +34,46 @@ export default class Eggs extends Consumable {
         if (large) {
             switch (eggType) {
                 case EggType.Black:
-                    super("L.BlkEg", new ItemDesc("L.BlkEg", "a large rubbery black egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!"));
+                    super(ConsumableName.LargeEggBlack, new ItemDesc("L.BlkEg", "a large rubbery black egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food.  For all you know, it could turn you into rubber!"));
                     break;
                 case EggType.Blue:
-                    super("L.BluEg", new ItemDesc("L.BluEg", "a large blue and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
+                    super(ConsumableName.LargeEggBlue, new ItemDesc("L.BluEg", "a large blue and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Brown:
-                    super("L.BrnEg", new ItemDesc("L.BrnEg", "a large brown and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
+                    super(ConsumableName.LargeEggBrown, new ItemDesc("L.BrnEg", "a large brown and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Pink:
-                    super("L.PnkEg", new ItemDesc("L.PnkEg", "a large pink and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
+                    super(ConsumableName.LargeEggPink, new ItemDesc("L.PnkEg", "a large pink and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 case EggType.Purple:
-                    super("L.PrpEg", new ItemDesc("L.PrpEg", "a large purple and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
+                    super(ConsumableName.LargeEggPurple, new ItemDesc("L.PrpEg", "a large purple and white mottled egg", "This is an oblong egg, not much different from an ostrich egg in appearance (save for the color).  Something tells you it's more than just food."));
                     break;
                 default:
                 case EggType.White:
-                    super("L.WhtEg", new ItemDesc("L.WhtEg", "a large white egg", "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food."));
+                    super(ConsumableName.LargeEggWhite, new ItemDesc("L.WhtEg", "a large white egg", "This is an oblong egg, not much different from an ostrich egg in appearance.  Something tells you it's more than just food."));
                     break;
             }
         }
         else {
             switch (eggType) {
                 case EggType.Black:
-                    super("BlackEg", new ItemDesc("BlackEg", "a rubbery black egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggBlack, new ItemDesc("BlackEg", "a rubbery black egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Blue:
-                    super("BlueEgg", new ItemDesc("BlueEgg", "a blue and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggBlue, new ItemDesc("BlueEgg", "a blue and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Brown:
-                    super("BrownEg", new ItemDesc("BrownEg", "a brown and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggBrown, new ItemDesc("BrownEg", "a brown and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Pink:
-                    super("PinkEgg", new ItemDesc("PinkEgg", "a pink and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggPink, new ItemDesc("PinkEgg", "a pink and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 case EggType.Purple:
-                    super("PurplEg", new ItemDesc("PurplEg", "a purple and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggPurple, new ItemDesc("PurplEg", "a purple and white mottled egg", "This is an oblong egg, not much different from a chicken egg in appearance (save for the color).  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
                 default:
                 case EggType.White:
-                    super("WhiteEg", new ItemDesc("WhiteEg", "a milky-white egg", "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food."), Eggs.DefaultValue);
+                    super(ConsumableName.EggWhite, new ItemDesc("WhiteEg", "a milky-white egg", "This is an oblong egg, not much different from a chicken egg in appearance.  Something tells you it's more than just food."), Eggs.DefaultValue);
                     break;
             }
         }
@@ -193,8 +194,8 @@ export default class Eggs extends Consumable {
             }
         }
         if (Utils.rand(3) == 0) {
-            if (this.large) DisplayText.text(player.modFem(100, 8));
-            else DisplayText.text(player.modFem(95, 3));
+            if (this.large) DisplayText.text(BodyModifier.displayModFem(player, 100, 8));
+            else DisplayText.text(BodyModifier.displayModFem(player, 95, 3));
         }
     }
 
@@ -363,8 +364,8 @@ export default class Eggs extends Consumable {
             }
         }
         if (Utils.rand(3) == 0) {
-            if (this.large) DisplayText.text(player.modFem(0, 8));
-            else DisplayText.text(player.modFem(5, 3));
+            if (this.large) DisplayText.text(BodyModifier.displayModFem(player, 0, 8));
+            else DisplayText.text(BodyModifier.displayModFem(player, 5, 3));
         }
     }
 

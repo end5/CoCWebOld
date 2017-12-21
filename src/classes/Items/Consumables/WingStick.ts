@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
@@ -8,7 +9,7 @@ import ItemDesc from '../ItemDesc';
 export default class WingStick extends Consumable {
 		
 	public constructor() {
-		super("W.Stick", new ItemDesc("Wingstick", "a wingstick", "A tri-bladed throwing weapon.  Though good for only a single use, it's guaranteed to do high damage if it hits.  (Cost: 16) (DMG: 40-100)"), 16);
+		super(ConsumableName.WingStick, new ItemDesc("Wingstick", "a wingstick", "A tri-bladed throwing weapon.  Though good for only a single use, it's guaranteed to do high damage if it hits.  (Cost: 16) (DMG: 40-100)"), 16);
 	}
 		
 	public canUse(player: Player): boolean {
@@ -28,7 +29,7 @@ export default class WingStick extends Consumable {
 		else { //Not dodged
 			let damage:number = 40 + Utils.rand(61);
 			DisplayText.text(Game.monster.desc.capitalA + Game.monster.desc.short + " is hit with the wingstick!  It breaks apart as it lacerates " + Game.monster.desc.objectivePronoun + ". (" + damage + ")");
-			Game.monster.stats.HPChange(-damage);
+			Game.monster.combat.stats.loseHP(damage, player);
             if (Game.monster.stats.HP < 0) Game.monster.stats.HP = 0;
 		}
 		return(false);

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
 import { EarType } from '../../Body/Head';
@@ -32,9 +33,9 @@ export default class GoldenSeed extends Consumable {
     //1 == enhanced - increase change limit and no pre-reqs for TF
     public constructor(enhanced: boolean) {
         if (!enhanced)
-            super("GldSeed", new ItemDesc("GoldenSeed", "a golden seed", "This seed looks and smells absolutely delicious.  Though it has an unusual color, the harpies prize these nuts as delicious treats.  Eating one might induce some physical transformations."));
+            super(ConsumableName.GoldenSeed, new ItemDesc("GoldenSeed", "a golden seed", "This seed looks and smells absolutely delicious.  Though it has an unusual color, the harpies prize these nuts as delicious treats.  Eating one might induce some physical transformations."));
         else
-            super("MagSeed", new ItemDesc("MagSeed", "a magically-enhanced golden seed", "This seed glows with power.  It's been enhanced by Lumi to unlock its full potential, allowing it to transform you more easily."));
+            super(ConsumableName.GoldenSeedEnhanced, new ItemDesc("MagSeed", "a magically-enhanced golden seed", "This seed glows with power.  It's been enhanced by Lumi to unlock its full potential, allowing it to transform you more easily."));
         this.enhanced = enhanced;
     }
 
@@ -201,7 +202,7 @@ export default class GoldenSeed extends Consumable {
         //-Femininity to 85
         if (player.femininity < 85 && changes < changeLimit && Utils.rand(3) == 0) {
             changes++;
-            DisplayText.text(player.modFem(85, 3 + Utils.rand(5)));
+            DisplayText.text(BodyModifier.displayModFem(player, 85, 3 + Utils.rand(5)));
         }
         //-Skin color change � tan, olive, dark, light
         if ((player.skinTone != "tan" && player.skinTone != "olive" && player.skinTone != "dark" && player.skinTone != "light") && changes < changeLimit && Utils.rand(5) == 0) {

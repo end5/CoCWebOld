@@ -1,3 +1,4 @@
+import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
@@ -11,8 +12,8 @@ export default abstract class Weapon extends EquipableItem {
     public readonly perk: string;
     public readonly displayname: string;
 
-    public constructor(key: string, itemDesc: ItemDesc, displayname: string, verb: string, attack: number, value?: number, perk: string = "") {
-        super(key, ItemType.Weapon, itemDesc, value);
+    public constructor(name: WeaponName, desc: ItemDesc, displayname: string, verb: string, attack: number, value?: number, perk: string = "") {
+        super(name, ItemType.Weapon, desc, value);
         this.displayname = displayname;
         this.verb = verb;
         this.attack = attack;
@@ -33,11 +34,11 @@ export default abstract class Weapon extends EquipableItem {
 }
 
 export class GenericWeapon extends Weapon {
-    use(player: Player) { }
+    public use(player: Player) { }
 
-    equip(character: Character): void { }
-    unequip(character: Character): void { }
+    public equip(character: Character) { }
+    public unequip(character: Character) { }
     
-    equipText(): void { }
-    unequipText(): void { }
+    public equipText() { }
+    public unequipText() { }
 }

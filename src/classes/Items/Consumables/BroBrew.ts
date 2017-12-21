@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import Cock from '../../Body/Cock';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
@@ -9,6 +10,7 @@ import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
+import BodyModifier from '../../Modifiers/BodyModifier';
 import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
@@ -16,7 +18,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class BroBrew extends Consumable {
     public constructor() {
-        super("BroBrew", new ItemDesc("BroBrew", "a can of Bro Brew", "This aluminum can is labelled as 'Bro Brew'.  It even has a picture of a muscly, bare-chested man flexing on it.  A small label in the corner displays: \"Demon General's Warning: Bro Brew's effects are as potent (and irreversible) as they are refreshing.\""));
+        super(ConsumableName.BroBrew, new ItemDesc("BroBrew", "a can of Bro Brew", "This aluminum can is labelled as 'Bro Brew'.  It even has a picture of a muscly, bare-chested man flexing on it.  A small label in the corner displays: \"Demon General's Warning: Bro Brew's effects are as potent (and irreversible) as they are refreshing.\""));
     }
 
     public use(player: Player) {
@@ -177,12 +179,12 @@ export default class BroBrew extends Consumable {
         //(below max masculinity)
         if (player.femininity > 0) {
             DisplayText.text("Lastly, the change hits your face.  You can feel your jawbones shifting and sliding around, your skin changing to accommodate your face's new shape.  Once it's finished, you feel your impeccable square jaw and give a wide, easy-going grin.  You look awesome!\n\n");
-            player.modFem(0, 100);
+            BodyModifier.displayModFem(player, 0, 100);
         }
         DisplayText.text("You finish admiring yourself and adjust your " + player.inventory.armorSlot.equipment.displayName + " to better fit your new physique.  Maybe there's some bitches around you can fuck.  Hell, as good as you look, you might have other dudes wanting you to fuck them too, no homo.\n\n");
         //max tone.  Thickness + 50
-        player.modTone(100, 100);
-        player.modThickness(100, 50);
+        BodyModifier.displayModTone(player, 100, 100);
+        BodyModifier.displayModThickness(player, 100, 50);
         //Bonus cum production!
         player.perks.add(PerkFactory.create(PerkType.BroBrains, 0, 0, 0, 0));
         player.perks.add(PerkFactory.create(PerkType.BroBody, 0, 0, 0, 0));

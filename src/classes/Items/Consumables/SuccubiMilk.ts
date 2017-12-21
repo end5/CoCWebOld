@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import GenericTransforms from './GenericTransforms';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
@@ -20,9 +21,9 @@ export default class SuccubiMilk extends Consumable {
 
     public constructor(tainted: boolean) {
         if (tainted)
-            super("SucMilk", new ItemDesc("SucMilk", "a bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\""));
+            super(ConsumableName.SuccubiMilk, new ItemDesc("SucMilk", "a bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\""));
         else
-            super("P.S.Mlk", new ItemDesc("P.S.Mlk", "an untainted bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"  Purified by Rathazul to prevent corruption."), 20);
+            super(ConsumableName.SuccubiMilkPure, new ItemDesc("P.S.Mlk", "an untainted bottle of Succubi milk", "This milk-bottle is filled to the brim with a creamy white milk of dubious origin.  A pink label proudly labels it as \"<i>Succubi Milk</i>\".  In small text at the bottom of the label it reads: \"<i>To bring out the succubus in YOU!</i>\"  Purified by Rathazul to prevent corruption."), 20);
         this.tainted = tainted;
     }
 
@@ -215,11 +216,11 @@ export default class SuccubiMilk extends Consumable {
         //Demonic changes - higher chance with higher corruption.
         if (Utils.rand(40) + player.stats.cor / 3 > 35 && this.tainted) GenericTransforms.demonChanges(player);
         if (this.tainted) {
-            DisplayText.text(player.modFem(100, 2));
+            DisplayText.text(BodyModifier.displayModFem(player, 100, 2));
             if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModTone(player, 15, 2));
         }
         else {
-            DisplayText.text(player.modFem(90, 1));
+            DisplayText.text(BodyModifier.displayModFem(player, 90, 1));
             if (Utils.rand(3) == 0) DisplayText.text(BodyModifier.displayModTone(player, 20, 2));
         }
         player.updateGender();

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
@@ -7,7 +8,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class BlackSpellbook extends Consumable {
     public constructor() {
-        super("B. Book", new ItemDesc("B. Book", "a small book with a midnight-black cover", "This solid black book is totally unmarked, saved for a blood red clasp that holds the covers closed until you are ready to read it.  The pages are edged with gold, like some of the fancy books in the monastary back home."), 40);
+        super(ConsumableName.BlackSpellbook, new ItemDesc("B. Book", "a small book with a midnight-black cover", "This solid black book is totally unmarked, saved for a blood red clasp that holds the covers closed until you are ready to read it.  The pages are edged with gold, like some of the fancy books in the monastary back home."), 40);
     }
 
     public use(player: Player) {

@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import { EyeType, FaceType } from '../../Body/Face';
 import { AntennaeType, EarType } from '../../Body/Head';
@@ -20,7 +21,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class GoblinAle extends Consumable {
     public constructor() {
-        super("Gob.Ale", new ItemDesc("Gob.Ale", "a flagon of potent goblin ale", "This sealed flagon of 'Goblin Ale' sloshes noisily with alcoholic brew.  Judging by the markings on the flagon, it's a VERY strong drink, and not to be trifled with."));
+        super(ConsumableName.GoblinAle, new ItemDesc("Gob.Ale", "a flagon of potent goblin ale", "This sealed flagon of 'Goblin Ale' sloshes noisily with alcoholic brew.  Judging by the markings on the flagon, it's a VERY strong drink, and not to be trifled with."));
     }
 
     public use(player: Player) {
@@ -217,7 +218,7 @@ export default class GoblinAle extends Consumable {
             changes++;
         }
         if (changes < changeLimit && Utils.rand(3) == 0) {
-            if (Utils.rand(2) == 0) player.modFem(85, 3);
+            if (Utils.rand(2) == 0) BodyModifier.displayModFem(player, 85, 3);
             if (Utils.rand(2) == 0) BodyModifier.displayModThickness(player, 20, 3);
             if (Utils.rand(2) == 0) BodyModifier.displayModTone(player, 15, 5);
         }

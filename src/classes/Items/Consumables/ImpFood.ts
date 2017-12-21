@@ -1,4 +1,5 @@
 import Consumable from './Consumable';
+import ConsumableName from './ConsumableName';
 import { SkinType } from '../../Body/Creature';
 import DisplayText from '../../display/DisplayText';
 import CockModifier from '../../Modifiers/CockModifier';
@@ -9,7 +10,7 @@ import ItemDesc from '../ItemDesc';
 
 export default class ImpFood extends Consumable {
     public constructor() {
-        super("ImpFood", new ItemDesc("ImpFood", "a parcel of imp food", "This is a small parcel of reddish-brown bread stuffed with some kind of meat.  It smells delicious."));
+        super(ConsumableName.ImpFood, new ItemDesc("ImpFood", "a parcel of imp food", "This is a small parcel of reddish-brown bread stuffed with some kind of meat.  It smells delicious."));
     }
 
     public use(player: Player) {
