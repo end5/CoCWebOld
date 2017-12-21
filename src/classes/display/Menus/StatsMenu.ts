@@ -10,7 +10,7 @@ import MainScreen from '../MainScreen';
 
 export default class StatsMenu implements Menu {
     public display(player: Player) {
-        //spriteSelect(-1);
+        //DisplaySprite.hide();
         DisplayText.clear();
 
         // Begin Combat Stats

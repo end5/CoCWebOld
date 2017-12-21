@@ -3,10 +3,12 @@ import Initializer from './Initializer';
 import Settings from './Settings';
 import TimeManager from './TimeManager';
 import Character from '../Character/Character';
+import Menus from '../display/Menus/Menus';
 import CampStorage from '../Inventory/CampStorage';
 import Player from '../Player/Player';
 import SaveManager from '../SaveManager';
 import SceneManager from '../Scenes/SceneManager';
+import Dictionary from '../Utilities/Dictionary';
 
 export enum GameState {
     Normal,
@@ -25,10 +27,11 @@ export default class Game {
     public static state: GameState;
     public static player: Player;
     public static saveManager: SaveManager;
-    public static timeManager: TimeManager;
+    public static time: TimeManager;
     public static sceneManager: SceneManager;
     public static campStorage: CampStorage;
     public static settings: Settings;
+    public static npcs: Dictionary<Character>;
 
     public constructor() {
         new Initializer();
@@ -45,10 +48,12 @@ export default class Game {
         // Time sensitive components
         Game.player = new Player();
 
-        Game.timeManager = new TimeManager();
+        Game.time = new TimeManager();
         Game.sceneManager = new SceneManager();
 
         Game.settings = new Settings();
+
+        Game.npcs = new Dictionary<Character>();
     }
 
     public static save(): object {
@@ -58,13 +63,13 @@ export default class Game {
         throw new Error("Method not implemented.");
     }
     public start(): void {
-        MainMenu.display();
+        Menus.MainMenu.display();
     }
 
     public static update(hours: number) {
         Game.player.update(hours);
         Game.monster.update(hours);
-        Game.timeManager.update(hours);
+        Game.time.update(hours);
         Game.sceneManager.update(hours);
     }
 

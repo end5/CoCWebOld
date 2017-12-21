@@ -64,47 +64,47 @@ export default class SettingsMenu implements Menu {
             DisplayText.text("Hyper Happy mode <b>Off</b>\n	Male enhancement potions shrink female endowments, and vice versa.");
 
         MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Toggle Debug", SettingsMenu.toggleDebug);
-        MainScreen.getBottomButton(1).modify("Sprite Toggle", SettingsMenu.toggleSpritesFlag);
-        MainScreen.getBottomButton(2).modify("EZ Mode", SettingsMenu.toggleEasyModeFlag);
-        MainScreen.getBottomButton(3).modify("Larger Font", SettingsMenu.incFontSize);
-        MainScreen.getBottomButton(4).modify("Controls", ControlsMenu.display);
-        MainScreen.getBottomButton(5).modify("Hyper Happy", SettingsMenu.toggleHyperHappy);
-        MainScreen.getBottomButton(6).modify("Low Standards", SettingsMenu.toggleStandards);
-        MainScreen.getBottomButton(7).modify("Silly Toggle", SettingsMenu.toggleSillyFlag);
-        MainScreen.getBottomButton(8).modify("Smaller Font", SettingsMenu.decFontSize);
+        MainScreen.getBottomButton(0).modify("Toggle Debug", this.toggleDebug);
+        MainScreen.getBottomButton(1).modify("Sprite Toggle", this.toggleSpritesFlag);
+        MainScreen.getBottomButton(2).modify("EZ Mode", this.toggleEasyModeFlag);
+        MainScreen.getBottomButton(3).modify("Larger Font", this.incFontSize);
+        MainScreen.getBottomButton(4).modify("Controls", Menus.Controls.display);
+        MainScreen.getBottomButton(5).modify("Hyper Happy", this.toggleHyperHappy);
+        MainScreen.getBottomButton(6).modify("Low Standards", this.toggleStandards);
+        MainScreen.getBottomButton(7).modify("Silly Toggle", this.toggleSillyFlag);
+        MainScreen.getBottomButton(8).modify("Smaller Font", this.decFontSize);
         MainScreen.getBottomButton(9).modify("Back", Menus.MainMenu.display);
     }
 
-    public static incFontSize(): void {
+    public incFontSize(): void {
         Game.settings.customFontSize++;
     }
 
-    public static decFontSize(): void {
+    public decFontSize(): void {
         Game.settings.customFontSize--;
     }
 
-    public static toggleStandards(): void {
+    public toggleStandards(): void {
         Game.settings.lowStandards = !Game.settings.lowStandards;
     }
 
-    public static toggleHyperHappy(): void {
+    public toggleHyperHappy(): void {
         Game.settings.hyperHappy = !Game.settings.hyperHappy;
     }
 
-    public static toggleDebug(): void {
+    public toggleDebug(): void {
         Game.settings.debug = !Game.settings.debug;
     }
 
-    public static toggleEasyModeFlag(): void {
+    public toggleEasyModeFlag(): void {
         Game.settings.easyMode = !Game.settings.easyMode;
     }
 
-    public static toggleSpritesFlag(): void {
+    public toggleSpritesFlag(): void {
         Game.settings.showSprites = !Game.settings.showSprites;
     }
 
-    public static toggleSillyFlag(): void {
+    public toggleSillyFlag(): void {
         Game.settings.sillyMode = !Game.settings.sillyMode;
     }
 }

@@ -3,18 +3,20 @@ import Menus from './Menus';
 import PlayerMenu from './PlayerMenu';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
+import TimeManager from '../../Game/TimeManager';
 import Player from '../../Player/Player';
+import DisplaySprite from '../DisplaySprite';
 import DisplayText from '../DisplayText';
 import MainScreen from '../MainScreen';
 
 export default class StashMenu implements Menu {
     public display(player: Player) {
         DisplayText.clear();
-        spriteSelect(-1);
+        DisplaySprite.hide();
         MainScreen.hideBottomButtons();
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
             Game.sceneManager.anemoneScene.anemoneBarrelDescription();
-            if (model.time.hours >= 6)
+            if (Game.time.hour >= 6)
             MainScreen.getBottomButton(4).modify("Anemone", Game.sceneManager.anemoneScene.approachAnemoneBarrel);
         }
         if (player.hasKeyItem("Camp - Chest")) {

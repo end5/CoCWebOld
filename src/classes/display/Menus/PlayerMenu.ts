@@ -3,16 +3,18 @@ import Menu from './Menu';
 import Menus from './Menus';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game, { GameState } from '../../Game/Game';
+import Player from '../../Player/Player';
+import DisplaySprite from '../DisplaySprite';
 import MainScreen, { TopButton } from '../MainScreen';
 
 export default class PlayerMenu implements Menu {
-    public display() {
+    public display(player: Player) {
         if (Game.state != GameState.InCombat)
-            spriteSelect(-1);
+            DisplaySprite.hide();
         MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", CharCreationMenu.display);
         //MainScreen.getStatsPanel()..nameBox.visible = false;
         if (Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple) {
-            Menus.Combat.display();
+            Menus.Combat.display(player);
             return;
         }
         //Clear restriction on item overlaps if not in combat

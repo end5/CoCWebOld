@@ -5,17 +5,21 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Inventory from '../../Inventory/Inventory';
 import Item from '../../Items/Item';
+import ItemFactory from '../../Items/ItemFactory';
+import WeaponLib from '../../Items/Weapons/WeaponLib';
+import WeaponName from '../../Items/Weapons/WeaponName';
 import Player from '../../Player/Player';
+import DisplaySprite from '../DisplaySprite';
 import DisplayText from '../DisplayText';
 import InventoryDisplay from '../InventoryDisplay';
 import MainScreen from '../MainScreen';
 
 export default class PlayerInventoryMenu implements Menu {
     public display(player: Player) {
-        let inventory: Inventory<Item> = player.inventory.items;
+        const inventory: Inventory<Item> = player.inventory.items;
         let foundItem: Boolean = false;
 
-        spriteSelect(-1);
+        DisplaySprite.hide();
 
         MainScreen.hideTopButtons();
         DisplayText.clear();
@@ -30,7 +34,7 @@ export default class PlayerInventoryMenu implements Menu {
         MainScreen.hideTopButtons();
         InventoryDisplay.displayPlayersInventory(player);
 
-        if (player.inventory.weaponSlot.equipment != Game.libraries.weapons.get("Fists")) {
+        if (player.inventory.weaponSlot.equipment.name != WeaponName.Fists) {
             MainScreen.getBottomButton(5).modify("Unequip", InventoryDisplay.unequipFunction(player));
         }
 

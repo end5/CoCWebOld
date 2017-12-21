@@ -1,7 +1,9 @@
+import Player from './Player';
 import Character from '../Character/Character';
 import CombatContainer from '../Combat/CombatContainer';
 import { CombatEndType } from '../Combat/CombatEnd';
 import DisplayText from '../display/DisplayText';
+import MainScreen from '../display/MainScreen';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Utils from '../Utilities/Utils';
@@ -112,11 +114,10 @@ class PlayerCombatContainer extends CombatContainer {
         }
         else doNext(createCallBackFunction(camp.returnToCamp, timePasses));
 
-        DisplayText.doNext(Game.camp.returnToCampUseEightHours);
+        MainScreen.doNext(Game.camp.returnToCampUseEightHours);
     }
 
     public victoryAftermath(loseType: CombatEndType, enemy: Character): void {
-        DisplayText.doNext(Game.camp.returnToCampUseOneHour);
+        MainScreen.doNext(Game.camp.returnToCampUseOneHour);
     }
-
 }

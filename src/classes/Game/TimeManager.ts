@@ -1,6 +1,7 @@
-import { TimeAwareInterface } from "../TimeAwareInterface";
+import { TimeAwareInterface } from '../TimeAwareInterface';
+import UpdateInterface from '../UpdateInterface';
 
-export default class TimeManager {
+export default class TimeManager implements UpdateInterface {
     private timeAwareObjects: TimeAwareInterface[];
     private date: Date;
     private currentIndex: number;
@@ -11,10 +12,10 @@ export default class TimeManager {
     }
 
     public add(timeAwareObject: TimeAwareInterface) {
-
+        this.timeAwareObjects.push(timeAwareObject);
     }
 
-    public timeUpdate(amount: Date) {
+    public update(hours: number) {
         this.currentIndex = 0;
         while (!this.timePaused && this.currentIndex < this.timeAwareObjects.length) {
             this.timeAwareObjects[this.currentIndex].timeChange();
@@ -30,7 +31,11 @@ export default class TimeManager {
         this.timePaused = false;
     }
 
-    public getTime(): Date {
-        return this.date;
+    public get hour(): number {
+        return this.date.getHours();
+    }
+
+    public get day(): number {
+        return this.date.getDay();
     }
 }
