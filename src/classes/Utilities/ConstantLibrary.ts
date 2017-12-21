@@ -1,21 +1,21 @@
 ﻿import LibraryEntry from './LibraryEntry';
 
-export default class ConstantLibrary<T extends LibraryEntry> {
+export default class ConstantLibrary<Entry> {
     private _library: object;
+    
+    public constructor() {
+        this._library = {};
+    }
 
-    public get(key: string): T {
+    public get(key: string): Entry {
         return this._library[key];
     }
 
-    protected add(entry: T) {
-        this._library[entry.uniqueKey] = entry;
+    protected add(key: string | number, value: Entry) {
+        this._library[key] = value;
     }
 
-    public has(uniqueKey: string) {
-        return this._library[uniqueKey] != undefined ? true : false;
-    }
-
-    public constructor() {
-        this._library = {};
+    public has(key: string | number) {
+        return this._library[key] != undefined ? true : false;
     }
 }
