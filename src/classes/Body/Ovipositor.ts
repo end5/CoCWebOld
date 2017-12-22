@@ -1,53 +1,53 @@
-﻿import { SerializeInterface } from '../SerializeInterface';
+﻿import SerializeInterface from '../SerializeInterface';
 
 export default class Ovipositor implements SerializeInterface {
-    private _eggs: number;
-    private _fertilizedEggs: number;
+    private unfertileEggs: number;
+    private fertileEggs: number;
 
     public constructor() {
-        this._eggs = 0;
-        this._fertilizedEggs = 0;
+        this.unfertileEggs = 0;
+        this.fertileEggs = 0;
     }
 
     public get eggs(): number {
-        return this._eggs;
+        return this.unfertileEggs;
     }
 
     public set eggs(value: number) {
-        this._eggs = this._eggs > 50 ? 50 : value;
+        this.unfertileEggs = this.unfertileEggs > 50 ? 50 : value;
     }
 
     public get fertilizedEggs(): number {
-        return this._fertilizedEggs;
+        return this.fertileEggs;
     }
 
     public set fertilizedEggs(value: number) {
-        this._fertilizedEggs = this._fertilizedEggs > 50 ? 50 : value;
+        this.fertileEggs = this.fertileEggs > 50 ? 50 : value;
     }
 
     public canOviposit(): boolean {
-        return this._eggs >= 10 ? true : false;
+        return this.unfertileEggs >= 10 ? true : false;
     }
 
     public dumpEggs(): void {
-        this._eggs = 0;
+        this.unfertileEggs = 0;
         this.fertilizeEggs();
     }
 
     public fertilizeEggs(): number {
-        this._fertilizedEggs = this._eggs;
-        return this._fertilizedEggs;
+        this.fertileEggs = this.unfertileEggs;
+        return this.fertileEggs;
     }
 
-    serialize(): string {
+    public serialize(): string {
         return JSON.stringify({
-            "_eggs": this._eggs,
-            "_fertilizedEggs": this._fertilizedEggs
+            unfertileEggs: this.unfertileEggs,
+            fertileEggs: this.fertileEggs
         });
     }
-    deserialize(saveObject: object) {
-        this._eggs = saveObject["_eggs"];
-        this._fertilizedEggs = saveObject["_fertilizedEggs"];
-    }
 
+    public deserialize(saveObject: Ovipositor) {
+        this.unfertileEggs = saveObject.unfertileEggs;
+        this.fertileEggs = saveObject.fertileEggs;
+    }
 }

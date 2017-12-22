@@ -1,4 +1,4 @@
-﻿import { SerializeInterface } from '../SerializeInterface';
+﻿import SerializeInterface from '../SerializeInterface';
 
 export enum FaceType {
     HUMAN, HORSE, DOG, COW_MINOTAUR, SHARK_TEETH, SNAKE_FANGS,

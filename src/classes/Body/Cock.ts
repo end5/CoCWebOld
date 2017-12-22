@@ -1,126 +1,30 @@
-import { SerializeInterface } from '../SerializeInterface';
-import Utils from '../Utilities/Utils';
+import Piercing from './Piercing';
+import SerializeInterface from '../SerializeInterface';
+import { SortOption } from '../Utilities/list';
+import SerializableList from '../Utilities/SerializableList';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
 export default class Cock implements SerializeInterface {
-    private _cockLength: number;
-    private _cockThickness: number;
-    private _cockType: CockType;
-
-    //Used to determine thickness of knot relative to normal thickness
-    private _knotMultiplier: number;
-
-    //Piercing info
-    private _isPierced: boolean;
-    private _piercings: number;
-    //Not yet, sweet prince. PiercedType current has no uses. But it will, one day.
-    // private _pierceType:PiercingTypesEnum;
-    private _piercedShortDesc: string;
-    private _piercedLongDesc: string;
-
-    //Sock
-    private _sock: string;
-
-    public constructor(cockLength: number = 5.5, cockThickness: number = 1, cockType: CockType = CockType.HUMAN) {
-        this._cockLength = cockLength;
-        this._cockThickness = cockThickness;
-        this._cockType = cockType;
-
-        this._piercings = 0;
-        this._knotMultiplier = 1;
-
-        this._isPierced = false;
-        //this.pierceType = PiercingTypesEnum.NONE;
-        this._piercedShortDesc = "";
-        this._piercedLongDesc = "";
-        this._sock = "";
-    }
+    public length: number = 5.5;
+    public thickness: number = 1;
+    public type: CockType = CockType.HUMAN;
+    public knotMultiplier: number = 1;
+    public piercings: SerializableList<Piercing> = new SerializableList(Piercing);
+    public sock: string = "";
 
     public cockArea(): number {
-        return this._cockThickness * this._cockLength;
-    }
-
-    public get cockLength(): number {
-        return this._cockLength;
-    }
-
-    public set cockLength(value: number) {
-        this._cockLength = value;
-    }
-
-    public get cockThickness(): number {
-        return this._cockThickness;
-    }
-
-    public set cockThickness(value: number) {
-        this._cockThickness = value;
-    }
-
-    public get cockType(): CockType {
-        return this._cockType;
-    }
-
-    public set cockType(value: CockType) {
-        this._cockType = value;
-    }
-
-    public get knotMultiplier(): number {
-        return this._knotMultiplier;
-    }
-
-    public set knotMultiplier(value: number) {
-        this._knotMultiplier = value;
-    }
-
-    public get pierced(): boolean {
-        return this._isPierced;
-    }
-
-    public set pierced(value: boolean) {
-        this._isPierced = value;
-    }
-
-    public get piercedShortDesc(): string {
-        return this._piercedShortDesc;
-    }
-
-    public set piercedShortDesc(value: string) {
-        this._piercedShortDesc = value;
-    }
-
-    public get piercedLongDesc(): string {
-        return this._piercedLongDesc;
-    }
-
-    public set piercedLongDesc(value: string) {
-        this._piercedLongDesc = value;
-    }
-
-    public get sock(): string {
-        return this._sock;
-    }
-
-    public set sock(value: string) {
-        this._sock = value;
+        return this.thickness * this.length;
     }
 
     public hasSock(): boolean {
-        return this._sock != ("");
-    }
-
-    public get piercings(): number {
-        return this._piercings;
-    }
-
-    public set piercings(value: number) {
-        this._piercings = value;
+        return this.sock != ("");
     }
 
     public hasSheath(): boolean {
-        switch (this.cockType) {
+        switch (this.type) {
             case CockType.CAT:
             case CockType.DISPLACER:
             case CockType.DOG:
@@ -133,29 +37,48 @@ export default class Cock implements SerializeInterface {
         }
     }
 
-    serialize(): string {
+
+    public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.cockArea() - b.cockArea();
+    };
+
+    public static readonly LargestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.cockArea() - a.cockArea();
+    };
+
+    public static readonly ShortestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.length - b.length;
+    };
+
+    public static readonly LongestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.length - a.length;
+    };
+
+    public static readonly ThinnestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.thickness - b.thickness;
+    };
+
+    public static readonly ThickestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.thickness - a.thickness;
+    };
+
+    public serialize(): string {
         return JSON.stringify({
-            "_cockLength": this._cockLength,
-            "_cockThickness": this._cockThickness,
-            "_cockType": this._cockType,
-            "_piercings": this._piercings,
-            "_knotMultiplier": this._knotMultiplier,
-            "_isPierced": this._isPierced,
-            "_piercedShortDesc": this._piercedShortDesc,
-            "_piercedLongDesc": this._piercedLongDesc,
-            "_sock": this._sock
+            length: this.length,
+            thickness: this.thickness,
+            type: this.type,
+            knotMultiplier: this.knotMultiplier,
+            piercings: this.piercings.serialize(),
+            sock: this.sock
         });
     }
-    deserialize(saveObject: object) {
-        this._cockLength = saveObject["_cockLength"];
-        this._cockThickness = saveObject["_cockThickness"];
-        this._cockType = saveObject["_cockType"];
-        this._piercings = saveObject["_piercings"];
-        this._knotMultiplier = saveObject["_knotMultiplier"];
-        this._isPierced = saveObject["_isPierced"];
-        this._piercedShortDesc = saveObject["_piercedShortDesc"];
-        this._piercedLongDesc = saveObject["_piercedLongDesc"];
-        this._sock = saveObject["_sock"];
-    }
 
+    public deserialize(saveObject: Cock) {
+        this.length = saveObject.length;
+        this.thickness = saveObject.thickness;
+        this.type = saveObject.type;
+        this.knotMultiplier = saveObject.knotMultiplier;
+        this.piercings.deserialize(saveObject.piercings);
+        this.sock = saveObject.sock;
+    }
 }

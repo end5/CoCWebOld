@@ -1,4 +1,4 @@
-import { SerializeInterface } from '../SerializeInterface';
+import SerializeInterface from '../SerializeInterface';
 
 export default class Stats implements SerializeInterface {
     //Primary stats

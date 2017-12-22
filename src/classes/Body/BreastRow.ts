@@ -1,4 +1,7 @@
-﻿import { SerializeInterface } from '../SerializeInterface';
+﻿import Nipple from './Nipple';
+import SerializeInterface from '../SerializeInterface';
+import { FilterOption, SortOption } from '../Utilities/list';
+import SerializableList from '../Utilities/SerializableList';
 
 export enum BreastCup {
     FLAT, A, B, C, D, DD, DD_BIG, E, E_BIG, EE, EE_BIG, F, F_BIG, FF, FF_BIG,
@@ -12,65 +15,91 @@ export enum BreastCup {
 }
 
 export default class BreastRow implements SerializeInterface {
-    public breasts: number;
-    public nipplesPerBreast: number;
-    public breastRating: number;
-    public lactationMultiplier: number;
+    public rating: number = BreastCup.C;
+    public lactationMultiplier: number = 0;
     //Fullness used for lactation....if 75 or greater warning bells start going off!
     //If it reaches 100 it reduces lactation multiplier.
-    public milkFullness: number;
-    public fullness: number;
-    public fuckable: boolean;
+    public milkFullness: number = 0;
+    public fullness: number = 0;
 
-    public nippleLength: number;
-    public nipplesPierced: boolean;
-    public nipplesPiercedShort: string;
-    public nipplesPiercedLong: string;
+    public nipples: SerializableList<Nipple> = new SerializableList(Nipple);
 
-    public constructor(breastCup: BreastCup = BreastCup.C) {
-        this.breasts = 2;
-        this.nipplesPerBreast = 1;
-        this.breastRating = breastCup;
-        this.lactationMultiplier = 0;
-        //Fullness used for lactation....if 75 or greater warning bells start going off!
-        //If it reaches 100 it reduces lactation multiplier.
-        this.milkFullness = 0;
-        this.fullness = 0;
-        this.fuckable = false;
+    public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.rating - b.rating;
+    };
 
-        this.nippleLength = .25;
-        this.nipplesPierced = false;
-        this.nipplesPiercedShort = "";
-        this.nipplesPiercedLong = "";
+    public static readonly BreastRatingSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.rating - a.rating;
+    };
 
-    }
+    public static readonly LactationMultipierLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.lactationMultiplier - b.lactationMultiplier;
+    };
 
-    serialize(): string {
+    public static readonly LactationMultipierSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.lactationMultiplier - a.lactationMultiplier;
+    };
+
+    public static readonly MilkFullnessMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.milkFullness - b.milkFullness;
+    };
+
+    public static readonly MilkFullnessLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.milkFullness - a.milkFullness;
+    };
+
+    public static readonly FullnessMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.fullness - b.fullness;
+    };
+
+    public static readonly FullnessLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.fullness - a.fullness;
+    };
+
+    public static readonly NipplesPerBreastMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return a.nipples.length - b.nipples.length;
+    };
+
+    public static readonly NipplesPerBreastLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
+        return b.nipples.length - a.nipples.length;
+    };
+
+    public static readonly Fuckable: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.nipples.filter(Nipple.Fuckable).length > 0)
+            return a;
+    };
+
+    public static readonly NotFuckable: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.nipples.filter(Nipple.NotFuckable).length > 0)
+            return a;
+    };
+
+    public static readonly PiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.nipples.filter(Nipple.PiercedNipples).length > 0)
+            return a;
+    };
+
+    public static readonly NotPiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.nipples.filter(Nipple.NotPiercedNipples).length > 0)
+            return a;
+    };
+
+
+    public serialize(): string {
         return JSON.stringify({
-            "breasts": this.breasts,
-            "nipplesPerBreast": this.nipplesPerBreast,
-            "breastRating": this.breastRating,
-            "lactationMultiplier": this.lactationMultiplier,
-            "milkFullness": this.milkFullness,
-            "fullness": this.fullness,
-            "fuckable": this.fuckable,
-            "nippleLength": this.nippleLength,
-            "nipplesPierced": this.nipplesPierced,
-            "nipplesPiercedShort": this.nipplesPiercedShort,
-            "nipplesPiercedLong": this.nipplesPiercedLong
+            breastRating: this.rating,
+            lactationMultiplier: this.lactationMultiplier,
+            milkFullness: this.milkFullness,
+            fullness: this.fullness,
+            nipples: this.nipples.serialize(),
         });
     }
-    deserialize(saveObject: object) {
-        this.breasts = saveObject["breasts"];
-        this.nipplesPerBreast = saveObject["nipplesPerBreast"];
-        this.breastRating = saveObject["breastRating"];
-        this.lactationMultiplier = saveObject["lactationMultiplier"];
-        this.milkFullness = saveObject["milkFullness"];
-        this.fullness = saveObject["fullness"];
-        this.fuckable = saveObject["fuckable"];
-        this.nippleLength = saveObject["nippleLength"];
-        this.nipplesPierced = saveObject["nipplesPierced"];
-        this.nipplesPiercedShort = saveObject["nipplesPiercedShort"];
-        this.nipplesPiercedLong = saveObject["nipplesPiercedLong"];
+
+    public deserialize(saveObject: BreastRow) {
+        this.rating = saveObject.rating;
+        this.lactationMultiplier = saveObject.lactationMultiplier;
+        this.milkFullness = saveObject.milkFullness;
+        this.fullness = saveObject.fullness;
+        this.nipples.deserialize(saveObject.nipples);
     }
 }

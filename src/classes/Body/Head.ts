@@ -1,5 +1,5 @@
 ﻿import Face from './Face';
-import { SerializeInterface } from '../SerializeInterface';
+import SerializeInterface from '../SerializeInterface';
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE

@@ -1,42 +1,16 @@
-﻿import BreastRow from './BreastRow';
-import Butt, { ButtLooseness } from './Butt';
-import Cock from './Cock';
-import CreatureStatsWrapper from './CreatureStatsWrapper';
-import LowerBody, { LowerBodyType } from './LowerBody';
-import { PregnancyType } from './Pregnancy/Pregnancy';
-import PregnancyManager from './Pregnancy/PregnancyManager';
-import Stats from './Stats';
-import UpperBody, { WingType } from './UpperBody';
-import Vagina, { VaginaLooseness } from './Vagina';
-import CockDescriptor from '../Descriptors/CockDescriptor';
-import DisplayText from '../display/DisplayText';
-import Perk from '../Effects/Perk';
-import PerkList from '../Effects/PerkList';
-import { PerkType } from '../Effects/PerkType';
-import StatusAffect from '../Effects/StatusAffect';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
-import StatusAffectList from '../Effects/StatusAffectList';
-import { StatusAffectType } from '../Effects/StatusAffectType';
-import { SerializeInterface } from '../SerializeInterface';
-import Utils from '../Utilities/Utils';
+﻿import Torso from './Torso';
+import SerializeInterface from '../SerializeInterface';
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
 
-export enum SkinType {
-    PLAIN, FUR, SCALES, GOO, UNDEFINED
-}
-
-export default class Creature implements SerializeInterface {
+export default class Body implements SerializeInterface {
     //Appearance Variables
     public gender: Gender;
     public tallness: number;
 
-    public skinType: SkinType;
-    public skinTone: string;
-    public skinDesc: string;
-    public skinAdj: string;
+    public skin: Skin;
 
     //Used for hip ratings
     public thickness: number;
@@ -50,9 +24,7 @@ export default class Creature implements SerializeInterface {
     public cumMultiplier: number;
     public hoursSinceCum: number;
 
-    public upperBody: UpperBody;
-    public lowerBody: LowerBody;
-
+    public torso: Torso;
     public pregnancy: PregnancyManager;
 
     private baseStats: Stats;
@@ -63,10 +35,7 @@ export default class Creature implements SerializeInterface {
     public constructor() {
         this.gender = Gender.NONE;
         this.tallness = 0;
-        this.skinType = SkinType.PLAIN;
-        this.skinTone = "albino";
-        this.skinDesc = "skin";
-        this.skinAdj = "";
+        this.skin = new Skin();
 
         this._femininity = 50;
         this.tone = 0;
@@ -76,8 +45,7 @@ export default class Creature implements SerializeInterface {
         this.cumMultiplier = 1;
         this.hoursSinceCum = 0;
 
-        this.upperBody = new UpperBody();
-        this.lowerBody = new LowerBody();
+        this.torso = new Torso();
 
         this.pregnancy = new PregnancyManager(this);
 
@@ -117,13 +85,13 @@ export default class Creature implements SerializeInterface {
         let loosestVagina = this.lowerBody.vaginaSpot.LoosenessMost[0];
         let wettestVagina = this.lowerBody.vaginaSpot.WetnessMost[0];
         //Centaurs = +50 capacity
-        if (this.lowerBody.type == LowerBodyType.CENTAUR)
+        if (this.lowerBody.type == LegType.CENTAUR)
             bonus = 50;
         //Naga = +20 capacity
-        else if (this.lowerBody.type == LowerBodyType.NAGA)
+        else if (this.lowerBody.type == LegType.NAGA)
             bonus = 20;
 
-        //Wet pussy provides 20 ponumber boost
+        //Wet pussy provides 20 point boost
         if (this.perks.has(PerkType.WetPussy))
             bonus += 20;
         if (this.perks.has(PerkType.HistorySlut))
@@ -144,7 +112,7 @@ export default class Creature implements SerializeInterface {
     public analCapacity(): number {
         let bonus: number = 0;
         //Centaurs = +30 capacity
-        if (this.lowerBody.type == LowerBodyType.CENTAUR)
+        if (this.lowerBody.type == LegType.CENTAUR)
             bonus = 30;
         if (this.perks.has(PerkType.HistorySlut))
             bonus += 20;
@@ -240,7 +208,7 @@ export default class Creature implements SerializeInterface {
     }
 
     public lactationQ(): number {
-        let chest = this.upperBody.chest;
+        let chest = this.torso.chest;
         if (chest.LactationMultipierLargest[0].lactationMultiplier < 1)
             return 0;
         //(Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
@@ -265,7 +233,7 @@ export default class Creature implements SerializeInterface {
         //web also makes false!
         if (this.statusAffects.has(StatusAffectType.Web))
             return false;
-        switch (this.upperBody.wingType) {
+        switch (this.torso.wingType) {
             case WingType.BAT_LIKE_LARGE:
             case WingType.BEE_LIKE_LARGE:
             case WingType.DRACONIC_LARGE:
@@ -376,7 +344,7 @@ export default class Creature implements SerializeInterface {
         saveObject["cumMultiplier"] = this.cumMultiplier;
         saveObject["hoursSinceCum"] = this.hoursSinceCum;
 
-        saveObject["upperBody"] = this.upperBody.serialize();
+        saveObject["upperBody"] = this.torso.serialize();
         saveObject["lowerBody"] = this.lowerBody.serialize();
 
         saveObject["baseStats"] = this.baseStats.serialize();
@@ -402,7 +370,7 @@ export default class Creature implements SerializeInterface {
         this.cumMultiplier = saveObject["cumMultiplier"];
         this.hoursSinceCum = saveObject["hoursSinceCum"];
 
-        this.upperBody.deserialize(saveObject["upperBody"]);
+        this.torso.deserialize(saveObject["upperBody"]);
         this.lowerBody.deserialize(saveObject["lowerBody"]);
 
         this.baseStats.deserialize(saveObject["baseStats"]);
