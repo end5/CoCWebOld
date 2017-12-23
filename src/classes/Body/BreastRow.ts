@@ -22,7 +22,7 @@ export default class BreastRow implements SerializeInterface {
     public milkFullness: number = 0;
     public fullness: number = 0;
 
-    public nipples: SerializableList<Nipple> = new SerializableList(Nipple);
+    public readonly nipples: SerializableList<Nipple> = new SerializableList(Nipple);
 
     public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
@@ -57,11 +57,11 @@ export default class BreastRow implements SerializeInterface {
     };
 
     public static readonly NipplesPerBreastMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
-        return a.nipples.length - b.nipples.length;
+        return a.nipples.count - b.nipples.count;
     };
 
     public static readonly NipplesPerBreastLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
-        return b.nipples.length - a.nipples.length;
+        return b.nipples.count - a.nipples.count;
     };
 
     public static readonly Fuckable: FilterOption<BreastRow> = (a: BreastRow) => {
@@ -87,7 +87,7 @@ export default class BreastRow implements SerializeInterface {
 
     public serialize(): string {
         return JSON.stringify({
-            breastRating: this.rating,
+            rating: this.rating,
             lactationMultiplier: this.lactationMultiplier,
             milkFullness: this.milkFullness,
             fullness: this.fullness,

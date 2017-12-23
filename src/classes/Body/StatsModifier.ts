@@ -1,11 +1,12 @@
 ﻿import Creature from './Creature';
 import Stats from './Stats';
+import Tail from './Tail';
 import Character from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 
-export default class CreatureStatsWrapper {
+export default class StatsModifier {
     private body: Creature;
     private stats: Stats;
 
@@ -241,7 +242,7 @@ export default class CreatureStatsWrapper {
         max = Math.round(max);
         if (max > 999)
             max = 999;
-		return max + this.bonusHP;
+        return max + this.bonusHP;
     }
 
     public get bonusHP(): number {
@@ -335,10 +336,15 @@ export default class CreatureStatsWrapper {
                 min += 30;
         }
         //SPOIDAH BOOSTS
-        if (this.body.lowerBody.hasOvipositor() && this.body.lowerBody.ovipositor.eggs >= 20) {
-            min += 10;
-            if (this.body.lowerBody.ovipositor.eggs >= 40)
-                min += 10;
+        let oviTails = this.body.torso.tailSpot.filter(Tail.HasOvipositor);
+        if (oviTails.length > 0) {
+            for (let index = 0; index < oviTails.length; index++) {
+                if (oviTails[index].ovipositor.eggs >= 20) {
+                    min += 10;
+                    if (oviTails[index].ovipositor.eggs >= 40)
+                        min += 10;
+                }
+            }
         }
         if (min < 30 && this.body.perks.has(PerkType.LustyMaidensArmor))
             min = 30;

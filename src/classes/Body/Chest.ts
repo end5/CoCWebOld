@@ -3,6 +3,10 @@ import Nipple from './Nipple';
 import SerializableList from '../Utilities/SerializableList';
 
 export default class Chest extends SerializableList<BreastRow> {
+    public constructor() {
+        super(BreastRow);
+    }
+
     public add(newBreastRow: BreastRow) {
         if (this.list.length >= 10)
             return;
@@ -16,7 +20,7 @@ export default class Chest extends SerializableList<BreastRow> {
     public countNipples(): number {
         let total: number = 0;
         for (let index = 0; index < this.list.length; index++)
-            total += this.list[index].nipples.length * 2;
+            total += this.list[index].nipples.count * 2;
         return total;
     }
 
@@ -27,7 +31,7 @@ export default class Chest extends SerializableList<BreastRow> {
     
     public hasNipples(): boolean {
         for (let index = 0; index < this.list.length; index++)
-            if (this.list[index].nipples.length > 0)
+            if (this.list[index].nipples.count > 0)
                 return true;
         return false;
     }
@@ -75,7 +79,7 @@ export default class Chest extends SerializableList<BreastRow> {
             return 0;
         let total: number = 0;
         for (let index = 0; index < this.list.length; index++)
-            total += this.list[index].nipples.length;
+            total += this.list[index].nipples.count;
         return total / this.list.length;
     }
 

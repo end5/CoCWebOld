@@ -6,7 +6,7 @@ import SerializeUtils from '../Utilities/SerializeUtils';
 
 export default class Nipple implements SerializeInterface {
     public length: number = .25;
-    public piercings: SerializableList<Piercing> = new SerializableList();
+    public piercings: SerializableList<Piercing> = new SerializableList(Piercing);
     public fuckable: boolean = false;
 
     public static readonly Fuckable: FilterOption<Nipple> = (a: Nipple) => {
@@ -20,12 +20,12 @@ export default class Nipple implements SerializeInterface {
     };
 
     public static readonly PiercedNipples: FilterOption<Nipple> = (a: Nipple) => {
-        if (a.piercings.length > 0)
+        if (a.piercings.count > 0)
             return a;
     };
 
     public static readonly NotPiercedNipples: FilterOption<Nipple> = (a: Nipple) => {
-        if (a.piercings.length <= 0)
+        if (a.piercings.count <= 0)
             return a;
     };
 

@@ -1,59 +1,52 @@
-﻿import Torso from './Torso';
+﻿import BreastRow from './BreastRow';
+import { LegType } from './Legs';
+import PregnancyManager from './Pregnancy/PregnancyManager';
+import Skin from './Skin';
+import Stats from './Stats';
+import StatsModifier from './StatsModifier';
+import Torso from './Torso';
+import Vagina from './Vagina';
+import { WingType } from './Wings';
+import Perk from '../Effects/Perk';
+import PerkList from '../Effects/PerkList';
+import { PerkType } from '../Effects/PerkType';
+import StatusAffect from '../Effects/StatusAffect';
+import StatusAffectFactory from '../Effects/StatusAffectFactory';
+import StatusAffectList from '../Effects/StatusAffectList';
+import { StatusAffectType } from '../Effects/StatusAffectType';
 import SerializeInterface from '../SerializeInterface';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
 
-export default class Body implements SerializeInterface {
+export default class Creature implements SerializeInterface {
     //Appearance Variables
-    public gender: Gender;
-    public tallness: number;
+    public gender: Gender = Gender.NONE;
+    public tallness: number = 0;
 
-    public skin: Skin;
+    public skin: Skin = new Skin();
 
     //Used for hip ratings
-    public thickness: number;
+    public thickness: number = 0;
 
     //Body tone i.e. Lithe, stocky, etc
-    public tone: number;
-    private _femininity: number;
+    public tone: number = 0;
+    private _femininity: number = 50;
 
     //Fertility is a % out of 100.
-    public fertility: number;
-    public cumMultiplier: number;
-    public hoursSinceCum: number;
+    public fertility: number = 10;
+    public cumMultiplier: number = 1;
+    public hoursSinceCum: number = 0;
 
-    public torso: Torso;
-    public pregnancy: PregnancyManager;
+    public torso: Torso = new Torso(this);
+    public pregnancy: PregnancyManager = new PregnancyManager(this);
 
-    private baseStats: Stats;
-    public stats: CreatureStatsWrapper;
-    public statusAffects: StatusAffectList;
-    public perks: PerkList;
-
-    public constructor() {
-        this.gender = Gender.NONE;
-        this.tallness = 0;
-        this.skin = new Skin();
-
-        this._femininity = 50;
-        this.tone = 0;
-        this.thickness = 0;
-
-        this.fertility = 10;
-        this.cumMultiplier = 1;
-        this.hoursSinceCum = 0;
-
-        this.torso = new Torso();
-
-        this.pregnancy = new PregnancyManager(this);
-
-        this.baseStats = new Stats();
-        this.stats = new CreatureStatsWrapper(this, this.baseStats);
-        this.statusAffects = new StatusAffectList();
-        this.perks = new PerkList();
-    }
+    private baseStats: Stats = new Stats();
+    public stats: StatsModifier = new StatsModifier(this, this.baseStats);
+    public statusAffects: StatusAffectList = new StatusAffectList();
+    public perks: PerkList = new PerkList();
 
     public get femininity(): number {
         if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
@@ -78,41 +71,41 @@ export default class Body implements SerializeInterface {
     }
 
     public vaginalCapacity(): number {
-        if (!this.lowerBody.vaginaSpot.hasVagina)
-            return 0;
-        let total: number;
-        let bonus: number = 0;
-        let loosestVagina = this.lowerBody.vaginaSpot.LoosenessMost[0];
-        let wettestVagina = this.lowerBody.vaginaSpot.WetnessMost[0];
-        //Centaurs = +50 capacity
-        if (this.lowerBody.type == LegType.CENTAUR)
-            bonus = 50;
-        //Naga = +20 capacity
-        else if (this.lowerBody.type == LegType.NAGA)
-            bonus = 20;
+        if (this.torso.vaginaSpot.count > 0) {
+            let bonus: number = 0;
+            //Centaurs = +50 capacity
+            if (this.torso.hips.legs.type == LegType.CENTAUR)
+                bonus = 50;
+            //Naga = +20 capacity
+            else if (this.torso.hips.legs.type == LegType.NAGA)
+                bonus = 20;
+            //Wet pussy provides 20 point boost
+            if (this.perks.has(PerkType.WetPussy))
+                bonus += 20;
+            if (this.perks.has(PerkType.HistorySlut))
+                bonus += 20;
+            if (this.perks.has(PerkType.OneTrackMind))
+                bonus += 10;
+            if (this.perks.has(PerkType.Cornucopia))
+                bonus += 30;
+            if (this.perks.has(PerkType.FerasBoonWideOpen))
+                bonus += 25;
+            if (this.perks.has(PerkType.FerasBoonMilkingTwat))
+                bonus += 40;
 
-        //Wet pussy provides 20 point boost
-        if (this.perks.has(PerkType.WetPussy))
-            bonus += 20;
-        if (this.perks.has(PerkType.HistorySlut))
-            bonus += 20;
-        if (this.perks.has(PerkType.OneTrackMind))
-            bonus += 10;
-        if (this.perks.has(PerkType.Cornucopia))
-            bonus += 30;
-        if (this.perks.has(PerkType.FerasBoonWideOpen))
-            bonus += 25;
-        if (this.perks.has(PerkType.FerasBoonMilkingTwat))
-            bonus += 40;
-        total = (bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 8 * loosestVagina.vaginalLooseness * loosestVagina.vaginalLooseness) *
-            (1 + wettestVagina.vaginalWetness / 10);
-        return total;
+            const loosestVagina = this.torso.vaginaSpot.sort(Vagina.LoosenessMost)[0];
+            const wettestVagina = this.torso.vaginaSpot.sort(Vagina.WetnessMost)[0];
+
+            return (bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 8 * loosestVagina.looseness * loosestVagina.looseness) *
+                (1 + wettestVagina.wetness / 10);
+        }
+        return 0;
     }
 
     public analCapacity(): number {
         let bonus: number = 0;
         //Centaurs = +30 capacity
-        if (this.lowerBody.type == LegType.CENTAUR)
+        if (this.torso.hips.legs.type == LegType.CENTAUR)
             bonus = 30;
         if (this.perks.has(PerkType.HistorySlut))
             bonus += 20;
@@ -120,96 +113,94 @@ export default class Body implements SerializeInterface {
             bonus += 30;
         if (this.perks.has(PerkType.OneTrackMind))
             bonus += 10;
-        if (this.lowerBody.butt.analWetness > 0)
+        if (this.torso.butt.wetness > 0)
             bonus += 15;
-        return ((bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 6 * this.lowerBody.butt.analLooseness * this.lowerBody.butt.analLooseness) * (1 + this.lowerBody.butt.analWetness / 10));
+        return ((bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 6 * this.torso.butt.looseness * this.torso.butt.looseness) * (1 + this.torso.butt.wetness / 10));
     }
 
     //Calculate bonus virility rating!
     //anywhere from 5% to 100% of normal cum effectiveness thru herbs!
     public virilityQ(): number {
-        if (!this.lowerBody.cockSpot.hasCock())
-            return 0;
-        let percent: number = 0.01;
-        if (this.cumQ() >= 250)
-            percent += 0.01;
-        if (this.cumQ() >= 800)
-            percent += 0.01;
-        if (this.cumQ() >= 1600)
-            percent += 0.02;
-        if (this.perks.has(PerkType.BroBody))
-            percent += 0.05;
-        if (this.perks.has(PerkType.MaraesGiftStud))
-            percent += 0.15;
-        if (this.perks.has(PerkType.FerasBoonAlpha))
-            percent += 0.10;
-        if (this.perks.has(PerkType.ElvenBounty) && this.perks.get(PerkType.ElvenBounty).value1 > 0)
-            percent += 0.05;
-        if (this.perks.has(PerkType.FertilityPlus))
-            percent += 0.03;
-        if (this.perks.has(PerkType.PiercedFertite))
-            percent += 0.03;
-        if (this.perks.has(PerkType.OneTrackMind))
-            percent += 0.03;
-        if (this.perks.has(PerkType.MagicalVirility))
-            percent += 0.05;
-        //Messy Orgasms?
-        if (this.perks.has(PerkType.MessyOrgasms))
-            percent += 0.03;
-        if (percent > 1)
-            percent = 1;
-        return percent;
+        if (this.torso.cockSpot.count > 0) {
+            let percent: number = 0.01;
+            if (this.cumQ() >= 250)
+                percent += 0.01;
+            if (this.cumQ() >= 800)
+                percent += 0.01;
+            if (this.cumQ() >= 1600)
+                percent += 0.02;
+            if (this.perks.has(PerkType.BroBody))
+                percent += 0.05;
+            if (this.perks.has(PerkType.MaraesGiftStud))
+                percent += 0.15;
+            if (this.perks.has(PerkType.FerasBoonAlpha))
+                percent += 0.10;
+            if (this.perks.has(PerkType.ElvenBounty) && this.perks.get(PerkType.ElvenBounty).value1 > 0)
+                percent += 0.05;
+            if (this.perks.has(PerkType.FertilityPlus))
+                percent += 0.03;
+            if (this.perks.has(PerkType.PiercedFertite))
+                percent += 0.03;
+            if (this.perks.has(PerkType.OneTrackMind))
+                percent += 0.03;
+            if (this.perks.has(PerkType.MagicalVirility))
+                percent += 0.05;
+            //Messy Orgasms?
+            if (this.perks.has(PerkType.MessyOrgasms))
+                percent += 0.03;
+            if (percent > 1)
+                percent = 1;
+            return percent;
+        }
+        return 0;
     }
 
     //Calculate cum return
     public cumQ(): number {
-        if (!this.lowerBody.cockSpot.hasCock())
-            return 0;
-        let quantity: number = 0;
-        //Base value is ballsize*ballQ*cumefficiency by a factor of 2.
-        //Other things that affect it: 
-        //lust - 50% = normal output.  0 = half output. 100 = +50% output.
-        //trace("CUM ESTIMATE: " + number(1.25*2*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(no balls), " + number(ballSize*balls*cumMultiplier*2*(lust + 50)/10 * (hoursSinceCum+10)/24)/10 + "(withballs)");
-        let lustCoefficient: number = (this.stats.lust + 50) / 10;
-        //Pilgrim's bounty maxxes lust coefficient
-        if (this.perks.has(PerkType.PilgrimsBounty))
-            lustCoefficient = 150 / 10;
-        if (this.lowerBody.balls == 0)
-            quantity = Math.floor(1.25 * 2 * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
-        else
-            quantity = Math.floor(this.lowerBody.ballSize * this.lowerBody.balls * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
-        if (this.perks.has(PerkType.BroBody))
-            quantity *= 1.3;
-        if (this.perks.has(PerkType.FertilityPlus))
-            quantity *= 1.5;
-        if (this.perks.has(PerkType.MessyOrgasms))
-            quantity *= 1.5;
-        if (this.perks.has(PerkType.OneTrackMind))
-            quantity *= 1.1;
-        if (this.perks.has(PerkType.MaraesGiftStud))
-            quantity += 350;
-        if (this.perks.has(PerkType.FerasBoonAlpha))
-            quantity += 200;
-        if (this.perks.has(PerkType.MagicalVirility))
-            quantity += 200;
-        if (this.perks.has(PerkType.FerasBoonSeeder))
-            quantity += 1000;
-        //if(hasPerk("Elven Bounty") >= 0) quantity += 250;;
-        quantity += this.perks.get(PerkType.ElvenBounty).value1;
-        if (this.perks.has(PerkType.BroBody))
-            quantity += 200;
-        quantity += this.statusAffects.get(StatusAffectType.Rut).value1;
-        quantity *= (1 + (2 * this.perks.get(PerkType.PiercedFertite).value1) / 100);
-        //trace("Final Cum Volume: " + number(quantity) + "mLs.");
-        //if (quantity < 0) trace("SOMETHING HORRIBLY WRONG WITH CUM CALCULATIONS");
-        if (quantity < 2)
-            quantity = 2;
-        return quantity;
+        if (this.torso.cockSpot.count > 0) {
+            let quantity: number = 0;
+            //Base value is ballsize * ballQ * cumefficiency by a factor of 2.
+            //Other things that affect it: 
+            //lust - 50% = normal output.  0 = half output. 100 = +50% output.
+            let lustCoefficient: number = (this.stats.lust + 50) / 10;
+            //Pilgrim's bounty maxxes lust coefficient
+            if (this.perks.has(PerkType.PilgrimsBounty))
+                lustCoefficient = 150 / 10;
+            if (this.torso.balls.quantity == 0)
+                quantity = Math.floor(1.25 * 2 * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
+            else
+                quantity = Math.floor(this.torso.balls.size * this.torso.balls.quantity * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
+            if (this.perks.has(PerkType.BroBody))
+                quantity *= 1.3;
+            if (this.perks.has(PerkType.FertilityPlus))
+                quantity *= 1.5;
+            if (this.perks.has(PerkType.MessyOrgasms))
+                quantity *= 1.5;
+            if (this.perks.has(PerkType.OneTrackMind))
+                quantity *= 1.1;
+            if (this.perks.has(PerkType.MaraesGiftStud))
+                quantity += 350;
+            if (this.perks.has(PerkType.FerasBoonAlpha))
+                quantity += 200;
+            if (this.perks.has(PerkType.MagicalVirility))
+                quantity += 200;
+            if (this.perks.has(PerkType.FerasBoonSeeder))
+                quantity += 1000;
+            quantity += this.perks.get(PerkType.ElvenBounty).value1;
+            if (this.perks.has(PerkType.BroBody))
+                quantity += 200;
+            quantity += this.statusAffects.get(StatusAffectType.Rut).value1;
+            quantity *= (1 + (2 * this.perks.get(PerkType.PiercedFertite).value1) / 100);
+            if (quantity < 2)
+                quantity = 2;
+            return quantity;
+        }
+        return 0;
     }
 
     public lactationQ(): number {
         let chest = this.torso.chest;
-        if (chest.LactationMultipierLargest[0].lactationMultiplier < 1)
+        if (chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 1)
             return 0;
         //(Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
         //(Small – 0.01 mLs – Size 1 + 1 Multi)
@@ -217,8 +208,8 @@ export default class Body implements SerializeInterface {
         //(HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
         if (!this.statusAffects.has(StatusAffectType.LactationEndurance))
-            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
-        total = chest.BreastRatingLargest[0].breastRating * 10 * chest.averageLactation() * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
+            this.statusAffects.add(StatusAffectType.LactationEndurance, StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
+        total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.averageLactation() * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
         if (this.statusAffects.get(StatusAffectType.LactationReduction).value1 >= 48)
             total = total * 1.5;
         return total;
@@ -233,7 +224,7 @@ export default class Body implements SerializeInterface {
         //web also makes false!
         if (this.statusAffects.has(StatusAffectType.Web))
             return false;
-        switch (this.torso.wingType) {
+        switch (this.torso.wings.type) {
             case WingType.BAT_LIKE_LARGE:
             case WingType.BEE_LIKE_LARGE:
             case WingType.DRACONIC_LARGE:
@@ -246,11 +237,11 @@ export default class Body implements SerializeInterface {
     }
 
     public updateGender(): void {
-        if (this.lowerBody.cockSpot.hasCock && this.lowerBody.vaginaSpot.hasVagina)
+        if (this.torso.cockSpot.count > 0 && this.torso.vaginaSpot.count > 0)
             this.gender = Gender.HERM;
-        else if (this.lowerBody.cockSpot.hasCock)
+        else if (this.torso.cockSpot.count > 0)
             this.gender = Gender.MALE;
-        else if (this.lowerBody.vaginaSpot.hasVagina)
+        else if (this.torso.vaginaSpot.count > 0)
             this.gender = Gender.FEMALE;
         else
             this.gender = Gender.NONE;
@@ -266,11 +257,11 @@ export default class Body implements SerializeInterface {
     }
 
     public canGoIntoHeat() {
-        return this.lowerBody.vaginaSpot.hasVagina() && this.pregnancy.canKnockUp();
+        return this.torso.vaginaSpot.count > 0 && this.pregnancy.canKnockUp();
     }
 
     public canGoIntoRut(): boolean {
-        return this.lowerBody.cockSpot.hasCock();
+        return this.torso.cockSpot.count > 0;
     }
 
     public goIntoHeat(intensity: number = 1) {
@@ -283,7 +274,7 @@ export default class Body implements SerializeInterface {
         }
         //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
-            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            this.statusAffects.add(StatusAffectType.Heat, StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
             this.stats.libBimbo += 15 * intensity;
         }
     }
@@ -301,7 +292,7 @@ export default class Body implements SerializeInterface {
             //v1 - bonus cum production
             //v2 - bonus this.stats.libido
             //v3 - time remaining!
-            this.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            this.statusAffects.add(StatusAffectType.Rut, StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
             this.stats.libBimbo += 5 * intensity;
         }
     }
@@ -327,57 +318,39 @@ export default class Body implements SerializeInterface {
         return (this.bonusFertility + this.fertility);
     }
 
-    serialize(): string {
-        let saveObject: object = {};
-        saveObject["gender"] = this.gender;
-        saveObject["tallness"] = this.tallness;
-        saveObject["skinType"] = this.skinType;
-        saveObject["skinTone"] = this.skinTone;
-        saveObject["skinDesc"] = this.skinDesc;
-        saveObject["skinAdj"] = this.skinAdj;
-
-        saveObject["femininity"] = this._femininity;
-        saveObject["tone"] = this.tone;
-        saveObject["thickness"] = this.thickness;
-
-        saveObject["_femininity"] = this.fertility;
-        saveObject["cumMultiplier"] = this.cumMultiplier;
-        saveObject["hoursSinceCum"] = this.hoursSinceCum;
-
-        saveObject["upperBody"] = this.torso.serialize();
-        saveObject["lowerBody"] = this.lowerBody.serialize();
-
-        saveObject["baseStats"] = this.baseStats.serialize();
-        saveObject["statusAffects"] = this.statusAffects.serialize();
-        saveObject["perks"] = this.perks.serialize();
-        
-        return JSON.stringify(saveObject);
+    public serialize(): string {
+        return JSON.stringify({
+            gender: this.gender,
+            tallness: this.tallness,
+            skin: this.skin.serialize(),
+            thickness: this.thickness,
+            tone: this.tone,
+            femininity: this.femininity,
+            fertility: this.fertility,
+            cumMultiplier: this.cumMultiplier,
+            hoursSinceCum: this.hoursSinceCum,
+            torso: this.torso.serialize(),
+            pregnancy: this.pregnancy.serialize(),
+            stats: this.baseStats.serialize(),
+            statusAffects: this.statusAffects.serialize(),
+            perks: this.perks.serialize()
+        });
     }
 
-    deserialize(saveObject: object) {
-        this.gender = saveObject["gender"];
-        this.tallness = saveObject["tallness"];
-        this.skinType = saveObject["skinType"];
-        this.skinTone = saveObject["skinTone"];
-        this.skinDesc = saveObject["skinDesc"];
-        this.skinAdj = saveObject["skinAdj"];
-
-        this._femininity = saveObject["_femininity"];
-        this.tone = saveObject["tone"];
-        this.thickness = saveObject["thickness"];
-
-        this.fertility = saveObject["fertility"];
-        this.cumMultiplier = saveObject["cumMultiplier"];
-        this.hoursSinceCum = saveObject["hoursSinceCum"];
-
-        this.torso.deserialize(saveObject["upperBody"]);
-        this.lowerBody.deserialize(saveObject["lowerBody"]);
-
-        this.baseStats.deserialize(saveObject["baseStats"]);
-        this.statusAffects.deserialize(saveObject["statusAffects"]);
-        this.perks.deserialize(saveObject["perks"]);
-        
-        this.stats = new CreatureStatsWrapper(this, this.baseStats);
+    public deserialize(saveObject: Creature) {
+        this.gender = saveObject.gender;
+        this.tallness = saveObject.tallness;
+        this.skin.deserialize(saveObject.skin);
+        this.thickness = saveObject.thickness;
+        this.tone = saveObject.tone;
+        this.femininity = saveObject.femininity;
+        this.fertility = saveObject.fertility;
+        this.cumMultiplier = saveObject.cumMultiplier;
+        this.hoursSinceCum = saveObject.hoursSinceCum;
+        this.torso.deserialize(saveObject.torso);
+        this.pregnancy.deserialize(saveObject.pregnancy);
+        this.baseStats.deserialize(saveObject.baseStats);
+        this.statusAffects.deserialize(saveObject.statusAffects);
+        this.perks.deserialize(saveObject.perks);
     }
-
 }

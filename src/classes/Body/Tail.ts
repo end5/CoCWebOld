@@ -1,6 +1,7 @@
 import Ovipositor from './Ovipositor';
 import TailDescriptor from '../Descriptors/TailDescriptor';
 import SerializeInterface from '../SerializeInterface';
+import { FilterOption } from '../Utilities/list';
 
 export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
@@ -12,7 +13,7 @@ export default class Tail implements SerializeInterface {
     public vemon: number = 0;
     //Tail recharge determines how fast venom/webs comes back per hour.
     public recharge: number = 0;
-    public ovipositor: Ovipositor;
+    public ovipositor: Ovipositor = new Ovipositor();
 
     // commented out for reminder that isNaga can no longer be checked here
     /*public hasLongTail(): boolean {
@@ -32,6 +33,16 @@ export default class Tail implements SerializeInterface {
         }
     }*/
 
+    public static readonly HasLongTail: FilterOption<Tail> = (a: Tail) => {
+        if (a.hasLongTail())
+            return a;
+    }
+
+    public static readonly HasOvipositor: FilterOption<Tail> = (a: Tail) => {
+        if (a.type == TailType.BEE_ABDOMEN || a.type == TailType.SPIDER_ABDOMEN)
+            return a;
+    }
+
     public serialize(): string {
         return JSON.stringify({
             type: this.type,
@@ -45,10 +56,6 @@ export default class Tail implements SerializeInterface {
         this.type = saveObject.type;
         this.vemon = saveObject.vemon;
         this.recharge = saveObject.recharge;
-        if (saveObject.ovipositor) {
-            if (!this.ovipositor)
-                this.ovipositor = new Ovipositor();
-            this.ovipositor.deserialize(saveObject.ovipositor);
-        }
+        this.ovipositor.deserialize(saveObject.ovipositor);
     }
 }

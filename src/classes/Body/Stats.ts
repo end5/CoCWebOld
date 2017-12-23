@@ -44,40 +44,41 @@ export default class Stats implements SerializeInterface {
         this.additionalXP = 0;
     }
 
-    serialize(): string {
+    public serialize(): string {
         return JSON.stringify({
-            "str": this.str,
-            "tou": this.tou,
-            "spe": this.spe,
-            "int": this.int,
-            "lib": this.lib,
-            "sens": this.sens,
-            "cor": this.cor,
-            "fatigue": this.fatigue,
-            "HP": this.HP,
-            "bonusHP": this.bonusHP,
-            "lust": this.lust,
-            "lustVuln": this.lustVuln,
-            "XP": this.XP,
-            "level": this.level,
-            "additionalXP": this.additionalXP
+            str: this.str,
+            tou: this.tou,
+            spe: this.spe,
+            int: this.int,
+            lib: this.lib,
+            sens: this.sens,
+            cor: this.cor,
+            fatigue: this.fatigue,
+            HP: this.HP,
+            bonusHP: this.bonusHP,
+            lust: this.lust,
+            lustVuln: this.lustVuln,
+            XP: this.XP,
+            level: this.level,
+            additionalXP: this.additionalXP
         });
     }
-    deserialize(saveObject: object) {
-        this.str = saveObject["str"];
-        this.tou = saveObject["tou"];
-        this.spe = saveObject["spe"];
-        this.int = saveObject["int"];
-        this.lib = saveObject["lib"];
-        this.sens = saveObject["sens"];
-        this.cor = saveObject["cor"];
-        this.fatigue = saveObject["fatigue"];
-        this.HP = saveObject["HP"];
-        this.bonusHP = saveObject["bonusHP"];
-        this.lust = saveObject["lust"];
-        this.lustVuln = saveObject["lustVuln"];
-        this.XP = saveObject["XP"];
-        this.level = saveObject["level"];
-        this.additionalXP = saveObject["additionalXP"];
+
+    public deserialize(saveObject: Stats) {
+        this.str = saveObject.str;
+        this.tou = saveObject.tou;
+        this.spe = saveObject.spe;
+        this.int = saveObject.int;
+        this.lib = saveObject.lib;
+        this.sens = saveObject.sens;
+        this.cor = saveObject.cor;
+        this.fatigue = saveObject.fatigue;
+        this.HP = saveObject.HP;
+        this.bonusHP = saveObject.bonusHP;
+        this.lust = saveObject.lust;
+        this.lustVuln = saveObject.lustVuln;
+        this.XP = saveObject.XP;
+        this.level = saveObject.level;
+        this.additionalXP = saveObject.additionalXP;
     }
 }

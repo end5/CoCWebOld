@@ -1,7 +1,7 @@
 ﻿import Clit from './Clit';
 import Labia from './Labia';
 import SerializeInterface from '../SerializeInterface';
-import { FilterOption, SortOption } from '../Utilities/list';
+import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import Utils from '../Utilities/Utils';
 
 export enum VaginaType {
@@ -25,8 +25,8 @@ export default class Vagina implements SerializeInterface {
 
     //Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
-    public labia: Labia = new Labia();
-    public clit: Clit = new Clit();
+    public readonly labia: Labia = new Labia();
+    public readonly clit: Clit = new Clit();
 
     public static readonly LoosenessMost: SortOption<Vagina> = (a: Vagina, b: Vagina) => {
         return a.looseness - b.looseness;
@@ -53,6 +53,18 @@ export default class Vagina implements SerializeInterface {
         if (!a.virgin)
             return a;
     };
+
+    public static readonly AverageLooseness: ReduceOption<Vagina, number> = (previousValue: number, currentValue: Vagina, index: number, array: Vagina[]) => {
+        if (index >= array.length - 1)
+            return (previousValue + currentValue.looseness) / index;
+        return previousValue + currentValue.looseness;
+    }
+
+    public static readonly AverageWetness: ReduceOption<Vagina, number> = (previousValue: number, currentValue: Vagina, index: number, array: Vagina[]) => {
+        if (index >= array.length - 1)
+            return (previousValue + currentValue.wetness) / index;
+        return previousValue + currentValue.wetness;
+    }
 
     public wetnessFactor(): number {
         if (this.wetness == VaginaWetness.DRY) return 1.25;
@@ -94,5 +106,5 @@ export default class Vagina implements SerializeInterface {
         this.fullness = saveObject.fullness;
         this.labia.deserialize(saveObject.labia);
         this.clit.deserialize(saveObject.clit);
-}
+    }
 }

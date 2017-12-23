@@ -7,12 +7,12 @@ export enum HipRating {
 
 export default class Hips implements SerializeInterface {
     public rating: HipRating = HipRating.BOYISH;
-    public readonly legs: Legs = new ();
+    public readonly legs: Legs = new Legs();
 
     public serialize(): string {
         return JSON.stringify({
             rating: this.rating,
-            legs: this.legs
+            legs: this.legs.serialize()
         })
     }
     

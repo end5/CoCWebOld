@@ -27,7 +27,6 @@ export default class Butt implements SerializeInterface {
     //Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
     public rating: ButtRating = ButtRating.BUTTLESS;
-    public desc: ButtDescriptor;
 
     public serialize(): string {
         return JSON.stringify({

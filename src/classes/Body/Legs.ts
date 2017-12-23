@@ -11,11 +11,7 @@ export enum LegType {
 }
 
 export default class Legs implements SerializeInterface {
-    public type: LegType;
-
-    public constructor() {
-        this.type = LegType.HUMAN;
-    }
+    public type: LegType = LegType.HUMAN;
     
     public isBiped(): boolean {
         //Naga/Centaur

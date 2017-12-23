@@ -8,7 +8,7 @@ export default class Neck implements SerializeInterface {
     public serialize(): string {
         return JSON.stringify({
             gilles: this.gills,
-            head: this.head
+            head: this.head.serialize()
         });
     }
 
