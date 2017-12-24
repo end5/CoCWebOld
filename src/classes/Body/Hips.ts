@@ -13,9 +13,9 @@ export default class Hips implements SerializeInterface {
         return JSON.stringify({
             rating: this.rating,
             legs: this.legs.serialize()
-        })
+        });
     }
-    
+
     public deserialize(saveObject: Hips) {
         this.rating = saveObject.rating;
         this.legs.deserialize(saveObject.legs);

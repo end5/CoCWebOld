@@ -9,9 +9,9 @@ export enum TailType {
 
 export default class Tail implements SerializeInterface {
     public type: TailType = TailType.HORSE;
-    //Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
+    // Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
     public vemon: number = 0;
-    //Tail recharge determines how fast venom/webs comes back per hour.
+    // Tail recharge determines how fast venom/webs comes back per hour.
     public recharge: number = 0;
     public ovipositor: Ovipositor = new Ovipositor();
 
@@ -39,7 +39,7 @@ export default class Tail implements SerializeInterface {
     }
 
     public static readonly HasOvipositor: FilterOption<Tail> = (a: Tail) => {
-        if (a.type == TailType.BEE_ABDOMEN || a.type == TailType.SPIDER_ABDOMEN)
+        if (a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN)
             return a;
     }
 

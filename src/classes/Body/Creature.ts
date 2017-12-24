@@ -22,20 +22,20 @@ export enum Gender {
 }
 
 export default class Creature implements SerializeInterface {
-    //Appearance Variables
+    // Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;
 
     public skin: Skin = new Skin();
 
-    //Used for hip ratings
+    // Used for hip ratings
     public thickness: number = 0;
 
-    //Body tone i.e. Lithe, stocky, etc
+    // Body tone i.e. Lithe, stocky, etc
     public tone: number = 0;
-    private _femininity: number = 50;
+    private fem: number = 50;
 
-    //Fertility is a % out of 100.
+    // Fertility is a % out of 100.
     public fertility: number = 10;
     public cumMultiplier: number = 1;
     public hoursSinceCum: number = 0;
@@ -50,15 +50,15 @@ export default class Creature implements SerializeInterface {
 
     public get femininity(): number {
         if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
-            let statAffect: StatusAffect = this.statusAffects.get(StatusAffectType.UmasMassage);
-            if (statAffect.value1 == UmasShop.MASSAGE_MODELLING_BONUS)
-                this._femininity += statAffect.value2;
+            const statAffect: StatusAffect = this.statusAffects.get(StatusAffectType.UmasMassage);
+            if (statAffect.value1 === UmasShop.MASSAGE_MODELLING_BONUS)
+                this.fem += statAffect.value2;
         }
 
-        if (this._femininity > 100)
-            this._femininity = 100;
+        if (this.fem > 100)
+            this.fem = 100;
 
-        return this._femininity;
+        return this.fem;
     }
 
     public set femininity(value: number) {
@@ -73,13 +73,13 @@ export default class Creature implements SerializeInterface {
     public vaginalCapacity(): number {
         if (this.torso.vaginaSpot.count > 0) {
             let bonus: number = 0;
-            //Centaurs = +50 capacity
-            if (this.torso.hips.legs.type == LegType.CENTAUR)
+            // Centaurs = +50 capacity
+            if (this.torso.hips.legs.type === LegType.CENTAUR)
                 bonus = 50;
-            //Naga = +20 capacity
-            else if (this.torso.hips.legs.type == LegType.NAGA)
+            // Naga = +20 capacity
+            else if (this.torso.hips.legs.type === LegType.NAGA)
                 bonus = 20;
-            //Wet pussy provides 20 point boost
+            // Wet pussy provides 20 point boost
             if (this.perks.has(PerkType.WetPussy))
                 bonus += 20;
             if (this.perks.has(PerkType.HistorySlut))
@@ -104,8 +104,8 @@ export default class Creature implements SerializeInterface {
 
     public analCapacity(): number {
         let bonus: number = 0;
-        //Centaurs = +30 capacity
-        if (this.torso.hips.legs.type == LegType.CENTAUR)
+        // Centaurs = +30 capacity
+        if (this.torso.hips.legs.type === LegType.CENTAUR)
             bonus = 30;
         if (this.perks.has(PerkType.HistorySlut))
             bonus += 20;
@@ -118,8 +118,8 @@ export default class Creature implements SerializeInterface {
         return ((bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 6 * this.torso.butt.looseness * this.torso.butt.looseness) * (1 + this.torso.butt.wetness / 10));
     }
 
-    //Calculate bonus virility rating!
-    //anywhere from 5% to 100% of normal cum effectiveness thru herbs!
+    // Calculate bonus virility rating!
+    // anywhere from 5% to 100% of normal cum effectiveness thru herbs!
     public virilityQ(): number {
         if (this.torso.cockSpot.count > 0) {
             let percent: number = 0.01;
@@ -145,7 +145,7 @@ export default class Creature implements SerializeInterface {
                 percent += 0.03;
             if (this.perks.has(PerkType.MagicalVirility))
                 percent += 0.05;
-            //Messy Orgasms?
+            // Messy Orgasms?
             if (this.perks.has(PerkType.MessyOrgasms))
                 percent += 0.03;
             if (percent > 1)
@@ -155,18 +155,18 @@ export default class Creature implements SerializeInterface {
         return 0;
     }
 
-    //Calculate cum return
+    // Calculate cum return
     public cumQ(): number {
         if (this.torso.cockSpot.count > 0) {
             let quantity: number = 0;
-            //Base value is ballsize * ballQ * cumefficiency by a factor of 2.
-            //Other things that affect it: 
-            //lust - 50% = normal output.  0 = half output. 100 = +50% output.
+            // Base value is ballsize * ballQ * cumefficiency by a factor of 2.
+            // Other things that affect it:
+            // lust - 50% = normal output.  0 = half output. 100 = +50% output.
             let lustCoefficient: number = (this.stats.lust + 50) / 10;
-            //Pilgrim's bounty maxxes lust coefficient
+            // Pilgrim's bounty maxxes lust coefficient
             if (this.perks.has(PerkType.PilgrimsBounty))
                 lustCoefficient = 150 / 10;
-            if (this.torso.balls.quantity == 0)
+            if (this.torso.balls.quantity === 0)
                 quantity = Math.floor(1.25 * 2 * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
             else
                 quantity = Math.floor(this.torso.balls.size * this.torso.balls.quantity * this.cumMultiplier * 2 * lustCoefficient * (this.hoursSinceCum + 10) / 24) / 10;
@@ -199,13 +199,13 @@ export default class Creature implements SerializeInterface {
     }
 
     public lactationQ(): number {
-        let chest = this.torso.chest;
+        const chest = this.torso.chest;
         if (chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier < 1)
             return 0;
-        //(Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
-        //(Small – 0.01 mLs – Size 1 + 1 Multi)
-        //(Large – 0.8 - Size 10 + 4 Multi)
-        //(HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
+        // (Milk production TOTAL= breastSize x 10 * lactationMultiplier * breast total * milking-endurance (1- default, maxes at 2.  Builds over time as milking as done)
+        // (Small – 0.01 mLs – Size 1 + 1 Multi)
+        // (Large – 0.8 - Size 10 + 4 Multi)
+        // (HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
         if (!this.statusAffects.has(StatusAffectType.LactationEndurance))
             this.statusAffects.add(StatusAffectType.LactationEndurance, StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
@@ -219,9 +219,9 @@ export default class Creature implements SerializeInterface {
         return this.lactationQ() > 0 ? true : false;
     }
 
-    //PC can fly?
+    // PC can fly?
     public canFly(): boolean {
-        //web also makes false!
+        // web also makes false!
         if (this.statusAffects.has(StatusAffectType.Web))
             return false;
         switch (this.torso.wings.type) {
@@ -247,7 +247,6 @@ export default class Creature implements SerializeInterface {
             this.gender = Gender.NONE;
     }
 
-
     public get inHeat(): boolean {
         return this.statusAffects.has(StatusAffectType.Heat);
     }
@@ -266,13 +265,13 @@ export default class Creature implements SerializeInterface {
 
     public goIntoHeat(intensity: number = 1) {
         if (this.inHeat) {
-            let statusAffectHeat: StatusAffect = this.statusAffects.get(StatusAffectType.Heat);
+            const statusAffectHeat: StatusAffect = this.statusAffects.get(StatusAffectType.Heat);
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
             this.stats.libBimbo += 5 * intensity;
         }
-        //Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
+        // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
             this.statusAffects.add(StatusAffectType.Heat, StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
             this.stats.libBimbo += 15 * intensity;
@@ -280,18 +279,18 @@ export default class Creature implements SerializeInterface {
     }
 
     public goIntoRut(intensity: number = 1) {
-        //Has rut, intensify it!
+        // Has rut, intensify it!
         if (this.inRut) {
-            let statusAffectRut: StatusAffect = this.statusAffects.get(StatusAffectType.Rut);
+            const statusAffectRut: StatusAffect = this.statusAffects.get(StatusAffectType.Rut);
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
             this.stats.libBimbo += 5 * intensity;
         }
         else {
-            //v1 - bonus cum production
-            //v2 - bonus this.stats.libido
-            //v3 - time remaining!
+            // v1 - bonus cum production
+            // v2 - bonus this.stats.libido
+            // v3 - time remaining!
             this.statusAffects.add(StatusAffectType.Rut, StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
             this.stats.libBimbo += 5 * intensity;
         }
@@ -325,7 +324,7 @@ export default class Creature implements SerializeInterface {
             skin: this.skin.serialize(),
             thickness: this.thickness,
             tone: this.tone,
-            femininity: this.femininity,
+            fem: this.fem,
             fertility: this.fertility,
             cumMultiplier: this.cumMultiplier,
             hoursSinceCum: this.hoursSinceCum,
@@ -333,7 +332,7 @@ export default class Creature implements SerializeInterface {
             pregnancy: this.pregnancy.serialize(),
             stats: this.baseStats.serialize(),
             statusAffects: this.statusAffects.serialize(),
-            perks: this.perks.serialize()
+            perks: this.perks.serialize(),
         });
     }
 
@@ -343,7 +342,7 @@ export default class Creature implements SerializeInterface {
         this.skin.deserialize(saveObject.skin);
         this.thickness = saveObject.thickness;
         this.tone = saveObject.tone;
-        this.femininity = saveObject.femininity;
+        this.fem = saveObject.fem;
         this.fertility = saveObject.fertility;
         this.cumMultiplier = saveObject.cumMultiplier;
         this.hoursSinceCum = saveObject.hoursSinceCum;

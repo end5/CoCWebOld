@@ -1,6 +1,6 @@
 ﻿import Nipple from './Nipple';
 import SerializeInterface from '../SerializeInterface';
-import { FilterOption, SortOption } from '../Utilities/list';
+import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
 
 export enum BreastCup {
@@ -15,75 +15,107 @@ export enum BreastCup {
 }
 
 export default class BreastRow implements SerializeInterface {
-    public rating: number = BreastCup.C;
-    public lactationMultiplier: number = 0;
-    //Fullness used for lactation....if 75 or greater warning bells start going off!
-    //If it reaches 100 it reduces lactation multiplier.
-    public milkFullness: number = 0;
-    public fullness: number = 0;
-
-    public readonly nipples: SerializableList<Nipple> = new SerializableList(Nipple);
-
     public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
-    };
+    }
 
     public static readonly BreastRatingSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.rating - a.rating;
-    };
+    }
 
     public static readonly LactationMultipierLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.lactationMultiplier - b.lactationMultiplier;
-    };
+    }
 
     public static readonly LactationMultipierSmallest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.lactationMultiplier - a.lactationMultiplier;
-    };
+    }
 
     public static readonly MilkFullnessMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.milkFullness - b.milkFullness;
-    };
+    }
 
     public static readonly MilkFullnessLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.milkFullness - a.milkFullness;
-    };
+    }
 
     public static readonly FullnessMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.fullness - b.fullness;
-    };
+    }
 
     public static readonly FullnessLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.fullness - a.fullness;
-    };
+    }
 
     public static readonly NipplesPerBreastMost: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.nipples.count - b.nipples.count;
-    };
+    }
 
     public static readonly NipplesPerBreastLeast: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return b.nipples.count - a.nipples.count;
-    };
+    }
+
+    public static readonly HasNipples: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.nipples.count > 0)
+            return a;
+    }
+
+    public static readonly FemaleBreasts: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.rating >= 1)
+            return a;
+    }
+
+    public static readonly CanTitFuck: FilterOption<BreastRow> = (a: BreastRow) => {
+        if (a.rating > 3)
+            return a;
+    }
 
     public static readonly Fuckable: FilterOption<BreastRow> = (a: BreastRow) => {
         if (a.nipples.filter(Nipple.Fuckable).length > 0)
             return a;
-    };
+    }
 
     public static readonly NotFuckable: FilterOption<BreastRow> = (a: BreastRow) => {
         if (a.nipples.filter(Nipple.NotFuckable).length > 0)
             return a;
-    };
+    }
 
     public static readonly PiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
         if (a.nipples.filter(Nipple.PiercedNipples).length > 0)
             return a;
-    };
+    }
 
     public static readonly NotPiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
         if (a.nipples.filter(Nipple.NotPiercedNipples).length > 0)
             return a;
-    };
+    }
 
+    public static readonly AverageRating: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        if (index >= array.length - 1)
+            return (previousValue + currentValue.rating) / index;
+        return previousValue + currentValue.rating;
+    }
+
+    public static readonly AverageLactation: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        if (index >= array.length - 1)
+            return (previousValue + currentValue.lactationMultiplier) / index;
+        return previousValue + currentValue.lactationMultiplier;
+    }
+
+    public static readonly AverageNipplesPerBreast: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        if (index >= array.length - 1)
+            return (previousValue + currentValue.nipples.count) / index;
+        return previousValue + currentValue.nipples.count;
+    }
+
+    public rating: number = BreastCup.C;
+    public lactationMultiplier: number = 0;
+    // Fullness used for lactation....if 75 or greater warning bells start going off!
+    // If it reaches 100 it reduces lactation multiplier.
+    public milkFullness: number = 0;
+    public fullness: number = 0;
+
+    public readonly nipples: SerializableList<Nipple> = new SerializableList(Nipple);
 
     public serialize(): string {
         return JSON.stringify({

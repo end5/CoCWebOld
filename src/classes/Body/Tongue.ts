@@ -16,7 +16,7 @@ export default class Tongue implements SerializeInterface {
             piercings: this.piercings.serialize()
         });
     }
-    
+
     public deserialize(saveObject: Tongue) {
         this.type = saveObject.type;
         this.piercings.deserialize(saveObject.piercings);

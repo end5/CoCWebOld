@@ -8,6 +8,71 @@ export enum CockType {
 }
 
 export default class Cock implements SerializeInterface {
+    public static readonly HasSock: FilterOption<Cock> = (a: Cock) => {
+        if (a.hasSock())
+            return a;
+    }
+
+    public static readonly HasSheath: FilterOption<Cock> = (a: Cock) => {
+        if (a.hasSheath())
+            return a;
+    }
+
+    public static readonly HasKnot: FilterOption<Cock> = (a: Cock) => {
+        if (a.hasKnot())
+            return a;
+    }
+
+    public static readonly CanAutoFellate: FilterOption<Cock> = (a: Cock) => {
+        if (a.canAutoFellate())
+            return a;
+    }
+
+    public static readonly HasCockRing: FilterOption<Cock> = (a: Cock) => {
+        if (a.hasSock() && a.sock === "cockring")
+            return a;
+    }
+
+    public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.cockArea() - b.cockArea();
+    }
+
+    public static readonly LargestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.cockArea() - a.cockArea();
+    }
+
+    public static readonly ShortestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.length - b.length;
+    }
+
+    public static readonly LongestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.length - a.length;
+    }
+
+    public static readonly ThinnestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.thickness - b.thickness;
+    }
+
+    public static readonly ThickestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.thickness - a.thickness;
+    }
+
+    public static readonly TotalCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
+        return previousValue + currentValue.thickness;
+    }
+
+    public static readonly AverageCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+        if (index >= array.length - 1)
+            return previousValue / index;
+        return previousValue + currentValue.thickness;
+    }
+
+    public static readonly AverageCockLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
+        if (index >= array.length - 1)
+            return previousValue / index;
+        return previousValue + currentValue.length;
+    }
+
     public length: number = 5.5;
     public thickness: number = 1;
     public type: CockType = CockType.HUMAN;
@@ -20,7 +85,7 @@ export default class Cock implements SerializeInterface {
     }
 
     public hasSock(): boolean {
-        return this.sock != ("");
+        return this.sock !== ("");
     }
 
     public hasSheath(): boolean {
@@ -50,67 +115,6 @@ export default class Cock implements SerializeInterface {
 
     public canAutoFellate(): boolean {
         return this.length >= 20;
-    }
-
-
-    public static readonly HasSock: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasSock())
-            return a;
-    }
-
-    public static readonly HasSheath: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasSheath())
-            return a;
-    }
-
-    public static readonly HasKnot: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasKnot())
-            return a;
-    }
-
-    public static readonly CanAutoFellate: FilterOption<Cock> = (a: Cock) => {
-        if (a.canAutoFellate())
-            return a;
-    }
-
-    public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return a.cockArea() - b.cockArea();
-    };
-
-    public static readonly LargestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return b.cockArea() - a.cockArea();
-    };
-
-    public static readonly ShortestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return a.length - b.length;
-    };
-
-    public static readonly LongestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return b.length - a.length;
-    };
-
-    public static readonly ThinnestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return a.thickness - b.thickness;
-    };
-
-    public static readonly ThickestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return b.thickness - a.thickness;
-    };
-
-    public static readonly TotalCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
-        return previousValue + currentValue.thickness;
-    }
-
-    public static readonly AverageCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array:Cock[]) => {
-        if (index >= array.length - 1)
-            return previousValue / index;
-        return previousValue + currentValue.thickness;
-    }
-
-    public static readonly AverageCockLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array:Cock[]) => {
-        if (index >= array.length - 1)
-            return previousValue / index;
-        return previousValue + currentValue.length;
     }
 
     public serialize(): string {

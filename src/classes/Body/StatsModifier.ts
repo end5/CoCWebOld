@@ -41,7 +41,7 @@ export default class StatsModifier {
         value -= this.stats.tou;
         this.stats.tou += value;
 
-        //Add HP for toughness change.
+        // Add HP for toughness change.
         this.HP += value * 2;
 
         if (this.body.perks.has(PerkType.Tough) && value >= 0)
@@ -132,7 +132,7 @@ export default class StatsModifier {
             this.stats.lib = 50;
         else if (this.stats.lib < 15 && this.body.gender > 0)
             this.stats.lib = 15;
-        else if (this.stats.lib < 10 && this.body.gender == 0)
+        else if (this.stats.lib < 10 && this.body.gender === 0)
             this.stats.lib = 10;
         if (this.stats.lib < this.minLust() * 2 / 3)
             this.stats.lib = this.minLust() * 2 / 3;
@@ -188,7 +188,7 @@ export default class StatsModifier {
         value -= this.stats.fatigue;
         if (this.stats.fatigue >= 100 && value > 0) return;
         if (this.stats.fatigue <= 0 && value < 0) return;
-        //Fatigue restoration buffs!
+        // Fatigue restoration buffs!
         if (value < 0) {
             let multi: number = 1;
 
@@ -210,7 +210,7 @@ export default class StatsModifier {
 
     public fatigueMagic(value: number) {
         this.stats.fatigue = value;
-        //Blood mages use HP for spells
+        // Blood mages use HP for spells
         if (this.body.perks.has(PerkType.BloodMage)) {
             this.stats.HP -= value;
         }
@@ -268,7 +268,7 @@ export default class StatsModifier {
     }
 
     private lustChange(value: number, lustResisted: boolean = true) {
-        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] == 1 && value > 0 && lustResisted)
+        if (Flags.list[FlagEnum.EASY_MODE_ENABLE_FLAG] === 1 && value > 0 && lustResisted)
             value /= 2;
         if (value > 0 && lustResisted)
             value *= this.lustPercent() / 100;
@@ -288,31 +288,31 @@ export default class StatsModifier {
 
     public minLust(): number {
         let min: number = 0;
-        //Bimbo body boosts minimum lust by 40
+        // Bimbo body boosts minimum lust by 40
         if (this.body.statusAffects.has(StatusAffectType.BimboChampagne) || this.body.perks.has(PerkType.BimboBody) || this.body.perks.has(PerkType.BroBody) || this.body.perks.has(PerkType.FutaForm)) {
             if (min > 40) min += 10;
             else if (min >= 20) min += 20;
             else min += 40;
         }
-        //Omnibus' Gift
+        // Omnibus' Gift
         if (this.body.perks.has(PerkType.OmnibusGift)) {
             if (min > 40) min += 10;
             else if (min >= 20) min += 20;
             else min += 35;
         }
-        //Nymph perk raises to 30
+        // Nymph perk raises to 30
         if (this.body.perks.has(PerkType.Nymphomania)) {
             if (min >= 40) min += 10;
             else if (min >= 20) min += 15;
             else min += 30;
         }
-        //Oh noes anemone!
+        // Oh noes anemone!
         if (this.body.statusAffects.has(StatusAffectType.AnemoneArousal)) {
             if (min >= 40) min += 10;
             else if (min >= 20) min += 20;
             else min += 30;
         }
-        //Hot blooded perk raises min lust!
+        // Hot blooded perk raises min lust!
         if (this.body.perks.has(PerkType.HotBlooded)) {
             if (min > 0)
                 min += this.body.perks.get(PerkType.HotBlooded).value1 / 2;
@@ -323,27 +323,24 @@ export default class StatsModifier {
             if (min < 50) min += 10;
             else min += 5;
         }
-        //Add points for Crimstone
+        // Add points for Crimstone
         min += this.body.perks.get(PerkType.PiercedCrimstone).value1;
         min += this.body.perks.get(PerkType.PentUp).value1;
-        //Harpy Lipstick status forces minimum lust to be at least 50.
+        // Harpy Lipstick status forces minimum lust to be at least 50.
         if (min < 50 && this.body.statusAffects.has(StatusAffectType.LustStick)) min = 50;
-        //SHOULDRA BOOSTS
-        //+20
+        // SHOULDRA BOOSTS
+        // +20
         if (Flags.list[FlagEnum.SHOULDRA_SLEEP_TIMER] <= -168) {
             min += 20;
             if (Flags.list[FlagEnum.SHOULDRA_SLEEP_TIMER] <= -216)
                 min += 30;
         }
-        //SPOIDAH BOOSTS
-        let oviTails = this.body.torso.tailSpot.filter(Tail.HasOvipositor);
-        if (oviTails.length > 0) {
-            for (let index = 0; index < oviTails.length; index++) {
-                if (oviTails[index].ovipositor.eggs >= 20) {
+        // SPOIDAH BOOSTS
+        for (const oviTail of this.body.torso.tailSpot.filter(Tail.HasOvipositor)) {
+            if (oviTail.ovipositor.eggs >= 20) {
+                min += 10;
+                if (oviTail.ovipositor.eggs >= 40)
                     min += 10;
-                    if (oviTails[index].ovipositor.eggs >= 40)
-                        min += 10;
-                }
             }
         }
         if (min < 30 && this.body.perks.has(PerkType.LustyMaidensArmor))
@@ -353,26 +350,26 @@ export default class StatsModifier {
 
     public lustPercent(): number {
         let lust: number = 100;
-        //2.5% lust resistance per level - max 75.
+        // 2.5% lust resistance per level - max 75.
         if (this.stats.level < 21)
             lust -= (this.stats.level - 1) * 3;
         else lust = 40;
 
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //ADDITIVE REDUCTIONS
-        //THESE ARE FLAT BONUSES WITH LITTLE TO NO DOWNSIDE
-        //TOTAL IS LIMITED TO 75%!
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //Corrupted Libido reduces lust gain by 10%!
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++
+        // ADDITIVE REDUCTIONS
+        // THESE ARE FLAT BONUSES WITH LITTLE TO NO DOWNSIDE
+        // TOTAL IS LIMITED TO 75%!
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Corrupted Libido reduces lust gain by 10%!
         if (this.body.perks.has(PerkType.CorruptedLibido))
             lust -= 10;
-        //Acclimation reduces by 15%
+        // Acclimation reduces by 15%
         if (this.body.perks.has(PerkType.Acclimation))
             lust -= 15;
-        //Purity blessing reduces lust gain
+        // Purity blessing reduces lust gain
         if (this.body.perks.has(PerkType.PurityBlessing))
             lust -= 5;
-        //Resistance = 10%
+        // Resistance = 10%
         if (this.body.perks.has(PerkType.Resistance))
             lust -= 10;
         if (this.body.perks.has(PerkType.ChiReflowLust))
@@ -384,22 +381,22 @@ export default class StatsModifier {
             else lust += 20;
         }
         lust += Math.round(this.body.perks.get(PerkType.PentUp).value1 / 2);
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //MULTIPLICATIVE REDUCTIONS
-        //THESE PERKS ALSO RAISE MINIMUM LUST OR HAVE OTHER
-        //DRAWBACKS TO JUSTIFY IT.
-        //++++++++++++++++++++++++++++++++++++++++++++++++++
-        //Bimbo body slows lust gains!
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++
+        // MULTIPLICATIVE REDUCTIONS
+        // THESE PERKS ALSO RAISE MINIMUM LUST OR HAVE OTHER
+        // DRAWBACKS TO JUSTIFY IT.
+        // ++++++++++++++++++++++++++++++++++++++++++++++++++
+        // Bimbo body slows lust gains!
         if ((this.body.statusAffects.has(StatusAffectType.BimboChampagne) || this.body.perks.has(PerkType.BimboBody)) && lust > 0)
             lust *= .75;
         if (this.body.perks.has(PerkType.BroBody) && lust > 0)
             lust *= .75;
         if (this.body.perks.has(PerkType.FutaForm) && lust > 0)
             lust *= .75;
-        //Omnibus' Gift reduces lust gain by 15%
+        // Omnibus' Gift reduces lust gain by 15%
         if (this.body.perks.has(PerkType.OmnibusGift))
             lust *= .85;
-        //Luststick reduces lust gain by 10% to match increased min lust
+        // Luststick reduces lust gain by 10% to match increased min lust
         if (this.body.perks.has(PerkType.LuststickAdapted))
             lust *= 0.9;
         if (this.body.statusAffects.has(StatusAffectType.Berzerking))
@@ -410,8 +407,8 @@ export default class StatsModifier {
         // Lust mods from Uma's content -- Given the short duration and the gem cost, I think them being multiplicative is justified.
         // Changing them to an additive bonus should be pretty simple (check the static values in UmasShop.as)
         if (this.body.statusAffects.has(StatusAffectType.UmasMassage)) {
-            let UmasMassageStatusAffect = this.body.statusAffects.get(StatusAffectType.UmasMassage);
-            if (UmasMassageStatusAffect.value1 == UmasShop.MASSAGE_RELIEF || UmasMassageStatusAffect.value1 == UmasShop.MASSAGE_LUST) {
+            const UmasMassageStatusAffect = this.body.statusAffects.get(StatusAffectType.UmasMassage);
+            if (UmasMassageStatusAffect.value1 === UmasShop.MASSAGE_RELIEF || UmasMassageStatusAffect.value1 === UmasShop.MASSAGE_LUST) {
                 lust *= UmasMassageStatusAffect.value2;
             }
         }

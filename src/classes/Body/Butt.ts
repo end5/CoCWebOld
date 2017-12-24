@@ -23,8 +23,8 @@ export enum ButtRating {
 export default class Butt implements SerializeInterface {
     public wetness: ButtWetness = ButtWetness.DRY;
     public looseness: ButtLooseness = ButtLooseness.VIRGIN;
-    //Used to determine thickness of knot relative to normal thickness
-    //Used during sex to determine how full it currently is.  For multi-dick sex.
+    // Used to determine thickness of knot relative to normal thickness
+    // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
     public rating: ButtRating = ButtRating.BUTTLESS;
 

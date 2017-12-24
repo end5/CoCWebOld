@@ -24,7 +24,7 @@ export default class Head implements SerializeInterface {
             face: this.face.serialize()
         });
     }
-    
+
     public deserialize(saveObject: Head) {
         this.hair.deserialize(saveObject.hair);
         this.ears.deserialize(saveObject.ears);

@@ -10,7 +10,7 @@ export default class Piercing implements SerializeInterface {
             piercedLongDesc: this.longDesc
         });
     }
-    
+
     public deserialize(saveObject: Piercing) {
         this.shortDesc = saveObject.shortDesc;
         this.longDesc = saveObject.longDesc;

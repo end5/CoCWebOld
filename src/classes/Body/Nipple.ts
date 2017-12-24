@@ -12,22 +12,22 @@ export default class Nipple implements SerializeInterface {
     public static readonly Fuckable: FilterOption<Nipple> = (a: Nipple) => {
         if (a.fuckable)
             return a;
-    };
+    }
 
     public static readonly NotFuckable: FilterOption<Nipple> = (a: Nipple) => {
         if (!a.fuckable)
             return a;
-    };
+    }
 
     public static readonly PiercedNipples: FilterOption<Nipple> = (a: Nipple) => {
         if (a.piercings.count > 0)
             return a;
-    };
+    }
 
     public static readonly NotPiercedNipples: FilterOption<Nipple> = (a: Nipple) => {
         if (a.piercings.count <= 0)
             return a;
-    };
+    }
 
     public serialize(): string {
         return JSON.stringify({

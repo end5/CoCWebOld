@@ -10,7 +10,7 @@ export default class Balls implements SerializeInterface {
             size: this.size
         });
     }
-    
+
     public deserialize(saveObject: Balls) {
         this.quantity = saveObject.quantity;
         this.size = saveObject.size;

@@ -34,8 +34,8 @@ export default class Face implements SerializeInterface {
     }
 
     public hasBeard(): boolean {
-		return this.beard.length > 0;
-	}
+        return this.beard.length > 0;
+    }
 
     public serialize(): string {
         return JSON.stringify({

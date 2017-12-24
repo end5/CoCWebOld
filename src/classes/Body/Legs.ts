@@ -12,34 +12,34 @@ export enum LegType {
 
 export default class Legs implements SerializeInterface {
     public type: LegType = LegType.HUMAN;
-    
+
     public isBiped(): boolean {
-        //Naga/Centaur
-        if (this.type == LegType.NAGA || this.type == LegType.CENTAUR)
+        // Naga/Centaur
+        if (this.type === LegType.NAGA || this.type === LegType.CENTAUR)
             return false;
-        if (this.type == LegType.GOO || this.type == LegType.PONY)
+        if (this.type === LegType.GOO || this.type === LegType.PONY)
             return false;
         return true;
     }
 
     public isNaga(): boolean {
-        if (this.type == LegType.NAGA)
+        if (this.type === LegType.NAGA)
             return true;
         return false;
     }
 
     public isTaur(): boolean {
-        if (this.type == LegType.CENTAUR || this.type == LegType.PONY)
+        if (this.type === LegType.CENTAUR || this.type === LegType.PONY)
             return true;
         return false;
     }
 
     public isDrider(): boolean {
-        return (this.type == LegType.DRIDER_LOWER_BODY);
+        return (this.type === LegType.DRIDER_LOWER_BODY);
     }
 
     public isGoo(): boolean {
-        if (this.type == LegType.GOO)
+        if (this.type === LegType.GOO)
             return true;
         return false;
     }
@@ -49,7 +49,7 @@ export default class Legs implements SerializeInterface {
             type: this.type
         });
     }
-    
+
     public deserialize(saveObject: Legs) {
         this.type = saveObject.type;
     }

@@ -1,7 +1,7 @@
 import SerializeInterface from '../SerializeInterface';
 
 export default class Stats implements SerializeInterface {
-    //Primary stats
+    // Primary stats
     public str: number;
     public tou: number;
     public spe: number;
@@ -11,13 +11,13 @@ export default class Stats implements SerializeInterface {
     public cor: number;
     public fatigue: number;
 
-    //Combat Stats
+    // Combat Stats
     public HP: number;
     public bonusHP: number;
     public lust: number;
     public lustVuln: number;
 
-    //Level Stats
+    // Level Stats
     public XP: number;
     public level: number;
     public additionalXP: number;
@@ -32,13 +32,13 @@ export default class Stats implements SerializeInterface {
         this.cor = 0;
         this.fatigue = 0;
 
-        //Combat Stats
+        // Combat Stats
         this.HP = 0;
         this.bonusHP = 0;
         this.lust = 0;
         this.lustVuln = 0;
 
-        //Level Stats
+        // Level Stats
         this.XP = 0;
         this.level = 0;
         this.additionalXP = 0;
