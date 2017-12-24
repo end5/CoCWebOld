@@ -1,6 +1,6 @@
 ﻿import Clit from './Clit';
 import Labia from './Labia';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import Utils from '../Utilities/Utils';
 
@@ -16,18 +16,7 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export default class Vagina implements SerializeInterface {
-    public type: VaginaType = VaginaType.HUMAN;
-    public virgin: boolean = true;
-
-    public wetness: VaginaWetness = VaginaWetness.NORMAL;
-    public looseness: VaginaLooseness = VaginaLooseness.TIGHT;
-
-    // Used during sex to determine how full it currently is.  For multi-dick sex.
-    public fullness: number = 0;
-    public readonly labia: Labia = new Labia();
-    public readonly clit: Clit = new Clit();
-
+export default class Vagina implements ISerializable<Vagina> {
     public static readonly LoosenessMost: SortOption<Vagina> = (a: Vagina, b: Vagina) => {
         return a.looseness - b.looseness;
     }
@@ -66,6 +55,17 @@ export default class Vagina implements SerializeInterface {
         return previousValue + currentValue.wetness;
     }
 
+    public type: VaginaType = VaginaType.HUMAN;
+    public virgin: boolean = true;
+
+    public wetness: VaginaWetness = VaginaWetness.NORMAL;
+    public looseness: VaginaLooseness = VaginaLooseness.TIGHT;
+
+    // Used during sex to determine how full it currently is.  For multi-dick sex.
+    public fullness: number = 0;
+    public readonly labia: Labia = new Labia();
+    public readonly clit: Clit = new Clit();
+
     public wetnessFactor(): number {
         if (this.wetness === VaginaWetness.DRY) return 1.25;
         if (this.wetness === VaginaWetness.NORMAL) return 1;
@@ -98,13 +98,15 @@ export default class Vagina implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Vagina) {
-        this.type = saveObject.type;
-        this.virgin = saveObject.virgin;
-        this.wetness = saveObject.wetness;
-        this.looseness = saveObject.looseness;
-        this.fullness = saveObject.fullness;
-        this.labia.deserialize(saveObject.labia);
-        this.clit.deserialize(saveObject.clit);
+    public deserialize(saveObject: Vagina): Vagina {
+        const newVagina = new Vagina();
+        newVagina.type = saveObject.type;
+        newVagina.virgin = saveObject.virgin;
+        newVagina.wetness = saveObject.wetness;
+        newVagina.looseness = saveObject.looseness;
+        newVagina.fullness = saveObject.fullness;
+        newVagina.labia.deserialize(saveObject.labia);
+        newVagina.clit.deserialize(saveObject.clit);
+        return newVagina;
     }
 }

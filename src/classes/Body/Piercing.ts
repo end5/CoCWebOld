@@ -1,6 +1,6 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Piercing implements SerializeInterface {
+export default class Piercing implements ISerializable<Piercing> {
     public shortDesc: string = "";
     public longDesc: string = "";
 
@@ -11,8 +11,10 @@ export default class Piercing implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Piercing) {
-        this.shortDesc = saveObject.shortDesc;
-        this.longDesc = saveObject.longDesc;
+    public deserialize(saveObject: Piercing): Piercing {
+        const newPiercing = new Piercing();
+        newPiercing.shortDesc = saveObject.shortDesc;
+        newPiercing.longDesc = saveObject.longDesc;
+        return newPiercing;
     }
 }

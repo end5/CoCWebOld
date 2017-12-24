@@ -1,6 +1,6 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Beard implements SerializeInterface {
+export default class Beard implements ISerializable<Beard> {
     public style: string = "";
     public length: number = 0;
 
@@ -11,8 +11,10 @@ export default class Beard implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Beard) {
-        this.style = saveObject.style;
-        this.length = saveObject.length;
+    public deserialize(saveObject: Beard): Beard {
+        const newBeard = new Beard();
+        newBeard.style = saveObject.style;
+        newBeard.length = saveObject.length;
+        return newBeard;
     }
 }

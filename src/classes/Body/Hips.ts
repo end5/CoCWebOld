@@ -1,11 +1,11 @@
 import Legs from './Legs';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
 export enum HipRating {
     BOYISH, SLENDER, AVERAGE, AMPLE, CURVY, FERTILE, INHUMANLY_WIDE
 }
 
-export default class Hips implements SerializeInterface {
+export default class Hips implements ISerializable<Hips> {
     public rating: HipRating = HipRating.BOYISH;
     public readonly legs: Legs = new Legs();
 
@@ -16,8 +16,10 @@ export default class Hips implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Hips) {
-        this.rating = saveObject.rating;
-        this.legs.deserialize(saveObject.legs);
+    public deserialize(saveObject: Hips): Hips {
+        const newHips = new Hips();
+        newHips.rating = saveObject.rating;
+        newHips.legs.deserialize(saveObject.legs);
+        return newHips;
     }
 }

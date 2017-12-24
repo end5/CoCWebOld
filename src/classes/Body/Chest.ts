@@ -4,7 +4,7 @@ import SerializableList from '../Utilities/SerializableList';
 
 export default class Chest extends SerializableList<BreastRow> {
     public constructor() {
-        super(BreastRow);
+        super(new BreastRow().deserialize);
     }
 
     public add(newBreastRow: BreastRow) {
@@ -31,14 +31,5 @@ export default class Chest extends SerializableList<BreastRow> {
 
     public averageNippleLength(): number {
         return this.reduce(BreastRow.AverageRating, 0) / 10 + 0.2;
-    }
-
-    public averageNipplesPerBreast(): number {
-        if (this.list.length === 0)
-            return 0;
-        let total: number = 0;
-        for (const breastRow of this.list)
-            total += breastRow.nipples.count;
-        return total / this.list.length;
     }
 }

@@ -1,4 +1,4 @@
-﻿import SerializeInterface from '../SerializeInterface';
+﻿import ISerializable from '../Utilities/ISerializable';
 
 export enum ButtWetness {
     DRY, NORMAL, MOIST, SLIMY, DROOLING, SLIME_DROOLING
@@ -20,27 +20,29 @@ export enum ButtRating {
     INCONCEIVABLY_BIG = 20
 }
 
-export default class Butt implements SerializeInterface {
+export default class Butt implements ISerializable<Butt> {
+    public rating: ButtRating = ButtRating.BUTTLESS;
     public wetness: ButtWetness = ButtWetness.DRY;
     public looseness: ButtLooseness = ButtLooseness.VIRGIN;
     // Used to determine thickness of knot relative to normal thickness
     // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
-    public rating: ButtRating = ButtRating.BUTTLESS;
 
     public serialize(): string {
         return JSON.stringify({
+            rating: this.rating,
             wetness: this.wetness,
             looseness: this.looseness,
-            fullness: this.fullness,
-            rating: this.rating,
+            fullness: this.fullness
         });
     }
 
-    public deserialize(saveObject: Butt) {
-        this.wetness = saveObject.wetness;
-        this.looseness = saveObject.looseness;
-        this.fullness = saveObject.fullness;
-        this.rating = saveObject.rating;
+    public deserialize(saveObject: Butt): Butt {
+        const newButt = new Butt();
+        newButt.rating = saveObject.rating;
+        newButt.wetness = saveObject.wetness;
+        newButt.looseness = saveObject.looseness;
+        newButt.fullness = saveObject.fullness;
+        return newButt;
     }
 }

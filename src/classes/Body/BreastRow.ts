@@ -1,5 +1,5 @@
 ﻿import Nipple from './Nipple';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
 
@@ -14,7 +14,7 @@ export enum BreastCup {
     X, X_LARGE, XX, XX_LARGE, Y, Y_LARGE, YY, YY_LARGE, Z, Z_LARGE, ZZ, ZZ_LARGE, ZZZ, ZZZ_LARGE
 }
 
-export default class BreastRow implements SerializeInterface {
+export default class BreastRow implements ISerializable<BreastRow> {
     public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
     }
@@ -114,8 +114,7 @@ export default class BreastRow implements SerializeInterface {
     // If it reaches 100 it reduces lactation multiplier.
     public milkFullness: number = 0;
     public fullness: number = 0;
-
-    public readonly nipples: SerializableList<Nipple> = new SerializableList(Nipple);
+    public nipples: SerializableList<Nipple> = new SerializableList(new Nipple().deserialize);
 
     public serialize(): string {
         return JSON.stringify({
@@ -127,11 +126,13 @@ export default class BreastRow implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: BreastRow) {
-        this.rating = saveObject.rating;
-        this.lactationMultiplier = saveObject.lactationMultiplier;
-        this.milkFullness = saveObject.milkFullness;
-        this.fullness = saveObject.fullness;
-        this.nipples.deserialize(saveObject.nipples);
+    public deserialize(saveObject: BreastRow): BreastRow {
+        const newBreastRow = new BreastRow();
+        newBreastRow.rating = saveObject.rating;
+        newBreastRow.lactationMultiplier = saveObject.lactationMultiplier;
+        newBreastRow.milkFullness = saveObject.milkFullness;
+        newBreastRow.fullness = saveObject.fullness;
+        newBreastRow.nipples.deserialize(saveObject.nipples);
+        return newBreastRow;
     }
 }

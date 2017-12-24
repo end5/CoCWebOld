@@ -1,6 +1,6 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Stats implements SerializeInterface {
+export default class Stats implements ISerializable<Stats> {
     // Primary stats
     public str: number;
     public tou: number;
@@ -64,21 +64,23 @@ export default class Stats implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Stats) {
-        this.str = saveObject.str;
-        this.tou = saveObject.tou;
-        this.spe = saveObject.spe;
-        this.int = saveObject.int;
-        this.lib = saveObject.lib;
-        this.sens = saveObject.sens;
-        this.cor = saveObject.cor;
-        this.fatigue = saveObject.fatigue;
-        this.HP = saveObject.HP;
-        this.bonusHP = saveObject.bonusHP;
-        this.lust = saveObject.lust;
-        this.lustVuln = saveObject.lustVuln;
-        this.XP = saveObject.XP;
-        this.level = saveObject.level;
-        this.additionalXP = saveObject.additionalXP;
+    public deserialize(saveObject: Stats): Stats {
+        const newStats = new Stats();
+        newStats.str = saveObject.str;
+        newStats.tou = saveObject.tou;
+        newStats.spe = saveObject.spe;
+        newStats.int = saveObject.int;
+        newStats.lib = saveObject.lib;
+        newStats.sens = saveObject.sens;
+        newStats.cor = saveObject.cor;
+        newStats.fatigue = saveObject.fatigue;
+        newStats.HP = saveObject.HP;
+        newStats.bonusHP = saveObject.bonusHP;
+        newStats.lust = saveObject.lust;
+        newStats.lustVuln = saveObject.lustVuln;
+        newStats.XP = saveObject.XP;
+        newStats.level = saveObject.level;
+        newStats.additionalXP = saveObject.additionalXP;
+        return newStats;
     }
 }

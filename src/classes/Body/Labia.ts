@@ -1,9 +1,9 @@
 import Piercing from './Piercing';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableList from '../Utilities/SerializableList';
 
-export default class Labia implements SerializeInterface {
-    public readonly piercings: SerializableList<Piercing> = new SerializableList(Piercing);
+export default class Labia implements ISerializable<Labia> {
+    public readonly piercings: SerializableList<Piercing> = new SerializableList(new Piercing().deserialize);
 
     public serialize(): string {
         return JSON.stringify({
@@ -11,7 +11,9 @@ export default class Labia implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Labia) {
-        this.piercings.deserialize(saveObject.piercings);
+    public deserialize(saveObject: Labia): Labia {
+        const newLabia = new Labia();
+        newLabia.piercings.deserialize(saveObject.piercings);
+        return newLabia;
     }
 }

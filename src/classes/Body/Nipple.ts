@@ -1,12 +1,12 @@
 import Piercing from './Piercing';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import { FilterOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
 import SerializeUtils from '../Utilities/SerializeUtils';
 
-export default class Nipple implements SerializeInterface {
+export default class Nipple implements ISerializable<Nipple> {
     public length: number = .25;
-    public piercings: SerializableList<Piercing> = new SerializableList(Piercing);
+    public piercings: SerializableList<Piercing> = new SerializableList(new Piercing().deserialize);
     public fuckable: boolean = false;
 
     public static readonly Fuckable: FilterOption<Nipple> = (a: Nipple) => {
@@ -38,8 +38,10 @@ export default class Nipple implements SerializeInterface {
     }
 
     public deserialize(saveObject: Nipple) {
-        this.length = saveObject.length;
-        this.piercings.deserialize(saveObject.piercings);
-        this.fuckable = saveObject.fuckable;
+        const newNipple = new Nipple();
+        newNipple.length = saveObject.length;
+        newNipple.piercings.deserialize(saveObject.piercings);
+        newNipple.fuckable = saveObject.fuckable;
+        return newNipple;
     }
 }

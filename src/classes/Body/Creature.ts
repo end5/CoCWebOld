@@ -14,14 +14,14 @@ import StatusAffect from '../Effects/StatusAffect';
 import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import StatusAffectList from '../Effects/StatusAffectList';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableDictionary from '../Utilities/SerializableDictionary';
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
 
-export default class Creature implements SerializeInterface {
+export default class Creature implements ISerializable {
     // Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;

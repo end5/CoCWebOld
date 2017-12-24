@@ -1,13 +1,8 @@
-﻿import SerializeInterface from '../SerializeInterface';
+﻿import ISerializable from '../Utilities/ISerializable';
 
-export default class Ovipositor implements SerializeInterface {
-    private unfertileEggs: number;
-    private fertileEggs: number;
-
-    public constructor() {
-        this.unfertileEggs = 0;
-        this.fertileEggs = 0;
-    }
+export default class Ovipositor implements ISerializable<Ovipositor> {
+    private unfertileEggs: number = 0;
+    private fertileEggs: number = 0;
 
     public get eggs(): number {
         return this.unfertileEggs;
@@ -46,8 +41,10 @@ export default class Ovipositor implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Ovipositor) {
-        this.unfertileEggs = saveObject.unfertileEggs;
-        this.fertileEggs = saveObject.fertileEggs;
+    public deserialize(saveObject: Ovipositor): Ovipositor {
+        const newOvipositor = new Ovipositor();
+        newOvipositor.unfertileEggs = saveObject.unfertileEggs;
+        newOvipositor.fertileEggs = saveObject.fertileEggs;
+        return newOvipositor;
     }
 }

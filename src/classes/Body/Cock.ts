@@ -1,5 +1,5 @@
 import Piercing from './Piercing';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
 
@@ -7,7 +7,7 @@ export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
-export default class Cock implements SerializeInterface {
+export default class Cock implements ISerializable<Cock> {
     public static readonly HasSock: FilterOption<Cock> = (a: Cock) => {
         if (a.hasSock())
             return a;
@@ -77,7 +77,7 @@ export default class Cock implements SerializeInterface {
     public thickness: number = 1;
     public type: CockType = CockType.HUMAN;
     public knotMultiplier: number = 1;
-    public readonly piercings: SerializableList<Piercing> = new SerializableList(Piercing);
+    public readonly piercings: SerializableList<Piercing> = new SerializableList(new Piercing().deserialize);
     public sock: string = "";
 
     public cockArea(): number {
@@ -128,12 +128,14 @@ export default class Cock implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Cock) {
-        this.length = saveObject.length;
-        this.thickness = saveObject.thickness;
-        this.type = saveObject.type;
-        this.knotMultiplier = saveObject.knotMultiplier;
-        this.piercings.deserialize(saveObject.piercings);
-        this.sock = saveObject.sock;
+    public deserialize(saveObject: Cock): Cock {
+        const newCock = new Cock();
+        newCock.length = saveObject.length;
+        newCock.thickness = saveObject.thickness;
+        newCock.type = saveObject.type;
+        newCock.knotMultiplier = saveObject.knotMultiplier;
+        newCock.piercings.deserialize(saveObject.piercings);
+        newCock.sock = saveObject.sock;
+        return newCock;
     }
 }

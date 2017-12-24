@@ -1,15 +1,21 @@
 import Piercing from './Piercing';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableList from '../Utilities/SerializableList';
 
 export enum EarType {
     HUMAN, HORSE, DOG, COW, ELFIN, CAT, LIZARD, BUNNY, KANGAROO, FOX, DRAGON, RACCOON, MOUSE, FERRET
 }
 
-export default class Ears implements SerializeInterface {
-    public type: EarType = EarType.HUMAN;
-    public value: number = 0;
-    public readonly piercings: SerializableList<Piercing> = new SerializableList<Piercing>(Piercing);
+export default class Ears implements ISerializable<Ears> {
+    public type: EarType;
+    public value: number;
+    public readonly piercings: SerializableList<Piercing>;
+
+    public constructor(type: EarType = EarType.HUMAN) {
+        this.type = type;
+        this.value = 0;
+        this.piercings = new SerializableList<Piercing>(new Piercing().deserialize);
+    }
 
     public serialize(): string {
         return JSON.stringify({
@@ -19,9 +25,11 @@ export default class Ears implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Ears) {
-        this.type = saveObject.type;
-        this.value = saveObject.value;
-        this.piercings.deserialize(saveObject.piercings);
+    public deserialize(saveObject: Ears): Ears {
+        const newEars = new Ears();
+        newEars.type = saveObject.type;
+        newEars.value = saveObject.value;
+        newEars.piercings.deserialize(saveObject.piercings);
+        return newEars;
     }
 }

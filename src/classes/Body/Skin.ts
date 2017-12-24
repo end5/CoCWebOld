@@ -1,10 +1,10 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
 export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class Skin implements SerializeInterface {
+export default class Skin implements ISerializable<Skin> {
     public type: SkinType = SkinType.PLAIN;
     public tone: string = "albino";
     public desc: string = "skin";
@@ -19,10 +19,12 @@ export default class Skin implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Skin) {
-        this.type = saveObject.type;
-        this.tone = saveObject.tone;
-        this.desc = saveObject.desc;
-        this.adj = saveObject.adj;
+    public deserialize(saveObject: Skin): Skin {
+        const newSkin = new Skin();
+        newSkin.type = saveObject.type;
+        newSkin.tone = saveObject.tone;
+        newSkin.desc = saveObject.desc;
+        newSkin.adj = saveObject.adj;
+        return newSkin;
     }
 }

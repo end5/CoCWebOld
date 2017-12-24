@@ -1,10 +1,10 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
 export enum HornType {
     NONE, DEMON, COW_MINOTAUR, DRACONIC_X2, DRACONIC_X4_12_INCH_LONG, ANTLERS
 }
 
-export default class Horns implements SerializeInterface {
+export default class Horns implements ISerializable<Horns> {
     public type: HornType = HornType.NONE;
     public amount: number = 0;
 
@@ -15,8 +15,10 @@ export default class Horns implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Horns) {
-        this.type = saveObject.type;
-        this.amount = saveObject.amount;
+    public deserialize(saveObject: Horns): Horns {
+        const newHorns = new Horns();
+        newHorns.type = saveObject.type;
+        newHorns.amount = saveObject.amount;
+        return newHorns;
     }
 }

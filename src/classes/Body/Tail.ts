@@ -1,13 +1,13 @@
 import Ovipositor from './Ovipositor';
 import TailDescriptor from '../Descriptors/TailDescriptor';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import { FilterOption } from '../Utilities/list';
 
 export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export default class Tail implements SerializeInterface {
+export default class Tail implements ISerializable<Tail> {
     public type: TailType = TailType.HORSE;
     // Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
     public vemon: number = 0;
@@ -49,13 +49,15 @@ export default class Tail implements SerializeInterface {
             vemon: this.vemon,
             recharge: this.recharge,
             ovipositor: this.ovipositor.serialize()
-        })
+        });
     }
 
-    public deserialize(saveObject: Tail) {
-        this.type = saveObject.type;
-        this.vemon = saveObject.vemon;
-        this.recharge = saveObject.recharge;
-        this.ovipositor.deserialize(saveObject.ovipositor);
+    public deserialize(saveObject: Tail): Tail {
+        const newTail = new Tail();
+        newTail.type = saveObject.type;
+        newTail.vemon = saveObject.vemon;
+        newTail.recharge = saveObject.recharge;
+        newTail.ovipositor.deserialize(saveObject.ovipositor);
+        return newTail;
     }
 }

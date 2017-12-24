@@ -2,7 +2,7 @@
 import Eyes from './Eyes';
 import Piercing from './Piercing';
 import Tongue from './Tongue';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableList from '../Utilities/SerializableList';
 
 export enum FaceType {
@@ -11,12 +11,12 @@ export enum FaceType {
     RACCOON, BUCKTEETH, MOUSE, FERRET_MASK, FERRET
 }
 
-export default class Face implements SerializeInterface {
+export default class Face implements ISerializable<Face>  {
     public type: FaceType = FaceType.HUMAN;
     public readonly eyes: Eyes = new Eyes();
     public readonly tongue: Tongue = new Tongue();
     public readonly beard: Beard = new Beard();
-    public readonly piercings: SerializableList<Piercing> = new SerializableList<Piercing>(Piercing);
+    public readonly piercings: SerializableList<Piercing> = new SerializableList<Piercing>(new Piercing().deserialize);
 
     public hasMuzzle(): boolean {
         switch (this.type) {
@@ -47,11 +47,13 @@ export default class Face implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Face) {
-        this.type = saveObject.type;
-        this.eyes.deserialize(saveObject.eyes);
-        this.tongue.deserialize(saveObject.tongue);
-        this.beard.deserialize(saveObject.beard);
-        this.piercings.deserialize(saveObject.piercings);
+    public deserialize(saveObject: Face): Face {
+        const newFace = new Face();
+        newFace.type = saveObject.type;
+        newFace.eyes.deserialize(saveObject.eyes);
+        newFace.tongue.deserialize(saveObject.tongue);
+        newFace.beard.deserialize(saveObject.beard);
+        newFace.piercings.deserialize(saveObject.piercings);
+        return newFace;
     }
 }

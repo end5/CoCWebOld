@@ -1,8 +1,4 @@
-﻿import Butt from './Butt';
-import CockSpot from './CockSpot';
-import Ovipositor from './Ovipositor';
-import VaginaSpot from './VaginaSpot';
-import SerializeInterface from '../SerializeInterface';
+﻿import ISerializable from '../Utilities/ISerializable';
 
 export enum LegType {
     HUMAN, HOOFED, DOG, NAGA, CENTAUR, DEMONIC_HIGH_HEELS, DEMONIC_CLAWS, BEE,
@@ -10,7 +6,7 @@ export enum LegType {
     DRIDER_LOWER_BODY, FOX, DRAGON, RACCOON, FERRET
 }
 
-export default class Legs implements SerializeInterface {
+export default class Legs implements ISerializable<Legs> {
     public type: LegType = LegType.HUMAN;
 
     public isBiped(): boolean {
@@ -50,7 +46,9 @@ export default class Legs implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Legs) {
-        this.type = saveObject.type;
+    public deserialize(saveObject: Legs): Legs {
+        const newLegs = new Legs();
+        newLegs.type = saveObject.type;
+        return newLegs;
     }
 }

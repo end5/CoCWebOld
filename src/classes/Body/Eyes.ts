@@ -1,10 +1,10 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
 export enum EyeType {
     HUMAN, FOUR_SPIDER_EYES, BLACK_EYES_SAND_TRAP
 }
 
-export default class Eyes implements SerializeInterface {
+export default class Eyes implements ISerializable<Eyes> {
     public type: EyeType = EyeType.HUMAN;
 
     public serialize(): string {
@@ -13,7 +13,9 @@ export default class Eyes implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Eyes) {
-        this.type = saveObject.type;
+    public deserialize(saveObject: Eyes): Eyes {
+        const newEyes = new Eyes();
+        newEyes.type = saveObject.type;
+        return newEyes;
     }
 }

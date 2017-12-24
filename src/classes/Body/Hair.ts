@@ -1,12 +1,12 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
 }
 
-export default class Hair implements SerializeInterface {
+export default class Hair implements ISerializable<Hair> {
     public type: HairType = HairType.NORMAL;
-    public color: string = "";
+    public color: string = "black";
     public length: number = 0;
 
     public serialize(): string {
@@ -17,9 +17,11 @@ export default class Hair implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Hair) {
-        this.type = saveObject.type;
-        this.color = saveObject.color;
-        this.length = saveObject.length;
+    public deserialize(saveObject: Hair): Hair {
+        const newHair = new Hair();
+        newHair.type = saveObject.type;
+        newHair.color = saveObject.color;
+        newHair.length = saveObject.length;
+        return newHair;
     }
 }

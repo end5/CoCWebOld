@@ -1,13 +1,13 @@
 ﻿import Cock, { CockType } from './Cock';
 import Creature from './Creature';
 import { PerkType } from '../Effects/PerkType';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableList from '../Utilities/SerializableList';
 
 export default class CockSpot extends SerializableList<Cock> {
     private creature: Creature;
     public constructor(creature: Creature) {
-        super(Cock);
+        super(new Cock().deserialize);
         this.creature = creature;
     }
 
@@ -24,7 +24,7 @@ export default class CockSpot extends SerializableList<Cock> {
                 else
                     this.creature.perks.get(PerkType.PentUp).value1 = 5 + (numRings * 5);
             }
-            this.list.splice(index, 1);
+            super.remove(index);
         }
     }
 
@@ -39,7 +39,7 @@ export default class CockSpot extends SerializableList<Cock> {
                 else
                     return cock;
             }
-        })
+        });
     }
 
     public filterSockType(type: string = ""): Cock[] {

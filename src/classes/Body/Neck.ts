@@ -1,7 +1,7 @@
 import Head from './Head';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Neck implements SerializeInterface {
+export default class Neck implements ISerializable<Neck> {
     public gills: boolean = false;
     public readonly head: Head = new Head();
 
@@ -12,8 +12,10 @@ export default class Neck implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Neck) {
-        this.gills = saveObject.gills;
-        this.head.deserialize(saveObject.head);
+    public deserialize(saveObject: Neck): Neck {
+        const newNeck = new Neck();
+        newNeck.gills = saveObject.gills;
+        newNeck.head.deserialize(saveObject.head);
+        return newNeck;
     }
 }

@@ -10,10 +10,10 @@ import Neck from './Neck';
 import Tail from './Tail';
 import Vagina from './Vagina';
 import Wings from './Wings';
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 import SerializableList from '../Utilities/SerializableList';
 
-export default class Torso implements SerializeInterface {
+export default class Torso implements ISerializable<Torso> {
     public readonly neck: Neck;
     public readonly arms: Arms;
     public readonly chest: Chest;
@@ -33,11 +33,11 @@ export default class Torso implements SerializeInterface {
         this.wings = new Wings();
 
         this.hips = new Hips();
-        this.tailSpot = new SerializableList(Tail);
+        this.tailSpot = new SerializableList(new Tail().deserialize);
         this.butt = new Butt();
         this.cockSpot = new CockSpot(creature);
         this.balls = new Balls();
-        this.vaginaSpot = new SerializableList(Vagina);
+        this.vaginaSpot = new SerializableList(new Vagina().deserialize);
     }
 
     public serialize(): string {
@@ -55,17 +55,19 @@ export default class Torso implements SerializeInterface {
         });
     }
 
-    public deserialize(saveObject: Torso) {
-        this.neck.deserialize(saveObject.neck);
-        this.arms.deserialize(saveObject.arms);
-        this.chest.deserialize(saveObject.chest);
-        this.wings.deserialize(saveObject.wings);
+    public deserialize(saveObject: Torso): Torso {
+        const newTorso = new Torso();
+        newTorso.neck.deserialize(saveObject.neck);
+        newTorso.arms.deserialize(saveObject.arms);
+        newTorso.chest.deserialize(saveObject.chest);
+        newTorso.wings.deserialize(saveObject.wings);
 
-        this.hips.deserialize(saveObject.hips);
-        this.tailSpot.deserialize(saveObject.tailSpot);
-        this.butt.deserialize(saveObject.butt);
-        this.cockSpot.deserialize(saveObject.cockSpot);
-        this.balls.deserialize(saveObject.balls);
-        this.vaginaSpot.deserialize(saveObject.vaginaSpot);
+        newTorso.hips.deserialize(saveObject.hips);
+        newTorso.tailSpot.deserialize(saveObject.tailSpot);
+        newTorso.butt.deserialize(saveObject.butt);
+        newTorso.cockSpot.deserialize(saveObject.cockSpot);
+        newTorso.balls.deserialize(saveObject.balls);
+        newTorso.vaginaSpot.deserialize(saveObject.vaginaSpot);
+        return newTorso;
     }
 }
