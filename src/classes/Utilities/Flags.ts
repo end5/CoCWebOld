@@ -1,6 +1,6 @@
-import SerializeInterface from '../SerializeInterface';
+import ISerializable from './ISerializable';
 
-export default class Flags implements SerializeInterface {
+export default class Flags implements ISerializable<Flags> {
     public readonly list: object;
     private keys: object;
 
@@ -12,10 +12,12 @@ export default class Flags implements SerializeInterface {
     public serialize(): string {
         return JSON.stringify(this.list);
     }
-    
-    public deserialize(saveObject: object) {
-        for (let key in Object.keys(this.keys)) {
-            this.keys[key] = saveObject[key];
+
+    public deserialize(saveObject: object): Flags {
+        for (const key in Object.keys(this.keys)) {
+            if (key in Object.keys(this.keys))
+                this.keys[key] = saveObject[key];
         }
+        return this;
     }
 }

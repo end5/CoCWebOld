@@ -1,13 +1,12 @@
-import LibraryEntry from './LibraryEntry';
+import ISerializable from '../Utilities/ISerializable';
 
-export default abstract class ValueContainer extends LibraryEntry {
+export default abstract class ValueContainer implements ISerializable<ValueContainer> {
     public value1: number;
     public value2: number;
     public value3: number;
     public value4: number;
 
-    public constructor(keyObject: string, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        super(keyObject);
+    public constructor(value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
         this.value1 = value1;
         this.value2 = value2;
         this.value3 = value3;
@@ -15,6 +14,22 @@ export default abstract class ValueContainer extends LibraryEntry {
     }
 
     public toString(): string {
-        return "[" + this.uniqueKey + "," + this.value1 + "," + this.value2 + "," + this.value3 + "," + this.value4 + "]";
+        return "[" + this.value1 + "," + this.value2 + "," + this.value3 + "," + this.value4 + "]";
+    }
+
+    public serialize(): string {
+        return JSON.stringify({
+            value1: this.value1,
+            value2: this.value2,
+            value3: this.value3,
+            value4: this.value4
+        });
+    }
+
+    public deserialize(saveObject: ValueContainer) {
+        this.value1 = saveObject.value1;
+        this.value2 = saveObject.value2;
+        this.value3 = saveObject.value3;
+        this.value4 = saveObject.value4;
     }
 }

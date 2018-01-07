@@ -1,5 +1,5 @@
 export default class Dictionary<Entry> {
-    private dictionary: object;
+    protected dictionary: object;
 
     public constructor() {
         this.dictionary = {};

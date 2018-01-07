@@ -1,7 +1,7 @@
 import RandomDrop from './RandomDrop';
 
 export default class WeightedDrop implements RandomDrop {
-    private items: Array<any> = [];
+    private items: any[] = [];
     private sum: number = 0;
 
     public constructor(first: any = null, firstWeight: number = 0) {
@@ -17,8 +17,8 @@ export default class WeightedDrop implements RandomDrop {
         return this;
     }
 
-    public addMany(weight: number, ..._items): WeightedDrop {
-        for (let item of _items) {
+    public addMany(weight: number, ...items: any[]): WeightedDrop {
+        for (const item of items) {
             this.items.push([item, weight]);
             this.sum += weight;
         }
@@ -30,7 +30,7 @@ export default class WeightedDrop implements RandomDrop {
         let random = Math.random() * this.sum;
         let item: any = null;
         while (random > 0 && this.items.length > 0) {
-            let pair: Array<any> = this.items.shift();
+            const pair: any[] = this.items.shift();
             item = pair[0];
             random -= pair[1];
         }

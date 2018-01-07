@@ -1,17 +1,17 @@
-import List from './List';
-import SerializeInterface from '../SerializeInterface';
+import ObservableList from './ObserverableList';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class SerializableList<T extends SerializeInterface> extends List<T> implements SerializeInterface {
-    private objectConstructor: new () => T;
+export default class SerializableList<Entry extends ISerializable<Entry>> extends ObservableList<Entry> implements ISerializable<SerializableList<Entry>> {
+    protected deserializer: (saveObject: object) => Entry;
 
-    public constructor(objectConstructor?: new () => T) {
+    public constructor(deserializer?: (saveObject: object) => Entry) {
         super();
-        this.objectConstructor = objectConstructor;
+        this.deserializer = deserializer;
     }
 
     public serialize(): string {
-        let saveObject: object = {};
-        if (this.objectConstructor)
+        const saveObject: object = {};
+        if (this.deserializer)
             for (let index = 0; index < this.list.length; index++) {
                 saveObject[index] = this.list[index].serialize();
             }
@@ -23,14 +23,17 @@ export default class SerializableList<T extends SerializeInterface> extends List
         return JSON.stringify(saveObject);
     }
 
-    public deserialize(saveObject: object) {
-        let newArray = [];
-        for (let index = 0; saveObject[index] != undefined; index++) {
+    public deserialize(saveObject: object): SerializableList<Entry> {
+        const newList = [];
+        for (let index = 0; saveObject[index] !== undefined; index++) {
             if (this.constructor) {
-                newArray.push(new this.objectConstructor());
-                newArray[index].deserialize(saveObject[index]);
+                newList.push(this.deserializer(saveObject[index]));
+            }
+            else {
+                newList[index] = saveObject[index];
             }
         }
-        return newArray;
+        this.list = newList;
+        return this;
     }
 }
