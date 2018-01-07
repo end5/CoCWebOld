@@ -2,12 +2,12 @@
 import Balls from './Balls';
 import Butt from './Butt';
 import Chest from './Chest';
-import CockSpot from './CockSpot';
-import Creature from './Creature';
+import Clit from './Clit';
+import CockList from './CockList';
 import Hips from './Hips';
 import Legs from './Legs';
 import Neck from './Neck';
-import Tail from './Tail';
+import TailList from './TailList';
 import Vagina from './Vagina';
 import Wings from './Wings';
 import ISerializable from '../Utilities/ISerializable';
@@ -20,24 +20,26 @@ export default class Torso implements ISerializable<Torso> {
     public readonly wings: Wings;
 
     public readonly hips: Hips;
-    public readonly tailSpot: SerializableList<Tail>;
+    public readonly tails: TailList;
     public readonly butt: Butt;
-    public readonly cockSpot: CockSpot;
+    public readonly cocks: CockList;
     public readonly balls: Balls;
-    public readonly vaginaSpot: SerializableList<Vagina>;
+    public readonly vaginas: SerializableList<Vagina>;
+    public readonly clit: Clit;
 
-    public constructor(creature: Creature) {
+    public constructor() {
         this.neck = new Neck();
         this.arms = new Arms();
         this.chest = new Chest();
         this.wings = new Wings();
 
         this.hips = new Hips();
-        this.tailSpot = new SerializableList(new Tail().deserialize);
+        this.tails = new TailList();
         this.butt = new Butt();
-        this.cockSpot = new CockSpot(creature);
+        this.cocks = new CockList();
         this.balls = new Balls();
-        this.vaginaSpot = new SerializableList(new Vagina().deserialize);
+        this.vaginas = new SerializableList(new Vagina().deserialize);
+        this.clit = new Clit();
     }
 
     public serialize(): string {
@@ -47,11 +49,12 @@ export default class Torso implements ISerializable<Torso> {
             chest: this.chest.serialize(),
             wings: this.wings.serialize(),
             hips: this.hips.serialize(),
-            tails: this.tailSpot.serialize(),
+            tails: this.tails.serialize(),
             butt: this.butt.serialize(),
-            cockSpot: this.cockSpot.serialize(),
+            cockSpot: this.cocks.serialize(),
             balls: this.balls.serialize(),
-            vaginas: this.vaginaSpot.serialize()
+            vaginas: this.vaginas.serialize(),
+            clit: this.clit.serialize()
         });
     }
 
@@ -63,11 +66,12 @@ export default class Torso implements ISerializable<Torso> {
         newTorso.wings.deserialize(saveObject.wings);
 
         newTorso.hips.deserialize(saveObject.hips);
-        newTorso.tailSpot.deserialize(saveObject.tailSpot);
+        newTorso.tails.deserialize(saveObject.tails);
         newTorso.butt.deserialize(saveObject.butt);
-        newTorso.cockSpot.deserialize(saveObject.cockSpot);
+        newTorso.cocks.deserialize(saveObject.cocks);
         newTorso.balls.deserialize(saveObject.balls);
-        newTorso.vaginaSpot.deserialize(saveObject.vaginaSpot);
+        newTorso.vaginas.deserialize(saveObject.vaginas);
+        newTorso.clit.deserialize(saveObject.clit);
         return newTorso;
     }
 }

@@ -56,38 +56,23 @@ export default class BreastRow implements ISerializable<BreastRow> {
     }
 
     public static readonly HasNipples: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.nipples.count > 0)
-            return a;
+        return a.nipples.count > 0;
     }
 
     public static readonly FemaleBreasts: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.rating >= 1)
-            return a;
+        return a.rating >= 1;
     }
 
     public static readonly CanTitFuck: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.rating > 3)
-            return a;
+        return a.rating > 3;
     }
 
     public static readonly Fuckable: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.nipples.filter(Nipple.Fuckable).length > 0)
-            return a;
+        return a.nipples.filter(Nipple.Fuckable).length > 0;
     }
 
     public static readonly NotFuckable: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.nipples.filter(Nipple.NotFuckable).length > 0)
-            return a;
-    }
-
-    public static readonly PiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.nipples.filter(Nipple.PiercedNipples).length > 0)
-            return a;
-    }
-
-    public static readonly NotPiercedNipples: FilterOption<BreastRow> = (a: BreastRow) => {
-        if (a.nipples.filter(Nipple.NotPiercedNipples).length > 0)
-            return a;
+        return a.nipples.filter(Nipple.NotFuckable).length > 0;
     }
 
     public static readonly AverageRating: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {

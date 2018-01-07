@@ -1,5 +1,4 @@
 ﻿import Clit from './Clit';
-import Labia from './Labia';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import Utils from '../Utilities/Utils';
@@ -34,13 +33,11 @@ export default class Vagina implements ISerializable<Vagina> {
     }
 
     public static readonly Virgin: FilterOption<Vagina> = (a: Vagina) => {
-        if (a.virgin)
-            return a;
+        return a.virgin;
     }
 
     public static readonly NotVirgin: FilterOption<Vagina> = (a: Vagina) => {
-        if (!a.virgin)
-            return a;
+        return !a.virgin;
     }
 
     public static readonly AverageLooseness: ReduceOption<Vagina, number> = (previousValue: number, currentValue: Vagina, index: number, array: Vagina[]) => {
@@ -63,8 +60,6 @@ export default class Vagina implements ISerializable<Vagina> {
 
     // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
-    public readonly labia: Labia = new Labia();
-    public readonly clit: Clit = new Clit();
 
     public wetnessFactor(): number {
         if (this.wetness === VaginaWetness.DRY) return 1.25;
@@ -92,9 +87,7 @@ export default class Vagina implements ISerializable<Vagina> {
             virgin: this.virgin,
             vaginalWetness: this.wetness,
             vaginalLooseness: this.looseness,
-            fullness: this.fullness,
-            labia: this.labia.serialize(),
-            clit: this.clit.serialize()
+            fullness: this.fullness
         });
     }
 
@@ -105,8 +98,6 @@ export default class Vagina implements ISerializable<Vagina> {
         newVagina.wetness = saveObject.wetness;
         newVagina.looseness = saveObject.looseness;
         newVagina.fullness = saveObject.fullness;
-        newVagina.labia.deserialize(saveObject.labia);
-        newVagina.clit.deserialize(saveObject.clit);
         return newVagina;
     }
 }

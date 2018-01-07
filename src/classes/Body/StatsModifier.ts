@@ -336,7 +336,7 @@ export default class StatsModifier {
                 min += 30;
         }
         // SPOIDAH BOOSTS
-        for (const oviTail of this.body.torso.tailSpot.filter(Tail.HasOvipositor)) {
+        for (const oviTail of this.body.torso.tails.filter(Tail.HasOvipositor)) {
             if (oviTail.ovipositor.eggs >= 20) {
                 min += 10;
                 if (oviTail.ovipositor.eggs >= 40)

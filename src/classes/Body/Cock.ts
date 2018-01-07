@@ -1,4 +1,5 @@
-import Piercing from './Piercing';
+import PerkFactory from '../Effects/PerkFactory';
+import { PerkType } from '../Effects/PerkType';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
@@ -8,37 +9,12 @@ export enum CockType {
 }
 
 export default class Cock implements ISerializable<Cock> {
-    public static readonly HasSock: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasSock())
-            return a;
-    }
-
-    public static readonly HasSheath: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasSheath())
-            return a;
-    }
-
-    public static readonly HasKnot: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasKnot())
-            return a;
-    }
-
-    public static readonly CanAutoFellate: FilterOption<Cock> = (a: Cock) => {
-        if (a.canAutoFellate())
-            return a;
-    }
-
-    public static readonly HasCockRing: FilterOption<Cock> = (a: Cock) => {
-        if (a.hasSock() && a.sock === "cockring")
-            return a;
-    }
-
     public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return a.cockArea() - b.cockArea();
+        return a.area - b.area;
     }
 
     public static readonly LargestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
-        return b.cockArea() - a.cockArea();
+        return b.area - a.area;
     }
 
     public static readonly ShortestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
@@ -55,6 +31,26 @@ export default class Cock implements ISerializable<Cock> {
 
     public static readonly ThickestCocks: SortOption<Cock> = (a: Cock, b: Cock) => {
         return b.thickness - a.thickness;
+    }
+
+    public static readonly LargestKnot: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return a.knotMultiplier - b.knotMultiplier;
+    }
+
+    public static readonly SmallestKnot: SortOption<Cock> = (a: Cock, b: Cock) => {
+        return b.knotMultiplier - a.knotMultiplier;
+    }
+
+    public static readonly HasSheath: FilterOption<Cock> = (a: Cock) => {
+        return a.hasSheath();
+    }
+
+    public static readonly HasKnot: FilterOption<Cock> = (a: Cock) => {
+        return a.hasKnot();
+    }
+
+    public static readonly CanAutoFellate: FilterOption<Cock> = (a: Cock) => {
+        return a.canAutoFellate();
     }
 
     public static readonly TotalCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
@@ -77,15 +73,14 @@ export default class Cock implements ISerializable<Cock> {
     public thickness: number = 1;
     public type: CockType = CockType.HUMAN;
     public knotMultiplier: number = 1;
-    public readonly piercings: SerializableList<Piercing> = new SerializableList(new Piercing().deserialize);
-    public sock: string = "";
 
-    public cockArea(): number {
-        return this.thickness * this.length;
+    public constructor(length: number = 5.5, thickness: number = 1) {
+        this.length = length;
+        this.thickness = thickness;
     }
 
-    public hasSock(): boolean {
-        return this.sock !== ("");
+    public get area(): number {
+        return this.thickness * this.length;
     }
 
     public hasSheath(): boolean {
@@ -122,9 +117,7 @@ export default class Cock implements ISerializable<Cock> {
             length: this.length,
             thickness: this.thickness,
             type: this.type,
-            knotMultiplier: this.knotMultiplier,
-            piercings: this.piercings.serialize(),
-            sock: this.sock
+            knotMultiplier: this.knotMultiplier
         });
     }
 
@@ -134,8 +127,6 @@ export default class Cock implements ISerializable<Cock> {
         newCock.thickness = saveObject.thickness;
         newCock.type = saveObject.type;
         newCock.knotMultiplier = saveObject.knotMultiplier;
-        newCock.piercings.deserialize(saveObject.piercings);
-        newCock.sock = saveObject.sock;
         return newCock;
     }
 }

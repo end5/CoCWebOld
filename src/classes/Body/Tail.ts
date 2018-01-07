@@ -34,13 +34,11 @@ export default class Tail implements ISerializable<Tail> {
     }*/
 
     public static readonly HasLongTail: FilterOption<Tail> = (a: Tail) => {
-        if (a.hasLongTail())
-            return a;
+        return a.hasLongTail();
     }
 
     public static readonly HasOvipositor: FilterOption<Tail> = (a: Tail) => {
-        if (a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN)
-            return a;
+        return a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN;
     }
 
     public serialize(): string {

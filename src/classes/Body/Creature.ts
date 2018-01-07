@@ -21,7 +21,7 @@ export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
 
-export default class Creature implements ISerializable {
+export default class Creature implements ISerializable<Creature> {
     // Appearance Variables
     public gender: Gender = Gender.NONE;
     public tallness: number = 0;
@@ -40,7 +40,7 @@ export default class Creature implements ISerializable {
     public cumMultiplier: number = 1;
     public hoursSinceCum: number = 0;
 
-    public torso: Torso = new Torso(this);
+    public torso: Torso = new Torso();
     public pregnancy: PregnancyManager = new PregnancyManager(this);
 
     private baseStats: Stats = new Stats();
@@ -71,7 +71,7 @@ export default class Creature implements ISerializable {
     }
 
     public vaginalCapacity(): number {
-        if (this.torso.vaginaSpot.count > 0) {
+        if (this.torso.vaginas.count > 0) {
             let bonus: number = 0;
             // Centaurs = +50 capacity
             if (this.torso.hips.legs.type === LegType.CENTAUR)
@@ -93,8 +93,8 @@ export default class Creature implements ISerializable {
             if (this.perks.has(PerkType.FerasBoonMilkingTwat))
                 bonus += 40;
 
-            const loosestVagina = this.torso.vaginaSpot.sort(Vagina.LoosenessMost)[0];
-            const wettestVagina = this.torso.vaginaSpot.sort(Vagina.WetnessMost)[0];
+            const loosestVagina = this.torso.vaginas.sort(Vagina.LoosenessMost)[0];
+            const wettestVagina = this.torso.vaginas.sort(Vagina.WetnessMost)[0];
 
             return (bonus + this.statusAffects.get(StatusAffectType.BonusVCapacity).value1 + 8 * loosestVagina.looseness * loosestVagina.looseness) *
                 (1 + wettestVagina.wetness / 10);
@@ -121,7 +121,7 @@ export default class Creature implements ISerializable {
     // Calculate bonus virility rating!
     // anywhere from 5% to 100% of normal cum effectiveness thru herbs!
     public virilityQ(): number {
-        if (this.torso.cockSpot.count > 0) {
+        if (this.torso.cocks.count > 0) {
             let percent: number = 0.01;
             if (this.cumQ() >= 250)
                 percent += 0.01;
@@ -157,7 +157,7 @@ export default class Creature implements ISerializable {
 
     // Calculate cum return
     public cumQ(): number {
-        if (this.torso.cockSpot.count > 0) {
+        if (this.torso.cocks.count > 0) {
             let quantity: number = 0;
             // Base value is ballsize * ballQ * cumefficiency by a factor of 2.
             // Other things that affect it:
@@ -209,7 +209,7 @@ export default class Creature implements ISerializable {
         let total: number;
         if (!this.statusAffects.has(StatusAffectType.LactationEndurance))
             this.statusAffects.add(StatusAffectType.LactationEndurance, StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
-        total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.averageLactation() * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
+        total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.reduce(BreastRow.AverageLactation, 0) * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
         if (this.statusAffects.get(StatusAffectType.LactationReduction).value1 >= 48)
             total = total * 1.5;
         return total;
@@ -237,11 +237,11 @@ export default class Creature implements ISerializable {
     }
 
     public updateGender(): void {
-        if (this.torso.cockSpot.count > 0 && this.torso.vaginaSpot.count > 0)
+        if (this.torso.cocks.count > 0 && this.torso.vaginas.count > 0)
             this.gender = Gender.HERM;
-        else if (this.torso.cockSpot.count > 0)
+        else if (this.torso.cocks.count > 0)
             this.gender = Gender.MALE;
-        else if (this.torso.vaginaSpot.count > 0)
+        else if (this.torso.vaginas.count > 0)
             this.gender = Gender.FEMALE;
         else
             this.gender = Gender.NONE;
@@ -256,11 +256,11 @@ export default class Creature implements ISerializable {
     }
 
     public canGoIntoHeat() {
-        return this.torso.vaginaSpot.count > 0 && this.pregnancy.canKnockUp();
+        return this.torso.vaginas.count > 0 && this.pregnancy.canKnockUp();
     }
 
     public canGoIntoRut(): boolean {
-        return this.torso.cockSpot.count > 0;
+        return this.torso.cocks.count > 0;
     }
 
     public goIntoHeat(intensity: number = 1) {
