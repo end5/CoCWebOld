@@ -1,102 +1,106 @@
-import Item, { ItemName } from '../Items/Item';
+import ItemStack from './ItemStack';
+import Item from '../Items/Item';
 import ItemFactory from '../Items/ItemFactory';
-import ItemStack from '../Items/ItemStack';
-import { SerializeInterface } from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
+import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
+import SerializableList from '../Utilities/SerializableList';
 
-export default class Inventory<T extends Item> implements SerializeInterface {
-    private itemSlots: ItemStack<T>[];
-
-    public constructor() {
-        this.itemSlots = [];
-    }
+export default class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
+    private itemSlots: SerializableList<ItemStack<T>> = new SerializableList(ItemStack);
 
     public unlock(amount: number = 1) {
-        if (amount > 0) {
-            this.itemSlots.length += amount;
-
-            for (let index = 0; index < this.itemSlots.length; index++)
-                if (this.itemSlots[index] == undefined)
-                    this.itemSlots[index] = new ItemStack();
+        while (amount > 0) {
+            this.itemSlots.add(new ItemStack());
         }
     }
 
     public lock(amount: number = 1) {
-        if (amount > 0 && this.itemSlots.length - amount >= 0) {
-            this.itemSlots.length = amount;
+        while (amount > 0) {
+            this.itemSlots.remove(this.itemSlots.count - 1);
         }
     }
 
     public get slotCount(): number {
-        return this.itemSlots.length;
+        return this.itemSlots.count;
     }
 
     public isEmpty(): boolean {
-        for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].quantity != 0)
+        for (const itemStack of this.itemSlots) {
+            if (itemStack.quantity != 0)
                 return false;
         }
         return true;
     }
 
-    public has(itemName: ItemName): boolean {
-        for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].item.name == itemName)
-                return true;
-        }
-        return false;
+    public has(itemName: string): boolean {
+        return this.filterName(itemName).length > 0;
     }
 
     public get(index: number): ItemStack<T> {
-        if (index >= 0 && index < this.itemSlots.length) {
-            return this.itemSlots[index];
-        }
+        return this.itemSlots.get(index);
     }
 
-    public countName(itemName: ItemName): number {
-        let count: number = 0;
-        for (let index = 0; index < this.itemSlots.length; index++) {
-            if (this.itemSlots[index].item.name == itemName)
-                count += this.itemSlots[index].quantity;
-        }
-        return count;
+    /**
+     * Returns a sorted copy of the list using the provided sort option
+     * @param option SortOption
+     */
+    public sort(option: SortOption<ItemStack<T>>): ItemStack<T>[] {
+        return this.itemSlots.sort(option);
     }
 
-    public hasEmptySlot(): boolean {
-        for (let index = 0; index < this.itemSlots.length; index++)
-            if (this.itemSlots[index].quantity <= 0)
-                return true;
-        return false;
+    /**
+     * Returns a filtered copy of the list using the provided filter option
+     * @param option SortOption
+     */
+    public filter(option: FilterOption<ItemStack<T>>): ItemStack<T>[] {
+        return this.itemSlots.filter(option);
     }
 
-    public getEmptySlot(): ItemStack<Item> {
-        for (let index = 0; index < this.itemSlots.length; index++)
-            if (this.itemSlots[index].quantity <= 0)
-                return this.itemSlots[index];
-        return null;
+    /**
+     * Reduces the list using reduce option provided
+     * @param option SortOption
+     */
+    public reduce<U>(option: ReduceOption<ItemStack<T>, U>, initialValue: U): U {
+        return this.itemSlots.reduce(option, initialValue);
     }
 
-    private lowestQuantityItemStack(itemName: ItemName): ItemStack<Item>[] {
-        return this.itemSlots.filter((itemStack: ItemStack<Item>) => {
-            if (itemStack.item.name == itemName)
-                return itemStack;
-        }).sort((a: ItemStack<Item>, b: ItemStack<Item>) => {
-            return b.quantity - a.quantity;
+    public filterName(name: string): ItemStack<T>[] {
+        return this.filter((itemStack: ItemStack<T>) => {
+            return itemStack.item.name === name;
         });
     }
 
-    public consumeItem(itemName: ItemName, amount: number = 1) {
-        if (this.countName(itemName) >= amount) {
-            let lowestItemStacks: ItemStack<Item>[] = this.lowestQuantityItemStack(itemName);
-            while (amount > 0) {
-                if (lowestItemStacks[0].quantity == 0)
-                    lowestItemStacks = this.lowestQuantityItemStack(itemName);
+    public static TotalQuantity: ReduceOption<ItemStack<Item>, number> = (previousValue: number, currentValue: ItemStack<Item>, index: number, array: ItemStack<Item>[]) => {
+        return previousValue + currentValue.quantity;
+    };
 
-                if (amount > lowestItemStacks[0].quantity) {
-                    amount -= lowestItemStacks[0].quantity;
-                    lowestItemStacks[0].quantity = 0;
+    public static EmptySlot: FilterOption<ItemStack<Item>> = (a: ItemStack<Item>) => {
+        if (a.quantity === 0)
+            return true;
+    };
+
+    public static HighestQuantity: SortOption<ItemStack<Item>> = (a: ItemStack<Item>, b: ItemStack<Item>) => {
+        return a.quantity - b.quantity;
+    };
+
+    public static LowestQuantity: SortOption<ItemStack<Item>> = (a: ItemStack<Item>, b: ItemStack<Item>) => {
+        return b.quantity - a.quantity;
+    };
+
+    public consumeItem(itemName: string, amount: number = 1) {
+        if (this.filterName(itemName).length >= amount) {
+            const lowestItemStacks = this.filterName(itemName).sort(Inventory.LowestQuantity);
+            for (const itemStack of lowestItemStacks) {
+                if (itemStack.quantity === 0)
+                    continue;
+                if (amount === 0)
+                    break;
+                if (amount > itemStack.quantity) {
+                    amount -= itemStack.quantity;
+                    itemStack.quantity = 0;
                 }
                 else {
-                    lowestItemStacks[0].quantity -= amount;
+                    itemStack.quantity -= amount;
                     amount = 0;
                 }
             }
@@ -104,22 +108,12 @@ export default class Inventory<T extends Item> implements SerializeInterface {
     }
 
     public serialize(): string {
-        let saveObject: object = {};
-        saveObject["length"] = this.itemSlots.length;
-        for (let index = 0; index < this.itemSlots.length; index++) {
-            saveObject[index] = this.itemSlots[index].serialize();
-        }
-        return JSON.stringify(saveObject);
+        return JSON.stringify({
+            itemSlots: this.itemSlots.serialize()
+        });
     }
-    public deserialize(saveObject: object) {
-        if (!saveObject["length"] || saveObject["length"] < 0) {
-            console.error("Inventory amount non zero.");
-            return;
-        }
-        this.itemSlots = [];
-        for (let index = 0; index < saveObject["length"]; index++) {
-            this.itemSlots.push(new ItemStack());
-            this.itemSlots[index].deserialize(saveObject[index]);
-        }
+
+    public deserialize(saveObject: Inventory<T>) {
+        this.itemSlots.deserialize(saveObject.itemSlots);
     }
 }
