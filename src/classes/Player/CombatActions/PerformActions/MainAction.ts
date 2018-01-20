@@ -12,7 +12,7 @@ export default class MainAction implements CombatAction {
     }
 
     public canUse(character: Character, monster: Character): boolean {
-        let performActions = character.combat.perform;
+        const performActions = character.combat.perform;
         if (performActions.approach.canUse(character)) {
             this.name = performActions.approach.name;
             this.selectedAction = performActions.approach;

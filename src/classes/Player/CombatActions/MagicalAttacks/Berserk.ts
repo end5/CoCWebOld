@@ -19,8 +19,8 @@ export class Berserk implements CombatAction {
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear()
-        DisplayText.text("You roar and unleash your savage fury, forgetting about defense in order to destroy your foe!\n\n");
-        player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Berzerking, 0, 0, 0, 0));
+        DisplayText().clear();
+        DisplayText("You roar and unleash your savage fury, forgetting about defense in order to destroy your foe!\n\n");
+        player.statusAffects.set(StatusAffectType.Berzerking, StatusAffectFactory.create(StatusAffectType.Berzerking, 0, 0, 0, 0));
     }
 }

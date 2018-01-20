@@ -6,6 +6,7 @@ import Party from './Party';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import MainScreen from '../display/MainScreen';
+import Menus from '../display/Menus/Menus';
 import StatusAffect from '../Effects/StatusAffect';
 import Player from '../Player/Player';
 import Utils from '../Utilities/Utils';
@@ -44,9 +45,9 @@ export default class Encounter {
         const activeMember = this.allyParty.activePartyMember();
         // Should be:
         // activeMember == Game.player
-        if (activeMember.charType == CharacterType.Player) {
+        if (activeMember.charType === CharacterType.Player) {
             // player pick action
-            CombatMenu.display(this.player);
+            Menus.Combat.display(this.player);
         }
         else {
             //do ai
@@ -65,7 +66,6 @@ export default class Encounter {
     }
 
     /*private resolvePlayerRound() {
-        
         if (monster.statusAffects.has(StatusAffectType.Level)) {
             if (<SandTrap>monster.trapLevel() <= 1) {
                 this.playerCombatParty.lostFight(CombatEndType.Special, desert.sandTrapScene.sandtrapmentLoss);
@@ -74,31 +74,29 @@ export default class Encounter {
         else if (monster.charType == CharacterType.Basilisk && player.stats.spe <= 1) {
             this.playerCombatParty.lostFight(CombatEndType.Special, basilisk.scene.lost);
         }
-        
     }*/
 
-    private statusAffectUpdate(selectedChar: Character, allyParty: Character[], enemyParty: Character[]): void {
+    private combatEffectUpdate(selectedChar: Character, allyParty: Character[], enemyParty: Character[]): void {
         const allyChar: Character = allyParty[0];
         const enemyChar: Character = enemyParty[0];
 
-        allyChar.statusAffects.iterate((statusAffect: StatusAffect) => {
-            statusAffect.combatUpdate(selectedChar, enemyChar);
-        });
+        for (const combatEffect of selectedChar.combat.effects) {
+            combatEffect.update(selectedChar, enemyChar);
+        }
 
         CombatUtils.combatRegeneration(selectedChar);
     }
 
-
     private resolveEndTurn(character: Character) {
         if (this.allyPartyTurn) {
-            this.statusAffectUpdate(character, this.allyParty.ableMembers, this.enemyParty.ableMembers);
+            this.combatEffectUpdate(character, this.allyParty.ableMembers, this.enemyParty.ableMembers);
             this.allyParty.selectNextPartyMember();
         }
         else {
-            this.statusAffectUpdate(character, this.enemyParty.ableMembers, this.allyParty.ableMembers);
+            this.combatEffectUpdate(character, this.enemyParty.ableMembers, this.allyParty.ableMembers);
             this.enemyParty.selectNextPartyMember();
         }
-        if (this.allyParty.ableMembers.length == 0 || this.enemyParty.ableMembers.length == 0) {
+        if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
             this.displayDefeatEvent();
             if (this.combatCleanUp)
                 CombatCleanup.performCleanup(this.player, this.allyList, this.enemyList);
@@ -106,16 +104,15 @@ export default class Encounter {
     }
 
     private displayDefeatEvent() {
-        if (this.allyParty.ableMembers.length == 0) {
+        if (this.allyParty.ableMembers.length === 0) {
             if (this.enemyParty.partyEndScenes) {
                 this.enemyParty.partyEndScenes.victory(this.allyParty, this.enemyParty);
             }
             else {
                 if (this.allyParty.allMembers.length > 1) {
                     // Whoever defeated the player, that is the scene that is displayed
-                    for (let index: number = 0; index < this.enemyParty.defeatLog.length; index++) {
-                        let defeatEvent = this.allyParty.defeatLog[index];
-                        if (defeatEvent.loser.charType == CharacterType.Player) {
+                    for (const defeatEvent of this.enemyParty.defeatLog) {
+                        if (defeatEvent.loser.charType === CharacterType.Player) {
                             defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                         }
                     }
@@ -126,25 +123,24 @@ export default class Encounter {
                     */
                 }
                 else {
-                    let defeatEvent = this.enemyParty.defeatLog[0];
+                    const defeatEvent = this.enemyParty.defeatLog[0];
                     defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }
             }
         }
-        else if (this.enemyParty.ableMembers.length == 0) {
+        else if (this.enemyParty.ableMembers.length === 0) {
             if (this.allyParty.partyEndScenes) {
                 this.allyParty.partyEndScenes.victory(this.enemyParty, this.allyParty);
             }
             else {
                 if (this.enemyParty.allMembers.length > 1) {
                     // If multiple enemies lose, player picks one for end scene
-                    let nameList = [];
-                    let sceneList = [];
-                    for (let index: number = 0; index < this.enemyParty.defeatLog.length; index++) {
-                        let defeatEvent = this.enemyParty.defeatLog[index];
-                        if (defeatEvent.how != DefeatType.Escape) {
+                    const nameList = [];
+                    const sceneList = [];
+                    for (const defeatEvent of this.enemyParty.defeatLog) {
+                        if (defeatEvent.how !== DefeatType.Escape) {
                             nameList.push(defeatEvent.loser);
-                            sceneList.push(function () {
+                            sceneList.push(() => {
                                 defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                             });
                         }
@@ -153,9 +149,9 @@ export default class Encounter {
                     MainScreen.displayChoices(nameList, sceneList);
                 }
                 else {
-                    let defeatEvent = this.enemyParty.defeatLog[0];
+                    const defeatEvent = this.enemyParty.defeatLog[0];
                     defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
-                    if (defeatEvent.how != DefeatType.Escape)
+                    if (defeatEvent.how !== DefeatType.Escape)
                         CombatDrops.awardPlayer(this.player, defeatEvent.loser);
                 }
             }

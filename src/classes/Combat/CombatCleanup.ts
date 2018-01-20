@@ -7,22 +7,14 @@ import Game from '../Game/Game';
 import Player from '../Player/Player';
 
 export default class CombatCleanup {
-    private static clearCombatEffects(character: Character) {
-        let effects = character.combat.effects;
-        while (character.combat.effects.count() > 0) {
-            effects.remove(effects.at(0).type);
-        }
-    }
-
     public static performCleanup(player: Player, playerParty: Character[], monsterParty: Character[]) {
-        CombatCleanup.clearCombatEffects(player);
-        for (let index = 0; index < playerParty.length; index++) {
-            CombatCleanup.clearCombatEffects(playerParty[index]);
+        player.combat.effects.clear();
+        for (const member of playerParty) {
+            member.combat.effects.clear();
         }
-        for (let index = 0; index < monsterParty.length; index++) {
-            CombatCleanup.clearCombatEffects(monsterParty[index]);
+        for (const member of monsterParty) {
+            member.combat.effects.clear();
         }
-        
 
         // Really annoying and dont know how to handle or what does
         if (player.statusAffects.has(StatusAffectType.TwuWuv)) {

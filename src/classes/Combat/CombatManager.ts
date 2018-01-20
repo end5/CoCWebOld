@@ -2,6 +2,7 @@ import Encounter from './Encounter';
 import Party from './Party';
 import Character from '../Character/Character';
 import MainScreen, { TopButton } from '../display/MainScreen';
+import Menus from '../display/Menus/Menus';
 import { CombatAbilityFlag } from '../Effects/CombatAbilityFlag';
 import CombatEffectFactory from '../Effects/CombatEffectFactory';
 import { CombatEffectType } from '../Effects/CombatEffectType';
@@ -21,7 +22,7 @@ export default class CombatManager {
             MainScreen.getTopButton(TopButton.Appearance).hide();
             MainScreen.getTopButton(TopButton.PerkUp).hide();
             MainScreen.getTopButton(TopButton.Perks).hide();
-            //Flag the game as being "in combat"
+            // Flag the game as being "in combat"
             Game.inCombat = true;
             /*
             if (monster.desc.short == "Ember") {
@@ -29,7 +30,7 @@ export default class CombatManager {
                 monster.desc.objectivePronoun = emberScene.emberMF("him", "her");
                 monster.desc.possessivePronoun = emberScene.emberMF("his", "her");
             }*/
-            MainScreen.doNext(playerMenu);
+            MainScreen.doNext(Menus.Combat.display);
 
             CombatManager.loadPartyCombatEffects(CombatManager.encounter.allyParty);
             CombatManager.loadPartyCombatEffects(CombatManager.encounter.enemyParty);
@@ -37,27 +38,25 @@ export default class CombatManager {
     }
 
     private static loadPartyCombatEffects(party: Party) {
-        for (let index = 0; index < party.ableMembers.length; index++) {
-            CombatManager.loadCombatEffects(party.ableMembers[index]);
+        for (const member of party.ableMembers) {
+            CombatManager.loadCombatEffects(member);
         }
     }
 
     private static loadCombatEffects(character: Character) {
-        for (let index = 0; index < character.statusAffects.count(); index++) {
-            let type = character.statusAffects.at(index).type;
+        for (const type of character.statusAffects.keys()) {
             if (CombatEffectType[type] !== undefined)
-                character.combat.effects.add(CombatEffectFactory.create(CombatEffectType[type]));
+                character.combat.effects.set(CombatEffectType[type], CombatEffectFactory.create(CombatEffectType[type]));
         }
-        for (let index = 0; index < character.perks.count(); index++) {
-            let type = character.perks.at(index).type;
+        for (const type of character.perks.keys()) {
             if (CombatEffectType[type] !== undefined)
-                character.combat.effects.add(CombatEffectFactory.create(CombatEffectType[type]));
+                character.combat.effects.set(CombatEffectType[type], CombatEffectFactory.create(CombatEffectType[type]));
         }
     }
 
     private static isInParty(character: Character, party: Party): boolean {
-        for (let index = 0; index < party.allMembers.length; index++) {
-            if (party.allMembers[index] == character) {
+        for (const member of party.allMembers) {
+            if (member === character) {
                 return true;
             }
         }

@@ -12,7 +12,7 @@ export default class MoveAway implements CombatAction {
     }
 
     public canUse(character: Character, monster: Character): boolean {
-        let performActions = character.combat.perform;
+        const performActions = character.combat.perform;
         if (performActions.climb.canUse(character, monster)) {
             this.name = performActions.climb.name;
             this.selectedAction = performActions.climb;

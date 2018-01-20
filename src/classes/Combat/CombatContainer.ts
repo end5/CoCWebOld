@@ -17,7 +17,7 @@ export default class CombatContainer {
     public readonly rewards: CombatRewards;
 
     public readonly effects: CombatEffectList;
-    
+
     public grappledEnemy: Character;
 
     public constructor(character: Character, perform: ActionPerform, respond: ActionRespond, end: EndScenes) {
@@ -32,17 +32,17 @@ export default class CombatContainer {
     public hasSpells(): boolean {
         return this.spellCount() > 0;
     }
-    
+
     public spellCount(): number {
         return [StatusAffectType.KnowsArouse,
-            StatusAffectType.KnowsHeal,
-            StatusAffectType.KnowsMight,
-            StatusAffectType.KnowsCharge,
-            StatusAffectType.KnowsBlind,
-            StatusAffectType.KnowsWhitefire]
+        StatusAffectType.KnowsHeal,
+        StatusAffectType.KnowsMight,
+        StatusAffectType.KnowsCharge,
+        StatusAffectType.KnowsBlind,
+        StatusAffectType.KnowsWhitefire]
             .filter((name: StatusAffectType) => {
                 return this.character.statusAffects.has(name);
             })
             .length;
-    }    
+    }
 }

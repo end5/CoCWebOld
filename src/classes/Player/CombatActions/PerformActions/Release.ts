@@ -5,7 +5,7 @@ import { CombatEffectType } from '../../../Effects/CombatEffectType';
 export default class Release implements CombatAction {
     public name: string = "Release";
     public reasonCannotUse: string = "";
-    
+
     public isPossible(character: Character): boolean {
         return true;
     }

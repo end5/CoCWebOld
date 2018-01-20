@@ -5,10 +5,10 @@ import ChainedDrop from '../Utilities/ChainedDrop';
 import Utils from '../Utilities/Utils';
 
 export default abstract class CombatRewards extends CharacterHolder {
-    private _drop: ChainedDrop = new ChainedDrop();
-    public drop(): ChainedDrop { return this._drop; }
+    private chainedDrop: ChainedDrop = new ChainedDrop();
+    public drop(): ChainedDrop { return this.chainedDrop; }
     public addDrop(value: ChainedDrop) {
-        this._drop = value;
+        this.chainedDrop = value;
     }
 
     public XP(): number {

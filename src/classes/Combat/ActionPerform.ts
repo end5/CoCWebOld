@@ -24,7 +24,7 @@ export default interface ActionPerform {
     inspect: CombatAction;
 }
 
-/* 
+/*
     Old Menu Choice Locations
     0 - Approach, Recover, Struggle, Squeeze, Attack
     1 - Tease

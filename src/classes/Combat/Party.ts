@@ -28,8 +28,7 @@ export default class Party {
     }
 
     public resolveAttacker(attacker: Character) {
-        for (let index: number = 0; index < this.ableMembers.length; index++) {
-            const defender = this.ableMembers[index];
+        for (const defender of this.ableMembers) {
             if (defender.stats.HP < 1) {
                 attacker.combat.endScenes.claimsVictory(DefeatType.HP, defender);
                 this.defeatLog.push(new DefeatEvent(attacker, defender, DefeatType.HP));

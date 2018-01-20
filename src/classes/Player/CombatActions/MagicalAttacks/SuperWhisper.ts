@@ -4,14 +4,14 @@ import DisplayText from '../../../display/DisplayText';
 import { PerkType } from '../../../Effects/PerkType';
 import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Utils from '../../../Utilities/Utils';
+import { Utils } from '../../../Utilities/Utils';
 import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class SuperWhisperAttack extends PlayerSpellAction {
     public name: string = "Whisper";
     public readonly baseCost: number = 10;
-    
+
     public isPossible(player: Player): boolean {
         return player.perks.has(PerkType.Whispered);
     }
@@ -29,40 +29,40 @@ export class SuperWhisperAttack extends PlayerSpellAction {
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear();
-        if (monster.desc.short == "pod" || monster.stats.int == 0) {
-            DisplayText.text("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");
+        DisplayText().clear();
+        if (monster.desc.short === "pod" || monster.stats.int === 0) {
+            DisplayText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");
             player.stats.fatigue++;
             return;
         }
-        if (monster.charType == CharacterType.LivingStatue) {
-            DisplayText.text("There is nothing inside the golem to whisper to.");
+        if (monster.charType === CharacterType.LivingStatue) {
+            DisplayText("There is nothing inside the golem to whisper to.");
             player.stats.fatigue++;
             return;
         }
         player.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
-            DisplayText.text("As soon as your magic touches the multicolored shell around " + monster.desc.a+ monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
+            DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
         }
         if (monster.perks.has(PerkType.Focused)) {
-            if (!monster.desc.plural) 
-                DisplayText.text(monster.desc.capitalA + monster.desc.short + " is too focused for your whispers to influence!\n\n");
+            if (!monster.desc.plural)
+                DisplayText(monster.desc.capitalA + monster.desc.short + " is too focused for your whispers to influence!\n\n");
             return;
         }
-        //Enemy too strong or multiplesI think you 
+        // Enemy too strong or multiplesI think you
         if (player.stats.int < monster.stats.int || monster.desc.plural) {
-            DisplayText.text("You reach for your enemy's mind, but can't break through.\n");
+            DisplayText("You reach for your enemy's mind, but can't break through.\n");
             player.stats.fatigue += 10;
             return;
         }
-        //[Failure] 
-        if (Utils.rand(10) == 0) {
-            DisplayText.text("As you reach for your enemy's mind, you are distracted and the chorus of voices screams out all at once within your mind. You're forced to hastily silence the voices to protect yourself.");
+        // [Failure]
+        if (Utils.rand(10) === 0) {
+            DisplayText("As you reach for your enemy's mind, you are distracted and the chorus of voices screams out all at once within your mind. You're forced to hastily silence the voices to protect yourself.");
             player.stats.fatigue += 10;
             return;
         }
-        DisplayText.text("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
-        monster.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Fear, 1, 0, 0, 0));
+        DisplayText("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
+        monster.statusAffects.set(StatusAffectType.Fear, StatusAffectFactory.create(StatusAffectType.Fear, 1, 0, 0, 0));
     }
 }

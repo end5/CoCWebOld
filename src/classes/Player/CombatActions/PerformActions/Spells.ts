@@ -16,7 +16,7 @@ export default class Spells implements CombatAction {
     public reasonCannotUse: string = "";
 
     public isPossible(character: Character): boolean {
-        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Spells ? true : false;        
+        return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Spells ? true : false;
     }
 
     public canUse(character: Character, monster: Character): boolean {

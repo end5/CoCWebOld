@@ -4,7 +4,6 @@ import Party from './Party';
 import Character from '../Character/Character';
 
 export default abstract class PartyEndScenes extends CharacterHolder {
-
     /**
      * The default number of hours that pass when losing a fight.
      */
@@ -13,15 +12,15 @@ export default abstract class PartyEndScenes extends CharacterHolder {
     /**
      * Called before the victorious party scene function call. Used for any logic that needs to be done before
      * victorious party scene. (ie. worm infest)
-     * @param defeatedParty 
-     * @param victoriousParty 
+     * @param defeatedParty
+     * @param victoriousParty
      */
     protected abstract beforeVictoriousPartyScene(defeatedParty: Party, victoriousParty: Party): void;
 
     /**
      * Calls after combat is over. Used for displaying victory text.
-     * @param defeatedParty 
-     * @param victoriousParty 
+     * @param defeatedParty
+     * @param victoriousParty
      */
     protected abstract victoryScene(defeatedParty: Party, victoriousParty: Party): void;
 
@@ -32,11 +31,10 @@ export default abstract class PartyEndScenes extends CharacterHolder {
 
     /**
      * Used if you want to describe something happening after victorious party scene.
-     * @param loseType 
-     * @param enemy 
+     * @param loseType
+     * @param enemy
      */
     public abstract defeatAftermath(defeatedParty: Party, victoriousParty: Party): void;
 
     public abstract victoryAftermath(defeatedParty: Party, victoriousParty: Party): void;
-
 }

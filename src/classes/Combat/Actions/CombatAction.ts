@@ -5,7 +5,7 @@ export default interface CombatAction {
      * The name of the Combat Action.
      */
     name: string;
-    
+
     /**
      * The reason the Combat Action cannot be used.
      */

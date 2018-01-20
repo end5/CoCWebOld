@@ -16,8 +16,8 @@ export default class Approach implements CombatAction {
     }
 
     public use(character: Character, monster: Character) {
-        DisplayText.clear();
-        DisplayText.text("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
+        DisplayText().clear();
+        DisplayText("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
         character.combat.effects.remove(CombatEffectType.KnockedBack);
     }
 }

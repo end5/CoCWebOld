@@ -9,7 +9,7 @@ import Player from '../../Player';
 export class ShieldingSpell implements CombatAction {
     public name: string = "Shielding";
     public reasonCannotUse: string = "";
-    
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.ShieldingSpell);
     }
@@ -19,9 +19,9 @@ export class ShieldingSpell implements CombatAction {
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear();
-        DisplayText.text("You gather energy in your Talisman and unleash the spell contained within.  A barrier of light engulfs you, before turning completely transparent.  Your defense has been increased.\n\n");
-        player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Shielding, 0, 0, 0, 0));
+        DisplayText().clear();
+        DisplayText("You gather energy in your Talisman and unleash the spell contained within.  A barrier of light engulfs you, before turning completely transparent.  Your defense has been increased.\n\n");
+        player.statusAffects.set(StatusAffectType.Shielding, StatusAffectFactory.create(StatusAffectType.Shielding, 0, 0, 0, 0));
         player.statusAffects.remove(StatusAffectType.ShieldingSpell);
         arianScene.clearTalisman();
     }

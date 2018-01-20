@@ -2,7 +2,7 @@ import { FaceType } from '../../../Body/Face';
 import Character from '../../../Character/Character';
 import DisplayText from '../../../display/DisplayText';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Utils from '../../../Utilities/Utils';
+import { Utils } from '../../../Utilities/Utils';
 import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
@@ -12,7 +12,7 @@ export class Bite extends PlayerPhysicalAction {
     public baseCost: number = 25;
 
     public isPossible(player: Player): boolean {
-        return player.upperBody.head.face.faceType == FaceType.SHARK_TEETH;
+        return player.torso.neck.head.face.type === FaceType.SHARK_TEETH;
     }
 
     public canUse(player: Player, monster: Character): boolean {
@@ -20,8 +20,8 @@ export class Bite extends PlayerPhysicalAction {
             this.reasonCannotUse = "You're too fatigued to use your shark-like jaws!";
             return false;
         }
-        //Worms are special
-        if (monster.desc.short == "worms") {
+        // Worms are special
+        if (monster.desc.short === "worms") {
             this.reasonCannotUse = "There is no way those are going anywhere near your mouth!\n\n";
             return false;
         }
@@ -30,31 +30,31 @@ export class Bite extends PlayerPhysicalAction {
 
     public use(player: Player, monster: Character) {
         player.stats.fatiguePhysical(this.baseCost);
-        //Amily!
-        DisplayText.clear();
+        // Amily!
+        DisplayText().clear();
         if (monster.statusAffects.has(StatusAffectType.Concentration)) {
-            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
-        DisplayText.text("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
+        DisplayText("You open your mouth wide, your shark teeth extending out. Snarling with hunger, you lunge at your opponent, set to bite right into them!  ");
         if (player.statusAffects.has(StatusAffectType.Blind))
-            DisplayText.text("In hindsight, trying to bite someone while blind was probably a bad idea... ");
-        //Determine if dodged!
-        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(3) != 0) ||
+            DisplayText("In hindsight, trying to bite someone while blind was probably a bad idea... ");
+        // Determine if dodged!
+        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(3) !== 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Math.floor(Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
             if (monster.stats.spe - player.stats.spe < 8)
-                DisplayText.text(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");
+                DisplayText(monster.desc.capitalA + monster.desc.short + " narrowly avoids your attack!");
             if (monster.stats.spe - player.stats.spe >= 8 && monster.stats.spe - player.stats.spe < 20)
-                DisplayText.text(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!");
+                DisplayText(monster.desc.capitalA + monster.desc.short + " dodges your attack with superior quickness!");
             if (monster.stats.spe - player.stats.spe >= 20)
-                DisplayText.text(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.");
-            DisplayText.text("\n\n");
+                DisplayText(monster.desc.capitalA + monster.desc.short + " deftly avoids your slow attack.");
+            DisplayText("\n\n");
             return;
         }
-        //Determine damage - str modified by enemy toughness!
+        // Determine damage - str modified by enemy toughness!
         let damage: number = Math.floor((player.stats.str + 45) - Utils.rand(monster.stats.tou) - monster.combat.stats.defense());
 
-        //Deal damage and update based on perks
+        // Deal damage and update based on perks
         if (damage > 0) {
             damage *= monster.combat.stats.physicalAttackMod();
             damage = monster.combat.stats.loseHP(damage, player);
@@ -62,20 +62,20 @@ export class Bite extends PlayerPhysicalAction {
 
         if (damage <= 0) {
             damage = 0;
-            DisplayText.text("Your bite is deflected or blocked by " + monster.desc.a + monster.desc.short + ".");
+            DisplayText("Your bite is deflected or blocked by " + monster.desc.a + monster.desc.short + ".");
         }
         if (damage > 0 && damage < 10) {
-            DisplayText.text("You bite doesn't do much damage to " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
+            DisplayText("You bite doesn't do much damage to " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
         }
         if (damage >= 10 && damage < 20) {
-            DisplayText.text("You seriously wound " + monster.desc.a + monster.desc.short + " with your bite! (" + damage + ")");
+            DisplayText("You seriously wound " + monster.desc.a + monster.desc.short + " with your bite! (" + damage + ")");
         }
         if (damage >= 20 && damage < 30) {
-            DisplayText.text("Your bite staggers " + monster.desc.a + monster.desc.short + " with its force. (" + damage + ")");
+            DisplayText("Your bite staggers " + monster.desc.a + monster.desc.short + " with its force. (" + damage + ")");
         }
         if (damage >= 30) {
-            DisplayText.text("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
+            DisplayText("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
         }
-        DisplayText.text("\n\n");
+        DisplayText("\n\n");
     }
 }

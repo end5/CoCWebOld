@@ -1,15 +1,15 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
-import Utils from '../../../Utilities/Utils';
+import { Utils } from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class AnemoneSting implements CombatAction {
     public name: string = "AnemoneSting";
     public reasonCannotUse: string = "";
-    
+
     public isPossible(player: Player): boolean {
-        return player.upperBody.head.hairType == 4;
+        return player.torso.neck.head.hair.type === 4;
     }
 
     public canUse(player: Player): boolean {
@@ -17,33 +17,33 @@ export class AnemoneSting implements CombatAction {
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear();
-        //-sting with hair (combines both bee-sting effects, but weaker than either one separately):
-        //Fail!
-        //25% base fail chance
-        //Increased by 1% for every point over PC's speed
-        //Decreased by 1% for every inch of hair the PC has
-        const hairLength: number = player.upperBody.head.hairLength;
+        DisplayText().clear();
+        // -sting with hair (combines both bee-sting effects, but weaker than either one separately):
+        // Fail!
+        // 25% base fail chance
+        // Increased by 1% for every point over PC's speed
+        // Decreased by 1% for every inch of hair the PC has
+        const hairLength: number = player.torso.neck.head.hair.length;
         let prob: number = 70;
         if (monster.stats.spe > player.stats.spe)
             prob -= monster.stats.spe - player.stats.spe;
         prob += hairLength;
         if (prob <= Utils.rand(101)) {
-            //-miss a sting
-            if (monster.desc.plural) DisplayText.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch them with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.");
+            // -miss a sting
+            if (monster.desc.plural) DisplayText("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch them with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.");
             else
-                DisplayText.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch it with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.");
+                DisplayText("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch it with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodges.  Oy, you hope you didn't just give yourself whiplash.");
         }
-        //Success!
+        // Success!
         else {
-            DisplayText.text("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around like a genie");
-            DisplayText.text(", and manage to land a few swipes with your tentacles.  ");
-            if (monster.desc.plural) DisplayText.text("As the venom infiltrates " + monster.desc.possessivePronoun + " bodies, " + monster.desc.subjectivePronoun + " twitch and begin to move more slowly, hampered half by paralysis and half by arousal.");
+            DisplayText("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around like a genie");
+            DisplayText(", and manage to land a few swipes with your tentacles.  ");
+            if (monster.desc.plural) DisplayText("As the venom infiltrates " + monster.desc.possessivePronoun + " bodies, " + monster.desc.subjectivePronoun + " twitch and begin to move more slowly, hampered half by paralysis and half by arousal.");
             else
-                DisplayText.text("As the venom infiltrates " + monster.desc.possessivePronoun + " body, " + monster.desc.subjectivePronoun + " twitches and begins to move more slowly, hampered half by paralysis and half by arousal.");
-            //(decrease speed/str, increase lust)
-            //-venom capacity determined by hair length, 2-3 stings per level of length
-            //Each sting does 5-10 lust damage and 2.5-5 speed damage
+                DisplayText("As the venom infiltrates " + monster.desc.possessivePronoun + " body, " + monster.desc.subjectivePronoun + " twitches and begins to move more slowly, hampered half by paralysis and half by arousal.");
+            // (decrease speed/str, increase lust))
+            // -venom capacity determined by hair length, 2-3 stings per level of lengthh
+            // Each sting does 5-10 lust damage and 2.5-5 speed damagee
             let damage: number = 0;
             let damageMultiplier: number = 1 + Utils.rand(2);
             if (hairLength >= 12) damageMultiplier += 1 + Utils.rand(2);
@@ -57,11 +57,11 @@ export class AnemoneSting implements CombatAction {
             monster.stats.spe -= damage / 2;
             damage = monster.stats.lustVuln * damage;
             monster.stats.lust += damage;
-            //Clean up down to 1 decimal point
+            // Clean up down to 1 decimal pointt
             damage = Math.round(damage * 10) / 10;
-            DisplayText.text(" (" + damage + ")");
+            DisplayText(" (" + damage + ")");
         }
-        //New lines and moving on!
-        DisplayText.text("\n\n");
+        // New lines and moving on!!
+        DisplayText("\n\n");
     }
 }

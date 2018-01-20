@@ -4,7 +4,7 @@ import { CharacterType } from '../../../Character/CharacterType';
 import GenderDescriptor from '../../../Descriptors/GenderDescriptor';
 import DisplayText from '../../../display/DisplayText';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Utils from '../../../Utilities/Utils';
+import { Utils } from '../../../Utilities/Utils';
 import Player from '../../Player';
 import PlayerPhysicalAction from '../PlayerPhysicalAction';
 
@@ -14,7 +14,7 @@ export class SpiderBite extends PlayerPhysicalAction {
     public readonly baseCost: number = 10;
 
     public isPossible(player: Player): boolean {
-        return player.upperBody.head.face.faceType == FaceType.SPIDER_FANGS;
+        return player.torso.neck.head.face.type === FaceType.SPIDER_FANGS;
     }
 
     public canUse(player: Player): boolean {
@@ -22,43 +22,42 @@ export class SpiderBite extends PlayerPhysicalAction {
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear();
+        DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
-        //Amily!
+        // Amily!
         if (monster.statusAffects.has(StatusAffectType.Concentration)) {
-            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.");
+            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.");
             return;
         }
-        if (monster.charType == CharacterType.LivingStatue) {
-            DisplayText.text("Your fangs can't even penetrate the giant's flesh.");
+        if (monster.charType === CharacterType.LivingStatue) {
+            DisplayText("Your fangs can't even penetrate the giant's flesh.");
             return;
         }
-        //Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
+        // Works similar to bee stinger, must be regenerated over time. Shares the same poison-meter
         if (Utils.rand(player.stats.spe / 2 + 40) + 20 > monster.stats.spe / 1.5) {
-            //(if monster = demons)
-            if (monster.desc.short == "demons") DisplayText.text("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
-            //(Otherwise) 
+            // (if monster = demons)
+            if (monster.desc.short === "demons") DisplayText("You look at the crowd for a moment, wondering which of their number you should bite. Your glance lands upon the leader of the group, easily spotted due to his snakeskin cloak. You quickly dart through the demon crowd as it closes in around you and lunge towards the broad form of the leader. You catch the demon off guard and sink your needle-like fangs deep into his flesh. You quickly release your venom and retreat before he, or the rest of the group manage to react.");
+            // (Otherwise)
             else {
                 if (!monster.desc.plural)
-                    DisplayText.text("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manages to react.");
+                    DisplayText("You lunge at the foe headfirst, fangs bared. You manage to catch " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manages to react.");
                 else
-                    DisplayText.text("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manage to react.");
+                    DisplayText("You lunge at the foes headfirst, fangs bared. You manage to catch one of " + monster.desc.a + monster.desc.short + " off guard, your needle-like fangs penetrating deep into " + monster.desc.possessivePronoun + " body. You quickly release your venom, and retreat before " + monster.desc.a + monster.desc.subjectivePronoun + " manage to react.");
             }
-            //React
-            if (monster.stats.lustVuln == 0) DisplayText.text("  Your aphrodisiac toxin has no effect!");
+            // React
+            if (monster.stats.lustVuln === 0) DisplayText("  Your aphrodisiac toxin has no effect!");
             else {
                 if (monster.desc.plural)
-                    DisplayText.text("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
+                    DisplayText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
                 else
-                    DisplayText.text("  " + GenderDescriptor.mf(monster, "He", "She") + " flushes hotly and " + GenderDescriptor.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
+                    DisplayText("  " + GenderDescriptor.mf(monster, "He", "She") + " flushes hotly and " + GenderDescriptor.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
                 monster.stats.lust += 25 * monster.stats.lustVuln;
-                if (Utils.rand(5) == 0) monster.stats.lust += 25 * monster.stats.lustVuln;
+                if (Utils.rand(5) === 0) monster.stats.lust += 25 * monster.stats.lustVuln;
             }
         }
         else {
-            DisplayText.text("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, pushing you back out of range.");
+            DisplayText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, pushing you back out of range.");
         }
-        DisplayText.text("\n\n");
+        DisplayText("\n\n");
     }
 }
-

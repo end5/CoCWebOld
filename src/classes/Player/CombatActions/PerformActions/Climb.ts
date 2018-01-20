@@ -16,7 +16,7 @@ export default class Climb implements CombatAction {
 
     public use(character: Character, monster: Character) {
         if (monster.combat.effects.has(CombatEffectType.Level)) {
-            <SandTrap>monster.sandTrapWait();
+            (monster as Sandtrap).sandTrapWait();
         }
     }
 }

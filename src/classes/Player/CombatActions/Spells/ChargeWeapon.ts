@@ -8,7 +8,7 @@ import Player from '../../Player';
 export class ChargeWeapon extends WhiteMagic {
     public name: string = "Charge W.";
     public readonly baseCost: number = 15;
-    
+
     public isPossible(player: Player): boolean {
         return player.statusAffects.has(StatusAffectType.KnowsCharge);
     }
@@ -23,8 +23,8 @@ export class ChargeWeapon extends WhiteMagic {
 
     public castSpell(player: Player, monster: Character) {
         player.stats.fatigueMagic(this.baseCost);
-        DisplayText.clear();
-        DisplayText.text("You utter words of power, summoning an electrical charge around your " + player.inventory.weaponSlot.equipment.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
-        player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.ChargeWeapon, 10 * player.combat.stats.spellMod(), 0, 0, 0));
+        DisplayText().clear();
+        DisplayText("You utter words of power, summoning an electrical charge around your " + player.inventory.equipment.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
+        player.statusAffects.set(StatusAffectType.ChargeWeapon, StatusAffectFactory.create(StatusAffectType.ChargeWeapon, 10 * player.combat.stats.spellMod(), 0, 0, 0));
     }
 }

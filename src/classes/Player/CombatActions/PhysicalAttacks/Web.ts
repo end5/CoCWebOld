@@ -3,7 +3,7 @@ import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Utils from '../../../Utilities/Utils';
+import { Utils } from '../../../Utilities/Utils';
 import Player from '../../Player';
 
 export class Web implements CombatAction {
@@ -11,45 +11,45 @@ export class Web implements CombatAction {
     public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
 
     public isPossible(player: Player): boolean {
-        return player.lowerBody.tailType == TailType.SPIDER_ABDOMEN;
+        return player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length > 0;
     }
 
     public canUse(player: Player): boolean {
-        return player.lowerBody.tailVenom >= 33;
+        return player.torso.tails.filterType(TailType.SPIDER_ABDOMEN)[0].vemon >= 33;
     }
 
     public use(player: Player, monster: Character) {
-        DisplayText.clear();
-        player.lowerBody.tailVenom -= 33;
-        //Amily!
+        DisplayText().clear();
+        player.torso.tails.filterType(TailType.SPIDER_ABDOMEN)[0].vemon -= 33;
+        // Amily!
         if (monster.statusAffects.has(StatusAffectType.Concentration)) {
-            DisplayText.text("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
+            DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");
             return;
         }
-        //Blind
+        // Blind
         if (player.statusAffects.has(StatusAffectType.Blind)) {
-            DisplayText.text("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
+            DisplayText("You attempt to attack, but as blinded as you are right now, you doubt you'll have much luck!  ");
         }
-        else DisplayText.text("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
-        //Determine if dodged!
-        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) == 0) ||
+        else DisplayText("Turning and clenching muscles that no human should have, you expel a spray of sticky webs at " + monster.desc.a + monster.desc.short + "!  ");
+        // Determine if dodged!
+        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) === 0) ||
             (monster.stats.spe - player.stats.spe > 0 && Utils.rand(((monster.stats.spe - player.stats.spe) / 4) + 80) > 80)) {
-            DisplayText.text("You miss " + monster.desc.a + monster.desc.short + " completely - ");
-            DisplayText.text(monster.desc.subjectivePronoun + " moved out of the way!\n\n");
+            DisplayText("You miss " + monster.desc.a + monster.desc.short + " completely - ");
+            DisplayText(monster.desc.subjectivePronoun + " moved out of the way!\n\n");
             return;
         }
-        //Over-webbed
+        // Over-webbed
         if (monster.stats.spe < 1) {
-            if (!monster.desc.plural) DisplayText.text(monster.desc.capitalA + monster.desc.short + " is completely covered in webbing, but you hose " + monster.desc.objectivePronoun + " down again anyway.");
-            else DisplayText.text(monster.desc.capitalA + monster.desc.short + " are completely covered in webbing, but you hose them down again anyway.");
+            if (!monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " is completely covered in webbing, but you hose " + monster.desc.objectivePronoun + " down again anyway.");
+            else DisplayText(monster.desc.capitalA + monster.desc.short + " are completely covered in webbing, but you hose them down again anyway.");
         }
-        //LAND A HIT!
+        // LAND A HIT!
         else {
-            if (!monster.desc.plural) DisplayText.text("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
-            else DisplayText.text("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
+            if (!monster.desc.plural) DisplayText("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
+            else DisplayText("The adhesive strands cover " + monster.desc.a + monster.desc.short + " with restrictive webbing, greatly slowing " + monster.desc.objectivePronoun + ".");
             monster.stats.spe -= 45;
             if (monster.stats.spe < 0) monster.stats.spe = 0;
         }
-        DisplayText.text("\n\n");
+        DisplayText("\n\n");
     }
 }
