@@ -1,24 +1,17 @@
 import StatusAffect from './StatusAffect';
 import StatusAffectFactory from './StatusAffectFactory';
 import { StatusAffectType } from './StatusAffectType';
-import ComponentList from '../Utilities/ComponentList';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class StatusAffectList extends ComponentList<StatusAffect, StatusAffectType> {
-    public serialize(): string {
-        let saveObject = {};
-        for(let index = 0; index < this.count(); index++) {
-            let statusAffect = this.at(index);
-            saveObject[statusAffect.uniqueKey] = statusAffect.serialize();
-        }
-        return JSON.stringify(saveObject);
+export default class StatusAffectList extends SerializableDictionary<StatusAffect> {
+    public constructor() {
+        super();
     }
 
-    public deserialize(saveObject: object) {
-        this.clear();
+    public deserialize(saveObject: StatusAffectList) {
         for (const key of Object.keys(saveObject)) {
-            const newStatusAffect = StatusAffectFactory.create(saveObject[key]["type"]);
-            newStatusAffect.deserialize(saveObject[key]);
-            this.add(newStatusAffect);
+            this.set(key, StatusAffectFactory.create(saveObject[key].type));
+            this.get(key).deserialize(saveObject[key]);
         }
     }
 }

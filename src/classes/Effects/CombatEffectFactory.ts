@@ -4,7 +4,6 @@ import CombatEffects from './CombatEffects';
 import { CombatEffectType } from './CombatEffectType';
 import Character from '../Character/Character';
 import Game from '../Game/Game';
-import ConstructorLibrary from '../Utilities/ConstructorLibrary';
 import Dictionary from '../Utilities/Dictionary';
 
 interface CombatEffectConstructor {
@@ -18,86 +17,86 @@ interface CombatEffectConstructor {
     ): CombatEffect;
 }
 
-class CombatEffectConstructorLib extends ConstructorLibrary<CombatEffectConstructor> {
+class CombatEffectConstructorLib extends Dictionary<CombatEffectConstructor> {
     public constructor() {
         super();
-        this.add(CombatEffectType.AcidSlap, CombatEffects.AcidSlap);
-        this.add(CombatEffectType.AkbalSpeed, CombatEffects.AkbalSpeed);
-        this.add(CombatEffectType.AmilyVenom, CombatEffects.AmilyVenom);
-        this.add(CombatEffectType.AnemoneVenom, CombatEffects.AnemoneVenom);
-        this.add(CombatEffectType.BasiliskCompulsion, CombatEffects.BasiliskCompulsion);
-        this.add(CombatEffectType.BasiliskSlow, CombatEffects.BasiliskSlow);
-        this.add(CombatEffectType.Blind, CombatEffects.Blind);
-        this.add(CombatEffectType.Bound, CombatEffects.Bound);
-        this.add(CombatEffectType.CalledShot, CombatEffects.CalledShot);
-        this.add(CombatEffectType.CoonWhip, CombatEffects.CoonWhip);
-        this.add(CombatEffectType.DemonSeed, CombatEffects.DemonSeed);
-        this.add(CombatEffectType.Disarmed, CombatEffects.Disarmed);
-        this.add(CombatEffectType.DriderKiss, CombatEffects.DriderKiss);
-        this.add(CombatEffectType.Earthshield, CombatEffects.Earthshield);
-        this.add(CombatEffectType.GardenerSapSpeed, CombatEffects.GardenerSapSpeed);
-        this.add(CombatEffectType.GnollSpear, CombatEffects.GnollSpear);
-        this.add(CombatEffectType.GooArmorBind, CombatEffects.GooArmorBind);
-        this.add(CombatEffectType.GooArmorSilence, CombatEffects.GooArmorSilence);
-        this.add(CombatEffectType.HarpyBind, CombatEffects.HarpyBind);
-        this.add(CombatEffectType.Heat, CombatEffects.Heat);
-        this.add(CombatEffectType.HolliConstrict, CombatEffects.HolliConstrict);
-        this.add(CombatEffectType.IzmaBleed, CombatEffects.IzmaBleed);
-        this.add(CombatEffectType.KissOfDeath, CombatEffects.KissOfDeath);
-        this.add(CombatEffectType.LustAura, CombatEffects.LustAura);
-        this.add(CombatEffectType.LustStick, CombatEffects.LustStick);
-        this.add(CombatEffectType.LustStones, CombatEffects.LustStones);
-        this.add(CombatEffectType.Might, CombatEffects.Might);
-        this.add(CombatEffectType.MilkyUrta, CombatEffects.MilkyUrta);
-        this.add(CombatEffectType.NagaBind, CombatEffects.NagaBind);
-        this.add(CombatEffectType.NagaVenom, CombatEffects.NagaVenom);
-        this.add(CombatEffectType.PCTailTangle, CombatEffects.PCTailTangle);
-        this.add(CombatEffectType.ParalyzeVenom, CombatEffects.ParalyzeVenom);
-        this.add(CombatEffectType.Poison, CombatEffects.Poison);
-        this.add(CombatEffectType.QueenBind, CombatEffects.QueenBind);
-        this.add(CombatEffectType.Rut, CombatEffects.Rut);
-        this.add(CombatEffectType.Sandstorm, CombatEffects.Sandstorm);
-        this.add(CombatEffectType.Sealed, CombatEffects.Sealed);
-        this.add(CombatEffectType.Shell, CombatEffects.Shell);
-        this.add(CombatEffectType.StoneLust, CombatEffects.StoneLust);
-        this.add(CombatEffectType.Stunned, CombatEffects.Stunned);
-        this.add(CombatEffectType.SuccubusAura, CombatEffects.SuccubusAura);
-        this.add(CombatEffectType.TemporaryHeat, CombatEffects.TemporaryHeat);
-        this.add(CombatEffectType.TentacleBind, CombatEffects.TentacleBind);
-        this.add(CombatEffectType.TentacleCoolDown, CombatEffects.TentacleCoolDown);
-        this.add(CombatEffectType.ThroatPunch, CombatEffects.ThroatPunch);
-        this.add(CombatEffectType.Timer, CombatEffects.Timer);
-        this.add(CombatEffectType.UBERWEB, CombatEffects.UBERWEB);
-        this.add(CombatEffectType.Web, CombatEffects.Web);
-        this.add(CombatEffectType.WebSilence, CombatEffects.WebSilence);
+        this.set(CombatEffectType.AcidSlap, CombatEffects.AcidSlap);
+        this.set(CombatEffectType.AkbalSpeed, CombatEffects.AkbalSpeed);
+        this.set(CombatEffectType.AmilyVenom, CombatEffects.AmilyVenom);
+        this.set(CombatEffectType.AnemoneVenom, CombatEffects.AnemoneVenom);
+        this.set(CombatEffectType.BasiliskCompulsion, CombatEffects.BasiliskCompulsion);
+        this.set(CombatEffectType.BasiliskSlow, CombatEffects.BasiliskSlow);
+        this.set(CombatEffectType.Blind, CombatEffects.Blind);
+        this.set(CombatEffectType.Bound, CombatEffects.Bound);
+        this.set(CombatEffectType.CalledShot, CombatEffects.CalledShot);
+        this.set(CombatEffectType.CoonWhip, CombatEffects.CoonWhip);
+        this.set(CombatEffectType.DemonSeed, CombatEffects.DemonSeed);
+        this.set(CombatEffectType.Disarmed, CombatEffects.Disarmed);
+        this.set(CombatEffectType.DriderKiss, CombatEffects.DriderKiss);
+        this.set(CombatEffectType.Earthshield, CombatEffects.Earthshield);
+        this.set(CombatEffectType.GardenerSapSpeed, CombatEffects.GardenerSapSpeed);
+        this.set(CombatEffectType.GnollSpear, CombatEffects.GnollSpear);
+        this.set(CombatEffectType.GooArmorBind, CombatEffects.GooArmorBind);
+        this.set(CombatEffectType.GooArmorSilence, CombatEffects.GooArmorSilence);
+        this.set(CombatEffectType.HarpyBind, CombatEffects.HarpyBind);
+        this.set(CombatEffectType.Heat, CombatEffects.Heat);
+        this.set(CombatEffectType.HolliConstrict, CombatEffects.HolliConstrict);
+        this.set(CombatEffectType.IzmaBleed, CombatEffects.IzmaBleed);
+        this.set(CombatEffectType.KissOfDeath, CombatEffects.KissOfDeath);
+        this.set(CombatEffectType.LustAura, CombatEffects.LustAura);
+        this.set(CombatEffectType.LustStick, CombatEffects.LustStick);
+        this.set(CombatEffectType.LustStones, CombatEffects.LustStones);
+        this.set(CombatEffectType.Might, CombatEffects.Might);
+        this.set(CombatEffectType.MilkyUrta, CombatEffects.MilkyUrta);
+        this.set(CombatEffectType.NagaBind, CombatEffects.NagaBind);
+        this.set(CombatEffectType.NagaVenom, CombatEffects.NagaVenom);
+        this.set(CombatEffectType.PCTailTangle, CombatEffects.PCTailTangle);
+        this.set(CombatEffectType.ParalyzeVenom, CombatEffects.ParalyzeVenom);
+        this.set(CombatEffectType.Poison, CombatEffects.Poison);
+        this.set(CombatEffectType.QueenBind, CombatEffects.QueenBind);
+        this.set(CombatEffectType.Rut, CombatEffects.Rut);
+        this.set(CombatEffectType.Sandstorm, CombatEffects.Sandstorm);
+        this.set(CombatEffectType.Sealed, CombatEffects.Sealed);
+        this.set(CombatEffectType.Shell, CombatEffects.Shell);
+        this.set(CombatEffectType.StoneLust, CombatEffects.StoneLust);
+        this.set(CombatEffectType.Stunned, CombatEffects.Stunned);
+        this.set(CombatEffectType.SuccubusAura, CombatEffects.SuccubusAura);
+        this.set(CombatEffectType.TemporaryHeat, CombatEffects.TemporaryHeat);
+        this.set(CombatEffectType.TentacleBind, CombatEffects.TentacleBind);
+        this.set(CombatEffectType.TentacleCoolDown, CombatEffects.TentacleCoolDown);
+        this.set(CombatEffectType.ThroatPunch, CombatEffects.ThroatPunch);
+        this.set(CombatEffectType.Timer, CombatEffects.Timer);
+        this.set(CombatEffectType.UBERWEB, CombatEffects.UBERWEB);
+        this.set(CombatEffectType.Web, CombatEffects.Web);
+        this.set(CombatEffectType.WebSilence, CombatEffects.WebSilence);
 
         // Perks
-        this.add(CombatEffectType.ArousingAura, CombatEffects.ArousingAura);
+        this.set(CombatEffectType.ArousingAura, CombatEffects.ArousingAura);
     }
 }
 
 class AbilityFlagsLib extends Dictionary<CombatAbilityFlag> {
     public constructor() {
         super();
-        this.add(CombatEffectType.IsabellaStunned, CombatAbilityFlag.MainAction);
-        this.add(CombatEffectType.Stunned, CombatAbilityFlag.MainAction);
-        this.add(CombatEffectType.Whispered, CombatAbilityFlag.MainAction);
-        this.add(CombatEffectType.Confusion, CombatAbilityFlag.MainAction);
-        this.add(CombatEffectType.HarpyBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.GooBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.TentacleBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.NagaBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.QueenBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.PCTailTangle, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.HolliConstrict, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.GooArmorBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.Constricted, CombatAbilityFlag.MainAction | CombatAbilityFlag.Tease | CombatAbilityFlag.MoveAway);
-        this.add(CombatEffectType.Bound, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.MinotaurEntangled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.UBERWEB, CombatAbilityFlag.MainAction | CombatAbilityFlag.MagicSpec);
-        this.add(CombatEffectType.Chokeslam, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.Titsmother, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
-        this.add(CombatEffectType.Tentagrappled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.IsabellaStunned, CombatAbilityFlag.MainAction);
+        this.set(CombatEffectType.Stunned, CombatAbilityFlag.MainAction);
+        this.set(CombatEffectType.Whispered, CombatAbilityFlag.MainAction);
+        this.set(CombatEffectType.Confusion, CombatAbilityFlag.MainAction);
+        this.set(CombatEffectType.HarpyBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.GooBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.TentacleBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.NagaBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.QueenBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.PCTailTangle, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.HolliConstrict, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.GooArmorBind, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.Constricted, CombatAbilityFlag.MainAction | CombatAbilityFlag.Tease | CombatAbilityFlag.MoveAway);
+        this.set(CombatEffectType.Bound, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.MinotaurEntangled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.UBERWEB, CombatAbilityFlag.MainAction | CombatAbilityFlag.MagicSpec);
+        this.set(CombatEffectType.Chokeslam, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.Titsmother, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
+        this.set(CombatEffectType.Tentagrappled, CombatAbilityFlag.MainAction | CombatAbilityFlag.Wait);
     }
 }
 

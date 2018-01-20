@@ -1,6 +1,6 @@
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import CombatEffect from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 import { PerkType } from '../PerkType';
@@ -12,13 +12,13 @@ export class NagaVenom extends CombatEffect {
 
     public update(character: Character) {
         character.combat.stats.loseHP(2, null);
-        DisplayText.text("You wince in pain and try to collect yourself, the naga's venom still plaguing you.");
-        DisplayText.newParagraph();
+        DisplayText("You wince in pain and try to collect yourself, the naga's venom still plaguing you.");
+        DisplayText("\n\n");
         if (character.perks.has(PerkType.Medicine) && Utils.rand(100) <= 14) {
             character.stats.spe += character.combat.effects.get(CombatEffectType.NagaVenom).value1;
             character.combat.effects.remove(CombatEffectType.NagaVenom);
-            DisplayText.text("You manage to cleanse the naga venom from your system with your knowledge of medicine!");
-            DisplayText.newParagraph();
+            DisplayText("You manage to cleanse the naga venom from your system with your knowledge of medicine!");
+            DisplayText("\n\n");
         }
         else if (character.stats.spe > 3) {
             character.combat.effects.get(CombatEffectType.NagaVenom).value1 += 2;

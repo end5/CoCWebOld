@@ -166,7 +166,6 @@ export enum PerkType {
     CleansingPalm = "CleansingPalm",
     Enlightened = "Enlightened",
 
-
     // Monster perks
     Acid = "Acid",
 

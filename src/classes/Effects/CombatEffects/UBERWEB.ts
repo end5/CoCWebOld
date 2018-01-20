@@ -5,7 +5,7 @@ import CombatEffectFactory from '../CombatEffectFactory';
 
 export class UBERWEB extends CombatEffect {
     public update(character: Character) {
-        DisplayText.bold("You're pinned under a pile of webbing!  You should probably struggle out of it and get back in the fight!");
-        DisplayText.newParagraph();
+        DisplayText("You're pinned under a pile of webbing!  You should probably struggle out of it and get back in the fight!").bold();
+        DisplayText("\n\n");
     }
 }

@@ -12,7 +12,7 @@ export default class StatusAffect extends Effect {
         value3: number = 0,
         value4: number = 0
     ) {
-        super(type, desc, value1, value2, value3, value4);
+        super(desc, value1, value2, value3, value4);
         this.type = type;
     }
 }

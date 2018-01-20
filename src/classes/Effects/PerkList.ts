@@ -1,24 +1,16 @@
 import Perk from './Perk';
 import PerkFactory from './PerkFactory';
-import { PerkType } from './PerkType';
-import ComponentList from '../Utilities/ComponentList';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class PerkList extends ComponentList<Perk, PerkType> {
-    public serialize(): string {
-        let saveObject = {};
-        for(let index = 0; index < this.count(); index++) {
-            let perk = this.at(index);
-            saveObject[perk.uniqueKey] = perk.serialize();
-        }
-        return JSON.stringify(saveObject);
+export default class PerkList extends SerializableDictionary<Perk> {
+    public constructor() {
+        super();
     }
-    
-    public deserialize(saveObject: object) {
-        this.clear();
+
+    public deserialize(saveObject: PerkList) {
         for (const key of Object.keys(saveObject)) {
-            const newPerk = PerkFactory.create(saveObject[key]["type"]);
-            newPerk.deserialize(saveObject[key]);
-            this.add(newPerk);
+            this.set(key, PerkFactory.create(saveObject[key].type));
+            this.get(key).deserialize(saveObject[key]);
         }
     }
 }

@@ -3,17 +3,17 @@ import CombatEffect from './CombatEffect';
 import CombatEffectFactory from './CombatEffectFactory';
 import { CombatEffectType } from './CombatEffectType';
 import Character from '../Character/Character';
-import ComponentList from '../Utilities/ComponentList';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class CombatEffectList extends ComponentList<CombatEffect, CombatEffectType> {
+export default class CombatEffectList extends SerializableDictionary<CombatEffect> {
     private character: Character;
     public constructor(character: Character) {
         super();
         this.character = character;
     }
 
-    public add(combatEffect: CombatEffect) {
-        super.add(combatEffect);
+    public set(type: CombatEffectType, combatEffect: CombatEffect) {
+        super.set(type, combatEffect);
         combatEffect.onAdd(this.character);
     }
 
@@ -24,10 +24,17 @@ export default class CombatEffectList extends ComponentList<CombatEffect, Combat
         super.remove(type);
     }
 
+    public clear() {
+        for (const key of Object.keys(this.dictionary)) {
+            this.remove(key as CombatEffectType);
+        }
+        super.clear();
+    }
+
     public get combatAbilityFlag(): CombatAbilityFlag {
         let flag = CombatAbilityFlag.All;
-        for(let index = 0; index < this.count(); index++) {
-            flag &= this.at(index).abilityFlag;
+        for (const combatAbility of this) {
+            flag &= combatAbility.abilityFlag;
         }
         return flag;
     }

@@ -135,8 +135,10 @@ export enum StatusAffectType {
     SuccubiNight = "SuccubiNight",
     TakenGroPlus = "TakenGroPlus",
     TakenLactaid = "TakenLactaid",
-    Tamani = "Tamani",									//Used only for compatibility with old save files, otherwise no longer in use
-    TamaniFemaleEncounter = "TamaniFemaleEncounter",	//Used only for compatibility with old save files, otherwise no longer in use
+    // Used only for compatibility with old save files, otherwise no longer in use
+    Tamani = "Tamani",
+    // Used only for compatibility with old save files, otherwise no longer in use
+    TamaniFemaleEncounter = "TamaniFemaleEncounter",
     TelAdre = "TelAdre",
     TentacleBadEndCounter = "TentacleBadEndCounter",
     TentacleJojo = "TentacleJojo",

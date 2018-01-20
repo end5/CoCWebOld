@@ -19,7 +19,7 @@ export default class CombatEffect extends Effect {
         abilityFlag: CombatAbilityFlag = CombatAbilityFlag.All,
         inflictedBy: Character = null
     ) {
-        super(type, new EffectDescription(type, type, ""), value1, value2, value3, value4);
+        super(new EffectDescription(type, type, ""), value1, value2, value3, value4);
         this.type = type;
         this.abilityFlag = abilityFlag;
         this.inflictedBy = inflictedBy;

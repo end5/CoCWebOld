@@ -4,7 +4,7 @@ import CombatEffect from '../CombatEffect';
 
 export class HolliConstrict extends CombatEffect {
     public update(character: Character) {
-        DisplayText.bold("You're tangled up in Holli's verdant limbs!  All you can do is try to struggle free...");
-        DisplayText.newParagraph();
+        DisplayText("You're tangled up in Holli's verdant limbs!  All you can do is try to struggle free...").bold();
+        DisplayText("\n\n");
     }
 }

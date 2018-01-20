@@ -127,11 +127,10 @@ export enum CombatEffectType {
 
     SuccubusAura = "SuccubusAura",
 
-
     Heat = "Heat",
     LustStick = "LustStick",
     Rut = "Rut",
 
     // Perks
-    ArousingAura = "ArousingAura"    
+    ArousingAura = "ArousingAura"
 }

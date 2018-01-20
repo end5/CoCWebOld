@@ -2,7 +2,6 @@ import Perk from './Perk';
 import PerkDesc from './PerkDesc';
 import PerkDescLib from './PerkDescLib';
 import { PerkType } from './PerkType';
-import ConstructorLibrary from '../Utilities/ConstructorLibrary';
 
 interface PerkConstructor {
     new(perkType: PerkType, desc: PerkDesc, value1: number, value2: number, value3: number, value4: number): Perk;
