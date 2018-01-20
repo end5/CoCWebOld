@@ -1,14 +1,14 @@
-import IObservable from './IObservable';
-import IObserver from './IObserver';
+import IObservableList from './IObservableList';
+import IObserverList from './IObserverList';
 import List from './list';
 
-export default class ObservableList<T> extends List<T> implements IObservable {
-    private observerList: IObserver[] = [];
-    public attach(observer: IObserver) {
+export default class ObservableList<T> extends List<T> implements IObservableList<T> {
+    private observerList: IObserverList<T>[] = [];
+    public attach(observer: IObserverList<T>) {
         this.observerList.push(observer);
     }
 
-    public detach(observer: IObserver) {
+    public detach(observer: IObserverList<T>) {
         this.observerList.splice(this.observerList.indexOf(observer), 1);
     }
 
@@ -18,18 +18,36 @@ export default class ObservableList<T> extends List<T> implements IObservable {
         }
     }
 
+    public notifyAdd(item: T) {
+        for (const observer of this.observerList) {
+            observer.onAdd(item);
+        }
+    }
+
+    public notifyRemove(index: number) {
+        for (const observer of this.observerList) {
+            observer.onRemove(index);
+        }
+    }
+
+    public notifyClear() {
+        for (const observer of this.observerList) {
+            observer.onClear();
+        }
+    }
+
     public add(item: T) {
         super.add(item);
-        this.notify("add");
+        this.notifyAdd(item);
     }
 
     public remove(index: number) {
         super.remove(index);
-        this.notify("remove " + index);
+        this.notifyRemove(index);
     }
 
     public clear() {
         super.clear();
-        this.notify("clear");
+        this.notifyClear();
     }
 }

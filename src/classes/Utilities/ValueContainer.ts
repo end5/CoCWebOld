@@ -1,3 +1,4 @@
+import { Utils } from './Utils';
 import ISerializable from '../Utilities/ISerializable';
 
 export default abstract class ValueContainer implements ISerializable<ValueContainer> {

@@ -2,16 +2,16 @@ import ObservableList from './ObserverableList';
 import ISerializable from '../Utilities/ISerializable';
 
 export default class SerializableList<Entry extends ISerializable<Entry>> extends ObservableList<Entry> implements ISerializable<SerializableList<Entry>> {
-    protected deserializer: (saveObject: object) => Entry;
+    protected entryConstructor: new () => Entry;
 
-    public constructor(deserializer?: (saveObject: object) => Entry) {
+    public constructor(entryConstructor?: new () => Entry) {
         super();
-        this.deserializer = deserializer;
+        this.entryConstructor = entryConstructor;
     }
 
     public serialize(): string {
         const saveObject: object = {};
-        if (this.deserializer)
+        if (this.entryConstructor)
             for (let index = 0; index < this.list.length; index++) {
                 saveObject[index] = this.list[index].serialize();
             }
@@ -23,17 +23,18 @@ export default class SerializableList<Entry extends ISerializable<Entry>> extend
         return JSON.stringify(saveObject);
     }
 
-    public deserialize(saveObject: object): SerializableList<Entry> {
+    public deserialize(saveObject: object) {
         const newList = [];
         for (let index = 0; saveObject[index] !== undefined; index++) {
-            if (this.constructor) {
-                newList.push(this.deserializer(saveObject[index]));
+            if (this.entryConstructor) {
+                const newEntry = new this.entryConstructor();
+                newEntry.deserialize(saveObject[index]);
+                newList[index] = newEntry;
             }
             else {
                 newList[index] = saveObject[index];
             }
         }
         this.list = newList;
-        return this;
     }
 }

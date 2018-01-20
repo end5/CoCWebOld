@@ -2,26 +2,27 @@
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
 
-export default class List<T> implements Iterable<T> {
-    protected list: T[] = [];
+export default class List<Entry> implements Iterable<Entry> {
+    protected list: Entry[] = [];
+    private minLength: number = 0;
 
-    public add(item: T) {
+    public add(item: Entry) {
         this.list.push(item);
     }
 
     public remove(index: number) {
-        if (index >= 0 && index < this.list.length)
+        if (index >= 0 && index < this.list.length && this.minLength <= this.list.length - 1)
             this.list.splice(index, 1);
     }
 
-    public get(index: number): T {
+    public get(index: number): Entry {
         if (index >= 0 && index < this.list.length)
             return this.list[index];
         console.error("Array index out of bounds");
         return null;
     }
 
-    public indexOf(object: T): number {
+    public indexOf(object: Entry): number {
         return this.list.indexOf(object);
     }
 
@@ -33,11 +34,15 @@ export default class List<T> implements Iterable<T> {
         return this.list.length;
     }
 
+    public set minCount(min: number) {
+        this.minLength = min;
+    }
+
     /**
      * Returns a sorted copy of the list using the provided sort option
      * @param option SortOption
      */
-    public sort(option: SortOption<T>): T[] {
+    public sort(option: SortOption<Entry>): Entry[] {
         return this.list.slice().sort(option);
     }
 
@@ -45,7 +50,7 @@ export default class List<T> implements Iterable<T> {
      * Returns a filtered copy of the list using the provided filter option
      * @param option SortOption
      */
-    public filter(option: FilterOption<T>): T[] {
+    public filter(option: FilterOption<Entry>): Entry[] {
         return this.list.filter(option);
     }
 
@@ -53,19 +58,19 @@ export default class List<T> implements Iterable<T> {
      * Reduces the list using reduce option provided
      * @param option SortOption
      */
-    public reduce<U>(option: ReduceOption<T, U>, initialValue: U): U {
+    public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U {
         return this.list.reduce(option, initialValue);
     }
 
-    public [Symbol.iterator](): Iterator<T> {
+    public [Symbol.iterator](): Iterator<Entry> {
         let counter = 0;
-        const list = this.list;
+        const storedList = this.list;
 
         return {
-            next(): IteratorResult<T> {
+            next(): IteratorResult<Entry> {
                 return {
-                    done: counter === list.length,
-                    value: list[counter++]
+                    done: counter === storedList.length,
+                    value: storedList[counter++]
                 };
             }
         };
