@@ -2,7 +2,7 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class PurityPeach extends Consumable {
@@ -11,8 +11,8 @@ export default class PurityPeach extends Consumable {
     }
 
     public use(player: Player) {
-        DisplayText.clear();
-        DisplayText.text("You bite into the sweet, juicy peach, feeling a sensation of energy sweeping through your limbs and your mind.  You feel revitalized, refreshed, and somehow cleansed.");
+        DisplayText().clear();
+        DisplayText("You bite into the sweet, juicy peach, feeling a sensation of energy sweeping through your limbs and your mind.  You feel revitalized, refreshed, and somehow cleansed.");
         player.stats.fatigue -= 15;
         player.stats.HP += Math.round(player.stats.maxHP() * 0.25);
     }

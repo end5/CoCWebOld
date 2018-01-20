@@ -1,5 +1,4 @@
-import Player from '../Player/Player';
-import LibraryEntry from '../Utilities/LibraryEntry';
+import Character from '../Character/Character';
 
 export default class ItemDesc {
     public readonly shortName: string;  // Short name to be displayed on buttons
@@ -12,7 +11,7 @@ export default class ItemDesc {
         this.detailedDesc = detailedDesc || this.longName;
     }
 
-    public description(player?: Player): string {
+    public description(character?: Character): string {
         return this.detailedDesc;
     }
 }

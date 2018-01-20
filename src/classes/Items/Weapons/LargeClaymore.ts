@@ -13,13 +13,7 @@ export default class LargeClaymore extends Weapon {
     public canUse(player: Player): boolean {
         if (player.stats.str >= 40)
             return true;
-        DisplayText.text("You aren't strong enough to handle such a heavy weapon!  ");
+        DisplayText("You aren't strong enough to handle such a heavy weapon!  ");
         return false;
     }
-    
-    public equip(character: Character): void { }
-    public unequip(character: Character): void { }
-    public equipText(): void { }
-    public unequipText(): void { }
-    public use(player: Player) { }
 }

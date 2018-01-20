@@ -11,18 +11,14 @@ export default class WizardsStaff extends Weapon {
         super(WeaponName.WizardsStaff, new ItemDesc("W. Staff", "a wizard's staff", "This staff is made of very old wood and seems to tingle to the touch.  The top has an odd zig-zag shape to it, and the wood is worn smooth from lots of use.  It probably belonged to a wizard at some point and would aid magic use."), "wizard's staff", "smack", 3, 350, "Wizard's Focus");
     }
 
-    public equip(character: Character): void {
+    public onEquip(character: Character): void {
         while (character.perks.has(PerkType.WizardsFocus))
             character.perks.remove(PerkType.WizardsFocus);
-        character.perks.add(PerkFactory.create(PerkType.WizardsFocus, 0.4, 0, 0, 0));
+        character.perks.set(PerkType.WizardsFocus, PerkFactory.create(PerkType.WizardsFocus, 0.4, 0, 0, 0));
     }
 
-    public unequip(character: Character): void {
+    public onUnequip(character: Character): void {
         while (character.perks.has(PerkType.WizardsFocus))
             character.perks.remove(PerkType.WizardsFocus);
     }
-
-    public equipText(): void { }
-    public unequipText(): void { }
-    public use(player: Player) { }
 }

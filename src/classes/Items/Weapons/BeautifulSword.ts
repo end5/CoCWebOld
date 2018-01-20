@@ -18,13 +18,7 @@ export default class BeautifulSword extends Weapon {
     public canUse(player: Player): boolean {
         if (player.stats.cor < 35)
             return true;
-        DisplayText.text("You grab hold of the handle of the sword only to have it grow burning hot.  You're forced to let it go lest you burn yourself.  Something within the sword must be displeased.  ");
+        DisplayText("You grab hold of the handle of the sword only to have it grow burning hot.  You're forced to let it go lest you burn yourself.  Something within the sword must be displeased.  ");
         return false;
     }
-
-    public equip(character: Character): void {}
-    public unequip(character: Character): void {}
-    public equipText(): void {}
-    public unequipText(): void {}
-    public use(player: Player) {}
 }

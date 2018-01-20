@@ -3,26 +3,25 @@ import ConsumableName from './ConsumableName';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export enum HairDyeType {
     Auburn,
     Black,
-	Blonde,
-	DarkBlue,
-	Brown,
-	Gray,
-	Green,
-	BrightOrange,
-	NeonPink,
-	Purple,
-	Red,
-	White
+    Blonde,
+    DarkBlue,
+    Brown,
+    Gray,
+    Green,
+    BrightOrange,
+    NeonPink,
+    Purple,
+    Red,
+    White
 }
 
 export default class HairDye extends Consumable {
-    private type: HairDyeType;
     public constructor(type: HairDyeType) {
         switch (type) {
             case HairDyeType.Auburn:
@@ -63,54 +62,53 @@ export default class HairDye extends Consumable {
                 super(ConsumableName.HairDyeWhite, new ItemDesc("WhiteDy", "a vial of white hair dye", "This bottle of dye will allow you to change the color of your hair.  Of course if you don't have hair, using this would be a waste."));
                 break;
         }
-        this.type = type;
     }
 
-    private getColor(type: HairDyeType): string {
-        switch (type) {
-            case HairDyeType.Auburn:
+    private getColor(): string {
+        switch (this.name) {
+            case ConsumableName.HairDyeAuburn:
                 return "auburn";
-            case HairDyeType.Black:
+            case ConsumableName.HairDyeBlack:
                 return "black";
-            case HairDyeType.Blonde:
+            case ConsumableName.HairDyeBlonde:
                 return "blonde";
-            case HairDyeType.DarkBlue:
+            case ConsumableName.HairDyeDarkBlue:
                 return "dark blue";
-            case HairDyeType.Brown:
+            case ConsumableName.HairDyeBrown:
                 return "brown";
-            case HairDyeType.Gray:
+            case ConsumableName.HairDyeGray:
                 return "gray";
-            case HairDyeType.Green:
+            case ConsumableName.HairDyeGreen:
                 return "green";
-            case HairDyeType.BrightOrange:
+            case ConsumableName.HairDyeBrightOrange:
                 return "bright orange";
-            case HairDyeType.NeonPink:
+            case ConsumableName.HairDyeNeonPink:
                 return "neon pink";
-            case HairDyeType.Purple:
+            case ConsumableName.HairDyePurple:
                 return "purple";
-            case HairDyeType.Red:
+            case ConsumableName.HairDyeRed:
                 return "red";
             default:
-            case HairDyeType.White:
+            case ConsumableName.HairDyeWhite:
                 return "white";
         }
     }
 
     public use(player: Player) {
-            DisplayText.clear();
-        if (player.upperBody.head.hairColor.indexOf("rubbery") != -1 || player.upperBody.head.hairColor.indexOf("latex-textured") != -1) {
-            DisplayText.text("You massage the dye into your " + HeadDescriptor.describeHair(player) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
+        DisplayText().clear();
+        if (player.torso.neck.head.hair.color.indexOf("rubbery") !== -1 || player.torso.neck.head.hair.color.indexOf("latex-textured") !== -1) {
+            DisplayText("You massage the dye into your " + HeadDescriptor.describeHair(player) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
             return;
         }
-        if (player.upperBody.head.hairLength == 0) {
-            DisplayText.text("You rub the dye into your bald head, but it has no effect.");
+        if (player.torso.neck.head.hair.length === 0) {
+            DisplayText("You rub the dye into your bald head, but it has no effect.");
             return;
         }
-        DisplayText.text("You rub the dye into your " + HeadDescriptor.describeHair(player) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
-        player.upperBody.head.hairColor = this.getColor(this.type);
-        DisplayText.text("You now have " + HeadDescriptor.describeHair(player) + ".");
+        DisplayText("You rub the dye into your " + HeadDescriptor.describeHair(player) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
+        player.torso.neck.head.hair.color = this.getColor();
+        DisplayText("You now have " + HeadDescriptor.describeHair(player) + ".");
         if (player.stats.lust > 50) {
-            DisplayText.text("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
+            DisplayText("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
             player.stats.lust += -15;
         }
     }

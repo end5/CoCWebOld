@@ -5,7 +5,7 @@ import StatusAffect from '../../Effects/StatusAffect';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class HerbalContraceptive extends Consumable {
@@ -14,11 +14,11 @@ export default class HerbalContraceptive extends Consumable {
     }
 
     public use(player: Player) {
-        DisplayText.clear();
-        
-        // Placeholder, sue me
-        DisplayText.text("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
+        DisplayText().clear();
 
-        player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.Contraceptives, 1, 48, 0, 0));
+        // Placeholder, sue me
+        DisplayText("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
+
+        player.statusAffects.set(StatusAffectType.Contraceptives, StatusAffectFactory.create(StatusAffectType.Contraceptives, 1, 48, 0, 0));
     }
 }

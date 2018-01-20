@@ -6,7 +6,7 @@ import PerkFactory from '../../Effects/PerkFactory';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
-export default abstract class ArmorWithPerk extends Armor {
+export default class ArmorWithPerk extends Armor {
     public readonly perk: Perk;
 
     public constructor(name: ArmorName, desc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {
@@ -14,26 +14,15 @@ export default abstract class ArmorWithPerk extends Armor {
         this.perk = perk;
     }
 
-    public equip(character: Character): void {
+    public onEquip(character: Character): void {
         while (character.perks.has(this.perk.type))
             character.perks.remove(this.perk.type);
-        character.perks.add(PerkFactory.copy(this.perk));
-        super.equip(character);
+        character.perks.set(this.perk.type, PerkFactory.copy(this.perk));
     }
 
-    public unequip(character: Character): void {
+    public onUnequip(character: Character): void {
         while (character.perks.has(this.perk.type))
             character.perks.remove(this.perk.type);
-        super.unequip(character);
+        super.onUnequip(character);
     }
-}
-
-export class GenericArmorWithPerk extends ArmorWithPerk {
-    use(player: Player) { }
-    
-    equipText(): void { }
-    unequipText(): void { }
-
-    onEquip(character: Character) { }
-    onUnequip(character: Character) { }
 }

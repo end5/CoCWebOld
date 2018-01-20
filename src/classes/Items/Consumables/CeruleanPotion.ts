@@ -15,27 +15,27 @@ export default class CeruleanPotion extends Consumable {
 
     public use(player: Player) {
         player.slimeFeed();
-        //Repeat genderless encounters
-        DisplayText.clear();
-        if (player.gender == Gender.NONE && Flags.list[FlagEnum.CERULEAN_POTION_NEUTER_ATTEMPTED] > 0) {
-            DisplayText.text("You take another sip of the Cerulean Potion.  You find it soothing and become very excited about the possibility of another visit from the succubus.");
+        // Repeat genderless encounters
+        DisplayText().clear();
+        if (player.gender === Gender.NONE && Flags.list[FlagEnum.CERULEAN_POTION_NEUTER_ATTEMPTED] > 0) {
+            DisplayText("You take another sip of the Cerulean Potion.  You find it soothing and become very excited about the possibility of another visit from the succubus.");
         }
-        else if (player.gender == Gender.HERM && Flags.list[FlagEnum.CERULEAN_POTION_HERM_USED] > 0) {
-            DisplayText.text("With anticipation, you chug down another bottle of the Cerulean Potion. A warm sensation radiates out from your stomach as you feel the potion course through your body.");
+        else if (player.gender === Gender.HERM && Flags.list[FlagEnum.CERULEAN_POTION_HERM_USED] > 0) {
+            DisplayText("With anticipation, you chug down another bottle of the Cerulean Potion. A warm sensation radiates out from your stomach as you feel the potion course through your body.");
         }
-        //All else
+        // All else
         else {
-            DisplayText.text("The liquid tastes rather bland and goes down easily. ");
-            //Special repeat texts
+            DisplayText("The liquid tastes rather bland and goes down easily. ");
+            // Special repeat texts
             if (player.statusAffects.has(StatusAffectType.RepeatSuccubi))
-                DisplayText.text("You look forwards to tonight's encounter.");
-            //First timer huh?
-            else DisplayText.text("You do not notice any real effects.  Did the merchant con you?");
+                DisplayText("You look forwards to tonight's encounter.");
+            // First timer huh?
+            else DisplayText("You do not notice any real effects.  Did the merchant con you?");
         }
         if (player.statusAffects.has(StatusAffectType.SuccubiNight))
             if (player.statusAffects.get(StatusAffectType.SuccubiNight).value1 < 3)
                 player.statusAffects.get(StatusAffectType.SuccubiNight).value1 = 1;
             else
-                player.statusAffects.add(StatusAffectFactory.create(StatusAffectType.SuccubiNight, 1, 0, 0, 0));
+                player.statusAffects.set(StatusAffectType.SuccubiNight, StatusAffectFactory.create(StatusAffectType.SuccubiNight, 1, 0, 0, 0));
     }
 }

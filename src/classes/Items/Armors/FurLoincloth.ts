@@ -13,12 +13,4 @@ export default class FurLoincloth extends Armor {
     public description(player: Player): string {
         return "A pair of loincloths to cover your crotch and " + ButtDescriptor.describeButt(player) + ".  Typically worn by people named 'Conan'."
     }
-    
-    public use(player: Player) { }
-
-    public equipText(): void { }
-    public unequipText(): void { }
-    
-    public onEquip(character: Character): void { }
-    public onUnequip(character: Character): void { }
 }

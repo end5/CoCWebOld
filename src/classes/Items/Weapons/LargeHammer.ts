@@ -13,13 +13,7 @@ export default class LargeHammer extends Weapon {
     public canUse(player: Player): boolean {
         if (player.tallness >= 60)
             return true;
-        DisplayText.text("This hammer is too large for you to wield effectively.  ");
+        DisplayText("This hammer is too large for you to wield effectively.  ");
         return false;
     }
-    
-    public equip(character: Character): void { }
-    public unequip(character: Character): void { }
-    public equipText(): void { }
-    public unequipText(): void { }
-    public use(player: Player) { }
 }

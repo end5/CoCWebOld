@@ -13,12 +13,4 @@ export default class JeweledRapier extends Weapon {
     public get attack(): number {
         return (13 + Flags.list[FlagEnum.RAPHAEL_RAPIER_TRANING] * 2);
     }
-    
-    public equip(character: Character): void {}
-    public unequip(character: Character): void {}
-    public equipText(): void {}
-    public unequipText(): void {}
-    public use(player: Player) {}
 }
-
-

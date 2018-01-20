@@ -1,18 +1,23 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
+import { ArmType } from '../../Body/Arms';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
-import { SkinType } from '../../Body/Creature';
-import { EyeType, FaceType, TongueType } from '../../Body/Face';
-import { AntennaeType, EarType, HornType } from '../../Body/Head';
-import { LowerBodyType, TailType } from '../../Body/LowerBody';
-import { ArmType, WingType } from '../../Body/UpperBody';
-import Vagina from '../../Body/Vagina';
+import { EarType } from '../../Body/Ears';
+import { EyeType } from '../../Body/Eyes';
+import { FaceType } from '../../Body/Face';
+import { AntennaeType } from '../../Body/Head';
+import { HornType } from '../../Body/Horns';
+import { LegType } from '../../Body/Legs';
+import { SkinType } from '../../Body/Skin';
+import { TongueType } from '../../Body/Tongue';
+import Vagina, { VaginaType } from '../../Body/Vagina';
+import { WingType } from '../../Body/Wings';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class Hummus extends Consumable {
@@ -21,13 +26,13 @@ export default class Hummus extends Consumable {
     }
 
     public use(player: Player) {
-        DisplayText.clear();
+        DisplayText().clear();
         /*if (Game.debug) {
-            DisplayText.text("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
+            DisplayText("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
             player.inventory.items.destroyItems(consumables.HUMMUS_, 1);
             return;
         }*/
-        DisplayText.text("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
+        DisplayText("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
         player.stats.str = 30;
         player.stats.spe = 30;
         player.stats.tou = 30;
@@ -36,84 +41,76 @@ export default class Hummus extends Consumable {
         player.stats.lib = 25;
         player.stats.cor = 5;
         player.stats.lust = 10;
-        player.upperBody.head.hairType = 0;
+        player.torso.neck.head.hair.type = 0;
         if (RaceScore.humanScore(player) > 4) {
-            DisplayText.text("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
+            DisplayText("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
         }
         else {
-            DisplayText.text("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
+            DisplayText("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
         }
-        player.upperBody.armType = ArmType.HUMAN;
-        player.upperBody.head.face.eyeType = EyeType.HUMAN;
-        player.upperBody.head.antennae = AntennaeType.NONE;
-        player.upperBody.head.face.faceType = FaceType.HUMAN;
-        player.lowerBody.type = LowerBodyType.HUMAN;
-        player.upperBody.wingType = WingType.NONE;
-        player.upperBody.wingDesc = "non-existant";
-        player.lowerBody.tailType = TailType.NONE;
-        player.upperBody.head.face.tongueType = TongueType.HUMAN;
-        player.lowerBody.tailRecharge = 0;
-        player.upperBody.head.horns = 0;
-        player.upperBody.head.hornType = HornType.NONE;
-        player.upperBody.head.earType = EarType.HUMAN;
-        player.skinType = SkinType.PLAIN;
-        player.skinDesc = "skin";
-        player.skinAdj = "";
-        player.upperBody.armType = ArmType.HUMAN;
-        player.upperBody.head.face.tongueType = TongueType.HUMAN;
-        player.upperBody.head.face.eyeType = EyeType.HUMAN;
+        player.torso.arms.type = ArmType.HUMAN;
+        player.torso.neck.head.face.eyes.type = EyeType.HUMAN;
+        player.torso.neck.head.face.tongue.type = TongueType.HUMAN;
+        player.torso.neck.head.face.type = FaceType.HUMAN;
+        player.torso.neck.head.horns.amount = 0;
+        player.torso.neck.head.horns.type = HornType.NONE;
+        player.torso.neck.head.antennae = AntennaeType.NONE;
+        player.torso.hips.legs.type = LegType.HUMAN;
+        player.torso.wings.type = WingType.NONE;
+        player.torso.wings.desc = "non-existant";
+        player.torso.tails.clear();
+        player.skin.type = SkinType.PLAIN;
+        player.skin.desc = "skin";
+        player.skin.adj = "";
         if (player.fertility > 15) player.fertility = 15;
         if (player.cumMultiplier > 50) player.cumMultiplier = 50;
-        let virgin: boolean = false;
-        //Clear cocks
-        while (player.lowerBody.cockSpot.count() > 0) {
-            player.lowerBody.cockSpot.remove(player, player.lowerBody.cockSpot.get(0));
-            console.trace("1 cock purged.");
+        // Clear cocks
+        player.torso.cocks.clear();
+        // Reset dongs!
+        if (player.gender === 1 || player.gender === 3) {
+            player.torso.cocks.add(new Cock(6, 1));
+            player.torso.balls.size = 2;
+            if (player.torso.balls.quantity > 2) player.torso.balls.quantity = 2;
         }
-        //Reset dongs!
-        if (player.gender == 1 || player.gender == 3) {
-            player.lowerBody.cockSpot.add(new Cock());
-            player.lowerBody.cockSpot.get(0).cockLength = 6;
-            player.lowerBody.cockSpot.get(0).cockThickness = 1;
-            player.lowerBody.ballSize = 2;
-            if (player.lowerBody.balls > 2) player.lowerBody.balls = 2;
-        }
-        //Non duders lose any nuts
+        // Non duders lose any nuts
         else {
-            player.lowerBody.balls = 0;
-            player.lowerBody.ballSize = 2;
+            player.torso.balls.quantity = 0;
+            player.torso.balls.size = 2;
         }
-        //Clear vaginas
-        while (player.lowerBody.vaginaSpot.count() > 0) {
-            virgin = player.lowerBody.vaginaSpot.get(0).virgin;
-            player.lowerBody.vaginaSpot.remove(player.lowerBody.vaginaSpot.get(0));
-            console.trace("1 vagina purged.");
+        // Clear vaginas
+        let virgin: boolean = false;
+        for (const vagina of player.torso.vaginas) {
+            if (vagina.virgin) {
+                virgin = true;
+                break;
+            }
         }
-        //Reset vaginal virginity to correct state
+        player.torso.vaginas.clear();
+        // Reset vaginal virginity to correct state
         if (player.gender >= 2) {
-            player.lowerBody.vaginaSpot.add(new Vagina());
-            player.lowerBody.vaginaSpot.get(0).virgin = virgin;
+            const newVagina = new Vagina();
+            newVagina.virgin = virgin;
+            newVagina.type = VaginaType.HUMAN;
+            player.torso.vaginas.add(newVagina);
         }
-        player.lowerBody.vaginaSpot.get(0).clitLength = .25;
-        //Tighten butt!
-        player.lowerBody.butt.buttRating = 2;
-        player.lowerBody.hipRating = 2;
-        if (player.lowerBody.butt.analLooseness > 1) player.lowerBody.butt.analLooseness = 1;
-        if (player.lowerBody.butt.analWetness > 1) player.lowerBody.butt.analWetness = 1;
-        //Clear breasts
-        while (player.upperBody.chest.count() > 0)
-            player.upperBody.chest.remove(player.upperBody.chest.get(0));
-        player.upperBody.chest.add(new BreastRow());
-        player.upperBody.chest.get(0).nippleLength = .25;
-        //Girls and herms get bewbs back
+        player.torso.clit.length = .25;
+        // Tighten butt!
+        player.torso.butt.rating = 2;
+        player.torso.hips.rating = 2;
+        if (player.torso.butt.looseness > 1) player.torso.butt.looseness = 1;
+        if (player.torso.butt.wetness > 1) player.torso.butt.wetness = 1;
+        // Clear breasts
+        player.torso.chest.clear();
+        const newBreastRow = new BreastRow();
+        newBreastRow.nipples.length = .25;
+        player.torso.chest.add(newBreastRow);
+        // Girls and herms get bewbs back
         if (player.gender > 2) {
-
-            player.upperBody.chest.get(0).breastRating = 2;
+            player.torso.chest.get(0).rating = 2;
         }
-        else player.upperBody.chest.get(0).breastRating = 0;
-        player.upperBody.gills = false;
+        else player.torso.chest.get(0).rating = 0;
+        player.torso.neck.gills = false;
         player.statusAffects.remove(StatusAffectType.Uniball);
         player.statusAffects.remove(StatusAffectType.BlackNipples);
-        player.lowerBody.vaginaSpot.get(0).vaginaType = 0;
     }
 }

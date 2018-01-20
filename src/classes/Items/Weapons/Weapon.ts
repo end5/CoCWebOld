@@ -3,10 +3,11 @@ import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
 import EquipableItem from '../EquipableItem';
-import Item, { ItemType } from '../Item';
+import Item from '../Item';
 import ItemDesc from '../ItemDesc';
+import ItemType from '../ItemType';
 
-export default abstract class Weapon extends EquipableItem {
+export default class Weapon extends EquipableItem {
     public readonly verb: string;
     public readonly attack: number;
     public readonly perk: string;
@@ -20,25 +21,22 @@ export default abstract class Weapon extends EquipableItem {
         this.perk = perk;
     }
 
+    public use(player: Player) { }
     public canUse(player: Player): boolean {
         return true;
     }
 
     public useText(player: Player) {
-        DisplayText.text("You equip " + this.desc.longName + ".  ");
+        DisplayText("You equip " + this.desc.longName + ".  ");
     }
 
     public describe(): string {
         return super.describe() + " (ATK: +" + this.attack + ")";
     }
-}
 
-export class GenericWeapon extends Weapon {
-    public use(player: Player) { }
+    public onEquip(character: Character) { }
+    public onUnequip(character: Character) { }
 
-    public equip(character: Character) { }
-    public unequip(character: Character) { }
-    
     public equipText() { }
     public unequipText() { }
 }

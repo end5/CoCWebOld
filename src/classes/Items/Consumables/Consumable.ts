@@ -1,11 +1,12 @@
 import ConsumableName from './ConsumableName';
 import Player from '../../Player/Player';
-import Item, { ItemType } from '../Item';
+import Item from '../Item';
 import ItemDesc from '../ItemDesc';
+import ItemType from '../ItemType';
 
 export default class Consumable extends Item {
-    private readonly mutationFunc: Function;
-    constructor(key: ConsumableName, itemDesc: ItemDesc, value?: number, mutationFunc: Function = null) {
+    private readonly mutationFunc: () => void;
+    constructor(key: ConsumableName, itemDesc: ItemDesc, value?: number, mutationFunc: () => void = null) {
         super(key, ItemType.Consumable, itemDesc, value);
         this.mutationFunc = mutationFunc;
     }
@@ -13,11 +14,12 @@ export default class Consumable extends Item {
     public canUse(player: Player): boolean {
         return true;
     }
+
     public use(player: Player) {
         this.mutationFunc();
     }
+
     public useText(player: Player) {
-        
+
     }
 }
-

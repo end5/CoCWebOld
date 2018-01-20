@@ -1,29 +1,24 @@
 import MaterialName from './MaterialName';
+import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
-import Item, { ItemType } from '../Item';
+import Item from '../Item';
 import ItemDesc from '../ItemDesc';
+import ItemType from '../ItemType';
 
 export default class Material extends Item {
-    private readonly _useText: string;
+    private readonly useDesc: string;
     constructor(name: MaterialName, desc: ItemDesc, useText?: string, value?: number) {
         super(name, ItemType.Material, desc, value);
-        this._useText = useText;
+        this.useDesc = useText;
     }
 
-    public canUse(player: Player): boolean {
+    public canUse(character: Character): boolean {
         return true;
     }
 
-    public use(player: Player) { }
+    public use(character: Character) { }
 
-    public useText(player: Player) {
-        DisplayText.text(this._useText);
-    }
-
-    public serialize(): string {
-        let saveObject = super.serialize();
-        saveObject["_useText"] = this._useText;
-        return JSON.stringify(saveObject);
+    public useText(character: Character) {
+        DisplayText(this.useDesc);
     }
 }

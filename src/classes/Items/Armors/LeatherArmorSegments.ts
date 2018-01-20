@@ -11,16 +11,12 @@ export default class LeatherArmorSegments extends Armor {
         super(ArmorName.LeatherArmorSegments, new ItemDesc("UrtaLta", "leather armor segments"), "leather armor segments", 5, 76, "Light", true);
     }
 
-    public use(player: Player) { }
-
-    public equipText(): void {}
     public unequipText(): void {
-        DisplayText.text("You have your old set of " + this.desc.longName + " left over.  ");
+        DisplayText("You have your old set of " + this.desc.longName + " left over.  ");
     }
 
-    public onEquip(character: Character): void {}
     public onUnequip(character: Character): void {
-        //return Game.libraries.armor.get("LeathrA");
+        // return Game.libraries.armor.get("LeathrA");
+        super.onUnequip(character);
     }
 }
-
