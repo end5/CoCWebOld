@@ -1,7 +1,5 @@
-﻿import Clit from './Clit';
-import ISerializable from '../Utilities/ISerializable';
+﻿import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
-import Utils from '../Utilities/Utils';
 
 export enum VaginaType {
     HUMAN, BLACK_SAND_TRAP
@@ -91,13 +89,11 @@ export default class Vagina implements ISerializable<Vagina> {
         });
     }
 
-    public deserialize(saveObject: Vagina): Vagina {
-        const newVagina = new Vagina();
-        newVagina.type = saveObject.type;
-        newVagina.virgin = saveObject.virgin;
-        newVagina.wetness = saveObject.wetness;
-        newVagina.looseness = saveObject.looseness;
-        newVagina.fullness = saveObject.fullness;
-        return newVagina;
+    public deserialize(saveObject: Vagina) {
+        this.type = saveObject.type;
+        this.virgin = saveObject.virgin;
+        this.wetness = saveObject.wetness;
+        this.looseness = saveObject.looseness;
+        this.fullness = saveObject.fullness;
     }
 }

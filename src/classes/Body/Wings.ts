@@ -15,10 +15,8 @@ export default class Wings implements ISerializable<Wings> {
         });
     }
 
-    public deserialize(saveObject: Wings): Wings {
-        const newWings = new Wings();
-        newWings.type = saveObject.type;
-        newWings.desc = saveObject.desc;
-        return newWings;
+    public deserialize(saveObject: Wings) {
+        this.type = saveObject.type;
+        this.desc = saveObject.desc;
     }
 }

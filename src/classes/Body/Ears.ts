@@ -1,5 +1,4 @@
 import ISerializable from '../Utilities/ISerializable';
-import SerializableList from '../Utilities/SerializableList';
 
 export enum EarType {
     HUMAN, HORSE, DOG, COW, ELFIN, CAT, LIZARD, BUNNY, KANGAROO, FOX, DRAGON, RACCOON, MOUSE, FERRET
@@ -16,10 +15,8 @@ export default class Ears implements ISerializable<Ears> {
         });
     }
 
-    public deserialize(saveObject: Ears): Ears {
-        const newEars = new Ears();
-        newEars.type = saveObject.type;
-        newEars.value = saveObject.value;
-        return newEars;
+    public deserialize(saveObject: Ears) {
+        this.type = saveObject.type;
+        this.value = saveObject.value;
     }
 }

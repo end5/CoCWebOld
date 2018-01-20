@@ -14,9 +14,7 @@ export default class Tongue implements ISerializable<Tongue> {
         });
     }
 
-    public deserialize(saveObject: Tongue): Tongue {
-        const newTongue = new Tongue();
-        newTongue.type = saveObject.type;
-        return newTongue;
+    public deserialize(saveObject: Tongue) {
+        this.type = saveObject.type;
     }
 }

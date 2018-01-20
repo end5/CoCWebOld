@@ -11,10 +11,8 @@ export default class Beard implements ISerializable<Beard> {
         });
     }
 
-    public deserialize(saveObject: Beard): Beard {
-        const newBeard = new Beard();
-        newBeard.style = saveObject.style;
-        newBeard.length = saveObject.length;
-        return newBeard;
+    public deserialize(saveObject: Beard) {
+        this.style = saveObject.style;
+        this.length = saveObject.length;
     }
 }

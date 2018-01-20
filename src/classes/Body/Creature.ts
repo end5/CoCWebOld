@@ -208,7 +208,7 @@ export default class Creature implements ISerializable<Creature> {
         // (HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
         if (!this.statusAffects.has(StatusAffectType.LactationEndurance))
-            this.statusAffects.add(StatusAffectType.LactationEndurance, StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
+            this.statusAffects.set(StatusAffectType.LactationEndurance, StatusAffectFactory.create(StatusAffectType.LactationEndurance, 1, 0, 0, 0));
         total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.reduce(BreastRow.AverageLactation, 0) * this.statusAffects.get(StatusAffectType.LactationEndurance).value1 * chest.countBreasts();
         if (this.statusAffects.get(StatusAffectType.LactationReduction).value1 >= 48)
             total = total * 1.5;
@@ -273,7 +273,7 @@ export default class Creature implements ISerializable<Creature> {
         }
         // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
-            this.statusAffects.add(StatusAffectType.Heat, StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            this.statusAffects.set(StatusAffectType.Heat, StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
             this.stats.libBimbo += 15 * intensity;
         }
     }
@@ -291,7 +291,7 @@ export default class Creature implements ISerializable<Creature> {
             // v1 - bonus cum production
             // v2 - bonus this.stats.libido
             // v3 - time remaining!
-            this.statusAffects.add(StatusAffectType.Rut, StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            this.statusAffects.set(StatusAffectType.Rut, StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
             this.stats.libBimbo += 5 * intensity;
         }
     }
@@ -314,7 +314,7 @@ export default class Creature implements ISerializable<Creature> {
     }
 
     public totalFertility(): number {
-        return (this.bonusFertility + this.fertility);
+        return this.statusAffects.has(StatusAffectType.Contraceptives) ? 0 : (this.bonusFertility + this.fertility);
     }
 
     public serialize(): string {

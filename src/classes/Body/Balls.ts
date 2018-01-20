@@ -11,10 +11,8 @@ export default class Balls implements ISerializable<Balls> {
         });
     }
 
-    public deserialize(saveObject: Balls): Balls {
-        const newBalls = new Balls();
-        newBalls.quantity = saveObject.quantity;
-        newBalls.size = saveObject.size;
-        return newBalls;
+    public deserialize(saveObject: Balls) {
+        this.quantity = saveObject.quantity;
+        this.size = saveObject.size;
     }
 }

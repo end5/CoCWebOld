@@ -1,4 +1,4 @@
-﻿import Nipple from './Nipple';
+﻿import Nipples from './Nipples';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import SerializableList from '../Utilities/SerializableList';
@@ -67,30 +67,28 @@ export default class BreastRow implements ISerializable<BreastRow> {
         return a.rating > 3;
     }
 
-    public static readonly Fuckable: FilterOption<BreastRow> = (a: BreastRow) => {
-        return a.nipples.filter(Nipple.Fuckable).length > 0;
+    public static readonly FuckableNipples: FilterOption<BreastRow> = (a: BreastRow) => {
+        return a.nipples.fuckable;
     }
 
-    public static readonly NotFuckable: FilterOption<BreastRow> = (a: BreastRow) => {
-        return a.nipples.filter(Nipple.NotFuckable).length > 0;
+    public static readonly NonFuckableNipples: FilterOption<BreastRow> = (a: BreastRow) => {
+        return !a.nipples.fuckable;
     }
 
     public static readonly AverageRating: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
-        if (index >= array.length - 1)
-            return (previousValue + currentValue.rating) / index;
-        return previousValue + currentValue.rating;
+            return previousValue + currentValue.rating / array.length;
     }
 
     public static readonly AverageLactation: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
-        if (index >= array.length - 1)
-            return (previousValue + currentValue.lactationMultiplier) / index;
-        return previousValue + currentValue.lactationMultiplier;
+        return previousValue + currentValue.lactationMultiplier / array.length;
     }
 
     public static readonly AverageNipplesPerBreast: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
-        if (index >= array.length - 1)
-            return (previousValue + currentValue.nipples.count) / index;
-        return previousValue + currentValue.nipples.count;
+        return previousValue + currentValue.nipples.count / array.length;
+    }
+
+    public static readonly AverageNippleLength: ReduceOption<BreastRow, number> = (previousValue: number, currentValue: BreastRow, index: number, array: BreastRow[]) => {
+        return previousValue + currentValue.nipples.length / array.length;
     }
 
     public rating: number = BreastCup.C;
@@ -99,7 +97,7 @@ export default class BreastRow implements ISerializable<BreastRow> {
     // If it reaches 100 it reduces lactation multiplier.
     public milkFullness: number = 0;
     public fullness: number = 0;
-    public nipples: SerializableList<Nipple> = new SerializableList(new Nipple().deserialize);
+    public nipples: Nipples = new Nipples();
 
     public serialize(): string {
         return JSON.stringify({
@@ -111,13 +109,11 @@ export default class BreastRow implements ISerializable<BreastRow> {
         });
     }
 
-    public deserialize(saveObject: BreastRow): BreastRow {
-        const newBreastRow = new BreastRow();
-        newBreastRow.rating = saveObject.rating;
-        newBreastRow.lactationMultiplier = saveObject.lactationMultiplier;
-        newBreastRow.milkFullness = saveObject.milkFullness;
-        newBreastRow.fullness = saveObject.fullness;
-        newBreastRow.nipples.deserialize(saveObject.nipples);
-        return newBreastRow;
+    public deserialize(saveObject: BreastRow) {
+        this.rating = saveObject.rating;
+        this.lactationMultiplier = saveObject.lactationMultiplier;
+        this.milkFullness = saveObject.milkFullness;
+        this.fullness = saveObject.fullness;
+        this.nipples.deserialize(saveObject.nipples);
     }
 }

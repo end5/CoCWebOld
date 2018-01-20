@@ -13,9 +13,7 @@ export default class Arms implements ISerializable<Arms> {
         });
     }
 
-    public deserialize(saveObject: Arms): Arms {
-        const newArms = new Arms();
-        newArms.type = saveObject.type;
-        return newArms;
+    public deserialize(saveObject: Arms) {
+        this.type = saveObject.type;
     }
 }

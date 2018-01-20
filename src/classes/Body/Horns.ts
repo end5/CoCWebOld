@@ -15,10 +15,8 @@ export default class Horns implements ISerializable<Horns> {
         });
     }
 
-    public deserialize(saveObject: Horns): Horns {
-        const newHorns = new Horns();
-        newHorns.type = saveObject.type;
-        newHorns.amount = saveObject.amount;
-        return newHorns;
+    public deserialize(saveObject: Horns) {
+        this.type = saveObject.type;
+        this.amount = saveObject.amount;
     }
 }

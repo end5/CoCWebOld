@@ -25,13 +25,11 @@ export default class Head implements ISerializable<Head> {
         });
     }
 
-    public deserialize(saveObject: Head): Head {
-        const newHead = new Head();
-        newHead.hair.deserialize(saveObject.hair);
-        newHead.ears.deserialize(saveObject.ears);
-        newHead.horns.deserialize(saveObject.horns);
-        newHead.antennae = saveObject.antennae;
-        newHead.face.deserialize(saveObject.face);
-        return newHead;
+    public deserialize(saveObject: Head) {
+        this.hair.deserialize(saveObject.hair);
+        this.ears.deserialize(saveObject.ears);
+        this.horns.deserialize(saveObject.horns);
+        this.antennae = saveObject.antennae;
+        this.face.deserialize(saveObject.face);
     }
 }

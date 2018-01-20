@@ -46,9 +46,7 @@ export default class Legs implements ISerializable<Legs> {
         });
     }
 
-    public deserialize(saveObject: Legs): Legs {
-        const newLegs = new Legs();
-        newLegs.type = saveObject.type;
-        return newLegs;
+    public deserialize(saveObject: Legs) {
+        this.type = saveObject.type;
     }
 }

@@ -16,10 +16,8 @@ export default class Hips implements ISerializable<Hips> {
         });
     }
 
-    public deserialize(saveObject: Hips): Hips {
-        const newHips = new Hips();
-        newHips.rating = saveObject.rating;
-        newHips.legs.deserialize(saveObject.legs);
-        return newHips;
+    public deserialize(saveObject: Hips) {
+        this.rating = saveObject.rating;
+        this.legs.deserialize(saveObject.legs);
     }
 }

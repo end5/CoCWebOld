@@ -41,10 +41,8 @@ export default class Ovipositor implements ISerializable<Ovipositor> {
         });
     }
 
-    public deserialize(saveObject: Ovipositor): Ovipositor {
-        const newOvipositor = new Ovipositor();
-        newOvipositor.unfertileEggs = saveObject.unfertileEggs;
-        newOvipositor.fertileEggs = saveObject.fertileEggs;
-        return newOvipositor;
+    public deserialize(saveObject: Ovipositor) {
+        this.unfertileEggs = saveObject.unfertileEggs;
+        this.fertileEggs = saveObject.fertileEggs;
     }
 }

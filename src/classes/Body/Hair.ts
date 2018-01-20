@@ -17,11 +17,9 @@ export default class Hair implements ISerializable<Hair> {
         });
     }
 
-    public deserialize(saveObject: Hair): Hair {
-        const newHair = new Hair();
-        newHair.type = saveObject.type;
-        newHair.color = saveObject.color;
-        newHair.length = saveObject.length;
-        return newHair;
+    public deserialize(saveObject: Hair) {
+        this.type = saveObject.type;
+        this.color = saveObject.color;
+        this.length = saveObject.length;
     }
 }

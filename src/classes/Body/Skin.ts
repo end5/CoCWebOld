@@ -19,12 +19,10 @@ export default class Skin implements ISerializable<Skin> {
         });
     }
 
-    public deserialize(saveObject: Skin): Skin {
-        const newSkin = new Skin();
-        newSkin.type = saveObject.type;
-        newSkin.tone = saveObject.tone;
-        newSkin.desc = saveObject.desc;
-        newSkin.adj = saveObject.adj;
-        return newSkin;
+    public deserialize(saveObject: Skin) {
+        this.type = saveObject.type;
+        this.tone = saveObject.tone;
+        this.desc = saveObject.desc;
+        this.adj = saveObject.adj;
     }
 }

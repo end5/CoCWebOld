@@ -38,7 +38,7 @@ export default class Torso implements ISerializable<Torso> {
         this.butt = new Butt();
         this.cocks = new CockList();
         this.balls = new Balls();
-        this.vaginas = new SerializableList(new Vagina().deserialize);
+        this.vaginas = new SerializableList(Vagina);
         this.clit = new Clit();
     }
 
@@ -58,20 +58,18 @@ export default class Torso implements ISerializable<Torso> {
         });
     }
 
-    public deserialize(saveObject: Torso): Torso {
-        const newTorso = new Torso();
-        newTorso.neck.deserialize(saveObject.neck);
-        newTorso.arms.deserialize(saveObject.arms);
-        newTorso.chest.deserialize(saveObject.chest);
-        newTorso.wings.deserialize(saveObject.wings);
+    public deserialize(saveObject: Torso) {
+        this.neck.deserialize(saveObject.neck);
+        this.arms.deserialize(saveObject.arms);
+        this.chest.deserialize(saveObject.chest);
+        this.wings.deserialize(saveObject.wings);
 
-        newTorso.hips.deserialize(saveObject.hips);
-        newTorso.tails.deserialize(saveObject.tails);
-        newTorso.butt.deserialize(saveObject.butt);
-        newTorso.cocks.deserialize(saveObject.cocks);
-        newTorso.balls.deserialize(saveObject.balls);
-        newTorso.vaginas.deserialize(saveObject.vaginas);
-        newTorso.clit.deserialize(saveObject.clit);
-        return newTorso;
+        this.hips.deserialize(saveObject.hips);
+        this.tails.deserialize(saveObject.tails);
+        this.butt.deserialize(saveObject.butt);
+        this.cocks.deserialize(saveObject.cocks);
+        this.balls.deserialize(saveObject.balls);
+        this.vaginas.deserialize(saveObject.vaginas);
+        this.clit.deserialize(saveObject.clit);
     }
 }

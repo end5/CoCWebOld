@@ -37,12 +37,10 @@ export default class Butt implements ISerializable<Butt> {
         });
     }
 
-    public deserialize(saveObject: Butt): Butt {
-        const newButt = new Butt();
-        newButt.rating = saveObject.rating;
-        newButt.wetness = saveObject.wetness;
-        newButt.looseness = saveObject.looseness;
-        newButt.fullness = saveObject.fullness;
-        return newButt;
+    public deserialize(saveObject: Butt) {
+        this.rating = saveObject.rating;
+        this.wetness = saveObject.wetness;
+        this.looseness = saveObject.looseness;
+        this.fullness = saveObject.fullness;
     }
 }

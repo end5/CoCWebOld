@@ -1,8 +1,5 @@
-import PerkFactory from '../Effects/PerkFactory';
-import { PerkType } from '../Effects/PerkType';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
-import SerializableList from '../Utilities/SerializableList';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
@@ -121,12 +118,10 @@ export default class Cock implements ISerializable<Cock> {
         });
     }
 
-    public deserialize(saveObject: Cock): Cock {
-        const newCock = new Cock();
-        newCock.length = saveObject.length;
-        newCock.thickness = saveObject.thickness;
-        newCock.type = saveObject.type;
-        newCock.knotMultiplier = saveObject.knotMultiplier;
-        return newCock;
+    public deserialize(saveObject: Cock) {
+        this.length = saveObject.length;
+        this.thickness = saveObject.thickness;
+        this.type = saveObject.type;
+        this.knotMultiplier = saveObject.knotMultiplier;
     }
 }

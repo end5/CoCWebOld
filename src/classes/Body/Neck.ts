@@ -12,10 +12,8 @@ export default class Neck implements ISerializable<Neck> {
         });
     }
 
-    public deserialize(saveObject: Neck): Neck {
-        const newNeck = new Neck();
-        newNeck.gills = saveObject.gills;
-        newNeck.head.deserialize(saveObject.head);
-        return newNeck;
+    public deserialize(saveObject: Neck) {
+        this.gills = saveObject.gills;
+        this.head.deserialize(saveObject.head);
     }
 }

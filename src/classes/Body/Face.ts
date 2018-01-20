@@ -2,7 +2,6 @@
 import Eyes from './Eyes';
 import Tongue from './Tongue';
 import ISerializable from '../Utilities/ISerializable';
-import SerializableList from '../Utilities/SerializableList';
 
 export enum FaceType {
     HUMAN, HORSE, DOG, COW_MINOTAUR, SHARK_TEETH, SNAKE_FANGS,
@@ -44,12 +43,10 @@ export default class Face implements ISerializable<Face>  {
         });
     }
 
-    public deserialize(saveObject: Face): Face {
-        const newFace = new Face();
-        newFace.type = saveObject.type;
-        newFace.eyes.deserialize(saveObject.eyes);
-        newFace.tongue.deserialize(saveObject.tongue);
-        newFace.beard.deserialize(saveObject.beard);
-        return newFace;
+    public deserialize(saveObject: Face) {
+        this.type = saveObject.type;
+        this.eyes.deserialize(saveObject.eyes);
+        this.tongue.deserialize(saveObject.tongue);
+        this.beard.deserialize(saveObject.beard);
     }
 }

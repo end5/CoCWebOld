@@ -10,9 +10,7 @@ export default class Clit implements ISerializable<Clit> {
         });
     }
 
-    public deserialize(saveObject: Clit): Clit {
-        const newClit = new Clit();
-        newClit.length = saveObject.length;
-        return newClit;
+    public deserialize(saveObject: Clit) {
+        this.length = saveObject.length;
     }
 }

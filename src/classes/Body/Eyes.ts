@@ -13,9 +13,7 @@ export default class Eyes implements ISerializable<Eyes> {
         });
     }
 
-    public deserialize(saveObject: Eyes): Eyes {
-        const newEyes = new Eyes();
-        newEyes.type = saveObject.type;
-        return newEyes;
+    public deserialize(saveObject: Eyes) {
+        this.type = saveObject.type;
     }
 }

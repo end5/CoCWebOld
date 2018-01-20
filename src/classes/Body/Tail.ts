@@ -1,5 +1,4 @@
 import Ovipositor from './Ovipositor';
-import TailDescriptor from '../Descriptors/TailDescriptor';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption } from '../Utilities/list';
 
@@ -8,12 +7,16 @@ export enum TailType {
 }
 
 export default class Tail implements ISerializable<Tail> {
-    public type: TailType = TailType.HORSE;
+    public type: TailType;
     // Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
     public vemon: number = 0;
     // Tail recharge determines how fast venom/webs comes back per hour.
     public recharge: number = 0;
     public ovipositor: Ovipositor = new Ovipositor();
+
+    public constructor(type: TailType = TailType.HORSE) {
+        this.type = type;
+    }
 
     // commented out for reminder that isNaga can no longer be checked here
     /*public hasLongTail(): boolean {
@@ -50,12 +53,10 @@ export default class Tail implements ISerializable<Tail> {
         });
     }
 
-    public deserialize(saveObject: Tail): Tail {
-        const newTail = new Tail();
-        newTail.type = saveObject.type;
-        newTail.vemon = saveObject.vemon;
-        newTail.recharge = saveObject.recharge;
-        newTail.ovipositor.deserialize(saveObject.ovipositor);
-        return newTail;
+    public deserialize(saveObject: Tail) {
+        this.type = saveObject.type;
+        this.vemon = saveObject.vemon;
+        this.recharge = saveObject.recharge;
+        this.ovipositor.deserialize(saveObject.ovipositor);
     }
 }
