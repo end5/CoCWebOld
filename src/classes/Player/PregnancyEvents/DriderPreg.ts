@@ -11,7 +11,7 @@ export default class PregDrider implements IPregnancyEvent {
         return incubationTime <= 0;
     }
 
-    public birth(player: Player) {
+    public birthScene(player: Player) {
         swamp.corruptedDriderScene.driderPregVagBirth();
     }
 }

@@ -10,7 +10,7 @@ export default class PregUrta implements IPregnancyEvent {
         return incubationTime <= 0;
     }
 
-    public birth(player: Player) {
+    public birthScene(player: Player) {
         urtaPregs.PCGivesBirf();
     }
 }

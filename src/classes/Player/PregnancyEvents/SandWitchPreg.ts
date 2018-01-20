@@ -10,7 +10,7 @@ export default class PregSandWitch implements IPregnancyEvent {
         return incubationTime <= 0;
     }
 
-    public birth(player: Player) {
+    public birthScene(player: Player) {
         birthAWitch();
     }
 }

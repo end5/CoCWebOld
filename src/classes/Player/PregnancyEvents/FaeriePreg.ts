@@ -11,7 +11,7 @@ export default class FaeriePreg implements IPregnancyEvent {
         return incubationTime <= 0;
     }
 
-    public birth(player: Player) {
+    public birthScene(player: Player) {
         Game.sceneManager.bog.phoukaScene.phoukaPregBirth();
     }
 }
