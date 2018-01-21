@@ -1,11 +1,15 @@
-import { SerializeInterface } from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class KeyCombination implements SerializeInterface {
-    public keyCode: number = 0;
+export default class KeyCombination implements ISerializable<KeyCombination> {
+    public keyCode: number;
     public shiftKey: boolean = false;
     public altKey: boolean = false;
     public ctrlKey: boolean = false;
     public metaKey: boolean = false;
+
+    public constructor(keyCode: number = 0) {
+        this.keyCode = keyCode;
+    }
 
     public toString(): string {
         return (this.shiftKey ? "Shift + " : "") +
@@ -49,7 +53,7 @@ export default class KeyCombination implements SerializeInterface {
             console.error("Error - Deserialize: KeyCombination - altKey incorrect");
             console.trace();
         }
-        
+
         if (saveObject.ctrlKey !== undefined) {
             this.ctrlKey = saveObject.ctrlKey;
         }
@@ -57,7 +61,7 @@ export default class KeyCombination implements SerializeInterface {
             console.error("Error - Deserialize: KeyCombination - ctrlKey incorrect");
             console.trace();
         }
-        
+
         if (saveObject.metaKey !== undefined) {
             this.metaKey = saveObject.metaKey;
         }

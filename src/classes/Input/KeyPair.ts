@@ -1,11 +1,11 @@
 import BindableAction from './BindableAction';
 import KeyCombination from './KeyCombination';
-import { SerializeInterface } from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class KeyPair implements SerializeInterface {
+export default class KeyPair implements ISerializable<KeyPair> {
     public primaryKey: KeyCombination;
     public secondaryKey: KeyCombination;
-    public constructor(primaryKey: KeyCombination = null, secondaryKey: KeyCombination = null) {
+    public constructor(primaryKey?: KeyCombination, secondaryKey?: KeyCombination) {
         this.primaryKey = primaryKey;
         this.secondaryKey = secondaryKey;
     }

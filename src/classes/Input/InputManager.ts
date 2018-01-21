@@ -3,11 +3,12 @@ import DefaultKeyBinds from './DefaultKeyBinds';
 import KeyCombination from './KeyCombination';
 import KeyPair from './KeyPair';
 import InputFileElement from '../display/Elements/InputFileElement';
-import { SerializeInterface } from '../SerializeInterface';
 import Dictionary from '../Utilities/Dictionary';
+import ISerializable from '../Utilities/ISerializable';
+import SerializableList from '../Utilities/SerializableList';
 
-export default class InputManager implements SerializeInterface {
-    private static keyBinds: KeyPair[];
+export default class InputManager implements ISerializable<InputManager> {
+    private static keyBinds: SerializableList<KeyPair>;
 
     public static reset(bindableAction: BindableAction) {
         InputManager.get(bindableAction).primaryKey.deserialize(DefaultKeyBinds[bindableAction].primaryKey.serialize());
@@ -15,7 +16,7 @@ export default class InputManager implements SerializeInterface {
     }
 
     public static resetAll() {
-        for (let index = 0; index < InputManager.keyBinds.length; index++) {
+        for (let index = 0; index < InputManager.keyBinds.count; index++) {
             InputManager.reset(index);
         }
     }
@@ -26,7 +27,7 @@ export default class InputManager implements SerializeInterface {
     }
 
     public static clearAll() {
-        for (let index = 0; index < InputManager.keyBinds.length; index++) {
+        for (let index = 0; index < InputManager.keyBinds.count; index++) {
             InputManager.clear(index);
         }
     }
@@ -36,7 +37,7 @@ export default class InputManager implements SerializeInterface {
     }
 
     private constructor() {
-        InputManager.keyBinds = [];
+        InputManager.keyBinds = new SerializableList(KeyPair);
         this.initDefaultKeyBind(BindableAction.Stats);
         this.initDefaultKeyBind(BindableAction.LevelUp);
         this.initDefaultKeyBind(BindableAction.Quicksave1);
@@ -77,22 +78,10 @@ export default class InputManager implements SerializeInterface {
     }
 
     public serialize(): string {
-        let saveObject = [];
-        for (let index = 0; index < InputManager.keyBinds.length; index++) {
-            saveObject[index] = InputManager.keyBinds[index].serialize();
-        }
-        return JSON.stringify({ keyBinds: saveObject });
+        return JSON.stringify({ keyBinds: InputManager.keyBinds.serialize() });
     }
 
-    public deserialize(saveObject: KeyPair[]) {
-        for (let index = 0; index < saveObject.length; index++) {
-            if (saveObject[index] !== undefined) {
-                InputManager.keyBinds[index].deserialize(saveObject[index]);
-            }
-            else {
-                console.error("Error - Deserialize: InputManager - bindAction incorrect");
-                console.trace();
-            }
-        }
+    public deserialize(saveObject: InputManager) {
+        InputManager.keyBinds.deserialize(saveObject["keyBinds"]);
     }
 }
