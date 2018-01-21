@@ -1,46 +1,46 @@
-import Creature from '../Body/Creature';
+import Character from '../Character/Character';
 import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import DisplayText from '../display/DisplayText';
 
 export default class HairModifier {
-    public static displayGrowHair(creature: Creature, amount: number = .1): boolean {
-        //Grow hair!
-        const hairLength: number = creature.upperBody.head.hairLength;
-        creature.upperBody.head.hairLength += amount;
-        if (creature.upperBody.head.hairLength > 0 && hairLength == 0) {
-            DisplayText.text("\n<b>You are no longer bald.  You now have " + HeadDescriptor.describeHair(creature) + " coating your head.\n</b>");
+    public static displayGrowHair(character: Character, amount: number = .1): boolean {
+        // Grow hair!
+        const hairLength: number = character.torso.neck.head.hair.length;
+        character.torso.neck.head.hair.length += amount;
+        if (hairLength > 0 && hairLength === 0) {
+            DisplayText("\n<b>You are no longer bald.  You now have " + HeadDescriptor.describeHair(character) + " coating your head.\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 1 && hairLength < 1) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 1 && hairLength < 1) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 3 && hairLength < 3) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 3 && hairLength < 3) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 6 && hairLength < 6) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 6 && hairLength < 6) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 10 && hairLength < 10) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 10 && hairLength < 10) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 16 && hairLength < 16) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 16 && hairLength < 16) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 26 && hairLength < 26) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 26 && hairLength < 26) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 40 && hairLength < 40) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 40 && hairLength < 40) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
-        else if (creature.upperBody.head.hairLength >= 40 && creature.upperBody.head.hairLength >= creature.tallness && hairLength < creature.tallness) {
-            DisplayText.text("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(creature) + ".\n</b>");
+        else if (hairLength >= 40 && hairLength >= character.tallness && hairLength < character.tallness) {
+            DisplayText("\n<b>Your hair's growth has reached a new threshhold, giving you " + HeadDescriptor.describeHair(character) + ".\n</b>");
             return true;
         }
         return false;

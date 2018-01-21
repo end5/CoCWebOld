@@ -1,30 +1,29 @@
+import Character from '../Character/Character';
 import DisplayText from '../display/DisplayText';
-import Player from '../Player/Player';
 
 export default class StatModifier {
-    public static displayPlayerHPChange(player: Player, changeAmount: number) {
-        if (changeAmount > 0 && player.stats.HP == player.stats.maxHP()) {
-            DisplayText.text("You're as healthy as you can be.\n");
+    public static displayCharacterHPChange(character: Character, changeAmount: number) {
+        if (changeAmount > 0 && character.stats.HP === character.stats.maxHP()) {
+            DisplayText("You're as healthy as you can be.\n");
             return;
         }
 
-        const oldHP = player.stats.HP;
-        player.stats.HP += changeAmount;
-        const diff = player.stats.HP - oldHP;
+        const oldHP = character.stats.HP;
+        character.stats.HP += changeAmount;
+        const diff = character.stats.HP - oldHP;
 
         if (diff > 0) {
-            if (player.stats.HP == player.stats.maxHP())
-                DisplayText.text("Your HP maxes out at " + player.stats.maxHP() + ".\n");
+            if (character.stats.HP === character.stats.maxHP())
+                DisplayText("Your HP maxes out at " + character.stats.maxHP() + ".\n");
             else
-                DisplayText.text("You gain " + diff + " HP.\n");
+                DisplayText("You gain " + diff + " HP.\n");
         }
-        //Negative HP
+        // Negative HP
         else if (diff < 0) {
-            if (player.stats.HP == 0)
-                DisplayText.text("You take " + diff + " damage, dropping your HP to 0.\n");
+            if (character.stats.HP === 0)
+                DisplayText("You take " + diff + " damage, dropping your HP to 0.\n");
             else
-                DisplayText.text("You take " + diff + " damage.\n");
+                DisplayText("You take " + diff + " damage.\n");
         }
     }
-
 }
