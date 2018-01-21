@@ -7,6 +7,6 @@ export default class ImageElement extends ScreenElement {
     }
 
     public load(location: string) {
-        (<HTMLImageElement>this.htmlElement).src = location;
+        (this.htmlElement as HTMLImageElement).src = location;
     }
 }

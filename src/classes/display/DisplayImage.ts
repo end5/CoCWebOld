@@ -1,5 +1,6 @@
 import ImageElement from './Elements/ImageElement';
-import HtmlUtils from '../Utilities/HtmlUtils';
+import { Utils } from '../Utilities/Utils';
 
-const DisplayImage: ImageElement = new ImageElement(<HTMLImageElement>HtmlUtils.loadFromId("mainImageDisplay"));
+const DisplayImage: ImageElement = new ImageElement();
+DisplayImage.setHTMLElement(Utils.loadFromId("mainImageDisplay") as HTMLImageElement);
 export default DisplayImage;

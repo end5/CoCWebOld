@@ -1,6 +1,6 @@
 export default abstract class ScreenElement {
     protected htmlElement: HTMLElement;
-    
+
     public setHTMLElement(element: HTMLElement) {
         this.htmlElement = element;
     }

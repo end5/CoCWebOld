@@ -1,5 +1,5 @@
 import ScreenElement from './ScreenElement';
-import HtmlUtils from '../../Utilities/HtmlUtils';
+import { Utils } from '../../Utilities/Utils';
 
 export default class StatPanelObserver extends ScreenElement {
     private statBarElement: HTMLElement;
@@ -9,13 +9,13 @@ export default class StatPanelObserver extends ScreenElement {
     private statCurrent: number;
 
     public setHTMLElement(element: HTMLElement) {
-        this.statBarElement = HtmlUtils.loadFromClassName("statsBar", this.htmlElement);
-        this.statCurrentElement = HtmlUtils.loadFromClassName("statsCurrent", this.htmlElement);
-        this.statMaxElement = HtmlUtils.loadFromClassName("statsMax", this.htmlElement);
+        this.statBarElement = Utils.loadFromClassName("statsBar", this.htmlElement);
+        this.statCurrentElement = Utils.loadFromClassName("statsCurrent", this.htmlElement);
+        this.statMaxElement = Utils.loadFromClassName("statsMax", this.htmlElement);
         this.statCurrent = 0;
         this.statMax = 100;
     }
-    
+
     public setStat(statCurrent: number, statMax: number = -1) {
         this.statCurrent = statCurrent;
         this.statCurrentElement.innerHTML = statCurrent.toString();

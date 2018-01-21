@@ -7,6 +7,6 @@ export default class TextAreaElement extends TextElement {
     }
 
     public select() {
-        (<HTMLTextAreaElement>this.htmlElement).select();
+        (this.htmlElement as HTMLTextAreaElement).select();
     }
 }

@@ -3,14 +3,9 @@ import Game from '../../Game/Game';
 import Player from '../../Player/Player';
 import Utils from '../../Utilities/Utils';
 
+export type ClickFunction = (player: Player, event?: Event, prevMenu?: ClickFunction) => void;
 
-export interface ClickFunction {
-    (player: Player, event?: Event, prevMenu?: ClickFunction): void;
-}
-
-interface EventFunction {
-    (event: Event): void;
-}
+type EventFunction = (event: Event) => void;
 
 export default class ButtonElement extends ScreenElement {
     private static textColorActive = "Black";

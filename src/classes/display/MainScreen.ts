@@ -1,11 +1,11 @@
 ﻿import ButtonElement, { ClickFunction } from './Elements/ButtonElement';
 import ImageElement from './Elements/ImageElement';
 import ParagraphElement from './Elements/ParagraphElement';
-import StatsPanel from './Elements/StatsPanel';
+import StatsPanelObserver from './Elements/StatsPanelObserver';
 import TextElement from './Elements/TextElement';
 import Game from '../Game/Game';
 import Player from '../Player/Player';
-import HtmlUtils from '../Utilities/HtmlUtils';
+import { Utils } from '../Utilities/Utils';
 
 export enum TopButton {
     MainMenu,
@@ -20,7 +20,7 @@ export default class MainScreen {
     private static bottomButtons: ButtonElement[];
     private static topButtons: ButtonElement[];
     private static nameDisplay: TextElement;
-    private static statsPanel: StatsPanel;
+    private static statsPanel: StatsPanelObserver;
     private static levelupIcon: ImageElement;
     private static timeDayElement: TextElement;
     private static timeHourElement: TextElement;
@@ -35,20 +35,29 @@ export default class MainScreen {
     public constructor() {
         MainScreen.bottomButtons = [];
         for (let index = 0; index < MainScreen.NUM_BOT_BUTTONS; index++) {
-            MainScreen.bottomButtons.push(new ButtonElement(<HTMLAnchorElement>HtmlUtils.loadFromId("button" + index)));
+            const newButton = new ButtonElement();
+            newButton.setHTMLElement(Utils.loadFromId("button" + index) as HTMLAnchorElement);
+            MainScreen.bottomButtons.push(newButton);
         }
 
         MainScreen.topButtons = [];
         for (let index = 0; index < MainScreen.NUM_TOP_BUTTONS; index++) {
-            MainScreen.topButtons.push(new ButtonElement(<HTMLAnchorElement>HtmlUtils.loadFromId("buttontop" + index)));
+            const newButton = new ButtonElement();
+            newButton.setHTMLElement(Utils.loadFromId("buttontop" + index) as HTMLAnchorElement);
+            MainScreen.topButtons.push(newButton);
         }
 
-        MainScreen.statsPanel = new StatsPanel(<HTMLAnchorElement>HtmlUtils.loadFromId("statsPanel"));
-        MainScreen.nameDisplay = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("nameDisplay"));
+        MainScreen.statsPanel = new StatsPanelObserver();
+        MainScreen.statsPanel.setHTMLElement(Utils.loadFromId("statsPanel") as HTMLAnchorElement);
+        MainScreen.nameDisplay = new ParagraphElement();
+        MainScreen.nameDisplay.setHTMLElement(Utils.loadFromId("nameDisplay") as HTMLParagraphElement);
 
-        MainScreen.levelupIcon = new ImageElement(<HTMLImageElement>HtmlUtils.loadFromId("levelupIcon"));
-        MainScreen.timeDayElement = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeDay"));
-        MainScreen.timeHourElement = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("timeHour"));
+        MainScreen.levelupIcon = new ImageElement();
+        MainScreen.levelupIcon.setHTMLElement(Utils.loadFromId("levelupIcon") as HTMLImageElement);
+        MainScreen.timeDayElement = new ParagraphElement();
+        MainScreen.timeDayElement.setHTMLElement(Utils.loadFromId("timeDay") as HTMLParagraphElement);
+        MainScreen.timeHourElement = new ParagraphElement();
+        MainScreen.timeHourElement.setHTMLElement(Utils.loadFromId("timeHour") as HTMLParagraphElement);
     }
 
     // Top Buttons
@@ -71,7 +80,7 @@ export default class MainScreen {
     }
 
     // Stats
-    public static getStatsPanel(): StatsPanel {
+    public static getStatsPanel(): StatsPanelObserver {
         return MainScreen.statsPanel;
     }
 
@@ -130,7 +139,7 @@ export default class MainScreen {
 
         const hasPrevPage = startingIndex - MainScreen.NUM_BOT_BUTTONS - 2 > 0 ? true : false;
         if (hasPrevPage) {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", function () {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", () => {
                 MainScreen.displayPage(startingIndex - MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
             });
         }
@@ -140,7 +149,7 @@ export default class MainScreen {
 
         const hasNextPage = startingIndex + MainScreen.NUM_BOT_BUTTONS - 2 < textList.length ? true : false;
         if (hasNextPage) {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", function () {
+            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", () => {
                 MainScreen.displayPage(startingIndex + MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
             });
         }

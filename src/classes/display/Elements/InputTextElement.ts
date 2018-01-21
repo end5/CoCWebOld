@@ -4,14 +4,14 @@ export default class InputTextElement extends ScreenElement {
     public constructor() {
         super();
         this.htmlElement = document.createElement('input');
-        (<HTMLInputElement>this.htmlElement).type = "text";
+        (this.htmlElement as HTMLInputElement).type = "text";
     }
-    
+
     public getText(): string {
-        return (<HTMLInputElement>this.htmlElement).value;
+        return (this.htmlElement as HTMLInputElement).value;
     }
 
     public select() {
-        (<HTMLInputElement>this.htmlElement).select();
+        (this.htmlElement as HTMLInputElement).select();
     }
 }

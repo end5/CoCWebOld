@@ -1,5 +1,10 @@
 import ParagraphElement from './Elements/ParagraphElement';
-import HtmlUtils from '../Utilities/HtmlUtils';
+import { Utils } from '../Utilities/Utils';
 
-const DisplayText: ParagraphElement = new ParagraphElement(<HTMLParagraphElement>HtmlUtils.loadFromId("mainTextDisplay"));
-export default DisplayText;
+const textElement: ParagraphElement = new ParagraphElement();
+textElement.setHTMLElement(Utils.loadFromId("mainTextDisplay") as HTMLParagraphElement);
+
+export default function DisplayText(text: string = ""): ParagraphElement {
+    textElement.text(text);
+    return textElement;
+}
