@@ -4,23 +4,27 @@ import EquipableItem from '../EquipableItem';
 import ItemDesc from '../ItemDesc';
 import ItemType from '../ItemType';
 
-export default class Piercing extends EquipableItem implements ISerializable<Piercing> {
-    public readonly shortDesc;
-    public readonly longDesc;
+export enum PiercingType {
+    Stud = "Stud",
+    Ring = "Ring",
+    Ladder = "Ladder",
+    Hoop = "Hoop",
+    Chain = "Chain"
+}
 
-    public constructor(shortDesc: string, longDesc: string) {
-        super("Piercing", ItemType.Misc, null);
+export default class Piercing extends EquipableItem implements ISerializable<Piercing> {
+    public shortDesc: string;
+    public longDesc: string;
+
+    public constructor(piercingType: PiercingType, shortDesc: string = "", longDesc: string = "") {
+        super(piercingType, ItemType.Misc, null);
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
     }
 
-    public onEquip(character: Character): void {
+    public onEquip(character: Character): void { }
 
-    }
-
-    public onUnequip(character: Character): void {
-
-    }
+    public onUnequip(character: Character): void { }
 
     public equipText(): void { }
 
@@ -41,8 +45,8 @@ export default class Piercing extends EquipableItem implements ISerializable<Pie
         });
     }
 
-    public deserialize(saveObject: Piercing): Piercing {
-        const newPiercing = new Piercing(saveObject.shortDesc, saveObject.longDesc);
-        return newPiercing;
+    public deserialize(saveObject: Piercing) {
+        this.shortDesc = saveObject.shortDesc;
+        this.longDesc = saveObject.longDesc;
     }
 }

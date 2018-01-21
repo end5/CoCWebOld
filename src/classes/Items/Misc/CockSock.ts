@@ -9,7 +9,7 @@ import ItemType from '../ItemType';
 
 export default class CockSock extends EquipableItem {
     public constructor(name: CockSockName) {
-        super(name, ItemType.Misc, null);
+        super(name, ItemType.Misc, undefined);
     }
 
     public equipText(): void { }
@@ -35,7 +35,11 @@ export default class CockSock extends EquipableItem {
                 character.perks.set(PerkType.PentUp, PerkFactory.create(PerkType.PentUp));
             }
             else {
-                const numRings: number = character.torso.cocks.filter(Cock.HasCockRing).length - 1;
+                const numRings: number = character.inventory.equipment.cockSocks.reduce((prev, cur) => {
+                    if (cur.isEquipped() && cur.item.name === CockSockName.Cockring)
+                        prev++;
+                    return prev;
+                }, -1);
                 character.perks.get(PerkType.PentUp).value1 = 5 + (numRings * 5);
             }
         }
@@ -49,7 +53,11 @@ export default class CockSock extends EquipableItem {
         }
         else if (this.name === CockSockName.Cockring) {
             if (character.perks.has(PerkType.PentUp)) {
-                const numRings: number = character.torso.cocks.filter(Cock.HasCockRing).length - 1;
+                const numRings: number = character.inventory.equipment.cockSocks.reduce((prev, cur) => {
+                    if (cur.isEquipped() && cur.item.name === CockSockName.Cockring)
+                        prev++;
+                    return prev;
+                }, -1);
                 if (numRings === 0) {
                     character.perks.remove(PerkType.PentUp);
                 }
