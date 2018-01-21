@@ -1,14 +1,18 @@
-﻿import GenderDescriptor from './GenderDescriptor';
+﻿import ButtDescriptor from './ButtDescriptor';
+import GenderDescriptor from './GenderDescriptor';
+import VaginaDescriptor from './VaginaDescriptor';
+import BreastRow from '../Body/BreastRow';
+import Character from '../Character/Character';
 import Player from '../Player/Player';
 import RaceScore from '../RaceScore';
 
 export default class BodyDescriptor {
     public static describeBody(player: Player): string {
         let description: string = "";
-        //OLD STUFF
-        //SUPAH THIN
+        // OLD STUFF
+        // SUPAH THIN
         if (player.thickness < 10) {
-            //SUPAH BUFF
+            // SUPAH BUFF
             if (player.tone > 90)
                 description += "a lithe body covered in highly visible muscles";
             else if (player.tone > 75)
@@ -20,7 +24,7 @@ export default class BodyDescriptor {
             else
                 description += "a waif-thin body, and soft, forgiving flesh";
         }
-        //Pretty thin
+        // Pretty thin
         else if (player.thickness < 25) {
             if (player.tone > 90)
                 description += "a thin body and incredible muscle definition";
@@ -33,7 +37,7 @@ export default class BodyDescriptor {
             else
                 description += "a thin, soft body";
         }
-        //Somewhat thin
+        // Somewhat thin
         else if (player.thickness < 40) {
             if (player.tone > 90)
                 description += "a fit, somewhat thin body and rippling muscles all over";
@@ -46,7 +50,7 @@ export default class BodyDescriptor {
             else
                 description += "a fairly thin form and soft, cuddle-able flesh";
         }
-        //average
+        // average
         else if (player.thickness < 60) {
             if (player.tone > 90)
                 description += "average thickness and a bevy of perfectly defined muscles";
@@ -82,11 +86,11 @@ export default class BodyDescriptor {
                 description += "a wide-set body, some soft, forgiving flesh, and a hint of muscle underneath it";
             else {
                 description += "a wide, cushiony body";
-                if (player.gender >= 2 || player.upperBody.chest.BreastRatingLargest[0].breastRating > 3 || player.lowerBody.hipRating > 7 || player.lowerBody.butt.buttRating > 7)
+                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 3 || player.torso.hips.rating > 7 || player.torso.butt.rating > 7)
                     description += " and plenty of jiggle on your curves";
             }
         }
-        //Chunky monkey
+        // Chunky monkey
         else {
             if (player.tone > 90)
                 description += "an extremely thickset frame and so much muscle others would find you harder to move than a huge boulder";
@@ -96,16 +100,16 @@ export default class BodyDescriptor {
                 description += "an extremely substantial frame packing a decent amount of muscle";
             else if (player.tone > 25) {
                 description += "a very wide body";
-                if (player.gender >= 2 || player.upperBody.chest.BreastRatingLargest[0].breastRating > 4 || player.lowerBody.hipRating > 10 || player.lowerBody.butt.buttRating > 10)
+                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
                     description += ", lots of curvy jiggles,";
                 description += " and hints of muscle underneath";
             }
             else {
                 description += "a thick";
-                if (player.gender >= 2 || player.upperBody.chest.BreastRatingLargest[0].breastRating > 4 || player.lowerBody.hipRating > 10 || player.lowerBody.butt.buttRating > 10)
+                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
                     description += ", voluptuous";
                 description += " body and plush, ";
-                if (player.gender >= 2 || player.upperBody.chest.BreastRatingLargest[0].breastRating > 4 || player.lowerBody.hipRating > 10 || player.lowerBody.butt.buttRating > 10)
+                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
                     description += " jiggly curves";
                 else
                     description += " soft flesh";
@@ -114,111 +118,116 @@ export default class BodyDescriptor {
         return description;
     }
 
-    public static describeRace(player: Player): string {
+    public static describeRace(character: Character): string {
         let race: string = "human";
-        if (player.lowerBody.type == 4)
+        if (character.torso.hips.legs.type === 4)
             race = "centaur";
-        if (player.lowerBody.type == 11)
+        if (character.torso.hips.legs.type === 11)
             race = "pony-kin";
-        if (RaceScore.catScore(player) >= 4)
-            race = "cat-" + GenderDescriptor.mf(player, "boy", "girl");
-        if (RaceScore.lizardScore(player) >= 4) {
-            if (player.gender == 0)
+        if (RaceScore.catScore(character) >= 4)
+            race = "cat-" + GenderDescriptor.mf(character, "boy", "girl");
+        if (RaceScore.lizardScore(character) >= 4) {
+            if (character.gender === 0)
                 race = "lizan";
-            else if (player.gender == 1)
+            else if (character.gender === 1)
                 race = "male lizan";
-            else if (player.gender == 2)
+            else if (character.gender === 2)
                 race = "female lizan";
             else
                 race = "hermaphrodite lizan";
         }
-        if (RaceScore.dragonScore(player) >= 4) {
+        if (RaceScore.dragonScore(character) >= 4) {
             race = "dragon-morph";
-            if (player.upperBody.head.face.faceType == 0)
-                race = "dragon-" + GenderDescriptor.mf(player, "man", "girl");
+            if (character.torso.neck.head.face.type === 0)
+                race = "dragon-" + GenderDescriptor.mf(character, "man", "girl");
         }
-        if (RaceScore.raccoonScore(player) >= 4) {
+        if (RaceScore.raccoonScore(character) >= 4) {
             race = "raccoon-morph";
-            if (player.lowerBody.balls > 0 && player.lowerBody.ballSize > 5)
+            if (character.torso.balls.quantity > 0 && character.torso.balls.size > 5)
                 race = "tanuki-morph";
         }
-        if (RaceScore.dogScore(player) >= 4) {
+        if (RaceScore.dogScore(character) >= 4) {
             race = "dog-morph";
-            if (player.upperBody.head.face.faceType == 0)
-                race = "dog-" + GenderDescriptor.mf(player, "man", "girl");
+            if (character.torso.neck.head.face.type === 0)
+                race = "dog-" + GenderDescriptor.mf(character, "man", "girl");
         }
-        if (RaceScore.foxScore(player) >= 4) {
-            if (player.skinType == 1)
+        if (RaceScore.foxScore(character) >= 4) {
+            if (character.skin.type === 1)
                 race = "fox-morph";
             else
-                race = "fox-" + GenderDescriptor.mf(player, "morph", "girl");
+                race = "fox-" + GenderDescriptor.mf(character, "morph", "girl");
         }
-        if (RaceScore.ferretScore(player) >= 4) {
-            if (player.skinType == 1)
+        if (RaceScore.ferretScore(character) >= 4) {
+            if (character.skin.type === 1)
                 race = "ferret-morph";
             else
-                race = "ferret-" + GenderDescriptor.mf(player, "morph", "girl");
+                race = "ferret-" + GenderDescriptor.mf(character, "morph", "girl");
         }
-        if (RaceScore.kitsuneScore(player) >= 4) {
+        if (RaceScore.kitsuneScore(character) >= 4) {
             race = "kitsune";
         }
-        if (RaceScore.horseScore(player) >= 3) {
-            if (player.lowerBody.type == 4)
+        if (RaceScore.horseScore(character) >= 3) {
+            if (character.torso.hips.legs.type === 4)
                 race = "centaur-morph";
             else
                 race = "equine-morph";
         }
-        if (RaceScore.mutantScore(player) >= 5 && race == "human")
+        if (RaceScore.mutantScore(character) >= 5 && race === "human")
             race = "corrupted mutant";
-        if (RaceScore.minotaurScore(player) >= 4)
+        if (RaceScore.minotaurScore(character) >= 4)
             race = "minotaur-morph";
-        if (RaceScore.cowScore(player) > 5) {
+        if (RaceScore.cowScore(character) > 5) {
             race = "cow-";
-            race += GenderDescriptor.mf(player, "morph", "girl");
+            race += GenderDescriptor.mf(character, "morph", "girl");
         }
-        if (RaceScore.beeScore(player) >= 5)
+        if (RaceScore.beeScore(character) >= 5)
             race = "bee-morph";
-        if (RaceScore.goblinScore(player) >= 5)
+        if (RaceScore.goblinScore(character) >= 5)
             race = "goblin";
-        if (RaceScore.humanScore(player) >= 5 && race == "corrupted mutant")
+        if (RaceScore.humanScore(character) >= 5 && race === "corrupted mutant")
             race = "somewhat human mutant";
-        if (RaceScore.demonScore(player) > 4)
+        if (RaceScore.demonScore(character) > 4)
             race = "demon-morph";
-        if (RaceScore.sharkScore(player) >= 3)
+        if (RaceScore.sharkScore(character) >= 3)
             race = "shark-morph";
-        if (RaceScore.bunnyScore(player) >= 4)
-            race = "bunny-" + GenderDescriptor.mf(player, "boy", "girl");
-        if (RaceScore.harpyScore(player) >= 4) {
-            if (player.gender >= 2)
+        if (RaceScore.bunnyScore(character) >= 4)
+            race = "bunny-" + GenderDescriptor.mf(character, "boy", "girl");
+        if (RaceScore.harpyScore(character) >= 4) {
+            if (character.gender >= 2)
                 race = "harpy";
             else
                 race = "avian";
         }
-        if (RaceScore.spiderScore(player) >= 4) {
+        if (RaceScore.spiderScore(character) >= 4) {
             race = "spider-morph";
-            if (GenderDescriptor.mf(player, "no", "yes") == "yes")
+            if (GenderDescriptor.mf(character, "no", "yes") === "yes")
                 race = "spider-girl";
-            if (player.lowerBody.type == 16)
+            if (character.torso.hips.legs.type === 16)
                 race = "drider";
         }
-        if (RaceScore.kangaScore(player) >= 4)
+        if (RaceScore.kangaScore(character) >= 4)
             race = "kangaroo-morph";
-        if (RaceScore.mouseScore(player) >= 3) {
-            if (player.upperBody.head.face.faceType != 16)
-                race = "mouse-" + GenderDescriptor.mf(player, "boy", "girl");
+        if (RaceScore.mouseScore(character) >= 3) {
+            if (character.torso.neck.head.face.type !== 16)
+                race = "mouse-" + GenderDescriptor.mf(character, "boy", "girl");
             else
                 race = "mouse-morph";
         }
-        if (player.lowerBody.type == 3)
+        if (character.torso.hips.legs.type === 3)
             race = "naga";
-        if (player.lowerBody.type == 4)
+        if (character.torso.hips.legs.type === 4)
             race = "centaur";
 
-        if (RaceScore.gooScore(player) >= 3) {
+        if (RaceScore.gooScore(character) >= 3) {
             race = "goo-";
-            race += GenderDescriptor.mf(player, "boi", "girl");
+            race += GenderDescriptor.mf(character, "boi", "girl");
         }
         return race;
     }
 
+    public static assholeOrPussy(body: Character): string {
+        if (body.torso.vaginas.count > 0)
+            return VaginaDescriptor.describeVagina(body, body.torso.vaginas.get(0));
+        return ButtDescriptor.describeButthole(body.torso.butt);
+    }
 }

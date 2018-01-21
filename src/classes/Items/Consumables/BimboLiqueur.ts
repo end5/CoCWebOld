@@ -4,7 +4,7 @@ import BreastRow from '../../Body/BreastRow';
 import Vagina, { VaginaWetness } from '../../Body/Vagina';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -94,8 +94,8 @@ export default class BimboLiqueur extends Consumable {
                 player.torso.vaginas.add(new Vagina());
                 player.torso.clit.length = 0.25;
                 player.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
-                if (player.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LowerBodyDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
-                else DisplayText("Wait!?  Wet?  You touch yourself between the " + LowerBodyDescriptor.describeLegs(player) + " and groan when your fingers sink into a sloppy, wet cunt.");
+                if (player.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
+                else DisplayText("Wait!?  Wet?  You touch yourself between the " + LegDescriptor.describeLegs(player) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
                 if (player.torso.hips.legs.isTaur()) {
@@ -144,7 +144,7 @@ export default class BimboLiqueur extends Consumable {
             DisplayText("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(player, player.torso.vaginas.get(0)) + " is throbbing, and you give it an experimental ");
             if (player.torso.clit.length >= 3) DisplayText("jerk ");
             else DisplayText("caress ");
-            DisplayText("that makes your " + LowerBodyDescriptor.describeLegs(player) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
+            DisplayText("that makes your " + LegDescriptor.describeLegs(player) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
 
             DisplayText("Though the orgasm is intense, you recover a few moments later feeling refreshed, but still hot and horny.  Maybe you could find a partner to fuck?  After all, sex is, like, better with a partner or two.  Or that number after two.  You brush a lengthy, platinum blonde stUtils.rand of hair out of your eyes and lick your lips - you're ready to have some fun!\n\n");
 

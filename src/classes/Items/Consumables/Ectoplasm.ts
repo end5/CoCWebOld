@@ -3,7 +3,7 @@ import ConsumableName from './ConsumableName';
 import { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Skin';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -96,7 +96,7 @@ export default class Ectoplasm extends Consumable {
         // Legs
         if (changes < changeLimit && !player.perks.has(PerkType.Incorporeality) && (player.skin.tone === "white" || player.skin.tone === "sable") && player.torso.neck.head.hair.type === 2) {
             // (ghost-legs!  Absolutely no problem with regular encounters, though! [if you somehow got this with a centaur it'd probably do nothing cuz you're not supposed to be a centaur with ectoplasm ya dingus])
-            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + LowerBodyDescriptor.describeHips(player) + ". Before you can react, your " + LowerBodyDescriptor.describeLegs(player) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + LowerBodyDescriptor.describeLegs(player) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
+            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + LegDescriptor.describeHips(player) + ". Before you can react, your " + LegDescriptor.describeLegs(player) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + LegDescriptor.describeLegs(player) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
             DisplayText("<b>(Gained Perk:  Incorporeality</b>)");
             player.perks.set(PerkType.Incorporeality, PerkFactory.create(PerkType.Incorporeality, 0, 0, 0, 0));
         }

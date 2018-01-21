@@ -6,7 +6,7 @@ import Tail, { TailType } from '../../Body/Tail';
 import { TongueType } from '../../Body/Tongue';
 import { WingType } from '../../Body/Wings';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
@@ -86,14 +86,14 @@ export default class GenericTransforms {
             if (player.gender <= 1) {
                 if (player.torso.hips.legs.type !== LegType.DEMONIC_CLAWS) {
                     DisplayText("\n\n");
-                    DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
+                    DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LegDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
                     player.torso.hips.legs.type = LegType.DEMONIC_CLAWS;
                 }
             }
             // Females/futa get high heels
             else if (player.torso.hips.legs.type !== LegType.DEMONIC_HIGH_HEELS) {
                 DisplayText("\n\n");
-                DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LowerBodyDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
+                DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LegDescriptor.describeFeet(player) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
                 player.torso.hips.legs.type = LegType.DEMONIC_HIGH_HEELS;
             }
         }

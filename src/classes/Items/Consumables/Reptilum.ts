@@ -14,7 +14,7 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -164,7 +164,7 @@ export default class Reptilum extends Consumable {
         // -Grows second lizard dick if only 1 dick
         if (player.torso.cocks.filterType(CockType.LIZARD).length === 1 && player.torso.cocks.count === 1 && Utils.rand(4) === 0 && changes < changeLimit) {
             const firstCock = player.torso.cocks.get(0);
-            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + LowerBodyDescriptor.describeFeet(player) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + player.skin.desc + ", adjacent to your " + CockDescriptor.describeCock(player, firstCock) + ".  The flesh darkens, turning purple");
+            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + LegDescriptor.describeFeet(player) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + player.skin.desc + ", adjacent to your " + CockDescriptor.describeCock(player, firstCock) + ".  The flesh darkens, turning purple");
             if (player.skin.type === SkinType.FUR || player.skin.type === SkinType.SCALES)
                 DisplayText(" and shedding " + player.skin.desc);
             DisplayText(" as the bulge lengthens, pushing out from your body.  Too surprised to react, you can only pant in pain and watch as the fleshy lump starts to take on a penis-like appearance.  <b>You're growing a second lizard-cock!</b>  It doesn't stop growing until it's just as long as its brother and the same shade of shiny purple.  A dribble of cum oozes from its tip, and you feel relief at last.");
@@ -323,7 +323,7 @@ export default class Reptilum extends Consumable {
             // feet types -
             else if (player.torso.hips.legs.type === LegType.HUMAN || player.torso.hips.legs.type === LegType.DOG || player.torso.hips.legs.type === LegType.DEMONIC_HIGH_HEELS || player.torso.hips.legs.type === LegType.DEMONIC_CLAWS || player.torso.hips.legs.type === LegType.BEE || player.torso.hips.legs.type === LegType.CAT) DisplayText("\n\nYou scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
             // Else -
-            else DisplayText("\n\nPain rips through your " + LowerBodyDescriptor.describeLegs(player) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
+            else DisplayText("\n\nPain rips through your " + LegDescriptor.describeLegs(player) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
             DisplayText("  <b>You have reptilian legs and claws!</b>");
             player.torso.hips.legs.type = LegType.LIZARD;
             changes++;
@@ -344,7 +344,7 @@ export default class Reptilum extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LowerBodyDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (player.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }

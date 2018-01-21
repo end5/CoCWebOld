@@ -4,7 +4,7 @@ import Cock from '../../Body/Cock';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -31,7 +31,7 @@ export default class BroBrew extends Consumable {
                 DisplayText(".. Did the ground just get farther away?  You glance down and realize, you're growing!  Like a sped-up flower sprout, you keep on getting taller until finally stopping around... six and a half feet, you assume.  Huh.  You didn't expect that to happen!");
             }
             if (player.tone < 100) {
-                DisplayText("  A tingling in your arm draws your attention just in time to see your biceps and triceps swell with new-found energy, skin tightening until thick cords of muscle run across the whole appendage.  Your other arm surges forward with identical results.  To compensate, your shoulders and neck widen to bodybuilder-like proportions while your chest and abs tighten to a firm, statuesque physique.  Your " + LowerBodyDescriptor.describeLegs(player) + " and glutes are the last to go, bulking up to proportions that would make any female martial artist proud.  You feel like you could kick forever with legs this powerful.");
+                DisplayText("  A tingling in your arm draws your attention just in time to see your biceps and triceps swell with new-found energy, skin tightening until thick cords of muscle run across the whole appendage.  Your other arm surges forward with identical results.  To compensate, your shoulders and neck widen to bodybuilder-like proportions while your chest and abs tighten to a firm, statuesque physique.  Your " + LegDescriptor.describeLegs(player) + " and glutes are the last to go, bulking up to proportions that would make any female martial artist proud.  You feel like you could kick forever with legs this powerful.");
                 player.tone = 100;
             }
             DisplayText("\n\n");
@@ -121,7 +121,7 @@ export default class BroBrew extends Consumable {
         DisplayText("Starting at your hands, your muscles begin to contract and release, each time getting tighter, stronger, and more importantly - larger.  The oddness travels up your arms, thickens your biceps, and broadens your shoulders.  Soon, your neck and chest are as built as your arms.  You give a few experimental flexes as your abs ");
         if (player.tone >= 70) DisplayText("further define themselves");
         else DisplayText("become extraordinarily visible");
-        DisplayText(".  The strange, muscle-building changes flow down your " + LowerBodyDescriptor.describeLegs(player) + ", making them just as fit and strong as the rest of you.  You curl your arm and kiss your massive, flexing bicep.  You're awesome!\n\n");
+        DisplayText(".  The strange, muscle-building changes flow down your " + LegDescriptor.describeLegs(player) + ", making them just as fit and strong as the rest of you.  You curl your arm and kiss your massive, flexing bicep.  You're awesome!\n\n");
 
         DisplayText("Whoah, you're fucking ripped and strong, not at all like the puny weakling you were before.  Yet, you feel oddly wool-headed.  Your thoughts seem to be coming slower and slower, like they're plodding through a marsh.  You grunt in frustration at the realization.  Sure, you're a muscle-bound hunk now, but what good is it if you're as dumb as a box of rocks?  Your muscles flex in the most beautiful way, so you stop and strike a pose, mesmerized by your own appearance.  Fuck thinking, that shit's for losers!\n\n");
 
@@ -142,7 +142,7 @@ export default class BroBrew extends Consumable {
                 DisplayText("Churning audibly, your " + BallsDescriptor.describeSack(player) + " sways, but doesn't show any outward sign of change.  Oh well, it's probably just like, getting more endurance or something.");
             }
             else {
-                DisplayText("Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LowerBodyDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.");
+                DisplayText("Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LegDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.");
                 player.torso.balls.quantity = 2;
                 player.torso.balls.size = 3;
             }
@@ -150,9 +150,9 @@ export default class BroBrew extends Consumable {
         }
         // (No dick)
         else {
-            DisplayText("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.equipment.armor.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + LowerBodyDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!");
+            DisplayText("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.equipment.armor.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + LegDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!");
             if (player.torso.balls.quantity === 0)
-                DisplayText("  Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LowerBodyDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.");
+                DisplayText("  Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LegDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.");
             DisplayText("\n\n");
             player.torso.cocks.add(new Cock(12, 2.75));
             if (player.torso.balls.quantity === 0) {

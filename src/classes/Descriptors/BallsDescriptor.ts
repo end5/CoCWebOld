@@ -1,27 +1,28 @@
-﻿import Creature from '../Body/Creature';
-import Utils from '../Utilities/Utils';
+﻿import Character from '../Character/Character';
+import { StatusAffectType } from '../Effects/StatusAffectType';
+import { Utils } from '../Utilities/Utils';
 
 export default class BallsDescriptor {
-    //ballsDescriptLight(forcedSize, true, this)
+    // ballsDescriptLight(forcedSize, true, this)
     /**
-        * Describe creatures balls.
-        * @param    forceDisplaySize    Force a description of the size of the balls
-        * @param    plural        Show plural forms
-        * @param    creature        Monster, Player or NonPlayer
-        * @param    withArticle    Show description with article in front
-        * @return    Full description of balls
-        */
-    public static describeBalls(forceDisplaySize: boolean, plural: boolean, body: Creature, withArticle: boolean = false): string {
-        if (body.lowerBody.balls == 0)
+     * Describe creatures balls.
+     * @param    forceDisplaySize    Force a description of the size of the balls
+     * @param    plural        Show plural forms
+     * @param    creature        Monster, Player or NonPlayer
+     * @param    withArticle    Show description with article in front
+     * @return    Full description of balls
+     */
+    public static describeBalls(forceDisplaySize: boolean, plural: boolean, character: Character, withArticle: boolean = false): string {
+        if (character.torso.balls.quantity === 0)
             return "prostate";
 
-        let haveDescription: boolean = false;
-        let randomNumber: number = 0;
+        const haveDescription: boolean = false;
+        const randomNumber: number = 0;
         let description: string = "";
         let options: string[] = [];
 
-        if (plural && (!body.statusAffects.has(StatusAffectType.Uniball))) {
-            if (body.lowerBody.balls == 1) {
+        if (plural && (!character.statusAffects.has(StatusAffectType.Uniball))) {
+            if (character.torso.balls.quantity === 1) {
                 if (withArticle) {
                     options = ["a single",
                         "a solitary",
@@ -36,7 +37,7 @@ export default class BallsDescriptor {
                 }
                 description += Utils.randomChoice(options);
             }
-            else if (body.lowerBody.balls == 2) {
+            else if (character.torso.balls.quantity === 2) {
                 if (withArticle) {
                     options = ["a pair of",
                         "two",
@@ -49,13 +50,13 @@ export default class BallsDescriptor {
                 }
                 description += Utils.randomChoice(options);
             }
-            else if (body.lowerBody.balls == 3) {
+            else if (character.torso.balls.quantity === 3) {
                 options = ["three",
                     "triple"];
                 (withArticle) ? options.push("a trio of") : options.push("trio of");
                 description += Utils.randomChoice(options);
             }
-            else if (body.lowerBody.balls == 4) {
+            else if (character.torso.balls.quantity === 4) {
                 options = ["four",
                     "quadruple"];
                 (withArticle) ? options.push("a quartette of") : options.push("quartette of");
@@ -75,34 +76,34 @@ export default class BallsDescriptor {
                 description += Utils.randomChoice(options);
             }
         }
-        //size!
-        if (body.lowerBody.ballSize > 1 && (Utils.rand(3) <= 1 || forceDisplaySize)) {
+        // size!
+        if (character.torso.balls.size > 1 && (Utils.rand(3) <= 1 || forceDisplaySize)) {
             if (description) description += " ";
 
-            if (body.lowerBody.ballSize >= 18)
+            if (character.torso.balls.size >= 18)
                 description += "hideously swollen and oversized";
-            else if (body.lowerBody.ballSize >= 15)
+            else if (character.torso.balls.size >= 15)
                 description += "beachball-sized";
-            else if (body.lowerBody.ballSize >= 12)
+            else if (character.torso.balls.size >= 12)
                 description += "watermelon-sized";
-            else if (body.lowerBody.ballSize >= 9)
+            else if (character.torso.balls.size >= 9)
                 description += "basketball-sized";
-            else if (body.lowerBody.ballSize >= 7)
+            else if (character.torso.balls.size >= 7)
                 description += "soccerball-sized";
-            else if (body.lowerBody.ballSize >= 5)
+            else if (character.torso.balls.size >= 5)
                 description += "cantaloupe-sized";
-            else if (body.lowerBody.ballSize >= 4)
+            else if (character.torso.balls.size >= 4)
                 description += "grapefruit-sized";
-            else if (body.lowerBody.ballSize >= 3)
+            else if (character.torso.balls.size >= 3)
                 description += "apple-sized";
-            else if (body.lowerBody.ballSize >= 2)
+            else if (character.torso.balls.size >= 2)
                 description += "baseball-sized";
-            else if (body.lowerBody.ballSize > 1)
+            else if (character.torso.balls.size > 1)
                 description += "large";
 
         }
-        //UNIBALL
-        if (body.statusAffects.has(StatusAffectType.Uniball)) {
+        // UNIBALL
+        if (character.statusAffects.has(StatusAffectType.Uniball)) {
             if (description)
                 description += " ";
             options = ["tightly-compressed",
@@ -113,8 +114,8 @@ export default class BallsDescriptor {
             description += Utils.randomChoice(options);
 
         }
-        //Descriptive
-        if (body.hoursSinceCum >= 48 && Utils.rand(2) == 0 && !forceDisplaySize) {
+        // Descriptive
+        if (character.hoursSinceCum >= 48 && Utils.rand(2) === 0 && !forceDisplaySize) {
             if (description)
                 description += " ";
             options = ["overflowing",
@@ -123,8 +124,8 @@ export default class BallsDescriptor {
             description += Utils.randomChoice(options);
 
         }
-        //lusty
-        if (body.stats.lust > 90 && (description == "") && Utils.rand(2) == 0 && !forceDisplaySize) {
+        // lusty
+        if (character.stats.lust > 90 && (description === "") && Utils.rand(2) === 0 && !forceDisplaySize) {
             options = ["eager",
                 "full",
                 "needy",
@@ -137,8 +138,8 @@ export default class BallsDescriptor {
             description += Utils.randomChoice(options);
 
         }
-        //Slimy skin
-        if (body.skinType == 3) {
+        // Slimy skin
+        if (character.skin.type === 3) {
             if (description)
                 description += " ";
             options = ["goopey",
@@ -160,16 +161,16 @@ export default class BallsDescriptor {
             "ball"];
 
         // I don't know how this was ever supposed to work.
-        //if (i_creature.balls == 4 && i_plural) options.push("quads", "quads", "quads");
+        // if (i_creature.balls == 4 && i_plural) options.push("quads", "quads", "quads");
 
         description += Utils.randomChoice(options);
         if (plural)
             description += "s";
 
-        if (body.statusAffects.has(StatusAffectType.Uniball) && Utils.rand(2) == 0) {
-            if (Utils.rand(3) == 0)
+        if (character.statusAffects.has(StatusAffectType.Uniball) && Utils.rand(2) === 0) {
+            if (Utils.rand(3) === 0)
                 description += " merged into a cute, spherical package";
-            else if (Utils.rand(2) == 0)
+            else if (Utils.rand(2) === 0)
                 description += " combined into a round, girlish shape";
             else
                 description += " squeezed together into a perky, rounded form";
@@ -177,13 +178,13 @@ export default class BallsDescriptor {
         return description;
     }
 
-    public static describeBallsShort(body: Creature, forceDisplaySize: boolean = true): string {
-        return BallsDescriptor.describeBalls(forceDisplaySize, true, body);
+    public static describeBallsShort(character: Character, forceDisplaySize: boolean = true): string {
+        return BallsDescriptor.describeBalls(forceDisplaySize, true, character);
     }
 
-    //Returns random description of scrotum
-    public static describeSack(body: Creature): string {
-        if (body.lowerBody.balls == 0)
+    // Returns random description of scrotum
+    public static describeSack(character: Character): string {
+        if (character.torso.balls.quantity === 0)
             return "prostate";
 
         let options: string[] = [];
@@ -200,5 +201,4 @@ export default class BallsDescriptor {
 
         return description;
     }
-
 }

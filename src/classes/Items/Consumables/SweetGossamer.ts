@@ -12,7 +12,7 @@ import Tail, { TailType } from '../../Body/Tail';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
@@ -275,7 +275,7 @@ export default class SweetGossamer extends Consumable {
             changes < changeLimit &&
             Utils.rand(4) === 0
         ) {
-            DisplayText("\n\nStarting at your " + LowerBodyDescriptor.describeFeet(player) + ", a tingle runs up your " + LowerBodyDescriptor.describeLegs(player) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + ButtDescriptor.describeButt(player) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
+            DisplayText("\n\nStarting at your " + LegDescriptor.describeFeet(player) + ", a tingle runs up your " + LegDescriptor.describeLegs(player) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + ButtDescriptor.describeButt(player) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
             player.torso.hips.legs.type = LegType.CHITINOUS_SPIDER_LEGS;
             changes++;
         }

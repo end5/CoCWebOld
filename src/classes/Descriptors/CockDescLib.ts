@@ -40,8 +40,8 @@ export default class CockDescLib {
     * 8 - ugliest wang ever (kangaroo)
     * 9 - dragon
     * 10 - displacer
-    * 11 - Fox	
-	
+    * 11 - Fox
+
     Group Types used for general description code (eventually)
     * human  	- obvious
     * mammal 	- obvious again

@@ -13,7 +13,7 @@ import Character from '../../Character/Character';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
@@ -611,7 +611,7 @@ export default class CaninePepper extends Consumable {
                             else DisplayText("\nYou reluctantly pry your hand from your aching " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " as you drag yourself out of your fantasy.");
                         }
                         else {
-                            DisplayText("  At last your knot pops into her juicy snatch, splattering her groin with a smattering of her arousal.  The scents of your mating reach a peak as the velvet vice around your " + CockDescriptor.nounCock(CockType.DOG) + " quivers in the most indescribably pleasant way.  You clamp down on her hide as your whole body tenses, unleashing a torrent of cum into her sex.  Each blast is accompanied by a squeeze of her hot passage, milking you of the last of your spooge.  Your " + LowerBodyDescriptor.describeLegs(character) + " give out as your fantasy nearly brings you to orgasm, the sudden impact with the ground jarring you from your daydream.");
+                            DisplayText("  At last your knot pops into her juicy snatch, splattering her groin with a smattering of her arousal.  The scents of your mating reach a peak as the velvet vice around your " + CockDescriptor.nounCock(CockType.DOG) + " quivers in the most indescribably pleasant way.  You clamp down on her hide as your whole body tenses, unleashing a torrent of cum into her sex.  Each blast is accompanied by a squeeze of her hot passage, milking you of the last of your spooge.  Your " + LegDescriptor.describeLegs(character) + " give out as your fantasy nearly brings you to orgasm, the sudden impact with the ground jarring you from your daydream.");
                             character.stats.lust += 5 + character.stats.lib / 20;
                         }
                     }
@@ -681,7 +681,7 @@ export default class CaninePepper extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LowerBodyDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }

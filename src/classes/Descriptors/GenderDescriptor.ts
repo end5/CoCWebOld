@@ -1,39 +1,40 @@
-﻿import Creature, { Gender } from '../Body/Creature';
+﻿import BreastRow from '../Body/BreastRow';
+import { Gender } from '../Body/Creature';
 import Character from '../Character/Character';
 
 export default class GenderDescriptor {
     public static genderText(gender: Gender, male: string = "man", female: string = "woman", futa: string = "herm", eunuch: string = "eunuch"): string {
-        if (gender == Gender.HERM)
+        if (gender === Gender.HERM)
             return futa;
-        else if (gender == Gender.MALE)
+        else if (gender === Gender.MALE)
             return male;
-        else if (gender == Gender.FEMALE)
+        else if (gender === Gender.FEMALE)
             return female;
-        else if (gender == Gender.NONE)
+        else if (gender === Gender.NONE)
             return eunuch;
     }
 
     public static mfn(gender: Gender, male: string, female: string, neuter: string): string {
-        if (gender == Gender.NONE)
+        if (gender === Gender.NONE)
             return neuter;
-        else if (gender == Gender.FEMALE)
+        else if (gender === Gender.FEMALE)
             return female;
-        else if (gender == Gender.MALE)
+        else if (gender === Gender.MALE)
             return male;
     }
 
-    public static mf(body: Creature, male: string, female: string) {
-        if (body.lowerBody.cockSpot.hasCock()) {
-            if (body.lowerBody.vaginaSpot.hasVagina())
+    public static mf(character: Character, male: string, female: string) {
+        if (character.torso.cocks.count > 0) {
+            if (character.torso.vaginas.count > 0)
                 return female;
             else
                 return male;
         }
         else {
-            if (body.lowerBody.vaginaSpot.hasVagina())
+            if (character.torso.vaginas.count > 0)
                 return female;
             else {
-                if (body.upperBody.chest.hasFemaleBreasts())
+                if (character.torso.chest.filter(BreastRow.FemaleBreasts).length > 0)
                     return female;
                 else
                     return male;
@@ -42,25 +43,25 @@ export default class GenderDescriptor {
     }
 
     public static manWomanFutaEunuch(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM) {
+        if (gender === Gender.HERM) {
             if (caps)
                 return "Futa";
             else
                 return "futa";
         }
-        else if (gender == Gender.MALE) {
+        else if (gender === Gender.MALE) {
             if (caps)
                 return "Man";
             else
                 return "man";
         }
-        else if (gender == Gender.FEMALE) {
+        else if (gender === Gender.FEMALE) {
             if (caps)
                 return "Woman";
             else
                 return "woman";
         }
-        else if (gender == Gender.NONE) {
+        else if (gender === Gender.NONE) {
             if (caps)
                 return "Eunuch";
             else
@@ -69,13 +70,13 @@ export default class GenderDescriptor {
     }
 
     public static guyGirl(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
+        if (gender === Gender.HERM || gender === Gender.FEMALE) {
             if (caps)
                 return "Girl";
             else
                 return "girl";
         }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
+        else if (gender === Gender.MALE || gender === Gender.NONE) {
             if (caps)
                 return "Guy";
             else
@@ -84,13 +85,13 @@ export default class GenderDescriptor {
     }
 
     public static boyGirl(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
+        if (gender === Gender.HERM || gender === Gender.FEMALE) {
             if (caps)
                 return "Girl";
             else
                 return "girl";
         }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
+        else if (gender === Gender.MALE || gender === Gender.NONE) {
             if (caps)
                 return "Boy";
             else
@@ -99,13 +100,13 @@ export default class GenderDescriptor {
     }
 
     public static maleFemale(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
+        if (gender === Gender.HERM || gender === Gender.FEMALE) {
             if (caps)
                 return "Female";
             else
                 return "female";
         }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
+        else if (gender === Gender.MALE || gender === Gender.NONE) {
             if (caps)
                 return "Male";
             else
@@ -114,13 +115,13 @@ export default class GenderDescriptor {
     }
 
     public static sirMadam(gender: Gender, caps: boolean = false): string {
-        if (gender == Gender.HERM || gender == Gender.FEMALE) {
+        if (gender === Gender.HERM || gender === Gender.FEMALE) {
             if (caps)
                 return "Madam";
             else
                 return "madam";
         }
-        else if (gender == Gender.MALE || gender == Gender.NONE) {
+        else if (gender === Gender.MALE || gender === Gender.NONE) {
             if (caps)
                 return "Sir";
             else

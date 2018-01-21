@@ -1,64 +1,65 @@
-﻿import Creature, { SkinType } from '../Body/Creature';
-import Head, { HairType } from '../Body/Head';
-import Utils from '../Utilities/Utils';
+﻿import { HairType } from '../Body/Hair';
+import { SkinType } from '../Body/Skin';
+import Character from '../Character/Character';
+import { Utils } from '../Utilities/Utils';
 
 export default class HeadDescriptor {
-    public static hairOrFur(body: Creature): string {
-        if (body.skinType == SkinType.FUR)
+    public static hairOrFur(character: Character): string {
+        if (character.skin.type === SkinType.FUR)
             return "fur";
         else
             return "hair";
     }
 
-    public static describeHair(body: Creature): string {
+    public static describeHair(character: Character): string {
         let description: string = "";
-        let head = body.upperBody.head;
+        const head = character.torso.neck.head;
 
-        if (head.hairLength == 0) {
+        if (head.hair.length === 0) {
             return Utils.randomChoice("shaved",
                 "bald",
                 "smooth",
                 "hairless",
                 "glabrous") + " head";
         }
-        else if (head.hairLength < 1) {
+        else if (head.hair.length < 1) {
             description += Utils.randomChoice(
                 "close-cropped, ",
                 "trim, ",
                 "very short, ");
         }
-        else if (head.hairLength >= 1 && head.hairLength < 3)
+        else if (head.hair.length >= 1 && head.hair.length < 3)
             description += "short, ";
-        else if (head.hairLength >= 3 && head.hairLength < 6)
+        else if (head.hair.length >= 3 && head.hair.length < 6)
             description += "shaggy, ";
-        else if (head.hairLength >= 6 && head.hairLength < 10)
+        else if (head.hair.length >= 6 && head.hair.length < 10)
             description += "moderately long, ";
-        else if (head.hairLength >= 10 && head.hairLength < 16) {
+        else if (head.hair.length >= 10 && head.hair.length < 16) {
             if (Utils.chance(50))
                 description += "long, ";
             else
                 description += "shoulder-length, ";
         }
-        else if (head.hairLength >= 16 && head.hairLength < 26) {
+        else if (head.hair.length >= 16 && head.hair.length < 26) {
             if (Utils.chance(50))
                 description += "very long, ";
             else
                 description += "flowing locks of ";
         }
-        else if (head.hairLength >= 26 && head.hairLength < 40)
+        else if (head.hair.length >= 26 && head.hair.length < 40)
             description += "ass-length, ";
-        else if (head.hairLength >= 40 && head.hairLength < body.tallness)
+        else if (head.hair.length >= 40 && head.hair.length < character.tallness)
             description += "obscenely long, ";
-        else if (head.hairLength >= body.tallness) {
+        else if (head.hair.length >= character.tallness) {
             if (Utils.chance(50))
                 description += "floor-length, ";
             else
                 description += "floor-dragging, ";
         }
 
-        description += head.hairColor + " ";
+        description += head.hair.color + " ";
 
-        switch (head.hairType) {
+        switch (head.hair.type) {
             case HairType.FEATHER:
                 description += "feather-";
                 break;
@@ -73,20 +74,19 @@ export default class HeadDescriptor {
                 break;
         }
 
-        //if medium length refer to as locks sometimes
-        //CUT - locks is plural and screws up tense.
-		/*if(head.hairLength >= 3 && head.hairLength < 16 && Utils.rand(2) == 0) {
+        // if medium length refer to as locks sometimes
+        // CUT - locks is plural and screws up tense.
+        /*if(head.hair.length >= 3 && head.hair.length < 16 && Utils.rand(2) == 0) {
 			descript += "locks of hair";
 			return descript;
 			}*/
 
-        //If furry and longish hair sometimes call it a mane (50%)
-        if (body.skinType == SkinType.FUR && head.hairLength > 3 && Utils.chance(50))
+        // If furry and longish hair sometimes call it a mane (50%)
+        if (character.skin.type === SkinType.FUR && head.hair.length > 3 && Utils.chance(50))
             description += "mane";
         else
             description += "hair";
 
         return description;
     }
-
 }

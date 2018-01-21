@@ -16,7 +16,7 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -224,13 +224,13 @@ export default class GoldenSeed extends Consumable {
         }
         // -Grow hips out if narrow.
         if (player.torso.hips.rating < 10 && changes < changeLimit && Utils.rand(3) === 0) {
-            DisplayText("\n\nYour gait shifts slightly to accommodate your widening " + LowerBodyDescriptor.describeHips(player) + ". The change is subtle, but they're definitely broader.");
+            DisplayText("\n\nYour gait shifts slightly to accommodate your widening " + LegDescriptor.describeHips(player) + ". The change is subtle, but they're definitely broader.");
             player.torso.hips.rating++;
             changes++;
         }
         // -Narrow hips if crazy wide
         if (player.torso.hips.rating >= 15 && changes < changeLimit && Utils.rand(3) === 0) {
-            DisplayText("\n\nYour gait shifts inward, your " + LowerBodyDescriptor.describeHips(player) + " narrowing significantly. They remain quite thick, but they're not as absurdly wide as before.");
+            DisplayText("\n\nYour gait shifts inward, your " + LegDescriptor.describeHips(player) + " narrowing significantly. They remain quite thick, but they're not as absurdly wide as before.");
             player.torso.hips.rating--;
             changes++;
         }
@@ -257,7 +257,7 @@ export default class GoldenSeed extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LowerBodyDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (player.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -270,7 +270,7 @@ export default class GoldenSeed extends Consumable {
         // -Harpy legs
         if (player.torso.hips.legs.type !== LegType.HARPY && changes < changeLimit && (this.enhanced || player.torso.tails.filterType(TailType.HARPY).length >= 1) && Utils.rand(4) === 0) {
             // (biped/taur)
-            if (!player.torso.hips.legs.isGoo()) DisplayText("\n\nYour " + LowerBodyDescriptor.describeLegs(player) + " creak ominously a split-second before they go weak and drop you on the ground. They go completely limp, twisting and reshaping before your eyes in ways that make you wince. Your lower body eventually stops, but the form it's settled on is quite thick in the thighs. Even your " + LowerBodyDescriptor.describeFeet(player) + " have changed.  ");
+            if (!player.torso.hips.legs.isGoo()) DisplayText("\n\nYour " + LegDescriptor.describeLegs(player) + " creak ominously a split-second before they go weak and drop you on the ground. They go completely limp, twisting and reshaping before your eyes in ways that make you wince. Your lower body eventually stops, but the form it's settled on is quite thick in the thighs. Even your " + LegDescriptor.describeFeet(player) + " have changed.  ");
             // goo
             else DisplayText("\n\nYour gooey undercarriage loses some of its viscosity, dumping you into the puddle that was once your legs. As you watch, the fluid pulls together into a pair of distinctly leg-like shapes, solidifying into a distinctly un-gooey form. You've even regained a pair of feet!  ");
             player.torso.hips.legs.type = LegType.HARPY;

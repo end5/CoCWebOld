@@ -15,7 +15,7 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import GenderDescriptor from '../../Descriptors/GenderDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
@@ -91,7 +91,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (player.stats.cor < 90) DisplayText("You pant a little and wonder where the nearest fertile male is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  You should get bred soon!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + LowerBodyDescriptor.assholeOrPussy(player) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + LegDescriptor.assholeOrPussy(player) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
                 }
                 // WANGS!
                 if (player.torso.cocks.count > 0) {
@@ -241,20 +241,20 @@ export default class NeonPinkEgg extends Consumable {
                 // (large cum quantity) < 750
                 else if (player.cumQ() < 750) {
                     DisplayText("\n\nA strong contraction passes through your " + BallsDescriptor.describeSack(player) + ", almost painful in its intensity.  ");
-                    if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockSimpleOne(player, true) + " leaks and dribbles pre-cum down your " + LowerBodyDescriptor.describeLegs(player) + " as your body's cum production kicks up even higher.");
+                    if (player.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockSimpleOne(player, true) + " leaks and dribbles pre-cum down your " + LegDescriptor.describeLegs(player) + " as your body's cum production kicks up even higher.");
                     else DisplayText("You wince, feeling pent up and yet unable to release.  You really wish you had a cock right about now.");
                 }
                 // (XL cum quantity) < 2000
                 else if (player.cumQ() < 2000) {
                     DisplayText("\n\nAn orgasmic contraction wracks your " + BallsDescriptor.describeBalls(true, true, player) + ", shivering through the potent orbs and passing as quickly as it came.  ");
-                    if (player.torso.cocks.count > 0) DisplayText("A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(player) + " down your " + LowerBodyDescriptor.describeLeg(player) + ", pooling below you.");
+                    if (player.torso.cocks.count > 0) DisplayText("A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(player) + " down your " + LegDescriptor.describeLeg(player) + ", pooling below you.");
                     else DisplayText("You grunt, feeling terribly pent-up and needing to release.  Maybe you should get a penis to go with these balls...");
                     DisplayText("  It's quite obvious that your cum production has gone up again.");
                 }
                 // (XXL cum quantity)
                 else {
                     DisplayText("\n\nA body-wrenching contraction thrums through your " + BallsDescriptor.describeBalls(true, true, player) + ", bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  ");
-                    if (player.torso.cocks.count > 0) DisplayText("pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(player) + ", running down your " + LowerBodyDescriptor.describeLeg(player) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(player, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
+                    if (player.torso.cocks.count > 0) DisplayText("pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(player) + ", running down your " + LegDescriptor.describeLeg(player) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(player, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
                     else DisplayText("You pant and groan but the pleasure just turns to pain.  You're so backed up - if only you had some way to vent all your seed!");
                 }
             }
@@ -265,11 +265,11 @@ export default class NeonPinkEgg extends Consumable {
                 // (Medium cum quantity) < 250)
                 else if (player.cumQ() < 250) DisplayText("\n\nA ripple of discomfort runs through your body, but it fades into a pleasant tingling that rushes down to " + CockDescriptor.describeMultiCockSimpleOne(player) + ".  You reach down to heft yourself experimentally and smile when you see pre-beading from your maleness.  Your cum production has increased!");
                 // (large cum quantity) < 750
-                else if (player.cumQ() < 750) DisplayText("\n\nA strong contraction passes through your body, almost painful in its intensity.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " leaks and dribbles pre-cum down your " + LowerBodyDescriptor.describeLegs(player) + " as your body's cum production kicks up even higher!  Wow, it feels kind of... good.");
+                else if (player.cumQ() < 750) DisplayText("\n\nA strong contraction passes through your body, almost painful in its intensity.  " + CockDescriptor.describeMultiCockSimpleOne(player, true) + " leaks and dribbles pre-cum down your " + LegDescriptor.describeLegs(player) + " as your body's cum production kicks up even higher!  Wow, it feels kind of... good.");
                 // (XL cum quantity) < 2000
-                else if (player.cumQ() < 2000) DisplayText("\n\nAn orgasmic contraction wracks your abdomen, shivering through your midsection and down towards your groin.  A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(player) + "  and trails down your " + LowerBodyDescriptor.describeLeg(player) + ", pooling below you.  It's quite obvious that your body is producing even more cum now.");
+                else if (player.cumQ() < 2000) DisplayText("\n\nAn orgasmic contraction wracks your abdomen, shivering through your midsection and down towards your groin.  A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(player) + "  and trails down your " + LegDescriptor.describeLeg(player) + ", pooling below you.  It's quite obvious that your body is producing even more cum now.");
                 // (XXL cum quantity)
-                else DisplayText("\n\nA body-wrenching contraction thrums through your gut, bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(player) + ", running down your " + LowerBodyDescriptor.describeLegs(player) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(player, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
+                else DisplayText("\n\nA body-wrenching contraction thrums through your gut, bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(player) + ", running down your " + LegDescriptor.describeLegs(player) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(player, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
             }
         }
         // Bunny feet! - requirez earz
@@ -278,7 +278,7 @@ export default class NeonPinkEgg extends Consumable {
             if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
             // Non-taurs
             else {
-                DisplayText("\n\nNumbness envelops your " + LowerBodyDescriptor.describeLegs(player) + " as they pull tighter and tighter.  You overbalance and drop on your " + ButtDescriptor.describeButt(player));
+                DisplayText("\n\nNumbness envelops your " + LegDescriptor.describeLegs(player) + " as they pull tighter and tighter.  You overbalance and drop on your " + ButtDescriptor.describeButt(player));
                 if (player.torso.tails.count > 0) DisplayText(", nearly smashing your tail flat");
                 else DisplayText(" hard enough to sting");
                 DisplayText(" while the change works its way through you.  Once it finishes, <b>you discover that you now have fuzzy bunny feet and legs</b>!");
@@ -335,7 +335,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (player.stats.cor < 90) DisplayText("You pant a little and wonder where the nearest fertile male is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  You should get bred soon!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + LowerBodyDescriptor.assholeOrPussy(player) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + LegDescriptor.assholeOrPussy(player) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
                 }
                 // WANGS!
                 if (player.torso.cocks.count > 0) {

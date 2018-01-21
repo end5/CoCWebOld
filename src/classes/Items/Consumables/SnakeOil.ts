@@ -7,7 +7,7 @@ import { TongueType } from '../../Body/Tongue';
 import { WingType } from '../../Body/Wings';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import Game from '../../Game/Game';
@@ -99,7 +99,7 @@ export default class SnakeOil extends Consumable {
             // (If used in combat, you lose a turn here. Half-corrupted Jojo and the Naga won't attack you during that period, but other monsters will)
             // FUCK NO
             DisplayText("\n\nTrying to get back up, you realize that the skin on the inner sides of your thighs is merging together like it was being sewn by an invisible needle.");
-            DisplayText("  The process continues through the length of your " + LowerBodyDescriptor.describeLegs(player) + ", eventually reaching your " + LowerBodyDescriptor.describeFeet(player) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terrible experience. Once you feel you've recovered, you try to stand, but to your amazement you discover that you no longer have " + LowerBodyDescriptor.describeLegs(player) + ": the bottom half of your body is like that of a snake's.");
+            DisplayText("  The process continues through the length of your " + LegDescriptor.describeLegs(player) + ", eventually reaching your " + LegDescriptor.describeFeet(player) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terrible experience. Once you feel you've recovered, you try to stand, but to your amazement you discover that you no longer have " + LegDescriptor.describeLegs(player) + ": the bottom half of your body is like that of a snake's.");
             DisplayText("\n\nWondering what happened to your sex, you pass your hand down the front of your body until you find a large, horizontal slit around your pelvic area, which contains all of your sexual organs.");
             if (player.torso.balls.quantity > 0 && player.torso.balls.size > 10) DisplayText("  You're happy not to have to drag those testicles around with you anymore.");
             DisplayText("  But then, scales start to form on the surface of your skin, slowly becoming visible, recoloring all of your body from the waist down in a snake-like pattern. The feeling is... not that bad actually, kind of like callous, except on your whole lower body. The transformation complete, you get up, standing on your newly formed snake tail. You can't help feeling proud of this majestic new body of yours.");

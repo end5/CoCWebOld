@@ -1,7 +1,7 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
@@ -17,7 +17,7 @@ export default class TatteredScroll extends Consumable {
 
     public use(player: Player) {
         DisplayText().clear();
-        DisplayText("Your wobbly " + LowerBodyDescriptor.describeLegs(player) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
+        DisplayText("Your wobbly " + LegDescriptor.describeLegs(player) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
         if (player.torso.neck.head.hair.color === "sandy blonde") {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n");
             if (player.torso.chest.count === 0) {

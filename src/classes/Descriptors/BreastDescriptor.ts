@@ -1,17 +1,19 @@
 ﻿import BreastRow, { BreastCup } from '../Body/BreastRow';
 import Chest from '../Body/Chest';
-import Creature from '../Body/Creature';
-import DisplayText from '../display/DisplayText';
+import Character from '../Character/Character';
+import { StatusAffectType } from '../Effects/StatusAffectType';
+import { PiercingType } from '../Items/Misc/Piercing';
 import Player from '../Player/Player';
-import Utils from '../Utilities/Utils';
+import { Utils } from '../Utilities/Utils';
 
 export default class BreastDescriptor {
     public static describeBreastRow(breastRow: BreastRow): string {
-        let size: number = breastRow.breastRating;
-        let lactation: number = breastRow.lactationMultiplier;
+        const size: number = breastRow.rating;
+        const lactation: number = breastRow.lactationMultiplier;
 
         if (size < 1) return "flat breasts";
-        let description: string = (Utils.rand(2) == 0 ? BreastDescriptor.describeBreastSize(size) : ""); //Add a description of the breast size 50% of the time
+        // Add a description of the breast size 50% of the time
+        let description: string = (Utils.rand(2) === 0 ? BreastDescriptor.describeBreastSize(size) : "");
         switch (Utils.rand(10)) {
             case 1:
                 if (lactation > 2) return description + "milk-udders";
@@ -38,22 +40,22 @@ export default class BreastDescriptor {
         return description + "breasts";
     }
 
-    public static describeNipple(body: Creature, breastRow: BreastRow): string {
+    public static describeNipple(character: Character, breastRow: BreastRow): string {
         let haveDescription: boolean = false;
         let description: string = "";
         let options: string[] = [];
-        //Size descriptors 33% chance
-        if (Utils.rand(4) == 0) {
-            //TINAHHHH
-            if (breastRow.nippleLength < .25) {
+        // Size descriptors 33% chance
+        if (Utils.rand(4) === 0) {
+            // TINAHHHH
+            if (breastRow.nipples.length < .25) {
                 options = ["tiny ",
                     "itty-bitty ",
                     "teeny-tiny ",
                     "dainty "];
                 description += Utils.randomChoice(options);
             }
-            //Prominant
-            if (breastRow.nippleLength >= .4 && breastRow.nippleLength < 1) {
+            // Prominant
+            if (breastRow.nipples.length >= .4 && breastRow.nipples.length < 1) {
                 options = ["prominent ",
                     "pencil eraser-sized ",
                     "eye-catching ",
@@ -61,16 +63,16 @@ export default class BreastDescriptor {
                     "striking "];
                 description += Utils.randomChoice(options);
             }
-            //Big 'uns
-            if (breastRow.nippleLength >= 1 && breastRow.nippleLength < 2) {
+            // Big 'uns
+            if (breastRow.nipples.length >= 1 && breastRow.nipples.length < 2) {
                 options = ["forwards-jutting ",
                     "over-sized ",
                     "fleshy ",
                     "large protruding "];
                 description += Utils.randomChoice(options);
             }
-            //'Uge
-            if (breastRow.nippleLength >= 2 && breastRow.nippleLength < 3.2) {
+            // 'Uge
+            if (breastRow.nipples.length >= 2 && breastRow.nipples.length < 3.2) {
                 options = ["elongated ",
                     "massive ",
                     "awkward ",
@@ -78,8 +80,8 @@ export default class BreastDescriptor {
                     "hefty "];
                 description += Utils.randomChoice(options);
             }
-            //Massive
-            if (breastRow.nippleLength >= 3.2) {
+            // Massive
+            if (breastRow.nipples.length >= 3.2) {
                 options = ["bulky ",
                     "ponderous ",
                     "thumb-sized ",
@@ -89,11 +91,11 @@ export default class BreastDescriptor {
             }
             haveDescription = true;
         }
-        //Milkiness/Arousal/Wetness Descriptors 33% of the time
-        if (Utils.rand(3) == 0 && !haveDescription) {
-            //Fuckable chance first!
-            if (breastRow.fuckable) {
-                //Fuckable and lactating?
+        // Milkiness/Arousal/Wetness Descriptors 33% of the time
+        if (Utils.rand(3) === 0 && !haveDescription) {
+            // Fuckable chance first!
+            if (breastRow.nipples.fuckable) {
+                // Fuckable and lactating?
                 if (breastRow.lactationMultiplier > 1) {
                     options = ["milk-lubricated ",
                         "lactating ",
@@ -102,7 +104,7 @@ export default class BreastDescriptor {
                         "milky "];
                     description += Utils.randomChoice(options);
                 }
-                //Just fuckable
+                // Just fuckable
                 else {
                     options = ["wet ",
                         "mutated ",
@@ -117,23 +119,23 @@ export default class BreastDescriptor {
                 }
                 haveDescription = true;
             }
-            //Just lactating!
+            // Just lactating!
             else if (breastRow.lactationMultiplier > 0) {
-                //Light lactation
+                // Light lactation
                 if (breastRow.lactationMultiplier <= 1) {
                     options = ["milk moistened ",
                         "slightly lactating ",
                         "milk-dampened "];
                     description += Utils.randomChoice(options);
                 }
-                //Moderate lactation
+                // Moderate lactation
                 if (breastRow.lactationMultiplier > 1 && breastRow.lactationMultiplier <= 2) {
                     options = ["lactating ",
                         "milky ",
                         "milk-seeping "];
                     description += Utils.randomChoice(options);
                 }
-                //Heavy lactation
+                // Heavy lactation
                 if (breastRow.lactationMultiplier > 2) {
                     options = ["dripping ",
                         "dribbling ",
@@ -144,9 +146,9 @@ export default class BreastDescriptor {
                 haveDescription = true;
             }
         }
-        //Possible arousal descriptors
-        else if (Utils.rand(3) == 0 && !haveDescription) {
-            if (body.stats.lust > 50 && body.stats.lust < 75) {
+        // Possible arousal descriptors
+        else if (Utils.rand(3) === 0 && !haveDescription) {
+            if (character.stats.lust > 50 && character.stats.lust < 75) {
                 options = ["erect ",
                     "perky ",
                     "erect ",
@@ -155,7 +157,7 @@ export default class BreastDescriptor {
                 description += Utils.randomChoice(options);
                 haveDescription = true;
             }
-            if (body.stats.lust >= 75) {
+            if (character.stats.lust >= 75) {
                 options = ["throbbing ",
                     "trembling ",
                     "needy ",
@@ -164,20 +166,20 @@ export default class BreastDescriptor {
                 haveDescription = true;
             }
         }
-        if (!haveDescription && Utils.rand(2) == 0 && breastRow.nipplesPierced > 0) {
-            if (breastRow.nipplesPierced == 5)
+        if (!haveDescription && Utils.rand(2) === 0 && character.inventory.equipment.piercings.nipples.get(character.torso.chest.indexOf(breastRow)).isEquipped()) {
+            if (character.inventory.equipment.piercings.nipples.get(character.torso.chest.indexOf(breastRow)).item.name === PiercingType.Chain)
                 description += "chained ";
             else
                 description += "pierced ";
             haveDescription = true;
         }
-        if (!haveDescription && body.skinType == 3) {
+        if (!haveDescription && character.skin.type === 3) {
             options = ["slime-slick ",
                 "goopy ",
                 "slippery "];
             description += Utils.randomChoice(options);
         }
-        if (!haveDescription && body.statusAffects.has(StatusAffectType.BlackNipples)) {
+        if (!haveDescription && character.statusAffects.has(StatusAffectType.BlackNipples)) {
             options = ["black ",
                 "ebony ",
                 "sable "];
@@ -187,32 +189,31 @@ export default class BreastDescriptor {
         options = [];
         options.push("nipple");
 
-        if (breastRow.nippleLength < .5)
+        if (breastRow.nipples.length < .5)
             options.push("perky nipple");
         else
             options.push("cherry-like nub");
 
-        if (breastRow.fuckable)
+        if (breastRow.nipples.fuckable)
             options.push("fuckable nip", "nipple-hole", "nipple-cunt");
-        else if (breastRow.lactationMultiplier >= 1 && breastRow.nippleLength >= 1)
+        else if (breastRow.lactationMultiplier >= 1 && breastRow.nipples.length >= 1)
             options.push("teat");
-
 
         return description;
     }
 
     public static BreastCupNames: string[] = [
-        "flat",//0
-        "A-cup", "B-cup", "C-cup", "D-cup", "DD-cup", "big DD-cup", "E-cup", "big E-cup", "EE-cup",// 1-9
-        "big EE-cup", "F-cup", "big F-cup", "FF-cup", "big FF-cup", "G-cup", "big G-cup", "GG-cup", "big GG-cup", "H-cup",//10-19
-        "big H-cup", "HH-cup", "big HH-cup", "HHH-cup", "I-cup", "big I-cup", "II-cup", "big II-cup", "J-cup", "big J-cup",//20-29
-        "JJ-cup", "big JJ-cup", "K-cup", "big K-cup", "KK-cup", "big KK-cup", "L-cup", "big L-cup", "LL-cup", "big LL-cup",//30-39
-        "M-cup", "big M-cup", "MM-cup", "big MM-cup", "MMM-cup", "large MMM-cup", "N-cup", "large N-cup", "NN-cup", "large NN-cup",//40-49
-        "O-cup", "large O-cup", "OO-cup", "large OO-cup", "P-cup", "large P-cup", "PP-cup", "large PP-cup", "Q-cup", "large Q-cup",//50-59
-        "QQ-cup", "large QQ-cup", "R-cup", "large R-cup", "RR-cup", "large RR-cup", "S-cup", "large S-cup", "SS-cup", "large SS-cup",//60-69
-        "T-cup", "large T-cup", "TT-cup", "large TT-cup", "U-cup", "large U-cup", "UU-cup", "large UU-cup", "V-cup", "large V-cup",//70-79
-        "VV-cup", "large VV-cup", "W-cup", "large W-cup", "WW-cup", "large WW-cup", "X-cup", "large X-cup", "XX-cup", "large XX-cup",//80-89
-        "Y-cup", "large Y-cup", "YY-cup", "large YY-cup", "Z-cup", "large Z-cup", "ZZ-cup", "large ZZ-cup", "ZZZ-cup", "large ZZZ-cup"//90-99
+        "flat", // 0
+        "A-cup", "B-cup", "C-cup", "D-cup", "DD-cup", "big DD-cup", "E-cup", "big E-cup", "EE-cup", // 1-9
+        "big EE-cup", "F-cup", "big F-cup", "FF-cup", "big FF-cup", "G-cup", "big G-cup", "GG-cup", "big GG-cup", "H-cup", // 10-19
+        "big H-cup", "HH-cup", "big HH-cup", "HHH-cup", "I-cup", "big I-cup", "II-cup", "big II-cup", "J-cup", "big J-cup", // 20-29
+        "JJ-cup", "big JJ-cup", "K-cup", "big K-cup", "KK-cup", "big KK-cup", "L-cup", "big L-cup", "LL-cup", "big LL-cup", // 30-39
+        "M-cup", "big M-cup", "MM-cup", "big MM-cup", "MMM-cup", "large MMM-cup", "N-cup", "large N-cup", "NN-cup", "large NN-cup", // 40-49
+        "O-cup", "large O-cup", "OO-cup", "large OO-cup", "P-cup", "large P-cup", "PP-cup", "large PP-cup", "Q-cup", "large Q-cup", // 50-59
+        "QQ-cup", "large QQ-cup", "R-cup", "large R-cup", "RR-cup", "large RR-cup", "S-cup", "large S-cup", "SS-cup", "large SS-cup", // 60-69
+        "T-cup", "large T-cup", "TT-cup", "large TT-cup", "U-cup", "large U-cup", "UU-cup", "large UU-cup", "V-cup", "large V-cup", // 70-79
+        "VV-cup", "large VV-cup", "W-cup", "large W-cup", "WW-cup", "large WW-cup", "X-cup", "large X-cup", "XX-cup", "large XX-cup", // 80-89
+        "Y-cup", "large Y-cup", "YY-cup", "large YY-cup", "Z-cup", "large Z-cup", "ZZ-cup", "large ZZ-cup", "ZZZ-cup", "large ZZZ-cup"// 90-99
     ];
 
     public static breastCup(size: BreastCup): string {
@@ -220,39 +221,39 @@ export default class BreastDescriptor {
     }
 
     /**
-        * Returns breast size from cup name.
-        * Acceptable input: "flat","A","B","C","D","DD","DD+",... "ZZZ","ZZZ+" or exact match from BreastCupNames array
-        */
+     * Returns breast size from cup name.
+     * Acceptable input: "flat","A","B","C","D","DD","DD+",... "ZZZ","ZZZ+" or exact match from BreastCupNames array
+     */
     public static breastCupInverse(name: string, defaultValue: BreastCup = 0): BreastCup {
-        if (name.length == 0)
+        if (name.length === 0)
             return defaultValue;
-        if (name == "flat")
+        if (name === "flat")
             return BreastCup.FLAT;
-        let big: boolean = name.charAt(name.length - 1) == "+";
+        const big: boolean = name.charAt(name.length - 1) === "+";
         if (big)
             name = name.substr(0, name.length - 1);
         for (let cup: number = 0; cup < this.BreastCupNames.length; cup++) {
-            if (name == this.BreastCupNames[cup])
+            if (name === this.BreastCupNames[cup])
                 return cup;
-            if (this.BreastCupNames[cup].indexOf(name) == 0)
+            if (this.BreastCupNames[cup].indexOf(name) === 0)
                 return cup + (big ? 1 : 0);
         }
         return defaultValue;
     }
 
-    public static describeBiggestBreastRow(creature: Creature): string {
+    public static describeBiggestBreastRow(character: Character): string {
         let description: string = "";
-        let biggestBreastRow: BreastRow = creature.upperBody.chest.BreastRatingLargest[0];
+        const biggestBreastRow: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
 
-        if (biggestBreastRow.breastRating < 1)
+        if (biggestBreastRow.rating < 1)
             return "flat breasts";
-        //50% of the time size-descript them
-        if (Utils.rand(2) == 0)
-            description += BreastDescriptor.describeBreastSize(biggestBreastRow.breastRating);
+        // 50% of the time size-descript them
+        if (Utils.rand(2) === 0)
+            description += BreastDescriptor.describeBreastSize(biggestBreastRow.rating);
 
-        //Nouns!
-        let options: string[] = [];
-        if (biggestBreastRow.breastRating > 6)
+        // Nouns!
+        const options: string[] = [];
+        if (biggestBreastRow.rating > 6)
             options.push("love-pillows");
         if (biggestBreastRow.lactationMultiplier > 1.5)
             options.push("milky tits", "milky breasts");
@@ -273,43 +274,43 @@ export default class BreastDescriptor {
 
     public static describeBreastSize(size: number): string {
         let description: string = "";
-        //Catch all for dudes.
+        // Catch all for dudes.
         if (size < BreastCup.A) return "manly ";
-        //Small - A->B
+        // Small - A->B
         if (size <= BreastCup.B) {
             description += Utils.randomChoice("palmable ", "tight ", "perky ", "baseball-sized ");
         }
-        //C-D
+        // C-D
         else if (size <= BreastCup.D) {
             description += Utils.randomChoice("nice ", "hand-filling ", "well-rounded ", "supple ", "softball-sized ");
         }
-        //DD->big EE
+        // DD->big EE
         else if (size < BreastCup.F) {
             description += Utils.randomChoice("big ", "large ", "pillowy ", "jiggly ", "volleyball-sized ");
         }
-        //F->big FF
+        // F->big FF
         else if (size < BreastCup.G) {
             description += Utils.randomChoice("soccerball-sized ", "hand-overflowing ", "generous ", "jiggling ");
         }
-        //G -> HHH
+        // G -> HHH
         else if (size < BreastCup.I) {
             description += Utils.randomChoice("basketball-sized ", "whorish ", "cushiony ", "wobbling ");
         }
-        //I -> KK
+        // I -> KK
         else if (size < BreastCup.KK_BIG) {
             description += Utils.randomChoice("massive motherly ", "luscious ", "smothering ", "prodigious ");
         }
-        //K- > MMM+
+        // K- > MMM+
         else {
             description += Utils.randomChoice("mountainous ", "monumental ", "back-breaking ", "exercise-ball-sized ", "immense ");
         }
         return description;
     }
 
-    public static describeAllBreasts(body: Creature): string {
-        let chest: Chest = body.upperBody.chest;
+    public static describeAllBreasts(character: Character): string {
+        const chest: Chest = character.torso.chest;
         let desciption: string = "";
-        switch (chest.count() / 2) {
+        switch (chest.count / 2) {
             case 0:
                 return "unremarkable chest muscles ";
             case 2:
@@ -321,82 +322,81 @@ export default class BreastDescriptor {
             case 5:
                 desciption += Utils.randomChoice("five rows of ", "five-tiered ");
         }
-        desciption += this.describeBiggestBreastRow(body);
+        desciption += this.describeBiggestBreastRow(character);
         return desciption;
 
     }
 
-
-    public static describeBreastGrowth(player: Player, amount: number, chest: Chest) {
+    public static describeBreastGrowth(player: Player, amount: number, chest: Chest): string {
         if (amount <= 2) {
-            if (chest.count() > 1) DisplayText.text("Your rows of " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight, growing a bit larger.");
-            if (chest.count() == 1) DisplayText.text("Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.");
+            if (chest.count > 1) return "Your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
+            if (chest.count === 1) return "Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
         }
         else if (amount <= 4) {
-            if (chest.count() > 1) DisplayText.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " expand significantly.");
-            if (chest.count() == 1) DisplayText.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " expand significantly.");
+            if (chest.count > 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
+            if (chest.count === 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
         }
         else {
-            if (chest.count() > 1) DisplayText.text("You drop to your knees from a massive change in your body's center of gravity.  Your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " tingle strongly, growing disturbingly large.");
-            if (chest.count() == 1) DisplayText.text("You drop to your knees from a massive change in your center of gravity.  The tingling in your " + BreastDescriptor.describeBreastRow(player.upperBody.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.");
+            if (chest.count > 1) return "You drop to your knees from a massive change in your body's center of gravity.  Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " tingle strongly, growing disturbingly large.";
+            if (chest.count === 1) return "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
         }
-        if (chest.BreastRatingLargest[0].breastRating >= 8.5 && chest.BreastRatingLargest[0].nippleLength < 2) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.");
-            chest.BreastRatingLargest[0].nippleLength = 2;
+        if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 8.5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 2) {
+            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 2;
         }
-        if (chest.BreastRatingLargest[0].breastRating >= 7 && chest.BreastRatingLargest[0].nippleLength < 1) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.");
-            chest.BreastRatingLargest[0].nippleLength = 1;
+        if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 7 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1) {
+            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 1;
         }
-        if (chest.BreastRatingLargest[0].breastRating >= 5 && chest.BreastRatingLargest[0].nippleLength < .75) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.");
-            chest.BreastRatingLargest[0].nippleLength = .75;
+        if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .75) {
+            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .75;
         }
-        if (chest.BreastRatingLargest[0].breastRating >= 3 && chest.BreastRatingLargest[0].nippleLength < .5) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(player, player.upperBody.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.");
-            chest.BreastRatingLargest[0].nippleLength = .5;
+        if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .5) {
+            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .5;
         }
     }
 
-    public static describeTopRowBreastGrowth(amount: number, body: Creature, chest: Chest) {
-        let topBreastRow: BreastRow = chest.get(0);
+    public static describeTopRowBreastGrowth(amount: number, character: Character, chest: Chest) {
+        const topBreastRow = chest.get(0);
         if (amount <= 2) {
-            if (chest.count() > 1) DisplayText.text("Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.");
-            if (chest.count() == 1) DisplayText.text("Your row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.");
+            if (chest.count > 1) return "Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
+            if (chest.count === 1) return "Your row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
         }
         if (amount > 2 && amount <= 4) {
-            if (chest.count() > 1) DisplayText.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.");
-            if (chest.count() == 1) DisplayText.text("You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.");
+            if (chest.count > 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
+            if (chest.count === 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
         }
         if (amount > 4) {
-            if (chest.count() > 1) DisplayText.text("You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.");
-            if (chest.count() == 1) DisplayText.text("You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + BreastDescriptor.describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.");
+            if (chest.count > 1) return "You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.";
+            if (chest.count === 1) return "You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + BreastDescriptor.describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.";
         }
-        if (topBreastRow.breastRating >= 8.5 && topBreastRow.nippleLength < 2) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(body, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.");
-            topBreastRow.nippleLength = 2;
+        if (topBreastRow.rating >= 8.5 && topBreastRow.nipples.length < 2) {
+            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            topBreastRow.nipples.length = 2;
         }
-        if (topBreastRow.breastRating >= 7 && topBreastRow.nippleLength < 1) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(body, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.");
-            topBreastRow.nippleLength = 1;
+        if (topBreastRow.rating >= 7 && topBreastRow.nipples.length < 1) {
+            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            topBreastRow.nipples.length = 1;
         }
-        if (topBreastRow.breastRating >= 5 && topBreastRow.nippleLength < .75) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(body, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.");
-            topBreastRow.nippleLength = .75;
+        if (topBreastRow.rating >= 5 && topBreastRow.nipples.length < .75) {
+            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            topBreastRow.nipples.length = .75;
         }
-        if (topBreastRow.breastRating >= 3 && topBreastRow.nippleLength < .5) {
-            DisplayText.text("  A tender ache starts at your " + BreastDescriptor.describeNipple(body, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.");
-            topBreastRow.nippleLength = .5;
+        if (topBreastRow.rating >= 3 && topBreastRow.nipples.length < .5) {
+            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            topBreastRow.nipples.length = .5;
         }
     }
 
-    public static describeChest(creature: Creature) {
-        if (creature.upperBody.chest.BreastRatingLargest[0].breastRating < 1) return "chest";
-        return BreastDescriptor.describeBiggestBreastRow(creature);
+    public static describeChest(character: Character) {
+        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) return "chest";
+        return BreastDescriptor.describeBiggestBreastRow(character);
     }
 
-    public static describeAllChest(creature: Creature) {
-        if (creature.upperBody.chest.BreastRatingLargest[0].breastRating < 1) return "chest";
-        return BreastDescriptor.describeAllBreasts(creature);
+    public static describeAllChest(character: Character) {
+        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) return "chest";
+        return BreastDescriptor.describeAllBreasts(character);
     }
 }

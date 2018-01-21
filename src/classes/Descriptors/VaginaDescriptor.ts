@@ -1,54 +1,55 @@
-﻿import Creature, { SkinType } from '../Body/Creature';
+﻿import { SkinType } from '../Body/Skin';
 import Vagina, { VaginaLooseness, VaginaType, VaginaWetness } from '../Body/Vagina';
-import Utils from '../Utilities/Utils';
+import Character from '../Character/Character';
+import { Utils } from '../Utilities/Utils';
 
 export default class VaginaDescriptor {
-    public static describeVagina(body: Creature, vagina: Vagina): string {
+    public static describeVagina(character: Character, vagina: Vagina): string {
         let description: string = "";
 
-        //tightness descript - 40% display rate
+        // tightness descript - 40% display rate
         if (Utils.chance(40)) {
-            if (vagina.vaginalLooseness == VaginaLooseness.TIGHT)
+            if (vagina.looseness === VaginaLooseness.TIGHT)
                 description += vagina.virgin ? "virgin" : "tight";
-            else if (vagina.vaginalLooseness == VaginaLooseness.LOOSE)
+            else if (vagina.looseness === VaginaLooseness.LOOSE)
                 description += "loose";
-            else if (vagina.vaginalLooseness == VaginaLooseness.GAPING)
+            else if (vagina.looseness === VaginaLooseness.GAPING)
                 description += "very loose";
-            else if (vagina.vaginalLooseness == VaginaLooseness.GAPING_WIDE)
+            else if (vagina.looseness === VaginaLooseness.GAPING_WIDE)
                 description += "gaping";
-            else if (vagina.vaginalLooseness == VaginaLooseness.LEVEL_CLOWN_CAR)
+            else if (vagina.looseness === VaginaLooseness.LEVEL_CLOWN_CAR)
                 description += "gaping-wide";
 
         }
-        //wetness descript - 30% display rate
+        // wetness descript - 30% display rate
         if (Utils.chance(30)) {
             if (description.length > 0)
                 description += ", ";
-            if (vagina.vaginalWetness == VaginaWetness.DRY)
+            if (vagina.wetness === VaginaWetness.DRY)
                 description += "dry";
-            if (vagina.vaginalWetness == VaginaWetness.NORMAL)
+            if (vagina.wetness === VaginaWetness.NORMAL)
                 description += "moist";
-            if (vagina.vaginalWetness == VaginaWetness.WET)
+            if (vagina.wetness === VaginaWetness.WET)
                 description += "wet";
-            if (vagina.vaginalWetness == VaginaWetness.SLICK )
+            if (vagina.wetness === VaginaWetness.SLICK )
                 description += "slick";
-            if (vagina.vaginalWetness == VaginaWetness.DROOLING)
+            if (vagina.wetness === VaginaWetness.DROOLING)
                 description += "drooling";
-            if (vagina.vaginalWetness == VaginaWetness.SLAVERING)
+            if (vagina.wetness === VaginaWetness.SLAVERING)
                 description += "slavering";
         }
-        if (vagina.labiaPierced > 0 && Utils.chance(33)) {
+        if (character.inventory.equipment.piercings.labia.isEquipped() && Utils.chance(33)) {
             if (description.length > 0)
                 description += ", ";
             description += "pierced";
         }
-        if (description == "" && body.skinType == SkinType.GOO) {
+        if (description === "" && character.skin.type === SkinType.GOO) {
             if (description.length > 0)
                 description += ", ";
 
             description += Utils.randomChoice("gooey", "slimy");
         }
-        if (vagina.vaginaType == VaginaType.BLACK_SAND_TRAP && Utils.chance(50)) {
+        if (vagina.type === VaginaType.BLACK_SAND_TRAP && Utils.chance(50)) {
             if (description.length > 0)
                 description += ", ";
             description += Utils.randomChoice(
@@ -73,18 +74,19 @@ export default class VaginaDescriptor {
             "snatch",
             "fuck-hole",
             "muff");
-        //Something that would be nice to have but needs a variable in Creature or Character.
-        //if(i_creature.bunnyScore() >= 3) description += "rabbit hole";
+        // Something that would be nice to have but needs a variable in Creature or Character.
+        // if(i_creature.bunnyScore() >= 3) description += "rabbit hole";
 
         return description;
     }
 
-    public static describeClit(body: Creature, vagina: Vagina): string {
+    public static describeClit(character: Character): string {
         let description: string = "";
-        //Length Adjective - 50% chance
+        const clit = character.torso.clit;
+        // Length Adjective - 50% chance
         if (Utils.chance(50)) {
-            //small clits!
-            if (vagina.clitLength <= .5) {
+            // small clits!
+            if (clit.length <= .5) {
                 description += Utils.randomChoice(
                     "tiny ",
                     "little ",
@@ -92,12 +94,12 @@ export default class VaginaDescriptor {
                     "diminutive ",
                     "miniature ");
             }
-            //"average".
-            if (vagina.clitLength > .5 && vagina.clitLength < 1.5) {
-                //no size comment
+            // "average".
+            if (clit.length > .5 && clit.length < 1.5) {
+                // no size comment
             }
-            //Biggies!
-            if (vagina.clitLength >= 1.5 && vagina.clitLength < 4) {
+            // Biggies!
+            if (clit.length >= 1.5 && clit.length < 4) {
                 description += Utils.randomChoice(
                     "large ",
                     "large ",
@@ -105,8 +107,8 @@ export default class VaginaDescriptor {
                     "substantial ",
                     "considerable ");
             }
-            //'Uge
-            if (vagina.clitLength >= 4) {
+            // 'Uge
+            if (clit.length >= 4) {
                 description += Utils.randomChoice(
                     "monster ",
                     "tremendous ",
@@ -115,10 +117,10 @@ export default class VaginaDescriptor {
                     "bulky ");
             }
         }
-        //Descriptive descriptions - 50% chance of being called
+        // Descriptive descriptions - 50% chance of being called
         if (Utils.chance(50)) {
-            //Doggie descriptors - 50%
-            if (body.skinType == SkinType.FUR && Utils.chance(50)) {
+            // Doggie descriptors - 50%
+            if (character.skin.type === SkinType.FUR && Utils.chance(50)) {
                 description += "bitch-";
             }
             /*Horse descriptors - 50%
@@ -126,15 +128,15 @@ export default class VaginaDescriptor {
                 descripted = true;
                 descript += "mare-";
                 }*/
-            //Horny descriptors - 75% chance
-            else if (body.stats.lust > 70 && Utils.chance(75)) {
+            // Horny descriptors - 75% chance
+            else if (character.stats.lust > 70 && Utils.chance(75)) {
                 description += Utils.randomChoice(
                     "throbbing ",
                     "pulsating ",
                     "hard ");
             }
-            //High libido - always use if no other descript
-            else if (body.stats.lib > 50 && Utils.chance(50)) {
+            // High libido - always use if no other descript
+            else if (character.stats.lib > 50 && Utils.chance(50)) {
                 description += Utils.randomChoice(
                     "insatiable ",
                     "greedy ",
@@ -142,11 +144,11 @@ export default class VaginaDescriptor {
                     "rapacious");
             }
         }
-        else if (vagina.clitPierced > 0) {
+        else if (character.inventory.equipment.piercings.clit.isEquipped()) {
             description += "pierced ";
         }
 
-        //Clit nouns
+        // Clit nouns
         description += Utils.randomChoice(
             "clit",
             "clitty",
@@ -161,5 +163,4 @@ export default class VaginaDescriptor {
 
         return description;
     }
-
 }

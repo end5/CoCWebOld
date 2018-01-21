@@ -1,6 +1,6 @@
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Player from '../Player';
 
@@ -16,7 +16,7 @@ export default class ButtPregDrider implements IPregnancyEvent {
             player.stats.lust += 20;
         }
         if (incubationTime === 120) {
-            DisplayText("\nYour belly is bulging from the size of the eggs growing inside you and gurgling just about any time you walk.  Green goo runs down your " + LowerBodyDescriptor.describeLegs(player) + " frequently, drooling out of your pregnant asshole.\n").bold();
+            DisplayText("\nYour belly is bulging from the size of the eggs growing inside you and gurgling just about any time you walk.  Green goo runs down your " + LegDescriptor.describeLegs(player) + " frequently, drooling out of your pregnant asshole.\n").bold();
         }
         if (incubationTime === 72) {
             DisplayText("\nThe huge size of your pregnant belly constantly impedes your movement, but the constant squirming and shaking of your unborn offspring makes you pretty sure you won't have to carry them much longer.\n").bold();

@@ -6,7 +6,7 @@ import { EyeType } from '../../Body/Eyes';
 import { VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
@@ -249,7 +249,7 @@ export default class TrapOil extends Consumable {
         }
         // Remove odd eyes
         if (player.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES && Utils.rand(2) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LowerBodyDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+            DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(player) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
             if (player.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
             DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             player.torso.neck.head.face.eyes.type = EyeType.HUMAN;

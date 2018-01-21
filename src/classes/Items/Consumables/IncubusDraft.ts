@@ -4,7 +4,7 @@ import GenericTransforms from './GenericTransforms';
 import Cock, { CockType } from '../../Body/Cock';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';

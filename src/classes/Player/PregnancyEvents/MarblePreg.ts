@@ -2,7 +2,7 @@ import GenericPregnancyChanges from './GenericPregnancyChanges';
 import BreastRow from '../../Body/BreastRow';
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
@@ -120,7 +120,7 @@ export default class MarblePreg implements IPregnancyEvent {
                 // increase the size of the PC's hips, as per normal for pregnancies, increase birth counter
                 if (player.torso.hips.rating < 10) {
                     player.torso.hips.rating++;
-                    DisplayText("After the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".");
+                    DisplayText("After the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LegDescriptor.describeHips(player) + ".");
                 }
                 if (Flags.list[FlagEnum.MARBLE_BOYS] === 0)
                 // has Marble had male kids before?
@@ -151,7 +151,7 @@ export default class MarblePreg implements IPregnancyEvent {
             // increase the size of the PC's hips, as per normal for pregnancies, increase birth counter
             if (player.torso.hips.rating < 10) {
                 player.torso.hips.rating++;
-                DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LowerBodyDescriptor.describeHips(player) + ".");
+                DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LegDescriptor.describeHips(player) + ".");
             }
         }
         DisplayText().newline();

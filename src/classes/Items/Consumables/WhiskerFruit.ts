@@ -11,7 +11,7 @@ import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
@@ -268,7 +268,7 @@ export default class WhiskerFruit extends Consumable {
                 DisplayText("\n\nYour lower body rushes inward, molding into two leg-like shapes that gradually stiffen up.  In moments they solidify into digitigrade legs, complete with soft, padded cat-paws.  <b>You now have cat-paws!</b>");
             }
             // non hoof to cat:
-            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + LowerBodyDescriptor.describeFeet(player) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
+            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + LegDescriptor.describeFeet(player) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
             player.torso.hips.legs.type = LegType.CAT;
             changes++;
         }

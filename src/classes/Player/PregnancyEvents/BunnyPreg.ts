@@ -1,7 +1,7 @@
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
@@ -81,7 +81,7 @@ export default class BunnyPreg implements IPregnancyEvent {
 
     public birthScene(player: Player) {
         DisplayText().newline();
-        DisplayText("A dangerous rumble comes from your womb, signaling that it's time to birth your body's cargo at last.  Your " + LowerBodyDescriptor.describeLegs(player) + " wobble unsteadily as your strength ebbs with every gush that erupts  from your now-broken water until you collapse on your " + ButtDescriptor.describeButt(player) + ", grunting and groaning.  At first it goes slow, there's just a few small contractions that are more strange than anything else, rippling down your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and squirting out more of your pregnancy's fluid.  All too soon the tempo kicks up, and you feel something starting to stretch you wider and wider.\n\n");
+        DisplayText("A dangerous rumble comes from your womb, signaling that it's time to birth your body's cargo at last.  Your " + LegDescriptor.describeLegs(player) + " wobble unsteadily as your strength ebbs with every gush that erupts  from your now-broken water until you collapse on your " + ButtDescriptor.describeButt(player) + ", grunting and groaning.  At first it goes slow, there's just a few small contractions that are more strange than anything else, rippling down your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and squirting out more of your pregnancy's fluid.  All too soon the tempo kicks up, and you feel something starting to stretch you wider and wider.\n\n");
 
         DisplayText("You heave and push, instinctively driven to flex muscles you didn't even know you had to speed the super human labor you've entered into.  ");
         if (player.vaginalCapacity() < 60) DisplayText("It hurts a little as your cervix starts to stretch wide");

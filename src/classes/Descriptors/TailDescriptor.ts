@@ -1,78 +1,67 @@
-﻿import Creature from '../Body/Creature';
-import { TailType } from '../Body/LowerBody';
+﻿import { TailType } from '../Body/Tail';
+import Character from '../Character/Character';
 
 export default class TailDescriptor {
     public static TailNameTable =
-    [
-        [TailType.NONE, "non-existant"],
-        [TailType.HORSE, "horse"],
-        [TailType.DOG, "dog"],
-        [TailType.DEMONIC, "demonic"],
-        [TailType.COW, "cow"],
-        [TailType.SPIDER_ABDOMEN, "spider abdomen"],
-        [TailType.BEE_ABDOMEN, "bee abdomen"],
-        [TailType.SHARK, "shark"],
-        [TailType.CAT, "cat"],
-        [TailType.LIZARD, "lizard"],
-        [TailType.BUNNY, "rabbit"],
-        [TailType.HARPY, "harpy"],
-        [TailType.KANGAROO, "kangaroo"],
-        [TailType.FOX, "fox"],
-        [TailType.DRACONIC, "draconic"],
-        [TailType.RACCOON, "raccoon"],
-        [TailType.MOUSE, "mouse"]
-    ];
+        [
+            [TailType.HORSE, "horse"],
+            [TailType.DOG, "dog"],
+            [TailType.DEMONIC, "demonic"],
+            [TailType.COW, "cow"],
+            [TailType.SPIDER_ABDOMEN, "spider abdomen"],
+            [TailType.BEE_ABDOMEN, "bee abdomen"],
+            [TailType.SHARK, "shark"],
+            [TailType.CAT, "cat"],
+            [TailType.LIZARD, "lizard"],
+            [TailType.BUNNY, "rabbit"],
+            [TailType.HARPY, "harpy"],
+            [TailType.KANGAROO, "kangaroo"],
+            [TailType.FOX, "fox"],
+            [TailType.DRACONIC, "draconic"],
+            [TailType.RACCOON, "raccoon"],
+            [TailType.MOUSE, "mouse"]
+        ];
 
-    public static describeTail(body: Creature): string {
-        if (body.lowerBody.tailType == TailType.NONE) {
-            console.trace("WARNING: Creature has no tails to describe.");
-            return "<b>!Creature has no tails to describe!</b>";
-        }
-
+    public static describeTail(character: Character): string {
         let description: string = "";
 
-        if (body.lowerBody.tailType == TailType.FOX && body.lowerBody.tailVenom >= 1) {
-            // Kitsune tails, we're using tailVenom to track tail count
-            if (body.lowerBody.tailVenom > 1) {
-                if (body.lowerBody.tailVenom == 2) description += "pair ";
-                else if (body.lowerBody.tailVenom == 3) description += "trio ";
-                else if (body.lowerBody.tailVenom == 4) description += "quartet ";
-                else if (body.lowerBody.tailVenom == 5) description += "quintet ";
-                else if (body.lowerBody.tailVenom > 5) description += "bundle ";
+        if (character.torso.tails.count > 0) {
+            const kitsuneTailCount = character.torso.tails.filterType(TailType.FOX).length;
+            if (kitsuneTailCount > 0) {
+                if (kitsuneTailCount > 1) {
+                    if (kitsuneTailCount === 2) description += "pair ";
+                    else if (kitsuneTailCount === 3) description += "trio ";
+                    else if (kitsuneTailCount === 4) description += "quartet ";
+                    else if (kitsuneTailCount === 5) description += "quintet ";
+                    else if (kitsuneTailCount > 5) description += "bundle ";
 
-                description += "of kitsune tails";
-            }
-            else description += "kitsune tail";
-        }
-        else {
-            description += TailDescriptor.TailNameTable[body.lowerBody.tailType];
-            description += " tail";
-        }
-
-        return description;
-    }
-
-    public static describeOneTail(body: Creature): string {
-        if (body.lowerBody.tailType == TailType.NONE) {
-            console.trace("WARNING: Creature has no tails to describe.");
-            return "<b>!Creature has no tails to describe!</b>";
-        }
-
-        let description: string = "";
-
-        if (body.lowerBody.tailType == TailType.FOX && body.lowerBody.tailVenom >= 1) {
-            if (body.lowerBody.tailVenom == 1) {
-                description += "your kitsune tail";
+                    description += "of kitsune tails";
+                }
+                else description += "kitsune tail";
             }
             else {
-                description += "one of your kitsune tails";
+                description += TailDescriptor.TailNameTable[character.torso.tails.get(0).type];
+                description += " tail";
             }
         }
-        else {
-            description += "your " + TailDescriptor.TailNameTable[body.lowerBody.tailType] + " tail";
-        }
-
         return description;
     }
 
+    public static describeOneTail(character: Character): string {
+        let description: string = "";
+
+        if (character.torso.tails.count > 0) {
+            const kitsuneTailCount = character.torso.tails.filterType(TailType.FOX).length;
+            if (kitsuneTailCount === 1) {
+                    description += "your kitsune tail";
+            }
+            else if (kitsuneTailCount > 1) {
+                description += "one of your kitsune tails";
+            }
+            else {
+                description += "your " + TailDescriptor.TailNameTable[character.torso.tails.get(0).type] + " tail";
+            }
+        }
+        return description;
+    }
 }
