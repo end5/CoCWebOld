@@ -329,7 +329,7 @@ export default class Reptilum extends Consumable {
             changes++;
         }
         // -Tail - sinuous lizard tail
-        if (player.torso.tails.filterType(TailType.LIZARD).length > 0 && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
+        if (player.torso.tails.hasType(TailType.LIZARD) && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
             // No tail
             if (player.torso.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + ButtDescriptor.describeButt(player) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
             // Yes tail
@@ -352,13 +352,13 @@ export default class Reptilum extends Consumable {
             changes++;
         }
         // -Ears become smaller nub-like openings?
-        if (player.torso.neck.head.ears.type !== EarType.LIZARD && player.torso.tails.filterType(TailType.LIZARD).length >= 1 && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
+        if (player.torso.neck.head.ears.type !== EarType.LIZARD && player.torso.tails.hasType(TailType.LIZARD) && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
             DisplayText("\n\nTightness centers on your scalp, pulling your ears down from their normal, fleshy shape into small, scaley bumps with holes in their centers.  <b>You have reptilian ears!</b>");
             player.torso.neck.head.ears.type = EarType.LIZARD;
             changes++;
         }
         // -Scales - color changes to red, green, white, blue, or black.  Rarely: purple or silver.
-        if (player.skin.type !== SkinType.SCALES && player.torso.neck.head.ears.type === EarType.LIZARD && player.torso.tails.filterType(TailType.LIZARD).length >= 1 && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
+        if (player.skin.type !== SkinType.SCALES && player.torso.neck.head.ears.type === EarType.LIZARD && player.torso.tails.hasType(TailType.LIZARD) && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
             // (fur)
             if (player.skin.type === SkinType.FUR) {
                 // set new skin.tone
@@ -401,7 +401,7 @@ export default class Reptilum extends Consumable {
             changes++;
         }
         // -Lizard-like face.
-        if (player.torso.neck.head.face.type !== FaceType.LIZARD && player.skin.type === SkinType.SCALES && player.torso.neck.head.ears.type === EarType.LIZARD && player.torso.tails.filterType(TailType.LIZARD).length >= 1 && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
+        if (player.torso.neck.head.face.type !== FaceType.LIZARD && player.skin.type === SkinType.SCALES && player.torso.neck.head.ears.type === EarType.LIZARD && player.torso.tails.hasType(TailType.LIZARD) && player.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && Utils.rand(5) === 0) {
             DisplayText("\n\nTerrible agony wracks your " + FaceDescriptor.describeFace(player) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
             player.torso.neck.head.face.type = FaceType.LIZARD;
         }

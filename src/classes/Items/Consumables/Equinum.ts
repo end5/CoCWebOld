@@ -36,7 +36,7 @@ export default class Equinum extends Consumable {
     }
 
     public warning(character: Character) {
-        if (character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.HORSE && character.torso.tails.filterType(TailType.HORSE).length >= 1 && (character.torso.hips.legs.type !== LegType.HOOFED)) {
+        if (character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.HORSE && character.torso.tails.hasType(TailType.HORSE) && (character.torso.hips.legs.type !== LegType.HOOFED)) {
             // WARNINGS
             // Repeat warnings
             if (character.statusAffects.has(StatusAffectType.HorseWarning) && Utils.rand(3) === 0) {
@@ -462,7 +462,7 @@ export default class Equinum extends Consumable {
         }
         // Fur - if has horsetail && ears and not at changelimit
         if (character.skin.type !== SkinType.FUR && changes < changeLimit &&
-            Utils.rand(4) === 0 && character.torso.tails.filterType(TailType.HORSE).length >= 1) {
+            Utils.rand(4) === 0 && character.torso.tails.hasType(TailType.HORSE)) {
             if (character.skin.type === SkinType.PLAIN) DisplayText("\n\nAn itchy feeling springs up over every inch of your skin.  As you scratch yourself madly, you feel fur grow out of your skin until <b>you have a fine coat of " + character.torso.neck.head.hair.color + "-colored fur.</b>");
             if (character.skin.type === SkinType.SCALES) {
                 character.skin.desc = "fur";
@@ -473,7 +473,7 @@ export default class Equinum extends Consumable {
             character.skin.desc = "fur";
         }
         // Ears - requires tail
-        if (character.torso.neck.head.ears.type !== EarType.HORSE && character.torso.tails.filterType(TailType.HORSE).length >= 1 && changes < changeLimit &&
+        if (character.torso.neck.head.ears.type !== EarType.HORSE && character.torso.tails.hasType(TailType.HORSE) && changes < changeLimit &&
             Utils.rand(3) === 0) {
             if (character.torso.neck.head.ears.type === -1) DisplayText("\n\nTwo painful lumps sprout on the top of your head, forming into tear-drop shaped ears, covered with short fur.  ");
             if (character.torso.neck.head.ears.type === EarType.HUMAN) DisplayText("\n\nYour ears tug painfully on your face as they begin shifting, moving upwards to the top of your head and transforming into a upright animalistic ears.  ");

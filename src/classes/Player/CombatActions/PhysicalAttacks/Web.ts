@@ -11,7 +11,7 @@ export class Web implements CombatAction {
     public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length > 0;
+        return player.torso.tails.hasType(TailType.SPIDER_ABDOMEN);
     }
 
     public canUse(player: Player): boolean {

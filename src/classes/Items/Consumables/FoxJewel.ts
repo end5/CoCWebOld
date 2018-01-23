@@ -155,7 +155,7 @@ export default class FoxJewel extends Consumable {
         // BIG APPEARANCE CHANGES
         // **********************
         // [Grow Fox Tail]
-        if (player.torso.tails.filterType(TailType.FOX).length === 0 && changes < changeLimit && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0))) {
+        if (!player.torso.tails.hasType(TailType.FOX) && changes < changeLimit && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0))) {
             // if PC has no tail
             if (player.torso.tails.count >= 1) {
                 DisplayText("\n\nA pressure builds on your backside.  You feel under your " + player.inventory.equipment.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
@@ -217,7 +217,7 @@ export default class FoxJewel extends Consumable {
         }
 
         // [Grow Fox Ears]
-        if (player.torso.tails.filterType(TailType.FOX).length >= 1 && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit) {
+        if (player.torso.tails.hasType(TailType.FOX) && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit) {
             // if PC has non-animal ears
             if (player.torso.neck.head.ears.type === EarType.HUMAN) DisplayText("\n\nThe sides of your face painfully stretch as your ears morph and begin to migrate up past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  You now have fox ears.");
             // if PC has animal ears

@@ -347,7 +347,7 @@ export default class MinotaurBlood extends Consumable {
             }
         }
         // +mino horns.amount require ears/tail
-        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.neck.head.ears.type === EarType.COW && player.torso.tails.filterType(TailType.COW).length >= 1) {
+        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.neck.head.ears.type === EarType.COW && player.torso.tails.hasType(TailType.COW)) {
             // New horns.amount or expanding mino horns
             if (player.torso.neck.head.horns.type === HornType.COW_MINOTAUR || player.torso.neck.head.horns.type === HornType.NONE) {
                 // Get bigger if player has horns
@@ -404,20 +404,20 @@ export default class MinotaurBlood extends Consumable {
             }
         }
         // +cow ears	- requires tail
-        if (player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && player.torso.tails.filterType(TailType.COW).length >= 1 && Utils.rand(2) === 0) {
+        if (player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && player.torso.tails.hasType(TailType.COW) && Utils.rand(2) === 0) {
             DisplayText("\n\nYou feel your ears tug on your scalp as they twist shape, becoming oblong and cow-like.  <b>You now have cow ears.</b>");
             player.torso.neck.head.ears.type = EarType.COW;
             changes++;
         }
         // +cow tail
-        if (changes < changeLimit && Utils.rand(2) === 0 && player.torso.tails.filterType(TailType.COW).length <= 0) {
+        if (changes < changeLimit && Utils.rand(2) === 0 && !player.torso.tails.hasType(TailType.COW)) {
             if (player.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + ButtDescriptor.describeButt(player) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
                 if (player.torso.tails.count > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
                 }
                 // insect
-                if (player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length >= 1 || player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1) {
+                if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
                     DisplayText("\n\nYour insect-like abdomen tingles pleasantly as it begins shrinking and softening, chitin morphing and reshaping until it looks exactly like a <b>cow tail</b>.");
                 }
             }

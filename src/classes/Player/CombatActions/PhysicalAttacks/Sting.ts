@@ -12,7 +12,7 @@ export class Sting implements CombatAction {
     public reasonCannotUse: string = "You do not have enough venom to sting right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.filterType(TailType.BEE_ABDOMEN).length > 0;
+        return player.torso.tails.hasType(TailType.BEE_ABDOMEN);
     }
 
     public canUse(player: Player): boolean {

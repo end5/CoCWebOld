@@ -304,7 +304,7 @@ export default class Tease implements CombatAction {
             if (character.torso.butt.looseness >= 5) choices[TeaseType.AnalGape]++;
         }
         // 17 Bee abdomen tease
-        if (character.torso.tails.filterType(TailType.BEE_ABDOMEN).length > 0) {
+        if (character.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
             choices[TeaseType.BeeAbdomen] += 2;
         }
         // 18 DOG TEASE
@@ -324,7 +324,7 @@ export default class Tease implements CombatAction {
             choices[TeaseType.PerfectAndrogyny] += 3;
         }
         // 22 SPOIDAH SILK
-        if (character.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length > 0) {
+        if (character.torso.tails.hasType(TailType.SPIDER_ABDOMEN)) {
             choices[TeaseType.SpirderSilk] += 3;
             if (RaceScore.spiderScore(character) >= 4) {
                 choices[TeaseType.SpirderSilk] += 3;
@@ -396,14 +396,14 @@ export default class Tease implements CombatAction {
         // 38 Kitsune Tease
         // 39 Kitsune Tease
         // 40 Kitsune Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.filterType(TailType.FOX).length > 0) {
+        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.hasType(TailType.FOX)) {
             choices[TeaseType.Kitsune1] += 4;
             choices[TeaseType.Kitsune2] += 4;
             choices[TeaseType.Kitsune3] += 4;
             choices[TeaseType.Kitsune4] += 4;
         }
         // 41 Kitsune Gendered Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.filterType(TailType.FOX).length > 0) {
+        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.hasType(TailType.FOX)) {
             choices[TeaseType.KitsuneGendered] += 4;
         }
         // 42 Urta teases!
@@ -411,7 +411,7 @@ export default class Tease implements CombatAction {
             choices[TeaseType.Urta] += 9;
         }
         // 43 - special mino + cowgirls
-        if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.filterType(TailType.COW).length > 0) {
+        if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.hasType(TailType.COW)) {
             choices[TeaseType.Cowgirl] += 9;
         }
         // 44 - Bikini Mail Teases!
@@ -484,7 +484,7 @@ export default class Tease implements CombatAction {
         // =======================================================
         let choice: TeaseType = this.determineTeaseChoice(character, monster, bimbo, bro, futa);
         if (monster.desc.short.indexOf("minotaur") !== -1) {
-            if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.filterType(TailType.COW).length > 0)
+            if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.hasType(TailType.COW))
                 choice = TeaseType.Cowgirl;
         }
         // Lets do zis!

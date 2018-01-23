@@ -313,14 +313,14 @@ export default class LaBova extends Consumable {
         }
         // General Appearance (Tail -> Ears -> Paws(fur stripper) -> Face -> Horns
         // Give the player a bovine tail, same as the minotaur
-        if (this.tainted && player.torso.tails.filterType(TailType.COW).length <= 0 && changes < changeLimit && Utils.rand(3) === 0) {
+        if (this.tainted && !player.torso.tails.hasType(TailType.COW) && changes < changeLimit && Utils.rand(3) === 0) {
             if (player.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + ButtDescriptor.describeButt(player) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
                 if (player.torso.tails.count > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
                 }
                 // insect
-                if (player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length >= 1 || player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1) {
+                if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
                     DisplayText("\n\nYour insect-like abdomen tingles pleasantly as it begins shrinking and softening, chitin morphing and reshaping until it looks exactly like a <b>cow tail</b>.");
                 }
             }
@@ -331,7 +331,7 @@ export default class LaBova extends Consumable {
             changes++;
         }
         // Give the player bovine ears, same as the minotaur
-        if (this.tainted && player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && Utils.rand(4) === 0 && player.torso.tails.filterType(TailType.COW).length >= 1) {
+        if (this.tainted && player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && Utils.rand(4) === 0 && player.torso.tails.hasType(TailType.COW)) {
             DisplayText("\n\nYou feel your ears tug on your scalp as they twist shape, becoming oblong and cow-like.  <b>You now have cow ears.</b>");
             player.torso.neck.head.ears.type = EarType.COW;
             changes++;

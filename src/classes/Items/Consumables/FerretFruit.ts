@@ -171,7 +171,7 @@ export default class FerretFruit extends Consumable {
             }
         }
         // Turn ferret mask to full furface.
-        if (player.torso.neck.head.face.type === FaceType.FERRET_MASK && player.skin.type === SkinType.FUR && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.filterType(TailType.FERRET).length >= 1 && player.torso.hips.legs.type === LegType.FERRET && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.neck.head.face.type === FaceType.FERRET_MASK && player.skin.type === SkinType.FUR && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.hasType(TailType.FERRET) && player.torso.hips.legs.type === LegType.FERRET && Utils.rand(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nYou cry out in pain as the bones in your face begin to break and rearrange.  You rub your face furiously in an attempt to ease the pain, but to no avail.  As the sensations pass, you examine your face in a nearby puddle.  <b>You nearly gasp in shock at the sight of your new ferret face!</b>");
             player.torso.neck.head.face.type = FaceType.FERRET;
             changes++;
@@ -189,7 +189,7 @@ export default class FerretFruit extends Consumable {
             changes++;
         }
         // No fur, has ferret ears, tail, and legs:
-        if (player.skin.type !== SkinType.FUR && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.filterType(TailType.FERRET).length >= 1 && player.torso.hips.legs.type === LegType.FERRET && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.skin.type !== SkinType.FUR && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.hasType(TailType.FERRET) && player.torso.hips.legs.type === LegType.FERRET && Utils.rand(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nYour skin starts to itch like crazy as a thick coat of fur sprouts out of your skin.");
             // If hair was not sandy brown, silver, white, or brown
             if (player.torso.neck.head.hair.color !== "sandy brown" && player.torso.neck.head.hair.color !== "silver" && player.torso.neck.head.hair.color !== "white" && player.torso.neck.head.hair.color !== "brown") {
@@ -205,36 +205,36 @@ export default class FerretFruit extends Consumable {
             changes++;
         }
         // Tail TFs!
-        if (player.torso.tails.filterType(TailType.FERRET).length <= 0 && player.torso.neck.head.ears.type === EarType.FERRET && Utils.rand(3) === 0 && changes < changeLimit) {
+        if (!player.torso.tails.hasType(TailType.FERRET) && player.torso.neck.head.ears.type === EarType.FERRET && Utils.rand(3) === 0 && changes < changeLimit) {
             // If ears are ferret, no tail:
             if (player.torso.tails.count === 0) {
                 DisplayText("\n\nYou slump to the ground as you feel your spine lengthening and twisting, sprouting fur as it finishes growing.  Luckily the new growth does not seem to have ruined your [armor].  <b>You now have a ferret tail!</b>");
             }
             // Placeholder for any future TFs that will need to be made compatible with this one
             // centaur, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.HORSE).length >= 1 && player.torso.hips.legs.isTaur()) DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  This new, mismatched tail looks a bit odd on your horse lower body.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.HORSE) && player.torso.hips.legs.isTaur()) DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  This new, mismatched tail looks a bit odd on your horse lower body.  <b>You now have a ferret tail!</b>");
             // If tail is harpy, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.HARPY).length >= 1) DisplayText("\n\nYou feel a soft tingle as your tail feathers fall out one by one.  The little stump that once held the feathers down begins to twist and lengthen before sprouting soft, fluffy fur.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.HARPY)) DisplayText("\n\nYou feel a soft tingle as your tail feathers fall out one by one.  The little stump that once held the feathers down begins to twist and lengthen before sprouting soft, fluffy fur.  <b>You now have a ferret tail!</b>");
             // If tail is bunny, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.BUNNY).length >= 1) DisplayText("\n\nYou feel a pressure at the base of your tiny, poofy bunny tail as it begins to lengthen, gaining at least another foot in length.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.BUNNY)) DisplayText("\n\nYou feel a pressure at the base of your tiny, poofy bunny tail as it begins to lengthen, gaining at least another foot in length.  <b>You now have a ferret tail!</b>");
             // If tail is reptilian/draconic, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.DRACONIC).length >= 1 || player.torso.tails.filterType(TailType.LIZARD).length >= 1) DisplayText("\n\nYou reach a hand behind yourself to rub at your backside as your tail begins to twist and warp, becoming much thinner than before.  It then sprouts a thick coat of fur.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.DRACONIC) || player.torso.tails.hasType(TailType.LIZARD)) DisplayText("\n\nYou reach a hand behind yourself to rub at your backside as your tail begins to twist and warp, becoming much thinner than before.  It then sprouts a thick coat of fur.  <b>You now have a ferret tail!</b>");
             // If tail is cow, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.COW).length >= 1) DisplayText("\n\nYour tail begins to itch slightly as the poof at the end of your tail begins to spread across its entire surface, making all of its fur much more dense than it was before. It also loses a tiny bit of its former length. <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.COW)) DisplayText("\n\nYour tail begins to itch slightly as the poof at the end of your tail begins to spread across its entire surface, making all of its fur much more dense than it was before. It also loses a tiny bit of its former length. <b>You now have a ferret tail!</b>");
             // If tail is cat, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.CAT).length >= 1) DisplayText("\n\nYour tail begins to itch as its fur becomes much denser than it was before.  It also loses a tiny bit of its former length.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.CAT)) DisplayText("\n\nYour tail begins to itch as its fur becomes much denser than it was before.  It also loses a tiny bit of its former length.  <b>You now have a ferret tail!</b>");
             // If tail is dog, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.DOG).length >= 1) DisplayText("\n\nSomething about your tail feels... different.  You reach behind yourself, feeling it.  It feels a bit floppier than it was before, and the fur seems to have become a little more dense.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.DOG)) DisplayText("\n\nSomething about your tail feels... different.  You reach behind yourself, feeling it.  It feels a bit floppier than it was before, and the fur seems to have become a little more dense.  <b>You now have a ferret tail!</b>");
             // If tail is kangaroo, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.KANGAROO).length >= 1) DisplayText("\n\nYour tail becomes uncomfortably tight as the entirety of its length begins to lose a lot of its former thickness.  The general shape remains tapered, but its fur has become much more dense and shaggy.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.KANGAROO)) DisplayText("\n\nYour tail becomes uncomfortably tight as the entirety of its length begins to lose a lot of its former thickness.  The general shape remains tapered, but its fur has become much more dense and shaggy.  <b>You now have a ferret tail!</b>");
             // If tail is fox, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.FOX).length >= 1) DisplayText("\n\nYour tail begins to itch as its fur loses a lot of its former density.  It also appears to have lost a bit of length.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.FOX)) DisplayText("\n\nYour tail begins to itch as its fur loses a lot of its former density.  It also appears to have lost a bit of length.  <b>You now have a ferret tail!</b>");
             // If tail is raccoon, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.RACCOON).length >= 1) DisplayText("\n\nYour tail begins to itch as its fur loses a lot of its former density, losing its trademark ring pattern as well.  It also appears to have lost a bit of length.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.RACCOON)) DisplayText("\n\nYour tail begins to itch as its fur loses a lot of its former density, losing its trademark ring pattern as well.  It also appears to have lost a bit of length.  <b>You now have a ferret tail!</b>");
             // If tail is horse, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.HORSE).length >= 1) DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.HORSE)) DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  <b>You now have a ferret tail!</b>");
             // If tail is mouse, has ferret ears:
-            else if (player.torso.tails.filterType(TailType.MOUSE).length >= 1) DisplayText("\n\nYour tail begins to itch as its bald surface begins to sprout a thick layer of fur.  It also appears to have lost a bit of its former length.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.MOUSE)) DisplayText("\n\nYour tail begins to itch as its bald surface begins to sprout a thick layer of fur.  It also appears to have lost a bit of its former length.  <b>You now have a ferret tail!</b>");
             else DisplayText("\n\nYour tail begins to itch a moment before it starts writhing, your back muscles spasming as it changes shape. Before you know it, <b>your tail has reformed into a narrow, ferret's tail.</b>");
             player.torso.tails.clear();
             const newTail = new Tail();
@@ -250,7 +250,7 @@ export default class FerretFruit extends Consumable {
             player.torso.hips.legs.type = LegType.FERRET;
         }
         // If legs are not ferret, has ferret ears and tail
-        if (player.torso.hips.legs.type !== LegType.FERRET && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.filterType(TailType.FERRET).length >= 1 && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.hips.legs.type !== LegType.FERRET && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.hasType(TailType.FERRET) && Utils.rand(4) === 0 && changes < changeLimit) {
             // -If centaur, has ferret ears and tail:
             if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYou scream in agony as a horrible pain racks your entire horse lower half.  Unable to take it anymore, you pass out.  When you wake up, you're shocked to find that you no longer have the lower body of a horse.  Instead, you have soft, furry legs that resemble that of a ferret's.  <b>You now have ferret legs!</b>");
 

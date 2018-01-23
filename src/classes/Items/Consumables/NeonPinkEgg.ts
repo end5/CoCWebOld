@@ -297,13 +297,13 @@ export default class NeonPinkEgg extends Consumable {
             player.torso.neck.head.face.type = FaceType.BUNNY;
         }
         // DAH BUNBUN EARZ - requires poofbutt!
-        if (player.torso.neck.head.ears.type !== EarType.BUNNY && changes < changeLimit && Utils.rand(3) === 0 && player.torso.tails.filterType(TailType.BUNNY).length >= 1) {
+        if (player.torso.neck.head.ears.type !== EarType.BUNNY && changes < changeLimit && Utils.rand(3) === 0 && player.torso.tails.hasType(TailType.BUNNY)) {
             DisplayText("\n\nYour ears twitch and curl in on themselves, sliding around on the flesh of your head.  They grow warmer and warmer before they finally settle on the top of your head and unfurl into long, fluffy bunny-ears.  <b>You now have a pair of bunny ears.</b>");
             player.torso.neck.head.ears.type = EarType.BUNNY;
             changes++;
         }
         // DAH BUNBUNTAILZ
-        if (player.torso.tails.filterType(TailType.BUNNY).length <= 0 && Utils.rand(2) === 0 && changes < changeLimit) {
+        if (!player.torso.tails.hasType(TailType.BUNNY) && Utils.rand(2) === 0 && changes < changeLimit) {
             if (player.torso.tails.count > 0) DisplayText("\n\nYour tail burns as it shrinks, pulling tighter and tighter to your backside until it's the barest hint of a stub.  At once, white, poofy fur explodes out from it.  <b>You've got a white bunny-tail!  It even twitches when you aren't thinking about it.</b>");
             else DisplayText("\n\nA burning pressure builds at your spine before dissipating in a rush of relief. You reach back and discover a small, fleshy tail that's rapidly growing long, poofy fur.  <b>You have a rabbit tail!</b>");
             player.torso.tails.clear();

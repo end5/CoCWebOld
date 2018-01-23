@@ -209,7 +209,7 @@ export default class KangaFruit extends Consumable {
             player.skin.desc = "fur";
         }
         // -Roo footsies (Req: Tail)
-        if (player.torso.hips.legs.type !== LegType.KANGAROO && (this.enhanced || player.torso.tails.filterType(TailType.KANGAROO).length >= 1) && changes < changeLimit && Utils.rand(4) === 0) {
+        if (player.torso.hips.legs.type !== LegType.KANGAROO && (this.enhanced || player.torso.tails.hasType(TailType.KANGAROO)) && changes < changeLimit && Utils.rand(4) === 0) {
             // gain roo feet from centaur:
             if (player.torso.hips.legs.type === LegType.CENTAUR) DisplayText("\n\nYour backlegs suddenly wobble and collapse, causing you to pitch over onto your side.  Try as you might, you can't get them to stop spasming so you can stand back up; you thrash your hooves wildly as a pins-and-needles sensation overtakes your lower body.  A dull throbbing along your spine makes you moan in agony; it's as though someone had set an entire bookshelf on your shoulders and your spine were being compressed far beyond its limit.  After a minute of pain, the pressure evaporates and you look down at your legs.  Not only are your backlegs gone, but your forelegs have taken on a dogleg shape, with extremely long feet bearing a prominent middle toe!  You set about rubbing the feeling back into your legs and trying to move the new feet.  <b>You now have kangaroo legs!</b>");
             // gain roo feet from naga:
@@ -222,13 +222,13 @@ export default class KangaFruit extends Consumable {
             changes++;
         }
         // -Roo tail (Req: Ears)
-        if (player.torso.tails.filterType(TailType.KANGAROO).length <= 0 && changes < changeLimit && Utils.rand(4) === 0 && (!this.enhanced || player.torso.neck.head.ears.type === EarType.KANGAROO)) {
+        if (!player.torso.tails.hasType(TailType.KANGAROO) && changes < changeLimit && Utils.rand(4) === 0 && (!this.enhanced || player.torso.neck.head.ears.type === EarType.KANGAROO)) {
             // gain roo tail:
             if (player.torso.tails.count >= 1) DisplayText("\n\nA painful pressure in your lower body causes you to stand straight and lock up.  At first you think it might be gas.  No... something is growing at the end of your tailbone.  As you hold stock still so as not to exacerbate the pain, something thick pushes out from the rear of your garments.  The pain subsides and you crane your neck around to look; a long, tapered tail is now attached to your butt and a thin coat of fur is already growing in!  <b>You now have a kangaroo tail!</b>");
             // gain roo tail from bee tail:
-            else if (player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length >= 1 || player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1) {
+            else if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
                 DisplayText("\n\nYour chitinous backside shakes and cracks once you finish eating.  Peering at it as best you can, it appears as though the fuzz is falling out in clumps and the chitin is flaking off.  As convulsions begin to wrack your body and force you to collapse, the ");
-                if (player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1) DisplayText("hollow stinger drops out of the end, taking the venom organ with it.");
+                if (player.torso.tails.hasType(TailType.BEE_ABDOMEN)) DisplayText("hollow stinger drops out of the end, taking the venom organ with it.");
                 else DisplayText("spinnerets drop out of the end, taking the last of your webbing with it.");
                 DisplayText("  By the time you're back to yourself, the insectile carapace has fallen off completely, leaving you with a long, thick, fleshy tail in place of your proud, insectile abdomen.  <b>You now have a kangaroo tail!</b>  You wipe the errant spittle from your mouth as you idly bob your new tail about.");
             }

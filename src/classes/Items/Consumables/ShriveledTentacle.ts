@@ -49,7 +49,7 @@ export default class ShriveledTentacle extends Consumable {
 
         // physical changes:
         // - may randomly remove bee abdomen, if present; always checks and does so when any changes to hair might happen
-        if (Utils.rand(4) === 0 && changes < changeLimit && player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1) {
+        if (Utils.rand(4) === 0 && changes < changeLimit && player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
             DisplayText("\n\nAs the gentle tingling of the tentacle's remaining venom spreads through your body, it begins to collect and intensify above the crack of your butt.  Looking back, you notice your abdomen shivering and contracting; with a snap, the chitinous appendage parts smoothly from your backside and falls to the ground.  <b>You no longer have a bee abdomen!</b>\n\n");
             player.torso.tails.clear();
             changes++;

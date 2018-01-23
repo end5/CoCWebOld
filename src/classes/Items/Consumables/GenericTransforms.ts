@@ -15,10 +15,10 @@ import { Utils } from '../../Utilities/Utils';
 export default class GenericTransforms {
     public static demonChanges(player: Player): void {
         // Change tail if already horned.
-        if (player.torso.tails.filterType(TailType.DEMONIC).length < 0 && player.torso.neck.head.horns.amount > 0) {
+        if (!player.torso.tails.hasType(TailType.DEMONIC) && player.torso.neck.head.horns.amount > 0) {
             if (player.torso.tails.count === 0) {
                 DisplayText("\n\n");
-                if (player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).length >= 1 || player.torso.tails.filterType(TailType.BEE_ABDOMEN).length >= 1)
+                if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN))
                     DisplayText("You feel a tingling in your insectile abdomen as it stretches, narrowing, the exoskeleton flaking off as it transforms into a flexible demon-tail, complete with a round spaded tip.  ");
                 else
                     DisplayText("You feel a tingling in your tail.  You are amazed to discover it has shifted into a flexible demon-tail, complete with a round spaded tip.  ");

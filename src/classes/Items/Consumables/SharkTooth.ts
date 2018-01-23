@@ -148,7 +148,7 @@ export default class SharkTooth extends Consumable {
             changes++;
         }
         // Tail TF
-        if (player.torso.tails.filterType(TailType.SHARK).length > 0 && Utils.rand(3) === 0 && changes < changeLimit) {
+        if (player.torso.tails.hasType(TailType.SHARK) && Utils.rand(3) === 0 && changes < changeLimit) {
             changes++;
             if (player.torso.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + player.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your bUtils.Utils.rand new shark tail.");
             else DisplayText("\n\nJets of pain shoot down your spine into your tail.  You feel the tail bulging out until it explodes into a large and flexible shark-tail.  You swish it about experimentally, and find it quite easy to control.");

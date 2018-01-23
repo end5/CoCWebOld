@@ -75,7 +75,7 @@ export default class RingtailFig extends Consumable {
             changes++;
         }
         // bodypart changes:
-        if (player.torso.tails.filterType(TailType.RACCOON).length > 0 && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.tails.hasType(TailType.RACCOON) && Utils.rand(4) === 0 && changes < changeLimit) {
             // grow da tail
             // from no tail:
             if (player.torso.tails.count >= 1) {
@@ -98,7 +98,7 @@ export default class RingtailFig extends Consumable {
             changes++;
         }
         // gain coon ears
-        if (player.torso.tails.filterType(TailType.RACCOON).length >= 1 && player.torso.neck.head.ears.type !== EarType.RACCOON && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.tails.hasType(TailType.RACCOON) && player.torso.neck.head.ears.type !== EarType.RACCOON && Utils.rand(4) === 0 && changes < changeLimit) {
             // from dog, kangaroo, bunny, other long ears
             if (player.torso.neck.head.ears.type === EarType.DOG || player.torso.neck.head.ears.type === EarType.BUNNY || player.torso.neck.head.ears.type === EarType.KANGAROO) DisplayText("\n\nYour ears compress, constricting your ear canal momentarily.  You shake your head to get sound back, and reach up to touch the auricles, to find a pair of stubby egg-shaped ears in their place.  <b>You now have raccoon ears!</b>");
             // from cat, horse, cow ears

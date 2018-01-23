@@ -244,7 +244,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // DA TailType (IF ALREADY HAZ URZ)
-        if (player.torso.tails.filterType(TailType.CAT).length <= 0 && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit) {
+        if (!player.torso.tails.hasType(TailType.CAT) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit) {
             if (player.torso.tails.count === 0) {
                 const chance: number = Utils.rand(3);
                 if (chance === 0) DisplayText("\n\nA pressure builds in your backside. You feel under your " + player.inventory.equipment.armor.displayName + " and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers, bursts out the back of your clothes and grows most of the way to the ground. A thick coat of fur springs up to cover your new tail. You instinctively keep adjusting it to improve your balance. <b>You now have a cat-tail.</b>");
@@ -257,7 +257,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // Da paws (if already haz ears & tail)
-        if (player.torso.tails.filterType(TailType.CAT).length >= 1 && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit && player.torso.hips.legs.type !== LegType.CAT) {
+        if (player.torso.tails.hasType(TailType.CAT) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit && player.torso.hips.legs.type !== LegType.CAT) {
             // hoof to cat:
             if (player.torso.hips.legs.type === LegType.HOOFED || player.torso.hips.legs.type === LegType.CENTAUR) {
                 DisplayText("\n\nYou feel your hooves suddenly splinter, growing into five unique digits. Their flesh softens as your hooves reshape into furred cat paws. <b>You now have cat paws.</b>");
@@ -273,7 +273,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // TURN INTO A FURRAH!  OH SHIT
-        if (player.torso.tails.filterType(TailType.CAT).length >= 1 &&
+        if (player.torso.tails.hasType(TailType.CAT) &&
             player.torso.neck.head.ears.type === EarType.CAT &&
             player.torso.hips.legs.type === LegType.CAT &&
             player.skin.type !== SkinType.FUR &&
@@ -284,7 +284,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // CAT-FaceType!  FULL ON FURRY!  RAGE AWAY NEKOZ
-        if (player.torso.tails.filterType(TailType.CAT).length >= 1 &&
+        if (player.torso.tails.hasType(TailType.CAT) &&
             player.torso.neck.head.ears.type === EarType.CAT &&
             player.torso.hips.legs.type === LegType.CAT &&
             player.skin.type === SkinType.FUR &&

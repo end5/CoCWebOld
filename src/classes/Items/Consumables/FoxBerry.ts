@@ -43,7 +43,7 @@ export default class FoxBerry extends Consumable {
         if (Utils.rand(2) === 0) changeLimit++;
 
         if (player.torso.neck.head.face.type === FaceType.FOX &&
-            player.torso.tails.filterType(TailType.FOX).length >= 1 &&
+            player.torso.tails.hasType(TailType.FOX) &&
             player.torso.neck.head.ears.type === EarType.FOX &&
             player.torso.hips.legs.type === LegType.FOX &&
             player.skin.type === SkinType.FUR && Utils.rand(3) === 0
@@ -318,7 +318,7 @@ export default class FoxBerry extends Consumable {
         }
         // Grow Fox Ears]
         // SECOND
-        if ((this.enhanced || player.torso.tails.filterType(TailType.FOX).length >= 1) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit && Utils.rand(4) === 0) {
+        if ((this.enhanced || player.torso.tails.hasType(TailType.FOX)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit && Utils.rand(4) === 0) {
             // from human/gob/liz ears
             if (player.torso.neck.head.ears.type === EarType.HUMAN || player.torso.neck.head.ears.type === EarType.ELFIN || player.torso.neck.head.ears.type === EarType.LIZARD) {
                 DisplayText("\n\nThe sides of your face painfully stretch as your ears elongate and begin to push past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  <b>You now have fox ears.</b>");
@@ -332,7 +332,7 @@ export default class FoxBerry extends Consumable {
         }
         // [Grow Fox Tail](fairly common)
         // FIRST
-        if (player.torso.tails.filterType(TailType.FOX).length === 0 && changes < changeLimit && Utils.rand(4) === 0) {
+        if (!player.torso.tails.hasType(TailType.FOX) && changes < changeLimit && Utils.rand(4) === 0) {
             // from no tail
             if (player.torso.tails.count === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your [armor] and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it had a mind of its own.  <b>You now have a fox's tail!</b>");
             // from another type of tail

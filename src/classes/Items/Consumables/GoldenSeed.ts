@@ -268,7 +268,7 @@ export default class GoldenSeed extends Consumable {
         // Harpy Appearance:
         // ****************
         // -Harpy legs
-        if (player.torso.hips.legs.type !== LegType.HARPY && changes < changeLimit && (this.enhanced || player.torso.tails.filterType(TailType.HARPY).length >= 1) && Utils.rand(4) === 0) {
+        if (player.torso.hips.legs.type !== LegType.HARPY && changes < changeLimit && (this.enhanced || player.torso.tails.hasType(TailType.HARPY)) && Utils.rand(4) === 0) {
             // (biped/taur)
             if (!player.torso.hips.legs.isGoo()) DisplayText("\n\nYour " + LegDescriptor.describeLegs(player) + " creak ominously a split-second before they go weak and drop you on the ground. They go completely limp, twisting and reshaping before your eyes in ways that make you wince. Your lower body eventually stops, but the form it's settled on is quite thick in the thighs. Even your " + LegDescriptor.describeFeet(player) + " have changed.  ");
             // goo
@@ -279,7 +279,7 @@ export default class GoldenSeed extends Consumable {
             DisplayText("While humanoid in shape, they have two large, taloned toes on the front and a single claw protruding from the heel. The entire ensemble is coated in " + player.torso.neck.head.hair.color + " feathers from ankle to hip, reminding you of the bird-women of the mountains. <b>You now have harpy legs!</b>");
         }
         // -Feathery Tail
-        if (player.torso.tails.filterType(TailType.HARPY).length <= 0 && changes < changeLimit && (this.enhanced || player.torso.wings.type === WingType.FEATHERED_LARGE) && Utils.rand(4) === 0) {
+        if (!player.torso.tails.hasType(TailType.HARPY) && changes < changeLimit && (this.enhanced || player.torso.wings.type === WingType.FEATHERED_LARGE) && Utils.rand(4) === 0) {
             // (tail)
             if (player.torso.tails.count > 0) DisplayText("\n\nYour tail shortens, folding into the crack of your " + ButtDescriptor.describeButt(player) + " before it disappears. A moment later, a fan of feathers erupts in its place, fluffing up and down instinctively every time the breeze shifts. <b>You have a feathery harpy tail!</b>");
             // (no tail)
@@ -336,7 +336,7 @@ export default class GoldenSeed extends Consumable {
         }
         // SPECIAL:
         // Harpy Womb � All eggs are automatically upgraded to large, requires legs + tail to be harpy.
-        if (!player.perks.has(PerkType.HarpyWomb) && player.torso.hips.legs.type === LegType.HARPY && player.torso.tails.filterType(TailType.HARPY).length >= 1 && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (!player.perks.has(PerkType.HarpyWomb) && player.torso.hips.legs.type === LegType.HARPY && player.torso.tails.hasType(TailType.HARPY) && Utils.rand(4) === 0 && changes < changeLimit) {
             player.perks.set(PerkType.HarpyWomb, PerkFactory.create(PerkType.HarpyWomb, 0, 0, 0, 0));
             DisplayText("\n\nThere's a rumbling in your womb, signifying that some strange change has taken place in your most feminine area. No doubt something in it has changed to be more like a harpy. (<b>You've gained the Harpy Womb perk! All the eggs you lay will always be large so long as you have harpy legs and a harpy tail.</b>)");
             changes++;
