@@ -54,6 +54,10 @@ export default class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.thickness;
     }
 
+    public static readonly TotalCockLength: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock) => {
+        return previousValue + currentValue.thickness;
+    }
+
     public static readonly AverageCockThickness: ReduceOption<Cock, number> = (previousValue: number, currentValue: Cock, index: number, array: Cock[]) => {
         if (index >= array.length - 1)
             return previousValue / index;

@@ -5,6 +5,7 @@ import Character from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
+import { Utils } from '../Utilities/Utils';
 
 export default class StatsModifier {
     private body: Creature;

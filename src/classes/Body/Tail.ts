@@ -1,18 +1,32 @@
-import Ovipositor from './Ovipositor';
 import ISerializable from '../Utilities/ISerializable';
-import { FilterOption } from '../Utilities/list';
+import { FilterOption, SortOption } from '../Utilities/list';
 
 export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
 export default class Tail implements ISerializable<Tail> {
+    public static VenomMost: SortOption<Tail> = (a: Tail, b: Tail) => {
+        return a.vemon - b.vemon;
+    }
+
+    public static VenomLeast: SortOption<Tail> = (a: Tail, b: Tail) => {
+        return b.vemon - a.vemon;
+    }
+
+    public static RechargeMost: SortOption<Tail> = (a: Tail, b: Tail) => {
+        return a.recharge - b.recharge;
+    }
+
+    public static RechargeLeast: SortOption<Tail> = (a: Tail, b: Tail) => {
+        return b.recharge - a.recharge;
+    }
+
     public type: TailType;
     // Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
     public vemon: number = 0;
     // Tail recharge determines how fast venom/webs comes back per hour.
     public recharge: number = 0;
-    public ovipositor: Ovipositor = new Ovipositor();
 
     public constructor(type: TailType = TailType.HORSE) {
         this.type = type;
@@ -48,8 +62,7 @@ export default class Tail implements ISerializable<Tail> {
         return JSON.stringify({
             type: this.type,
             vemon: this.vemon,
-            recharge: this.recharge,
-            ovipositor: this.ovipositor.serialize()
+            recharge: this.recharge
         });
     }
 
@@ -57,6 +70,5 @@ export default class Tail implements ISerializable<Tail> {
         this.type = saveObject.type;
         this.vemon = saveObject.vemon;
         this.recharge = saveObject.recharge;
-        this.ovipositor.deserialize(saveObject.ovipositor);
     }
 }

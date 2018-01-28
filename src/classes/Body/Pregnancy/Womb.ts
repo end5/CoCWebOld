@@ -56,13 +56,10 @@ export default class Womb implements ISerializable<Womb> {
                 this.pregEvent = PregnancyEventFactory.create(pregnancy.type);
             }
 
-            const ovipositorTails = this.body.torso.tails.filter(Tail.HasOvipositor);
-            for (const tail of ovipositorTails) {
-                // Chance for eggs fertilization - ovi elixir and imps excluded!
-                if (pregnancy.type !== PregnancyType.IMP && pregnancy.type !== PregnancyType.OVIELIXIR_EGGS && pregnancy.type !== PregnancyType.ANEMONE &&
-                    (guarantee || this.body.totalFertility() > Utils.rand(virility)))
-                    tail.ovipositor.fertilizeEggs();
-            }
+            // Chance for eggs fertilization - ovi elixir and imps excluded!
+            if (pregnancy.type !== PregnancyType.IMP && pregnancy.type !== PregnancyType.OVIELIXIR_EGGS && pregnancy.type !== PregnancyType.ANEMONE &&
+                (guarantee || this.body.totalFertility() > Utils.rand(virility)))
+                this.body.pregnancy.ovipositor.fertilizeEggs();
         }
     }
 

@@ -1,8 +1,8 @@
 import Character from './Character';
 import GenderDescriptor from '../Descriptors/GenderDescriptor';
-import { SerializeInterface } from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Description implements SerializeInterface {
+export default class Description implements ISerializable<Description> {
     private character: Character;
     private subjective: string;
     private objective: string;
@@ -24,7 +24,7 @@ export default class Description implements SerializeInterface {
         this.subjective = this.plural ? "they" : GenderDescriptor.mfn(this.character.gender, "he", "she", "it");
         this.objective = this.plural ? "them" : GenderDescriptor.mfn(this.character.gender, "him", "her", "it");
         this.possessive = this.plural ? "their" : GenderDescriptor.mfn(this.character.gender, "his", "her", "its");
-        if (this.article == ("a" || "the"))
+        if (this.article === ("a" || "the"))
             this.article = this.plural ? "the" : "a";
     }
 
@@ -72,28 +72,29 @@ export default class Description implements SerializeInterface {
      * Returns "A" if singular, "The" if plural.
      */
     public get capitalA(): string {
-        if (this.article.length == 0) return "";
+        if (this.article.length === 0) return "";
         return this.article.charAt(0).toUpperCase() + this.article.substr(1);
     }
 
-    serialize(): string {
+    public serialize(): string {
         return JSON.stringify({
-            "subjective": this.subjective,
-            "objective": this.objective,
-            "possessive": this.possessive,
-            "article": this.article,
-            "shortDesc": this.short,
-            "longDesc": this.long,
-            "isPlural": this.plural
+            subjective: this.subjective,
+            objective: this.objective,
+            possessive: this.possessive,
+            article: this.article,
+            shortDesc: this.short,
+            longDesc: this.long,
+            isPlural: this.plural
         });
     }
-    deserialize(saveObject: object) {
-        this.subjective = saveObject["subjective"];
-        this.objective = saveObject["objective"];
-        this.possessive = saveObject["possessive"];
-        this.article = saveObject["article"];
-        this.shortDesc = saveObject["shortDesc"];
-        this.longDesc = saveObject["longDesc"];
-        this.isPlural = saveObject["isPlural"];
+
+    public deserialize(saveObject: Description) {
+        this.subjective = saveObject.subjective;
+        this.objective = saveObject.objective;
+        this.possessive = saveObject.possessive;
+        this.article = saveObject.article;
+        this.shortDesc = saveObject.shortDesc;
+        this.longDesc = saveObject.longDesc;
+        this.isPlural = saveObject.isPlural;
     }
 }

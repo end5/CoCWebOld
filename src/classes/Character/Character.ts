@@ -1,8 +1,8 @@
 ﻿import CharacterDescription from './CharacterDescription';
 import { CharacterType } from './CharacterType';
 import Cock, { CockType } from '../Body/Cock';
-import { Gender, SkinType } from '../Body/Creature';
-import Creature from '../Body/Creature';
+import { Gender } from '../Body/Creature';
+import Body from '../Body/Creature';
 import { FaceType } from '../Body/Face';
 import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
@@ -16,55 +16,53 @@ import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
 import CharacterInventory from '../Inventory/CharacterInventory';
 import Armor from '../Items/Armors/Armor';
+import CockSockName from '../Items/Misc/CockSockName';
 import Weapon from '../Items/Weapons/Weapon';
-import { SerializeInterface } from '../SerializeInterface';
 import UpdateInterface from '../UpdateInterface';
-import Utils from '../Utilities/Utils';
+import ISerializable from '../Utilities/ISerializable';
+import { Utils } from '../Utilities/Utils';
 
-export default abstract class Character extends Creature implements UpdateInterface, SerializeInterface {
-	public charType: CharacterType;
-	public readonly inventory: CharacterInventory;
-	public readonly desc: CharacterDescription;
-	protected combatContainer: CombatContainer;
-	public get combat(): CombatContainer {
-		return this.combatContainer;
-	}
-
-	public constructor(type: CharacterType, defaultWeapon: Weapon, defaultArmor: Armor) {
-		super();
-		this.charType = type;
-		this.inventory = new CharacterInventory(defaultWeapon, defaultArmor);
-		this.desc = new CharacterDescription(this);
-		if (type != CharacterType.Player) {
-			this.stats.XP = this.totalXP();
-		}
-	}
-
-    serialize(): string {
-        let saveObject: object = {};
-        saveObject["charType"] = this.charType;
-        saveObject["inventory"] = this.inventory.serialize();
-		saveObject["desc"] = this.desc.serialize();
-		saveObject["Creature"] = super.serialize();
-        return JSON.stringify(saveObject);
+export default abstract class Character extends Body implements UpdateInterface, ISerializable<Character> {
+    public charType: CharacterType;
+    public readonly inventory: CharacterInventory;
+    public readonly desc: CharacterDescription;
+    protected combatContainer: CombatContainer;
+    public get combat(): CombatContainer {
+        return this.combatContainer;
     }
 
-    deserialize(saveObject: object) {
-        this.charType = saveObject["charType"];
-        this.inventory.deserialize(saveObject["inventory"]);
-        this.desc.deserialize(saveObject["desc"]);
-        super.deserialize(saveObject["Creature"]);
+    public constructor(type: CharacterType, defaultWeapon: Weapon, defaultArmor: Armor) {
+        super();
+        this.charType = type;
+        this.inventory = new CharacterInventory(this);
+        this.desc = new CharacterDescription(this);
+        if (type !== CharacterType.Player) {
+            this.stats.XP = this.totalXP();
+        }
     }
 
+    public serialize(): string {
+        return JSON.stringify({
+            charType: this.charType,
+            inventory: this.inventory.serialize(),
+            desc: this.desc.serialize()
+        });
+    }
 
-	public update(hours: number) {
-		this.pregnancy.update(hours);
-		this.regeneration();
-	}
+    public deserialize(saveObject: Character) {
+        this.charType = saveObject.charType;
+        this.inventory.deserialize(saveObject.inventory);
+        this.desc.deserialize(saveObject.desc);
+        super.deserialize(saveObject);
+    }
 
-	private totalXP(): number {
-		let playerLevel = Game.player.stats.level;
-        //
+    public update(hours: number) {
+        this.pregnancy.update(hours);
+        this.regeneration();
+    }
+
+    private totalXP(): number {
+        const playerLevel = Game.player.stats.level;
         // 1) Nerf xp gains by 20% per level after first two level difference
         // 2) No bonuses for underlevel!
         // 3) Super high level folks (over 10 levels) only get 1 xp!
@@ -78,8 +76,8 @@ export default abstract class Character extends Creature implements UpdateInterf
     }
 
     private baseXP(): number {
-        return [200, 10, 20, 30, 40, 50, 55, 60, 66, 75,//0-9
-            83, 85, 92, 100, 107, 115, 118, 121, 128, 135,//10-19
+        return [200, 10, 20, 30, 40, 50, 55, 60, 66, 75, // 0-9
+            83, 85, 92, 100, 107, 115, 118, 121, 128, 135, // 10-19
             145][Math.round(this.stats.level)] || 200;
     }
 
@@ -89,62 +87,66 @@ export default abstract class Character extends Creature implements UpdateInterf
             107][Math.round(this.stats.level)] || 130);
     }
 
-	private regeneration() {
-		let healingPercent = 0;
-		if (this.perks.has(PerkType.Regeneration)) healingPercent += 2;
-		if (this.perks.has(PerkType.Regeneration2)) healingPercent += 4;
-		if (this.inventory.armorSlot.equipment.displayName == "skimpy nurse's outfit") healingPercent += 2;
-		if (this.inventory.armorSlot.equipment.displayName == "goo armor") healingPercent += 3;
-		if (this.perks.has(PerkType.LustyRegeneration)) healingPercent += 2;
-		if (healingPercent > 10) healingPercent = 10;
-		this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
-	}
+    private regeneration() {
+        let healingPercent = 0;
+        if (this.perks.has(PerkType.Regeneration)) healingPercent += 2;
+        if (this.perks.has(PerkType.Regeneration2)) healingPercent += 4;
+        if (this.inventory.equipment.armor.displayName === "skimpy nurse's outfit") healingPercent += 2;
+        if (this.inventory.equipment.armor.displayName === "goo armor") healingPercent += 3;
+        if (this.perks.has(PerkType.LustyRegeneration)) healingPercent += 2;
+        if (healingPercent > 10) healingPercent = 10;
+        this.stats.HP += Math.round(this.stats.maxHP() * healingPercent / 100);
+    }
 
+    public modCumMultiplier(delta: number): number {
+        if (delta === 0) {
+            return delta;
+        }
+        else if (delta > 0) {
+            if (this.perks.has(PerkType.MessyOrgasms)) {
+                delta *= 1.5;
+            }
+        }
+        else if (delta < 0) {
+            if (this.perks.has(PerkType.MessyOrgasms)) {
+                delta *= 0.5;
+            }
+        }
 
-	public modCumMultiplier(delta: number): number {
-		if (delta == 0) {
-			return delta;
-		}
-		else if (delta > 0) {
-			if (this.perks.has(PerkType.MessyOrgasms)) {
-				delta *= 1.5
-			}
-		}
-		else if (delta < 0) {
-			if (this.perks.has(PerkType.MessyOrgasms)) {
-				delta *= 0.5
-			}
-		}
+        this.cumMultiplier += delta;
+        return delta;
+    }
 
-		this.cumMultiplier += delta;
-		return delta;
-	}
+    public viridianChange(): boolean {
+        const cockSocks = this.inventory.equipment.cockSocks;
+        for (let index = 0; index < this.torso.cocks.count; index++)
+            if (cockSocks.get(index).isEquipped() && cockSocks.get(index).item.name === CockSockName.Purple && this.torso.cocks.get(index).type !== CockType.DISPLACER)
+                return true;
+        return false;
+    }
 
+    private gildedCockSockCount(): number {
+        let count = 0;
+        const cockSocks = this.inventory.equipment.cockSocks;
+        for (let index = 0; index < this.torso.cocks.count; index++)
+            if (cockSocks.get(index).isEquipped() && cockSocks.get(index).item.name === CockSockName.Gilded)
+                count++;
+        return count;
+    }
 
-
-
-	public viridianChange(): boolean {
-		let cockSpot = this.lowerBody.cockSpot;
-		for (let index = 0; index < cockSpot.count(); index++)
-			if (cockSpot.get(index).sock == "amaranthine" && cockSpot.get(index).cockType != CockType.DISPLACER)
-				return true;
-		return false;
-	}
-
-	public orgasm(): void {
+    public orgasm(): void {
         this.stats.lustNoResist = 0;
         this.hoursSinceCum = 0;
-        let gildedCockSocks: number = this.lowerBody.cockSpot.cockSocks("gilded").length;
-        if (gildedCockSocks > 0) {
-            let randomCock: Cock = Utils.randomChoice(this.lowerBody.cockSpot.listLargestCockArea);
-            let bonusGems: number = Utils.rand(randomCock.cockThickness) + gildedCockSocks;
-            DisplayText.text("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
+        const gildedCockSockCount = this.gildedCockSockCount();
+        if (gildedCockSockCount > 0) {
+            const randomCock = Utils.randomChoice(this.torso.cocks);
+            const bonusGems = Math.floor(Utils.rand(randomCock.cockThickness) + gildedCockSockCount);
+            DisplayText("\n\nFeeling some minor discomfort in your " + CockDescriptor.describeCock(this, randomCock) + " you slip it out of your [armor] and examine it. <b>With a little exploratory rubbing and massaging, you manage to squeeze out " + bonusGems + " gems from its cum slit.</b>\n\n");
             this.inventory.gems += bonusGems;
         }
-	}
-	
-	public milked(): void {
-        this.statusAffects.has(StatusAffectType.LactationReduction)
+    }
+
+    public milked(): void {
         if (this.statusAffects.has(StatusAffectType.LactationReduction))
             this.statusAffects.get(StatusAffectType.LactationReduction).value1 = 0;
         if (this.statusAffects.has(StatusAffectType.LactationReduc0))
@@ -156,11 +158,9 @@ export default abstract class Character extends Creature implements UpdateInterf
         if (this.statusAffects.has(StatusAffectType.LactationReduc3))
             this.statusAffects.remove(StatusAffectType.LactationReduc3);
         if (this.statusAffects.has(StatusAffectType.Feeder)) {
-            //You've now been milked, reset the timer for that
+            // You've now been milked, reset the timer for that
             this.statusAffects.get(StatusAffectType.Feeder).value1 = 1;
             this.statusAffects.get(StatusAffectType.Feeder).value2 = 0;
         }
-	}
-	
-
+    }
 }

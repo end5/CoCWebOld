@@ -7,15 +7,12 @@ import StatsModifier from './StatsModifier';
 import Torso from './Torso';
 import Vagina from './Vagina';
 import { WingType } from './Wings';
-import Perk from '../Effects/Perk';
 import PerkList from '../Effects/PerkList';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffect from '../Effects/StatusAffect';
 import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import StatusAffectList from '../Effects/StatusAffectList';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import ISerializable from '../Utilities/ISerializable';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
@@ -50,7 +47,7 @@ export default class Creature implements ISerializable<Creature> {
 
     public get femininity(): number {
         if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
-            const statAffect: StatusAffect = this.statusAffects.get(StatusAffectType.UmasMassage);
+            const statAffect = this.statusAffects.get(StatusAffectType.UmasMassage);
             if (statAffect.value1 === UmasShop.MASSAGE_MODELLING_BONUS)
                 this.fem += statAffect.value2;
         }
@@ -236,7 +233,7 @@ export default class Creature implements ISerializable<Creature> {
         }
     }
 
-    public updateGender(): void {
+    public updateGender() {
         if (this.torso.cocks.count > 0 && this.torso.vaginas.count > 0)
             this.gender = Gender.HERM;
         else if (this.torso.cocks.count > 0)
@@ -256,7 +253,7 @@ export default class Creature implements ISerializable<Creature> {
     }
 
     public canGoIntoHeat() {
-        return this.torso.vaginas.count > 0 && this.pregnancy.canKnockUp();
+        return this.torso.vaginas.count > 0 && !this.pregnancy.womb.isPregnant();
     }
 
     public canGoIntoRut(): boolean {
@@ -265,7 +262,7 @@ export default class Creature implements ISerializable<Creature> {
 
     public goIntoHeat(intensity: number = 1) {
         if (this.inHeat) {
-            const statusAffectHeat: StatusAffect = this.statusAffects.get(StatusAffectType.Heat);
+            const statusAffectHeat = this.statusAffects.get(StatusAffectType.Heat);
             statusAffectHeat.value1 += 5 * intensity;
             statusAffectHeat.value2 += 5 * intensity;
             statusAffectHeat.value3 += 48 * intensity;
@@ -281,7 +278,7 @@ export default class Creature implements ISerializable<Creature> {
     public goIntoRut(intensity: number = 1) {
         // Has rut, intensify it!
         if (this.inRut) {
-            const statusAffectRut: StatusAffect = this.statusAffects.get(StatusAffectType.Rut);
+            const statusAffectRut = this.statusAffects.get(StatusAffectType.Rut);
             statusAffectRut.value1 = 100 * intensity;
             statusAffectRut.value2 = 5 * intensity;
             statusAffectRut.value3 = 48 * intensity;
@@ -297,7 +294,7 @@ export default class Creature implements ISerializable<Creature> {
     }
 
     public get bonusFertility(): number {
-        let counter: number = 0;
+        let counter = 0;
         if (this.inHeat)
             counter += this.statusAffects.get(StatusAffectType.Heat).value1;
         if (this.perks.has(PerkType.FertilityPlus))
@@ -330,7 +327,7 @@ export default class Creature implements ISerializable<Creature> {
             hoursSinceCum: this.hoursSinceCum,
             torso: this.torso.serialize(),
             pregnancy: this.pregnancy.serialize(),
-            stats: this.baseStats.serialize(),
+            baseStats: this.baseStats.serialize(),
             statusAffects: this.statusAffects.serialize(),
             perks: this.perks.serialize(),
         });

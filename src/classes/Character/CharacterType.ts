@@ -1,6 +1,5 @@
 export enum CharacterType {
     Player,
-    
     // Areas
     // Bog
     ChameleonGirl,
@@ -56,7 +55,7 @@ export enum CharacterType {
     // D3
     Doppleganger,
     HermCentaur,
-    IncubusMechanic,
+    // IncubusMechanic,
     JeanClaude,
     LivingStatue,
     SuccubusGardener,
@@ -86,7 +85,7 @@ export enum CharacterType {
     Worms,
 
     // Holiday
-    
+
     // Monsters
     Goblin,
     GoblinAssassin,
@@ -129,7 +128,7 @@ export enum CharacterType {
     // Boat
     Marae,
     SharkGirl,
-    //Farm
+    // Farm
     Kelly,
     Kelt,
     // Owca
