@@ -50,14 +50,26 @@ export default class Vagina implements ISerializable<Vagina> {
         return previousValue + currentValue.wetness;
     }
 
-    public type: VaginaType = VaginaType.HUMAN;
-    public virgin: boolean = true;
+    public type: VaginaType;
+    public virgin: boolean;
 
-    public wetness: VaginaWetness = VaginaWetness.NORMAL;
-    public looseness: VaginaLooseness = VaginaLooseness.TIGHT;
+    public wetness: VaginaWetness;
+    public looseness: VaginaLooseness;
 
     // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
+
+    public constructor(
+        type: VaginaType = VaginaType.HUMAN,
+        wetness: VaginaWetness = VaginaWetness.NORMAL,
+        looseness: VaginaLooseness = VaginaLooseness.TIGHT,
+        virgin: boolean = true
+    ) {
+        this.type = type;
+        this.wetness = wetness;
+        this.looseness = looseness;
+        this.virgin = virgin;
+    }
 
     public wetnessFactor(): number {
         if (this.wetness === VaginaWetness.DRY) return 1.25;

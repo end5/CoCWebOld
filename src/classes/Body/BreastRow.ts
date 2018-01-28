@@ -91,13 +91,18 @@ export default class BreastRow implements ISerializable<BreastRow> {
         return previousValue + currentValue.nipples.length / array.length;
     }
 
-    public rating: number = BreastCup.C;
-    public lactationMultiplier: number = 0;
+    public rating: BreastCup;
+    public lactationMultiplier: number;
     // Fullness used for lactation....if 75 or greater warning bells start going off!
     // If it reaches 100 it reduces lactation multiplier.
     public milkFullness: number = 0;
     public fullness: number = 0;
     public nipples: Nipples = new Nipples();
+
+    public constructor(rating: BreastCup = BreastCup.C, lactationMultiplier: number = 0) {
+        this.rating = rating;
+        this.lactationMultiplier = lactationMultiplier;
+    }
 
     public serialize(): string {
         return JSON.stringify({

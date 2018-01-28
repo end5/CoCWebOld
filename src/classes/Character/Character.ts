@@ -2,7 +2,7 @@
 import { CharacterType } from './CharacterType';
 import Cock, { CockType } from '../Body/Cock';
 import { Gender } from '../Body/Creature';
-import Body from '../Body/Creature';
+import Creature from '../Body/Creature';
 import { FaceType } from '../Body/Face';
 import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
@@ -22,7 +22,7 @@ import UpdateInterface from '../UpdateInterface';
 import ISerializable from '../Utilities/ISerializable';
 import { Utils } from '../Utilities/Utils';
 
-export default abstract class Character extends Body implements UpdateInterface, ISerializable<Character> {
+export default abstract class Character extends Creature implements UpdateInterface, ISerializable<Character> {
     public charType: CharacterType;
     public readonly inventory: CharacterInventory;
     public readonly desc: CharacterDescription;

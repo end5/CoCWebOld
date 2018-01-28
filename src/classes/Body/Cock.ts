@@ -70,14 +70,16 @@ export default class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.length;
     }
 
-    public length: number = 5.5;
-    public thickness: number = 1;
-    public type: CockType = CockType.HUMAN;
-    public knotMultiplier: number = 1;
+    public length: number;
+    public thickness: number;
+    public type: CockType;
+    public knotMultiplier: number;
 
-    public constructor(length: number = 5.5, thickness: number = 1) {
+    public constructor(type: CockType = CockType.HUMAN, length: number = 5.5, thickness: number = 1, knotMultiplier: number = 1) {
+        this.type = type;
         this.length = length;
         this.thickness = thickness;
+        this.knotMultiplier = knotMultiplier;
     }
 
     public get area(): number {

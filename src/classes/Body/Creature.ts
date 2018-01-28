@@ -40,7 +40,7 @@ export default class Creature implements ISerializable<Creature> {
     public torso: Torso = new Torso();
     public pregnancy: PregnancyManager = new PregnancyManager(this);
 
-    private baseStats: Stats = new Stats();
+    protected baseStats: Stats = new Stats();
     public stats: StatsModifier = new StatsModifier(this, this.baseStats);
     public statusAffects: StatusAffectList = new StatusAffectList();
     public perks: PerkList = new PerkList();
