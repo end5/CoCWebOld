@@ -31,13 +31,13 @@ export default class PlayerCombatMenu implements Menu {
         this.showAction(MAGIC_SPEC, player, performActions.magicalSpecials, CombatAbilityFlag.MagicSpec);
         this.showAction(WAIT, player, performActions.wait, CombatAbilityFlag.Wait);
         this.showAction(FANTASIZE, player, performActions.fantasize, CombatAbilityFlag.Fantasize);
-        //this.showAction(INSPECT, player, performActions.inspect, CombatAbilityFlag.None);
+        // this.showAction(INSPECT, player, performActions.inspect, CombatAbilityFlag.None);
     }
 
     private showAction(button: number, player: Player, action: CombatAction, flag: CombatAbilityFlag) {
         if (player.combat.effects.combatAbilityFlag & flag) {
             if (action.isPossible(player))
-                MainScreen.getBottomButton(button).modify(action.name, function () {
+                MainScreen.getBottomButton(button).modify(action.name, () => {
                     action.use(player);
                 });
             else {

@@ -11,7 +11,7 @@ import MainScreen from '../MainScreen';
 
 export default class StashMenu implements Menu {
     public display(player: Player) {
-        DisplayText.clear();
+        DisplayText().clear();
         DisplaySprite.hide();
         MainScreen.hideBottomButtons();
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
@@ -20,37 +20,37 @@ export default class StashMenu implements Menu {
             MainScreen.getBottomButton(4).modify("Anemone", Game.sceneManager.anemoneScene.approachAnemoneBarrel);
         }
         if (player.hasKeyItem("Camp - Chest")) {
-            DisplayText.text("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
+            DisplayText("You have a large wood and iron chest to help store excess items located near the portal entrance.\n\n");
             MainScreen.getBottomButton(0).modify("Chest Store", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.chest.isEmpty())
             MainScreen.getBottomButton(1).modify("Chest Take", this.pickItemToTakeFromStorage);
         }
-        //Weapon Rack
+        // Weapon Rack
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00254] > 0) {
-            DisplayText.text("There's a weapon rack set up here, set up to hold up to nine various weapons.");
+            DisplayText("There's a weapon rack set up here, set up to hold up to nine various weapons.");
             MainScreen.getBottomButton(2).modify("W.Rack Put", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.weaponRack.isEmpty())
             MainScreen.getBottomButton(3).modify("W.Rack Take", this.pickItemToTakeFromStorage);
-            DisplayText.text("\n\n");
+            DisplayText("\n\n");
         }
-        //Armor Rack
+        // Armor Rack
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] > 0) {
-            DisplayText.text("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
+            DisplayText("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
             MainScreen.getBottomButton(5).modify("A.Rack Put", this.pickItemToTakeFromStorage);
             if (!Game.campStorage.armorRack.isEmpty())
             MainScreen.getBottomButton(6).modify("A.Rack Take", this.pickItemToTakeFromStorage);
-            DisplayText.text("\n\n");
+            DisplayText("\n\n");
         }
         MainScreen.addBackButton("Back", Menus.Player.display);
     }
 
     private pickItemToTakeFromStorage() {
-        DisplayText.clear(); //Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
-        if (!itemAnyInStorage(storage, startSlot, endSlot)) { //If no items are left then return to the camp menu. Can only happen if the player removes the last item.
+        DisplayText().clear(); // Selects an item from a gear slot. Rewritten so that it no longer needs to use numbered events
+        if (!itemAnyInStorage(storage, startSlot, endSlot)) { // If no items are left then return to the camp menu. Can only happen if the player removes the last item.
             playerMenu();
             return;
         }
-        DisplayText.text("What " + text + " slot do you wish to take an item from?");
+        DisplayText("What " + text + " slot do you wish to take an item from?");
         let button: number = 0;
         MainScreen.hideBottomButtons();
         for (let x: number = startSlot; x < endSlot; x++ , button++) {

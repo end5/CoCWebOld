@@ -1,5 +1,6 @@
 import Menu from './Menu';
 import Menus from './Menus';
+import Cock from '../../Body/Cock';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
@@ -10,8 +11,8 @@ import MainScreen from '../MainScreen';
 
 export default class StatsMenu implements Menu {
     public display(player: Player) {
-        //DisplaySprite.hide();
-        DisplayText.clear();
+        // DisplaySprite.hide();
+        DisplayText().clear();
 
         // Begin Combat Stats
         let combatStats: string = "";
@@ -29,8 +30,8 @@ export default class StatsMenu implements Menu {
 
         combatStats += "<b>Tease Skill (Out of 5):</b>  " + player.teaseLevel + "\n";
 
-        if (combatStats != "")
-            DisplayText.text("<b><u>Combat Stats</u></b>\n" + combatStats);
+        if (combatStats !== "")
+            DisplayText("<b><u>Combat Stats</u></b>\n" + combatStats);
         // End Combat Stats
 
         // Begin Children Stats
@@ -53,8 +54,10 @@ export default class StatsMenu implements Menu {
 
         if (Flags.list[FlagEnum.EMBER_CHILDREN_MALES] > 0)
             childStats += "<b>Ember Offspring (Males):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_MALES] + "\n";
+
         if (Flags.list[FlagEnum.EMBER_CHILDREN_FEMALES] > 0)
             childStats += "<b>Ember Offspring (Females):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_FEMALES] + "\n";
+
         if (Flags.list[FlagEnum.EMBER_CHILDREN_HERMS] > 0)
             childStats += "<b>Ember Offspring (Herms):</b> " + Flags.list[FlagEnum.EMBER_CHILDREN_HERMS] + "\n";
 
@@ -73,7 +76,7 @@ export default class StatsMenu implements Menu {
         if (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE] > 0)
             childStats += "<b>Children With Kelly (Females):</b> " + (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE]) + "\n";
 
-        if (mountain.salon.lynnetteApproval() != 0)
+        if (mountain.salon.lynnetteApproval() !== 0)
             childStats += "<b>Lynnette Children:</b> " + Flags.list[FlagEnum.LYNNETTE_BABY_COUNT] + "\n";
 
         if (Flags.list[FlagEnum.MARBLE_KIDS] > 0)
@@ -109,19 +112,19 @@ export default class StatsMenu implements Menu {
         if (urtaPregs.urtaKids() > 0)
             childStats += "<b>Children With Urta:</b> " + urtaPregs.urtaKids() + "\n";
 
-        //Mino sons
+        // Mino sons
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 0)
             childStats += "<b>Number of Adult Minotaur Offspring:</b> " + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] + "\n";
 
-        if (childStats != "")
-            DisplayText.text("\n<b><u>Children</u></b>\n" + childStats);
+        if (childStats !== "")
+            DisplayText("\n<b><u>Children</u></b>\n" + childStats);
         // End Children Stats
 
         // Begin Body Stats
         let bodyStats: string = "";
 
         bodyStats += "<b>Anal Capacity:</b> " + Math.round(player.analCapacity()) + "\n";
-        bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.lowerBody.butt.analLooseness) + "\n";
+        bodyStats += "<b>Anal Looseness:</b> " + Math.round(player.torso.butt.looseness) + "\n";
 
         bodyStats += "<b>Fertility (Base) Rating:</b> " + Math.round(player.fertility) + "\n";
         bodyStats += "<b>Fertility (With Bonuses) Rating:</b> " + Math.round(player.totalFertility()) + "\n";
@@ -152,27 +155,22 @@ export default class StatsMenu implements Menu {
             bodyStats += preg + "\n";
         }
 
-        if (player.lowerBody.cockSpot.count() > 0) {
-            bodyStats += "<b>Total Cocks:</b> " + player.lowerBody.cockSpot.count() + "\n";
+        if (player.torso.cocks.count > 0) {
+            bodyStats += "<b>Total Cocks:</b> " + player.torso.cocks.count + "\n";
 
-            let totalCockLength: number = 0;
-            let totalCockGirth: number = 0;
-
-            for (let i: number = 0; i < player.lowerBody.cockSpot.count(); i++) {
-                totalCockLength += player.lowerBody.cockSpot.get(i).cockLength;
-                totalCockGirth += player.lowerBody.cockSpot.get(i).cockThickness
-            }
+            const totalCockLength = player.torso.cocks.reduce(Cock.TotalCockLength, 0);
+            const totalCockGirth = player.torso.cocks.reduce(Cock.TotalCockThickness, 0);
 
             bodyStats += "<b>Total Cock Length:</b> " + Math.round(totalCockLength) + " inches\n";
             bodyStats += "<b>Total Cock Girth:</b> " + Math.round(totalCockGirth) + " inches\n";
 
         }
 
-        if (player.lowerBody.vaginaSpot.count() > 0)
-            bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.lowerBody.vaginaSpot.get(0).vaginalLooseness) + "\n";
+        if (player.torso.vaginas.count > 0)
+            bodyStats += "<b>Vaginal Capacity:</b> " + Math.round(player.vaginalCapacity()) + "\n" + "<b>Vaginal Looseness:</b> " + Math.round(player.torso.vaginas.get(0).looseness) + "\n";
 
-        if (player.lowerBody.hasOvipositor()) // (player.perks.has(PerkType.SpiderOvipositor) || player.perks.has(PerkType.BeeOvipositor))
-            bodyStats += "<b>Ovipositor Total Egg Count: " + player.lowerBody.ovipositor.eggs + "\nOvipositor Fertilized Egg Count: " + player.lowerBody.ovipositor.fertilizedEggs + "</b>\n";
+        if (player.perks.has(PerkType.SpiderOvipositor) || player.perks.has(PerkType.BeeOvipositor))
+            bodyStats += "<b>Ovipositor Total Egg Count: " + player.pregnancy.ovipositor.eggs + "\nOvipositor Fertilized Egg Count: " + player.pregnancy.ovipositor.fertilizedEggs + "</b>\n";
 
         if (player.statusAffects.has(StatusAffectType.SlimeCraving)) {
             if (player.statusAffects.get(StatusAffectType.SlimeCraving).value1 >= 18)
@@ -185,8 +183,8 @@ export default class StatsMenu implements Menu {
             }
         }
 
-        if (bodyStats != "")
-            DisplayText.text("\n<b><u>Body Stats</u></b>\n" + bodyStats);
+        if (bodyStats !== "")
+            DisplayText("\n<b><u>Body Stats</u></b>\n" + bodyStats);
         // End Body Stats
 
         // Begin Misc Stats
@@ -204,13 +202,13 @@ export default class StatsMenu implements Menu {
         if (Flags.list[FlagEnum.SPELLS_CAST] > 0)
             miscStats += "<b>Spells Cast:</b> " + Flags.list[FlagEnum.SPELLS_CAST] + "\n";
 
-        if (miscStats != "")
-            DisplayText.text("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
+        if (miscStats !== "")
+            DisplayText("\n<b><u>Miscellaneous Stats</u></b>\n" + miscStats);
         // End Misc Stats
 
         // Begin Addition Stats
         let addictStats: string = "";
-        //Marble Milk Addition
+        // Marble Milk Addition
         if (player.statusAffects.get(StatusAffectType.Marble).value3 > 0) {
             addictStats += "<b>Marble Milk:</b> ";
             if (!player.perks.has(PerkType.MarbleResistant) && !player.perks.has(PerkType.MarblesMilk))
@@ -229,8 +227,8 @@ export default class StatsMenu implements Menu {
                 addictStats += "<b>Minotaur Cum:</b> 100+%\n";
         }
 
-        if (addictStats != "")
-            DisplayText.text("\n<b><u>Addictions</u></b>\n" + addictStats);
+        if (addictStats !== "")
+            DisplayText("\n<b><u>Addictions</u></b>\n" + addictStats);
         // End Addition Stats
 
         // Begin Interpersonal Stats
@@ -263,7 +261,7 @@ export default class StatsMenu implements Menu {
             interpersonStats += "<b>Isabella Affection:</b> ";
 
             if (!isabellaFollowerScene.isabellaFollower())
-                interpersonStats += Math.round(Flags.list[FlagEnum.ISABELLA_AFFECTION]) + "%\n", false;
+                interpersonStats += Math.round(Flags.list[FlagEnum.ISABELLA_AFFECTION]) + "%\n";
             else
                 interpersonStats += "100%\n";
         }
@@ -272,7 +270,7 @@ export default class StatsMenu implements Menu {
             interpersonStats += "<b>Katherine Submissiveness:</b> " + telAdre.katherine.submissiveness() + "\n";
         }
 
-        if (player.statusAffects.has(StatusAffectType.Kelt) && Flags.list[FlagEnum.KELT_BREAK_LEVEL] == 0) {
+        if (player.statusAffects.has(StatusAffectType.Kelt) && Flags.list[FlagEnum.KELT_BREAK_LEVEL] === 0) {
             if (player.statusAffects.get(StatusAffectType.Kelt).value2 >= 130)
                 interpersonStats += "<b>Submissiveness To Kelt:</b> " + 100 + "%\n";
             else
@@ -282,17 +280,17 @@ export default class StatsMenu implements Menu {
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0)
             interpersonStats += "<b>Kid A's Confidence:</b> " + anemoneScene.kidAXP() + "%\n";
 
-        if (Flags.list[FlagEnum.KIHA_AFFECTION_LEVEL] == 2) {
+        if (Flags.list[FlagEnum.KIHA_AFFECTION_LEVEL] === 2) {
             if (kihaFollower.followerKiha())
                 interpersonStats += "<b>Kiha Affection:</b> " + 100 + "%\n";
             else
                 interpersonStats += "<b>Kiha Affection:</b> " + Math.round(Flags.list[FlagEnum.KIHA_AFFECTION]) + "%\n";
         }
-        //Lottie stuff
+        // Lottie stuff
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00281] > 0)
             interpersonStats += "<b>Lottie's Encouragement:</b> " + telAdre.lottie.lottieMorale() + " (higher is better)\n" + "<b>Lottie's Figure:</b> " + telAdre.lottie.lottieTone() + " (higher is better)\n";
 
-        if (mountain.salon.lynnetteApproval() != 0)
+        if (mountain.salon.lynnetteApproval() !== 0)
             interpersonStats += "<b>Lynnette's Approval:</b> " + mountain.salon.lynnetteApproval() + "\n";
 
         if (Flags.list[FlagEnum.OWCAS_ATTITUDE] > 0)
@@ -301,17 +299,17 @@ export default class StatsMenu implements Menu {
         if (telAdre.rubi.rubiAffection() > 0)
             interpersonStats += "<b>Rubi's Affection:</b> " + Math.round(telAdre.rubi.rubiAffection()) + "%\n" + "<b>Rubi's Orifice Capacity:</b> " + Math.round(telAdre.rubi.rubiCapacity()) + "%\n";
 
-        if (Flags.list[FlagEnum.SHEILA_XP] != 0) {
+        if (Flags.list[FlagEnum.SHEILA_XP] !== 0) {
             interpersonStats += "<b>Sheila's Corruption:</b> " + sheilaScene.sheilaCorruption();
             if (sheilaScene.sheilaCorruption() > 100)
                 interpersonStats += " (Yes, it can go above 100)";
             interpersonStats += "\n";
         }
 
-        if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] != 0) {
+        if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] !== 0) {
             if (urta.urtaLove())
                 interpersonStats += "<b>Urta Status:</b> Lover\n";
-            else if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] == -1)
+            else if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] === -1)
                 interpersonStats += "<b>Urta Status:</b> Ashamed\n";
             else if (Flags.list[FlagEnum.URTA_PC_AFFECTION_COUNTER] < 30)
                 interpersonStats += "<b>Urta's Affection:</b> " + Math.round(Flags.list[FlagEnum.URTA_PC_AFFECTION_COUNTER] * 3.3333) + "%\n";
@@ -319,8 +317,8 @@ export default class StatsMenu implements Menu {
                 interpersonStats += "<b>Urta Status:</b> Ready To Confess Love\n";
         }
 
-        if (interpersonStats != "")
-            DisplayText.text("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats);
+        if (interpersonStats !== "")
+            DisplayText("\n<b><u>Interpersonal Stats</u></b>\n" + interpersonStats);
         // End Interpersonal Stats
 
         // Begin Ongoing Stat Effects
@@ -338,8 +336,8 @@ export default class StatsMenu implements Menu {
         if (player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
             statEffects += "Black Cat Beer - " + player.statusAffects.get(StatusAffectType.BlackCatBeer).value1 + " hours remaining (Lust resistance 20% lower, physical resistance 25% higher.)\n";
 
-        if (statEffects != "")
-            DisplayText.text("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
+        if (statEffects !== "")
+            DisplayText("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
         // End Ongoing Stat Effects
 
         MainScreen.doNext(Menus.Player.display);

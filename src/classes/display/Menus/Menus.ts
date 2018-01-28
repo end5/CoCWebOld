@@ -24,9 +24,9 @@ export default class Menus {
     public static Controls = new ControlsMenu();
     public static Credits = new CreditsMenu();
     public static Instructions = new InstructionsMenu();
-    
+
     public static GameOver = new GameOverMenu();
-    
+
     public static Player = new PlayerMenu();
     public static Combat = new PlayerCombatMenu();
     public static Inventory = new PlayerInventoryMenu();

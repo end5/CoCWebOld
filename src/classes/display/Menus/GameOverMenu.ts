@@ -5,8 +5,8 @@ import MainScreen, { TopButton } from '../MainScreen';
 
 export default class GameOverMenu implements Menu {
     public display() {
-        DisplayText.clear();
-        DisplayText.text("\n\n<b>GAME OVER</b>");
+        DisplayText().clear();
+        DisplayText("\n\n<b>GAME OVER</b>");
         MainScreen.hideBottomButtons();
         MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
         MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);
@@ -17,8 +17,8 @@ export default class GameOverMenu implements Menu {
             DisplayText.doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
         }
         else {
-            if (clear) DisplayText.clear();
-            DisplayText.text("\n\n<b>GAME OVER</b>");
+            if (clear) DisplayText().clear();
+            DisplayText("\n\n<b>GAME OVER</b>");
             MainScreen.hideBottomButtons();
             MainScreen.getBottomButton(0).modify("Game Over", gameOverMenuOverride);
             MainScreen.getBottomButton(3).modify("NewGamePlus", charCreation.newGamePlus);
@@ -30,7 +30,7 @@ export default class GameOverMenu implements Menu {
         dungeonLoc = 0; //Replaces inDungeon = false;
     }
     */
-    private gameOverMenuOverride() { //Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
+    private gameOverMenuOverride() { // Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
         MainScreen.hideTopButtons();
         MainScreen.getTopButton(TopButton.MainMenu).show();
         MainScreen.getTopButton(TopButton.Data).show();

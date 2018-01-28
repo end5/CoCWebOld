@@ -17,37 +17,37 @@ import MainScreen from '../MainScreen';
 export default class PlayerInventoryMenu implements Menu {
     public display(player: Player) {
         const inventory: Inventory<Item> = player.inventory.items;
-        let foundItem: Boolean = false;
+        let foundItem: boolean = false;
 
         DisplaySprite.hide();
 
         MainScreen.hideTopButtons();
-        DisplayText.clear();
-        DisplayText.text("<b><u>Equipment:</u></b>\n");
-        DisplayText.text("<b>Weapon</b>: " + player.inventory.weaponSlot.equipment.displayname + " (Attack - " + player.inventory.weaponSlot.equipment.attack + ")\n");
-        DisplayText.text("<b>Armor : </b>" + player.inventory.armorSlot.equipment.displayName + " (Defense - " + player.inventory.armorSlot.equipment.defense + ")\n");
+        DisplayText().clear();
+        DisplayText("<b><u>Equipment:</u></b>\n");
+        DisplayText("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayname + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
+        DisplayText("<b>Armor : </b>" + player.inventory.equipment.armor.displayName + " (Defense - " + player.inventory.equipment.armor.defense + ")\n");
         if (player.keyItems.length > 0)
-            DisplayText.text("<b><u>\nKey Items:</u></b>\n");
-        for (let index = 0; index < player.keyItems.length; index++)
-            DisplayText.text(player.keyItems[index].objectKey + "\n");
+            DisplayText("<b><u>\nKey Items:</u></b>\n");
+        for (const keyItem of player.keyItems)
+            DisplayText(keyItem.objectKey + "\n");
 
         MainScreen.hideTopButtons();
         InventoryDisplay.displayPlayersInventory(player);
 
-        if (player.inventory.weaponSlot.equipment.name != WeaponName.Fists) {
+        if (player.inventory.equipment.weapon.name !== WeaponName.Fists) {
             MainScreen.getBottomButton(5).modify("Unequip", InventoryDisplay.unequipFunction(player));
         }
 
         if (!Game.inCombat && !Game.inDungeon && !Game.inRoomedDungeon) {
             if (Game.sceneManager.nieveHoliday() && Flags.list[FlagEnum.NIEVE_STAGE] > 0 && Flags.list[FlagEnum.NIEVE_STAGE] < 5) {
-                if (Flags.list[FlagEnum.NIEVE_STAGE] == 1)
-                    DisplayText.text("\nThere's some odd snow here that you could do something with...\n");
-                else DisplayText.text("\nYou have a snow" + Game.sceneManager.nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
+                if (Flags.list[FlagEnum.NIEVE_STAGE] === 1)
+                    DisplayText("\nThere's some odd snow here that you could do something with...\n");
+                else DisplayText("\nYou have a snow" + Game.sceneManager.nieveMF("man", "woman") + " here that seems like it could use a little something...\n");
                 MainScreen.getBottomButton(6).modify("Snow", Game.sceneManager.nieveBuilding);
                 foundItem = true;
             }
-            if (Flags.list[FlagEnum.FUCK_FLOWER_KILLED] == 0 && Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
-                if (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] == 4) DisplayText.text("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
+            if (Flags.list[FlagEnum.FUCK_FLOWER_KILLED] === 0 && Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 1) {
+                if (Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] === 4) DisplayText("\nHolli is in her tree at the edges of your camp.  You could go visit her if you want.\n");
                 MainScreen.getBottomButton(7).modify((Flags.list[FlagEnum.FUCK_FLOWER_LEVEL] >= 3 ? "Tree" : "Plant"), Game.sceneManager.holliScene.treeMenu);
                 foundItem = true;
             }
@@ -58,17 +58,17 @@ export default class PlayerInventoryMenu implements Menu {
             }
         }
         if (!foundItem) {
-            DisplayText.text("\nYou have no usable items.");
+            DisplayText("\nYou have no usable items.");
             MainScreen.doNext(Menus.Player.display);
             return;
         }
-        if (Game.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 == 3) {
-            DisplayText.text("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
+        if (Game.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
+            DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
             Game.enemyAI();
             return;
         }
 
-        DisplayText.text("\nWhich item will you use?");
+        DisplayText("\nWhich item will you use?");
 
         if (!InventoryDisplay.isHoldingItem()) {
             if (Game.inCombat)

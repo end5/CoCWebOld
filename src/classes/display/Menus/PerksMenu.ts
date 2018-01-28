@@ -4,59 +4,58 @@ import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
-import Utils from '../../Utilities/Utils';
+import { Utils } from '../../Utilities/Utils';
 import DisplayText from '../DisplayText';
 import { ClickFunction } from '../Elements/ButtonElement';
 import MainScreen from '../MainScreen';
 
 export default class PerksMenu implements Menu {
     public display(player: Player) {
-        DisplayText.clear();
-        for (let index = 0; index < player.perks.count(); index++) {
-            DisplayText.bold(player.perks.at(index).type);
-            DisplayText.text(" - " + player.perks.at(index).desc);
-            DisplayText.newParagraph();
+        DisplayText().clear();
+        for (const perk of player.perks) {
+            DisplayText(perk.type).bold();
+            DisplayText(" - " + perk.desc);
+            DisplayText("\n\n");
         }
 
         MainScreen.hideBottomButtons();
         if (player.perkPoints > 0) {
-            DisplayText.bold("You have " + Utils.numToCardinalText(player.perkPoints) + " perk point");
-            if (player.perkPoints > 1) DisplayText.bold("s");
-            DisplayText.bold(" to spend.");
+            DisplayText("You have " + Utils.numToCardinalText(player.perkPoints) + " perk point").bold();
+            if (player.perkPoints > 1) DisplayText("s").bold();
+            DisplayText(" to spend.").bold();
             MainScreen.getBottomButton(1).modify("Perk Up", Menus.PerkUp.display);
         }
         if (player.perks.has(PerkType.DoubleAttack)) {
-            DisplayText.bold("You can adjust your double attack settings.");
+            DisplayText("You can adjust your double attack settings.").bold();
             MainScreen.getBottomButton(2).modify("Dbl Options", this.doubleAttackOptions);
         }
         MainScreen.doNext(Menus.Player.display);
     }
 
     public doubleAttackOptions(): void {
-        DisplayText.clear();
+        DisplayText().clear();
         MainScreen.hideBottomButtons();
         MainScreen.getBottomButton(0).modify("All Double", this.doubleAttackForce);
         MainScreen.getBottomButton(1).modify("Dynamic", this.doubleAttackDynamic);
         MainScreen.getBottomButton(2).modify("Single", this.doubleAttackOff);
-        if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] == 0) {
-            DisplayText.text("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
-            DisplayText.text("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
-            DisplayText.text("\nYou can change it to always single attack.");
+        if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] === 0) {
+            DisplayText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
+            DisplayText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
+            DisplayText("\nYou can change it to always single attack.");
             MainScreen.getBottomButton(0).disable();
         }
-        else if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] == 1) {
-            DisplayText.text("You will currently double attack until your strength exceeds sixty, and then single attack.");
-            DisplayText.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-            DisplayText.text("\nYou can change it to always single attack.");
+        else if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] === 1) {
+            DisplayText("You will currently double attack until your strength exceeds sixty, and then single attack.");
+            DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+            DisplayText("\nYou can change it to always single attack.");
             MainScreen.getBottomButton(1).disable();
         }
         else {
-            DisplayText.text("You will always single attack your foes in combat.");
-            DisplayText.text("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
-            DisplayText.text("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
+            DisplayText("You will always single attack your foes in combat.");
+            DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
+            DisplayText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
             MainScreen.getBottomButton(2).disable();
         }
-        let e: MouseEvent;
         MainScreen.addBackButton("Back", this.display);
     }
 

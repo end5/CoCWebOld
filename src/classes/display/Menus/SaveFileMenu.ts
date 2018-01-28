@@ -7,10 +7,10 @@ import Menu from '../Menus/Menu';
 
 export default class LoadFileMenu implements Menu {
     public display() {
-        DisplayText.clear();
-        DisplayText.text("Copy this text into a file.");
+        DisplayText().clear();
+        DisplayText("Copy this text into a file.");
         const textAreaElement = new TextAreaElement();
-        DisplayText.appendElement(textAreaElement);
+        DisplayText().appendElement(textAreaElement);
         textAreaElement.text(JSON.stringify(SaveManager.saveToFile()));
 
         MainScreen.hideBottomButtons();

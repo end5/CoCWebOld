@@ -11,16 +11,16 @@ import MainScreen from '../MainScreen';
 
 export default class ControlsMenu implements Menu {
     public display() {
-        DisplayText.clear();
-        DisplayText.text("<b>Keyboard Control Bindings:</b>\n\n");
-        DisplayText.text("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
-        DisplayText.text("Custom bindings are stored inside your save game files.\n\n");
-        DisplayText.text("Duplicate keys are automatically unbound from their old control action.\n\n");
-        DisplayText.text("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
-        DisplayText.text("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
+        DisplayText().clear();
+        DisplayText("<b>Keyboard Control Bindings:</b>\n\n");
+        DisplayText("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
+        DisplayText("Custom bindings are stored inside your save game files.\n\n");
+        DisplayText("Duplicate keys are automatically unbound from their old control action.\n\n");
+        DisplayText("<b>Reset Ctrls</b> will reset all of the control bindings to their defaults.\n\n");
+        DisplayText("<b>Clear Ctrls</b> will remove all of the current control bindings, leaving everything Unbound.\n\n");
 
         const bindListElement = new UnorderedListElement();
-        DisplayText.appendElement(bindListElement);
+        DisplayText().appendElement(bindListElement);
 
         this.listBindableAction(bindListElement, "Stats", BindableAction.Stats);
         this.listBindableAction(bindListElement, "Level Up", BindableAction.LevelUp);
@@ -62,8 +62,8 @@ export default class ControlsMenu implements Menu {
     private listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {
         const bindElement = new ListItemElement();
         bindListElement.appendElement(bindElement);
-        bindElement.bold(text);
-        
+        bindElement.text(text).bold();
+
         const button1 = new ButtonElement();
         bindElement.appendElement(button1);
         button1.modify(InputManager.get(bindableAction).primaryKey.toString(), (player: Player, event: KeyboardEvent) => {
@@ -88,8 +88,8 @@ export default class ControlsMenu implements Menu {
     }
 
     public resetControls() {
-        DisplayText.clear();
-        DisplayText.text("Are you sure you want to reset all of the currently bound controls to their defaults?");
+        DisplayText().clear();
+        DisplayText("Are you sure you want to reset all of the currently bound controls to their defaults?");
 
         MainScreen.doYesNo(this.resetControlsYes, this.display);
     }
@@ -97,16 +97,16 @@ export default class ControlsMenu implements Menu {
     public resetControlsYes(): void {
         InputManager.resetAll();
 
-        DisplayText.clear();
-        DisplayText.text("Controls have been reset to defaults!");
+        DisplayText().clear();
+        DisplayText("Controls have been reset to defaults!");
 
         MainScreen.doNext(this.display);
     }
 
     public clearControls(): void {
 
-        DisplayText.clear();
-        DisplayText.text("Are you sure you want to clear all of the currently bound controls?");
+        DisplayText().clear();
+        DisplayText("Are you sure you want to clear all of the currently bound controls?");
 
         MainScreen.doYesNo(this.clearControlsYes, this.display);
     }
@@ -114,8 +114,8 @@ export default class ControlsMenu implements Menu {
     public clearControlsYes(): void {
         InputManager.clearAll();
 
-        DisplayText.clear();
-        DisplayText.text("Controls have been cleared!");
+        DisplayText().clear();
+        DisplayText("Controls have been cleared!");
 
         MainScreen.doNext(this.display);
     }

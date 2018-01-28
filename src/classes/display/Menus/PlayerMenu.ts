@@ -9,15 +9,15 @@ import MainScreen, { TopButton } from '../MainScreen';
 
 export default class PlayerMenu implements Menu {
     public display(player: Player) {
-        if (Game.state != GameState.InCombat)
+        if (Game.state !== GameState.InCombat)
             DisplaySprite.hide();
-        MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", CharCreationMenu.display);
-        //MainScreen.getStatsPanel()..nameBox.visible = false;
-        if (Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple) {
+        MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation.display);
+        // MainScreen.getStatsPanel().nameBox.visible = false;
+        if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {
             Menus.Combat.display(player);
             return;
         }
-        //Clear restriction on item overlaps if not in combat
+        // Clear restriction on item overlaps if not in combat
         plotFight = false;
         if (inDungeon) {
             Menus.Dungeon.display();
