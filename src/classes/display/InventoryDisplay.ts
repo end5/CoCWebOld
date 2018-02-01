@@ -75,7 +75,7 @@ export default class InventoryDisplay {
     /**
      * Inspect an inventory and take items from it.
      * @param inventory The inventory to inspect.
-     * @param character The character inspecting the otherInventory.
+     * @param character The character inspecting the inventory.
      * @param prevMenu The menu to return to by pressing Back.
      */
     public static inventoryInspect<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
@@ -88,7 +88,7 @@ export default class InventoryDisplay {
                 buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
                 buttonFunc.push(() => {
                     const pickedUpItem = itemSlot.split(1);
-                    const itemsCannotAdd = character.inventory.items.add([pickedUpItem]);
+                    const itemsCannotAdd = character.inventory.items.addItems([pickedUpItem]);
                     if (itemsCannotAdd.length > 0) {
                         const request = InventoryDisplay.createAddItemsRequest(character, itemsCannotAdd, () => {
                             InventoryDisplay.inventoryInspect(inventory, character, prevMenu);
