@@ -1,5 +1,5 @@
+import CockSockList from './CockSockList';
 import EquipmentSlot from './EquipmentSlot';
-import ListObserverEquipmentList from './ListObserverEquipmentList';
 import PiercingInventory from './PiercingInventory';
 import Cock from '../Body/Cock';
 import Character from '../Character/Character';
@@ -14,7 +14,7 @@ export default class EquipmentInventory implements ISerializable<EquipmentInvent
     public readonly defaultArmorSlot: EquipmentSlot<Armor>;
     public readonly equippedArmorSlot: EquipmentSlot<Armor>;
     public readonly piercings: PiercingInventory;
-    public readonly cockSocks: ListObserverEquipmentList<Cock, CockSock>;
+    public readonly cockSocks: CockSockList;
     public armorDescMod: string;
 
     public constructor(character: Character) {
@@ -23,7 +23,7 @@ export default class EquipmentInventory implements ISerializable<EquipmentInvent
         this.defaultArmorSlot = new EquipmentSlot(character);
         this.equippedArmorSlot = new EquipmentSlot(character);
         this.piercings = new PiercingInventory(character);
-        this.cockSocks = new ListObserverEquipmentList(character, character.torso.cocks);
+        this.cockSocks = new CockSockList(character, character.torso.cocks);
         this.armorDescMod = "";
     }
 
