@@ -117,44 +117,63 @@ export default class MainScreen {
     }
 
     // Misc
-    public static displayChoices(textList: string[], funcList: ClickFunction[]) {
-        if (textList.length <= MainScreen.NUM_BOT_BUTTONS) {
+    public static displayChoices(textList: string[], funcList: ClickFunction[], fixedTextList?: string[], fixedFuncList?: ClickFunction[]) {
+        const fixedCount = fixedTextList ? fixedTextList.length : 0;
+        if (textList.length + fixedCount <= MainScreen.NUM_BOT_BUTTONS) {
             MainScreen.hideBottomButtons();
             for (let index = 0; index < textList.length; index++) {
                 MainScreen.bottomButtons[index].modify(textList[index], funcList[index]);
                 MainScreen.bottomButtons[index].show();
             }
+            if (fixedCount > 0) {
+                const startingIndex = MainScreen.NUM_BOT_BUTTONS - fixedCount;
+                for (let botButtonIndex = startingIndex; botButtonIndex < MainScreen.NUM_BOT_BUTTONS; botButtonIndex++) {
+                    const fixedIndex = botButtonIndex - startingIndex;
+                    MainScreen.bottomButtons[botButtonIndex].modify(fixedTextList[fixedIndex], fixedFuncList[fixedIndex]);
+                }
+            }
         }
         else {
-            MainScreen.displayPage(0, textList, funcList);
+            MainScreen.displayPage(0, textList, funcList, fixedTextList, fixedFuncList);
         }
     }
 
-    private static displayPage(startingIndex: number, textList: string[], funcList: ClickFunction[]) {
+    private static displayPage(startingIndex: number, textList: string[], funcList: ClickFunction[], fixedTextList?: string[], fixedFuncList?: ClickFunction[]) {
         MainScreen.hideBottomButtons();
-        for (let index = 0; index < MainScreen.NUM_BOT_BUTTONS - 2; index++) {
+        const pageNavIndex = MainScreen.NUM_BOT_BUTTONS - 2;
+        const prevButtonIndex = pageNavIndex;
+        const nextButtonIndex = pageNavIndex + 1;
+        const fixedCount = fixedTextList ? fixedTextList.length : 0;
+        const startingFixedIndex = pageNavIndex - fixedCount;
+        for (let index = 0; index < startingFixedIndex && index + startingIndex < textList.length; index++) {
             MainScreen.bottomButtons[index].modify(textList[index + startingIndex], funcList[index + startingIndex]);
             MainScreen.bottomButtons[index].show();
         }
+        if (fixedCount > 0) {
+            for (let botButtonIndex = startingFixedIndex; botButtonIndex < pageNavIndex; botButtonIndex++) {
+                const fixedIndex = botButtonIndex - startingFixedIndex;
+                MainScreen.bottomButtons[botButtonIndex].modify(fixedTextList[fixedIndex], fixedFuncList[fixedIndex]);
+            }
+        }
 
-        const hasPrevPage = startingIndex - MainScreen.NUM_BOT_BUTTONS - 2 > 0 ? true : false;
+        const hasPrevPage = startingIndex - startingFixedIndex > 0 ? true : false;
         if (hasPrevPage) {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", () => {
-                MainScreen.displayPage(startingIndex - MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
+            MainScreen.bottomButtons[prevButtonIndex].modify("Prev", () => {
+                MainScreen.displayPage(startingIndex - startingFixedIndex, textList, funcList);
             });
         }
         else {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 2].modify("Prev", null, true);
+            MainScreen.bottomButtons[prevButtonIndex].modify("Prev", undefined, true);
         }
 
-        const hasNextPage = startingIndex + MainScreen.NUM_BOT_BUTTONS - 2 < textList.length ? true : false;
+        const hasNextPage = startingIndex + startingFixedIndex < textList.length ? true : false;
         if (hasNextPage) {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", () => {
-                MainScreen.displayPage(startingIndex + MainScreen.NUM_BOT_BUTTONS - 2, textList, funcList);
+            MainScreen.bottomButtons[nextButtonIndex].modify("Next", () => {
+                MainScreen.displayPage(startingIndex + startingFixedIndex, textList, funcList);
             });
         }
         else {
-            MainScreen.bottomButtons[MainScreen.NUM_BOT_BUTTONS - 1].modify("Next", null, true);
+            MainScreen.bottomButtons[nextButtonIndex].modify("Next", undefined, true);
         }
     }
 
