@@ -3,6 +3,7 @@ import { ClickFunction } from './Elements/ButtonElement';
 import MainScreen from './MainScreen';
 import Menus from './Menus/Menus';
 import PlayerInventoryMenu from './Menus/PlayerInventoryMenu';
+import Character from '../Character/Character';
 import Game from '../Game/Game';
 import Inventory from '../Inventory/Inventory';
 import ItemStack from '../Inventory/ItemStack';
@@ -35,177 +36,180 @@ import Player from '../Player/Player';
     if (page == 2)
         6 = prev page
 */
-type ItemCallback = (player: Player, itemSlot: ItemStack<Item>) => void;
+type ItemCallback<T extends Item> = (itemStack: ItemStack<T>, pickedUpItem?: ItemStack<T>) => void;
+type ReverseAction = () => void;
+
+interface AddItemsRequest<T extends Item> {
+    character: Character;
+    itemList: ItemStack<T>[];
+    menuToDisplayUponFinish: ClickFunction;
+    otherInventory: Inventory<T>;
+    reverseActionFunc: ReverseAction;
+}
 
 export default class InventoryDisplay {
-    private static prevMenu: ClickFunction;
-    private static reverseActionFunc: () => void;
-    private static floorItems: ItemStack<Item>[] = [];
-    private static heldItem: ItemStack<Item>;
-
-    public static isHoldingItem(): boolean {
-        return InventoryDisplay.heldItem != null;
-    }
-
-    public static addItem(item: Item) {
-        InventoryDisplay.floorItems.push(new ItemStack(item, 1));
-        if (!InventoryDisplay.heldItem) {
-            InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
-        }
-    }
-
-    /*
-    if not holding item
-        useItem(player, inv, itemslot)
-            if (inv.get(itemSlot).canUse)
-                item = inv.remove(itemslot, 1)
-                item.use
-                item.useText
-        display player inventory
-    else
-        replaceItem(player, inv, itemslot)
-            inv.get(itemslot) = helditem
-        putback
-            reverseAction
-            reverseAction = null
-            display other inventory
-        use now
-            helditem.use
-            helditem.useText
-            reverseAction = null
-            display other inventory
-        abandon
-            helditem = null
-            reverseAction = null
-            display other inventory
-    */
-    public static displayPlayersInventory(player: Player) {
-        if (!InventoryDisplay.isHoldingItem()) {
-            InventoryDisplay.displayInventoryButtons(player, player.inventory.items, InventoryDisplay.useItem, Menus.Inventory.display);
-        }
-        else {
-            DisplayText("There is no room for " + InventoryDisplay.heldItem.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + InventoryDisplay.heldItem.item.desc.longName + " or abandon it.");
-            InventoryDisplay.displayInventoryButtons(player, player.inventory.items, InventoryDisplay.putHeldItemIntoInventory, () => {
-                MainScreen.doNext(InventoryDisplay.prevMenu);
-            });
-            MainScreen.getBottomButton(7).modify("Put Back", () => {
-                InventoryDisplay.reverseActionFunc();
-                InventoryDisplay.reverseActionFunc = null;
-                MainScreen.doNext(InventoryDisplay.prevMenu);
-            });
-            MainScreen.getBottomButton(8).modify("Use Now", () => {
-                if (InventoryDisplay.heldItem.item.canUse(player)) {
-                    InventoryDisplay.heldItem.item.use(player);
-                    InventoryDisplay.heldItem.item.useText(player);
-                    InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
-                    InventoryDisplay.reverseActionFunc = null;
-                    MainScreen.doNext(InventoryDisplay.prevMenu);
-                }
-            });
-            MainScreen.getBottomButton(9).modify("Abandon", () => {
-                InventoryDisplay.heldItem = InventoryDisplay.floorItems.shift();
-                InventoryDisplay.reverseActionFunc = null;
-                MainScreen.doNext(InventoryDisplay.prevMenu);
-            });
-        }
-
-    }
-
-    /*
-        if room in players inventory
-            putItemInPlayerEmptySlot(player, inv, itemslot)
-                emptyslot = player.getemptyslot()
-                emptyslot = helditem
-            display other inv
-        else
-            holdItem(player, inv, itemslot)
-                helditem = inv.remove(itemslot, 1)
-                reverseAction = function()
-                    itemstack = inv.get(itemslot)
-                    if (itemstack.quantity == 0)
-                        itemstack = helditem
-                    else
-                        itemstack.quantity += helditem.quantity
-                        helditem = null
-            display players inv
-    */
-    public static displayOtherInventory(player: Player, otherInventory: Inventory<Item>) {
-        if (player.inventory.items.filter(Inventory.EmptySlot).length > 0) {
-            InventoryDisplay.displayInventoryButtons(player, otherInventory, InventoryDisplay.putHeldItemInPlayerEmptySlot, () => {
-                MainScreen.doNext(InventoryDisplay.prevMenu);
-            });
-        }
-        else {
-            InventoryDisplay.displayInventoryButtons(player, otherInventory, InventoryDisplay.holdItem, () => {
-                MainScreen.doNext(Menus.Inventory.display);
-            });
-        }
-    }
-
-    public static unequipFunction(player: Player): ClickFunction {
-        return () => {
-            InventoryDisplay.heldItem = new ItemStack(player.inventory.equipment.weapon, 1);
-            player.inventory.equipment.weapon.unequipText();
-            player.inventory.equipment.weapon.unequip();
-            Menus.Inventory.display(player);
-        };
-    }
-
-    private static useItem(player: Player, itemSlot: ItemStack<Item>) {
-        if (itemSlot && itemSlot.item.canUse(player)) {
-            InventoryDisplay.createReverseAction(itemSlot);
-            itemSlot = itemSlot.split(1);
-            itemSlot.item.use(player);
-            itemSlot.item.useText(player);
-        }
-    }
-
-    private static putHeldItemIntoInventory(player: Player, itemSlot: ItemStack<Item>) {
-        if (itemSlot.item === InventoryDisplay.heldItem.item)
-            DisplayText("You discard " + InventoryDisplay.heldItem.item.desc.longName + " from the stack to make room for the new one.");
-        else if (itemSlot.quantity === 1)
-            DisplayText("You throw away " + itemSlot.item.desc.longName + " and replace it with " + InventoryDisplay.heldItem.item.desc.longName + ".");
-        else
-            DisplayText("You throw away " + itemSlot.item.desc.longName + "(x" + itemSlot.quantity + ") and replace it with " + InventoryDisplay.heldItem.item.desc.longName + ".");
-        itemSlot.item = InventoryDisplay.heldItem.item;
-        itemSlot.quantity = InventoryDisplay.heldItem.quantity;
-        InventoryDisplay.heldItem = null;
-    }
-
-    private static putHeldItemInPlayerEmptySlot(player: Player, itemSlot: ItemStack<Item>) {
-        InventoryDisplay.putHeldItemIntoInventory(player, player.inventory.items.filter(Inventory.EmptySlot)[0]);
-    }
-
-    private static holdItem(player: Player, itemSlot: ItemStack<Item>) {
-        InventoryDisplay.heldItem = itemSlot.split(1);
-        InventoryDisplay.createReverseAction(itemSlot);
-    }
-
-    private static createReverseAction(itemSlot: ItemStack<Item>) {
-        InventoryDisplay.reverseActionFunc = () => {
-            if (itemSlot.quantity === 0) {
-                itemSlot.item = InventoryDisplay.heldItem.item;
-                itemSlot.quantity = InventoryDisplay.heldItem.quantity;
-            }
-            else
-                itemSlot.quantity += InventoryDisplay.heldItem.quantity;
-            InventoryDisplay.heldItem = null;
-        };
-    }
-
-    public static reverseAction() {
-        InventoryDisplay.reverseActionFunc();
-    }
-
-    private static displayInventoryButtons(player: Player, displayedInv: Inventory<Item>, itemCallback: ItemCallback, clickFunction: ClickFunction) {
-        MainScreen.hideBottomButtons();
-        for (let index = 0; index < displayedInv.slotCount; index++) {
-            if (displayedInv.get(index).quantity > 0) {
-                MainScreen.getBottomButton(index).modify(displayedInv.get(index).item.desc.shortName + " x" + displayedInv.get(index).quantity, () => {
-                    itemCallback(player, displayedInv.get(index));
-                    clickFunction(player);
+    /**
+     * Displays character's item inventory.
+     * @param character
+     * @param prevMenu The menu to go to when the back button is pressed.
+     */
+    public static inventoryCharacter(character: Character, prevMenu: ClickFunction) {
+        const buttonText = [];
+        const buttonFunc = [];
+        const inventory = character.inventory.items;
+        for (let index = 0; index < inventory.slotCount; index++) {
+            const itemSlot = inventory.get(index);
+            if (itemSlot.quantity > 0) {
+                buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
+                buttonFunc.push(() => {
+                    itemSlot.quantity--;
+                    itemSlot.item.use(character);
+                    itemSlot.item.useText(character);
                 });
             }
         }
+
+        MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [prevMenu]);
+    }
+
+    /**
+     * Inspect an inventory and take items from it.
+     * @param inventory The inventory to inspect.
+     * @param character The character inspecting the otherInventory.
+     * @param prevMenu The menu to return to by pressing Back.
+     */
+    public static inventoryInspect<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
+        const buttonText = [];
+        const buttonFunc = [];
+        const charInv = character.inventory.items;
+        for (let index = 0; index < inventory.slotCount; index++) {
+            const itemSlot = inventory.get(index);
+            if (itemSlot.quantity > 0) {
+                buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
+                buttonFunc.push(() => {
+                    const pickedUpItem = itemSlot.split(1);
+                    const itemsCannotAdd = character.inventory.items.add([pickedUpItem]);
+                    if (itemsCannotAdd.length > 0) {
+                        const request = InventoryDisplay.createAddItemsRequest(character, itemsCannotAdd, () => {
+                            InventoryDisplay.inventoryInspect(inventory, character, prevMenu);
+                        }, inventory);
+                        request.reverseActionFunc = InventoryDisplay.createReverseAction(itemSlot, pickedUpItem);
+                        InventoryDisplay.invFull(request);
+                    }
+                });
+            }
+        }
+        MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [prevMenu]);
+    }
+
+    private static createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpItem: ItemStack<T>): ReverseAction {
+        return () => {
+            if (itemSlot.quantity === 0) {
+                itemSlot.item = pickedUpItem.item;
+                itemSlot.quantity += pickedUpItem.quantity;
+            }
+            else
+                itemSlot.quantity += pickedUpItem.quantity;
+        };
+    }
+
+    /**
+     * The characters inventory is full and the user must decide what to do with the items.
+     * @param character The character that has no room in its inventory.
+     * @param itemsToAdd The items that cannot be added to the characters inventory.
+     * @param nextMenu The menu to go to once the decision is made.
+     */
+    public static inventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
+        const request = InventoryDisplay.createAddItemsRequest(character, itemsToAdd, nextMenu);
+        InventoryDisplay.invFull(request);
+    }
+
+    private static invFull<T extends Item>(request: AddItemsRequest<T>) {
+        const buttonText = [];
+        const buttonFunc = [];
+        const inventory = request.character.inventory.items;
+        const itemToAdd = request.itemList[0];
+        for (let index = 0; index < inventory.slotCount; index++) {
+            const itemSlot = inventory.get(index);
+            if (itemSlot.quantity > 0) {
+                buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
+                buttonFunc.push(InventoryDisplay.discardFromInventory(itemSlot, itemToAdd));
+            }
+        }
+        if (request.itemList.length > 0) {
+            DisplayText("There is no room for " + itemToAdd.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + itemToAdd.item.desc.longName + " or abandon it.");
+            const fixedTextList = [];
+            const fixedFuncList = [];
+            if (request.reverseActionFunc !== undefined) {
+                fixedTextList.push("Put Back");
+                fixedFuncList.push(InventoryDisplay.putBack(request));
+            }
+            fixedTextList.push("Use Now");
+            fixedFuncList.push(InventoryDisplay.useNow(request));
+            fixedTextList.push("Abandon");
+            fixedFuncList.push(InventoryDisplay.abandon(request));
+            MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [request.menuToDisplayUponFinish]);
+        }
+
+    }
+
+    private static discardFromInventory<T extends Item>(slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickFunction {
+        return () => {
+            if (slotInInv.item === itemToAdd.item)
+                DisplayText("You discard " + itemToAdd.item.desc.longName + " from the stack to make room for the new one.");
+            else if (slotInInv.quantity === 1)
+                DisplayText("You throw away " + slotInInv.item.desc.longName + " and replace it with " + itemToAdd.item.desc.longName + ".");
+            else
+                DisplayText("You throw away " + slotInInv.item.desc.longName + "(x" + slotInInv.quantity + ") and replace it with " + itemToAdd.item.desc.longName + ".");
+            slotInInv.item = itemToAdd.item;
+            slotInInv.quantity = itemToAdd.quantity;
+        };
+    }
+
+    private static createAddItemsRequest<T extends Item>(character: Character, itemStackList: ItemStack<T>[], prevMenu: ClickFunction, otherInventory?: Inventory<T>): AddItemsRequest<T> {
+        return {
+            character,
+            itemList: itemStackList,
+            menuToDisplayUponFinish: prevMenu,
+            otherInventory,
+            reverseActionFunc: undefined
+        };
+    }
+
+    private static putBack<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+        return () => {
+            request.reverseActionFunc();
+            request.reverseActionFunc = null;
+            InventoryDisplay.inventoryInspect(request.otherInventory, request.character, request.menuToDisplayUponFinish);
+        };
+    }
+
+    private static useNow<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+        return () => {
+            const itemToAdd = request.itemList[0];
+            if (itemToAdd.item.canUse(request.character)) {
+                itemToAdd.item.use(request.character);
+                itemToAdd.item.useText(request.character);
+                request.reverseActionFunc = null;
+                InventoryDisplay.destroyItem(request);
+            }
+        };
+    }
+
+    private static abandon<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
+        return () => {
+            InventoryDisplay.destroyItem(request);
+        };
+    }
+
+    private static destroyItem<T extends Item>(request: AddItemsRequest<T>) {
+        const itemToDestroy = request.itemList[0];
+        itemToDestroy.quantity--;
+        if (itemToDestroy.quantity <= 0)
+            request.itemList.shift();
+        if (request.itemList.length > 0)
+            InventoryDisplay.invFull(request);
+        else
+            MainScreen.doNext(request.menuToDisplayUponFinish);
     }
 }
