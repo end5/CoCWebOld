@@ -25,13 +25,18 @@ import { Utils } from '../Utilities/Utils';
 export default abstract class Character extends Creature implements UpdateInterface, ISerializable<Character> {
     public charType: CharacterType;
     public readonly inventory: CharacterInventory;
-    public readonly desc: CharacterDescription;
+
+    protected description: CharacterDescription;
+    public get desc(): CharacterDescription {
+        return this.description;
+    }
+
     protected combatContainer: CombatContainer;
     public get combat(): CombatContainer {
         return this.combatContainer;
     }
 
-    public constructor(type: CharacterType, defaultWeapon: Weapon, defaultArmor: Armor) {
+    public constructor(type: CharacterType) {
         super();
         this.charType = type;
         this.inventory = new CharacterInventory(this);
