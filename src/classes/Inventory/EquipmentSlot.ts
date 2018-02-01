@@ -57,7 +57,7 @@ export default class EquipmentSlot<T extends EquipableItem> implements ISerializ
 
     public deserialize(saveObject: EquipmentSlot<T>) {
         if (saveObject.item) {
-            this.equip(ItemFactory.create(saveObject.equippedItem.type, saveObject.equippedItem.name) as T);
+            this.equip(ItemFactory.get(saveObject.equippedItem.type, saveObject.equippedItem.name) as T);
         }
     }
 }

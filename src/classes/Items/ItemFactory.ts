@@ -10,6 +10,7 @@ import MaterialLib from './Materials/MaterialLib';
 import MaterialName from './Materials/MaterialName';
 import MiscLib from './Misc/MiscLib';
 import WeaponLib from './Weapons/WeaponLib';
+import ItemStack from '../Inventory/ItemStack';
 
 export default class ItemFactory {
     private static armorLib: ArmorLib;
@@ -31,7 +32,7 @@ export default class ItemFactory {
             ItemFactory.miscLib = new MiscLib();
     }
 
-    public static create(type: ItemType, name: string): Item {
+    public static get(type: ItemType, name: string): Item {
         switch (type) {
             case ItemType.Armor: {
                 if (ItemFactory.armorLib.has(name)) {
@@ -61,5 +62,9 @@ export default class ItemFactory {
         }
         console.error("Item " + name + " not found.");
         return null;
+    }
+
+    public static create<T extends Item>(type: ItemType, name: string): ItemStack<T> {
+        return new ItemStack(ItemFactory.get(type, name), 1);
     }
 }

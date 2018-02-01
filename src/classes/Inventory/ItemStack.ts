@@ -58,7 +58,7 @@ export default class ItemStack<T extends Item> implements ISerializable<ItemStac
     }
 
     public deserialize(saveObject: ItemStack<T>) {
-        this.item = ItemFactory.create(saveObject.item.type, saveObject.item.name);
+        this.item = ItemFactory.get(saveObject.item.type, saveObject.item.name);
         this.amount = saveObject.amount;
         this.maxAmount = saveObject.maxAmount;
     }
