@@ -1,5 +1,5 @@
 import ISerializable from '../Utilities/ISerializable';
-import { FilterOption, SortOption } from '../Utilities/list';
+import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 
 export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
@@ -20,6 +20,18 @@ export default class Tail implements ISerializable<Tail> {
 
     public static RechargeLeast: SortOption<Tail> = (a: Tail, b: Tail) => {
         return b.recharge - a.recharge;
+    }
+
+    public static Type(type: TailType): FilterOption<Tail> {
+        return (tail: Tail) => {
+            return tail.type === type;
+        };
+    }
+
+    public static HasType(type: TailType): ReduceOption<Tail, boolean> {
+        return (previousValue: boolean, currentValue: Tail) => {
+            return previousValue || currentValue.type === type;
+        };
     }
 
     public type: TailType;

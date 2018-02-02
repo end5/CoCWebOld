@@ -3,11 +3,11 @@ import Balls from './Balls';
 import Butt from './Butt';
 import Chest from './Chest';
 import Clit from './Clit';
-import CockList from './CockList';
+import Cock from './Cock';
 import Hips from './Hips';
 import Legs from './Legs';
 import Neck from './Neck';
-import TailList from './TailList';
+import Tail from './Tail';
 import Vagina from './Vagina';
 import Wings from './Wings';
 import ISerializable from '../Utilities/ISerializable';
@@ -20,9 +20,9 @@ export default class Torso implements ISerializable<Torso> {
     public readonly wings: Wings;
 
     public readonly hips: Hips;
-    public readonly tails: TailList;
+    public readonly tails: SerializableList<Tail>;
     public readonly butt: Butt;
-    public readonly cocks: CockList;
+    public readonly cocks: SerializableList<Cock>;
     public readonly balls: Balls;
     public readonly vaginas: SerializableList<Vagina>;
     public readonly clit: Clit;
@@ -34,9 +34,9 @@ export default class Torso implements ISerializable<Torso> {
         this.wings = new Wings();
 
         this.hips = new Hips();
-        this.tails = new TailList();
+        this.tails = new SerializableList(Tail);
         this.butt = new Butt();
-        this.cocks = new CockList();
+        this.cocks = new SerializableList(Cock);
         this.balls = new Balls();
         this.vaginas = new SerializableList(Vagina);
         this.clit = new Clit();

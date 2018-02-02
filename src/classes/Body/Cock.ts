@@ -70,6 +70,21 @@ export default class Cock implements ISerializable<Cock> {
         return previousValue + currentValue.length;
     }
 
+    // Note: DogCocks/FoxCocks are functionally identical. They actually change back and forth depending on some
+    // of the PC's attributes, and this is recaluculated every hour spent at camp.
+    // As such, delineating between the two is kind of silly.
+    public static Type(type: CockType): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.type === type && (a.type === CockType.DOG || a.type === CockType.FOX);
+        };
+    }
+
+    public static CockThatFits(area: number): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.area <= area;
+        };
+    }
+
     public length: number;
     public thickness: number;
     public type: CockType;
