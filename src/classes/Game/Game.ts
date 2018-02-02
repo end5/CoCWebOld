@@ -1,14 +1,16 @@
 ﻿import Flags from './Flags';
+import GameLocation from './GameLocation';
 import Initializer from './Initializer';
 import Settings from './Settings';
 import TimeManager from './TimeManager';
 import Character from '../Character/Character';
+import { CharacterType } from '../Character/CharacterType';
 import Menus from '../display/Menus/Menus';
 import CampStorage from '../Inventory/CampStorage';
 import Player from '../Player/Player';
 import SaveManager from '../SaveManager';
 import SceneManager from '../Scenes/SceneManager';
-import Dictionary from '../Utilities/Dictionary';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 
 export enum GameState {
     Normal,
@@ -19,9 +21,6 @@ export enum GameState {
 }
 
 export default class Game {
-    static exgartuan: any;
-    static monster: Character;
-    static debug: boolean;
     private static instance: object;
     public static flags: Flags;
     public static state: GameState;
@@ -31,12 +30,14 @@ export default class Game {
     public static sceneManager: SceneManager;
     public static campStorage: CampStorage;
     public static settings: Settings;
-    public static npcs: Dictionary<Character>;
+    public static npcs: SerializableDictionary<Character>;
+    public static characterData: SerializableDictionary<object>;
+    public static locations: SerializableDictionary<GameLocation>;
 
     public constructor() {
         new Initializer();
-        
-        let components: object = {};
+
+        const components: object = {};
 
         Game.flags = new Flags();
 
@@ -68,17 +69,15 @@ export default class Game {
 
     public static update(hours: number) {
         Game.player.update(hours);
-        Game.monster.update(hours);
         Game.time.update(hours);
         Game.sceneManager.update(hours);
     }
 
     public static get inCombat(): boolean {
-        return Game.state == GameState.InCombat || Game.state == GameState.InCombatGrapple;
+        return Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple;
     }
 
     public static set inCombat(value: boolean) {
         Game.state = (value ? GameState.InCombat : GameState.Normal);
     }
-
 }
