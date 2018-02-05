@@ -7,8 +7,6 @@ import { WingType } from '../../Body/Wings';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import StatusAffect from '../../Effects/StatusAffect';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';

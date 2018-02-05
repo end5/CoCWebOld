@@ -3,7 +3,6 @@ import ConsumableName from './ConsumableName';
 import { ArmType } from '../../Body/Arms';
 import BreastRow from '../../Body/BreastRow';
 import Cock from '../../Body/Cock';
-import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Head';
@@ -17,7 +16,6 @@ import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class Hummus extends Consumable {

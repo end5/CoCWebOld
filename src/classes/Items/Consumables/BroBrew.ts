@@ -4,16 +4,15 @@ import Cock from '../../Body/Cock';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import HipDescriptor from '../../Descriptors/HipDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import StatModifier from '../../Modifiers/StatModifier';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class BroBrew extends Consumable {
@@ -150,7 +149,7 @@ export default class BroBrew extends Consumable {
         }
         // (No dick)
         else {
-            DisplayText("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.equipment.armor.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + LegDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!");
+            DisplayText("You hear a straining, tearing noise before you realize it's coming from your underwear.  Pulling open your " + player.inventory.equipment.armor.displayName + ", you gasp in surprise at the huge, throbbing manhood that now lies between your " + HipDescriptor.describeHips(player) + ".  It rapidly stiffens to a full, ten inches, and goddamn, it feels fucking good.  You should totally find a warm hole to fuck!");
             if (player.torso.balls.quantity === 0)
                 DisplayText("  Two rounded orbs drop down below, filling out a new, fleshy sac above your " + LegDescriptor.describeLegs(player) + ".  Sweet!  You can probably cum buckets with balls like these.");
             DisplayText("\n\n");

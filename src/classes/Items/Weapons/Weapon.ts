@@ -3,7 +3,6 @@ import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
 import EquipableItem from '../EquipableItem';
-import Item from '../Item';
 import ItemDesc from '../ItemDesc';
 import ItemType from '../ItemType';
 

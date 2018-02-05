@@ -19,7 +19,7 @@ export default class Party {
     }
 
     public lostFight(combatEndType: DefeatType, victor: Character) {
-        this.defeatLog.push(new DefeatEvent(victor, this.ableMembers[0], combatEndType))
+        this.defeatLog.push(new DefeatEvent(victor, this.ableMembers[0], combatEndType));
     }
 
     public selectNextPartyMember() {

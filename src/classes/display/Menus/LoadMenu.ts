@@ -1,9 +1,7 @@
-import DataMenu from './DataMenu';
 import Menus from './Menus';
 import SaveDisplayMenu from './SaveDisplayMenu';
 import SaveManager from '../../SaveManager';
 import DisplayText from '../DisplayText';
-import MainScreen from '../MainScreen';
 
 export default class LoadMenu extends SaveDisplayMenu {
     public display() {

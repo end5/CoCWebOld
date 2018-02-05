@@ -4,10 +4,9 @@ import BreastRow from '../../Body/BreastRow';
 import Vagina, { VaginaWetness } from '../../Body/Vagina';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
@@ -94,11 +93,11 @@ export default class BimboLiqueur extends Consumable {
                 player.torso.vaginas.add(new Vagina());
                 player.torso.clit.length = 0.25;
                 player.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
-                if (player.torso.hips.legs.isTaur() DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
+                if (player.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
                 else DisplayText("Wait!?  Wet?  You touch yourself between the " + LegDescriptor.describeLegs(player) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
-                if (player.torso.hips.legs.isTaur() {
+                if (player.torso.hips.legs.isTaur()) {
                     DisplayText("You wish you could sink your fingers into your sloppy, wet cunt, but as a centaur, you can't quite reach.");
                     if (player.torso.vaginas.get(0).wetness < VaginaWetness.SLICK)
                         player.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
@@ -141,7 +140,7 @@ export default class BimboLiqueur extends Consumable {
                 DisplayText(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + BreastDescriptor.breastCup(player.torso.chest.get(0).rating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
             }
             player.stats.sens += 20;
-            DisplayText("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(player, player.torso.vaginas.get(0)) + " is throbbing, and you give it an experimental ");
+            DisplayText("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(player) + " is throbbing, and you give it an experimental ");
             if (player.torso.clit.length >= 3) DisplayText("jerk ");
             else DisplayText("caress ");
             DisplayText("that makes your " + LegDescriptor.describeLegs(player) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");

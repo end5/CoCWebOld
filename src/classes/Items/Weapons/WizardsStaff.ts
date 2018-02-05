@@ -1,9 +1,7 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class WizardsStaff extends Weapon {

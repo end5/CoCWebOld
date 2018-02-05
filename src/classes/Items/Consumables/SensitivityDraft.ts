@@ -1,7 +1,6 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
 import { Utils } from '../../Utilities/Utils';

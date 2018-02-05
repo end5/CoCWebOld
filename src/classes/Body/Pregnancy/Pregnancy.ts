@@ -1,11 +1,5 @@
-﻿import IPregnancyEvent from './IPregnancyEvent';
-import PregnancyEventFactory from './PregnancyEventFactory';
-import DisplayText from '../../display/DisplayText';
-import Game from '../../Game/Game';
-import ISerializable from '../../Utilities/ISerializable';
+﻿import ISerializable from '../../Utilities/ISerializable';
 import { SortOption } from '../../Utilities/list';
-import Body from '../Creature';
-import Vagina from '../Vagina';
 
 export enum PregnancyType {
     IMP = "Imp",

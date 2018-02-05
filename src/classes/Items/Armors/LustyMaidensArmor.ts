@@ -8,7 +8,6 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import GenderDescriptor from '../../Descriptors/GenderDescriptor';
 import DisplayText from '../../display/DisplayText';
 import MainScreen from '../../display/MainScreen';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game, { GameState } from '../../Game/Game';
@@ -95,9 +94,7 @@ export default class LustyMaidensArmor extends Armor {
     }
 
     // "Chaste" Paizuri - works for most foes with penises.
-    public lustyMaidenPaizuri(player: Player = null, monster: Character = null): void {
-        if (player == null) player = player;
-        if (monster == null) monster = Game.monster;
+    public lustyMaidenPaizuri(player: Player, monster: Character): void {
         DisplayText().clear();
         DisplayText("You make sure " + monster.desc.a + monster.desc.short + " is comfortably lying down, " + monster.desc.possessivePronoun + " " + CockDescriptor.describeCockShort(monster.torso.cocks.get(0)) + " exposed to the air");
         if (monster.stats.lust < 50) DisplayText(", soft and not yet ready.  You purr throatily as you touch the burgeoning boner, tracing your thumb across the sensitive urethral bulge.  It pulses slowly at your touch, and the base begins to fill with blood, thickening against your palm.  You splay your remaining fingers just under the " + CockDescriptor.describeCockHead(monster.torso.cocks.get(0)) + ", tickling around the glans until that too is flooding with blood, expanding under your caresses until it slowly lifts away from " + monster.desc.possessivePronoun + " abdomen.");
@@ -121,7 +118,7 @@ export default class LustyMaidensArmor extends Armor {
         DisplayText("  The strong, pulsing cock feels so good inside your mouth, like it belongs there, and you can't help but think that you're doing a good deed by helping " + monster.desc.a + monster.desc.short + " empty every last perverse desire onto your purifying breasts.");
 
         DisplayText("\n\nUp and down, up and down, you slide across the expansive member with unhurried, slow strokes, each time making your [chest] bounce beautifully.  Your [nipples] are so hard");
-        if (player.torso.chest.filter(BreastRow.Fuckable).length > 0 || player.lactationQ() >= 100) DisplayText(", dripping,");
+        if (player.torso.chest.filter(BreastRow.FuckableNipples).length > 0 || player.lactationQ() >= 100) DisplayText(", dripping,");
         DisplayText(" and sensitive, scraping around the nebulous inner lining of your bikini and occasionally catching on the metal that feels even warmer than normal.  Behind you, your [butt] is bouncing happily to the rhythm your corruption-devouring breasts have set, the thong digging tightly into your [vagina] in the most exquisite way.  You feel so hot and sensual, but still secure in the knowledge that you won't have to worry about such a creature ravaging your ");
         if (player.torso.vaginas.filter(Vagina.Virgin).length > 0) DisplayText("maidenhead");
         else DisplayText("sloppy gash");

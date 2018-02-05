@@ -260,7 +260,7 @@ export default class PerkUpMenu implements Menu {
         // Apply perk here.
         DisplayText(this.selectedPerk.type).bold();
         DisplayText(" gained!");
-        player.perks.set(this.selectedPerk.type, PerkFactory.copy(this.selectedPerk));
+        player.perks.add(this.selectedPerk.type, this.selectedPerk.value1, this.selectedPerk.value2, this.selectedPerk.value3, this.selectedPerk.value4);
         if (this.selectedPerk.type === PerkType.StrongBack2) player.inventory.items.unlock();
         if (this.selectedPerk.type === PerkType.StrongBack) player.inventory.items.unlock();
         if (this.selectedPerk.type === PerkType.Tank2) {

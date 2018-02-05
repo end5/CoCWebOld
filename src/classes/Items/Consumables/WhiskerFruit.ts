@@ -10,8 +10,7 @@ import Tail, { TailType } from '../../Body/Tail';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
@@ -100,8 +99,8 @@ export default class WhiskerFruit extends Consumable {
         // Libido gain
         if (player.stats.lib < 80 && changes < changeLimit && Utils.rand(4) === 0) {
             // Cat dicked folks
-            if (player.torso.cocks.filterType(CockType.CAT).length > 0) {
-                const catCock: Cock = player.torso.cocks.filterType(CockType.CAT)[0];
+            if (player.torso.cocks.filter(Cock.Type(CockType.CAT)).length > 0) {
+                const catCock: Cock = player.torso.cocks.filter(Cock.Type(CockType.CAT))[0];
                 DisplayText("\n\nYou feel your " + CockDescriptor.describeCock(player, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
                 if (player.stats.cor < 33) DisplayText("You need to control yourself better.");
                 else if (player.stats.cor < 66) DisplayText("You're not sure how you feel about the fantasy.");
@@ -175,7 +174,7 @@ export default class WhiskerFruit extends Consumable {
             if (shrinkingHappened) changes++;
         }
         // Cat dangly-doo.
-        if (player.torso.cocks.count > 0 && player.torso.cocks.filterType(CockType.CAT).length < player.torso.cocks.count &&
+        if (player.torso.cocks.count > 0 && player.torso.cocks.filter(Cock.Type(CockType.CAT)).length < player.torso.cocks.count &&
             changes < changeLimit && Utils.rand(4) === 0) {
             // loop through and find a non-cat wang.
             let selectedCock: Cock;
@@ -195,7 +194,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // Cat penorz shrink
-        if (player.torso.cocks.filterType(CockType.CAT).length > 0 && Utils.rand(3) === 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
+        if (player.torso.cocks.filter(Cock.Type(CockType.CAT)).length > 0 && Utils.rand(3) === 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             // loop through and find a cat wang.
             let selectedCock: Cock = null;
             let changedCock: number = 0;
@@ -244,7 +243,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // DA TailType (IF ALREADY HAZ URZ)
-        if (!player.torso.tails.hasType(TailType.CAT) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.CAT), false) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit) {
             if (player.torso.tails.count === 0) {
                 const chance: number = Utils.rand(3);
                 if (chance === 0) DisplayText("\n\nA pressure builds in your backside. You feel under your " + player.inventory.equipment.armor.displayName + " and discover an odd bump that seems to be growing larger by the moment. In seconds it passes between your fingers, bursts out the back of your clothes and grows most of the way to the ground. A thick coat of fur springs up to cover your new tail. You instinctively keep adjusting it to improve your balance. <b>You now have a cat-tail.</b>");
@@ -257,7 +256,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // Da paws (if already haz ears & tail)
-        if (player.torso.tails.hasType(TailType.CAT) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit && player.torso.hips.legs.type !== LegType.CAT) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.CAT), false) && player.torso.neck.head.ears.type === EarType.CAT && Utils.rand(5) === 0 && changes < changeLimit && player.torso.hips.legs.type !== LegType.CAT) {
             // hoof to cat:
             if (player.torso.hips.legs.type === LegType.HOOFED || player.torso.hips.legs.type === LegType.CENTAUR) {
                 DisplayText("\n\nYou feel your hooves suddenly splinter, growing into five unique digits. Their flesh softens as your hooves reshape into furred cat paws. <b>You now have cat paws.</b>");
@@ -273,7 +272,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // TURN INTO A FURRAH!  OH SHIT
-        if (player.torso.tails.hasType(TailType.CAT) &&
+        if (player.torso.tails.reduce(Tail.HasType(TailType.CAT), false) &&
             player.torso.neck.head.ears.type === EarType.CAT &&
             player.torso.hips.legs.type === LegType.CAT &&
             player.skin.type !== SkinType.FUR &&
@@ -284,7 +283,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // CAT-FaceType!  FULL ON FURRY!  RAGE AWAY NEKOZ
-        if (player.torso.tails.hasType(TailType.CAT) &&
+        if (player.torso.tails.reduce(Tail.HasType(TailType.CAT), false) &&
             player.torso.neck.head.ears.type === EarType.CAT &&
             player.torso.hips.legs.type === LegType.CAT &&
             player.skin.type === SkinType.FUR &&

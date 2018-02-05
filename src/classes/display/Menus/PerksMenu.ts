@@ -2,19 +2,17 @@ import Menu from './Menu';
 import Menus from './Menus';
 import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Game from '../../Game/Game';
 import Player from '../../Player/Player';
 import { Utils } from '../../Utilities/Utils';
 import DisplayText from '../DisplayText';
-import { ClickFunction } from '../Elements/ButtonElement';
 import MainScreen from '../MainScreen';
 
 export default class PerksMenu implements Menu {
     public display(player: Player) {
         DisplayText().clear();
-        for (const perk of player.perks) {
-            DisplayText(perk.type).bold();
-            DisplayText(" - " + perk.desc);
+        for (const key of player.perks.keys()) {
+            DisplayText(player.perks.get(key).type).bold();
+            DisplayText(" - " + player.perks.get(key).desc);
             DisplayText("\n\n");
         }
 

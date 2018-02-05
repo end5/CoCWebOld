@@ -1,6 +1,5 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
-import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player/Player';

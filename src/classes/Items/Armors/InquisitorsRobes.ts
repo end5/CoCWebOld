@@ -1,10 +1,8 @@
 import ArmorName from './ArmorName';
 import ArmorWithPerk from './ArmorWithPerk';
-import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class InquisitorsRobes extends ArmorWithPerk {

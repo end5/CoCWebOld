@@ -5,7 +5,6 @@ import FaceDescriptor from '../Descriptors/FaceDescriptor';
 import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
 import DisplayText from '../display/DisplayText';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
 export default class BodyModifier {

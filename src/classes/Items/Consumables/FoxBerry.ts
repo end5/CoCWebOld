@@ -43,7 +43,7 @@ export default class FoxBerry extends Consumable {
         if (Utils.rand(2) === 0) changeLimit++;
 
         if (player.torso.neck.head.face.type === FaceType.FOX &&
-            player.torso.tails.hasType(TailType.FOX) &&
+            player.torso.tails.reduce(Tail.HasType(TailType.FOX), false) &&
             player.torso.neck.head.ears.type === EarType.FOX &&
             player.torso.hips.legs.type === LegType.FOX &&
             player.skin.type === SkinType.FUR && Utils.rand(3) === 0
@@ -58,7 +58,7 @@ export default class FoxBerry extends Consumable {
                 else DisplayText("berries ");
                 DisplayText("with an uncommonly voracious appetite, taking particular enjoyment in the succulent, tart flavor.  As you carefully suck the last drops of ochre juice from your fingers, you note that it tastes so much more vibrant than you remember.  Your train of thought is violently interrupted by the sound of bones snapping, and you cry out in pain, doubling over as a flaming heat boils through your ribs.");
                 DisplayText("\n\nWrithing on the ground, you clutch your hand to your chest, looking on in horror through tear-streaked eyes as the bones in your fingers pop and fuse, rearranging themselves into a dainty paw covered in coarse black fur, fading to a ruddy orange further up.  You desperately try to call out to someone - anyone - for help, but all that comes out is a high-pitched, ear-splitting yap.");
-                if (player.torso.tails.filterType(TailType.FOX)[0].vemon > 1) DisplayText("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
+                if (player.torso.tails.filter(Tail.Type(TailType.FOX))[0].vemon > 1) DisplayText("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 DisplayText("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 DisplayText("\n\nYou roll over and crawl free of the " + player.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
                 Game.gameOver();
@@ -150,8 +150,8 @@ export default class FoxBerry extends Consumable {
         }
 
         // dog cocks!
-        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.cocks.filterType(CockType.DOG).length < player.torso.cocks.count) {
-            const cockChoices = player.torso.cocks.filterType(CockType.DOG);
+        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.cocks.filter(Cock.Type(CockType.DOG)).length < player.torso.cocks.count) {
+            const cockChoices = player.torso.cocks.filter(Cock.Type(CockType.DOG));
             if (cockChoices.length !== 0) {
                 const selectedCock = Utils.randomChoice(cockChoices);
                 if (selectedCock.type === CockType.HUMAN) {
@@ -297,7 +297,7 @@ export default class FoxBerry extends Consumable {
         // THIRD
         if ((this.enhanced || player.torso.neck.head.ears.type === EarType.FOX) && player.torso.hips.legs.type !== LegType.FOX && changes < changeLimit && Utils.rand(5) === 0) {
             // 4 legs good, 2 legs better
-            if (player.torso.hips.legs.isTaur() DisplayText("\n\nYou shiver as the strength drains from your back legs.  Shaken, you sit on your haunches, forelegs braced wide to stop you from tipping over;  their hooves scrape the dirt as your lower body shrinks, dragging them backward until you can feel the upper surfaces of your hindlegs with their undersides.  A wave of nausea and vertigo overtakes you, and you close your eyes to shut out the sensations.  When they reopen, what greets them are not four legs, but only two... and those roughly in the shape of your old hindleg, except for the furry toes where your hooves used to be.  <b>You now have fox legs!</b>");
+            if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYou shiver as the strength drains from your back legs.  Shaken, you sit on your haunches, forelegs braced wide to stop you from tipping over;  their hooves scrape the dirt as your lower body shrinks, dragging them backward until you can feel the upper surfaces of your hindlegs with their undersides.  A wave of nausea and vertigo overtakes you, and you close your eyes to shut out the sensations.  When they reopen, what greets them are not four legs, but only two... and those roughly in the shape of your old hindleg, except for the furry toes where your hooves used to be.  <b>You now have fox legs!</b>");
             // n*ga please
             else if (player.torso.hips.legs.isNaga()) DisplayText("\n\nYour scales split at the waistline and begin to peel, shedding like old snakeskin.  If that weren't curious enough, the flesh - not scales - underneath is pink and new, and the legs it covers crooked into the hocks and elongated feet of a field animal.  As the scaly coating falls and you step out of it, walking of necessity on your toes, a fine powder blows from the dry skin.  Within minutes, it crumbles completely and is taken by the ever-moving wind.  <b>Your legs are now those of a fox!</b>");
             // other digitigrade
@@ -318,7 +318,7 @@ export default class FoxBerry extends Consumable {
         }
         // Grow Fox Ears]
         // SECOND
-        if ((this.enhanced || player.torso.tails.hasType(TailType.FOX)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit && Utils.rand(4) === 0) {
+        if ((this.enhanced || player.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit && Utils.rand(4) === 0) {
             // from human/gob/liz ears
             if (player.torso.neck.head.ears.type === EarType.HUMAN || player.torso.neck.head.ears.type === EarType.ELFIN || player.torso.neck.head.ears.type === EarType.LIZARD) {
                 DisplayText("\n\nThe sides of your face painfully stretch as your ears elongate and begin to push past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  <b>You now have fox ears.</b>");
@@ -332,7 +332,7 @@ export default class FoxBerry extends Consumable {
         }
         // [Grow Fox Tail](fairly common)
         // FIRST
-        if (!player.torso.tails.hasType(TailType.FOX) && changes < changeLimit && Utils.rand(4) === 0) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && Utils.rand(4) === 0) {
             // from no tail
             if (player.torso.tails.count === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your [armor] and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it had a mind of its own.  <b>You now have a fox's tail!</b>");
             // from another type of tail

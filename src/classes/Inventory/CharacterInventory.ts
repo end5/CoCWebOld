@@ -1,11 +1,8 @@
 import EquipmentInventory from './EquipmentInventory';
-import EquipmentSlot from './EquipmentSlot';
 import Inventory from './Inventory';
 import Character from '../Character/Character';
-import Armor from '../Items/Armors/Armor';
 import Item from '../Items/Item';
 import KeyItem from '../Items/KeyItem';
-import Weapon from '../Items/Weapons/Weapon';
 import ISerializable from '../Utilities/ISerializable';
 import SerializableDictionary from '../Utilities/SerializableDictionary';
 

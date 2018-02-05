@@ -1,7 +1,6 @@
 ﻿import Nipples from './Nipples';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
-import SerializableList from '../Utilities/SerializableList';
 
 export enum BreastCup {
     FLAT, A, B, C, D, DD, DD_BIG, E, E_BIG, EE, EE_BIG, F, F_BIG, FF, FF_BIG,

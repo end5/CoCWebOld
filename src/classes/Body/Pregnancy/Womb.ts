@@ -1,13 +1,11 @@
 import IPregnancyEvent from './IPregnancyEvent';
-import Pregnancy, { IncubationTime, PregnancyType } from './Pregnancy';
+import Pregnancy, { PregnancyType } from './Pregnancy';
 import PregnancyEventFactory from './PregnancyEventFactory';
 import DisplayText from '../../display/DisplayText';
-import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import ISerializable from '../../Utilities/ISerializable';
 import { Utils } from '../../Utilities/Utils';
 import Creature from '../Creature';
-import Tail from '../Tail';
 import Vagina from '../Vagina';
 
 export default class Womb implements ISerializable<Womb> {

@@ -1,10 +1,8 @@
 import CockSockList from './CockSockList';
 import EquipmentSlot from './EquipmentSlot';
 import PiercingInventory from './PiercingInventory';
-import Cock from '../Body/Cock';
 import Character from '../Character/Character';
 import Armor from '../Items/Armors/Armor';
-import CockSock from '../Items/Misc/CockSock';
 import Weapon from '../Items/Weapons/Weapon';
 import ISerializable from '../Utilities/ISerializable';
 

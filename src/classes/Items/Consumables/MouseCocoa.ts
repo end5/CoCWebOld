@@ -131,11 +131,11 @@ export default class MouseCocoa extends Consumable {
         }
         // gain tail
         // from no tail
-        if (player.torso.neck.head.ears.type === EarType.MOUSE && !player.torso.tails.hasType(TailType.MOUSE) && changes < changeLimit && Utils.rand(4) === 0) {
+        if (player.torso.neck.head.ears.type === EarType.MOUSE && !player.torso.tails.reduce(Tail.HasType(TailType.MOUSE), false) && changes < changeLimit && Utils.rand(4) === 0) {
             // from other tail
             if (player.torso.tails.count > 0) {
                 DisplayText("\n\nYour tail clenches and itches simultaneously, leaving you wondering whether to cry out or try to scratch it.  The question is soon answered as the pain takes the forefront; looking backward is a horrible strain, but when you manage it, you can see your old appendage ");
-                if (player.torso.tails.hasType(TailType.HORSE)) DisplayText("elongating");
+                if (player.torso.tails.reduce(Tail.HasType(TailType.HORSE), false)) DisplayText("elongating");
                 else DisplayText("compressing");
                 DisplayText(" into a long, thin line.  With a shudder, it begins to shed until it's completely, starkly nude.  <b>Your new mouse tail looks a bit peaked.</b>");
             }

@@ -2,7 +2,6 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import { ArmType } from '../../Body/Arms';
 import BreastRow from '../../Body/BreastRow';
-import Chest from '../../Body/Chest';
 import Cock, { CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
@@ -15,12 +14,10 @@ import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
-import StatusAffect from '../../Effects/StatusAffect';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BodyModifier from '../../Modifiers/BodyModifier';
@@ -114,7 +111,7 @@ export default class MinotaurBlood extends Consumable {
         }
         // SEXUAL
         // Boosts ball size MORE than equinum :D:D:D:D:D:D:
-        if (changes < changeLimit && Utils.rand(2) === 0 && player.torso.balls.size <= 5 && cocks.filterType(CockType.HORSE).length > 0) {
+        if (changes < changeLimit && Utils.rand(2) === 0 && player.torso.balls.size <= 5 && cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
             // Chance of ball growth if not 3" yet
             if (player.torso.balls.quantity === 0) {
                 player.torso.balls.quantity = 2;
@@ -301,7 +298,7 @@ export default class MinotaurBlood extends Consumable {
                 player.stats.sens += 4;
                 player.stats.lust += 35;
                 DisplayText("<b>  You now have a");
-                if (cocks.filterType(CockType.HORSE).length > 1) DisplayText("nother");
+                if (cocks.filter(Cock.Type(CockType.HORSE)).length > 1) DisplayText("nother");
                 DisplayText(" horse-penis.</b>");
                 changes++;
             }
@@ -347,7 +344,7 @@ export default class MinotaurBlood extends Consumable {
             }
         }
         // +mino horns.amount require ears/tail
-        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.neck.head.ears.type === EarType.COW && player.torso.tails.hasType(TailType.COW)) {
+        if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.neck.head.ears.type === EarType.COW && player.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
             // New horns.amount or expanding mino horns
             if (player.torso.neck.head.horns.type === HornType.COW_MINOTAUR || player.torso.neck.head.horns.type === HornType.NONE) {
                 // Get bigger if player has horns
@@ -404,20 +401,20 @@ export default class MinotaurBlood extends Consumable {
             }
         }
         // +cow ears	- requires tail
-        if (player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && player.torso.tails.hasType(TailType.COW) && Utils.rand(2) === 0) {
+        if (player.torso.neck.head.ears.type !== EarType.COW && changes < changeLimit && player.torso.tails.reduce(Tail.HasType(TailType.COW), false) && Utils.rand(2) === 0) {
             DisplayText("\n\nYou feel your ears tug on your scalp as they twist shape, becoming oblong and cow-like.  <b>You now have cow ears.</b>");
             player.torso.neck.head.ears.type = EarType.COW;
             changes++;
         }
         // +cow tail
-        if (changes < changeLimit && Utils.rand(2) === 0 && !player.torso.tails.hasType(TailType.COW)) {
+        if (changes < changeLimit && Utils.rand(2) === 0 && !player.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
             if (player.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + ButtDescriptor.describeButt(player) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
                 if (player.torso.tails.count > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
                 }
                 // insect
-                if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
+                if (player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) || player.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
                     DisplayText("\n\nYour insect-like abdomen tingles pleasantly as it begins shrinking and softening, chitin morphing and reshaping until it looks exactly like a <b>cow tail</b>.");
                 }
             }
@@ -452,6 +449,5 @@ export default class MinotaurBlood extends Consumable {
             StatModifier.displayCharacterHPChange(player, 50);
             player.stats.lust += 50;
         }
-
     }
 }

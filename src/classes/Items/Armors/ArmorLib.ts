@@ -9,7 +9,6 @@ import LeatherArmorSegments from './LeatherArmorSegments';
 import LustyMaidensArmor from './LustyMaidensArmor';
 import SeductiveArmor from './SeductiveArmor';
 import SluttySwimwear from './SluttySwimwear';
-import Perk from '../../Effects/Perk';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Dictionary from '../../Utilities/Dictionary';

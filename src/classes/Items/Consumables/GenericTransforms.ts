@@ -6,7 +6,7 @@ import Tail, { TailType } from '../../Body/Tail';
 import { TongueType } from '../../Body/Tongue';
 import { WingType } from '../../Body/Wings';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
@@ -15,10 +15,10 @@ import { Utils } from '../../Utilities/Utils';
 export default class GenericTransforms {
     public static demonChanges(player: Player): void {
         // Change tail if already horned.
-        if (!player.torso.tails.hasType(TailType.DEMONIC) && player.torso.neck.head.horns.amount > 0) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.DEMONIC), false) && player.torso.neck.head.horns.amount > 0) {
             if (player.torso.tails.count === 0) {
                 DisplayText("\n\n");
-                if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) || player.torso.tails.hasType(TailType.BEE_ABDOMEN))
+                if (player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) || player.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false))
                     DisplayText("You feel a tingling in your insectile abdomen as it stretches, narrowing, the exoskeleton flaking off as it transforms into a flexible demon-tail, complete with a round spaded tip.  ");
                 else
                     DisplayText("You feel a tingling in your tail.  You are amazed to discover it has shifted into a flexible demon-tail, complete with a round spaded tip.  ");

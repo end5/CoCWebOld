@@ -2,7 +2,6 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import { ArmType } from '../../Body/Arms';
 import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
@@ -12,13 +11,11 @@ import Tail, { TailType } from '../../Body/Tail';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player/Player';
@@ -92,7 +89,7 @@ export default class SweetGossamer extends Consumable {
         // Sexual Changes
         // ****************
         // Increase venom recharge
-        const spiderbutts = player.torso.tails.filterType(TailType.SPIDER_ABDOMEN);
+        const spiderbutts = player.torso.tails.filter(Tail.Type(TailType.SPIDER_ABDOMEN));
         if (spiderbutts.length >= 1 && spiderbutts[0].recharge < 25 && changes < changeLimit) {
             changes++;
             DisplayText("\n\nThe spinnerets on your abdomen twitch and drip a little webbing.  The entirety of its heavy weight shifts slightly, and somehow you know you'll produce webs faster now.");
@@ -110,7 +107,7 @@ export default class SweetGossamer extends Consumable {
         }
         // (tightens asshole to 1, increases lust)
         if (player.torso.butt.looseness > 1 && changes < changeLimit && Utils.rand(3) === 0) {
-            DisplayText("\n\nYou let out a small cry as your " + ButtDescriptor.describeButthole(player) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
+            DisplayText("\n\nYou let out a small cry as your " + ButtDescriptor.describeButthole(player.torso.butt) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
             player.stats.lib += 2;
             player.stats.lust += 25;
             changes++;
@@ -253,7 +250,7 @@ export default class SweetGossamer extends Consumable {
             changes++;
         }
         // Drider butt
-        if (!this.sweet && !player.perks.has(PerkType.SpiderOvipositor) && player.torso.hips.legs.isDrider() && player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) && changes < changeLimit && Utils.rand(3) === 0 && (player.torso.vaginas.count > 0 || Utils.rand(2) === 0)) {
+        if (!this.sweet && !player.perks.has(PerkType.SpiderOvipositor) && player.torso.hips.legs.isDrider() && player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && changes < changeLimit && Utils.rand(3) === 0 && (player.torso.vaginas.count > 0 || Utils.rand(2) === 0)) {
             DisplayText("\n\nAn odd swelling sensation floods your spider half.  Curling your abdomen underneath you for a better look, you gasp in recognition at your new 'equipment'!  Your semi-violent run-ins with the swamp's population have left you <i>intimately</i> familiar with the new appendage.  <b>It's a drider ovipositor!</b>  A few light prods confirm that it's just as sensitive as any of your other sexual organs.  You idly wonder what laying eggs with this thing will feel like...");
             DisplayText("\n\n(<b>Perk Gained:  Spider Ovipositor - Allows you to lay eggs in your foes!</b>)");
             // V1 - Egg Count
@@ -271,7 +268,7 @@ export default class SweetGossamer extends Consumable {
         // (Normal Biped Legs -> Carapace-Clad Legs)
         if (((!this.sweet && player.torso.hips.legs.type !== LegType.DRIDER_LOWER_BODY && player.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS) ||
             (this.sweet && player.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS)) &&
-            (!player.torso.hips.legs.isGoo() && !player.torso.hips.legs.isNaga() && !player.torso.hips.legs.isTaur() &&
+            (!player.torso.hips.legs.isGoo() && !player.torso.hips.legs.isNaga() && !player.torso.hips.legs.isTaur()) &&
             changes < changeLimit &&
             Utils.rand(4) === 0
         ) {
@@ -280,7 +277,7 @@ export default class SweetGossamer extends Consumable {
             changes++;
         }
         // (Tail becomes spider abdomen GRANT WEB ATTACK)
-        if (!player.torso.tails.hasType(TailType.SPIDER_ABDOMEN) && (player.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS || player.torso.hips.legs.type === LegType.DRIDER_LOWER_BODY) && player.torso.arms.type === ArmType.SPIDER && Utils.rand(4) === 0) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && (player.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS || player.torso.hips.legs.type === LegType.DRIDER_LOWER_BODY) && player.torso.arms.type === ArmType.SPIDER && Utils.rand(4) === 0) {
             DisplayText("\n\n");
             // (Pre-existing tails)
             if (player.torso.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + ButtDescriptor.describeButt(player) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(player) + "!</b>\n\n");
@@ -294,7 +291,7 @@ export default class SweetGossamer extends Consumable {
             changes++;
         }
         // (Drider Item Only: Carapace-Clad Legs to Drider Legs)
-        if (!this.sweet && player.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS && Utils.rand(4) === 0 && player.torso.tails.hasType(TailType.SPIDER_ABDOMEN)) {
+        if (!this.sweet && player.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS && Utils.rand(4) === 0 && player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
             DisplayText("\n\nJust like when your legs changed to those of a spider-morph, you find yourself suddenly paralyzed below the waist.  Your dark, reflective legs splay out and drop you flat on your back.   Before you can sit up, you feel tiny feelers of pain mixed with warmth and tingling running through them.  Terrified at the thought of all the horrible changes that could be wracking your body, you slowly sit up, expecting to find yourself turned into some incomprehensible monstrosity from the waist down.  As if to confirm your suspicions, the first thing you see is that your legs have transformed into eight long, spindly legs.  Instead of joining directly with your hips, they now connect with the spider-like body that has sprouted in place of where your legs would normally start.  Your abdomen has gotten even larger as well.  Once the strength returns to your new, eight-legged lower body, you struggle up onto your pointed 'feet', and wobble around, trying to get your balance.  As you experiment with your new form, you find you're even able to twist the spider half of your body down between your legs in an emulation of your old, bipedal stance.  That might prove useful should you ever want to engage in 'normal' sexual positions, particularly since your " + ButtDescriptor.describeButt(player) + " is still positioned just above the start of your arachnid half.  <b>You're now a drider.</b>");
             player.torso.hips.legs.type = LegType.DRIDER_LOWER_BODY;
             changes++;

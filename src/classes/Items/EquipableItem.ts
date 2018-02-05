@@ -3,14 +3,14 @@ import Character from '../Character/Character';
 import EquipmentSlot from '../Inventory/EquipmentSlot';
 
 export default abstract class EquipableItem extends Item {
-    protected slot: EquipmentSlot;
+    protected slot: EquipmentSlot<EquipableItem>;
     /**
      * This item is being equipped by the character. Add any perks, etc. - This should only handle mechanics, not text output
      * @param slot
      */
     public abstract onEquip(character: Character): void;
 
-    public equip(slot: EquipmentSlot): void {
+    public equip(slot: EquipmentSlot<EquipableItem>): void {
         this.slot = slot;
         slot.equip(this);
     }

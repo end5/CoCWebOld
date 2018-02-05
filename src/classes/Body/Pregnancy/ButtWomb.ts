@@ -1,11 +1,7 @@
 import ButtPregnancyEventFactory from './ButtPregnancyEventFactory';
-import IPregnancyEvent from './IPregnancyEvent';
-import Pregnancy, { IncubationTime, PregnancyType } from './Pregnancy';
+import Pregnancy from './Pregnancy';
 import Womb from './Womb';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ISerializable from '../../Utilities/ISerializable';
 import { Utils } from '../../Utilities/Utils';
-import Creature from '../Creature';
 
 export default class ButtWomb extends Womb {
     // fertility must be >= random(0-beat)

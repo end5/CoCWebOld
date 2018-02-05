@@ -4,7 +4,6 @@ import Character from '../../Character/Character';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';

@@ -2,11 +2,9 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import DisplayText from '../../display/DisplayText';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class Coal extends Consumable {

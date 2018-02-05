@@ -1,9 +1,7 @@
 import Menu from './Menu';
 import Menus from './Menus';
-import PlayerMenu from './PlayerMenu';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
-import TimeManager from '../../Game/TimeManager';
 import Player from '../../Player/Player';
 import DisplaySprite from '../DisplaySprite';
 import DisplayText from '../DisplayText';

@@ -3,8 +3,6 @@ import ImageElement from './Elements/ImageElement';
 import ParagraphElement from './Elements/ParagraphElement';
 import StatsPanelObserver from './Elements/StatsPanelObserver';
 import TextElement from './Elements/TextElement';
-import Game from '../Game/Game';
-import Player from '../Player/Player';
 import { Utils } from '../Utilities/Utils';
 
 export enum TopButton {

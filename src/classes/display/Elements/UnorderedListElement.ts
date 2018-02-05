@@ -3,7 +3,7 @@ import ScreenElement from './ScreenElement';
 
 export default class UnorderedListElement extends ScreenElement {
     private list: ListEntryElement[];
-    
+
     public constructor() {
         super();
         this.htmlElement = document.createElement('ul');

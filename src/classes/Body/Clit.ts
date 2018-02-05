@@ -1,5 +1,4 @@
 import ISerializable from '../Utilities/ISerializable';
-import SerializableList from '../Utilities/SerializableList';
 
 export default class Clit implements ISerializable<Clit> {
     public length: number = 0.25;

@@ -75,7 +75,7 @@ export default class RingtailFig extends Consumable {
             changes++;
         }
         // bodypart changes:
-        if (player.torso.tails.hasType(TailType.RACCOON) && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && Utils.rand(4) === 0 && changes < changeLimit) {
             // grow da tail
             // from no tail:
             if (player.torso.tails.count >= 1) {
@@ -98,7 +98,7 @@ export default class RingtailFig extends Consumable {
             changes++;
         }
         // gain coon ears
-        if (player.torso.tails.hasType(TailType.RACCOON) && player.torso.neck.head.ears.type !== EarType.RACCOON && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && player.torso.neck.head.ears.type !== EarType.RACCOON && Utils.rand(4) === 0 && changes < changeLimit) {
             // from dog, kangaroo, bunny, other long ears
             if (player.torso.neck.head.ears.type === EarType.DOG || player.torso.neck.head.ears.type === EarType.BUNNY || player.torso.neck.head.ears.type === EarType.KANGAROO) DisplayText("\n\nYour ears compress, constricting your ear canal momentarily.  You shake your head to get sound back, and reach up to touch the auricles, to find a pair of stubby egg-shaped ears in their place.  <b>You now have raccoon ears!</b>");
             // from cat, horse, cow ears
@@ -124,7 +124,7 @@ export default class RingtailFig extends Consumable {
                 if (player.torso.hips.legs.type === LegType.HOOFED || player.torso.hips.legs.type === LegType.CENTAUR || player.torso.hips.legs.type === LegType.PONY) DisplayText("pops right out of its hoof just in time");
                 else DisplayText("comes loose inside its long boot, and you pull it free with irritation only");
                 DisplayText(" for you to set it back down on a sharp rock!  Biting off a curse, you examine the new bare foot.  It looks much like a human's, except for the nearly-twice-as-long toes.  You find you can even use them to pick things up; the sharp rock is dropped into your hand and tossed far away.  The shed [foot] is quickly joined on the ground by its complement, revealing more long toes.  ");
-                if (player.torso.hips.legs.isTaur() DisplayText("For a few minutes you amuse yourself with your four prehensile feet... you even make up a game that involves juggling a stone under your body by tossing it between two feet while balancing on the others.  It's only a short while, however, before your lower stomach grumbles and a searing pain makes you miss your catch.  Anticipating what will happen, you lie down carefully and close your eyes, biting down on a soft wad of cloth.  The pain quickly returns and drives you into unconsciousness, and when you awaken, your back legs are gone.  ");
+                if (player.torso.hips.legs.isTaur()) DisplayText("For a few minutes you amuse yourself with your four prehensile feet... you even make up a game that involves juggling a stone under your body by tossing it between two feet while balancing on the others.  It's only a short while, however, before your lower stomach grumbles and a searing pain makes you miss your catch.  Anticipating what will happen, you lie down carefully and close your eyes, biting down on a soft wad of cloth.  The pain quickly returns and drives you into unconsciousness, and when you awaken, your back legs are gone.  ");
                 DisplayText("<b>You now have two fuzzy, long-toed raccoon legs.</b>");
             }
             // from human, demon, paw feet

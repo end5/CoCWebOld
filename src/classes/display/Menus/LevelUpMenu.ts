@@ -3,7 +3,7 @@ import Menus from './Menus';
 import Player from '../../Player/Player';
 import DisplayText from '../DisplayText';
 import { ClickFunction } from '../Elements/ButtonElement';
-import MainScreen, { TopButton } from '../MainScreen';
+import MainScreen from '../MainScreen';
 
 export default class LevelUpMenu implements Menu {
     public display(player?: Player, prevMenu?: ClickFunction) {

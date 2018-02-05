@@ -1,7 +1,6 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';

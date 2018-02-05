@@ -7,7 +7,7 @@ import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import HipDescriptor from '../../Descriptors/HipDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
@@ -131,7 +131,7 @@ export default class Eggs extends Consumable {
         DisplayText().clear();
         DisplayText("You devour the egg, momentarily sating your hunger.\n\n");
         if (!this.large || player.torso.hips.rating > 20) {
-            DisplayText("You stumble as you feel your " + LegDescriptor.describeHips(player) + " widen, altering your gait slightly.");
+            DisplayText("You stumble as you feel your " + HipDescriptor.describeHips(player) + " widen, altering your gait slightly.");
             player.torso.hips.rating++;
         }
         else {
@@ -302,7 +302,7 @@ export default class Eggs extends Consumable {
                 player.torso.butt.rating -= 2;
             }
             if (player.torso.hips.rating > 5) {
-                DisplayText("Feeling the sudden burning of lactic acid in your " + LegDescriptor.describeHips(player) + ", you realize they have slimmed down and firmed up some.");
+                DisplayText("Feeling the sudden burning of lactic acid in your " + HipDescriptor.describeHips(player) + ", you realize they have slimmed down and firmed up some.");
                 player.torso.hips.rating -= 2;
             }
             // Shrink tits!

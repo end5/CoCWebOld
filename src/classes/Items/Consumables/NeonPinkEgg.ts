@@ -7,18 +7,15 @@ import { LegType } from '../../Body/Legs';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { SkinType } from '../../Body/Skin';
 import Tail, { TailType } from '../../Body/Tail';
-import Vagina from '../../Body/Vagina';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import FaceDescriptor from '../../Descriptors/FaceDescriptor';
 import GenderDescriptor from '../../Descriptors/GenderDescriptor';
-import HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
 import BodyModifier from '../../Modifiers/BodyModifier';
 import Player from '../../Player/Player';
@@ -114,7 +111,7 @@ export default class NeonPinkEgg extends Consumable {
                 if (player.skin.type > SkinType.PLAIN) DisplayText(" through your " + player.skin.desc);
                 DisplayText(".  ");
                 if (player.gender === 1) DisplayText("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (player.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                else if (player.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
                 else if (player.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
                 else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }
@@ -154,16 +151,16 @@ export default class NeonPinkEgg extends Consumable {
                 if (player.gender === 1) {
                     DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + " and your ");
                     if (player.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, player));
-                    else DisplayText(ButtDescriptor.describeButthole(player));
+                    else DisplayText(ButtDescriptor.describeButthole(player.torso.butt));
                 }
-                else if (player.gender === 2) DisplayText("your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and " + VaginaDescriptor.describeClit(player, player.torso.vaginas.get(0)));
+                else if (player.gender === 2) DisplayText("your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and " + VaginaDescriptor.describeClit(player));
                 else if (player.gender === 3) {
                     DisplayText(CockDescriptor.describeMultiCockSimpleOne(player) + ", ");
                     if (player.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, player) + ", ");
-                    DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", and " + VaginaDescriptor.describeClit(player, player.torso.vaginas.get(0)));
+                    DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ", and " + VaginaDescriptor.describeClit(player));
                 }
                 // oh god genderless
-                else DisplayText("you " + ButtDescriptor.describeButthole(player));
+                else DisplayText("you " + ButtDescriptor.describeButthole(player.torso.butt));
                 DisplayText(" that you have to stay stock-still to keep yourself from falling down and masturbating on the spot.  Thankfully the orgy of tactile bliss fades after a minute, but you still feel way more sensitive than your previous norm.  This will take some getting used to!");
             }
         }
@@ -275,7 +272,7 @@ export default class NeonPinkEgg extends Consumable {
         // Bunny feet! - requirez earz
         if (player.torso.hips.legs.type !== LegType.BUNNY && changes < changeLimit && Utils.rand(5) === 0 && player.torso.neck.head.ears.type === EarType.BUNNY) {
             // Taurs
-            if (player.torso.hips.legs.isTaur() DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
+            if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
             // Non-taurs
             else {
                 DisplayText("\n\nNumbness envelops your " + LegDescriptor.describeLegs(player) + " as they pull tighter and tighter.  You overbalance and drop on your " + ButtDescriptor.describeButt(player));
@@ -297,13 +294,13 @@ export default class NeonPinkEgg extends Consumable {
             player.torso.neck.head.face.type = FaceType.BUNNY;
         }
         // DAH BUNBUN EARZ - requires poofbutt!
-        if (player.torso.neck.head.ears.type !== EarType.BUNNY && changes < changeLimit && Utils.rand(3) === 0 && player.torso.tails.hasType(TailType.BUNNY)) {
+        if (player.torso.neck.head.ears.type !== EarType.BUNNY && changes < changeLimit && Utils.rand(3) === 0 && player.torso.tails.reduce(Tail.HasType(TailType.BUNNY), false)) {
             DisplayText("\n\nYour ears twitch and curl in on themselves, sliding around on the flesh of your head.  They grow warmer and warmer before they finally settle on the top of your head and unfurl into long, fluffy bunny-ears.  <b>You now have a pair of bunny ears.</b>");
             player.torso.neck.head.ears.type = EarType.BUNNY;
             changes++;
         }
         // DAH BUNBUNTAILZ
-        if (!player.torso.tails.hasType(TailType.BUNNY) && Utils.rand(2) === 0 && changes < changeLimit) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.BUNNY), false) && Utils.rand(2) === 0 && changes < changeLimit) {
             if (player.torso.tails.count > 0) DisplayText("\n\nYour tail burns as it shrinks, pulling tighter and tighter to your backside until it's the barest hint of a stub.  At once, white, poofy fur explodes out from it.  <b>You've got a white bunny-tail!  It even twitches when you aren't thinking about it.</b>");
             else DisplayText("\n\nA burning pressure builds at your spine before dissipating in a rush of relief. You reach back and discover a small, fleshy tail that's rapidly growing long, poofy fur.  <b>You have a rabbit tail!</b>");
             player.torso.tails.clear();
@@ -358,7 +355,7 @@ export default class NeonPinkEgg extends Consumable {
                 if (player.skin.type > SkinType.PLAIN) DisplayText(" through your " + player.skin.desc);
                 DisplayText(".  ");
                 if (player.gender === 1) DisplayText("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(player) + " as it strains against your " + player.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (player.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                else if (player.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(player.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
                 else if (player.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
                 else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(player) + " starts to strain against your " + player.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }

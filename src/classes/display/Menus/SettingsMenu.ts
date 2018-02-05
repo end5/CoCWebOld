@@ -1,5 +1,3 @@
-import ControlsMenu from './ControlsMenu';
-import MainMenu from './MainMenu';
 import Menu from './Menu';
 import Menus from './Menus';
 import Flags, { FlagEnum } from '../../Game/Flags';

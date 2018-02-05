@@ -1,4 +1,3 @@
-import CharCreationMenu from './CharCreationMenu';
 import Menu from './Menu';
 import Menus from './Menus';
 import Flags, { FlagEnum } from '../../Game/Flags';

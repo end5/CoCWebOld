@@ -2,8 +2,6 @@ import Armor from './Armor';
 import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
-import Game from '../../Game/Game';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class LeatherArmorSegments extends Armor {

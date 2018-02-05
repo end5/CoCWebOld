@@ -1,6 +1,5 @@
 import Armor from './Armor';
 import ArmorName from './ArmorName';
-import Character from '../../Character/Character';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';

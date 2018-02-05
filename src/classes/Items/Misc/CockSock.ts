@@ -1,9 +1,6 @@
 import CockSockName from './CockSockName';
-import Cock from '../../Body/Cock';
 import Character from '../../Character/Character';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import EquipmentSlot from '../../Inventory/EquipmentSlot';
 import EquipableItem from '../EquipableItem';
 import ItemType from '../ItemType';
 
@@ -27,12 +24,12 @@ export default class CockSock extends EquipableItem {
     public onEquip(character: Character) {
         if (this.name === CockSockName.Viridian) {
             if (!character.perks.has(PerkType.LustyRegeneration)) {
-                character.perks.set(PerkType.LustyRegeneration, PerkFactory.create(PerkType.LustyRegeneration));
+                character.perks.add(PerkType.LustyRegeneration, 0, 0, 0, 0);
             }
         }
         else if (this.name === CockSockName.Cockring) {
             if (!character.perks.has(PerkType.PentUp)) {
-                character.perks.set(PerkType.PentUp, PerkFactory.create(PerkType.PentUp));
+                character.perks.add(PerkType.PentUp, 0, 0, 0, 0);
             }
             else {
                 const numRings: number = character.inventory.equipment.cockSocks.reduce((prev, cur) => {

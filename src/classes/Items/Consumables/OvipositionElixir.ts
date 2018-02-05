@@ -1,13 +1,9 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
-import Vagina from '../../Body/Vagina';
 import DisplayText from '../../display/DisplayText';
-import StatusAffect from '../../Effects/StatusAffect';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
-import OvielixirEggsPreg from '../../Player/PregnancyEvents/OvielixirEggsPreg';
 import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 

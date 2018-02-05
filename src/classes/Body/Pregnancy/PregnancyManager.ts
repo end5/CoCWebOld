@@ -1,7 +1,6 @@
 import ButtWomb from './ButtWomb';
 import Ovipositor from './Ovipositor';
 import Womb from './Womb';
-import DisplayText from '../../display/DisplayText';
 import UpdateInterface from '../../UpdateInterface';
 import ISerializable from '../../Utilities/ISerializable';
 import Creature from '../Creature';

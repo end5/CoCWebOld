@@ -1,14 +1,10 @@
 import DisplayText from './DisplayText';
 import { ClickFunction } from './Elements/ButtonElement';
 import MainScreen from './MainScreen';
-import Menus from './Menus/Menus';
-import PlayerInventoryMenu from './Menus/PlayerInventoryMenu';
 import Character from '../Character/Character';
-import Game from '../Game/Game';
 import Inventory from '../Inventory/Inventory';
 import ItemStack from '../Inventory/ItemStack';
 import Item from '../Items/Item';
-import Player from '../Player/Player';
 
 /* better inventory system
     other inv = null

@@ -539,19 +539,19 @@ export default class PlayerAppearanceMenu implements Menu {
     }
 
     private tail(player: Player) {
-        if (player.torso.tails.hasType(TailType.HORSE))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.HORSE), false))
             DisplayText("  A long " + player.torso.neck.head.hair.color + " horsetail hangs from your " + ButtDescriptor.describeButt(player) + ", smooth and shiny.");
-        if (player.torso.tails.hasType(TailType.FERRET))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.FERRET), false))
             DisplayText("  A long ferret tail sprouts from above your [butt].  It is thin, tapered, and covered in shaggy " + player.torso.neck.head.hair.color + " fur.");
-        if (player.torso.tails.hasType(TailType.DOG))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.DOG), false))
             DisplayText("  A fuzzy " + player.torso.neck.head.hair.color + " dogtail sprouts just above your " + ButtDescriptor.describeButt(player) + ", wagging to and fro whenever you are happy.");
-        if (player.torso.tails.hasType(TailType.DEMONIC))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.DEMONIC), false))
             DisplayText("  A narrow tail ending in a spaded tip curls down from your " + ButtDescriptor.describeButt(player) + ", wrapping around your " + LegDescriptor.describeLeg(player) + " sensually at every opportunity.");
-        if (player.torso.tails.hasType(TailType.COW))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.COW), false))
             DisplayText("  A long cowtail with a puffy tip swishes back and forth as if swatting at flies.");
-        if (player.torso.tails.hasType(TailType.SPIDER_ABDOMEN)) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
             DisplayText("  A large, spherical spider-abdomen has grown out from your backside, covered in shiny black chitin.  Though it's heavy and bobs with every motion, it doesn't seem to slow you down.");
-            const spiderButt = player.torso.tails.filterType(TailType.SPIDER_ABDOMEN).sort(Tail.VenomMost)[0];
+            const spiderButt = player.torso.tails.filter(Tail.Type(TailType.SPIDER_ABDOMEN)).sort(Tail.VenomMost)[0];
             if (spiderButt.vemon > 50 && spiderButt.vemon < 80)
                 DisplayText("  Your bulging arachnid posterior feels fairly full of webbing.");
             if (spiderButt.vemon >= 80 && spiderButt.vemon < 100)
@@ -559,8 +559,8 @@ export default class PlayerAppearanceMenu implements Menu {
             if (spiderButt.vemon === 100)
                 DisplayText("  Your swollen spider-butt is distended with the sheer amount of webbing it's holding.");
         }
-        if (player.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
-            const beeButt = player.torso.tails.filterType(TailType.BEE_ABDOMEN).sort(Tail.VenomMost)[0];
+        if (player.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
+            const beeButt = player.torso.tails.filter(Tail.Type(TailType.BEE_ABDOMEN)).sort(Tail.VenomMost)[0];
             DisplayText("  A large insectile bee-abdomen dangles from just above your backside, bobbing with its own weight as you shift.  It is covered in hard chitin with black and yellow stripes, and tipped with a dagger-like stinger.");
             if (beeButt.vemon > 50 && beeButt.vemon < 80)
                 DisplayText("  A single drop of poison hangs from your exposed stinger.");
@@ -569,39 +569,39 @@ export default class PlayerAppearanceMenu implements Menu {
             if (beeButt.vemon === 100)
                 DisplayText("  Venom drips from your poisoned stinger regularly.");
         }
-        if (player.torso.tails.hasType(TailType.SHARK)) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.SHARK), false)) {
             DisplayText("  A long shark-tail trails down from your backside, swaying to and fro while giving you a dangerous air.");
         }
-        if (player.torso.tails.hasType(TailType.CAT)) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.CAT), false)) {
             DisplayText("  A soft " + player.torso.neck.head.hair.color + " cat-tail sprouts just above your " + ButtDescriptor.describeButt(player) + ", curling and twisting with every step to maintain perfect balance.");
         }
-        if (player.torso.tails.hasType(TailType.LIZARD)) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false)) {
             DisplayText("  A tapered tail hangs down from just above your " + ButtDescriptor.describeButt(player) + ".  It sways back and forth, assisting you with keeping your balance.");
         }
-        if (player.torso.tails.hasType(TailType.BUNNY))
+        if (player.torso.tails.reduce(Tail.HasType(TailType.BUNNY), false))
             DisplayText("  A short, soft bunny tail sprouts just above your " + ButtDescriptor.describeButt(player) + ", twitching constantly whenever you don't think about it.");
-        else if (player.torso.tails.hasType(TailType.HARPY))
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.HARPY), false))
             DisplayText("  A tail of feathers fans out from just above your " + ButtDescriptor.describeButt(player) + ", twitching instinctively to help guide you if you were to take flight.");
-        else if (player.torso.tails.hasType(TailType.KANGAROO)) {
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.KANGAROO), false)) {
             DisplayText("  A conical, ");
             if (player.skin.type === SkinType.GOO)
                 DisplayText("gooey, " + player.skin.tone);
             else DisplayText("furry, " + player.torso.neck.head.hair.color);
             DisplayText(", tail extends from your " + ButtDescriptor.describeButt(player) + ", bouncing up and down as you move and helping to counterbalance you.");
         }
-        else if (player.torso.tails.hasType(TailType.FOX)) {
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
             if (player.torso.tails.count === 1)
                 DisplayText("  A swishing " + player.torso.neck.head.hair.color + " fox's brush extends from your " + ButtDescriptor.describeButt(player) + ", curling around your body - the soft fur feels lovely.");
             else DisplayText("  " + Utils.numToCardinalCapText(player.torso.tails.count) + " swishing " + player.torso.neck.head.hair.color + " fox's tails extend from your " + ButtDescriptor.describeButt(player) + ", curling around your body - the soft fur feels lovely.");
         }
-        else if (player.torso.tails.hasType(TailType.DRACONIC)) {
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.DRACONIC), false)) {
             DisplayText("  A thin, scaly, prehensile reptilian tail, almost as long as you are tall, swings behind you like a living bullwhip.  Its tip menaces with spikes of bone, meant to deliver painful blows.");
         }
         // appearance
-        else if (player.torso.tails.hasType(TailType.RACCOON)) {
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false)) {
             DisplayText("  A black-and-" + player.torso.neck.head.hair.color + "-ringed raccoon tail waves behind you.");
         }
-        else if (player.torso.tails.hasType(TailType.MOUSE)) {
+        else if (player.torso.tails.reduce(Tail.HasType(TailType.MOUSE), false)) {
             // appearance
             DisplayText("  A naked, " + player.skin.tone + " mouse tail pokes from your butt, dragging on the ground and twitching occasionally.");
         }

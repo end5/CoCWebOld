@@ -1,7 +1,5 @@
 import CharacterHolder from './CharacterHolder';
-import { DefeatType } from './DefeatEvent';
 import Party from './Party';
-import Character from '../Character/Character';
 
 export default abstract class PartyEndScenes extends CharacterHolder {
     /**

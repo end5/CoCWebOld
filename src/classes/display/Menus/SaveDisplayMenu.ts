@@ -1,5 +1,4 @@
 import Menu from './Menu';
-import Menus from './Menus';
 import { Gender } from '../../Body/Creature';
 import Player from '../../Player/Player';
 import SaveFile from '../../SaveFile';

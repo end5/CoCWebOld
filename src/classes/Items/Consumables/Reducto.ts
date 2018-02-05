@@ -12,7 +12,6 @@ import { ClickFunction } from '../../display/Elements/ButtonElement';
 import InventoryDisplay from '../../display/InventoryDisplay';
 import MainScreen from '../../display/MainScreen';
 import Menus from '../../display/Menus/Menus';
-import PlayerInventoryMenu from '../../display/Menus/PlayerInventoryMenu';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
 import { Utils } from '../../Utilities/Utils';
@@ -93,11 +92,11 @@ export default class Reducto extends Consumable {
     private reductoClit(player: Player): void {
         DisplayText().clear();
         const vagina = player.torso.vaginas.get(0);
-        DisplayText("You carefully apply the paste to your " + VaginaDescriptor.describeClit(player, vagina) + ", being very careful to avoid getting it on your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  It burns with heat as it begins to make its effects known...\n\n");
+        DisplayText("You carefully apply the paste to your " + VaginaDescriptor.describeClit(player) + ", being very careful to avoid getting it on your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  It burns with heat as it begins to make its effects known...\n\n");
         player.torso.clit.length /= 1.7;
         // Set clitlength down to 2 digits in length
         player.torso.clit.length = Math.floor(player.torso.clit.length * 100) / 100;
-        DisplayText("Your " + VaginaDescriptor.describeClit(player, vagina) + " shrinks rapidly, dwindling down to almost half its old size before it finishes absorbing the paste.");
+        DisplayText("Your " + VaginaDescriptor.describeClit(player) + " shrinks rapidly, dwindling down to almost half its old size before it finishes absorbing the paste.");
         player.stats.sens += 2;
         player.stats.lust += 10;
         MainScreen.doNext(Menus.Inventory.display);

@@ -9,7 +9,6 @@ import Vagina from './Vagina';
 import { WingType } from './Wings';
 import PerkList from '../Effects/PerkList';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import StatusAffectList from '../Effects/StatusAffectList';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import ISerializable from '../Utilities/ISerializable';

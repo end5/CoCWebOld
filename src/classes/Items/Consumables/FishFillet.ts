@@ -4,7 +4,6 @@ import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class FishFillet extends Consumable {

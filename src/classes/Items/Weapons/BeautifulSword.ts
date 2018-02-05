@@ -1,6 +1,5 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
-import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';

@@ -1,7 +1,6 @@
 import ScreenElement from './ScreenElement';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
-import Utils from '../../Utilities/Utils';
 
 export type ClickFunction = (player: Player, event?: Event, prevMenu?: ClickFunction) => void;
 

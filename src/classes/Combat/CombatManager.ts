@@ -3,8 +3,6 @@ import Party from './Party';
 import Character from '../Character/Character';
 import MainScreen, { TopButton } from '../display/MainScreen';
 import Menus from '../display/Menus/Menus';
-import { CombatAbilityFlag } from '../Effects/CombatAbilityFlag';
-import CombatEffectFactory from '../Effects/CombatEffectFactory';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import Game from '../Game/Game';
 import Player from '../Player/Player';

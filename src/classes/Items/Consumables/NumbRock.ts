@@ -5,9 +5,7 @@ import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Player from '../../Player/Player';
 import { Utils } from '../../Utilities/Utils';
@@ -39,7 +37,7 @@ export default class NumbRock extends Consumable {
                     if (player.torso.cocks.count <= 0) DisplayText("your ");
                     DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " ");
                 }
-                if (!(player.torso.cocks.count > 0 || player.torso.vaginas.count > 0)) DisplayText(ButtDescriptor.describeButthole(player) + " ");
+                if (!(player.torso.cocks.count > 0 || player.torso.vaginas.count > 0)) DisplayText(ButtDescriptor.describeButthole(player.torso.butt) + " ");
                 DisplayText(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
                 player.statusAffects.add(StatusAffectType.Dysfunction, 50 + Utils.rand(100), 0, 0, 0);
             }

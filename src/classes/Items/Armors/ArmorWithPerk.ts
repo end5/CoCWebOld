@@ -2,8 +2,6 @@ import Armor, { ArmorClass } from './Armor';
 import ArmorName from './ArmorName';
 import Character from '../../Character/Character';
 import Perk from '../../Effects/Perk';
-import PerkFactory from '../../Effects/PerkFactory';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class ArmorWithPerk extends Armor {
@@ -17,7 +15,7 @@ export default class ArmorWithPerk extends Armor {
     public onEquip(character: Character): void {
         while (character.perks.has(this.perk.type))
             character.perks.remove(this.perk.type);
-        character.perks.set(this.perk.type, PerkFactory.copy(this.perk));
+        character.perks.add(this.perk.type, this.perk.value1, this.perk.value2, this.perk.value3, this.perk.value4);
     }
 
     public onUnequip(character: Character): void {

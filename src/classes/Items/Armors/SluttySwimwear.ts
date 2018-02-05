@@ -7,7 +7,6 @@ import CockDescriptor from '../../Descriptors/CockDescriptor';
 import DisplayText from '../../display/DisplayText';
 import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import Game from '../../Game/Game';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 

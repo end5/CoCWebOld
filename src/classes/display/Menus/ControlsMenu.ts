@@ -4,7 +4,7 @@ import BindableAction from '../../Input/BindableAction';
 import InputManager from '../../Input/InputManager';
 import Player from '../../Player/Player';
 import DisplayText from '../DisplayText';
-import ButtonElement, { ClickFunction } from '../Elements/ButtonElement';
+import ButtonElement from '../Elements/ButtonElement';
 import ListItemElement from '../Elements/ListItemElement';
 import UnorderedListElement from '../Elements/UnorderedListElement';
 import MainScreen from '../MainScreen';

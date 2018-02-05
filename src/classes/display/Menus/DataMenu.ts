@@ -1,14 +1,9 @@
-import DeleteMenu from './DeleteMenu';
-import LoadMenu from './LoadMenu';
 import Menu from './Menu';
 import Menus from './Menus';
-import SaveMenu from './SaveMenu';
 import Game, { GameState } from '../../Game/Game';
 import Player from '../../Player/Player';
 import SaveManager from '../../SaveManager';
 import DisplayText from '../DisplayText';
-import InputFileElement from '../Elements/InputFileElement';
-import TextAreaElement from '../Elements/TextAreaElement';
 import MainScreen from '../MainScreen';
 
 export default class DataMenu implements Menu {

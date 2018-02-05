@@ -1,4 +1,3 @@
-import DataMenu from './DataMenu';
 import Menus from './Menus';
 import SaveDisplayMenu from './SaveDisplayMenu';
 import Flags, { FlagEnum } from '../../Game/Flags';

@@ -2,7 +2,6 @@
 import Character from '../Character/Character';
 import ButtDescriptor from '../Descriptors/ButtDescriptor';
 import DisplayText from '../display/DisplayText';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Utils } from '../Utilities/Utils';
 

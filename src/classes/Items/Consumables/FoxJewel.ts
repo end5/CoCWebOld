@@ -9,10 +9,7 @@ import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import SkinDescriptor from '../../Descriptors/SkinDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import StatusAffect from '../../Effects/StatusAffect';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
 import BodyModifier from '../../Modifiers/BodyModifier';
@@ -155,7 +152,7 @@ export default class FoxJewel extends Consumable {
         // BIG APPEARANCE CHANGES
         // **********************
         // [Grow Fox Tail]
-        if (!player.torso.tails.hasType(TailType.FOX) && changes < changeLimit && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0))) {
+        if (!player.torso.tails.reduce(Tail.HasType(TailType.FOX), false) && changes < changeLimit && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0))) {
             // if PC has no tail
             if (player.torso.tails.count >= 1) {
                 DisplayText("\n\nA pressure builds on your backside.  You feel under your " + player.inventory.equipment.armor.displayName + " and discover a strange nodule growing there that seems to be getting larger by the second.  With a sudden flourish of movement, it bursts out into a long and bushy tail that sways hypnotically, as if it has a mind of its own.  <b>You now have a fox-tail.</b>");
@@ -169,7 +166,7 @@ export default class FoxJewel extends Consumable {
             player.torso.tails.add(newTail);
             changes++;
         }
-        const foxTailCount = player.torso.tails.filterType(TailType.FOX).length;
+        const foxTailCount = player.torso.tails.filter(Tail.Type(TailType.FOX)).length;
         if (!this.mystic && player.torso.neck.head.ears.type === EarType.FOX && foxTailCount === 8 && Utils.rand(3) === 0) {
             DisplayText("\n\nYou have the feeling that if you could grow a ninth tail you would be much more powerful, but you would need to find a way to enhance one of these gems or meditate with one to have a chance at unlocking your full potential.");
         }
@@ -217,7 +214,7 @@ export default class FoxJewel extends Consumable {
         }
 
         // [Grow Fox Ears]
-        if (player.torso.tails.hasType(TailType.FOX) && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit) {
+        if (player.torso.tails.reduce(Tail.HasType(TailType.FOX), false) && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(4) === 0)) && player.torso.neck.head.ears.type !== EarType.FOX && changes < changeLimit) {
             // if PC has non-animal ears
             if (player.torso.neck.head.ears.type === EarType.HUMAN) DisplayText("\n\nThe sides of your face painfully stretch as your ears morph and begin to migrate up past your hairline, toward the top of your head.  They elongate, becoming large vulpine triangles covered in bushy fur.  You now have fox ears.");
             // if PC has animal ears

@@ -31,6 +31,5 @@ export default class WingStick extends Consumable {
             Game.monster.combat.stats.loseHP(damage, player);
             if (Game.monster.stats.HP < 0) Game.monster.stats.HP = 0;
         }
-        return (false);
     }
 }

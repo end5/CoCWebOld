@@ -2,7 +2,6 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class PurityPeach extends Consumable {

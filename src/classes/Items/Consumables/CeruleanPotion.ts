@@ -2,7 +2,6 @@ import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import { Gender } from '../../Body/Creature';
 import DisplayText from '../../display/DisplayText';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Player from '../../Player/Player';

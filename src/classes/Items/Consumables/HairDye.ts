@@ -3,7 +3,6 @@ import ConsumableName from './ConsumableName';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export enum HairDyeType {

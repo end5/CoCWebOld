@@ -14,7 +14,7 @@ export default class GameOverMenu implements Menu {
     /*
     public gameOver(clear: boolean = false): void { //Leaves text on screen unless clear is set to true
         if (testingBlockExiting) {
-            DisplayText.doNext(camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
+            DisplayText.doNext(Game.camp.returnToCampUseOneHour); //Prevent ChaosMonkah instances from getting stuck
         }
         else {
             if (clear) DisplayText().clear();

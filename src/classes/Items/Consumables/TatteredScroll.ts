@@ -1,13 +1,14 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
+import DisplaySprite from '../../display/DisplaySprite';
 import DisplayText from '../../display/DisplayText';
+import SpriteName from '../../display/Images/SpriteName';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class TatteredScroll extends Consumable {
@@ -98,7 +99,7 @@ export default class TatteredScroll extends Consumable {
         }
         if (!Game.inCombat) {
             // RAEP
-            spriteSelect(50);
+            DisplaySprite(SpriteName.Sandwich);
             DisplayText("\n\nYou hear the soft impact of clothes hitting the ground behind you, and turn to see that the sand witch has found you! You cannot resist a peek at your uninvited guest, beholding a curvy dark-skinned beauty, her form dominated by a quartet of lactating breasts.  Somewhere in your lust-fogged mind you register the top two as something close to double-Ds, and her lower pair to be about Cs.  She smiles and leans over you, pushing you to the ground violently.\n\nShe turns around and drops, planting her slick honey-pot firmly against your mouth.  Her scent is strong, overpowering in its intensity.  Your tongue darts out for a taste and finds a treasure trove of sticky sweetness.  Instinctively you tongue-fuck her, greedily devouring her cunny-juice, shoving your tongue in as far as possible while suckling her clit.  Dimly you feel the milk spattering over you, splashing off you and into the cracked earth.  Everywhere the milk touches feels silky smooth and sensitive, and your hands begin stroking your body, rubbing it in as the witch sprays more and more of it.  You lose track of time, orgasming many times, slick and sticky with sexual fluids.");
             player.orgasm();
             player.stats.lib += 1;

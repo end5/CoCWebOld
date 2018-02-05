@@ -1,7 +1,6 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import Dictionary from '../../Utilities/Dictionary';
-import { Utils } from '../../Utilities/Utils';
 import Consumables, { CaninePepperType, EggType, HairDyeType } from '.';
 
 export default class ConsumableLib extends Dictionary<Consumable> {

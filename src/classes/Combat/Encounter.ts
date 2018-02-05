@@ -7,9 +7,7 @@ import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import MainScreen from '../display/MainScreen';
 import Menus from '../display/Menus/Menus';
-import StatusAffect from '../Effects/StatusAffect';
 import Player from '../Player/Player';
-import Utils from '../Utilities/Utils';
 
 export default class Encounter {
     private player: Player;

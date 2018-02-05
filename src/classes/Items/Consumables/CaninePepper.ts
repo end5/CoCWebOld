@@ -13,11 +13,10 @@ import Character from '../../Character/Character';
 import BallsDescriptor from '../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../Descriptors/BreastDescriptor';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { PerkType } from '../../Effects/PerkType';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
 import BodyModifier from '../../Modifiers/BodyModifier';
@@ -129,13 +128,13 @@ export default class CaninePepper extends Consumable {
 
     private doublePepperTF(character: Character) {
         // If already doubled up, GROWTH
-        if (character.torso.cocks.filterType(CockType.DOG).length >= 2) {
+        if (character.torso.cocks.filter(Cock.Type(CockType.DOG)).length >= 2) {
             this.pepperType = 1;
         }
         // If character doesnt have 2 dogdicks
         else {
             // If character has NO dogdicks
-            if (character.torso.cocks.filterType(CockType.DOG).length === 0) {
+            if (character.torso.cocks.filter(Cock.Type(CockType.DOG)).length === 0) {
                 // Dickless - grow two dogpeckers
                 if (character.torso.cocks.count === 0) {
                     character.torso.cocks.add(new Cock(7 + Utils.rand(7), 1.5 + Utils.rand(10) / 10));
@@ -208,8 +207,8 @@ export default class CaninePepper extends Consumable {
         // Cocks only!
         if (cocks.count > 0) {
             // biggify knots
-            if (cocks.filterType(CockType.DOG).length > 0) {
-                const smallestKnottedDogCock = character.torso.cocks.filterType(CockType.DOG).sort(Cock.SmallestKnot)[0];
+            if (cocks.filter(Cock.Type(CockType.DOG)).length > 0) {
+                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.Type(CockType.DOG)).sort(Cock.SmallestKnot)[0];
 
                 let knotGrowth: number = (Utils.rand(2) + 5) / 20 * crit;
                 if (smallestKnottedDogCock.knotMultiplier >= 1.5) knotGrowth /= 2;
@@ -280,11 +279,11 @@ export default class CaninePepper extends Consumable {
         // OVERDOSE Bad End!
         this.overdoseBadEnd(character, crit);
         // WARNING, overdose VERY close!
-        if (this.pepperType <= 0 && character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.DOG && character.torso.tails.hasType(TailType.DOG) && character.torso.neck.head.ears.type === EarType.DOG && character.torso.hips.legs.type === LegType.DOG && character.statusAffects.has(StatusAffectType.DogWarning) && Utils.rand(3) === 0) {
+        if (this.pepperType <= 0 && character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.DOG && character.torso.tails.reduce(Tail.HasType(TailType.DOG), false) && character.torso.neck.head.ears.type === EarType.DOG && character.torso.hips.legs.type === LegType.DOG && character.statusAffects.has(StatusAffectType.DogWarning) && Utils.rand(3) === 0) {
             DisplayText("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
         // WARNING, overdose is close!
-        if (this.pepperType <= 0 && character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.DOG && character.torso.tails.hasType(TailType.DOG) && character.torso.neck.head.ears.type === EarType.DOG && character.torso.hips.legs.type === LegType.DOG && !character.statusAffects.has(StatusAffectType.DogWarning)) {
+        if (this.pepperType <= 0 && character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.DOG && character.torso.tails.reduce(Tail.HasType(TailType.DOG), false) && character.torso.neck.head.ears.type === EarType.DOG && character.torso.hips.legs.type === LegType.DOG && !character.statusAffects.has(StatusAffectType.DogWarning)) {
             character.statusAffects.add(StatusAffectType.DogWarning, 0, 0, 0, 0);
             DisplayText("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
@@ -359,10 +358,10 @@ export default class CaninePepper extends Consumable {
         if (cocks.count > 0) {
             // Grow knot on smallest knotted dog cock
             if (this.pepperType !== CaninePepperType.Knotty &&
-                cocks.filterType(CockType.DOG).length > 0 &&
+                cocks.filter(Cock.Type(CockType.DOG)).length > 0 &&
                 ((changes < changeLimit && Utils.rand(1.4) === 0) || this.pepperType === CaninePepperType.Oversized)) {
 
-                const smallestKnottedDogCock = character.torso.cocks.filterType(CockType.DOG).sort(Cock.SmallestKnot)[0];
+                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.Type(CockType.DOG)).sort(Cock.SmallestKnot)[0];
                 // Have smallest knotted cock selected.
                 let growth: number = (Utils.rand(2) + 1) / 20 * crit;
                 if (smallestKnottedDogCock.knotMultiplier >= 1.5) growth /= 2;
@@ -377,7 +376,7 @@ export default class CaninePepper extends Consumable {
                 changes++;
             }
             // Cock Xform if character has free cocks.
-            if (cocks.filterType(CockType.DOG).length < cocks.count &&
+            if (cocks.filter(Cock.Type(CockType.DOG)).length < cocks.count &&
                 ((changes < changeLimit && Utils.rand(1.6)) || this.pepperType === CaninePepperType.Oversized) === 0) {
                 // Select first not dog cock
                 let firstNotDogCock: Cock = null;
@@ -709,7 +708,7 @@ export default class CaninePepper extends Consumable {
         }
         // Become furred - requires paws and tail
         if (Utils.rand(4) === 0 && changes < changeLimit &&
-            character.torso.hips.legs.type === LegType.DOG && character.torso.tails.hasType(TailType.DOG) &&
+            character.torso.hips.legs.type === LegType.DOG && character.torso.tails.reduce(Tail.HasType(TailType.DOG), false) &&
             character.skin.type !== SkinType.FUR) {
             if (character.skin.type === SkinType.PLAIN) DisplayText("\n\nYour skin itches intensely.  You gaze down as more and more hairs break forth from your skin, quickly transforming into a soft coat of fur.  <b>You are now covered in " + character.torso.neck.head.hair.color + " fur from head to toe.</b>");
             if (character.skin.type === SkinType.SCALES) DisplayText("\n\nYour scales itch incessantly.  You scratch, feeling them flake off to reveal a coat of " + character.torso.neck.head.hair.color + " fur growing out from below!  <b>You are now covered in " + character.torso.neck.head.hair.color + " fur from head to toe.</b>");
@@ -718,7 +717,7 @@ export default class CaninePepper extends Consumable {
             changes++;
         }
         // Change to paws - requires tail and ears
-        if (Utils.rand(3) === 0 && character.torso.hips.legs.type !== LegType.DOG && character.torso.tails.hasType(TailType.DOG) && character.torso.neck.head.ears.type === EarType.DOG && changes < changeLimit) {
+        if (Utils.rand(3) === 0 && character.torso.hips.legs.type !== LegType.DOG && character.torso.tails.reduce(Tail.HasType(TailType.DOG), false) && character.torso.neck.head.ears.type === EarType.DOG && changes < changeLimit) {
             // Feet -> paws
             if (character.torso.hips.legs.type === LegType.HUMAN) DisplayText("\n\nYou scream in agony as you feel the bones in your feet break and begin to rearrange. <b>You now have paws</b>.");
             // Hooves -> Paws
@@ -728,7 +727,7 @@ export default class CaninePepper extends Consumable {
             changes++;
         }
         // Change to dog-ears!  Requires dog-tail
-        if (Utils.rand(2) === 0 && character.torso.neck.head.ears.type !== EarType.DOG && character.torso.tails.hasType(TailType.DOG) && changes < changeLimit) {
+        if (Utils.rand(2) === 0 && character.torso.neck.head.ears.type !== EarType.DOG && character.torso.tails.reduce(Tail.HasType(TailType.DOG), false) && changes < changeLimit) {
             if (character.torso.neck.head.ears.type === -1) DisplayText("\n\nTwo painful nubs begin sprouting from your head, growing and opening into canine ears.  ");
             if (character.torso.neck.head.ears.type === EarType.HUMAN) DisplayText("\n\nThe skin on the sides of your face stretches painfully as your ears migrate upwards, towards the top of your head.  They shift and elongate, becoming canine in nature.  ");
             if (character.torso.neck.head.ears.type === EarType.HORSE) DisplayText("\n\nYour equine ears twist as they transform into canine versions.  ");
@@ -741,10 +740,10 @@ export default class CaninePepper extends Consumable {
         // Grow tail if not dog-tailed
         if (Utils.rand(3) === 0 && changes < changeLimit && character.torso.tails.get(0).type !== TailType.DOG) {
             if (character.torso.tails.count === 0) DisplayText("\n\nA pressure builds on your backside.  You feel under your clothes and discover an odd bump that seems to be growing larger by the moment.  In seconds it passes between your fingers, bursts out the back of your clothes, and grows most of the way to the ground.  A thick coat of fur springs up to cover your new tail.  ");
-            if (character.torso.tails.hasType(TailType.HORSE)) DisplayText("\n\nYou feel a tightness in your rump, matched by the tightness with which the strands of your tail clump together.  In seconds they fuse into a single tail, rapidly sprouting thick fur.  ");
-            if (character.torso.tails.hasType(TailType.DEMONIC)) DisplayText("\n\nThe tip of your tail feels strange.  As you pull it around to check on it, the spaded tip disappears, quickly replaced by a thick coat of fur over the entire surface of your tail.  ");
+            if (character.torso.tails.reduce(Tail.HasType(TailType.HORSE), false)) DisplayText("\n\nYou feel a tightness in your rump, matched by the tightness with which the strands of your tail clump together.  In seconds they fuse into a single tail, rapidly sprouting thick fur.  ");
+            if (character.torso.tails.reduce(Tail.HasType(TailType.DEMONIC), false)) DisplayText("\n\nThe tip of your tail feels strange.  As you pull it around to check on it, the spaded tip disappears, quickly replaced by a thick coat of fur over the entire surface of your tail.  ");
             // Generic message for now
-            if (character.torso.tails.hasType(TailType.COW)) DisplayText("\n\nYou feel your backside shift and change, flesh molding and displacing into a long puffy tail!  ");
+            if (character.torso.tails.reduce(Tail.HasType(TailType.COW), false)) DisplayText("\n\nYou feel your backside shift and change, flesh molding and displacing into a long puffy tail!  ");
             changes++;
             character.torso.tails.clear();
             const newTail = new Tail();

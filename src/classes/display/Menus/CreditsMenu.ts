@@ -1,4 +1,3 @@
-import MainMenu from './MainMenu';
 import Menus from './Menus';
 import DisplayText from '../DisplayText';
 import MainScreen from '../MainScreen';

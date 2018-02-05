@@ -1,4 +1,3 @@
-import ItemDesc from './ItemDesc';
 import ValueContainer from '../Utilities/ValueContainer';
 
 export interface KeyItemSaveObject extends ValueContainer {

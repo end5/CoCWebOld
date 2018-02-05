@@ -4,7 +4,6 @@ import BreastRow from '../../Body/BreastRow';
 import DisplayText from '../../display/DisplayText';
 import BreastModifier from '../../Modifiers/BreastModifier';
 import Player from '../../Player/Player';
-import { Utils } from '../../Utilities/Utils';
 import ItemDesc from '../ItemDesc';
 
 export default class PurpleFruit extends Consumable {

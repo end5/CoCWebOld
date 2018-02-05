@@ -3,7 +3,6 @@ import Character from '../Character/Character';
 import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
 import DisplayText from '../display/DisplayText';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Utils } from '../Utilities/Utils';
 

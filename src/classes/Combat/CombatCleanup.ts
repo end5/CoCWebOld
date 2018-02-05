@@ -1,9 +1,5 @@
 import Character from '../Character/Character';
-import DisplayText from '../display/DisplayText';
-import StatusAffect from '../Effects/StatusAffect';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import Flags, { FlagEnum } from '../Game/Flags';
-import Game from '../Game/Game';
 import Player from '../Player/Player';
 
 export default class CombatCleanup {

@@ -124,7 +124,7 @@ export default class VaginaDescriptor {
                 description += "bitch-";
             }
             /*Horse descriptors - 50%
-                if(creature.skinType == SkinType.FUR && !descripted && Utils.chance(50)) {
+                if(creature.skin.type == SkinType.FUR && !descripted && Utils.chance(50)) {
                 descripted = true;
                 descript += "mare-";
                 }*/

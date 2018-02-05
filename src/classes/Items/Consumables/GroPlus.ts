@@ -74,7 +74,7 @@ export default class GroPlus extends Consumable {
         player.slimeFeed();
         DisplayText("You sink the needle into your clit, nearly crying with how much it hurts.  You push down the plunger and the pain vanishes as your clit starts to grow.\n\n");
         player.torso.clit.length++;
-        DisplayText("Your " + VaginaDescriptor.describeClit(player, player.torso.vaginas.get(0)) + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
+        DisplayText("Your " + VaginaDescriptor.describeClit(player) + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
 
         player.stats.sens += 2;
         player.stats.lust += 10;

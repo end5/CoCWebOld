@@ -1,7 +1,6 @@
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import DisplayText from '../display/DisplayText';
-import InventoryDisplay from '../display/InventoryDisplay';
 import Menus from '../display/Menus/Menus';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
@@ -12,7 +11,6 @@ import ConsumableName from '../Items/Consumables/ConsumableName';
 import Item from '../Items/Item';
 import ItemFactory from '../Items/ItemFactory';
 import ItemType from '../Items/ItemType';
-import CockSock from '../Items/Misc/CockSock';
 import CockSockName from '../Items/Misc/CockSockName';
 import WeaponName from '../Items/Weapons/WeaponName';
 import Player from '../Player/Player';

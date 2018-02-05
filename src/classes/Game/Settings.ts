@@ -1,6 +1,6 @@
-import { SerializeInterface } from '../SerializeInterface';
+import ISerializable from '../Utilities/ISerializable';
 
-export default class Settings implements SerializeInterface {
+export default class Settings implements ISerializable {
     public customFontSize: number = 10;
     public lowStandards: boolean = false;
     public hyperHappy: boolean = false;

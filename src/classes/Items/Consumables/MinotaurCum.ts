@@ -44,7 +44,7 @@ export default class MinotaurCum extends Consumable {
         }
         if (player.torso.vaginas.count > 0) {
             const vagina: Vagina = player.torso.vaginas.get(0);
-            DisplayText("  Your " + VaginaDescriptor.describeClit(player, vagina) + " engorges, ");
+            DisplayText("  Your " + VaginaDescriptor.describeClit(player) + " engorges, ");
             if (player.torso.clit.length < 3) DisplayText("parting your lips.");
             else DisplayText("bursting free of your lips and bobbing under its own weight.");
             if (vagina.wetness <= VaginaWetness.NORMAL) DisplayText("  Wetness builds inside you as your " + VaginaDescriptor.describeVagina(player, vagina) + " tingles and aches to be filled.");

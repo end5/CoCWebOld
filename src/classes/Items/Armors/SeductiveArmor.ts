@@ -7,9 +7,7 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
-import ItemFactory from '../ItemFactory';
-import ItemType from '../ItemType';
-import Piercing from '../Misc/Piercing';
+import Piercing, { PiercingType } from '../Misc/Piercing';
 
 export default class SeductiveArmor extends Armor {
     public constructor() {
@@ -17,11 +15,9 @@ export default class SeductiveArmor extends Armor {
     }
 
     public hasNipplePiercing(player: Player): boolean {
-        for (const breastRow of player.inventory.equipment.piercings.nipples)
-            for (const nipple of breastRow) {
-                if (nipple.isEquipped())
-                    return true;
-            }
+        for (const nipple of player.inventory.equipment.piercings.nipples)
+            if (nipple.isEquipped())
+                return true;
         return false;
     }
 
@@ -33,10 +29,8 @@ export default class SeductiveArmor extends Armor {
             const hasNipplePiercing = this.hasNipplePiercing(player);
             if (hasNipplePiercing)
                 DisplayText("You're left to wonder - where did the old piercings go?\n\n");
-            for (const breastRow of player.inventory.equipment.piercings.nipples)
-                for (const nipple of breastRow) {
-                    nipple.equip(new Piercing("seamless black nipple-studs", "Seamless black nipple-studs"));
-                }
+            for (const nipple of player.inventory.equipment.piercings.nipples)
+                nipple.equip(new Piercing(PiercingType.Stud, "seamless black nipple-studs", "Seamless black nipple-studs"));
             Flags.list[FlagEnum.PC_FETISH] = 2;
         }
         else {

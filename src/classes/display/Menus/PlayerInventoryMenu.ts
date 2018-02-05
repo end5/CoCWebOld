@@ -5,8 +5,6 @@ import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Inventory from '../../Inventory/Inventory';
 import Item from '../../Items/Item';
-import ItemFactory from '../../Items/ItemFactory';
-import WeaponLib from '../../Items/Weapons/WeaponLib';
 import WeaponName from '../../Items/Weapons/WeaponName';
 import Player from '../../Player/Player';
 import DisplaySprite from '../DisplaySprite';

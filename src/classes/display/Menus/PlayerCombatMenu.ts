@@ -1,13 +1,8 @@
 import Menu from './Menu';
-import TargetSelectMenu from './TargetSelectMenu';
-import Character from '../../Character/Character';
 import CombatAction from '../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
-import Flags, { FlagEnum } from '../../Game/Flags';
-import Game from '../../Game/Game';
 import Player from '../../Player/Player';
-import DisplayText from '../DisplayText';
-import MainScreen, { TopButton } from '../MainScreen';
+import MainScreen from '../MainScreen';
 
 export default class PlayerCombatMenu implements Menu {
     public display(player: Player) {

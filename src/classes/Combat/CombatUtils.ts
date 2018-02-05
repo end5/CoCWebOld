@@ -250,7 +250,7 @@ export default class CombatUtils {
             // High
             else if (monster.stats.lust > 30) {
                 // High (redhead only)
-                if (monster.hairColor === "red") DisplayText("The kitsune is openly aroused, unable to hide the obvious bulge in her robes as she seems to be struggling not to stroke it right here and now.");
+                if (monster.hair.color === "red") DisplayText("The kitsune is openly aroused, unable to hide the obvious bulge in her robes as she seems to be struggling not to stroke it right here and now.");
                 else DisplayText("The kitsune is openly aroused, licking her lips frequently and desperately trying to hide the trail of fluids dripping down her leg.");
             }
         }
@@ -319,7 +319,7 @@ export default class CombatUtils {
         if (player.inRut && monster.totalCocks() > 0) {
             DisplayText("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!", true);
             // Pass false to combatMenu instead:		menuLoc = 3;
-            // 		doNext(combatMenu);
+            // 		MainScreen.doNext(combatMenu);
             menu();
             DisplayText.addButton(0, "Next", combatMenu);
             return;
@@ -329,13 +329,13 @@ export default class CombatUtils {
             DisplayText("You flex the muscles in your back and, shaking clear of the sand, burst into the air!  Wasting no time you fly free of the sandtrap and its treacherous pit.  \"One day your wings will fall off, little ant,\" the snarling voice of the thwarted androgyne carries up to you as you make your escape.  \"And I will be waiting for you when they do!\"");
             inCombat = false;
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }
         if (monster.statusAffects.has(StatusAffectType.GenericRunDisabled) || urtaQuest.isUrta()) {
             DisplayText("You can't escape from this fight!");
             // Pass false to combatMenu instead:		menuLoc = 3;
-            // 		doNext(combatMenu);
+            // 		MainScreen.doNext(combatMenu);
             menu();
             DisplayText.addButton(0, "Next", combatMenu);
             return;
@@ -343,7 +343,7 @@ export default class CombatUtils {
         if (monster.statusAffects.has(StatusAffectType.Level) && monster.statusAffects.get(StatusAffectType.Level).value1 < 4) {
             DisplayText("You're too deeply mired to escape!  You'll have to <b>climb</b> some first!");
             // Pass false to combatMenu instead:		menuLoc = 3;
-            // 		doNext(combatMenu);
+            // 		MainScreen.doNext(combatMenu);
             menu();
             DisplayText.addButton(0, "Next", combatMenu);
             return;
@@ -351,7 +351,7 @@ export default class CombatUtils {
         if (monster.statusAffects.has(StatusAffectType.RunDisabled)) {
             DisplayText("You'd like to run, but you can't scale the walls of the pit with so many demonic hands pulling you down!");
             // Pass false to combatMenu instead:		menuLoc = 3;
-            // 		doNext(combatMenu);
+            // 		MainScreen.doNext(combatMenu);
             menu();
             DisplayText.addButton(0, "Next", combatMenu);
             return;
@@ -362,13 +362,13 @@ export default class CombatUtils {
             DisplayText("You slink away while the pack of brutes is arguing.  Once they finish that argument, they'll be sorely disappointed!", true);
             inCombat = false;
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }
         else if (monster.desc.short === "minotaur tribe" && monster.stats.HPRatio() >= 0.75) {
             DisplayText("There's too many of them surrounding you to run!", true);
             // Pass false to combatMenu instead:		menuLoc = 3;
-            // 		doNext(combatMenu);
+            // 		MainScreen.doNext(combatMenu);
             menu();
             DisplayText.addButton(0, "Next", combatMenu);
             return;
@@ -403,14 +403,14 @@ export default class CombatUtils {
         let escapeMod: number = 20 + monster.level * 3;
         if (debug) escapeMod -= 300;
         if (player.canFly()) escapeMod -= 20;
-        if (player.torso.tailType === TailType.RACCOON && player.upperBody.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) escapeMod -= 25;
+        if (player.torso.tailType === TailType.RACCOON && player.torso.neck.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) escapeMod -= 25;
 
         // Big tits doesn't matter as much if ya can fly!
         else {
-            if (player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35) escapeMod += 5;
-            if (player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 66) escapeMod += 10;
+            if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35) escapeMod += 5;
+            if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 66) escapeMod += 10;
             if (player.torso.hipRating >= 20) escapeMod += 5;
-            if (player.torso.butt.buttRating >= 20) escapeMod += 5;
+            if (player.torso.butt.rating >= 20) escapeMod += 5;
             if (player.torso.balls.size >= 24 && player.torso.balls.quantity > 0) escapeMod += 5;
             if (player.torso.balls.size >= 48 && player.torso.balls.quantity > 0) escapeMod += 10;
             if (player.torso.balls.size >= 120 && player.torso.balls.quantity > 0) escapeMod += 10;
@@ -422,17 +422,17 @@ export default class CombatUtils {
                 DisplayText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.", true);
                 inCombat = false;
                 clearStatuses(false);
-                doNext(camp.returnToCampUseOneHour);
+                MainScreen.doNext(Game.camp.returnToCampUseOneHour);
                 return;
             }
             // Speed dependent
             else {
                 // Success
-                if (player.stats.spe > rand(monster.stats.spe + escapeMod)) {
+                if (player.stats.spe > Utils.rand(monster.stats.spe + escapeMod)) {
                     inCombat = false;
                     clearStatuses(false);
                     DisplayText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.", true);
-                    doNext(camp.returnToCampUseOneHour);
+                    MainScreen.doNext(Game.camp.returnToCampUseOneHour);
                     return;
                 }
                 // Run failed:
@@ -448,14 +448,14 @@ export default class CombatUtils {
         // Ember is SPUCIAL
         if (monster.desc.short === "Ember") {
             // GET AWAY
-            if (player.stats.spe > rand(monster.stats.spe + escapeMod) || (player.perks.has(PerkType.Runner) && rand(100) < 50)) {
+            if (player.stats.spe > Utils.rand(monster.stats.spe + escapeMod) || (player.perks.has(PerkType.Runner) && Utils.rand(100) < 50)) {
                 if (player.perks.has(PerkType.Runner)) DisplayText("Using your skill at running, y");
                 else DisplayText("Y");
                 DisplayText("ou easily outpace the dragon, who begins hurling imprecations at you.  \"What the hell, [name], you weenie; are you so scared that you can't even stick out your punishment?\"");
                 DisplayText("\n\nNot to be outdone, you call back, \"Sucks to you!  If even the mighty Last Ember of Hope can't catch me, why do I need to train?  Later, little bird!\"");
                 inCombat = false;
                 clearStatuses(false);
-                doNext(camp.returnToCampUseOneHour);
+                MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             }
             // Fail:
             else {
@@ -465,11 +465,11 @@ export default class CombatUtils {
             return;
         }
         // SUCCESSFUL FLEE
-        if (player.stats.spe > rand(monster.stats.spe + escapeMod)) {
+        if (player.stats.spe > Utils.rand(monster.stats.spe + escapeMod)) {
             // Fliers flee!
             if (player.canFly()) DisplayText(monster.desc.capitalA + monster.desc.short + " can't catch you.");
             // sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
-            else if (player.torso.tailType === TailType.RACCOON && player.upperBody.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) {
+            else if (player.torso.tailType === TailType.RACCOON && player.torso.neck.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) {
                 DisplayText("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.desc.subjectivePronoun + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + monster.desc.objectivePronoun + " behind with your clumsy, jerky, short-range flight.");
             }
             // Non-fliers flee
@@ -479,18 +479,18 @@ export default class CombatUtils {
             }
             inCombat = false;
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }
         // Runner perk chance
-        else if (player.perks.has(PerkType.Runner) && rand(100) < 50) {
+        else if (player.perks.has(PerkType.Runner) && Utils.rand(100) < 50) {
             inCombat = false;
             DisplayText("Thanks to your talent for running, you manage to escape.");
             if (monster.desc.short === "Izma") {
                 DisplayText("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.");
             }
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }
         // FAIL FLEE
@@ -505,7 +505,7 @@ export default class CombatUtils {
                 else DisplayText(monster.desc.capitalA + monster.desc.short + " manages to grab your " + LowerBodyDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!");
             }
             // fail
-            else if (player.torso.tailType === TailType.RACCOON && player.upperBody.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) DisplayText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
+            else if (player.torso.tailType === TailType.RACCOON && player.torso.neck.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) DisplayText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
             // Nonflyer messages
             else {
                 // Huge balls messages
@@ -514,35 +514,35 @@ export default class CombatUtils {
                     else DisplayText("With your " + BallsDescriptor.describeBalls(true, true, player) + " dragging along the ground, getting away is far harder than it should be.  ");
                 }
                 // FATASS BODY MESSAGES
-                if (player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 || player.torso.butt.buttRating >= 20 || player.torso.hipRating >= 20) {
+                if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 || player.torso.butt.rating >= 20 || player.torso.hipRating >= 20) {
                     // FOR PLAYERS WITH GIANT BREASTS
-                    if (player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 && player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 66) {
+                    if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 66) {
                         if (player.torso.hipRating >= 20) {
-                            DisplayText("Your " + LowerBodyDescriptor.describeHips(player) + " forces your gait to lurch slightly side to side, which causes the fat of your " + player.skinTone + " ");
-                            if (player.torso.butt.buttRating >= 20) DisplayText(ButtDescriptor.describeButt(player) + " and ");
+                            DisplayText("Your " + LowerBodyDescriptor.describeHips(player) + " forces your gait to lurch slightly side to side, which causes the fat of your " + player.skin.tone + " ");
+                            if (player.torso.butt.rating >= 20) DisplayText(ButtDescriptor.describeButt(player) + " and ");
                             DisplayText(BreastDescriptor.describeChest(player) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
                         }
-                        else if (player.torso.butt.buttRating >= 20) DisplayText("Your " + player.skinTone + ButtDescriptor.describeButt(player) + " and " + BreastDescriptor.describeChest(player) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
-                        else DisplayText("Your " + BreastDescriptor.describeChest(player) + " jiggle and wobble side to side like the " + player.skinTone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
+                        else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + ButtDescriptor.describeButt(player) + " and " + BreastDescriptor.describeChest(player) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
+                        else DisplayText("Your " + BreastDescriptor.describeChest(player) + " jiggle and wobble side to side like the " + player.skin.tone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
                     }
                     // FOR PLAYERS WITH MASSIVE BREASTS
-                    else if (player.upperBody.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 66) {
+                    else if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 66) {
                         if (player.torso.hipRating >= 20) {
                             DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground while your " + LowerBodyDescriptor.describeHips(player) + " swing side to side ");
-                            if (player.torso.butt.buttRating >= 20) DisplayText("causing the fat of your " + player.skinTone + ButtDescriptor.describeButt(player) + " to wobble heavily, ");
+                            if (player.torso.butt.rating >= 20) DisplayText("causing the fat of your " + player.skin.tone + ButtDescriptor.describeButt(player) + " to wobble heavily, ");
                             DisplayText("forcing your body off balance and preventing you from moving quick enough to get escape.");
                         }
-                        else if (player.torso.butt.buttRating >= 20) DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground while the fat of your " + player.skinTone + ButtDescriptor.describeButt(player) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
+                        else if (player.torso.butt.rating >= 20) DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground while the fat of your " + player.skin.tone + ButtDescriptor.describeButt(player) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
                         else DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
                     }
                     // FOR PLAYERS WITH EITHER GIANT HIPS OR BUTT BUT NOT THE BREASTS
                     else if (player.torso.hipRating >= 20) {
                         DisplayText("Your " + LowerBodyDescriptor.describeHips(player) + " swing heavily from side to side ");
-                        if (player.torso.butt.buttRating >= 20) DisplayText("causing your " + player.skinTone + ButtDescriptor.describeButt(player) + " to wobble obscenely ");
+                        if (player.torso.butt.rating >= 20) DisplayText("causing your " + player.skin.tone + ButtDescriptor.describeButt(player) + " to wobble obscenely ");
                         DisplayText("and forcing your body into an awkward gait that slows you down, preventing you from escaping.");
                     }
                     // JUST DA BOOTAH
-                    else if (player.torso.butt.buttRating >= 20) DisplayText("Your " + player.skinTone + ButtDescriptor.describeButt(player) + " wobbles so heavily that you're unable to move quick enough to escape.");
+                    else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + ButtDescriptor.describeButt(player) + " wobbles so heavily that you're unable to move quick enough to escape.");
                 }
                 // NORMAL RUN FAIL MESSAGES
                 else if (monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " stay hot on your heels, denying you a chance at escape!");
@@ -609,17 +609,17 @@ export default class CombatUtils {
             return;
         }
         menu();
-        if (player.upperBody.head.hairType === 4) {
+        if (player.torso.neck.head.hairType === 4) {
             DisplayText.addButton(0, "AnemoneSting", anemoneSting);
         }
         // Bitez
-        if (player.upperBody.head.face.faceType === FaceType.SHARK_TEETH) {
+        if (player.torso.neck.head.face.type === FaceType.SHARK_TEETH) {
             DisplayText.addButton(1, "Bite", bite);
         }
-        else if (player.upperBody.head.face.faceType === FaceType.SNAKE_FANGS) {
+        else if (player.torso.neck.head.face.type === FaceType.SNAKE_FANGS) {
             DisplayText.addButton(1, "Bite", nagaBiteAttack);
         }
-        else if (player.upperBody.head.face.faceType === FaceType.SPIDER_FANGS) {
+        else if (player.torso.neck.head.face.type === FaceType.SPIDER_FANGS) {
             DisplayText.addButton(1, "Bite", spiderBiteAttack);
         }
         // Bow attack
@@ -627,15 +627,15 @@ export default class CombatUtils {
             DisplayText.addButton(2, "Bow", fireBow);
         }
         // Constrict
-        if (player.lowerBody === LowerBodyType.NAGA) {
+        if (player.hips.legs.type === LegType.NAGA) {
             DisplayText.addButton(3, "Constrict", desert.nagaScene.nagaPlayerConstrict);
         }
         // Kick attackuuuu
-        else if (player.torso.isTaur() || player.lowerBody === LowerBodyType.HOOFED || player.lowerBody === LowerBodyType.BUNNY || player.lowerBody === LowerBodyType.KANGAROO) {
+        else if (player.torso.hips.legs.isTaur() || player.hips.legs.type === LegType.HOOFED || player.hips.legs.type === LegType.BUNNY || player.hips.legs.type === LegType.KANGAROO) {
             DisplayText.addButton(3, "Kick", kick);
         }
         // Gore if mino horns
-        if (player.upperBody.head.hornType === HornType.COW_MINOTAUR && player.upperBody.head.horns >= 6) {
+        if (player.torso.neck.head.hornType === HornType.COW_MINOTAUR && player.torso.neck.head.horns >= 6) {
             DisplayText.addButton(4, "Gore", goreAttack);
         }
         // Infest if infested
