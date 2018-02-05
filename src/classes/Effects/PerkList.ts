@@ -26,6 +26,14 @@ export default class PerkList implements ISerializable<PerkList> {
         return this.dictionary.remove(type);
     }
 
+    public clear() {
+        this.dictionary.clear();
+    }
+
+    public keys(): PerkType[] {
+        return this.dictionary.keys() as PerkType[];
+    }
+
     public serialize(): string {
         return JSON.stringify({
             dictionary: this.dictionary.serialize()

@@ -20,6 +20,10 @@ export default class CombatEffectList implements ISerializable<CombatEffectList>
         newEffect.onAdd(this.character);
     }
 
+    public has(type: CombatEffectType): boolean {
+        return this.dictionary.has(type);
+    }
+
     public get(type: CombatEffectType): CombatEffect {
         return this.dictionary.get(type);
     }
@@ -36,6 +40,10 @@ export default class CombatEffectList implements ISerializable<CombatEffectList>
             this.dictionary.remove(key);
         }
         this.dictionary.clear();
+    }
+
+    public keys(): CombatEffectType[] {
+        return this.dictionary.keys() as CombatEffectType[];
     }
 
     public get combatAbilityFlag(): CombatAbilityFlag {

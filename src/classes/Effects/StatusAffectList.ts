@@ -26,6 +26,14 @@ export default class StatusAffectList implements ISerializable<StatusAffectList>
         return this.dictionary.remove(type);
     }
 
+    public clear() {
+        this.dictionary.clear();
+    }
+
+    public keys(): StatusAffectType[] {
+        return this.dictionary.keys() as StatusAffectType[];
+    }
+
     public serialize(): string {
         return JSON.stringify({
             dictionary: this.dictionary.serialize()
