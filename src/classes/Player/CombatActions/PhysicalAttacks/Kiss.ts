@@ -104,7 +104,7 @@ export class Kiss implements CombatAction {
         }
         // Add status if not already drugged
         if (!monster.statusAffects.has(StatusAffectType.LustStick))
-            monster.statusAffects.set(StatusAffectType.LustStick, StatusAffectFactory.create(StatusAffectType.LustStick, 0, 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.LustStick, 0, 0, 0, 0);
         // Else add bonus to round damage
         else monster.statusAffects.get(StatusAffectType.LustStick).value2 = Math.round(damage / 10);
         // Deal damage

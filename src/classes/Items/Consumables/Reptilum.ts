@@ -243,7 +243,7 @@ export default class Reptilum extends Consumable {
         if (player.torso.vaginas.count > 0 && !player.perks.has(PerkType.Oviposition) && changes < changeLimit && Utils.rand(5) === 0 && RaceScore.lizardScore(player) > 3) {
             DisplayText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n");
             DisplayText("(<b>Perk Gained: Oviposition</b>)");
-            player.perks.set(PerkType.Oviposition, PerkFactory.create(PerkType.Oviposition, 0, 0, 0, 0));
+            player.perks.add(PerkType.Oviposition, 0, 0, 0, 0);
             changes++;
         }
 

@@ -47,7 +47,7 @@ export class NagaBite extends PlayerPhysicalAction {
             if (monster.statusAffects.has(StatusAffectType.NagaVenom)) {
                 monster.statusAffects.get(StatusAffectType.NagaVenom).value1 += 1;
             }
-            else monster.statusAffects.set(StatusAffectType.NagaVenom, StatusAffectFactory.create(StatusAffectType.NagaVenom, 1, 0, 0, 0));
+            else monster.statusAffects.add(StatusAffectType.NagaVenom, 1, 0, 0, 0);
         }
         else {
             DisplayText("You lunge headfirst, fangs bared. Your attempt fails horrendously, as " + monster.desc.a + monster.desc.short + " manages to counter your lunge, knocking your head away with enough force to make your ears ring.");

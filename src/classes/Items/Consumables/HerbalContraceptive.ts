@@ -19,6 +19,6 @@ export default class HerbalContraceptive extends Consumable {
         // Placeholder, sue me
         DisplayText("You chew on the frankly awfully bitter leaves as quickly as possible before swallowing them down.");
 
-        player.statusAffects.set(StatusAffectType.Contraceptives, StatusAffectFactory.create(StatusAffectType.Contraceptives, 1, 48, 0, 0));
+        player.statusAffects.add(StatusAffectType.Contraceptives, 1, 48, 0, 0);
     }
 }

@@ -26,7 +26,7 @@ export default class SensitivityDraft extends Consumable {
             else DisplayText("a woman's");
             DisplayText(" lower lips.  You'll have to be careful not to lick them!");
             // (Lustytongue status)
-            player.statusAffects.set(StatusAffectType.LustyTongue, StatusAffectFactory.create(StatusAffectType.LustyTongue, 25, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.LustyTongue, 25, 0, 0, 0);
         }
         DisplayText("\n\nAfter the wave of sensation passes, your " + player.skin.desc + " feels a little more receptive to touch.  ");
         if (player.stats.lust > 70 || player.stats.lib > 70) {

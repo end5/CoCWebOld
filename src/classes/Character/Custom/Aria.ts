@@ -14,11 +14,11 @@ export default function customAria(player: Player): void {
     // (on a side note how much do you think it would cost to add bell nipple,labia and clit piercings as well as an option for belly button piercings would like to see belly button piecings with a few different options as well.  Also would love to have handcuff ear piercings.)"	Would like the bimbo brain and bimbo body perks as well as the nine tail PerkType.  demonic high heels, pink skin, obscenely long pink hair  would like her to be a kitsune with the nine tails.  pink fur.  starting equipment would like to be the succubus whip and nurse's outfit.  Also would like the xmas perk and all three Vday perks	Aria
     if (player.torso.vaginas.count <= 0) player.torso.vaginas.add(new Vagina());
     if (player.femininity < 80) player.femininity = 80;
-    player.perks.set(PerkType.BimboBody, PerkFactory.create(PerkType.BimboBody, 0, 0, 0, 0));
-    player.perks.set(PerkType.BimboBrains, PerkFactory.create(PerkType.BimboBrains, 0, 0, 0, 0));
+    player.perks.add(PerkType.BimboBody, 0, 0, 0, 0);
+    player.perks.add(PerkType.BimboBrains, 0, 0, 0, 0);
     for (let count = 0; count < 9; count++)
         player.torso.tails.add(new Tail(TailType.FOX));
-    player.perks.set(PerkType.EnlightenedNinetails, PerkFactory.create(PerkType.EnlightenedNinetails, 0, 0, 0, 0));
+    player.perks.add(PerkType.EnlightenedNinetails, 0, 0, 0, 0);
     player.torso.chest.get(0).rating = 5;
     player.femininity = 100;
     player.torso.hips.legs.type = LegType.DEMONIC_HIGH_HEELS;
@@ -36,10 +36,10 @@ export default function customAria(player: Player): void {
     Flags.list[FlagEnum.PC_FETISH] = 2;
     player.inventory.equipment.piercings.clit.equip(new Piercing(PiercingType.Stud, "emerald clit-stud", "Emerald clit-stud"));
     player.inventory.equipment.piercings.labia.equip(new Piercing(PiercingType.Ring, "ruby labia-rings", "Ruby labia-rings"));
-    player.perks.set(PerkType.ElvenBounty, PerkFactory.create(PerkType.ElvenBounty, 0, 15, 0, 0));
-    player.perks.set(PerkType.PureAndLoving, PerkFactory.create(PerkType.PureAndLoving, 0, 0, 0, 0));
-    player.perks.set(PerkType.SensualLover, PerkFactory.create(PerkType.SensualLover, 0, 0, 0, 0));
-    player.perks.set(PerkType.OneTrackMind, PerkFactory.create(PerkType.OneTrackMind, 0, 0, 0, 0));
+    player.perks.add(PerkType.ElvenBounty, 0, 15, 0, 0);
+    player.perks.add(PerkType.PureAndLoving, 0, 0, 0, 0);
+    player.perks.add(PerkType.SensualLover, 0, 0, 0, 0);
+    player.perks.add(PerkType.OneTrackMind, 0, 0, 0, 0);
     player.setWeapon(weapons.SUCWHIP);
     player.setArmor(armors.NURSECL);
 }

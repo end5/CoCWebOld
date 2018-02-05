@@ -41,7 +41,7 @@ export default class NumbRock extends Consumable {
                 }
                 if (!(player.torso.cocks.count > 0 || player.torso.vaginas.count > 0)) DisplayText(ButtDescriptor.describeButthole(player) + " ");
                 DisplayText(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
-                player.statusAffects.set(StatusAffectType.Dysfunction, StatusAffectFactory.create(StatusAffectType.Dysfunction, 50 + Utils.rand(100), 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.Dysfunction, 50 + Utils.rand(100), 0, 0, 0);
             }
             else {
                 DisplayText("\n\nSadly your groin becomes even more deadened to sensation.  You wonder how much longer you'll have to wait until you can please yourself again.");
@@ -57,7 +57,7 @@ export default class NumbRock extends Consumable {
             if (player.skin.type === SkinType.PLAIN) DisplayText("your skin");
             else DisplayText("the skin under your " + player.skin.desc);
             DisplayText(" begins to feel duller, almost... thicker.  You pinch yourself and find that your epidermis feels more resistant to damage, almost like natural armor!\n<b>(Thick Skin - Perk Gained!)</b>");
-            player.perks.set(PerkType.ThickSkin, PerkFactory.create(PerkType.ThickSkin, 0, 0, 0, 0));
+            player.perks.add(PerkType.ThickSkin, 0, 0, 0, 0);
         }
         DisplayText("\n\nAfter the sensations pass, your " + player.skin.desc + " feels a little less receptive to touch.");
         player.stats.sens += -3;

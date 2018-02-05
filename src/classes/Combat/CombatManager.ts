@@ -46,11 +46,11 @@ export default class CombatManager {
     private static loadCombatEffects(character: Character) {
         for (const type of character.statusAffects.keys()) {
             if (CombatEffectType[type] !== undefined)
-                character.combat.effects.set(CombatEffectType[type], CombatEffectFactory.create(CombatEffectType[type]));
+                character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
         }
         for (const type of character.perks.keys()) {
             if (CombatEffectType[type] !== undefined)
-                character.combat.effects.set(CombatEffectType[type], CombatEffectFactory.create(CombatEffectType[type]));
+                character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
         }
     }
 

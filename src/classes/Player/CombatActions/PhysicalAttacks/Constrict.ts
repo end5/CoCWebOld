@@ -48,7 +48,7 @@ export class Constrict extends PlayerPhysicalAction {
             else {
                 DisplayText("You launch yourself at " + monster.desc.a + monster.desc.short + " and wrap yourself around " + monster.desc.objectivePronoun + ". You squeeze " + monster.desc.objectivePronoun + " tightly and hear " + monster.desc.objectivePronoun + " cry out in pain.");
             }
-            monster.statusAffects.set(StatusAffectType.Constricted, StatusAffectFactory.create(StatusAffectType.Constricted, 1 + Utils.rand(4), 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.Constricted, 1 + Utils.rand(4), 0, 0, 0);
         }
         // Failure
         else {

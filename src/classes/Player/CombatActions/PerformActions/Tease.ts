@@ -518,7 +518,7 @@ export default class Tease implements CombatAction {
                 break;
             // 2 PUSSAH FLASHIN'
             case TeaseType.PussyFlash:
-                if (character.torso.hips.legs.isTaur()) {
+                if (character.torso.hips.legs.isTaur() {
                     DisplayText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground.  Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you.  In this position, your opponent's face is buried right in your girthy horsecunt.  You grind your cunt into " + monster.desc.possessivePronoun + " face for a moment before standing.  When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
                     chance += 2;
                     damage += 4;

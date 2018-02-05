@@ -48,8 +48,8 @@ export default function customSera(player: Player): void {
     // History: Schooling
     player.cumMultiplier = 5.5;
 
-    player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
-    player.perks.set(PerkType.HistoryScholar, PerkFactory.create(PerkType.HistoryScholar, 0, 0, 0, 0));
+    player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
+    player.perks.add(PerkType.HistoryScholar, 0, 0, 0, 0);
     // Apperance: Cat Ears, Large Bat Like Wings, 3 Rows of breasts (C cub, 0,2 nipples)
     player.torso.neck.head.ears.type = EarType.CAT;
     player.torso.wings.type = WingType.BAT_LIKE_LARGE;

@@ -134,7 +134,7 @@ export default class WetCloth extends Consumable {
         // 3b.Infinite Vagina
         if (player.vaginalCapacity() < 9000) {
             if (!player.statusAffects.has(StatusAffectType.BonusVCapacity))
-                player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 9000, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.BonusVCapacity, 9000, 0, 0, 0);
             else player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 9000;
             DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + "'s internal walls feel a tingly wave of strange tightness.  Experimentally, you slip a few fingers, then your hand, then most of your forearm inside yourself.  <b>It seems you're now able to accommodate just about ANYTHING inside your sex.</b>");
             return;
@@ -149,7 +149,7 @@ export default class WetCloth extends Consumable {
         else {
             if (!player.statusAffects.has(StatusAffectType.SlimeCraving)) {
                 DisplayText("\n\nYou feel a growing gnawing in your gut.  You feel... hungry, but not for food.  No, you need something wet and goopy pumped into you.  You NEED it.  You can feel it in your bones.  <b>If you don't feed that need... you'll get weaker and maybe die.</b>");
-                player.statusAffects.set(StatusAffectType.SlimeCraving, StatusAffectFactory.create(StatusAffectType.SlimeCraving, 0, 0, 0, 1)); // Value four indicates this tracks strength and speed separately
+                player.statusAffects.add(StatusAffectType.SlimeCraving, 0, 0, 0, 1); // Value four indicates this tracks strength and speed separately
             }
             else {
                 DisplayText("\n\nYou feel full for a moment, but you know it's just a temporary respite from your constant need to be 'injected' with fluid.");

@@ -98,7 +98,7 @@ export default class BunnyPreg implements IPregnancyEvent {
         // Boost capacity
         if (player.vaginalCapacity() < 300) {
             if (!player.statusAffects.has(StatusAffectType.BonusVCapacity))
-                player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
             player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 10;
         }
         player.orgasm();

@@ -89,7 +89,7 @@ export default class Struggle implements CombatAction {
             if (Utils.rand(3) === 0 || Utils.rand(80) < character.stats.str / 2) {
                 DisplayText("As the creature attempts to adjust your position in its grip, you free one of your " + LowerBodyDescriptor.describeLegs(character) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
                 character.statusAffects.remove(StatusAffectType.TentacleBind);
-                monster.statusAffects.set(StatusAffectType.TentacleCoolDown, StatusAffectFactory.create(StatusAffectType.TentacleCoolDown, 3, 0, 0, 0));
+                monster.statusAffects.add(StatusAffectType.TentacleCoolDown, 3, 0, 0, 0);
                 enemyAI();
             }
             // Fail to break free

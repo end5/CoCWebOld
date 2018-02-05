@@ -27,7 +27,7 @@ export default function customCharaun(player: Player): void {
     player.fertility = 15;
     for (let count = 0; count < 9; count++)
         player.torso.tails.add(new Tail(TailType.FOX));
-    player.perks.set(PerkType.EnlightenedNinetails, PerkFactory.create(PerkType.EnlightenedNinetails, 0, 0, 0, 0));
+    player.perks.add(PerkType.EnlightenedNinetails, 0, 0, 0, 0);
     // if possible with fur, Hair color: "midnight black", Skin/Fur color: "ashen grayish-blue",  Height: 65", Tone: 100, Thickness: 0, Hip rating: 6, Butt rating: 3,Feminimity: 50,  ( 4 rows of breasts (Descending from the top ones: D,C,B,A), nipple length: 0.1", Fuckable, 1 nipple per breast, Tongue type: demon
     player.torso.neck.head.hair.color = "midnight black";
     player.skin.type = SkinType.FUR;

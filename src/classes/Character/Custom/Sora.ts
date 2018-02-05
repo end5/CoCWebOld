@@ -16,7 +16,7 @@ export default function customSora(player: Player): void {
     player.torso.tails.get(0).vemon = 2;
     player.stats.int = 30;
     if (!player.statusAffects.has(StatusAffectType.BonusVCapacity))
-        player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+        player.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
     else player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 += 5 + Utils.rand(10);
     DisplayText("As a Kitsune, you always got weird looks, but none could doubt your affinity for magic...");
 }

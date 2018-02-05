@@ -21,7 +21,7 @@ export class ShieldingSpell implements CombatAction {
     public use(player: Player, monster: Character) {
         DisplayText().clear();
         DisplayText("You gather energy in your Talisman and unleash the spell contained within.  A barrier of light engulfs you, before turning completely transparent.  Your defense has been increased.\n\n");
-        player.statusAffects.set(StatusAffectType.Shielding, StatusAffectFactory.create(StatusAffectType.Shielding, 0, 0, 0, 0));
+        player.statusAffects.add(StatusAffectType.Shielding, 0, 0, 0, 0);
         player.statusAffects.remove(StatusAffectType.ShieldingSpell);
         arianScene.clearTalisman();
     }

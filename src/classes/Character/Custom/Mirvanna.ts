@@ -71,6 +71,6 @@ export default function customMirvanna(player: Player): void {
     // Herm, lots of jizz.
     player.femininity -= 2;
     player.cumMultiplier = 5.5;
-    player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
-    player.perks.set(PerkType.HistoryWhore, PerkFactory.create(PerkType.HistoryWhore, 0, 0, 0, 0));
+    player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
+    player.perks.add(PerkType.HistoryWhore, 0, 0, 0, 0);
 }

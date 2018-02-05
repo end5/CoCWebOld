@@ -289,8 +289,8 @@ export default class LaBova extends Consumable {
         // (capable of getting them addicted):
         if (!player.statusAffects.has(StatusAffectType.Feeder) && player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 3 && Utils.rand(2) === 0 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 5 && player.stats.cor >= 35) {
             DisplayText("\n\nYou start to feel a strange desire to give your milk to other creatures.  For some reason, you know it will be very satisfying.\n\n<b>(You have gained the 'Feeder' perk!)</b>");
-            player.statusAffects.set(StatusAffectType.Feeder, StatusAffectFactory.create(StatusAffectType.Feeder, 0, 0, 0, 0));
-            player.perks.set(PerkType.Feeder, PerkFactory.create(PerkType.Feeder, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.Feeder, 0, 0, 0, 0);
+            player.perks.add(PerkType.Feeder, 0, 0, 0, 0);
             changes++;
         }
         // UNFINISHED
@@ -302,7 +302,7 @@ export default class LaBova extends Consumable {
                 player.torso.vaginas.get(0).looseness++;
                 // Cunt Stretched used to determine how long since last enlargement
                 if (!player.statusAffects.has(StatusAffectType.CuntStretched))
-                    player.statusAffects.set(StatusAffectType.CuntStretched, StatusAffectFactory.create(StatusAffectType.CuntStretched, 0, 0, 0, 0));
+                    player.statusAffects.add(StatusAffectType.CuntStretched, 0, 0, 0, 0);
                 // Reset the timer on it to 0 when restretched.
                 else
                     player.statusAffects.get(StatusAffectType.CuntStretched).value1 = 0;
@@ -411,9 +411,9 @@ export default class LaBova extends Consumable {
                 }
                 /* Never reached
                 //TF other horns
-                if (player.upperBody.head.horns.type != HornType.NONE && player.upperBody.head.horns.type != HornType.COW_MINOTAUR && player.upperBody.head.horns.amount > 0) {
+                if (player.torso.neck.head.horns.type != HornType.NONE && player.torso.neck.head.horns.type != HornType.COW_MINOTAUR && player.torso.neck.head.horns.amount > 0) {
                     DisplayText("\n\nYour horns.amount twist, filling your skull with agonizing pain for a moment as they transform into cow-horns.");
-                    player.upperBody.head.horns.type = HornType.COW_MINOTAUR;
+                    player.torso.neck.head.horns.type = HornType.COW_MINOTAUR;
                 }*/
             }
             // Not mino horns, change to cow-horns

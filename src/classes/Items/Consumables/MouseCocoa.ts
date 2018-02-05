@@ -33,14 +33,14 @@ export default class MouseCocoa extends Consumable {
 
         // use:
         DisplayText("You pop several of the beans in your mouth and suck; they immediately reward you by giving up an oily, chocolatey flavor with a hint of bitterness.  For several minutes you ");
-        if (!player.torso.hips.legs.isTaur()) DisplayText("sit and ");
+        if (!player.torso.hips.legs.isTaur() DisplayText("sit and ");
         DisplayText("enjoy the taste.");
 
         // stat changes:
         // lose height + gain speed (42" height floor, no speed ceiling but no speed changes without height change)
         if (player.tallness >= 45 && changes < changeLimit && Utils.rand(3) === 0) {
             // not horse
-            if (!player.torso.hips.legs.isTaur()) DisplayText("\n\nYou tap your [feet] idly against the rock you sit upon as you enjoy the treat; it takes several minutes before you realize you don't reach as far down as you did when you sat down!  In shock, you jerk upright and leap off, nearly falling forward as your body moves more responsively than before!  Experimentally, you move in place as you look down at your now-closer [feet]; the sensation of a more compact agility stays with you.");
+            if (!player.torso.hips.legs.isTaur() DisplayText("\n\nYou tap your [feet] idly against the rock you sit upon as you enjoy the treat; it takes several minutes before you realize you don't reach as far down as you did when you sat down!  In shock, you jerk upright and leap off, nearly falling forward as your body moves more responsively than before!  Experimentally, you move in place as you look down at your now-closer [feet]; the sensation of a more compact agility stays with you.");
             // horse
             else DisplayText("\n\nYou trot idly in place as you eat, moving quicker and quicker as you become increasingly bored; on one step, the ground sneaks up on you and you hit it sharply, expecting a few more inches before contact!  Looking down, you notice better resolution than before - you can make out the dirt a bit more clearly.  It looks like you just shed some height, but... you're feeling too jittery to care.  You just want to run around.");
             player.stats.spe += 1;
@@ -68,22 +68,22 @@ export default class MouseCocoa extends Consumable {
             if (player.vaginalCapacity() < 100 && player.torso.vaginas.count > 0) DisplayText("[vagina]");
             else DisplayText("[asshole]");
             DisplayText(" itches, and you shyly try to scratch it, looking around to see if you're watched.  ");
-            if (player.torso.hips.legs.isTaur()) DisplayText("Backing up to a likely rock, you rub your hindquarters against it, only to be surprised when you feel your hole part smoothly against the surface, wider than you're used to!");
+            if (player.torso.hips.legs.isTaur() DisplayText("Backing up to a likely rock, you rub your hindquarters against it, only to be surprised when you feel your hole part smoothly against the surface, wider than you're used to!");
             else DisplayText("Slipping a hand in your [armor], you rub vigorously; your hole opens more easily and your fingers poke in farther than you're used to!");
             DisplayText("  It feels unusual - not bad, really, but definitely weird.  You can see how it would come in handy, now that you're smaller than most prospective partners, but... shaking your head, you ");
-            if (player.torso.hips.legs.isTaur()) DisplayText("back away from your erstwhile sedimentary lover");
+            if (player.torso.hips.legs.isTaur() DisplayText("back away from your erstwhile sedimentary lover");
             else DisplayText("pull your hand back out");
             DisplayText(".");
             // adds some lust
             player.stats.lust += player.stats.sens / 5;
             if (player.vaginalCapacity() < 100 && player.torso.vaginas.count > 0) {
                 if (!player.statusAffects.has(StatusAffectType.BonusVCapacity))
-                    player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+                    player.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
                 player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 5;
             }
             else {
                 if (!player.statusAffects.has(StatusAffectType.BonusACapacity))
-                    player.statusAffects.set(StatusAffectType.BonusACapacity, StatusAffectFactory.create(StatusAffectType.BonusACapacity, 0, 0, 0, 0));
+                    player.statusAffects.add(StatusAffectType.BonusACapacity, 0, 0, 0, 0);
                 player.statusAffects.get(StatusAffectType.BonusACapacity).value1 = 5;
             }
             changes++;
@@ -99,7 +99,7 @@ export default class MouseCocoa extends Consumable {
                     if (!player.inventory.items.has(ConsumableName.MinotaurCum)) {
                         DisplayText("<b>Your heat has intensified as much as your fertility has increased, which is a considerable amount!</b>");
                     }
-                    else if (player.stats.lust < 100 || player.torso.hips.legs.isTaur()) DisplayText("You even pull out a bottle of minotaur jism and spend several minutes considering the feasibility of pouring it directly in your [vagina], but regain your senses as you're unsealing the cap, setting it aside.  <b>Still, your heat is more intense than ever and your increasingly-fertile body is practically begging for dick - it'll be hard to resist any that come near!</b>");
+                    else if (player.stats.lust < 100 || player.torso.hips.legs.isTaur() DisplayText("You even pull out a bottle of minotaur jism and spend several minutes considering the feasibility of pouring it directly in your [vagina], but regain your senses as you're unsealing the cap, setting it aside.  <b>Still, your heat is more intense than ever and your increasingly-fertile body is practically begging for dick - it'll be hard to resist any that come near!</b>");
                     // (mino cum in inventory and non-horse, 100 lust)
                     else {
                         DisplayText("Desperately horny, you pull out your bottle of minotaur jism and break the seal in two shakes, then lie down with your hips elevated and upend it over your greedy vagina.  The gooey seed pours into you, and you orgasm fitfully, shaking and failing to hold the bottle in place as it coats your labia.  <b>As a hazy doze infiltrates your mind, you pray the pregnancy takes and dream of the sons you'll bear with your increasingly fertile body... you're going to go insane if you don't get a baby in you</b>.");

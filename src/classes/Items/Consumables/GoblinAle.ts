@@ -95,7 +95,7 @@ export default class GoblinAle extends Consumable {
         // Boost vaginal capacity without gaping
         if (changes < changeLimit && Utils.rand(3) === 0 && player.torso.vaginas.count > 0 && player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 < 40) {
             if (!player.statusAffects.has(StatusAffectType.BonusVCapacity))
-                player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
             player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 5;
             DisplayText("\n\nThere is a sudden... emptiness within your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + ".  Somehow you know you could accommodate even larger... insertions.");
             changes++;

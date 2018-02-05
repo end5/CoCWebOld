@@ -67,6 +67,6 @@ export default function customLukaz(player: Player): void {
     player.tone = 88;
     player.torso.neck.head.face.tongue.type = TongueType.DRACONIC;
     // gel plate armor, warhammer, 88 body tone, 1 breast row, flat manly breasts, 0.2 inch nipples, 1 on each breast, draconic tongue, short hair-blue, light skin."	Lukaz
-    player.perks.set(PerkType.HistoryFighter, PerkFactory.create(PerkType.HistoryFighter, 0, 0, 0, 0));
-    player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
+    player.perks.add(PerkType.HistoryFighter, 0, 0, 0, 0);
+    player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
 }

@@ -40,7 +40,7 @@ export default class VaginaModifier {
         if (vaginaArea >= .5 * character.vaginalCapacity()) {
             // Cunt Stretched used to determine how long since last enlargement
             if (!character.statusAffects.has(StatusAffectType.CuntStretched))
-                character.statusAffects.set(StatusAffectType.CuntStretched, StatusAffectFactory.create(StatusAffectType.CuntStretched, 0, 0, 0, 0));
+                character.statusAffects.add(StatusAffectType.CuntStretched, 0, 0, 0, 0);
             // Reset the timer on it to 0 when restretched.
             else
                 character.statusAffects.get(StatusAffectType.CuntStretched).value1 = 0;
@@ -48,6 +48,14 @@ export default class VaginaModifier {
         return stretched;
     }
 
+    /**
+     * Was cuntChange on Player
+     * @param character
+     * @param cArea
+     * @param display
+     * @param spacingsF
+     * @param spacingsB
+     */
     public static displayStretchVagina(character: Character, cArea: number, display: boolean, spacingsF: boolean = false, spacingsB: boolean = true): boolean {
         if (character.torso.vaginas.count <= 0)
             return false;

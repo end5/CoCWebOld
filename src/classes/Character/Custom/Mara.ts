@@ -29,10 +29,10 @@ export default function customMara(player: Player): void {
     player.torso.butt.rating = 12;
     player.femininity = 100;
     player.thickness = 33;
-    player.perks.set(PerkType.HistorySlut, PerkFactory.create(PerkType.HistorySlut, 0, 0, 0, 0));
-    player.perks.set(PerkType.BimboBody, PerkFactory.create(PerkType.BimboBody, 0, 0, 0, 0));
-    player.perks.set(PerkType.BimboBrains, PerkFactory.create(PerkType.BimboBrains, 0, 0, 0, 0));
-    player.perks.set(PerkType.BigTits, PerkFactory.create(PerkType.BigTits, 1.5, 0, 0, 0));
+    player.perks.add(PerkType.HistorySlut, 0, 0, 0, 0);
+    player.perks.add(PerkType.BimboBody, 0, 0, 0, 0);
+    player.perks.add(PerkType.BimboBrains, 0, 0, 0, 0);
+    player.perks.add(PerkType.BigTits, 1.5, 0, 0, 0);
     player.torso.neck.head.ears.type = EarType.BUNNY;
     player.torso.tails.add(new Tail(TailType.BUNNY));
     player.skin.tone = "tan";

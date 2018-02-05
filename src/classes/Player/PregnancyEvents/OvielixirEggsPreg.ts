@@ -66,7 +66,7 @@ export default class OvielixirEggsPreg implements IPregnancyEvent {
         if (player.statusAffects.has(StatusAffectType.AteEgg)) DisplayText("but you remember the effects of the last one you ate.\n").bold();
         else DisplayText("but your body's intuition reminds you they shouldn't be fertile, and your belly rumbles with barely contained hunger.\n").bold();
         VaginaModifier.displayStretchVagina(player, 20, true);
-        player.statusAffects.set(StatusAffectType.LootEgg, StatusAffectFactory.create(StatusAffectType.LootEgg, 0, 0, 0, 0));
+        player.statusAffects.add(StatusAffectType.LootEgg, 0, 0, 0, 0);
     }
 
     private eggDescript(player: Player, plural: boolean = true): string {

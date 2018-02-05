@@ -43,7 +43,7 @@ export default function customNami(player: Player): void {
     // Muscle Tone- A bit above average enough to trigger a mention of it in the desc.
     player.tone = 55;
     // Nipples-  As above on size but the black sand trap nipples.
-    player.statusAffects.set(StatusAffectType.BlackNipples, StatusAffectFactory.create(StatusAffectType.BlackNipples, 0, 0, 0, 0));
+    player.statusAffects.add(StatusAffectType.BlackNipples, 0, 0, 0, 0);
     // Hair Length- Long
     player.torso.neck.head.hair.length = 16;
     // Hair Color- Black
@@ -55,9 +55,9 @@ export default function customNami(player: Player): void {
 
     player.setWeapon(weapons.W_STAFF);
     // Gift Perk- Smarts
-    player.perks.set(PerkType.Smart, PerkFactory.create(PerkType.Smart, 0, 0, 0, 0));
+    player.perks.add(PerkType.Smart, 0, 0, 0, 0);
     // History- Schooling
-    player.perks.set(PerkType.HistoryScholar, PerkFactory.create(PerkType.HistoryScholar, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistoryScholar, 0, 0, 0, 0);
     player.itemSlot1.setItemAndQty(consumables.W__BOOK, 1);
     player.itemSlot2.setItemAndQty(consumables.B__BOOK, 1);
 

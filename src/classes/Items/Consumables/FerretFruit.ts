@@ -212,7 +212,7 @@ export default class FerretFruit extends Consumable {
             }
             // Placeholder for any future TFs that will need to be made compatible with this one
             // centaur, has ferret ears:
-            else if (player.torso.tails.hasType(TailType.HORSE) && player.torso.hips.legs.isTaur()) DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  This new, mismatched tail looks a bit odd on your horse lower body.  <b>You now have a ferret tail!</b>");
+            else if (player.torso.tails.hasType(TailType.HORSE) && player.torso.hips.legs.isTaur() DisplayText("\n\nYou shiver as the wind gets to your tail, all of its shiny bristles having fallen out.  Your tail then begins to lengthen, warming back up as it sprouts a new, shaggier coat of fur.  This new, mismatched tail looks a bit odd on your horse lower body.  <b>You now have a ferret tail!</b>");
             // If tail is harpy, has ferret ears:
             else if (player.torso.tails.hasType(TailType.HARPY)) DisplayText("\n\nYou feel a soft tingle as your tail feathers fall out one by one.  The little stump that once held the feathers down begins to twist and lengthen before sprouting soft, fluffy fur.  <b>You now have a ferret tail!</b>");
             // If tail is bunny, has ferret ears:
@@ -252,7 +252,7 @@ export default class FerretFruit extends Consumable {
         // If legs are not ferret, has ferret ears and tail
         if (player.torso.hips.legs.type !== LegType.FERRET && player.torso.neck.head.ears.type === EarType.FERRET && player.torso.tails.hasType(TailType.FERRET) && Utils.rand(4) === 0 && changes < changeLimit) {
             // -If centaur, has ferret ears and tail:
-            if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYou scream in agony as a horrible pain racks your entire horse lower half.  Unable to take it anymore, you pass out.  When you wake up, you're shocked to find that you no longer have the lower body of a horse.  Instead, you have soft, furry legs that resemble that of a ferret's.  <b>You now have ferret legs!</b>");
+            if (player.torso.hips.legs.isTaur() DisplayText("\n\nYou scream in agony as a horrible pain racks your entire horse lower half.  Unable to take it anymore, you pass out.  When you wake up, you're shocked to find that you no longer have the lower body of a horse.  Instead, you have soft, furry legs that resemble that of a ferret's.  <b>You now have ferret legs!</b>");
 
             DisplayText("\n\nYou scream in agony as the bones in your legs begin to break and rearrange.  Even as the pain passes, an uncomfortable combination of heat and throbbing continues even after the transformation is over.  You rest for a moment, allowing the sensations to subside.  Now feeling more comfortable, <b>you stand up, ready to try out your new ferret legs!</b>");
             changes++;

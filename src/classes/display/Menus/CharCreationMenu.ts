@@ -535,7 +535,7 @@ export default class CharCreationMenu {
         Game.player.tone += 7;
         Game.player.thickness += 3;
         // Add bonus +25% strength gain
-        Game.player.perks.set(PerkType.Strong, PerkFactory.create(PerkType.Strong, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Strong, 0.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
@@ -543,7 +543,7 @@ export default class CharCreationMenu {
         Game.player.stats.tou += 5;
         Game.player.tone += 5;
         Game.player.thickness += 5;
-        Game.player.perks.set(PerkType.Tough, PerkFactory.create(PerkType.Tough, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Tough, 0.25, 0, 0, 0);
         Game.player.stats.HP = kGAMECLASS.maxHP();
         CharCreationMenu.chooseHistory();
     }
@@ -551,26 +551,26 @@ export default class CharCreationMenu {
     private setEndowmentSpeed(): void {
         Game.player.stats.spe += 5;
         Game.player.tone += 10;
-        Game.player.perks.set(PerkType.Fast, PerkFactory.create(PerkType.Fast, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentSmarts(): void {
         Game.player.stats.int += 5;
         Game.player.thickness -= 5;
-        Game.player.perks.set(PerkType.Smart, PerkFactory.create(PerkType.Smart, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Smart, 0.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentLibido(): void {
         Game.player.stats.lib += 5;
-        Game.player.perks.set(PerkType.Lusty, PerkFactory.create(PerkType.Lusty, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Lusty, 0.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentTouch(): void {
         Game.player.stats.sens += 5;
-        Game.player.perks.set(PerkType.Sensitive, PerkFactory.create(PerkType.Sensitive, 0.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.Sensitive, 0.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
@@ -578,28 +578,28 @@ export default class CharCreationMenu {
         Game.player.femininity -= 5;
         Game.player.torso.cocks.get(0).length = 8;
         Game.player.torso.cocks.get(0).thickness = 1.5;
-        Game.player.perks.set(PerkType.BigCock, PerkFactory.create(PerkType.BigCock, 1.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.BigCock, 1.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentMessyOrgasms(): void {
         Game.player.femininity -= 2;
         Game.player.cumMultiplier = 1.5;
-        Game.player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentBigBreasts(): void {
         Game.player.femininity += 5;
         Game.player.torso.chest.get(0).rating += 2;
-        Game.player.perks.set(PerkType.BigTits, PerkFactory.create(PerkType.BigTits, 1.5, 0, 0, 0));
+        Game.player.perks.add(PerkType.BigTits, 1.5, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentBigClit(): void {
         Game.player.femininity -= 5;
         Game.player.torso.clit.length = 1;
-        Game.player.perks.set(PerkType.BigClit, PerkFactory.create(PerkType.BigClit, 1.25, 0, 0, 0));
+        Game.player.perks.add(PerkType.BigClit, 1.25, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
@@ -607,14 +607,14 @@ export default class CharCreationMenu {
         Game.player.femininity += 5;
         Game.player.fertility += 25;
         Game.player.torso.hips.rating += 2;
-        Game.player.perks.set(PerkType.Fertile, PerkFactory.create(PerkType.Fertile, 1.5, 0, 0, 0));
+        Game.player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
     private setEndowmentWetVagina(): void {
         Game.player.femininity += 7;
         Game.player.torso.vaginas.get(0).wetness = VaginaWetness.WET;
-        Game.player.perks.set(PerkType.WetPussy, PerkFactory.create(PerkType.WetPussy, 2, 0, 0, 0));
+        Game.player.perks.add(PerkType.WetPussy, 2, 0, 0, 0);
         CharCreationMenu.chooseHistory();
     }
 
@@ -773,7 +773,7 @@ export default class CharCreationMenu {
         Game.player.torso.vaginas.get(0).virgin = true;
         Game.player.torso.clit.length = 0.2;
         Game.player.torso.neck.head.ears.type = EarType.CAT;
-        Game.player.torso.neck.head.face.faceType = FaceType.CAT;
+        Game.player.torso.neck.head.face.type = FaceType.CAT;
         Game.player.femininity = 100;
         Game.player.fertility = 85;
         Game.player.gender = 2;
@@ -783,13 +783,13 @@ export default class CharCreationMenu {
         Game.player.torso.hips.legs.type = LegType.CAT;
         Game.player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 0.5;
         // perks:
-        Game.player.perks.set(PerkType.Agility, PerkFactory.create(PerkType.Agility, 0, 0, 0, 0));
-        Game.player.perks.set(PerkType.Evade, PerkFactory.create(PerkType.Evade, 0, 0, 0, 0));
-        Game.player.perks.set(PerkType.Runner, PerkFactory.create(PerkType.Runner, 0, 0, 0, 0));
-        Game.player.perks.set(PerkType.Fast, PerkFactory.create(PerkType.Fast, 0.25, 0, 0, 0));
-        Game.player.perks.set(PerkType.Fertile, PerkFactory.create(PerkType.Fertile, 1.5, 0, 0, 0));
-        Game.player.perks.set(PerkType.Flexibility, PerkFactory.create(PerkType.Flexibility, 0, 0, 0, 0));
-        Game.player.perks.set(PerkType.HistoryScholar, PerkFactory.create(PerkType.HistoryScholar, 0, 0, 0, 0));
+        Game.player.perks.add(PerkType.Agility, 0, 0, 0, 0);
+        Game.player.perks.add(PerkType.Evade, 0, 0, 0, 0);
+        Game.player.perks.add(PerkType.Runner, 0, 0, 0, 0);
+        Game.player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
+        Game.player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
+        Game.player.perks.add(PerkType.Flexibility, 0, 0, 0, 0);
+        Game.player.perks.add(PerkType.HistoryScholar, 0, 0, 0, 0);
 
         Game.player.skin.desc = "fur";
         Game.player.skin.tone = "ashen";

@@ -151,7 +151,7 @@ export default class TrapOil extends Consumable {
                 DisplayText("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + CockDescriptor.describeMultiCockShort(player) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + Utils.numToCardinalText(player.torso.balls.quantity) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
                 // [Note: Balls description should no longer say �swings heavily beneath�.  For simplicity's sake sex scenes should continue to assume two balls]
                 player.torso.balls.size = 1;
-                player.statusAffects.set(StatusAffectType.Uniball, StatusAffectFactory.create(StatusAffectType.Uniball, 0, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.Uniball, 0, 0, 0, 0);
             }
             else if (player.torso.balls.size < 1) player.torso.balls.size = 1;
             changes++;
@@ -194,7 +194,7 @@ export default class TrapOil extends Consumable {
                 if (player.femininity < 70 && player.femininity >= 60) {
                     DisplayText("\n\nYou laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a girly giggle than anything else.  Feeling slightly more sober, you touch the soft flesh of your face prospectively.  The trap oil has changed you profoundly, making your innate maleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a girl now if you wanted to.");
                     if (!player.perks.has(PerkType.Androgyny)) {
-                        player.perks.set(PerkType.Androgyny, PerkFactory.create(PerkType.Androgyny, 0, 0, 0, 0));
+                        player.perks.add(PerkType.Androgyny, 0, 0, 0, 0);
                         DisplayText("\n\n(<b>Perk Gained: Androgyny</b>)");
                     }
                     player.femininity += 10;
@@ -225,7 +225,7 @@ export default class TrapOil extends Consumable {
                     // Masculinity Increase Final (max masculinity allowed increased by +10):
                     DisplayText("\n\nYou laugh as you feel your features once again soften, before stopping abruptly.  Your laugh sounded more like a boyish crow than anything else.  Feeling slightly more sober, you touch the defined lines of your face prospectively.  The trap oil has changed you profoundly, making your innate femaleness... difficult to discern, to say the least.  You suspect you could make yourself look even more like a boy now if you wanted to.");
                     if (!player.perks.has(PerkType.Androgyny)) {
-                        player.perks.set(PerkType.Androgyny, PerkFactory.create(PerkType.Androgyny, 0, 0, 0, 0));
+                        player.perks.add(PerkType.Androgyny, 0, 0, 0, 0);
                         DisplayText("\n\n(<b>Perk Gained: Androgyny</b>)");
                     }
                 }
@@ -244,7 +244,7 @@ export default class TrapOil extends Consumable {
         // Nipples Turn Black:
         if (!player.statusAffects.has(StatusAffectType.BlackNipples) && Utils.rand(6) === 0 && changes < changeLimit) {
             DisplayText("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            player.statusAffects.set(StatusAffectType.BlackNipples, StatusAffectFactory.create(StatusAffectType.BlackNipples, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.BlackNipples, 0, 0, 0, 0);
             changes++;
         }
         // Remove odd eyes

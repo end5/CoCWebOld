@@ -62,7 +62,7 @@ export default class ImpPreg implements IPregnancyEvent {
         DisplayText().newline();
         // Add imp birth status - used to control frequency of night imp gangbag
         if (player.statusAffects.has(StatusAffectType.BirthedImps)) player.statusAffects.get(StatusAffectType.BirthedImps).value1 = 1;
-        else player.statusAffects.set(StatusAffectType.BirthedImps, StatusAffectFactory.create(StatusAffectType.BirthedImps, 1, 0, 0, 0));
+        else player.statusAffects.add(StatusAffectType.BirthedImps, 1, 0, 0, 0);
         DisplayText("A sudden gush of fluids erupts from your vagina - your water just broke.  You grunt painfully as you feel wriggling and squirming inside your belly, muscle contractions forcing it downwards.  ");
         if (player.stats.cor < 50) DisplayText("You rue the day you encountered that hateful imp.  ");
         DisplayText("The pain begins to subside as your delivery continues... replaced with a building sensation of pleasure.  Arousal spikes through you as the contractions intensify, and as you feel something pass you have a tiny orgasm.\n\nYet you feel more within you, and the contractions spike again, pushing you to orgasm as you pass something else.  It repeats, over and over, nearly a dozen times you birth and orgasm.  After an eternity of procreation and pleasure, you sense your ordeal is over and collapse, unconscious.");

@@ -202,7 +202,7 @@ export default class BeeHoney extends Consumable {
         if (changes < changeLimit && !character.perks.has(PerkType.BeeOvipositor) && character.torso.tails.filterType(TailType.BEE_ABDOMEN).length > 1 && Utils.rand(2) === 0) {
             DisplayText("\n\nAn odd swelling starts in your insectile abdomen, somewhere along the underside.  Curling around, you reach back to your extended, bulbous bee part and run your fingers along the underside.  You gasp when you feel a tender, yielding slit near the stinger.  As you probe this new orifice, a shock of pleasure runs through you, and a tubular, black, semi-hard appendage drops out, pulsating as heavily as any sexual organ.  <b>The new organ is clearly an ovipositor!</b>  A few gentle prods confirm that it's just as sensitive; you can already feel your internals changing, adjusting to begin the production of unfertilized eggs.  You idly wonder what laying them with your new bee ovipositor will feel like...");
             DisplayText("\n\n(<b>Perk Gained:  Bee Ovipositor - Allows you to lay eggs in your foes!</b>)");
-            character.perks.set(PerkType.BeeOvipositor, PerkFactory.create(PerkType.BeeOvipositor, 0, 0, 0, 0));
+            character.perks.add(PerkType.BeeOvipositor, 0, 0, 0, 0);
             changes++;
         }
         // Bee butt - 66% lower chance if already has a tail

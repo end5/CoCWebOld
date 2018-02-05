@@ -23,11 +23,11 @@ export class AnemoneSting implements CombatAction {
         // 25% base fail chance
         // Increased by 1% for every point over PC's speed
         // Decreased by 1% for every inch of hair the PC has
-        const hairLength: number = player.torso.neck.head.hair.length;
+        const hair.length: number = player.torso.neck.head.hair.length;
         let prob: number = 70;
         if (monster.stats.spe > player.stats.spe)
             prob -= monster.stats.spe - player.stats.spe;
-        prob += hairLength;
+        prob += hair.length;
         if (prob <= Utils.rand(101)) {
             // -miss a sting
             if (monster.desc.plural) DisplayText("You rush " + monster.desc.a + monster.desc.short + ", whipping your hair around to catch them with your tentacles, but " + monster.desc.subjectivePronoun + " easily dodge.  Oy, you hope you didn't just give yourself whiplash.");
@@ -46,9 +46,9 @@ export class AnemoneSting implements CombatAction {
             // Each sting does 5-10 lust damage and 2.5-5 speed damagee
             let damage: number = 0;
             let damageMultiplier: number = 1 + Utils.rand(2);
-            if (hairLength >= 12) damageMultiplier += 1 + Utils.rand(2);
-            if (hairLength >= 24) damageMultiplier += 1 + Utils.rand(2);
-            if (hairLength >= 36) damageMultiplier += 1;
+            if (hair.length >= 12) damageMultiplier += 1 + Utils.rand(2);
+            if (hair.length >= 24) damageMultiplier += 1 + Utils.rand(2);
+            if (hair.length >= 36) damageMultiplier += 1;
             while (damageMultiplier > 0) {
                 damageMultiplier--;
                 damage += 5 + Utils.rand(6);

@@ -42,7 +42,7 @@ export class CorruptedFoxFire extends PlayerSpellAction {
         if (monster.desc.short === "goo-girl") {
             DisplayText("  Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skin.tone + " skin has lost some of its shimmer.");
             if (!monster.perks.has(PerkType.Acid))
-                monster.perks.set(PerkType.Acid, PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
+                monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
         }
         damage = monster.combat.stats.loseHP(damage, player);
         DisplayText("  (" + damage + ")\n\n");

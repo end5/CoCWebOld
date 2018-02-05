@@ -41,8 +41,8 @@ export default class InquisitorsCorset extends Armor {
             character.perks.remove(PerkType.BloodMage);
         while (character.perks.has(PerkType.SluttySeduction))
             character.perks.remove(PerkType.SluttySeduction);
-        character.perks.set(PerkType.BloodMage, PerkFactory.create(PerkType.BloodMage, 0, 0, 0, 0));
-        character.perks.set(PerkType.SluttySeduction, PerkFactory.create(PerkType.SluttySeduction, 10, 0, 0, 0));
+        character.perks.add(PerkType.BloodMage, 0, 0, 0, 0);
+        character.perks.add(PerkType.SluttySeduction, 10, 0, 0, 0);
         super.onEquip(character);
     }
 

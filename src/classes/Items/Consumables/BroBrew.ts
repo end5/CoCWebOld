@@ -69,8 +69,8 @@ export default class BroBrew extends Consumable {
                 DisplayText("<b>(Lost Perk - Bimbo Body)\n");
             player.perks.remove(PerkType.BimboBrains);
             player.perks.remove(PerkType.BimboBody);
-            player.perks.set(PerkType.FutaForm, PerkFactory.create(PerkType.FutaForm, 0, 0, 0, 0));
-            player.perks.set(PerkType.FutaFaculties, PerkFactory.create(PerkType.FutaFaculties, 0, 0, 0, 0));
+            player.perks.add(PerkType.FutaForm, 0, 0, 0, 0);
+            player.perks.add(PerkType.FutaFaculties, 0, 0, 0, 0);
             DisplayText("(Gained Perks - Futa Form, Futa Faculties)</b>");
             player.updateGender();
             return;
@@ -178,8 +178,8 @@ export default class BroBrew extends Consumable {
         BodyModifier.displayModTone(player, 100, 100);
         BodyModifier.displayModThickness(player, 100, 50);
         // Bonus cum production!
-        player.perks.set(PerkType.BroBrains, PerkFactory.create(PerkType.BroBrains, 0, 0, 0, 0));
-        player.perks.set(PerkType.BroBody, PerkFactory.create(PerkType.BroBody, 0, 0, 0, 0));
+        player.perks.add(PerkType.BroBrains, 0, 0, 0, 0);
+        player.perks.add(PerkType.BroBody, 0, 0, 0, 0);
         DisplayText("<b>(Bro Body - Perk Gained!)\n");
         DisplayText("(Bro Brains - Perk Gained!)</b>\n"); // int to 20.  max int 50
         if (player.perks.has(PerkType.Feeder)) {

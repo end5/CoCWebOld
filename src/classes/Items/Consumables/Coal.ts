@@ -30,7 +30,7 @@ export default class Coal extends Consumable {
             // Boost anal capacity without gaping
             if (player.statusAffects.get(StatusAffectType.BonusACapacity).value1 < 80) {
                 if (!player.statusAffects.has(StatusAffectType.BonusACapacity))
-                    player.statusAffects.set(StatusAffectType.BonusACapacity, StatusAffectFactory.create(StatusAffectType.BonusACapacity, 0, 0, 0, 0));
+                    player.statusAffects.add(StatusAffectType.BonusACapacity, 0, 0, 0, 0);
                 player.statusAffects.get(StatusAffectType.BonusACapacity).value1 = 5;
                 DisplayText("\n\nYou feel... more accommodating somehow.  Your " + ButtDescriptor.describeButthole(player) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
                 changes++;

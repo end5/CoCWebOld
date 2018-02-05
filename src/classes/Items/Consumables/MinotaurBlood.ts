@@ -317,7 +317,7 @@ export default class MinotaurBlood extends Consumable {
             if (cocks.count > 0) DisplayText("\n\nYour " + CockDescriptor.describeCock(player, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             else if (vaginas.count > 0) DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(player, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             if (cocks.count > 0 || vaginas.count > 0) {
-                player.statusAffects.set(StatusAffectType.Dysfunction, StatusAffectFactory.create(StatusAffectType.Dysfunction, 96, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.Dysfunction, 96, 0, 0, 0);
                 changes++;
             }
         }

@@ -33,19 +33,19 @@ export default class BlackSpellbook extends Consumable {
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 25 && !player.statusAffects.has(StatusAffectType.KnowsArouse)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Arouse.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsArouse, StatusAffectFactory.create(StatusAffectType.KnowsArouse, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsArouse, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 30 && !player.statusAffects.has(StatusAffectType.KnowsHeal)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Heal.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsArouse, StatusAffectFactory.create(StatusAffectType.KnowsHeal, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsHeal, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 40 && !player.statusAffects.has(StatusAffectType.KnowsMight)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Might.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsArouse, StatusAffectFactory.create(StatusAffectType.KnowsMight, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsMight, 0, 0, 0, 0);
         }
     }
 }

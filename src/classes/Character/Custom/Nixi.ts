@@ -16,10 +16,10 @@ import { Utils } from '../../Utilities/Utils';
 export default function customNixi(player: Player): void {
     // -Perks
     // fertility AND messy orgasm (hope that's not pushing it)
-    player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
-    player.perks.set(PerkType.Fertile, PerkFactory.create(PerkType.Fertile, 1.5, 0, 0, 0));
+    player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
+    player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
     // fighting history
-    player.perks.set(PerkType.HistoryFighter, PerkFactory.create(PerkType.HistoryFighter, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistoryFighter, 0, 0, 0, 0);
     // 3 starting perk points
     player.perkPoints = 3;
     // some starting gems (just go ahead and surprise me on the amount)

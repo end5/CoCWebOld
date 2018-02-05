@@ -35,19 +35,19 @@ export default class WhiteSpellbook extends Consumable {
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 25 && !player.statusAffects.has(StatusAffectType.KnowsCharge)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Charge Weapon.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsCharge, StatusAffectFactory.create(StatusAffectType.KnowsCharge, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsCharge, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 30 && !player.statusAffects.has(StatusAffectType.KnowsBlind)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Blind.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsBlind, StatusAffectFactory.create(StatusAffectType.KnowsBlind, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsBlind, 0, 0, 0, 0);
             return;
         }
         // Smart enough for arouse and doesnt have it
         if (player.stats.int >= 40 && !player.statusAffects.has(StatusAffectType.KnowsWhitefire)) {
             DisplayText("\n\nYou blink in surprise, assaulted by the knowledge of a <b>new spell: Whitefire.</b>");
-            player.statusAffects.set(StatusAffectType.KnowsWhitefire, StatusAffectFactory.create(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0);
         }
     }
 }

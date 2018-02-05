@@ -37,7 +37,7 @@ export default class ButtModifier {
         if (buttArea >= .5 * character.analCapacity()) {
             // Butt Stretched used to determine how long since last enlargement
             if (!character.statusAffects.has(StatusAffectType.ButtStretched))
-                character.statusAffects.set(StatusAffectType.ButtStretched, StatusAffectFactory.create(StatusAffectType.ButtStretched, 0, 0, 0, 0));
+                character.statusAffects.add(StatusAffectType.ButtStretched, 0, 0, 0, 0);
             // Reset the timer on it to 0 when restretched.
             else
                 character.statusAffects.get(StatusAffectType.ButtStretched).value1 = 0;

@@ -18,6 +18,6 @@ export default class PurePearl extends Consumable {
         player.stats.lust += -25;
         player.stats.cor += -10;
         if (!player.perks.has(PerkType.PurityBlessing))
-            player.perks.set(PerkType.PurityBlessing, PerkFactory.create(PerkType.PurityBlessing, 0, 0, 0, 0));
+            player.perks.add(PerkType.PurityBlessing, 0, 0, 0, 0);
     }
 }

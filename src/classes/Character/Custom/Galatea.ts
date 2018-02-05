@@ -23,18 +23,18 @@ export default function customGalatea(player: Player): void {
     player.tallness = 64;
 
     // Perks: Feeder, Strong Back, Strong Back 2
-    player.statusAffects.set(StatusAffectType.Feeder, StatusAffectFactory.create(StatusAffectType.Feeder, 0, 0, 0, 0)); )
-    player.perks.set(PerkType.Feeder, PerkFactory.create(PerkType.Feeder, 0, 0, 0, 0));
+    player.statusAffects.add(StatusAffectType.Feeder, 0, 0, 0, 0); )
+    player.perks.add(PerkType.Feeder, 0, 0, 0, 0);
 
-    player.perks.set(PerkType.StrongBack, PerkFactory.create(PerkType.StrongBack, 0, 0, 0, 0));
-    player.perks.set(PerkType.StrongBack2, PerkFactory.create(PerkType.StrongBack2, 0, 0, 0, 0));
+    player.perks.add(PerkType.StrongBack, 0, 0, 0, 0);
+    player.perks.add(PerkType.StrongBack2, 0, 0, 0, 0);
 
     // Equipment:
     // Weapon: Warhammer
     player.setWeapon(weapons.WARHAMR);
     // Armor: Lusty shit
     player.setArmor(armors.LMARMOR);
-    // player.perks.set(PerkType.SluttySeduction, PerkFactory.create(PerkType.SluttySeduction, 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
+    // player.perks.add(PerkType.SluttySeduction, 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0);
 
     // Stats: (if possible)
     // Strength: 90

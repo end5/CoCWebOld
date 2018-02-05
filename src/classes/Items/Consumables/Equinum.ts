@@ -47,7 +47,7 @@ export default class Equinum extends Consumable {
             // First warning
             if (!character.statusAffects.has(StatusAffectType.HorseWarning)) {
                 DisplayText("<b>\n\nWhile you drink the tasty potion, you realize how horse-like you already are, and wonder what else the potion could possibly change...</b>");
-                character.statusAffects.set(StatusAffectType.HorseWarning, StatusAffectFactory.create(StatusAffectType.HorseWarning, 0, 0, 0, 0));
+                character.statusAffects.add(StatusAffectType.HorseWarning, 0, 0, 0, 0);
             }
             // Bad End
             if (Utils.rand(4) === 0 && character.statusAffects.has(StatusAffectType.HorseWarning)) {

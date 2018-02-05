@@ -29,7 +29,7 @@ export default class LustStick extends Consumable {
             DisplayText("You finish and pucker your lips, feeling fairly sexy with your new, thicker makeup on.\n\n");
         }
         else {
-            player.statusAffects.set(StatusAffectType.LustStickApplied, StatusAffectFactory.create(StatusAffectType.LustStickApplied, 24, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.LustStickApplied, 24, 0, 0, 0);
             DisplayText("You carefully open the sweet-smelling tube and smear the lipstick over your lips.  ");
             if (player.torso.cocks.count > 0) DisplayText("It tingles a little, but the drugs have little to no effect on you now.");
             else DisplayText("Honestly, it amazes you that something as little as a kiss can make a man putty in your hands.");

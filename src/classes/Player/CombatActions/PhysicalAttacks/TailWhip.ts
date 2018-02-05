@@ -32,7 +32,7 @@ export class TailWhip implements CombatAction {
             else
                 DisplayText("Twirling like a top, you bat your opponent with your tail.  For a moment, " + monster.desc.subjectivePronoun + " look disbelieving, as if " + monster.desc.possessivePronoun + " world turned upside down, but " + monster.desc.subjectivePronoun + " soon become irate and redouble " + monster.desc.possessivePronoun + " offense, leaving large holes in " + monster.desc.possessivePronoun + " guard.  If you're going to take advantage, it had better be right away; " + monster.desc.subjectivePronoun + "'ll probably cool off very quickly.");
             if (!monster.statusAffects.has(StatusAffectType.CoonWhip))
-                monster.statusAffects.set(StatusAffectType.CoonWhip, StatusAffectFactory.create(StatusAffectType.CoonWhip, Math.round(monster.combat.stats.defense() * .75), !player.torso.tails.hasType(TailType.RACCOON) ? 2 : 4, 0, 0));
+                monster.statusAffects.add(StatusAffectType.CoonWhip, Math.round(monster.combat.stats.defense() * .75), !player.torso.tails.hasType(TailType.RACCOON) ? 2 : 4, 0, 0);
         }
         DisplayText("\n\n");
     }

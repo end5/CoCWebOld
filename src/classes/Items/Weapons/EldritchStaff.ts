@@ -13,7 +13,7 @@ export default class EldritchStaff extends Weapon {
     public onEquip(player: Player): void {
         while (player.perks.has(PerkType.WizardsFocus))
             player.perks.remove(PerkType.WizardsFocus);
-        player.perks.set(PerkType.WizardsFocus, PerkFactory.create(PerkType.WizardsFocus, 0.6, 0, 0, 0));
+        player.perks.add(PerkType.WizardsFocus, 0.6, 0, 0, 0);
     }
 
     public onUnequip(player: Player): void {

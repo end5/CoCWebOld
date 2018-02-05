@@ -197,7 +197,7 @@ export default class NeonPinkEgg extends Consumable {
         if (player.torso.vaginas.count > 0 && !player.perks.has(PerkType.BunnyEggs) && changes < changeLimit && Utils.rand(4) === 0 && RaceScore.bunnyScore(player) > 3) {
             DisplayText("\n\nDeep inside yourself there is a change.  It makes you feel a little woozy, but passes quickly.  Beyond that, you aren't sure exactly what just happened, but you are sure it originated from your womb.\n\n");
             DisplayText("(<b>Perk Gained: Bunny Eggs</b>)");
-            player.perks.set(PerkType.BunnyEggs, PerkFactory.create(PerkType.BunnyEggs, 0, 0, 0, 0));
+            player.perks.add(PerkType.BunnyEggs, 0, 0, 0, 0);
             changes++;
         }
         // Shrink Balls!
@@ -275,7 +275,7 @@ export default class NeonPinkEgg extends Consumable {
         // Bunny feet! - requirez earz
         if (player.torso.hips.legs.type !== LegType.BUNNY && changes < changeLimit && Utils.rand(5) === 0 && player.torso.neck.head.ears.type === EarType.BUNNY) {
             // Taurs
-            if (player.torso.hips.legs.isTaur()) DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
+            if (player.torso.hips.legs.isTaur() DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
             // Non-taurs
             else {
                 DisplayText("\n\nNumbness envelops your " + LegDescriptor.describeLegs(player) + " as they pull tighter and tighter.  You overbalance and drop on your " + ButtDescriptor.describeButt(player));

@@ -109,7 +109,7 @@ export default class PhoukaWhiskey extends Consumable {
             player.stats.int -= intChange;
         }
         else { // First time
-            player.statusAffects.set(StatusAffectType.PhoukaWhiskeyAffect, StatusAffectFactory.create(StatusAffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange));
+            player.statusAffects.add(StatusAffectType.PhoukaWhiskeyAffect, 8, 1, 256 * libidoChange + sensChange, 256 * speedChange + intChange);
             // The four stats we’re affecting get paired together to save space. This way we don’t need a second StatusAffect to store more info.
             player.stats.lib += libidoChange;
             player.stats.sens -= sensChange;

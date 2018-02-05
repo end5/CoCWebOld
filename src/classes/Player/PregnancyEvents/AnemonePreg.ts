@@ -92,7 +92,7 @@ export default class AnemonePreg implements IPregnancyEvent {
             DisplayText("\n\nYou scoop the diminutive anemone up and look around for somewhere wet to put it.  The stream is too far, the lake doubly so; you'd never make it to either, as sick as you feel from yanking viciously on your clitoris.  Driven to last resorts, you lurch over to the water barrel in your camp and, wrenching the lid off, drop the blue stalk unceremoniously inside.  Exhausted by the shock and pain of the ordeal, you slump down beside the barrel and slip into a doze...");
             VaginaModifier.displayStretchVagina(player, 20, true, true, false);
             DisplayText().newline();
-            player.statusAffects.set(StatusAffectType.CampAnemoneTrigger, StatusAffectFactory.create(StatusAffectType.CampAnemoneTrigger, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.CampAnemoneTrigger, 0, 0, 0, 0);
             return;
         }
         // (if pc has 0-9 existing cocks)
@@ -150,7 +150,7 @@ export default class AnemonePreg implements IPregnancyEvent {
             player.stats.lib += 2;
             player.stats.sens += 5;
             if (!player.statusAffects.has(StatusAffectType.AnemoneArousal))
-                player.statusAffects.set(StatusAffectType.AnemoneArousal, StatusAffectFactory.create(StatusAffectType.AnemoneArousal, 0, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.AnemoneArousal, 0, 0, 0, 0);
         }
         DisplayText("Exhausted by the 'birth' and the climax, you slip into a doze.\n");
     }

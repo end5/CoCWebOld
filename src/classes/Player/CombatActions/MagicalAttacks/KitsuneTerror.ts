@@ -45,7 +45,7 @@ export class KitsuneTerror extends PlayerSpellAction {
         // (succeed)
         if (player.stats.int / 10 + Utils.rand(20) + 1 > monster.stats.int / 10 + 10) {
             DisplayText("  They cower in horror as they succumb to your illusion, believing themselves beset by eldritch horrors beyond their wildest nightmares.\n\n");
-            monster.statusAffects.set(StatusAffectType.Fear, StatusAffectFactory.create(StatusAffectType.Fear, 1, 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.Fear, 1, 0, 0, 0);
             monster.stats.spe -= 5;
             if (monster.stats.spe < 1)
                 monster.stats.spe = 1;

@@ -63,6 +63,6 @@ export class SuperWhisperAttack extends PlayerSpellAction {
             return;
         }
         DisplayText("You reach for your enemy's mind, watching as its sudden fear petrifies your foe.\n\n");
-        monster.statusAffects.set(StatusAffectType.Fear, StatusAffectFactory.create(StatusAffectType.Fear, 1, 0, 0, 0));
+        monster.statusAffects.add(StatusAffectType.Fear, 1, 0, 0, 0);
     }
 }

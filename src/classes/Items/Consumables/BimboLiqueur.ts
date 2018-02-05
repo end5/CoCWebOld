@@ -65,8 +65,8 @@ export default class BimboLiqueur extends Consumable {
             DisplayText("(Perks Gained: Futa Form, Futa Faculties)\n");
             player.perks.remove(PerkType.BroBody);
             player.perks.remove(PerkType.BroBrains);
-            player.perks.set(PerkType.FutaFaculties, PerkFactory.create(PerkType.FutaFaculties, 0, 0, 0, 0));
-            player.perks.set(PerkType.FutaForm, PerkFactory.create(PerkType.FutaForm, 0, 0, 0, 0));
+            player.perks.add(PerkType.FutaFaculties, 0, 0, 0, 0);
+            player.perks.add(PerkType.FutaForm, 0, 0, 0, 0);
             if (player.stats.int > 35) {
                 player.stats.int = 35;
                 player.stats.int -= 0.1;
@@ -94,11 +94,11 @@ export default class BimboLiqueur extends Consumable {
                 player.torso.vaginas.add(new Vagina());
                 player.torso.clit.length = 0.25;
                 player.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
-                if (player.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
+                if (player.torso.hips.legs.isTaur() DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(player) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
                 else DisplayText("Wait!?  Wet?  You touch yourself between the " + LegDescriptor.describeLegs(player) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
-                if (player.torso.hips.legs.isTaur()) {
+                if (player.torso.hips.legs.isTaur() {
                     DisplayText("You wish you could sink your fingers into your sloppy, wet cunt, but as a centaur, you can't quite reach.");
                     if (player.torso.vaginas.get(0).wetness < VaginaWetness.SLICK)
                         player.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
@@ -179,11 +179,11 @@ export default class BimboLiqueur extends Consumable {
             }
             if (!player.perks.has(PerkType.BimboBody)) {
                 DisplayText("<b>(Bimbo Body - Perk Gained!)\n");
-                player.perks.set(PerkType.BimboBody, PerkFactory.create(PerkType.BimboBody, 0, 0, 0, 0));
+                player.perks.add(PerkType.BimboBody, 0, 0, 0, 0);
             }
             if (!player.perks.has(PerkType.BimboBrains)) {
                 DisplayText("(Bimbo Brains - Perk Gained!)\n"); // int to 20.  max int 50
-                player.perks.set(PerkType.BimboBrains, PerkFactory.create(PerkType.BimboBrains, 0, 0, 0, 0));
+                player.perks.add(PerkType.BimboBrains, 0, 0, 0, 0);
                 if (player.stats.int > 21)
                     player.stats.int = 21;
             }

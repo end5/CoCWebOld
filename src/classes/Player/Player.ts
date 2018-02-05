@@ -72,7 +72,7 @@ export default class Player extends Character {
             this.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
             // Flag to display feed update and restore stats in event parser
             if (!this.statusAffects.has(StatusAffectType.SlimeCravingFeed)) {
-                this.statusAffects.set(StatusAffectType.SlimeCravingFeed, StatusAffectFactory.create(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0));
+                this.statusAffects.add(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0);
             }
         }
         if (this.perks.has(PerkType.Diapause)) {

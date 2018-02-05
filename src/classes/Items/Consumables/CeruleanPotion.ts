@@ -36,6 +36,6 @@ export default class CeruleanPotion extends Consumable {
             if (player.statusAffects.get(StatusAffectType.SuccubiNight).value1 < 3)
                 player.statusAffects.get(StatusAffectType.SuccubiNight).value1 = 1;
             else
-                player.statusAffects.set(StatusAffectType.SuccubiNight, StatusAffectFactory.create(StatusAffectType.SuccubiNight, 1, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.SuccubiNight, 1, 0, 0, 0);
     }
 }

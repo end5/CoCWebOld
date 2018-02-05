@@ -52,8 +52,8 @@ export default function Annetta(player: Player) {
     // Equipment: Starts with spiked fist
     player.setWeapon(weapons.S_GAUNT);
     // Perks: Fighter and Lotsa Jizz"	Annetta
-    player.perks.set(PerkType.HistoryFighter, PerkFactory.create(PerkType.HistoryFighter, 0, 0, 0, 0));
-    player.perks.set(PerkType.MessyOrgasms, PerkFactory.create(PerkType.MessyOrgasms, 1.25, 0, 0, 0));
+    player.perks.add(PerkType.HistoryFighter, 0, 0, 0, 0);
+    player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
     player.cumMultiplier = 20;
     player.gender = 3;
 }

@@ -337,7 +337,7 @@ export default class GoldenSeed extends Consumable {
         // SPECIAL:
         // Harpy Womb � All eggs are automatically upgraded to large, requires legs + tail to be harpy.
         if (!player.perks.has(PerkType.HarpyWomb) && player.torso.hips.legs.type === LegType.HARPY && player.torso.tails.hasType(TailType.HARPY) && Utils.rand(4) === 0 && changes < changeLimit) {
-            player.perks.set(PerkType.HarpyWomb, PerkFactory.create(PerkType.HarpyWomb, 0, 0, 0, 0));
+            player.perks.add(PerkType.HarpyWomb, 0, 0, 0, 0);
             DisplayText("\n\nThere's a rumbling in your womb, signifying that some strange change has taken place in your most feminine area. No doubt something in it has changed to be more like a harpy. (<b>You've gained the Harpy Womb perk! All the eggs you lay will always be large so long as you have harpy legs and a harpy tail.</b>)");
             changes++;
         }

@@ -52,7 +52,7 @@ export default function customTyriana(player: Player): void {
     player.stats.spe += 3;
     player.stats.int += 2;
 
-    player.perks.set(PerkType.HistorySlut, PerkFactory.create(PerkType.HistorySlut, 0, 0, 0, 0));
-    player.perks.set(PerkType.Fertile, PerkFactory.create(PerkType.Fertile, 1.5, 0, 0, 0));
+    player.perks.add(PerkType.HistorySlut, 0, 0, 0, 0);
+    player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
     player.teaseLevel = 3;
 }

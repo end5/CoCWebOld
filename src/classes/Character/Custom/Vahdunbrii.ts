@@ -58,7 +58,7 @@ export default function customVahdunbrii(player: Player): void {
     player.torso.neck.head.ears.type = EarType.CAT;
     player.torso.hips.legs.type = LegType.CAT;
     player.torso.tails.add(new Tail(TailType.CAT));
-    player.perks.set(PerkType.Incorporeality, PerkFactory.create(PerkType.Incorporeality, 0, 0, 0, 0));
+    player.perks.add(PerkType.Incorporeality, 0, 0, 0, 0);
     player.torso.wings.type = WingType.FEATHERED_LARGE;
     player.torso.arms.type = ArmType.HARPY;
     player.torso.neck.head.horns.type = HornType.DRACONIC_X2;
@@ -81,7 +81,7 @@ export default function customVahdunbrii(player: Player): void {
     player.setWeapon(weapons.B_SWORD);
     player.setArmor(armors.SSARMOR);
     // Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
-    player.statusAffects.set(StatusAffectType.Kelt, StatusAffectFactory.create(StatusAffectType.Kelt, 100, 0, 0, 0)); )
+    player.statusAffects.add(StatusAffectType.Kelt, 100, 0, 0, 0); )
     player.createKeyItem("Bow", 0, 0, 0, 0);
     inventory.createStorage();
     inventory.createStorage();
@@ -95,23 +95,23 @@ export default function customVahdunbrii(player: Player): void {
     player.createKeyItem("Equipment Rack - Armor", 0, 0, 0, 0);
     Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00255] = 1;
     // (Flexibility), (Incorporeality), History: Religious, Dragonfire, Brood Mother, Magical Fertility, Wet Pussy, Tough, Strong, Fast, Smart, History: Scholar, History: Slacker, Strong Back, Strong Back 2: Stronger Harder
-    player.perks.set(PerkType.Flexibility, PerkFactory.create(PerkType.Flexibility, 0, 0, 0, 0));
-    player.perks.set(PerkType.HistoryReligious, PerkFactory.create(PerkType.HistoryReligious, 0, 0, 0, 0));
-    player.perks.set(PerkType.Dragonfire, PerkFactory.create(PerkType.Dragonfire, 0, 0, 0, 0));
-    player.perks.set(PerkType.BroodMother, PerkFactory.create(PerkType.BroodMother, 0, 0, 0, 0));
-    player.perks.set(PerkType.Fertile, PerkFactory.create(PerkType.Fertile, 1.5, 0, 0, 0));
+    player.perks.add(PerkType.Flexibility, 0, 0, 0, 0);
+    player.perks.add(PerkType.HistoryReligious, 0, 0, 0, 0);
+    player.perks.add(PerkType.Dragonfire, 0, 0, 0, 0);
+    player.perks.add(PerkType.BroodMother, 0, 0, 0, 0);
+    player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
     player.torso.vaginas.get(0).wetness = VaginaWetness.WET;
-    player.perks.set(PerkType.WetPussy, PerkFactory.create(PerkType.WetPussy, 2, 0, 0, 0));
-    player.perks.set(PerkType.Tough, PerkFactory.create(PerkType.Tough, 0.25, 0, 0, 0));
-    player.perks.set(PerkType.Strong, PerkFactory.create(PerkType.Strong, 0.25, 0, 0, 0));
-    player.perks.set(PerkType.Fast, PerkFactory.create(PerkType.Fast, 0.25, 0, 0, 0));
-    player.perks.set(PerkType.Smart, PerkFactory.create(PerkType.Smart, 0.25, 0, 0, 0));
-    player.perks.set(PerkType.HistoryScholar, PerkFactory.create(PerkType.HistoryScholar, 0, 0, 0, 0));
-    player.perks.set(PerkType.StrongBack, PerkFactory.create(PerkType.StrongBack, 0, 0, 0, 0));
+    player.perks.add(PerkType.WetPussy, 2, 0, 0, 0);
+    player.perks.add(PerkType.Tough, 0.25, 0, 0, 0);
+    player.perks.add(PerkType.Strong, 0.25, 0, 0, 0);
+    player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
+    player.perks.add(PerkType.Smart, 0.25, 0, 0, 0);
+    player.perks.add(PerkType.HistoryScholar, 0, 0, 0, 0);
+    player.perks.add(PerkType.StrongBack, 0, 0, 0, 0);
     player.inventory.items.unlock();
     player.inventory.items.unlock();
-    player.perks.set(PerkType.StrongBack2, PerkFactory.create(PerkType.StrongBack2, 0, 0, 0, 0));
-    player.perks.set(PerkType.HistorySlacker, PerkFactory.create(PerkType.HistorySlacker, 0, 0, 0, 0));
+    player.perks.add(PerkType.StrongBack2, 0, 0, 0, 0);
+    player.perks.add(PerkType.HistorySlacker, 0, 0, 0, 0);
     player.stats.str += 4;
     player.stats.tou += 4;
     player.stats.int += 2;

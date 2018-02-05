@@ -41,7 +41,7 @@ export default class Run implements CombatAction {
             DisplayText("You flex the muscles in your back and, shaking clear of the sand, burst into the air!  Wasting no time you fly free of the sandtrap and its treacherous pit.  \"One day your wings will fall off, little ant,\" the snarling voice of the thwarted androgyne carries up to you as you make your escape.  \"And I will be waiting for you when they do!\"");
             Game.inCombat = false;
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }*/
         if (monster.combat.effects.has(CombatEffectType.GenericRunDisabled) || urtaQuest.isUrta()) {
@@ -62,7 +62,7 @@ export default class Run implements CombatAction {
             DisplayText("You slink away while the pack of brutes is arguing.  Once they finish that argument, they'll be sorely disappointed!", true);
             inCombat = false;
             clearStatuses(false);
-            doNext(camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
             return;
         }*/
         else if (monster.desc.short === "minotaur tribe" && monster.combat.stats.HPRatio() >= 0.75) {

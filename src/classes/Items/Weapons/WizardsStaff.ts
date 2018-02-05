@@ -14,7 +14,7 @@ export default class WizardsStaff extends Weapon {
     public onEquip(character: Character): void {
         while (character.perks.has(PerkType.WizardsFocus))
             character.perks.remove(PerkType.WizardsFocus);
-        character.perks.set(PerkType.WizardsFocus, PerkFactory.create(PerkType.WizardsFocus, 0.4, 0, 0, 0));
+        character.perks.add(PerkType.WizardsFocus, 0.4, 0, 0, 0);
     }
 
     public onUnequip(character: Character): void {

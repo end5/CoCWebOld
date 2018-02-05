@@ -255,7 +255,7 @@ export default class KangaFruit extends Consumable {
         // kangaroo perk: - any liquid or food intake will accelerate a pregnancy, but it will not progress otherwise
         if (!player.perks.has(PerkType.Diapause) && RaceScore.kangaScore(player) > 4 && Utils.rand(4) === 0 && changes < changeLimit && player.torso.vaginas.count > 0) {
             // Perk name and description:
-            player.perks.set(PerkType.Diapause, PerkFactory.create(PerkType.Diapause, 0, 0, 0, 0));
+            player.perks.add(PerkType.Diapause, 0, 0, 0, 0);
             DisplayText("\n\nYour womb rumbles as something inside it changes.\n<b>(You have gained the Diapause perk.  Pregnancies will not progress when fluid intake is scarce, and will progress much faster when it isn't.)");
             changes++;
             // trigger effect: Your body reacts to the influx of nutrition, accelerating your pregnancy. Your belly bulges outward slightly.

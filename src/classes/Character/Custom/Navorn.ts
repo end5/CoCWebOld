@@ -19,7 +19,7 @@ export default function customNavorn(player: Player): void {
     DisplayText("There's been something special about you since day one, whether it's your numerous sexual endowments or your supernatural abilities.  You're a natural pick for champion.");
     // Character Creation	"Herm same number and types of cocks from email sent earlier.
     // Special abilities: Fire breath, fox fire?
-    player.perks.set(PerkType.Dragonfire, PerkFactory.create(PerkType.Dragonfire, 0, 0, 0, 0));
+    player.perks.add(PerkType.Dragonfire, 0, 0, 0, 0);
     // equipment: Large claymore, and platemail
     // -Chainmail armor
     player.setArmor(armors.FULLPLT);
@@ -97,7 +97,7 @@ export default function customNavorn(player: Player): void {
     // for wetness a squirter, looseness a 2 and capacity at 140.
     if (player.torso.vaginas.count <= 0) player.torso.vaginas.add(new Vagina());
     player.torso.vaginas.get(0).wetness = VaginaWetness.SLAVERING;
-    player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 132, 0, 0, 0));
+    player.statusAffects.add(StatusAffectType.BonusVCapacity, 132, 0, 0, 0);
     // Virgin, high fertility like in the email I sent before.  dragon wings, nine fox tails,  dragon legs, eight DD breasts with four fuckable nipples each, dragon tongue, waist length hair, large dragon wings.
     player.torso.wings.type = WingType.DRACONIC_LARGE;
     player.torso.wings.desc = "large, draconic";
@@ -106,6 +106,6 @@ export default function customNavorn(player: Player): void {
     player.torso.hips.legs.type = LegType.DRAGON;
     player.torso.neck.head.face.tongue.type = TongueType.DRACONIC;
     player.torso.neck.head.hair.length = 45;
-    player.perks.set(PerkType.EnlightenedNinetails, PerkFactory.create(PerkType.EnlightenedNinetails, 0, 0, 0, 0));
+    player.perks.add(PerkType.EnlightenedNinetails, 0, 0, 0, 0);
     player.gender = 3;
 }

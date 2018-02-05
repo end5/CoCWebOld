@@ -44,7 +44,7 @@ export class Might extends BlackMagic {
         }
         else {
             DisplayText("The rush of success and power flows through your body.  You feel like you can do anything!");
-            player.statusAffects.set(StatusAffectType.Might, StatusAffectFactory.create(StatusAffectType.Might, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.Might, 0, 0, 0, 0);
             const temp = 5 * player.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;

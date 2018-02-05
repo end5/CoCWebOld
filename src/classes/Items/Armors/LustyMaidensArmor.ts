@@ -73,15 +73,15 @@ export default class LustyMaidensArmor extends Armor {
     public onEquip(character: Character): void {
         // new perks for stats checks
         if (!character.perks.has(PerkType.LustyMaidensArmor))
-            character.perks.set(PerkType.LustyMaidensArmor, PerkFactory.create(PerkType.LustyMaidensArmor, 0, 0, 0, 0));
+            character.perks.add(PerkType.LustyMaidensArmor, 0, 0, 0, 0);
 
         while (character.perks.has(PerkType.SluttySeduction))
             character.perks.remove(PerkType.SluttySeduction);
         if (character.torso.vaginas.filter(Vagina.NotVirgin).length > 0) {
-            character.perks.set(PerkType.SluttySeduction, PerkFactory.create(PerkType.SluttySeduction, 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
+            character.perks.add(PerkType.SluttySeduction, 10 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0);
         }
         else {
-            character.perks.set(PerkType.SluttySeduction, PerkFactory.create(PerkType.SluttySeduction, 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0));
+            character.perks.add(PerkType.SluttySeduction, 6 + Flags.list[FlagEnum.BIKINI_ARMOR_BONUS], 0, 0, 0);
         }
         super.onEquip(character);
     }

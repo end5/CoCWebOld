@@ -58,7 +58,7 @@ export class Sting implements CombatAction {
         else damage += 50;
         monster.stats.lust += monster.stats.lustVuln * damage;
         if (!monster.statusAffects.has(StatusAffectType.lustvenom))
-            monster.statusAffects.set(StatusAffectType.lustvenom, StatusAffectFactory.create(StatusAffectType.lustvenom, 0, 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.lustvenom, 0, 0, 0, 0);
         /* IT used to paralyze 50% of the time, this is no longer the case!
         Paralise the other 50%!
         else {
@@ -67,8 +67,8 @@ export class Sting implements CombatAction {
             else DisplayText("You watch as " + monster.desc.subjectivePronoun + " staggers back a step and nearly trips, finding it hard to move as " + monster.desc.subjectivePronoun + " is afflicted with your paralytic venom.  ");
             if(monster.desc.short === "demons") DisplayText("It appears that " + monster.desc.a+ monster.desc.short + " are weaker and slower.");
             else DisplayText("It appears that " + monster.desc.a+ monster.desc.short + " is weaker and slower.");
-            monster.str -= (5+rand(player.lib/5))
-            monster.stats.spe -= (5+rand(player.lib/5))
+            monster.str -= (5+Utils.rand(player.lib/5))
+            monster.stats.spe -= (5+Utils.rand(player.lib/5))
             if(monster.str < 1) monster.str = 1;
             if(monster.stats.spe < 1) monster.stats.spe = 1;
         }*/

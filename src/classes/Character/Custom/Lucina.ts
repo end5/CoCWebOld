@@ -22,6 +22,6 @@ export default function customLucina(player: Player): void {
     player.torso.chest.get(0).rating = 4;
     player.skin.tone = "light";
     // Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
-    player.statusAffects.set(StatusAffectType.Kelt, StatusAffectFactory.create(StatusAffectType.Kelt, 100, 0, 0, 0)); )
+    player.statusAffects.add(StatusAffectType.Kelt, 100, 0, 0, 0); )
     player.createKeyItem("Bow", 0, 0, 0, 0);
 }

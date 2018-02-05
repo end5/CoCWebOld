@@ -209,7 +209,7 @@ export default class SweetGossamer extends Consumable {
         // Nipples Turn Black:
         if (!player.statusAffects.has(StatusAffectType.BlackNipples) && Utils.rand(6) === 0 && changes < changeLimit) {
             DisplayText("\n\nA tickling sensation plucks at your nipples and you cringe, trying not to giggle.  Looking down you are in time to see the last spot of flesh tone disappear from your [nipples].  They have turned an onyx black!");
-            player.statusAffects.set(StatusAffectType.BlackNipples, StatusAffectFactory.create(StatusAffectType.BlackNipples, 0, 0, 0, 0));
+            player.statusAffects.add(StatusAffectType.BlackNipples, 0, 0, 0, 0);
             changes++;
         }
         // eyes!
@@ -258,7 +258,7 @@ export default class SweetGossamer extends Consumable {
             DisplayText("\n\n(<b>Perk Gained:  Spider Ovipositor - Allows you to lay eggs in your foes!</b>)");
             // V1 - Egg Count
             // V2 - Fertilized Count
-            player.perks.set(PerkType.SpiderOvipositor, PerkFactory.create(PerkType.SpiderOvipositor, 0, 0, 0, 0));
+            player.perks.add(PerkType.SpiderOvipositor, 0, 0, 0, 0);
             // Opens up drider ovipositor scenes from available mobs. The player begins producing unfertilized eggs in their arachnid abdomen. Egg buildup raises minimum lust and eventually lowers speed until the player has gotten rid of them.  This perk may only be used with the drider lower body, so your scenes should reflect that.
             // Any PC can get an Ovipositor perk, but it will be much rarer for players without vaginas.
             // Eggs are unfertilized by default, but can be fertilized:
@@ -271,7 +271,7 @@ export default class SweetGossamer extends Consumable {
         // (Normal Biped Legs -> Carapace-Clad Legs)
         if (((!this.sweet && player.torso.hips.legs.type !== LegType.DRIDER_LOWER_BODY && player.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS) ||
             (this.sweet && player.torso.hips.legs.type !== LegType.CHITINOUS_SPIDER_LEGS)) &&
-            (!player.torso.hips.legs.isGoo() && !player.torso.hips.legs.isNaga() && !player.torso.hips.legs.isTaur()) &&
+            (!player.torso.hips.legs.isGoo() && !player.torso.hips.legs.isNaga() && !player.torso.hips.legs.isTaur() &&
             changes < changeLimit &&
             Utils.rand(4) === 0
         ) {

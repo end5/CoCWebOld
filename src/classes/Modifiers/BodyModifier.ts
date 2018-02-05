@@ -188,7 +188,7 @@ export default class BodyModifier {
         // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
         else {
             DisplayText("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
-            character.statusAffects.set(StatusAffectType.Heat, StatusAffectFactory.create(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0));
+            character.statusAffects.add(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0);
             character.stats.libBimbo += 15 * intensity;
         }
     }
@@ -215,7 +215,7 @@ export default class BodyModifier {
             // v1 - bonus cum production
             // v2 - bonus libido
             // v3 - time remaining!
-            character.statusAffects.set(StatusAffectType.Rut, StatusAffectFactory.create(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0));
+            character.statusAffects.add(StatusAffectType.Rut, 150 * intensity, 5 * intensity, 100 * intensity, 0);
             character.stats.libBimbo += 5 * intensity;
         }
     }

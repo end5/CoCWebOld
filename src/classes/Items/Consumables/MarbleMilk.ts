@@ -53,6 +53,6 @@ export default class MarbleMilk extends Consumable {
         if (player.statusAffects.has(StatusAffectType.BottledMilk)) {
             player.statusAffects.get(StatusAffectType.BottledMilk).value1 = (6 + Utils.rand(6));
         }
-        else player.statusAffects.set(StatusAffectType.BottledMilk, StatusAffectFactory.create(StatusAffectType.BottledMilk, 12, 0, 0, 0));
+        else player.statusAffects.add(StatusAffectType.BottledMilk, 12, 0, 0, 0);
     }
 }

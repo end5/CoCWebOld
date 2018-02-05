@@ -137,7 +137,7 @@ export default class FoxJewel extends Consumable {
         if (player.torso.vaginas.count > 0 && ((this.mystic && Utils.rand(2) === 0) || (!this.mystic && Utils.rand(3) === 0)) && player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 < 200 && changes < changeLimit) {
             DisplayText("\n\nA gurgling sound issues from your abdomen, and you double over as a trembling ripple passes through your womb.  The flesh of your stomach roils as your internal organs begin to shift, and when the sensation finally passes, you are instinctively aware that your " + VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " is a bit deeper than it was before.");
             if (!player.statusAffects.has(StatusAffectType.BonusVCapacity)) {
-                player.statusAffects.set(StatusAffectType.BonusVCapacity, StatusAffectFactory.create(StatusAffectType.BonusVCapacity, 0, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
             }
             player.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 5 + Utils.rand(10);
             changes++;
@@ -209,7 +209,7 @@ export default class FoxJewel extends Consumable {
             DisplayText("Your bushy tails begin to glow with an eerie, ghostly light, and with a crackle of electrical energy, split into nine tails.  <b>You are now a nine-tails!  But something is wrong...  The cosmic power radiating from your body feels...  tainted somehow.  The corruption pouring off your body feels...  good.</b>");
             DisplayText("\n\nYou have the inexplicable urge to set fire to the world, just to watch it burn.  With your newfound power, it's a goal that is well within reach.");
             DisplayText("\n\n(Perk Gained: Corrupted Nine-tails - Grants two magical special attacks.)");
-            player.perks.set(PerkType.CorruptedNinetails, PerkFactory.create(PerkType.CorruptedNinetails, 0, 0, 0, 0));
+            player.perks.add(PerkType.CorruptedNinetails, 0, 0, 0, 0);
             player.stats.lib += 2;
             player.stats.lust += 10;
             player.stats.cor += 10;

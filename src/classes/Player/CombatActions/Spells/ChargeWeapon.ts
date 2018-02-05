@@ -25,6 +25,6 @@ export class ChargeWeapon extends WhiteMagic {
         player.stats.fatigueMagic(this.baseCost);
         DisplayText().clear();
         DisplayText("You utter words of power, summoning an electrical charge around your " + player.inventory.equipment.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
-        player.statusAffects.set(StatusAffectType.ChargeWeapon, StatusAffectFactory.create(StatusAffectType.ChargeWeapon, 10 * player.combat.stats.spellMod(), 0, 0, 0));
+        player.statusAffects.add(StatusAffectType.ChargeWeapon, 10 * player.combat.stats.spellMod(), 0, 0, 0);
     }
 }

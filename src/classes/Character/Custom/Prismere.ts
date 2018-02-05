@@ -15,8 +15,8 @@ export default function customPrismere(player: Player): void {
     player.stats.spe += 20;
     DisplayText("You're more of a scout than a fighter, but you still feel confident you can handle your responsibilities as champion.  After all, what's to worry about when you can outrun everything you encounter?  You have olive skin, deep red hair, and a demonic tail and wings to blend in with the locals.");
     // Perk is speed, she was a scout, and it'd be neat (if possible) to give her something akin to the Runner perk. She might not start out very strong or tough, but at least she's fast.
-    player.perks.set(PerkType.Fast, PerkFactory.create(PerkType.Fast, 0.25, 0, 0, 0));
-    player.perks.set(PerkType.Runner, PerkFactory.create(PerkType.Runner, 0, 0, 0, 0));
+    player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
+    player.perks.add(PerkType.Runner, 0, 0, 0, 0);
     // In the human world, Prismere began as a scout, helping patrol areas with portals to make sure demonspawn and corruption didn't reach the human homeland. She's gotten herself into a few tight spots because of it, but she's hard to keep pinned down. She has a fiance back in her village whom she fully intends to get back to, so her libido isn't especially high.
     // As of the time the PC takes her on, she has some signs of demonic taint, so Corruption might start at 5 to 10 points."	"Breasts at E, height at 5'0, a curvy build with a more narrow waist and substantial hips and butt. Skin is olive, like a mocha, hair is long and wildly wavy, a deep red, and eyes are a stormy blue. Muscles are barely visible; what muscle she has is the lean build of a runner, not a fighter. Nipples aren't especially long, but more soft.
     player.stats.cor = 5;

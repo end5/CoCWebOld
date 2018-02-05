@@ -14,14 +14,14 @@ export default function customIsaac(player: Player): void {
     // - gift: fast
     player.stats.spe += 5;
     player.tone += 10;
-    player.perks.set(PerkType.Fast, PerkFactory.create(PerkType.Fast, 0.25, 0, 0, 0));
+    player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
     // - history: religion
-    player.perks.set(PerkType.HistoryReligious, PerkFactory.create(PerkType.HistoryReligious, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistoryReligious, 0, 0, 0, 0);
     // (and if possible)
     // - history: fighter
-    player.perks.set(PerkType.HistoryFighter, PerkFactory.create(PerkType.HistoryFighter, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistoryFighter, 0, 0, 0, 0);
     // - history: smith
-    player.perks.set(PerkType.HistorySmith, PerkFactory.create(PerkType.HistorySmith, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistorySmith, 0, 0, 0, 0);
     // in my ar, Issac was born to a disgraced priestess (she was raped by marauders) and raised by her alone until she died from an illness and was pretty much left to fend for and earn a living for himself (hence the fighter and smith background's too) until, years later he was chosen as 'champion'~
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // sex - male
@@ -43,7 +43,7 @@ export default function customIsaac(player: Player): void {
     player.torso.cocks.get(1).thickness = 2.5;
     player.torso.cocks.get(1).type = CockType.TENTACLE;
     player.inventory.equipment.piercings.cocks.get(0).equip(new Piercing(PiercingType.Ladder, "fertite cock-jacob's ladder", "Fertite cock-jacob's ladder"))
-    player.perks.set(PerkType.PiercedFertite, PerkFactory.create(PerkType.PiercedFertite, 5, 0, 0, 0));
+    player.perks.add(PerkType.PiercedFertite, 5, 0, 0, 0);
     // - and one tight asshole
     player.torso.butt.looseness = 0;
     // - kitsune

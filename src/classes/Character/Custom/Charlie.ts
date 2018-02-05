@@ -54,7 +54,7 @@ export default function customCharlie(player: Player): void {
     // Bow
     player.createKeyItem("Bow", 0, 0, 0, 0);
     // Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
-    player.statusAffects.set(StatusAffectType.Kelt, StatusAffectFactory.create(StatusAffectType.Kelt, 100, 0, 0, 0));
+    player.statusAffects.add(StatusAffectType.Kelt, 100, 0, 0, 0);
     // Is it possible to get extra starting perks added? If so, I'd like History: Religious added to whatever is selected on creation. If not, please ignore this line.
     // Freckled skin.adj
     player.skin.adj = "freckled";

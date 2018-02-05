@@ -33,23 +33,23 @@ export default function customCeveo(player: Player): void {
     player.inventory.equipment.piercings.nipples.get(0).equip(new Piercing(PiercingType.Stud, "silver studs", "Silver studs"));
 
     player.skin.tone = "ghostly pale";
-    player.perks.set(PerkType.Incorporeality, PerkFactory.create(PerkType.Incorporeality, 0, 0, 0, 0));
+    player.perks.add(PerkType.Incorporeality, 0, 0, 0, 0);
     player.setArmor(armors.I_CORST);
     player.stats.level = 5;
     player.setWeapon(weapons.W_STAFF);
 
-    player.perks.set(PerkType.Regeneration, PerkFactory.create(PerkType.Regeneration, 0, 0, 0, 0));
-    player.perks.set(PerkType.Smart, PerkFactory.create(PerkType.Smart, 0, 0, 0, 0));
-    player.perks.set(PerkType.Channeling, PerkFactory.create(PerkType.Channeling, 0, 0, 0, 0));
-    player.perks.set(PerkType.Mage, PerkFactory.create(PerkType.Mage, 0, 0, 0, 0));
-    player.perks.set(PerkType.HistoryHealer, PerkFactory.create(PerkType.HistoryHealer, 0, 0, 0, 0));
-    player.perks.set(PerkType.Tank, PerkFactory.create(PerkType.Tank, 0, 0, 0, 0));
-    player.statusAffects.set(StatusAffectType.KnowsArouse, StatusAffectFactory.create(StatusAffectType.KnowsArouse, 0, 0, 0, 0)); )
-    player.statusAffects.set(StatusAffectType.KnowsHeal, StatusAffectFactory.create(StatusAffectType.KnowsHeal, 0, 0, 0, 0)); )
-    player.statusAffects.set(StatusAffectType.KnowsMight, StatusAffectFactory.create(StatusAffectType.KnowsMight, 0, 0, 0, 0)); )
-    player.statusAffects.set(StatusAffectType.KnowsCharge, StatusAffectFactory.create(StatusAffectType.KnowsCharge, 0, 0, 0, 0)); )
-    player.statusAffects.set(StatusAffectType.KnowsBlind, StatusAffectFactory.create(StatusAffectType.KnowsBlind, 0, 0, 0, 0)); )
-    player.statusAffects.set(StatusAffectType.KnowsWhitefire, StatusAffectFactory.create(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0)); )
+    player.perks.add(PerkType.Regeneration, 0, 0, 0, 0);
+    player.perks.add(PerkType.Smart, 0, 0, 0, 0);
+    player.perks.add(PerkType.Channeling, 0, 0, 0, 0);
+    player.perks.add(PerkType.Mage, 0, 0, 0, 0);
+    player.perks.add(PerkType.HistoryHealer, 0, 0, 0, 0);
+    player.perks.add(PerkType.Tank, 0, 0, 0, 0);
+    player.statusAffects.add(StatusAffectType.KnowsArouse, 0, 0, 0, 0); )
+    player.statusAffects.add(StatusAffectType.KnowsHeal, 0, 0, 0, 0); )
+    player.statusAffects.add(StatusAffectType.KnowsMight, 0, 0, 0, 0); )
+    player.statusAffects.add(StatusAffectType.KnowsCharge, 0, 0, 0, 0); )
+    player.statusAffects.add(StatusAffectType.KnowsBlind, 0, 0, 0, 0); )
+    player.statusAffects.add(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0); )
     // magic, 50 Int, 50 tough, Speed 15, Str 10, 30 corruption, 30 libido, 10 sensitivity.
     player.stats.int = 50;
     player.stats.tou = 50;

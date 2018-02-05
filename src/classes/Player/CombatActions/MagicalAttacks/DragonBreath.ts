@@ -33,7 +33,7 @@ export class DragonBreath extends PlayerSpellAction {
     public use(player: Player, monster: Character) {
         DisplayText().clear();
         player.stats.fatigueMagic(this.baseCost);
-        player.statusAffects.set(StatusAffectType.DragonBreathCooldown, StatusAffectFactory.create(StatusAffectType.DragonBreathCooldown, 0, 0, 0, 0));
+        player.statusAffects.add(StatusAffectType.DragonBreathCooldown, 0, 0, 0, 0);
         let damage: number = Math.floor(player.stats.level * 8 + 25 + Utils.rand(10));
         if (player.statusAffects.has(StatusAffectType.DragonBreathBoost)) {
             player.statusAffects.remove(StatusAffectType.DragonBreathBoost);
@@ -81,16 +81,16 @@ export class DragonBreath extends PlayerSpellAction {
         else if (monster.desc.short === "goo-girl") {
             DisplayText(" Your flames lick the girl's body and she opens her mouth in pained protest as you evaporate much of her moisture. When the fire passes, she seems a bit smaller and her slimy " + monster.skin.tone + " skin has lost some of its shimmer. ");
             if (!monster.perks.has(PerkType.Acid))
-                monster.perks.set(PerkType.Acid, PerkFactory.create(PerkType.Acid, 0, 0, 0, 0));
+                monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
             damage = Math.round(damage * 1.5);
             damage = monster.combat.stats.loseHP(damage, player);
-            monster.statusAffects.set(StatusAffectType.Stunned, StatusAffectFactory.create(StatusAffectType.Stunned, 0, 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.Stunned, 0, 0, 0, 0);
             DisplayText("(" + damage + ")\n\n");
         }
         else {
             if (!monster.perks.has(PerkType.Resolute)) {
                 DisplayText("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " crashing to the ground, too dazed to strike back.");
-                monster.statusAffects.set(StatusAffectType.Stunned, StatusAffectFactory.create(StatusAffectType.Stunned, 1, 0, 0, 0));
+                monster.statusAffects.add(StatusAffectType.Stunned, 1, 0, 0, 0);
             }
             else {
                 DisplayText("  " + monster.desc.capitalA + monster.desc.short + " reels as your wave of force slams into " + monster.desc.objectivePronoun + " like a ton of rock!  The impact sends " + monster.desc.objectivePronoun + " staggering back, but <b>" + monster.desc.subjectivePronoun + " ");

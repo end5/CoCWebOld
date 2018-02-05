@@ -67,7 +67,7 @@ export default function customTestChar(player: Player): void {
     player.torso.neck.head.hair.length = 69.2;
     player.torso.neck.head.hair.type = 4;
     // Bow skill 100 (Sorry Kelt, I can't hear your insults over my mad Robin Hood skillz)
-    player.statusAffects.set(StatusAffectType.Kelt, StatusAffectFactory.create(StatusAffectType.Kelt, 100, 0, 0, 0));
+    player.statusAffects.add(StatusAffectType.Kelt, 100, 0, 0, 0);
     player.createKeyItem("Bow", 0, 0, 0, 0);
 
     player.createKeyItem("Zetaz's Map", 0, 0, 0, 0);
@@ -86,29 +86,29 @@ export default function customTestChar(player: Player): void {
 
     player.statusAffects.set(StatusAffectFactory.create(StatusAffectType.KnowsWhitefire, 0, 0, 0, 0)); )
 
-    player.perks.set(PerkType.HistoryFighter, PerkFactory.create(PerkType.HistoryFighter, 0, 0, 0, 0));
-    player.perks.set(PerkType.Acclimation, PerkFactory.create(PerkType.Acclimation, 0, 0, 0, 0));
-    player.perks.set(PerkType.Berzerker, PerkFactory.create(PerkType.Berzerker, 0, 0, 0, 0));
-    player.perks.set(PerkType.BrutalBlows, PerkFactory.create(PerkType.BrutalBlows, 0, 0, 0, 0));
-    player.perks.set(PerkType.DoubleAttack, PerkFactory.create(PerkType.DoubleAttack, 0, 0, 0, 0));
-    player.perks.set(PerkType.ImmovableObject, PerkFactory.create(PerkType.ImmovableObject, 0, 0, 0, 0));
-    player.perks.set(PerkType.LightningStrikes, PerkFactory.create(PerkType.LightningStrikes, 0, 0, 0, 0));
-    player.perks.set(PerkType.LungingAttacks, PerkFactory.create(PerkType.LungingAttacks, 0, 0, 0, 0));
-    player.perks.set(PerkType.Precision, PerkFactory.create(PerkType.Precision, 0, 0, 0, 0));
-    player.perks.set(PerkType.Regeneration, PerkFactory.create(PerkType.Regeneration, 0, 0, 0, 0));
-    player.perks.set(PerkType.Regeneration2, PerkFactory.create(PerkType.Regeneration2, 0, 0, 0, 0));
-    player.perks.set(PerkType.Resistance, PerkFactory.create(PerkType.Resistance, 0, 0, 0, 0));
-    player.perks.set(PerkType.Resolute, PerkFactory.create(PerkType.Resolute, 0, 0, 0, 0));
-    player.perks.set(PerkType.SpeedyRecovery, PerkFactory.create(PerkType.SpeedyRecovery, 0, 0, 0, 0));
-    player.perks.set(PerkType.Tactician, PerkFactory.create(PerkType.Tactician, 0, 0, 0, 0));
-    player.perks.set(PerkType.Tank, PerkFactory.create(PerkType.Tank, 0, 0, 0, 0));
-    player.perks.set(PerkType.Tank2, PerkFactory.create(PerkType.Tank2, 0, 0, 0, 0));
-    player.perks.set(PerkType.ThunderousStrikes, PerkFactory.create(PerkType.ThunderousStrikes, 0, 0, 0, 0));
-    player.perks.set(PerkType.WeaponMastery, PerkFactory.create(PerkType.WeaponMastery, 0, 0, 0, 0));
-    player.perks.set(PerkType.WellAdjusted, PerkFactory.create(PerkType.WellAdjusted, 0, 0, 0, 0));
+    player.perks.add(PerkType.HistoryFighter, 0, 0, 0, 0);
+    player.perks.add(PerkType.Acclimation, 0, 0, 0, 0);
+    player.perks.add(PerkType.Berzerker, 0, 0, 0, 0);
+    player.perks.add(PerkType.BrutalBlows, 0, 0, 0, 0);
+    player.perks.add(PerkType.DoubleAttack, 0, 0, 0, 0);
+    player.perks.add(PerkType.ImmovableObject, 0, 0, 0, 0);
+    player.perks.add(PerkType.LightningStrikes, 0, 0, 0, 0);
+    player.perks.add(PerkType.LungingAttacks, 0, 0, 0, 0);
+    player.perks.add(PerkType.Precision, 0, 0, 0, 0);
+    player.perks.add(PerkType.Regeneration, 0, 0, 0, 0);
+    player.perks.add(PerkType.Regeneration2, 0, 0, 0, 0);
+    player.perks.add(PerkType.Resistance, 0, 0, 0, 0);
+    player.perks.add(PerkType.Resolute, 0, 0, 0, 0);
+    player.perks.add(PerkType.SpeedyRecovery, 0, 0, 0, 0);
+    player.perks.add(PerkType.Tactician, 0, 0, 0, 0);
+    player.perks.add(PerkType.Tank, 0, 0, 0, 0);
+    player.perks.add(PerkType.Tank2, 0, 0, 0, 0);
+    player.perks.add(PerkType.ThunderousStrikes, 0, 0, 0, 0);
+    player.perks.add(PerkType.WeaponMastery, 0, 0, 0, 0);
+    player.perks.add(PerkType.WellAdjusted, 0, 0, 0, 0);
 
-    player.perks.set(PerkType.SensualLover, PerkFactory.create(PerkType.SensualLover, 0, 0, 0, 0));
-    player.perks.set(PerkType.SensualLover, PerkFactory.create(PerkType.SensualLover, 0, 0, 0, 0));
+    player.perks.add(PerkType.SensualLover, 0, 0, 0, 0);
+    player.perks.add(PerkType.SensualLover, 0, 0, 0, 0);
 
     Flags.list[FlagEnum.VALARIA_AT_CAMP] = 1;
 

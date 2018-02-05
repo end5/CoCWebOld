@@ -46,7 +46,7 @@ export class Blind extends WhiteMagic {
 
                 DisplayText("\n\n“<i>The taste of your own medicine, it is not so nice, eh? I will show you much nicer things in there in time intrus, don’t worry. Once you have learnt your place.</i>”");
 
-                player.statusAffects.set(StatusAffectType.Blind, StatusAffectFactory.create(StatusAffectType.Blind, Utils.rand(4) + 1, 0, 0, 0));
+                player.statusAffects.add(StatusAffectType.Blind, Utils.rand(4) + 1, 0, 0, 0);
             }
             return;
         }
@@ -58,7 +58,7 @@ export class Blind extends WhiteMagic {
             DisplayText(" <b>" + monster.desc.capitalA + monster.desc.short + " ");
             if (monster.desc.plural && monster.desc.short !== "imp horde") DisplayText("are blinded!</b>");
             else DisplayText("is blinded!</b>");
-            monster.statusAffects.set(StatusAffectType.Blind, StatusAffectFactory.create(StatusAffectType.Blind, 5 * player.combat.stats.spellMod(), 0, 0, 0));
+            monster.statusAffects.add(StatusAffectType.Blind, 5 * player.combat.stats.spellMod(), 0, 0, 0);
             if (monster.desc.short === "Isabella")
                 if (isabellaFollowerScene.isabellaAccent()) DisplayText("\n\n\"<i>Nein! I cannot see!</i>\" cries Isabella.");
                 else DisplayText("\n\n\"<i>No! I cannot see!</i>\" cries Isabella.");

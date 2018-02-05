@@ -285,7 +285,7 @@ export default class CaninePepper extends Consumable {
         }
         // WARNING, overdose is close!
         if (this.pepperType <= 0 && character.skin.type === SkinType.FUR && character.torso.neck.head.face.type === FaceType.DOG && character.torso.tails.hasType(TailType.DOG) && character.torso.neck.head.ears.type === EarType.DOG && character.torso.hips.legs.type === LegType.DOG && !character.statusAffects.has(StatusAffectType.DogWarning)) {
-            character.statusAffects.set(StatusAffectType.DogWarning, StatusAffectFactory.create(StatusAffectType.DogWarning, 0, 0, 0, 0));
+            character.statusAffects.add(StatusAffectType.DogWarning, 0, 0, 0, 0);
             DisplayText("<b>\n\nEating the pepper, you realize how dog-like you've become, and you wonder what else the peppers could change...</b>");
         }
         if (this.pepperType === 3) {

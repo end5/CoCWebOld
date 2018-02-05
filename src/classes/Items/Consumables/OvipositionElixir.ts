@@ -49,7 +49,7 @@ export default class OvipositionElixir extends Consumable {
         if (!player.pregnancy.womb.isPregnant()) { // If the player is not pregnant, get preggers with eggs!
             DisplayText("\n\nThe elixir has an immediate effect on your belly, causing it to swell out slightly as if pregnant.  You guess you'll be laying eggs sometime soon!");
             player.pregnancy.womb.knockUp(new Pregnancy(PregnancyType.OVIELIXIR_EGGS, IncubationTime.OVIELIXIR_EGGS), 1, true);
-            player.statusAffects.set(StatusAffectType.Eggs, StatusAffectFactory.create(StatusAffectType.Eggs, Utils.rand(6), 0, Utils.rand(3) + 5, 0));
+            player.statusAffects.add(StatusAffectType.Eggs, Utils.rand(6), 0, Utils.rand(3) + 5, 0);
             return;
         }
         let changeOccurred: boolean = false;
