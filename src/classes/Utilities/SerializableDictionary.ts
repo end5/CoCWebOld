@@ -11,12 +11,13 @@ export default class SerializableDictionary<Entry> extends Dictionary<Entry> imp
 
     public serialize(): string {
         const saveObject: object = {};
-        if (this.objectConstructor)
-            for (const key of Object.keys(this.dictionary)) {
+        const keys = this.keys();
+        if (typeof keys[0] === 'object')
+            for (const key of keys) {
                 saveObject[key] = this.dictionary[key].serialize();
             }
         else
-            for (const key of Object.keys(this.dictionary)) {
+            for (const key of keys) {
                 saveObject[key] = this.dictionary[key];
             }
 
@@ -25,14 +26,14 @@ export default class SerializableDictionary<Entry> extends Dictionary<Entry> imp
 
     public deserialize(saveObject: object) {
         const newObject = {};
-        for (const key in Object.keys(saveObject)) {
-            if (this.constructor) {
+        const keys = Object.keys(saveObject);
+        if (this.constructor)
+            for (const key of keys) {
                 newObject[key] = new this.objectConstructor();
                 newObject[key].deserialize(saveObject[key]);
             }
-            else {
+        else
+            for (const key of keys)
                 newObject[key] = saveObject[key];
-            }
-        }
     }
 }
