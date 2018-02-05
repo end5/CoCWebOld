@@ -111,7 +111,7 @@ export default class CombatEffectFactory {
             CombatEffectFactory.flagslib = new AbilityFlagsLib();
     }
 
-    public static create(type: CombatEffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0, inflictedBy: Character = null): CombatEffect {
+    public static create(type: CombatEffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0, inflictedBy?: Character): CombatEffect {
         const abilityFlag = CombatEffectFactory.flagslib.has(type) ? CombatAbilityFlag.All : CombatEffectFactory.flagslib[type];
         if (CombatEffectFactory.lib.has(type)) {
             return new (CombatEffectFactory.lib.get(type))(type, value1, value2, value3, value4, abilityFlag, inflictedBy);

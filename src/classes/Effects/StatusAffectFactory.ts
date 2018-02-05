@@ -1,17 +1,6 @@
-import StatusAffect from './StatusAffect';
-import StatusAffectDesc from './StatusAffectDesc';
+import StatusAffect, { StatusAffectDesc } from './StatusAffect';
 import StatusAffectDescLib from './StatusAffectDescLib';
 import { StatusAffectType } from './StatusAffectType';
-
-interface StatusAffectConstructor {
-    new(type: StatusAffectType,
-        desc: StatusAffectDesc,
-        value1: number,
-        value2: number,
-        value3: number,
-        value4: number,
-    ): StatusAffect;
-}
 
 export default class StatusAffectFactory {
     private static statusAffectDescLib: StatusAffectDescLib;

@@ -1,4 +1,4 @@
-import StatusAffectDesc from './StatusAffectDesc';
+import { StatusAffectDesc } from './StatusAffect';
 import { StatusAffectType } from './StatusAffectType';
 import Dictionary from '../Utilities/Dictionary';
 
