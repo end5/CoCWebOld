@@ -35,13 +35,15 @@ export default class Tail implements ISerializable<Tail> {
     }
 
     public type: TailType;
-    // Tail venom is a 0-100 slider used for tail attacks. Recharges per hour.
-    public vemon: number = 0;
-    // Tail recharge determines how fast venom/webs comes back per hour.
-    public recharge: number = 0;
+    /** Tail venom is a 0-100 slider used for tail attacks. Recharges per hour. */
+    public vemon: number;
+    /** Tail recharge determines how fast venom/webs comes back per hour. */
+    public recharge: number;
 
-    public constructor(type: TailType = TailType.HORSE) {
+    public constructor(type: TailType = TailType.HORSE, vemon: number = 0, recharge: number = 0) {
         this.type = type;
+        this.vemon = vemon;
+        this.recharge = recharge;
     }
 
     // commented out for reminder that isNaga can no longer be checked here

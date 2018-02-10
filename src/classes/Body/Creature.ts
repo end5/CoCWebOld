@@ -1,4 +1,5 @@
 ﻿import BreastRow from './BreastRow';
+import GenderIdentifier, { Gender } from './GenderIdentifier';
 import { LegType } from './Legs';
 import PregnancyManager from './Pregnancy/PregnancyManager';
 import Skin from './Skin';
@@ -13,13 +14,9 @@ import StatusAffectList from '../Effects/StatusAffectList';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import ISerializable from '../Utilities/ISerializable';
 
-export enum Gender {
-    NONE, MALE, FEMALE, HERM
-}
-
 export default class Creature implements ISerializable<Creature> {
     // Appearance Variables
-    public gender: Gender = Gender.NONE;
+    public genderManager: GenderIdentifier = new GenderIdentifier(this);
     public tallness: number = 0;
 
     public skin: Skin = new Skin();
@@ -43,6 +40,14 @@ export default class Creature implements ISerializable<Creature> {
     public stats: StatsModifier = new StatsModifier(this, this.baseStats);
     public statusAffects: StatusAffectList = new StatusAffectList();
     public perks: PerkList = new PerkList();
+
+    public get gender(): Gender {
+        return this.genderManager.gender;
+    }
+
+    public set gender(gender: Gender) {
+        this.genderManager.gender = gender;
+    }
 
     public get femininity(): number {
         if (this.statusAffects.has(StatusAffectType.UmasMassage)) {
