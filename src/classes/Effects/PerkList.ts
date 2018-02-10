@@ -4,40 +4,29 @@ import { PerkType } from './PerkType';
 import ISerializable from '../Utilities/ISerializable';
 import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class PerkList implements ISerializable<PerkList> {
-    private dictionary: SerializableDictionary<Perk>;
-    public constructor() {
-        this.dictionary = new SerializableDictionary();
-    }
-
+export default class PerkList extends SerializableDictionary<Perk> {
     public add(type: PerkType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        this.dictionary.set(type, PerkFactory.create(type, value1, value2, value3, value4));
-    }
-
-    public has(type: PerkType): boolean {
-        return this.dictionary.has(type);
+        this.set(type, PerkFactory.create(type, value1, value2, value3, value4));
     }
 
     public get(type: PerkType): Perk {
-        return this.dictionary.get(type);
+        return super.get(type);
+    }
+
+    public set(type: PerkType, perk: Perk) {
+        super.set(type, perk);
     }
 
     public remove(type: PerkType) {
-        return this.dictionary.remove(type);
+        return super.remove(type);
     }
 
-    public clear() {
-        this.dictionary.clear();
+    public has(type: PerkType): boolean {
+        return super.has(type);
     }
 
     public keys(): PerkType[] {
-        return this.dictionary.keys() as PerkType[];
-    }
-
-    public serialize(): string {
-        return JSON.stringify({
-            dictionary: this.dictionary.serialize()
-        });
+        return super.keys() as PerkType[];
     }
 
     public deserialize(saveObject: PerkList) {

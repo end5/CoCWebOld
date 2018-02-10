@@ -6,58 +6,55 @@ import Character from '../Character/Character';
 import ISerializable from '../Utilities/ISerializable';
 import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class CombatEffectList implements ISerializable<CombatEffectList> {
-    private dictionary: SerializableDictionary<CombatEffect>;
+export default class CombatEffectList extends SerializableDictionary<CombatEffect> {
     private character: Character;
     public constructor(character: Character) {
-        this.dictionary = new SerializableDictionary();
+        super();
         this.character = character;
     }
 
     public add(type: CombatEffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0, inflictedBy?: Character) {
         const newEffect = CombatEffectFactory.create(type, value1, value2, value3, value4, inflictedBy);
-        this.dictionary.set(type, newEffect);
+        this.set(type, newEffect);
         newEffect.onAdd(this.character);
     }
 
-    public has(type: CombatEffectType): boolean {
-        return this.dictionary.has(type);
+    public get(type: CombatEffectType): CombatEffect {
+        return super.get(type);
     }
 
-    public get(type: CombatEffectType): CombatEffect {
-        return this.dictionary.get(type);
+    public set(type: CombatEffectType, effect: CombatEffect) {
+        super.set(type, effect);
     }
 
     public remove(type: CombatEffectType) {
-        if (this.dictionary.has(type)) {
-            this.dictionary.get(type).onRemove(this.character);
+        if (this.has(type)) {
+            this.get(type).onRemove(this.character);
         }
-        this.dictionary.remove(type);
+        super.remove(type);
     }
 
-    public clear() {
-        for (const key of this.dictionary.keys()) {
-            this.dictionary.remove(key);
-        }
-        this.dictionary.clear();
+    public has(type: CombatEffectType): boolean {
+        return super.has(type);
     }
 
     public keys(): CombatEffectType[] {
-        return this.dictionary.keys() as CombatEffectType[];
+        return super.keys() as CombatEffectType[];
+    }
+
+    public clear() {
+        for (const key of this.keys()) {
+            this.remove(key);
+        }
+        super.clear();
     }
 
     public get combatAbilityFlag(): CombatAbilityFlag {
         let flag = CombatAbilityFlag.All;
-        for (const key of this.dictionary.keys()) {
-            flag &= this.dictionary.get(key).abilityFlag;
+        for (const key of this.keys()) {
+            flag &= this.get(key).abilityFlag;
         }
         return flag;
-    }
-
-    public serialize(): string {
-        return JSON.stringify({
-            dictionary: this.dictionary.serialize()
-        });
     }
 
     public deserialize(saveObject: CombatEffectList) {

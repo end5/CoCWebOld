@@ -4,40 +4,29 @@ import { StatusAffectType } from './StatusAffectType';
 import ISerializable from '../Utilities/ISerializable';
 import SerializableDictionary from '../Utilities/SerializableDictionary';
 
-export default class StatusAffectList implements ISerializable<StatusAffectList> {
-    private dictionary: SerializableDictionary<StatusAffect>;
-    public constructor() {
-        this.dictionary = new SerializableDictionary();
-    }
-
+export default class StatusAffectList extends SerializableDictionary<StatusAffect> {
     public add(type: StatusAffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
-        this.dictionary.set(type, StatusAffectFactory.create(type, value1, value2, value3, value4));
-    }
-
-    public has(type: StatusAffectType): boolean {
-        return this.dictionary.has(type);
+        super.set(type, StatusAffectFactory.create(type, value1, value2, value3, value4));
     }
 
     public get(type: StatusAffectType): StatusAffect {
-        return this.dictionary.get(type);
+        return super.get(type);
+    }
+
+    public set(type: StatusAffectType, statusAffect: StatusAffect) {
+        return super.get(type);
     }
 
     public remove(type: StatusAffectType) {
-        return this.dictionary.remove(type);
+        return super.remove(type);
     }
 
-    public clear() {
-        this.dictionary.clear();
+    public has(type: StatusAffectType): boolean {
+        return super.has(type);
     }
 
     public keys(): StatusAffectType[] {
-        return this.dictionary.keys() as StatusAffectType[];
-    }
-
-    public serialize(): string {
-        return JSON.stringify({
-            dictionary: this.dictionary.serialize()
-        });
+        return super.keys() as StatusAffectType[];
     }
 
     public deserialize(saveObject: StatusAffectList) {
