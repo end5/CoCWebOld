@@ -1,30 +1,26 @@
 ﻿import CharacterDescription from './CharacterDescription';
 import { CharacterType } from './CharacterType';
-import Cock, { CockType } from '../Body/Cock';
-import { Gender } from '../Body/Creature';
+import { CockType } from '../Body/Cock';
 import Creature from '../Body/Creature';
-import { FaceType } from '../Body/Face';
 import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
-import FaceDescriptor from '../Descriptors/FaceDescriptor';
-import HeadDescriptor from '../Descriptors/HeadDescriptor';
 import DisplayText from '../display/DisplayText';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffect from '../Effects/StatusAffect';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import Flags, { FlagEnum } from '../Game/Flags';
 import Game from '../Game/Game';
+import GameLocation from '../Game/GameLocation';
 import CharacterInventory from '../Inventory/CharacterInventory';
-import Armor from '../Items/Armors/Armor';
 import CockSockName from '../Items/Misc/CockSockName';
-import Weapon from '../Items/Weapons/Weapon';
 import UpdateInterface from '../UpdateInterface';
 import ISerializable from '../Utilities/ISerializable';
+import SerializableDictionary from '../Utilities/SerializableDictionary';
 import { Utils } from '../Utilities/Utils';
 
 export default abstract class Character extends Creature implements UpdateInterface, ISerializable<Character> {
     public charType: CharacterType;
+    public readonly charID: number;
     public readonly inventory: CharacterInventory;
+    public readonly locations: SerializableDictionary<GameLocation>;
 
     protected description: CharacterDescription;
     public get desc(): CharacterDescription {
@@ -40,17 +36,19 @@ export default abstract class Character extends Creature implements UpdateInterf
         super();
         this.charType = type;
         this.inventory = new CharacterInventory(this);
-        this.desc = new CharacterDescription(this);
+        this.description = new CharacterDescription(this);
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
+        this.locations = new SerializableDictionary(GameLocation);
     }
 
     public serialize(): string {
         return JSON.stringify({
             charType: this.charType,
             inventory: this.inventory.serialize(),
-            desc: this.desc.serialize()
+            desc: this.desc.serialize(),
+            locations: this.locations.serialize()
         });
     }
 
@@ -58,6 +56,7 @@ export default abstract class Character extends Creature implements UpdateInterf
         this.charType = saveObject.charType;
         this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
+        this.locations.deserialize(saveObject.locations);
         super.deserialize(saveObject);
     }
 
