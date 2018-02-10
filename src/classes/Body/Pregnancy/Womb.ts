@@ -29,7 +29,7 @@ export default class Womb implements ISerializable<Womb> {
     }
 
     public canKnockUp(): boolean {
-        return this.pregnancy === undefined && !this.body.statusAffects.has(StatusAffectType.Contraceptives);
+        return this.pregnancy === undefined && !this.body.statusAffects.has(StatusAffectType.Contraceptives) && this.body.torso.vaginas.count > 0;
     }
 
     private removeHeat() {
