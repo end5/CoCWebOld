@@ -1,7 +1,6 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
-import MainScreen from '../../../display/MainScreen';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 
 export default class Recover implements CombatAction {

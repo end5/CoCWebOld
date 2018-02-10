@@ -2,7 +2,7 @@ import BreastRow from '../../Body/BreastRow';
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import DisplayText from '../../display/DisplayText';
 import StatusAffectFactory from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
@@ -112,7 +112,7 @@ export default class ImpPreg implements IPregnancyEvent {
         }
         else if (player.torso.hips.rating < 10) {
             player.torso.hips.rating++;
-            DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LegDescriptor.describeHips(player) + ".");
+            DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + HipDescriptor.describeHips(player) + ".");
         }
         DisplayText().newline();
     }

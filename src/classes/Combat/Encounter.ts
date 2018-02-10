@@ -7,10 +7,9 @@ import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import MainScreen from '../display/MainScreen';
 import Menus from '../display/Menus/Menus';
-import Player from '../Player/Player';
 
 export default class Encounter {
-    private player: Player;
+    private mainCharacter: Character;
     private allyList: Character[];
     private enemyList: Character[];
     private combatCleanUp: boolean;
@@ -18,11 +17,11 @@ export default class Encounter {
     public enemyParty: Party;
     private allyPartyTurn: boolean;
 
-    public constructor(player: Player, allyParty: Character[], enemyParty: Character[], combatCleanUp: boolean = true) {
-        this.player = player;
+    public constructor(mainCharacter: Character, allyParty: Character[], enemyParty: Character[], combatCleanUp: boolean = true) {
+        this.mainCharacter = mainCharacter;
         this.allyList = allyParty;
         this.enemyList = enemyParty;
-        this.allyParty = new Party(allyParty.concat(player));
+        this.allyParty = new Party(allyParty.concat(mainCharacter));
         this.enemyParty = new Party(enemyParty);
 
         this.combatCleanUp = combatCleanUp;
@@ -45,11 +44,11 @@ export default class Encounter {
         // activeMember == Game.player
         if (activeMember.charType === CharacterType.Player) {
             // player pick action
-            Menus.Combat.display(this.player);
+            Menus.Combat.display(this.mainCharacter);
         }
         else {
-            //do ai
-            activeMember;
+            // do ai
+            // activeMember;
         }
         this.enemyParty.resolveAttacker(activeMember);
         this.resolveEndTurn(activeMember);
@@ -57,8 +56,8 @@ export default class Encounter {
 
     private performEnemyPartyTurn() {
         const activeMember = this.enemyParty.activePartyMember();
-        //do ai
-        activeMember;
+        // do ai
+        // activeMember;
         this.allyParty.resolveAttacker(activeMember);
         this.resolveEndTurn(activeMember);
     }
@@ -97,7 +96,7 @@ export default class Encounter {
         if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
             this.displayDefeatEvent();
             if (this.combatCleanUp)
-                CombatCleanup.performCleanup(this.player, this.allyList, this.enemyList);
+                CombatCleanup.performCleanup(this.mainCharacter, this.allyList, this.enemyList);
         }
     }
 
@@ -150,7 +149,7 @@ export default class Encounter {
                     const defeatEvent = this.enemyParty.defeatLog[0];
                     defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                     if (defeatEvent.how !== DefeatType.Escape)
-                        CombatDrops.awardPlayer(this.player, defeatEvent.loser);
+                        CombatDrops.awardPlayer(this.mainCharacter, defeatEvent.loser);
                 }
             }
         }

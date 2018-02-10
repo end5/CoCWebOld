@@ -13,7 +13,7 @@ export default class Squeeze implements CombatAction {
     public canUse(character: Character, monster: Character): boolean {
         return monster.statusAffects.has(StatusAffectType.Constricted);
     }
-    
+
     public use(character: Character, monster: Character) {
         desert.nagaScene.naggaSqueeze();
     }

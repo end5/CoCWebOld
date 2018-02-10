@@ -4,21 +4,20 @@ import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
 import { PerkType } from '../../../Effects/PerkType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 
 export class Possess implements CombatAction {
     public name: string = "Possess";
     public reasonCannotUse: string = "";
 
-    public isPossible(player: Player): boolean {
-        return player.perks.has(PerkType.Incorporeality);
+    public isPossible(character: Character): boolean {
+        return character.perks.has(PerkType.Incorporeality);
     }
 
-    public canUse(player: Player): boolean {
+    public canUse(character: Character): boolean {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(character: Character, monster: Character) {
         DisplayText().clear();
         if (monster.desc.short === "plain girl" || monster.perks.has(PerkType.Incorporeality)) {
             DisplayText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself toward the opponent's frame.  Sadly, it was doomed to fail, as you bounce right off your foe's ghostly form.");
@@ -35,9 +34,9 @@ export class Possess implements CombatAction {
                 DisplayText("they have a body that's incompatible with any kind of possession.\n\n");
         }
         // Success!
-        else if (player.stats.int >= (monster.stats.int - 10) + Utils.rand(21)) {
+        else if (character.stats.int >= (monster.stats.int - 10) + Utils.rand(21)) {
             DisplayText("With a smile and a wink, your form becomes completely intangible, and you waste no time in throwing yourself into your opponent's frame. Before they can regain the initiative, you take control of one of their arms, vigorously masturbating for several seconds before you're finally thrown out. Recorporealizing, you notice your enemy's blush, and know your efforts were somewhat successful.\n\n");
-            const damage = Math.round(player.stats.int / 5) + Utils.rand(player.stats.level) + player.stats.level;
+            const damage = Math.round(character.stats.int / 5) + Utils.rand(character.stats.level) + character.stats.level;
             monster.stats.lust += monster.stats.lustVuln * damage;
         }
         // Fail

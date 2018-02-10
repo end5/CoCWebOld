@@ -27,7 +27,7 @@ export default class Game {
     public static player: Player;
     public static saveManager: SaveManager;
     public static time: TimeManager;
-    public static sceneManager: SceneManager;
+    public static scenes: SceneManager;
     public static campStorage: CampStorage;
     public static settings: Settings;
     public static npcs: SerializableDictionary<Character>;
@@ -50,7 +50,7 @@ export default class Game {
         Game.player = new Player();
 
         Game.time = new TimeManager();
-        Game.sceneManager = new SceneManager();
+        Game.scenes = new SceneManager();
 
         Game.settings = new Settings();
 
@@ -70,7 +70,7 @@ export default class Game {
     public static update(hours: number) {
         Game.player.update(hours);
         Game.time.update(hours);
-        Game.sceneManager.update(hours);
+        Game.scenes.update(hours);
     }
 
     public static get inCombat(): boolean {

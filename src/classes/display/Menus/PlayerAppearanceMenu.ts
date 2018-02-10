@@ -2,10 +2,10 @@
 import { ArmType } from '../../Body/Arms';
 import BreastRow from '../../Body/BreastRow';
 import { CockType } from '../../Body/Cock';
-import { Gender } from '../../Body/Creature';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
+import { Gender } from '../../Body/GenderIdentity';
 import { AntennaeType } from '../../Body/Head';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';

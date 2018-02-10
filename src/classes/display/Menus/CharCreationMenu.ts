@@ -1,9 +1,9 @@
 ﻿import BreastRow, { BreastCup } from '../../Body/BreastRow';
 import { ButtRating } from '../../Body/Butt';
 import Cock, { CockType } from '../../Body/Cock';
-import { Gender } from '../../Body/Creature';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
+import { Gender } from '../../Body/GenderIdentity';
 import { HipRating } from '../../Body/Hips';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';

@@ -1,6 +1,7 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../Effects/CombatEffectType';
+import Game from '../../../Game/Game';
 
 export default class Release implements CombatAction {
     public name: string = "Release";
@@ -15,6 +16,6 @@ export default class Release implements CombatAction {
     }
 
     public use(character: Character, monster: Character) {
-        desert.nagaScene.nagaLeggoMyEggo();
+        Game.scenes.desert.nagaScene.nagaLeggoMyEggo();
     }
 }

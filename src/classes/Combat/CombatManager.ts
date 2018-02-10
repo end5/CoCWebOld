@@ -5,34 +5,32 @@ import MainScreen, { TopButton } from '../display/MainScreen';
 import Menus from '../display/Menus/Menus';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import Game from '../Game/Game';
-import Player from '../Player/Player';
 
 export default class CombatManager {
     private static encounter: Encounter;
-    public static beginBattle(player: Player, allyParty: Character[], enemyParty: Character[], combatCleanUp: boolean = true) {
-        CombatManager.encounter = new Encounter(player, allyParty, enemyParty, combatCleanUp);
+    public static beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[], combatCleanUp: boolean = true) {
+        CombatManager.encounter = new Encounter(mainCharacter, allyParty, enemyParty, combatCleanUp);
         CombatManager.startCombat();
     }
 
     private static startCombat(): void {
-        if (CombatManager.encounter) {
-            MainScreen.getTopButton(TopButton.Data).hide();
-            MainScreen.getTopButton(TopButton.Appearance).hide();
-            MainScreen.getTopButton(TopButton.PerkUp).hide();
-            MainScreen.getTopButton(TopButton.Perks).hide();
-            // Flag the game as being "in combat"
-            Game.inCombat = true;
-            /*
-            if (monster.desc.short == "Ember") {
-                monster.desc.subjectivePronoun = emberScene.emberMF("he", "she");
-                monster.desc.objectivePronoun = emberScene.emberMF("him", "her");
-                monster.desc.possessivePronoun = emberScene.emberMF("his", "her");
-            }*/
-            MainScreen.doNext(Menus.Combat.display);
+        MainScreen.getTopButton(TopButton.Data).hide();
+        MainScreen.getTopButton(TopButton.Appearance).hide();
+        MainScreen.getTopButton(TopButton.PerkUp).hide();
+        MainScreen.getTopButton(TopButton.Perks).hide();
+        // Flag the game as being "in combat"
+        Game.inCombat = true;
+        /*
+        if (monster.desc.short == "Ember") {
+            monster.desc.subjectivePronoun = emberScene.emberMF("he", "she");
+            monster.desc.objectivePronoun = emberScene.emberMF("him", "her");
+            monster.desc.possessivePronoun = emberScene.emberMF("his", "her");
+        }*/
 
-            CombatManager.loadPartyCombatEffects(CombatManager.encounter.allyParty);
-            CombatManager.loadPartyCombatEffects(CombatManager.encounter.enemyParty);
-        }
+        CombatManager.loadPartyCombatEffects(CombatManager.encounter.allyParty);
+        CombatManager.loadPartyCombatEffects(CombatManager.encounter.enemyParty);
+
+        MainScreen.doNext(Menus.Combat.display);
     }
 
     private static loadPartyCombatEffects(party: Party) {

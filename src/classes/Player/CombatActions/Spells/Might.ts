@@ -4,56 +4,54 @@ import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../../Descriptors/CockDescriptor';
 import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../../display/DisplayText';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 
 export class Might extends BlackMagic {
     public name: string = "Might";
     public readonly baseCost: number = 25;
 
-    public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusAffectType.KnowsMight);
+    public isPossible(character: Character): boolean {
+        return character.statusAffects.has(StatusAffectType.KnowsMight);
     }
 
-    public canUse(player: Player): boolean {
-        if (player.statusAffects.has(StatusAffectType.Might)) {
+    public canUse(character: Character): boolean {
+        if (character.statusAffects.has(StatusAffectType.Might)) {
             this.reasonCannotUse = "<b>You are already under the effects of Might and cannot cast it again.</b>\n\n";
             return false;
         }
-        return super.canUse(player);
+        return super.canUse(character);
     }
 
-    public castSpell(player: Player, monster: Character) {
-        player.stats.fatigueMagic(this.baseCost);
+    public castSpell(character: Character, monster: Character) {
+        character.stats.fatigueMagic(this.baseCost);
         DisplayText().clear();
         DisplayText("You flush, drawing on your body's desires to empower your muscles and toughen you up.\n\n");
         // 25% backfire!
         if (Utils.rand(4) === 0) {
             DisplayText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
-            if (player.gender === 0) DisplayText(ButtDescriptor.describeButthole(player) + " tingles with a desire to be filled as your libido spins out of control.");
-            if (player.gender === 1) {
-                if (player.torso.cocks.count === 1) DisplayText(CockDescriptor.describeCock(player, player.torso.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
-                else DisplayText(CockDescriptor.describeMultiCockShort(player) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
+            if (character.gender === 0) DisplayText(ButtDescriptor.describeButthole(character) + " tingles with a desire to be filled as your libido spins out of control.");
+            if (character.gender === 1) {
+                if (character.torso.cocks.count === 1) DisplayText(CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
+                else DisplayText(CockDescriptor.describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
-            if (player.gender === 2) DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
-            if (player.gender === 3) DisplayText(VaginaDescriptor.describeVagina(player, player.torso.vaginas.get(0)) + " and " + CockDescriptor.describeMultiCockShort(player) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
-            player.stats.lib += .25;
-            player.stats.lust += 15;
+            if (character.gender === 2) DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+            if (character.gender === 3) DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " and " + CockDescriptor.describeMultiCockShort(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
+            character.stats.lib += .25;
+            character.stats.lust += 15;
         }
         else {
             DisplayText("The rush of success and power flows through your body.  You feel like you can do anything!");
-            player.statusAffects.add(StatusAffectType.Might, 0, 0, 0, 0);
-            const temp = 5 * player.combat.stats.spellMod();
+            character.statusAffects.add(StatusAffectType.Might, 0, 0, 0, 0);
+            const temp = 5 * character.combat.stats.spellMod();
             let tempStr = temp;
             let tempTou = temp;
-            if (player.stats.str + temp > 100) tempStr = 100 - player.stats.str;
-            if (player.stats.tou + temp > 100) tempTou = 100 - player.stats.tou;
-            player.statusAffects.get(StatusAffectType.Might).value1 = tempStr;
-            player.statusAffects.get(StatusAffectType.Might).value2 = tempTou;
-            player.stats.str += player.statusAffects.get(StatusAffectType.Might).value1;
-            player.stats.tou += player.statusAffects.get(StatusAffectType.Might).value2;
+            if (character.stats.str + temp > 100) tempStr = 100 - character.stats.str;
+            if (character.stats.tou + temp > 100) tempTou = 100 - character.stats.tou;
+            character.statusAffects.get(StatusAffectType.Might).value1 = tempStr;
+            character.statusAffects.get(StatusAffectType.Might).value2 = tempTou;
+            character.stats.str += character.statusAffects.get(StatusAffectType.Might).value1;
+            character.stats.tou += character.statusAffects.get(StatusAffectType.Might).value2;
         }
         DisplayText("\n\n");
     }

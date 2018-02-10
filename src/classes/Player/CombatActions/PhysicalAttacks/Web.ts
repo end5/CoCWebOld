@@ -11,16 +11,16 @@ export class Web implements CombatAction {
     public reasonCannotUse: string = "You do not have enough webbing to shoot right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.hasType(TailType.SPIDER_ABDOMEN);
+        return player.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false);
     }
 
     public canUse(player: Player): boolean {
-        return player.torso.tails.filterType(TailType.SPIDER_ABDOMEN)[0].vemon >= 33;
+        return player.torso.tails.filter(Tail.Type(TailType.SPIDER_ABDOMEN))[0].vemon >= 33;
     }
 
     public use(player: Player, monster: Character) {
         DisplayText().clear();
-        player.torso.tails.filterType(TailType.SPIDER_ABDOMEN)[0].vemon -= 33;
+        player.torso.tails.filter(Tail.Type(TailType.SPIDER_ABDOMEN))[0].vemon -= 33;
         // Amily!
         if (monster.statusAffects.has(StatusAffectType.Concentration)) {
             DisplayText("Amily easily glides around your attack thanks to her complete concentration on your movements.\n\n");

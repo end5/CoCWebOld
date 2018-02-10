@@ -2,24 +2,22 @@ import WhiteMagic from './WhiteMagic';
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import PerkFactory from '../../../Effects/PerkFactory';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 
 export class Whitefire extends WhiteMagic {
     public name: string = "Whitefire";
     public readonly baseCost: number = 30;
 
-    public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusAffectType.KnowsWhitefire);
+    public isPossible(character: Character): boolean {
+        return character.statusAffects.has(StatusAffectType.KnowsWhitefire);
     }
 
-    public castSpell(player: Player, monster: Character) {
+    public castSpell(character: Character, monster: Character) {
         DisplayText().clear();
         // This is now automatic - newRound arg defaults to true:	menuLoc = 0;
-        player.stats.fatigueMagic(this.baseCost);
+        character.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a + monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
@@ -29,7 +27,7 @@ export class Whitefire extends WhiteMagic {
             return;
         }
         DisplayText("You narrow your eyes, focusing your mind with deadly intent.  You snap your fingers and " + monster.desc.a + monster.desc.short + " is enveloped in a flash of white flames!\n");
-        let damage = Math.floor(10 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.combat.stats.spellMod());
+        let damage = Math.floor(10 + (character.stats.int / 3 + Utils.rand(character.stats.int / 2)) * character.combat.stats.spellMod());
         // High damage to goes.
         if (monster.desc.short === "goo-girl")
             damage = Math.round(damage * 1.5);
@@ -41,7 +39,7 @@ export class Whitefire extends WhiteMagic {
                 monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
         }
         DisplayText("\n\n");
-        monster.combat.stats.loseHP(damage, player);
+        monster.combat.stats.loseHP(damage, character);
     }
 }
 

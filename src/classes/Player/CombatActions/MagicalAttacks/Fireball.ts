@@ -2,28 +2,26 @@ import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
-import PerkFactory from '../../../Effects/PerkFactory';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 
 export class Fireball implements CombatAction {
     public name: string = "Fire Breath";
     public reasonCannotUse: string = "You are too tired to breathe fire.";
     public readonly fatigueCost: number =  20;
 
-    public isPossible(player: Player): boolean {
-        return player.perks.has(PerkType.FireLord);
+    public isPossible(character: Character): boolean {
+        return character.perks.has(PerkType.FireLord);
     }
 
-    public canUse(player: Player): boolean {
-        return player.stats.fatigue + this.fatigueCost <= 100;
+    public canUse(character: Character): boolean {
+        return character.stats.fatigue + this.fatigueCost <= 100;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(character: Character, monster: Character) {
         DisplayText().clear();
-        player.stats.fatigue += this.fatigueCost;
+        character.stats.fatigue += this.fatigueCost;
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
             DisplayText("As soon as your magic touches the multicolored shell around " + monster.desc.a+ monster.desc.short + ", it sizzles and fades to nothing.  Whatever that thing is, it completely blocks your magic!\n\n");
             return;
@@ -39,26 +37,26 @@ export class Fireball implements CombatAction {
         }
         // [Failure]
         // (high damage to self, +20 fatigue)
-        if (Utils.rand(5) === 0 || player.statusAffects.has(StatusAffectType.WebSilence)) {
-            if (player.statusAffects.has(StatusAffectType.WebSilence)) DisplayText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, it backs up in your throat, blocked by the webbing across your mouth.  It causes you to cry out as the sudden, heated force explodes in your own throat.\n\n");
-            else if (player.statusAffects.has(StatusAffectType.GooArmorSilence)) DisplayText("You reach for the terrestrial fire but as you ready the torrent, it erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.  The slime covering your mouth bubbles and pops, boiling away where the escaping flame opens small rents in it.  That wasn't as effective as you'd hoped, but you can at least speak now.");
+        if (Utils.rand(5) === 0 || character.statusAffects.has(StatusAffectType.WebSilence)) {
+            if (character.statusAffects.has(StatusAffectType.WebSilence)) DisplayText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, it backs up in your throat, blocked by the webbing across your mouth.  It causes you to cry out as the sudden, heated force explodes in your own throat.\n\n");
+            else if (character.statusAffects.has(StatusAffectType.GooArmorSilence)) DisplayText("You reach for the terrestrial fire but as you ready the torrent, it erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.  The slime covering your mouth bubbles and pops, boiling away where the escaping flame opens small rents in it.  That wasn't as effective as you'd hoped, but you can at least speak now.");
             else DisplayText("You reach for the terrestrial fire, but as you ready to release a torrent of flame, the fire inside erupts prematurely, causing you to cry out as the sudden heated force explodes in your own throat.\n\n");
-            player.stats.fatigue += 10;
-            player.combat.stats.loseHP(10 + Utils.rand(20), player);
+            character.stats.fatigue += 10;
+            character.combat.stats.loseHP(10 + Utils.rand(20), character);
             return;
         }
-        // Player doesn't gain from this spell so why should the doppleganger gain for the player
+        // Player doesn't gain from this spell so why should the doppleganger gain for the character
         /*if (monster instanceof Doppleganger) {
             <Doppleganger>monster.handleSpellResistance("fireball");
             Flags.list[FlagEnum.SPELLS_CAST]++;
-            spellPerkUnlock(player);
+            spellPerkUnlock(character);
             return;
         }*/
         let damage: number;
-        damage = Math.floor(player.stats.level * 10 + 45 + Utils.rand(10));
-        if (player.statusAffects.has(StatusAffectType.GooArmorSilence)) {
+        damage = Math.floor(character.stats.level * 10 + 45 + Utils.rand(10));
+        if (character.statusAffects.has(StatusAffectType.GooArmorSilence)) {
             DisplayText("<b>A growl rumbles from deep within as you charge the terrestrial fire, and you force it from your chest and into the slime.  The goop bubbles and steams as it evaporates, drawing a curious look from your foe, who pauses in her onslaught to lean in and watch.  While the tension around your mouth lessens and your opponent forgets herself more and more, you bide your time.  When you can finally work your jaw enough to open your mouth, you expel the lion's - or jaguar's? share of the flame, inflating an enormous bubble of fire and evaporated slime that thins and finally pops to release a superheated cloud.  The armored girl screams and recoils as she's enveloped, flailing her arms.</b> ");
-            player.statusAffects.remove(StatusAffectType.GooArmorSilence);
+            character.statusAffects.remove(StatusAffectType.GooArmorSilence);
             damage += 25;
         }
         else DisplayText("A growl rumbles deep with your chest as you charge the terrestrial fire.  When you can hold it no longer, you release an ear splitting roar and hurl a giant green conflagration at your enemy. ");
@@ -71,15 +69,15 @@ export class Fireball implements CombatAction {
         }
         else if (monster.desc.short === "Vala") {
             DisplayText("Vala beats her wings with surprising strength, blowing the fireball back at you! ");
-            if (player.perks.has(PerkType.Evade) && Utils.rand(2) === 0) {
+            if (character.perks.has(PerkType.Evade) && Utils.rand(2) === 0) {
                 DisplayText("You dive out of the way and evade it!");
             }
-            else if (player.perks.has(PerkType.Flexibility) && Utils.rand(4) === 0) {
+            else if (character.perks.has(PerkType.Flexibility) && Utils.rand(4) === 0) {
                 DisplayText("You use your flexibility to barely fold your body out of the way!");
             }
             else {
                 DisplayText("Your own fire smacks into your face! (" + damage + ")");
-                player.combat.stats.loseHP(damage, player);
+                character.combat.stats.loseHP(damage, character);
             }
             DisplayText("\n\n");
         }
@@ -95,7 +93,7 @@ export class Fireball implements CombatAction {
                 DisplayText("<b>Your breath is massively dissipated by the swirling vortex, causing it to hit with far less force!</b>  ");
                 damage = Math.round(0.2 * damage);
             }
-            damage = monster.combat.stats.loseHP(damage, player);
+            damage = monster.combat.stats.loseHP(damage, character);
             DisplayText("(" + damage + ")\n\n");
             if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
                 monster.lightHolliOnFireMagically() as Holli;

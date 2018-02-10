@@ -1,6 +1,6 @@
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Player from '../Player';
 

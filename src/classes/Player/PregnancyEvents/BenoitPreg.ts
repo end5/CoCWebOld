@@ -5,7 +5,7 @@ import Player from '../Player';
 
 export default class BenoitPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
-        Game.sceneManager.bog.phoukaScene.phoukaPregUpdate();
+        Game.scenes.bog.phoukaScene.phoukaPregUpdate();
     }
 
     public canBirth(player: Player, incubationTime: number): boolean {

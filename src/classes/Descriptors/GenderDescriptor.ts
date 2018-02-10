@@ -1,5 +1,5 @@
 ﻿import BreastRow from '../Body/BreastRow';
-import { Gender } from '../Body/Creature';
+import { Gender } from '../Body/GenderIdentity';
 import Character from '../Character/Character';
 
 export default class GenderDescriptor {

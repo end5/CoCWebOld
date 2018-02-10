@@ -1,4 +1,4 @@
-import { Gender } from '../../Body/Creature';
+import { Gender } from '../../Body/GenderIdentity';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import CombatEffect from '../CombatEffect';

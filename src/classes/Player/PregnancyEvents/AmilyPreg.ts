@@ -61,7 +61,7 @@ export default class AmilyPreg implements IPregnancyEvent {
             player.updateGender();
         }
         // FUCKING BIRTH SHIT HERE.
-        Game.sceneManager.amilyScene.pcBirthsAmilysKidsQuestVersion();
+        Game.scenes.amilyScene.pcBirthsAmilysKidsQuestVersion();
         VaginaModifier.displayStretchVagina(player, 20, true, true);
         if (player.torso.vaginas.get(0).wetness === VaginaWetness.DRY) player.torso.vaginas.get(0).wetness++;
         player.orgasm();

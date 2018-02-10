@@ -35,7 +35,7 @@ export default class MarbleMilk extends Consumable {
             }
         }
         // Increases addiction by 5, up to a max of 50 before the player becomes addicted, no max after the player is addicted.
-        Game.sceneManager.marbleScene.marbleStatusChange(0, 5);
+        Game.scenes.marbleScene.marbleStatusChange(0, 5);
         // Does not apply the 'Marble's Milk' effect
         // Purge withdrawl
         if (player.statusAffects.has(StatusAffectType.MarbleWithdrawl)) {

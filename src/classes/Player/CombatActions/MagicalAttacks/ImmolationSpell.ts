@@ -1,30 +1,28 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
-import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 
 export class ImmolationSpell implements CombatAction {
     public name: string = "Immolation";
     public reasonCannotUse: string = "";
 
-    public isPossible(player: Player): boolean {
-        return player.statusAffects.has(StatusAffectType.ImmolationSpell);
+    public isPossible(character: Character): boolean {
+        return character.statusAffects.has(StatusAffectType.ImmolationSpell);
     }
 
-    public canUse(player: Player): boolean {
-        return player.statusAffects.has(StatusAffectType.ImmolationSpell);
+    public canUse(character: Character): boolean {
+        return character.statusAffects.has(StatusAffectType.ImmolationSpell);
     }
 
-    public use(player: Player, monster: Character) {
+    public use(character: Character, monster: Character) {
         DisplayText().clear();
         DisplayText("You gather energy in your Talisman and unleash the spell contained within.  A wave of burning flames gathers around " + monster.desc.a+ monster.desc.short + ", slowly burning " + monster.desc.objectivePronoun + ".");
-        let damage: number = Math.floor(75 + (player.stats.int / 3 + Utils.rand(player.stats.int / 2)) * player.combat.stats.spellMod());
-        damage = monster.combat.stats.loseHP(damage, player);
+        let damage: number = Math.floor(75 + (character.stats.int / 3 + Utils.rand(character.stats.int / 2)) * character.combat.stats.spellMod());
+        damage = monster.combat.stats.loseHP(damage, character);
         DisplayText(" (" + damage + ")\n\n");
-        player.statusAffects.remove(StatusAffectType.ImmolationSpell);
+        character.statusAffects.remove(StatusAffectType.ImmolationSpell);
         arianScene.clearTalisman();
     }
 }

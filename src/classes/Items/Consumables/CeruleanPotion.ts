@@ -1,6 +1,6 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
-import { Gender } from '../../Body/Creature';
+import { Gender } from '../../Body/GenderIdentity';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';

@@ -13,40 +13,39 @@ import ItemFactory from '../Items/ItemFactory';
 import ItemType from '../Items/ItemType';
 import CockSockName from '../Items/Misc/CockSockName';
 import WeaponName from '../Items/Weapons/WeaponName';
-import Player from '../Player/Player';
 import DateUtils from '../Utilities/DateUtils';
 import { Utils } from '../Utilities/Utils';
 
 export default class CombatDrops {
-    public static awardPlayer(player: Player, monster: Character) {
-        if (player.inventory.equipment.cockSocks.hasCockSock(CockSockName.Gilded)) {
-            const cockIndex = player.inventory.equipment.cockSocks.indexOfCockSock(CockSockName.Gilded);
-            monster.inventory.gems += monster.inventory.gems * 0.15 + 5 * player.torso.cocks.get(cockIndex).length;
+    public static awardPlayer(character: Character, enemy: Character) {
+        if (character.inventory.equipment.cockSocks.hasCockSock(CockSockName.Gilded)) {
+            const cockIndex = character.inventory.equipment.cockSocks.indexOfCockSock(CockSockName.Gilded);
+            enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * character.torso.cocks.get(cockIndex).length;
         }
-        monster.combat.rewards.onReward();
-        const item = CombatDrops.dropItem(player, monster);
+        enemy.combat.rewards.onReward();
+        const item = CombatDrops.dropItem(character, enemy);
         if (item !== undefined) {
-            player.inventory.items.add(player, [new ItemStack(item, 1)], Menus.Player.display);
+            character.inventory.items.add(character, [new ItemStack(item, 1)], Menus.Player.display);
         }
-        player.inventory.gems += monster.combat.rewards.gems();
-        player.stats.XP += monster.combat.rewards.XP();
+        character.inventory.gems += enemy.combat.rewards.gems();
+        character.stats.XP += enemy.combat.rewards.XP();
     }
 
-    public static dropItem(player: Player, monster: Character): Item {
-        if (monster.statusAffects.has(StatusAffectType.NoLoot)) {
+    public static dropItem(character: Character, enemy: Character): Item {
+        if (enemy.statusAffects.has(StatusAffectType.NoLoot)) {
             return;
         }
-        let item: Item = monster.combat.rewards.drop().roll();
-        if (monster.desc.short === "tit-fucked Minotaur") {
+        let item: Item = enemy.combat.rewards.drop().roll();
+        if (enemy.desc.short === "tit-fucked Minotaur") {
             item = ItemFactory.get(ItemType.Consumable, ConsumableName.MinotaurCum);
         }
-        if (monster.charType === CharacterType.Minotaur) {
-            if (monster.inventory.equipment.weapon.displayname === "axe") {
+        if (enemy.charType === CharacterType.Minotaur) {
+            if (enemy.inventory.equipment.weapon.displayname === "axe") {
                 if (Utils.rand(2) === 0) {
                     // 50% breakage!
                     if (Utils.rand(2) === 0) {
                         item = ItemFactory.get(ItemType.Weapon, WeaponName.LargeAxe);
-                        if (player.tallness < 78) {
+                        if (character.tallness < 78) {
                             DisplayText("\nYou find a large axe on the minotaur, but it is too big for a person of your stature to comfortably carry.  ");
                             if (Utils.rand(2) === 0) item = null;
                             else item = ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight);
@@ -59,7 +58,7 @@ export default class CombatDrops {
                 else item = ItemFactory.get(ItemType.Consumable, ConsumableName.MinotaurBlood);
             }
         }
-        if (monster.charType === CharacterType.BeeGirl) {
+        if (enemy.charType === CharacterType.BeeGirl) {
             // force honey drop if milked
             if (Flags.list[FlagEnum.FORCE_BEE_TO_PRODUCE_HONEY] === 1) {
                 if (Utils.rand(2) === 0) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BeeHoney);
@@ -67,34 +66,34 @@ export default class CombatDrops {
                 Flags.list[FlagEnum.FORCE_BEE_TO_PRODUCE_HONEY] = 0;
             }
         }
-        if (monster.charType === CharacterType.Jojo && Plot.monk > 4) {
+        if (enemy.charType === CharacterType.Jojo && Plot.monk > 4) {
             if (Utils.rand(2) === 0) item = ItemFactory.get(ItemType.Consumable, ConsumableName.IncubusDraft);
             else {
                 if (Utils.rand(2) === 0) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BlackSpellbook);
                 else item = ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubiMilk);
             }
         }
-        if (monster.charType === CharacterType.Harpy || monster.charType === CharacterType.Sophie) {
+        if (enemy.charType === CharacterType.Harpy || enemy.charType === CharacterType.Sophie) {
             if (Utils.rand(10) === 0) item = ItemFactory.get(ItemType.Armor, ArmorName.WizardRobes);
-            else if (Utils.rand(3) === 0 && player.perks.has(PerkType.LuststickAdapted)) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LustStick);
+            else if (Utils.rand(3) === 0 && character.perks.has(PerkType.LuststickAdapted)) item = ItemFactory.get(ItemType.Consumable, ConsumableName.LustStick);
             else item = ItemFactory.get(ItemType.Consumable, ConsumableName.GoldenSeed);
         }
         // Chance of armor if at level 1 pierce fetish
         if (!plotFight &&
-            (monster.charType !== CharacterType.Ember &&
-                monster.charType !== CharacterType.Kiha &&
-                monster.charType !== CharacterType.Hel &&
-                monster.charType !== CharacterType.Isabella) &&
+            (enemy.charType !== CharacterType.Ember &&
+                enemy.charType !== CharacterType.Kiha &&
+                enemy.charType !== CharacterType.Hel &&
+                enemy.charType !== CharacterType.Isabella) &&
             Flags.list[FlagEnum.PC_FETISH] === 1 &&
             Utils.rand(10) === 0 &&
-            !player.inventory.items.has(ArmorName.SeductiveArmor) &&
+            !character.inventory.items.has(ArmorName.SeductiveArmor) &&
             !ceraphFollowerScene.ceraphIsFollower()
         ) {
             item = ItemFactory.get(ItemType.Armor, ArmorName.SeductiveArmor);
         }
 
-        if (!plotFight && Utils.rand(200) === 0 && player.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BroBrew);
-        if (!plotFight && Utils.rand(200) === 0 && player.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BimboLiqueur);
+        if (!plotFight && Utils.rand(200) === 0 && character.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BroBrew);
+        if (!plotFight && Utils.rand(200) === 0 && character.stats.level >= 7) item = ItemFactory.get(ItemType.Consumable, ConsumableName.BimboLiqueur);
         // Chance of eggs if Easter!
         if (!plotFight && Utils.rand(6) === 0 && DateUtils.isEaster()) {
             const temp = Utils.rand(13);
@@ -116,7 +115,7 @@ export default class CombatDrops {
         if (Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID] !== "") {
             item = ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]);
         }
-        monster.combat.rewards.onRewardItem(item); // Each monster can now override the default award text
+        enemy.combat.rewards.onRewardItem(item); // Each monster can now override the default award text
         return item;
     }
 }

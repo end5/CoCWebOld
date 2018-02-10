@@ -27,7 +27,7 @@ export class Kick extends PlayerPhysicalAction {
         // Variant start messages!
         if (player.torso.hips.legs.type === LegType.KANGAROO) {
             // (tail)
-            if (player.torso.tails.hasType(TailType.KANGAROO))
+            if (player.torso.tails.reduce(Tail.HasType(TailType.KANGAROO), false))
                 DisplayText("You balance on your flexible kangaroo-tail, pulling both legs up before slamming them forward simultaneously in a brutal kick.  ");
             // (no tail)
             else

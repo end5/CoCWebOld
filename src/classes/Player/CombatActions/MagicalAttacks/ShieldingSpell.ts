@@ -1,8 +1,6 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import DisplayText from '../../../display/DisplayText';
-import { PerkType } from '../../../Effects/PerkType';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Player from '../../Player';
 

@@ -1,16 +1,15 @@
 import BreastRow from '../../../Body/BreastRow';
 import { EarType } from '../../../Body/Ears';
-import { TailType } from '../../../Body/Tail';
+import Tail, { TailType } from '../../../Body/Tail';
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
 import BallsDescriptor from '../../../Descriptors/BallsDescriptor';
 import BreastDescriptor from '../../../Descriptors/BreastDescriptor';
 import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import HipDescriptor from '../../../Descriptors/HipDescriptor';
 import DisplayText from '../../../display/DisplayText';
 import { CombatEffectType } from '../../../Effects/CombatEffectType';
 import { PerkType } from '../../../Effects/PerkType';
-import Game from '../../../Game/Game';
 import { Utils } from '../../../Utilities/Utils';
 
 export default class Run implements CombatAction {
@@ -101,7 +100,7 @@ export default class Run implements CombatAction {
         let escapeMod: number = 20 + monster.stats.level * 3;
         // if(debug) escapeMod -= 300;
         if (character.canFly()) escapeMod -= 20;
-        if (character.torso.tails.hasType(TailType.RACCOON) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
+        if (character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
             escapeMod -= 25;
 
         // Big tits doesn't matter as much if ya can fly!
@@ -164,7 +163,7 @@ export default class Run implements CombatAction {
             if (character.canFly())
                 DisplayText(monster.desc.capitalA + monster.desc.short + " can't catch you.");
             // sekrit benefit: if you have coon ears, coon tail, and Runner perk, change normal Runner escape to flight-type escape
-            else if (character.torso.tails.hasType(TailType.RACCOON) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner)) {
+            else if (character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner)) {
                 DisplayText("Using your running skill, you build up a head of steam and jump, then spread your arms and flail your tail wildly; your opponent dogs you as best " + monster.desc.subjectivePronoun + " can, but stops and stares dumbly as your spastic tail slowly propels you several meters into the air!  You leave " + monster.desc.objectivePronoun + " behind with your clumsy, jerky, short-range flight.");
             }
             // Non-fliers flee
@@ -197,7 +196,7 @@ export default class Run implements CombatAction {
                     DisplayText(monster.desc.capitalA + monster.desc.short + " manages to grab your " + LowerBodyDescriptor.describeLegs(character) + " and drag you back to the ground before you can fly away!");
             }
             // fail
-            else if (character.torso.tails.hasType(TailType.RACCOON) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
+            else if (character.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) && character.torso.neck.head.ears.type === EarType.RACCOON && character.perks.has(PerkType.Runner))
                 DisplayText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
             // Nonflyer messages
             else {
@@ -214,7 +213,7 @@ export default class Run implements CombatAction {
                     // FOR PLAYERS WITH GIANT BREASTS
                     if (largestBreastRating >= 35 && largestBreastRating < 66) {
                         if (character.torso.hips.rating >= 20) {
-                            DisplayText("Your " + LowerBodyDescriptor.describeHips(character) + " forces your gait to lurch slightly side to side, which causes the fat of your " + character.skin.tone + " ");
+                            DisplayText("Your " + HipDescriptor.describeHips(character) + " forces your gait to lurch slightly side to side, which causes the fat of your " + character.skin.tone + " ");
                             if (character.torso.butt.rating >= 20)
                                 DisplayText(ButtDescriptor.describeButt(character) + " and ");
                             DisplayText(BreastDescriptor.describeChest(character) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
@@ -239,7 +238,7 @@ export default class Run implements CombatAction {
                     }
                     // FOR PLAYERS WITH EITHER GIANT HIPS OR BUTT BUT NOT THE BREASTS
                     else if (character.torso.hips.rating >= 20) {
-                        DisplayText("Your " + LowerBodyDescriptor.describeHips(character) + " swing heavily from side to side ");
+                        DisplayText("Your " + HipDescriptor.describeHips(character) + " swing heavily from side to side ");
                         if (character.torso.butt.rating >= 20)
                             DisplayText("causing your " + character.skin.tone + ButtDescriptor.describeButt(character) + " to wobble obscenely ");
                         DisplayText("and forcing your body into an awkward gait that slows you down, preventing you from escaping.");

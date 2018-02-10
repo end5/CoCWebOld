@@ -10,6 +10,6 @@ export default class BlackCatBeer extends Consumable {
     }
 
     public use(player: Player) {
-        Game.sceneManager.telAdre.niamh.blackCatBeerEffects(player);
+        Game.scenes.telAdre.niamh.blackCatBeerEffects(player);
     }
 }

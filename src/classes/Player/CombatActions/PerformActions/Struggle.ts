@@ -1,8 +1,7 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../../Descriptors/LegDescriptor';
 import DisplayText from '../../../display/DisplayText';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
 
@@ -87,7 +86,7 @@ export default class Struggle implements CombatAction {
             DisplayText("You struggle with all of your might to free yourself from the tentacles before the creature can fulfill whatever unholy desire it has for you.\n");
             // 33% chance to break free + up to 50% chance for strength
             if (Utils.rand(3) === 0 || Utils.rand(80) < character.stats.str / 2) {
-                DisplayText("As the creature attempts to adjust your position in its grip, you free one of your " + LowerBodyDescriptor.describeLegs(character) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
+                DisplayText("As the creature attempts to adjust your position in its grip, you free one of your " + LegDescriptor.describeLegs(character) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
                 character.statusAffects.remove(StatusAffectType.TentacleBind);
                 monster.statusAffects.add(StatusAffectType.TentacleCoolDown, 3, 0, 0, 0);
                 enemyAI();

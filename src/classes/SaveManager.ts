@@ -1,15 +1,15 @@
 import MainScreen from './display/MainScreen';
 import Game from './Game/Game';
 import SaveFile from './SaveFile';
-import { SerializeInterface } from './SerializeInterface';
+import ISerializable from './Utilities/ISerializable';
 
 export default class SaveManager {
-    private static _activeSlot: number;
+    private static activedSlot: number;
     private static saveSlots: object[];
     public static autoSave: boolean;
 
     public constructor() {
-        SaveManager._activeSlot = -1;
+        SaveManager.activedSlot = -1;
         SaveManager.saveSlots = [];
         SaveManager.saveSlots.length = SaveManager.saveSlotCount();
         SaveManager.autoSave = true;
@@ -17,8 +17,8 @@ export default class SaveManager {
     }
 
     private static save(notes?: string): object {
-        const saveFile = <SaveFile>{};
-        saveFile.days = Game.days;
+        const saveFile = {} as SaveFile;
+        saveFile.days = Game.time.day;
         saveFile.name = Game.player.desc.short;
         saveFile.game = Game.save();
         saveFile.gender = Game.player.gender;
@@ -39,19 +39,19 @@ export default class SaveManager {
     }
 
     public static activeSlot(): number {
-        return SaveManager._activeSlot;
+        return SaveManager.activedSlot;
     }
 
-    public static has(number: number): boolean {
-        return SaveManager.saveSlots[number] != undefined;
+    public static has(slot: number): boolean {
+        return SaveManager.saveSlots[slot] !== undefined;
     }
 
-    public static get(number: number): object {
-        return SaveManager.saveSlots[number];
+    public static get(slot: number): object {
+        return SaveManager.saveSlots[slot];
     }
 
-    public static delete(number: number) {
-        SaveManager.saveSlots[number] = null;
+    public static delete(slot: number) {
+        SaveManager.saveSlots[slot] = null;
         SaveManager.writeSlots();
     }
 

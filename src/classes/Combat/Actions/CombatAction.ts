@@ -19,10 +19,10 @@ export default interface CombatAction {
     /**
      * Can the character use the action on the other character. Disabled otherwise.
      */
-    canUse(character: Character, monster?: Character): boolean;
+    canUse(character: Character, enemy?: Character): boolean;
 
     /**
      * Call for using the Combat Action.
      */
-    use(character: Character, monster?: Character);
+    use(character: Character, enemy?: Character);
 }

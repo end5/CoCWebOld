@@ -12,11 +12,11 @@ export class Sting implements CombatAction {
     public reasonCannotUse: string = "You do not have enough venom to sting right now!";
 
     public isPossible(player: Player): boolean {
-        return player.torso.tails.hasType(TailType.BEE_ABDOMEN);
+        return player.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false);
     }
 
     public canUse(player: Player): boolean {
-        return player.torso.tails.filterType(TailType.BEE_ABDOMEN)[0].vemon >= 33;
+        return player.torso.tails.filter(Tail.Type(TailType.BEE_ABDOMEN))[0].vemon >= 33;
     }
 
     public use(player: Player, monster: Character) {
@@ -75,6 +75,6 @@ export class Sting implements CombatAction {
         // New line before monster attack
         DisplayText("\n\n");
         // Use tail mp
-        player.torso.tails.filterType(TailType.BEE_ABDOMEN)[0].vemon -= 25;
+        player.torso.tails.filter(Tail.Type(TailType.BEE_ABDOMEN))[0].vemon -= 25;
     }
 }

@@ -1,6 +1,6 @@
 import Character from '../../../Character/Character';
 import CombatAction from '../../../Combat/Actions/CombatAction';
-import PlayerInventoryMenu from '../../../display/Menus/PlayerInventoryMenu';
+import Menus from '../../../display/Menus/Menus';
 import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
 
 export default class Items implements CombatAction {
@@ -16,6 +16,6 @@ export default class Items implements CombatAction {
     }
 
     public use(character: Character, monster: Character) {
-        PlayerInventoryMenu.display(character);
+        Menus.Inventory.display(character);
     }
 }

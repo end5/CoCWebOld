@@ -1,7 +1,7 @@
 import BreastRow from '../../../Body/BreastRow';
 import Cock, { CockType } from '../../../Body/Cock';
-import { Gender } from '../../../Body/Creature';
-import { TailType } from '../../../Body/Tail';
+import { Gender } from '../../../Body/GenderIdentity';
+import Tail, { TailType } from '../../../Body/Tail';
 import Vagina from '../../../Body/Vagina';
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
@@ -12,7 +12,8 @@ import ButtDescriptor from '../../../Descriptors/ButtDescriptor';
 import CockDescriptor from '../../../Descriptors/CockDescriptor';
 import GenderDescriptor from '../../../Descriptors/GenderDescriptor';
 import HeadDescriptor from '../../../Descriptors/HeadDescriptor';
-import LowerBodyDescriptor from '../../../Descriptors/LowerBodyDescriptor';
+import HipDescriptor from '../../../Descriptors/HipDescriptor';
+import LegDescriptor from '../../../Descriptors/LegDescriptor';
 import SkinDescriptor from '../../../Descriptors/SkinDescriptor';
 import VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
 import DisplayText from '../../../display/DisplayText';
@@ -20,6 +21,7 @@ import { CombatAbilityFlag } from '../../../Effects/CombatAbilityFlag';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../../Game/Flags';
+import Game from '../../../Game/Game';
 import RaceScore from '../../../RaceScore';
 import { Utils } from '../../../Utilities/Utils';
 
@@ -304,7 +306,7 @@ export default class Tease implements CombatAction {
             if (character.torso.butt.looseness >= 5) choices[TeaseType.AnalGape]++;
         }
         // 17 Bee abdomen tease
-        if (character.torso.tails.hasType(TailType.BEE_ABDOMEN)) {
+        if (character.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
             choices[TeaseType.BeeAbdomen] += 2;
         }
         // 18 DOG TEASE
@@ -324,7 +326,7 @@ export default class Tease implements CombatAction {
             choices[TeaseType.PerfectAndrogyny] += 3;
         }
         // 22 SPOIDAH SILK
-        if (character.torso.tails.hasType(TailType.SPIDER_ABDOMEN)) {
+        if (character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
             choices[TeaseType.SpirderSilk] += 3;
             if (RaceScore.spiderScore(character) >= 4) {
                 choices[TeaseType.SpirderSilk] += 3;
@@ -396,14 +398,14 @@ export default class Tease implements CombatAction {
         // 38 Kitsune Tease
         // 39 Kitsune Tease
         // 40 Kitsune Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.hasType(TailType.FOX)) {
+        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
             choices[TeaseType.Kitsune1] += 4;
             choices[TeaseType.Kitsune2] += 4;
             choices[TeaseType.Kitsune3] += 4;
             choices[TeaseType.Kitsune4] += 4;
         }
         // 41 Kitsune Gendered Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.hasType(TailType.FOX)) {
+        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
             choices[TeaseType.KitsuneGendered] += 4;
         }
         // 42 Urta teases!
@@ -411,7 +413,7 @@ export default class Tease implements CombatAction {
             choices[TeaseType.Urta] += 9;
         }
         // 43 - special mino + cowgirls
-        if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.hasType(TailType.COW)) {
+        if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
             choices[TeaseType.Cowgirl] += 9;
         }
         // 44 - Bikini Mail Teases!
@@ -484,7 +486,7 @@ export default class Tease implements CombatAction {
         // =======================================================
         let choice: TeaseType = this.determineTeaseChoice(character, monster, bimbo, bro, futa);
         if (monster.desc.short.indexOf("minotaur") !== -1) {
-            if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.hasType(TailType.COW))
+            if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.reduce(Tail.HasType(TailType.COW), false))
                 choice = TeaseType.Cowgirl;
         }
         // Lets do zis!
@@ -518,7 +520,7 @@ export default class Tease implements CombatAction {
                 break;
             // 2 PUSSAH FLASHIN'
             case TeaseType.PussyFlash:
-                if (character.torso.hips.legs.isTaur() {
+                if (character.torso.hips.legs.isTaur()) {
                     DisplayText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground.  Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you.  In this position, your opponent's face is buried right in your girthy horsecunt.  You grind your cunt into " + monster.desc.possessivePronoun + " face for a moment before standing.  When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
                     chance += 2;
                     damage += 4;
@@ -543,7 +545,7 @@ export default class Tease implements CombatAction {
                 break;
             // 3 cock flash
             case TeaseType.CockFlash:
-                if (character.torso.hips.legs.isTaur() && character.torso.cocks.filterType(CockType.HORSE).length > 0) {
+                if (character.torso.hips.legs.isTaur() && character.torso.cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
                     DisplayText("You let out a bestial whinny and stomp your hooves at your enemy.  They prepare for an attack, but instead you kick your front hooves off the ground, revealing the hefty horsecock hanging beneath your belly.  You let it flop around, quickly getting rigid and to its full erect length.  You buck your hips as if you were fucking a mare in heat, letting your opponent know just what's in store for them if they surrender to pleasure...");
                     if (character.perks.has(PerkType.BulgeArmor)) damage += 5;
                 }
@@ -627,7 +629,7 @@ export default class Tease implements CombatAction {
                 break;
             // 7 special Adjatha-crafted bend over bimbo times
             case TeaseType.BimboSpecial:
-                DisplayText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.desc.a + monster.desc.short + ".  Locking your knees, you bend waaaaay over, " + BreastDescriptor.describeChest(character) + " swinging in the open air while your " + ButtDescriptor.describeButt(character) + " juts out at the " + monster.desc.a + monster.desc.short + ".  Your plump cheeks and " + LowerBodyDescriptor.describeHips(character) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n");
+                DisplayText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.desc.a + monster.desc.short + ".  Locking your knees, you bend waaaaay over, " + BreastDescriptor.describeChest(character) + " swinging in the open air while your " + ButtDescriptor.describeButt(character) + " juts out at the " + monster.desc.a + monster.desc.short + ".  Your plump cheeks and " + HipDescriptor.describeHips(character) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n");
                 DisplayText("The clear, warm fluid of your happy excitement trickles down from your loins, polishing your " + SkinDescriptor.skin(character) + " to a glossy, inviting shine.  Retrieving the useless, though shiny, bauble, you hold your pose for just a moment longer, a sly little smile playing across your lips as you wiggle your cheeks one more time before straightening up and turning back around.");
                 vagina = true;
                 chance++;
@@ -707,7 +709,7 @@ export default class Tease implements CombatAction {
             // 14 Brood Mother
             case TeaseType.BroodMother:
                 if (Utils.rand(2) === 0) DisplayText("You tear open your " + character.inventory.equipment.armor.displayName + " and slip a few fingers into your well-used birth canal, giving your opponent a good look at what they're missing.  \"<i>C'mon stud,</i>\" you say, voice dripping with lust and desire, \"<i>Come to mama " + character.desc.short + " and fuck my pussy 'til your baby batter just POURS out.  I want your children inside of me, I want your spawn crawling out of this cunt and begging for my milk.  Come on, FUCK ME PREGNANT!</i>\"");
-                else DisplayText("You wiggle your " + LowerBodyDescriptor.describeHips(character) + " at your enemy, giving them a long, tantalizing look at the hips that have passed so very many offspring.  \"<i>Oh, like what you see, bad boy?  Well why don't you just come on over and stuff that cock inside me?  Give me your seed, and I'll give you suuuuch beautiful offspring.  Oh?  Does that turn you on?  It does!  Come on, just let loose and fuck me full of your babies!</i>\"");
+                else DisplayText("You wiggle your " + HipDescriptor.describeHips(character) + " at your enemy, giving them a long, tantalizing look at the hips that have passed so very many offspring.  \"<i>Oh, like what you see, bad boy?  Well why don't you just come on over and stuff that cock inside me?  Give me your seed, and I'll give you suuuuch beautiful offspring.  Oh?  Does that turn you on?  It does!  Come on, just let loose and fuck me full of your babies!</i>\"");
                 chance += 2;
                 damage += 4;
                 if (character.inHeat) {
@@ -781,7 +783,7 @@ export default class Tease implements CombatAction {
                 break;
             // 23 RUT TEASE
             case TeaseType.Rut:
-                if (character.torso.cocks.filterType(CockType.HORSE).length > 0 && character.torso.cocks.filterType(CockType.HORSE).sort(Cock.LongestCocks)[0].length >= 12) {
+                if (character.torso.cocks.filter(Cock.Type(CockType.HORSE)).length > 0 && character.torso.cocks.filter(Cock.Type(CockType.HORSE)).sort(Cock.LongestCocks)[0].length >= 12) {
                     DisplayText("You whip out your massive horsecock, and are immediately surrounded by a massive, heady musk.  Your enemy swoons, nearly falling to her knees under your oderous assault.  Grinning, you grab her shoulders and force her to her knees.  Before she can defend herself, you slam your horsecock onto her head, running it up and down on her face, her nose acting like a sexy bump in an onahole.  You fuck her face -- literally -- for a moment before throwing her back and sheathing your cock.");
                 }
                 else {
@@ -887,10 +889,10 @@ export default class Tease implements CombatAction {
                 damage++;
                 break;
             case TeaseType.Kitsune3:
-                DisplayText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " + monster.desc.a + monster.desc.short + " a kiss.  You stand straight, wiggling your " + LowerBodyDescriptor.describeHips(character) + " back and forth seductively while trailing your fingers down your front slowly, pouting demurely.  The tip of ");
+                DisplayText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " + monster.desc.a + monster.desc.short + " a kiss.  You stand straight, wiggling your " + HipDescriptor.describeHips(character) + " back and forth seductively while trailing your fingers down your front slowly, pouting demurely.  The tip of ");
                 if (character.torso.tails.count === 1) DisplayText("your");
                 else DisplayText("a");
-                DisplayText(" bushy tail curls up around your " + LowerBodyDescriptor.describeLeg(character) + ", uncoiling with a whipping motion that makes an audible crack in the air.");
+                DisplayText(" bushy tail curls up around your " + LegDescriptor.describeLeg(character) + ", uncoiling with a whipping motion that makes an audible crack in the air.");
                 ass = true;
                 chance++;
                 damage += 1;

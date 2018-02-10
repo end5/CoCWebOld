@@ -3,7 +3,7 @@ import BreastRow from '../../Body/BreastRow';
 import IPregnancyEvent from '../../Body/Pregnancy/IPregnancyEvent';
 import { VaginaWetness } from '../../Body/Vagina';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import LegDescriptor from '../../Descriptors/LowerBodyDescriptor';
+import LegDescriptor from '../../Descriptors/LegDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import BreastModifier from '../../Modifiers/BreastModifier';
@@ -88,7 +88,7 @@ export default class MinotaurPreg implements IPregnancyEvent {
         }
         else if (player.torso.hips.rating < 15) {
             player.torso.hips.rating++;
-            DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + LegDescriptor.describeHips(player) + ".");
+            DisplayText("\n\nAfter the birth your " + player.inventory.equipment.armor.displayName + " fits a bit more snugly about your " + HipDescriptor.describeHips(player) + ".");
         }
         DisplayText().newline();
         // 326 Number of sons grown

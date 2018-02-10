@@ -1,8 +1,6 @@
 import PerformActions from './PerformActions';
 import ActionPerform from '../../Combat/ActionPerform';
 import CombatAction from '../../Combat/Actions/CombatAction';
-import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Player from '../Player';
 
 export default class PlayerActionPerform implements ActionPerform {
     public mainAction: CombatAction = new PerformActions.MainAction();

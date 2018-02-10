@@ -1,42 +1,39 @@
 import Character from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
 import DisplayText from '../../../display/DisplayText';
-import PerkFactory from '../../../Effects/PerkFactory';
 import { PerkType } from '../../../Effects/PerkType';
-import StatusAffectFactory from '../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Utils } from '../../../Utilities/Utils';
-import Player from '../../Player';
 import PlayerSpellAction from '../PlayerSpellAction';
 
 export class DragonBreath extends PlayerSpellAction {
     public name: string = "DragonFire";
     public readonly baseCost: number = 20;
 
-    public isPossible(player: Player): boolean {
-        return player.perks.has(PerkType.Dragonfire);
+    public isPossible(character: Character): boolean {
+        return character.perks.has(PerkType.Dragonfire);
     }
 
-    public canUse(player: Player): boolean {
-        if (!player.perks.has(PerkType.BloodMage) && player.stats.fatigue + this.spellCost(player) > 100) {
+    public canUse(character: Character): boolean {
+        if (!character.perks.has(PerkType.BloodMage) && character.stats.fatigue + this.spellCost(character) > 100) {
             this.reasonCannotUse = "You are too tired to breathe fire.";
             return false;
         }
         // Not Ready Yet:
-        if (player.statusAffects.has(StatusAffectType.DragonBreathCooldown)) {
+        if (character.statusAffects.has(StatusAffectType.DragonBreathCooldown)) {
             this.reasonCannotUse = "You try to tap into the power within you, but your burning throat reminds you that you're not yet ready to unleash it again...";
             return false;
         }
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(character: Character, monster: Character) {
         DisplayText().clear();
-        player.stats.fatigueMagic(this.baseCost);
-        player.statusAffects.add(StatusAffectType.DragonBreathCooldown, 0, 0, 0, 0);
-        let damage: number = Math.floor(player.stats.level * 8 + 25 + Utils.rand(10));
-        if (player.statusAffects.has(StatusAffectType.DragonBreathBoost)) {
-            player.statusAffects.remove(StatusAffectType.DragonBreathBoost);
+        character.stats.fatigueMagic(this.baseCost);
+        character.statusAffects.add(StatusAffectType.DragonBreathCooldown, 0, 0, 0, 0);
+        let damage: number = Math.floor(character.stats.level * 8 + 25 + Utils.rand(10));
+        if (character.statusAffects.has(StatusAffectType.DragonBreathBoost)) {
+            character.statusAffects.remove(StatusAffectType.DragonBreathBoost);
             damage *= 1.5;
         }
         // Shell
@@ -59,20 +56,20 @@ export class DragonBreath extends PlayerSpellAction {
             damage = Math.round(0.2 * damage);
         }
         // Miss:
-        if ((player.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) === 0) || (monster.stats.spe - player.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - player.stats.spe) / 4) + 80)) > 80)) {
+        if ((character.statusAffects.has(StatusAffectType.Blind) && Utils.rand(2) === 0) || (monster.stats.spe - character.stats.spe > 0 && Math.floor(Math.random() * (((monster.stats.spe - character.stats.spe) / 4) + 80)) > 80)) {
             DisplayText("  Despite the heavy impact caused by your roar, " + monster.desc.a + monster.desc.short + " manages to take it at an angle and remain on " + monster.desc.possessivePronoun + " feet and focuses on you, ready to keep fighting.");
         }
         // Special enemy avoidances
         else if (monster.desc.short === "Vala") {
             DisplayText("Vala beats her wings with surprising strength, blowing the fireball back at you! ");
-            if (player.perks.has(PerkType.Evade) && Utils.rand(2) === 0) {
+            if (character.perks.has(PerkType.Evade) && Utils.rand(2) === 0) {
                 DisplayText("You dive out of the way and evade it!");
             }
-            else if (player.perks.has(PerkType.Flexibility) && Utils.rand(4) === 0) {
+            else if (character.perks.has(PerkType.Flexibility) && Utils.rand(4) === 0) {
                 DisplayText("You use your flexibility to barely fold your body out of the way!");
             }
             else {
-                damage = player.combat.stats.loseHP(damage, monster);
+                damage = character.combat.stats.loseHP(damage, monster);
                 DisplayText("Your own fire smacks into your face! (" + damage + ")");
             }
             DisplayText("\n\n");
@@ -83,7 +80,7 @@ export class DragonBreath extends PlayerSpellAction {
             if (!monster.perks.has(PerkType.Acid))
                 monster.perks.add(PerkType.Acid, 0, 0, 0, 0);
             damage = Math.round(damage * 1.5);
-            damage = monster.combat.stats.loseHP(damage, player);
+            damage = monster.combat.stats.loseHP(damage, character);
             monster.statusAffects.add(StatusAffectType.Stunned, 0, 0, 0, 0);
             DisplayText("(" + damage + ")\n\n");
         }
@@ -98,7 +95,7 @@ export class DragonBreath extends PlayerSpellAction {
                 else DisplayText("are");
                 DisplayText("too resolute to be stunned by your attack.</b>");
             }
-            damage = monster.combat.stats.loseHP(damage, player);
+            damage = monster.combat.stats.loseHP(damage, character);
             DisplayText(" (" + damage + ")");
         }
         DisplayText("\n\n");

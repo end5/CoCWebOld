@@ -1,4 +1,4 @@
-import { Gender } from './Body/Creature';
+import { Gender } from './Body/GenderIdentity';
 
 export default interface SaveFile {
     name: string;

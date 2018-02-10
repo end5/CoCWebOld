@@ -1,5 +1,5 @@
 import Menu from './Menu';
-import { Gender } from '../../Body/Creature';
+import { Gender } from '../../Body/GenderIdentity';
 import Player from '../../Player/Player';
 import SaveFile from '../../SaveFile';
 import SaveManager from '../../SaveManager';
