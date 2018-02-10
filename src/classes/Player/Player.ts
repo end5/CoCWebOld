@@ -1,12 +1,11 @@
-﻿import PlayerCombatContainer from './PlayerCombatContainer';
-import { ButtLooseness, ButtWetness } from '../Body/Butt';
+﻿import { ButtLooseness, ButtWetness } from '../Body/Butt';
 import { FaceType } from '../Body/Face';
 import { SkinType } from '../Body/Skin';
 import { TongueType } from '../Body/Tongue';
 import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
+import CombatContainer from '../Combat/CombatContainer';
 import { PerkType } from '../Effects/PerkType';
-import StatusAffectFactory from '../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../Game/Flags';
 import Armor from '../Items/Armors/Armor';
@@ -52,7 +51,7 @@ export default class Player extends Character {
         this.inventory.equipment.equippedArmorSlot.equip(ItemFactory.get(ItemType.Armor, ArmorName.ComfortUndercloth) as Armor);
 
         // Combat
-        this.combatContainer = new PlayerCombatContainer(this);
+        this.combatContainer = new CombatContainer(this, new PlayerActions(), new PlayerResponses(), new PlayerEndScenes());
     }
 
     // Lust vulnerability
