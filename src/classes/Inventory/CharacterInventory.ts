@@ -1,5 +1,6 @@
 import EquipmentInventory from './EquipmentInventory';
 import Inventory from './Inventory';
+import KeyItemList from './KeyItemList';
 import Character from '../Character/Character';
 import Item from '../Items/Item';
 import KeyItem from '../Items/KeyItem';
@@ -10,13 +11,13 @@ export default class CharacterInventory implements ISerializable<CharacterInvent
     public readonly items: Inventory<Item>;
     public readonly equipment: EquipmentInventory;
     public gems: number;
-    public readonly keyItems: SerializableDictionary<KeyItem>;
+    public readonly keyItems: KeyItemList;
 
     public constructor(character: Character) {
         this.items = new Inventory<Item>();
         this.equipment = new EquipmentInventory(character);
         this.gems = 0;
-        this.keyItems = new SerializableDictionary(KeyItem);
+        this.keyItems = new KeyItemList();
     }
 
     public serialize(): string {
