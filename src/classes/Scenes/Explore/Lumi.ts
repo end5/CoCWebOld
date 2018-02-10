@@ -1,7 +1,9 @@
 ﻿import Character from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
+import DisplaySprite from '../../display/DisplaySprite';
 import DisplayText from '../../display/DisplayText';
 import { ClickFunction } from '../../display/Elements/ButtonElement';
+import SpriteName from '../../display/Images/SpriteName';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import ConsumableName from '../../Items/Consumables/ConsumableName';
@@ -28,7 +30,7 @@ export default class Lumi {
             // placeholder text for outside the cathedral
             DisplayText("You spot an anomaly in the barren wastes; a door that seems to be standing out in the middle of nowhere. Somehow, you figure that it must lead to some other part of the world, and the only reason it's here is because you can't get to where the door should be right now.\n\n");
             DisplayText("Do you open it?");
-            MainScreen.doYesNo(this.lumiLabChoices, camp.returnToCampUseOneHour);
+            MainScreen.doYesNo(this.lumiLabChoices, Game.scenes.camp.returnToCampUseOneHour);
         }
         else {
             // placeholder text for outside the cathedral
@@ -39,7 +41,7 @@ export default class Lumi {
     }
 
     public lumiLabChoices(character: Character) {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         DisplayText().clear();
         // First time meeting
         if (!this.data.met) {
@@ -60,11 +62,11 @@ export default class Lumi {
         let enhance: ClickFunction;
         if (this.lumiEnhance(character))
             enhance = this.lumiEnhance;
-        MainScreen.displayChoices(["Shop", "Enhance", "", "", "Leave"], [this.lumiShop, enhance, undefined, undefined, camp.returnToCampUseOneHour]);
+        MainScreen.displayChoices(["Shop", "Enhance", "", "", "Leave"], [this.lumiShop, enhance, undefined, undefined, Game.scenes.camp.returnToCampUseOneHour]);
     }
 
     public lumiShop() {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         // Set item handling to lumi shop
         DisplayText().clear();
         DisplayText("You ask Lumi if you can see her potions.  She smiles at you and pulls out several bottles from her desk and shows them to you.\n\n\"<i>Gawantied qwality, made by Lumi herself,</i>\" she says proudly.\n\n");
@@ -87,7 +89,7 @@ export default class Lumi {
 
     // Lust Draft
     private lumiLustDraftPitch() {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         DisplayText().clear();
         DisplayText("You point at the bottle filled with bubble-gum pink fluid.\n\n\"<i>De lust dwaft? Always a favowite, with it you nevar have to worwy about not bein weady for sexy time; one of my fiwst creations. 15 gems each.</i>\"\n\n");
         DisplayText("Will you buy the lust draft?");
@@ -95,7 +97,7 @@ export default class Lumi {
     }
     // Goblin Ale
     private lumiPitchGobboAle() {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         DisplayText().clear();
         DisplayText("You point at the flagon. \"<i>Oh? Oh thats Lumi's... actually no, dat tispsy stuff for 20 gems. You'll like if you want to be like Lumi. Do you like it?</i>\"\n\n");
         DisplayText("Will you buy the goblin ale?");
@@ -103,7 +105,7 @@ export default class Lumi {
     }
     // Ovi Elixir
     private lumiPitchOviElixer() {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         DisplayText().clear();
         DisplayText("You point at the curious hexagonal bottle. \"<i>De Oviposar Elixir? Made baithsed on da giant bee's special stuff dey give deir queen. It will help make de burfing go faster, an if you dwink it while you awen pweggy, iw will give you some eggs to burf later. More dwinks, eqwals more and biggar eggs. Lumi charges 45 gems for each dose.</i>\"\n\n");
         DisplayText("Will you buy the Ovi Elixir?");
@@ -111,7 +113,7 @@ export default class Lumi {
     }
 
     private lumiPurchase(character: Character, itype: string) {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         DisplayText().clear();
         // After choosing, and PC has enough gems
         let cost: number = 0;
@@ -135,7 +137,7 @@ export default class Lumi {
     }
 
     public lumiEnhance(character: Character): boolean {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         const buttonFunc = [];
         character.inventory.items.has(ConsumableName.FoxBerry);
 
@@ -218,7 +220,7 @@ export default class Lumi {
     }
 
     private lumiEnhanceGo(character: Character, itype: string) {
-        spriteSelect(37);
+        DisplaySprite(SpriteName.Lumi);
         let nextItem = "";
         if (itype === ConsumableName.LaBova) {
             nextItem = ConsumableName.LaBovaEnhanced;

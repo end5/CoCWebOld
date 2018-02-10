@@ -1,5 +1,6 @@
 import Character from '../../Character/Character';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
+import GenderDescriptor from '../../Descriptors/GenderDescriptor';
 import DisplaySprite from '../../display/DisplaySprite';
 import DisplayText from '../../display/DisplayText';
 import SpriteName from '../../display/Images/SpriteName';
@@ -16,6 +17,7 @@ import RaceScore from '../../RaceScore';
 import { TimeAwareInterface } from '../../TimeAwareInterface';
 import { Utils } from '../../Utilities/Utils';
 import IEncounter from '../Encounter';
+
 /*
  LICENSE
 
@@ -59,8 +61,8 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     }
 
     public timeChangeLarge(): boolean {
-        if (this.checkedSuccubi++ === 0 && Game.time.hour === 4 && character.statusAffects.has("SuccubiNight") && (character.torso.cocks.count > 0 || character.gender === 0)) { // Call secksins!
-            if (character.statusAffects.has("RepeatSuccubi")) {
+        if (this.checkedSuccubi++ === 0 && Game.time.hour === 4 && character.statusAffects.has(StatusAffectType.SuccubiNight) && (character.torso.cocks.count > 0 || character.gender === 0)) { // Call secksins!
+            if (character.statusAffects.has(StatusAffectType.RepeatSuccubi)) {
                 if (Game.vapula.vapulaSlave() && character.torso.cocks.count > 0 && Flags.list[FlagEnum.VAPULA_THREESOMES] > 0 && Flags.list[FlagEnum.FOLLOWER_AT_FARM_VAPULA] === 0) // VapulaSurprise
                     Game.vapula.vapulaAssistsCeruleanSuccubus();
                 else nightSuccubiRepeat(); // Normal night succubi shit
@@ -85,7 +87,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
         if (kGAMECLASS.giacomo === 0) {
             this.firstEncounter(character);
         }
-        else if (!character.statusAffects.has("WormOffer") && character.statusAffects.has("Infested")) { // If infested && no worm offer yet
+        else if (!character.statusAffects.has(StatusAffectType.WormOffer) && character.statusAffects.has(StatusAffectType.Infested)) { // If infested && no worm offer yet
             DisplayText("Upon walking up to Giacomo's wagon, he turns to look at you and cocks an eyebrow in curiosity and mild amusement.\n\n");
             DisplayText("\"<i>Been playing with creatures best left alone, I see</i>,\" he chuckles.  \"<i>Infestations of any kind are annoying, yet your plight is quite challenging given the magnitude of corrupt creatures around here.  It is not the first time I have seen one infested with THOSE worms.</i>\"\n\n");
             DisplayText("You ask how he knows of your change and the merchant giggles heartily.\n\n");
@@ -107,11 +109,11 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             DisplayText("You spy the merchant Giacomo in the distance.  He makes a beeline for you, setting up his shop in moments.  ");
             DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you. What are you interested in?");
         }
-        MainScreen.displayChoices(["Potions", "Books", "Erotica", "Worm Cure", "Leave"], [this.potionMenu, this.bookMenu, this.eroticaMenu, this.deworm, camp.returnToCampUseOneHour]);
+        MainScreen.displayChoices(["Potions", "Books", "Erotica", "Worm Cure", "Leave"], [this.potionMenu, this.bookMenu, this.eroticaMenu, this.deworm, Game.scenes.camp.returnToCampUseOneHour]);
     }
 
     private deworm(character: Character) {
-        if (character.statusAffects.has("WormOffer") && character.statusAffects.has("Infested"))
+        if (character.statusAffects.has(StatusAffectType.WormOffer) && character.statusAffects.has(StatusAffectType.Infested))
             this.wormRemovalOffer(character);
     }
 
@@ -157,7 +159,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchVitailtyTincture(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        DisplayText("Giacomo holds up the item and says, \"<i>Ah, yes!  The quintessential elixir for all travelers, this little bottle of distilled livelihood will aid you in restoring your energy on your journey and, should you be hurt or injured, will aid the body's ability to heal itself.  Yes " + character.mf("sir", "madam") + ", this is liquid gold for pilgrim and adventurer alike.  Interested?  It is <b>15 gems</b></i>.\"  ");
+        DisplayText("Giacomo holds up the item and says, \"<i>Ah, yes!  The quintessential elixir for all travelers, this little bottle of distilled livelihood will aid you in restoring your energy on your journey and, should you be hurt or injured, will aid the body's ability to heal itself.  Yes " + GenderDescriptor.mf(character, "sir", "madam") + ", this is liquid gold for pilgrim and adventurer alike.  Interested?  It is <b>15 gems</b></i>.\"  ");
         MainScreen.doYesNo(this.buyVitailtyTincture, this.potionMenu);
     }
 
@@ -217,7 +219,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchDangerousPlantsBook(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Dangerous Plants") >= 0) {
+        if (character.inventory.keyItems.has("Dangerous Plants")) {
             DisplayText("<b>You already own the book 'Dangerous Plants'.</b>");
             MainScreen.doNext(this.bookMenu);
             return;
@@ -237,7 +239,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             DisplayText("\n\nYou consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this book.  Obviously written by well-informed, but women-starved men, the narrative drearily states the various types of poisonous and carnivorous plants in the world.  One entry that really grabs you is the chapter on 'Violation Plants'.  The chapter drones on about an entire classification of specially bred plants whose purpose is to torture or feed off a human being without permanently injuring and killing them.  Most of these plants attempt to try breeding with humans and are insensitive to the intricacies of human reproduction to be of any value, save giving the person no end of hell.  These plants range from massive shambling horrors to small plant-animal hybrids that attach themselves to people.  As you finish the book, you cannot help but shiver at the many unnatural types of plants out there and wonder what sick bastard created such monstrosities. ");
             MainScreen.doNext(this.bookMenu);
             character.inventory.gems -= 10;
-            character.createKeyItem("Dangerous Plants", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Dangerous Plants", 0, 0, 0, 0);
 
         }
     }
@@ -245,7 +247,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchTravellersGuide(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Traveler's Guide") >= 0) {
+        if (character.inventory.keyItems.has("Traveler's Guide")) {
             DisplayText("<b>You already own the book 'Traveler's Guide'.</b>");
             MainScreen.doNext(this.bookMenu);
             return;
@@ -265,7 +267,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             DisplayText("The crazy merchant said you might not need this and he was right.  Written at a simple level, this was obviously intended for a city-dweller who never left the confines of their walls.  Littered with childish illustrations and silly phrases, the book is informative in the sense that it does tell a person what they need and what to do, but naively downplays the dangers of the forest and from bandits.  Were it not so cheap, you would be pissed at the merchant.  However, he is right in the fact that giving this to some idiot ignorant of the dangers of the road saves time from having to answer a bunch of stupid questions.");
             MainScreen.doNext(this.bookMenu);
             character.inventory.gems -= 1;
-            character.createKeyItem("Traveler's Guide", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Traveler's Guide", 0, 0, 0, 0);
 
         }
     }
@@ -273,12 +275,12 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchHentaiComic(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Hentai Comic") >= 0) {
+        if (character.inventory.keyItems.has("Hentai Comic")) {
             DisplayText("<b>You already own a Hentai Comic!</b>");
             MainScreen.doNext(this.bookMenu);
             return;
         }
-        DisplayText("Giacomo takes out a colorfully written magazine from his bag.  The cover contains well-drawn, overly-endowed women in sexual poses.  \"<i>Perhaps your taste in reading is a bit more primal, my good " + character.mfn("man", "lady", "...err, whatever you are") + "</i>,\" says Giacomo.  \"<i>Taken from the lands far to the east, this is a tawdry tale of a group of ladies seeking out endless pleasures.  With a half a dozen pictures on every page to illustrate their peccadilloes, you will have your passions inflamed and wish to join these fantasy vixens in their adventures!  Collectable and in high demand, and even if this is not to your tastes, you can easily turn a profit on it!  Care to adventure into the realm of fantasy?  It's only 10 gems and I am doing YOU a favor for such a price.</i>\"");
+        DisplayText("Giacomo takes out a colorfully written magazine from his bag.  The cover contains well-drawn, overly-endowed women in sexual poses.  \"<i>Perhaps your taste in reading is a bit more primal, my good " + GenderDescriptor.mfn(character.gender, "man", "lady", "...err, whatever you are") + "</i>,\" says Giacomo.  \"<i>Taken from the lands far to the east, this is a tawdry tale of a group of ladies seeking out endless pleasures.  With a half a dozen pictures on every page to illustrate their peccadilloes, you will have your passions inflamed and wish to join these fantasy vixens in their adventures!  Collectable and in high demand, and even if this is not to your tastes, you can easily turn a profit on it!  Care to adventure into the realm of fantasy?  It's only 10 gems and I am doing YOU a favor for such a price.</i>\"");
         MainScreen.doYesNo(this.buyHentaiComic, this.bookMenu);
     }
 
@@ -293,7 +295,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             DisplayText("You peruse the erotic book.  The story is one of a group of sisters who are all impossibly heavy-chested and equally horny getting into constant misadventures trying to satisfy their lust.  While the comic was entertaining and erotic to the highest degree, you cannot help but laugh at how over-the-top the story and all of the characters are.  Were the world as it was in the book, nothing would get done as humanity would be fucking like jackrabbits in heat for the rest of their lives.  While certainly a tempting proposition, everyone gets worn out sometime.  You place the book in your sack, well entertained and with a head filled with wilder perversions than what you woke up with this morning.");
             MainScreen.doNext(this.bookMenu);
             character.inventory.gems -= 10;
-            character.createKeyItem("Hentai Comic", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Hentai Comic", 0, 0, 0, 0);
 
         }
     }
@@ -307,7 +309,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
 
     private buyYogaGuide(character: Character) {
         DisplayText().clear();
-        if (character.hasKeyItem("Yoga Guide") >= 0) {
+        if (character.inventory.keyItems.has("Yoga Guide")) {
             DisplayText("<b>You already own a yoga guide!</b>");
         }
         else if (character.inventory.gems < 100) {
@@ -315,7 +317,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
         }
         else {
             DisplayText("You exchange 100 gems for the tome.  Now you can finally enjoy a workout with Cotton!");
-            character.createKeyItem("Yoga Guide", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Yoga Guide", 0, 0, 0, 0);
             character.inventory.gems -= 100;
 
         }
@@ -325,7 +327,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchDildo(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Dildo") >= 0) {
+        if (character.inventory.keyItems.has("Dildo")) {
             DisplayText("<b>You already own a Dildo!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
@@ -345,7 +347,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             DisplayText("After making the payment, Giacomo hands you the Dildo");
             MainScreen.doNext(this.eroticaMenu);
             character.inventory.gems -= 20;
-            character.createKeyItem("Dildo", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Dildo", 0, 0, 0, 0);
 
         }
     }
@@ -353,7 +355,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchSelfStimulationBelt(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Self-Stimulation Belt") >= 0) {
+        if (character.inventory.keyItems.has("Self-Stimulation Belt")) {
             DisplayText("<b>You already own a Self-Stimulation Belt!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
@@ -371,7 +373,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             return;
         }
         DisplayText("After making the payment, Giacomo hands you the Self-Stimulation Belt");
-        character.createKeyItem("Self-Stimulation Belt", 0, 0, 0, 0);
+        character.inventory.keyItems.add("Self-Stimulation Belt", 0, 0, 0, 0);
         MainScreen.doNext(this.eroticaMenu);
         character.inventory.gems -= 30;
     }
@@ -379,14 +381,14 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchAllNaturalSelfStimulationBelt(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("All-Natural Self-Stimulation Belt") >= 0) {
+        if (character.inventory.keyItems.has("All-Natural Self-Stimulation Belt")) {
             DisplayText("<b>You already own an All-Natural Self-Stimulation Belt!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
         }
         DisplayText("The merchant places his bag on the ground.  He reaches into one of his purses and pulls out a pair of gloves.  After putting them on, he reaches into his bag and pulls out what appears to be a chastity belt.  The device has a clearly organic look to it.  In the center of the front cover is a nodule.  You have heard of similar devices.  They normally have a dildo attached to them to pleasure women.  ");
         DisplayText("\"<i>This device is quite intriguing,</i>\" Giacomo begins, \"<i>This pleasure engine is NOT for the faint-of-heart.  Being constructed of materials from the workshops of biomechanical artificers, this device outperforms its mechanical cousin in every way.  Guaranteed to last longer than you do, this machine will give you as many mind-shattering orgasms as you can handle.  Unlike the mechanical belt, you do not need to wind it up.  It soaks up the power of the sun itself in an amazing feat of engineering.  Four hours a day is all it needs!  Keep in mind that if there is no sun for a couple of days, it will not work without a full day's sunshine.  You may wonder why I am wearing gloves.  Well, that is because of the pads on the belt.</i>\"  Giacomo points to a couple of small, amber pads on the belt.  \"<i>They are sensitive to human touch and activate the belt.  This is all yours for 40 gems and you get the gloves for free!  Again, this device offers ultimate pleasure.  If you can't handle it, I will not be offended if you turn it down.</i>\"");
-        if (character.hasKeyItem("Dangerous Plants") >= 0 && character.stats.int > 39) {
+        if (character.inventory.keyItems.has("Dangerous Plants") && character.stats.int > 39) {
             DisplayText("\n\nThe nodule and the base of the stimulator look vaguely like some of the things you have seen in the Dangerous Plant book.  You wonder if there is not something devious about this item.  Giacomo is also sweating.  It is too cool for that, this time of year.");
         }
         else {
@@ -407,7 +409,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             return;
         }
         DisplayText("After making the payment, Giacomo hands you the All-Natural Self-Stimulation Belt");
-        character.createKeyItem("All-Natural Self-Stimulation Belt", 0, 0, 0, 0);
+        character.inventory.keyItems.add("All-Natural Self-Stimulation Belt", 0, 0, 0, 0);
         MainScreen.doNext(this.eroticaMenu);
         character.inventory.gems -= 40;
     }
@@ -415,7 +417,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchOnahole(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Plain Onahole") >= 0) {
+        if (character.inventory.keyItems.has("Plain Onahole")) {
             DisplayText("<b>You already own a Plain Onahole!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
@@ -433,7 +435,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             return;
         }
         DisplayText("After making the payment, Giacomo hands you the Plain Onahole");
-        character.createKeyItem("Plain Onahole", 0, 0, 0, 0);
+        character.inventory.keyItems.add("Plain Onahole", 0, 0, 0, 0);
         MainScreen.doNext(this.eroticaMenu);
         character.inventory.gems -= 20;
     }
@@ -441,7 +443,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchDeluxeOnahole(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Deluxe Onahole") >= 0) {
+        if (character.inventory.keyItems.has("Deluxe Onahole")) {
             DisplayText("<b>You already own a Deluxe Onahole!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
@@ -459,7 +461,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             return;
         }
         DisplayText("After making the payment, Giacomo hands you the Deluxe Onahole");
-        character.createKeyItem("Deluxe Onahole", 0, 0, 0, 0);
+        character.inventory.keyItems.add("Deluxe Onahole", 0, 0, 0, 0);
         MainScreen.doNext(this.eroticaMenu);
         character.inventory.gems -= 50;
     }
@@ -467,14 +469,14 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchAllNaturalOnahole(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("All-Natural Onahole") >= 0) {
+        if (character.inventory.keyItems.has("All-Natural Onahole")) {
             DisplayText("<b>You already own an All-Natural Onahole!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
         }
         DisplayText("Giacomo reaches into his bag and pulls out what looks like an oblong coconut.  It is roughly seven inches in diameter.  There is a distinctive opening in one end that is just large enough for an erect penis.  Inside the opening you see what looks like two pink cushions.  There are multiple symmetrical depressions surrounding the outside hole of the thing.  Giacomo's smile fades and he takes on a much more serious attitude befitting his aquiline face.  \"<i>Miss,</i>\" Giacomo states, \"<i>without sounding too bold, it is no secret that members of the third gender are capable of sexual feats that force the other two genders into jealous fits.  Having bigger cocks than men, cumming more than an elephant and a pussy with the strength and coordination of a human hand, regular toys do not last long for you folk.  Hence, this little beasty.  I will tell you straightaway, only the third sex ");
         DisplayText("can handle this toy.  The other two genders simply do not have the stamina for it.  This thing is all-natural, meaning that it powers itself and is made with the Artificers' organic methods.  It will cease functioning if it is not used or you fail to give the opening a few drops of this fluid once every three days.</i>\"  Giacomo pauses to hold up a small bottle.  He places the bottle down and continues his sales pitch, \"<i>If you plan on not using this thing regularly, do not buy it.  These items are very rare and this one will probably be the only one you'll ever see.  Normally I pitch my products like crazy.  However, with this I do not need to.  This thing DOES work too well, and you WILL cum, period.  It will work you until you do not want it to work anymore.  It will not stop until IT decides to stop.  However, for the extreme needs of a lovely example of the dual-sex, it may be the very thing you need.  Again, this is for the ultimate hardcore pleasure seeker amongst the ultimate hardcore.  It costs a humble 150 gems, but for superhuman thrills, who can put a price tag on that?</i>");
-        if (character.hasKeyItem("Dangerous Plants") >= 0 && character.stats.int > 35) {
+        if (character.inventory.keyItems.has("Dangerous Plants") && character.stats.int > 35) {
             DisplayText("\n\nWhile skillfully avoiding Giacomo's suspicion, you correctly surmise that the toy is not a toy at all.  It is the outer shell for a hybrid animal-plant.  The creature is very much alive.  While the technical name for this beast is in the usual unpronounceable scholastic gibberish, the common nickname for this is the \"All-Day Sucker\".  It gets its name due to the fact that its diet consists of high nutrient fluids, especially semen.  It was used both as a torture device and as a pleasure pet of the snobbish elite because it would clamp down upon the member of a person and not release until it has stimulated the person enough to ejaculate sufficiently to feed.  However, the All-Day Sucker swells up like fleas and ticks do, thus requiring hours of stimulation to have its fill.  There was something else about these things, but you cannot remember exactly what it was.");
             if (character.stats.int > 65) {
                 DisplayText("After a moment, you remember what it was you read.  Unlike many simple beasts, this creature has a male and a female gender.  The creature itself is similar to a tubeworm.  While the males are considered reasonably \"safe\", the females have a nasty habit of injecting its young inside the sex organs of the person using the thing, leaving the hapless person to convulse in endless, painful orgasms as the beasties wriggle around their insides until they are ready for birth.  The process takes about a week and recorded victims normally make full recoveries after a period of blindingly painful orgasms as they shoot out the young.  It is not a surprise to have people's hearts give out at the endless stimulation from the young.  The recovery time is quite long due to the stress on the body such overwhelming stimulus would generate.  Some ultra-extreme pleasure seekers actively look for these things just for this experience.\n\nHowever, the problem is there is NO WAY to tell if this is male or female by looking at it.");
@@ -492,7 +494,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
             return;
         }
         DisplayText("After making the payment, Giacomo hands you the All-Natural Onahole");
-        character.createKeyItem("All-Natural Onahole", 0, 0, 0, 0);
+        character.inventory.keyItems.add("All-Natural Onahole", 0, 0, 0, 0);
         MainScreen.doNext(this.eroticaMenu);
         character.inventory.gems -= 150;
     }
@@ -500,7 +502,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     private pitchDualStimulationBelt(character: Character) {
         DisplaySprite(SpriteName.Giacomo);
         DisplayText().clear();
-        if (character.hasKeyItem("Dual Belt") >= 0) {
+        if (character.inventory.keyItems.has("Dual Belt")) {
             DisplayText("<b>You already own a dual belt!</b>");
             MainScreen.doNext(this.eroticaMenu);
             return;
@@ -517,7 +519,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
         }
         else {
             DisplayText("You are a bit dubious at the pleasure it could offer you, but it would be better than being raped by the creatures constantly... maybe to even work out some excess lusts... hesitantly, you reach into your bag and grab 50 gems, handing it to him.  He greedily snatches it from your palm and hands you with the belt with a smile.  \"<i>I promise you won't be disappointed.</i>\"  He counts the gems and waves goodbye.\n\n(<b>Dual Belt acquired!</b>)");
-            character.createKeyItem("Dual Belt", 0, 0, 0, 0);
+            character.inventory.keyItems.add("Dual Belt", 0, 0, 0, 0);
             character.inventory.gems -= 50;
 
         }
@@ -536,12 +538,12 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
         if (character.stats.HP > Math.floor(character.stats.maxHP() * .15))
             character.stats.HP = Math.floor(character.stats.maxHP() * .15);
         // Maybe add a random chance of losing a random transformation with a smaller chance of losing ALL transformations except gender changes. This will probably be a bitch to implement.
-        character.statusAffects.remove("Infested");
+        character.statusAffects.remove(StatusAffectType.Infested);
         character.stats.lib += -1;
         character.stats.lust += -99;
         character.stats.cor += -4;
         character.inventory.gems -= 175;
-        character.inventory.items.add(character, [ItemFactory.create(ItemType.Consumable, ConsumableName.VitalityTincture)], camp.returnToCampUseOneHour);
+        character.inventory.items.add(character, [ItemFactory.create(ItemType.Consumable, ConsumableName.VitalityTincture)], Game.scenes.camp.returnToCampUseOneHour);
     }
 
     private wormRemovalOffer(character: Character) {
@@ -565,7 +567,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     }
 
     private nightSuccubiFirstTime(character: Character) {
-        spriteSelect(8);
+        DisplaySprite(SpriteName.Giacomo);
         DisplayText("\nAs you sleep, your rest becomes increasingly disturbed.  You feel a great weight on top of you and you find it difficult to breathe.  Stirred to consciousness, your eyes are greeted by an enormous pair of blue tinged breasts.  The nipples are quite long and thick and are surrounded by large, round areola.  A deep, feminine voice breaks the silence.  \"<i>I was wondering if you would wake up.</i>\"  You turn your head to the voice to see the visage of a sharp-featured, attractive woman.  The woman grins mischievously and speaks again.  \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\"  Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features.  The pupils of her eyes are slit like a cat's.  As she grins, she bares her teeth, which contain two pairs of long and short fangs.  This woman is clearly NOT human!  In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground.  You see that each finger on her hand also contains a fourth joint, further proving her status.  Before you can speak a word, the woman begins mocking your fear and places her face in front of yours.  Her face is almost certainly demonic in nature.\n\n");
         if (character.gender === 0) {
             DisplayText("She quickly moves down to your crotch... only to discover no organs down there.\n\n");
@@ -603,7 +605,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
 
     private ceruleanSuccubusEncounterPart2(character: Character) {
         DisplayText().clear();
-        spriteSelect(8);
+        DisplaySprite(SpriteName.Giacomo);
         if (character.gender === 1) {
             DisplayText("Your natural instincts immediately take over and you open your mouth and allow her nipple inside.  Immediately, your mouth has a mind of its own as you press your head firmly into her breast and begin suckling the unnaturally long teat like a starving baby.  The demon-woman laughs in satisfaction.  \"<i>To think, that you believed me to do you harm!</i>\" she taunts.  \"<i>Drink, little man.  Feed your lust as you will soon feed mine.</i>\"  Immediately, you feel her milk flood your mouth.  Its taste immediately reminds you of the potion you got from Giacomo.  You realize the potion was not a potion at all, but this demon's breast milk!  Concerned only for your blind libido, the suction of your mouth coaxes torrents of the devil's fluid into your mouth and down your throat.  She continues teasing your cock only enough to maintain your erection.  In time, your stomach signals that you are full and you break the seal from her tit, making a loud 'pop'.  She briefly hoses you down with milk, soaking you.\n\n");
             DisplayText("The demon has a satisfied look on her face.  \"<i>Did I taste good?  Was I wholesome and fulfilling?</i>\" she asks.  \"<i>Since you have fed from my life-milk, it is only fair that I do the same.  To be fair, 'yes', I am as fierce as I look and I will leave you sore and insensible.  However, I do so to pleasure you and feed myself.  Accept it and be happy.</i>\"  She gives you another inhumanly toothy grin and kisses you deeply.  A small pang of fear still shoots through you as you feel the sharpness of her teeth.  She breaks away from your lips and sighs in excitement.  \"<i>Now, I FEED!</i>\" she utters jubilantly.");
@@ -623,7 +625,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
 
     private ceruleanSuccubusEncounterPart3(character: Character) {
         DisplayText().clear();
-        spriteSelect(8);
+        DisplaySprite(SpriteName.Giacomo);
         if (character.gender === 1) {
             DisplayText("Rotating herself into a 69 position, she seizes your throbbing member and effortlessly begins deep throating.  Her thighs wrap around your head and confront you with her surprisingly hairy pussy.  Her clitoris is long and erect, begging for attention and the smell of her pheromones enslaves you.  You bury your face into her furry mound, ignoring your normal revulsion to such an unshaved state and begin eating her as well as any woman you have ever pleased.  The demon takes your cock out of her mouth to cry in delight.  \"<i>YES, LITTLE MAN!</i>\" she screams.  \"<i>LICK ME!  TEASE ME!  LOVE MY WOMB WITH YOUR TONGUE!</i>\"  She responds by clamping her mouth around the head of your penis and sucking smartly.  A sharp pain in your ass signals the entry of her bony fingers working their way to your inner manhood.  Finding the root of your sex easily, she mashes down to force you to cum.\n\n");
             DisplayText("Finding it impossible to resist such pleasure, you immediately begin cumming.  Glob after glob, stream after stream of your semen shoots into the woman's mouth.  Her timed sucking ensures that she swallows each drop as you launch it into her.  While you have been proud of the ability to cum in a woman for over a minute, you are wracked with both pain and pleasure as your ejaculations continue for almost ten.  Once you have spent your last, the demon releases your penis to bear down on your face with her thighs and unloads a massive squirting orgasm.  Your face is soaked with pussy juice as you see her cunt spasm from the force of her pleasure.  The sight of her rhythmic muscles is hypnotic.  She then promptly removes her finger from your ass.");
@@ -643,7 +645,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     }
 
     private ceruleanSuccubusEncounterPart4(character: Character) {
-        spriteSelect(8);
+        DisplaySprite(SpriteName.Giacomo);
         if (character.gender === 1) {
             DisplayText().clear();
             DisplayText("She stands up and helps you to your feet.  While dazed, ");
@@ -662,7 +664,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
     }
 
     private nightSuccubiRepeat(character: Character) {
-        spriteSelect(8);
+        DisplaySprite(SpriteName.Giacomo);
         if (character.gender === 0) {
             if (Flags.list[FlagEnum.CERULEAN_POTION_NEUTER_ATTEMPTED] === 0) {
                 DisplayText("\nAs you sleep, your rest becomes increasingly disturbed. You feel a great weight on top of you and you find it difficult to breathe. Stirred to consciousness, your eyes are greeted by an enormous pair of blue-tinged breasts. The nipples are quite long and thick and are surrounded by large, round areola. A deep, feminine voice breaks the silence, \"<i>I was wondering if you would wake up.</i>\" You turn your head to the voice to see the visage of a sharp featured, attractive woman. The woman grins mischievously and speaks again, \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\" Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features. The pupils of her eyes are slit like a cat's. As she grins, she bares her teeth, which contain two pairs of long and short fangs. This woman is clearly NOT human! In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground. You see that each finger on her hand also contains a fourth joint, further proving her status. Before you can speak a word, the woman begins mocking your fear and places her face in front of yours. Her face is almost certainly demonic in nature.\n\n");
@@ -789,7 +791,7 @@ export default class Giacomo implements TimeAwareInterface, IEncounter {
                 // Clear out any queue'ed events if bad-end
                 // coming.  PC has to dig his own grave.
                 if (Flags.list[FlagEnum.CERULEAN_POTION_BAD_END_FUTA_COUNTER] > 10) {
-                    character.statusAffects.remove("SuccubiNight");
+                    character.statusAffects.remove(StatusAffectType.SuccubiNight);
                 }
                 character.stats.fatigue += 20;
                 character.cumMultiplier++;
