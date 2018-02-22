@@ -3,6 +3,8 @@ import Character from '../Character/Character';
 import { ClickFunction } from '../display/Elements/ButtonElement';
 import InventoryDisplay from '../display/InventoryDisplay';
 import Item from '../Items/Item';
+import ItemFactory from '../Items/ItemFactory';
+import ItemType from '../Items/ItemType';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
 import List from '../Utilities/List';
@@ -42,8 +44,20 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
      * @param itemsToAdd List of ItemStack to be added.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public add(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
+    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
         InventoryDisplay.inventoryFull(characterAddingItems, this.addItems(itemsToAdd), nextMenu);
+    }
+
+    /**
+     * Constructs one item and adds it to the inventory. If their are items that cannot be added, it goes to the full inventory/select what to do screen.
+     * Once finished, it displays nextMenu.
+     * @param characterAddingItems The character adding items to the inventory.
+     * @param itemType The item type.
+     * @param itemName The item name.
+     * @param nextMenu The menu that will display after the items are added.
+     */
+    public add(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction) {
+        this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
     }
 
     /**
