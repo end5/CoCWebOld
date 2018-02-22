@@ -99,8 +99,8 @@ export default class WhiskerFruit extends Consumable {
         // Libido gain
         if (player.stats.lib < 80 && changes < changeLimit && Utils.rand(4) === 0) {
             // Cat dicked folks
-            if (player.torso.cocks.filter(Cock.Type(CockType.CAT)).length > 0) {
-                const catCock: Cock = player.torso.cocks.filter(Cock.Type(CockType.CAT))[0];
+            if (player.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0) {
+                const catCock: Cock = player.torso.cocks.filter(Cock.FilterType(CockType.CAT))[0];
                 DisplayText("\n\nYou feel your " + CockDescriptor.describeCock(player, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
                 if (player.stats.cor < 33) DisplayText("You need to control yourself better.");
                 else if (player.stats.cor < 66) DisplayText("You're not sure how you feel about the fantasy.");
@@ -174,7 +174,7 @@ export default class WhiskerFruit extends Consumable {
             if (shrinkingHappened) changes++;
         }
         // Cat dangly-doo.
-        if (player.torso.cocks.count > 0 && player.torso.cocks.filter(Cock.Type(CockType.CAT)).length < player.torso.cocks.count &&
+        if (player.torso.cocks.count > 0 && player.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length < player.torso.cocks.count &&
             changes < changeLimit && Utils.rand(4) === 0) {
             // loop through and find a non-cat wang.
             let selectedCock: Cock;
@@ -194,7 +194,7 @@ export default class WhiskerFruit extends Consumable {
             changes++;
         }
         // Cat penorz shrink
-        if (player.torso.cocks.filter(Cock.Type(CockType.CAT)).length > 0 && Utils.rand(3) === 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
+        if (player.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && Utils.rand(3) === 0 && changes < changeLimit && !Flags.list[FlagEnum.HYPER_HAPPY]) {
             // loop through and find a cat wang.
             let selectedCock: Cock = null;
             let changedCock: number = 0;

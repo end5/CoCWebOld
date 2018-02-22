@@ -22,7 +22,7 @@ export default class Tail implements ISerializable<Tail> {
         return b.recharge - a.recharge;
     }
 
-    public static Type(type: TailType): FilterOption<Tail> {
+    public static FilterType(type: TailType): FilterOption<Tail> {
         return (tail: Tail) => {
             return tail.type === type;
         };

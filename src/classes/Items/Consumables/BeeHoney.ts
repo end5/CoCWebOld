@@ -198,7 +198,7 @@ export default class BeeHoney extends Consumable {
             }
         }
         // Gain oviposition!
-        if (changes < changeLimit && !character.perks.has(PerkType.BeeOvipositor) && character.torso.tails.filter(Tail.Type(TailType.BEE_ABDOMEN)).length > 1 && Utils.rand(2) === 0) {
+        if (changes < changeLimit && !character.perks.has(PerkType.BeeOvipositor) && character.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 1 && Utils.rand(2) === 0) {
             DisplayText("\n\nAn odd swelling starts in your insectile abdomen, somewhere along the underside.  Curling around, you reach back to your extended, bulbous bee part and run your fingers along the underside.  You gasp when you feel a tender, yielding slit near the stinger.  As you probe this new orifice, a shock of pleasure runs through you, and a tubular, black, semi-hard appendage drops out, pulsating as heavily as any sexual organ.  <b>The new organ is clearly an ovipositor!</b>  A few gentle prods confirm that it's just as sensitive; you can already feel your internals changing, adjusting to begin the production of unfertilized eggs.  You idly wonder what laying them with your new bee ovipositor will feel like...");
             DisplayText("\n\n(<b>Perk Gained:  Bee Ovipositor - Allows you to lay eggs in your foes!</b>)");
             character.perks.add(PerkType.BeeOvipositor, 0, 0, 0, 0);
@@ -217,7 +217,7 @@ export default class BeeHoney extends Consumable {
             changes++;
         }
         // Venom Increase
-        for (const beeButt of character.torso.tails.filter(Tail.Type(TailType.BEE_ABDOMEN))) {
+        for (const beeButt of character.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))) {
             if (changes < changeLimit && beeButt.recharge < 15 && Utils.rand(2)) {
                 if (beeButt.recharge < 5) beeButt.recharge += 1;
                 if (beeButt.recharge < 10) beeButt.recharge += 1;

@@ -89,7 +89,7 @@ export default class SweetGossamer extends Consumable {
         // Sexual Changes
         // ****************
         // Increase venom recharge
-        const spiderbutts = player.torso.tails.filter(Tail.Type(TailType.SPIDER_ABDOMEN));
+        const spiderbutts = player.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN));
         if (spiderbutts.length >= 1 && spiderbutts[0].recharge < 25 && changes < changeLimit) {
             changes++;
             DisplayText("\n\nThe spinnerets on your abdomen twitch and drip a little webbing.  The entirety of its heavy weight shifts slightly, and somehow you know you'll produce webs faster now.");

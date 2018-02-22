@@ -128,13 +128,13 @@ export default class CaninePepper extends Consumable {
 
     private doublePepperTF(character: Character) {
         // If already doubled up, GROWTH
-        if (character.torso.cocks.filter(Cock.Type(CockType.DOG)).length >= 2) {
+        if (character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).length >= 2) {
             this.pepperType = 1;
         }
         // If character doesnt have 2 dogdicks
         else {
             // If character has NO dogdicks
-            if (character.torso.cocks.filter(Cock.Type(CockType.DOG)).length === 0) {
+            if (character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).length === 0) {
                 // Dickless - grow two dogpeckers
                 if (character.torso.cocks.count === 0) {
                     character.torso.cocks.add(new Cock(7 + Utils.rand(7), 1.5 + Utils.rand(10) / 10));
@@ -207,8 +207,8 @@ export default class CaninePepper extends Consumable {
         // Cocks only!
         if (cocks.count > 0) {
             // biggify knots
-            if (cocks.filter(Cock.Type(CockType.DOG)).length > 0) {
-                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.Type(CockType.DOG)).sort(Cock.SmallestKnot)[0];
+            if (cocks.filter(Cock.FilterType(CockType.DOG)).length > 0) {
+                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).sort(Cock.SmallestKnot)[0];
 
                 let knotGrowth: number = (Utils.rand(2) + 5) / 20 * crit;
                 if (smallestKnottedDogCock.knotMultiplier >= 1.5) knotGrowth /= 2;
@@ -358,10 +358,10 @@ export default class CaninePepper extends Consumable {
         if (cocks.count > 0) {
             // Grow knot on smallest knotted dog cock
             if (this.pepperType !== CaninePepperType.Knotty &&
-                cocks.filter(Cock.Type(CockType.DOG)).length > 0 &&
+                cocks.filter(Cock.FilterType(CockType.DOG)).length > 0 &&
                 ((changes < changeLimit && Utils.rand(1.4) === 0) || this.pepperType === CaninePepperType.Oversized)) {
 
-                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.Type(CockType.DOG)).sort(Cock.SmallestKnot)[0];
+                const smallestKnottedDogCock = character.torso.cocks.filter(Cock.FilterType(CockType.DOG)).sort(Cock.SmallestKnot)[0];
                 // Have smallest knotted cock selected.
                 let growth: number = (Utils.rand(2) + 1) / 20 * crit;
                 if (smallestKnottedDogCock.knotMultiplier >= 1.5) growth /= 2;
@@ -376,7 +376,7 @@ export default class CaninePepper extends Consumable {
                 changes++;
             }
             // Cock Xform if character has free cocks.
-            if (cocks.filter(Cock.Type(CockType.DOG)).length < cocks.count &&
+            if (cocks.filter(Cock.FilterType(CockType.DOG)).length < cocks.count &&
                 ((changes < changeLimit && Utils.rand(1.6)) || this.pepperType === CaninePepperType.Oversized) === 0) {
                 // Select first not dog cock
                 let firstNotDogCock: Cock = null;

@@ -171,7 +171,7 @@ export default class KangaFruit extends Consumable {
                 changes++;
             }
             // COCK TF!
-            if (player.torso.cocks.filter(Cock.Type(CockType.KANGAROO)).length < player.torso.cocks.count && (this.enhanced && Utils.rand(2) === 0) && changes < changeLimit) {
+            if (player.torso.cocks.filter(Cock.FilterType(CockType.KANGAROO)).length < player.torso.cocks.count && (this.enhanced && Utils.rand(2) === 0) && changes < changeLimit) {
                 DisplayText("\n\nYou feel a sharp pinch at the end of your penis and whip down your clothes to check.  Before your eyes, the tip of it collapses into a narrow point and the shaft begins to tighten behind it, assuming a conical shape before it retracts into ");
                 if (player.torso.cocks.filter(Cock.HasSheath).length > 0) DisplayText("your sheath");
                 else DisplayText("a sheath that forms at the base of it");

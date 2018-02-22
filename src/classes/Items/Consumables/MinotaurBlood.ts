@@ -111,7 +111,7 @@ export default class MinotaurBlood extends Consumable {
         }
         // SEXUAL
         // Boosts ball size MORE than equinum :D:D:D:D:D:D:
-        if (changes < changeLimit && Utils.rand(2) === 0 && player.torso.balls.size <= 5 && cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
+        if (changes < changeLimit && Utils.rand(2) === 0 && player.torso.balls.size <= 5 && cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
             // Chance of ball growth if not 3" yet
             if (player.torso.balls.quantity === 0) {
                 player.torso.balls.quantity = 2;
@@ -298,7 +298,7 @@ export default class MinotaurBlood extends Consumable {
                 player.stats.sens += 4;
                 player.stats.lust += 35;
                 DisplayText("<b>  You now have a");
-                if (cocks.filter(Cock.Type(CockType.HORSE)).length > 1) DisplayText("nother");
+                if (cocks.filter(Cock.FilterType(CockType.HORSE)).length > 1) DisplayText("nother");
                 DisplayText(" horse-penis.</b>");
                 changes++;
             }

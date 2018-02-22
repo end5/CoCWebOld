@@ -111,7 +111,7 @@ export default class Reptilum extends Consumable {
 
         // Sexual Changes:
         // -Lizard dick - first one
-        if (player.torso.cocks.filter(Cock.Type(CockType.LIZARD)).length <= 0 && player.torso.cocks.count > 0 && changes < changeLimit && Utils.rand(4) === 0) {
+        if (player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && player.torso.cocks.count > 0 && changes < changeLimit && Utils.rand(4) === 0) {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(player);
             DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + player.inventory.equipment.armor.displayName + " to investigate.  Your " + CockDescriptor.describeCock(player, nonLizzyDick) + " is changing!  It ripples loosely from ");
@@ -139,7 +139,7 @@ export default class Reptilum extends Consumable {
         }
         // (CHANGE OTHER DICK)
         // Requires 1 lizard cock, multiple cocks
-        if (player.torso.cocks.count > 1 && player.torso.cocks.filter(Cock.Type(CockType.LIZARD)).length > 0 && player.torso.cocks.count > player.torso.cocks.filter(Cock.Type(CockType.LIZARD)).length && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.cocks.count > 1 && player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length > 0 && player.torso.cocks.count > player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length && Utils.rand(4) === 0 && changes < changeLimit) {
             DisplayText("\n\nA familiar tingle starts in your crotch, and before you can miss the show, you pull open your " + player.inventory.equipment.armor.displayName + ".  As if operating on a cue, ");
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(player);
             if (player.torso.cocks.count === 2) DisplayText("your other dick");
@@ -161,7 +161,7 @@ export default class Reptilum extends Consumable {
             player.stats.lust += 10;
         }
         // -Grows second lizard dick if only 1 dick
-        if (player.torso.cocks.filter(Cock.Type(CockType.LIZARD)).length === 1 && player.torso.cocks.count === 1 && Utils.rand(4) === 0 && changes < changeLimit) {
+        if (player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && player.torso.cocks.count === 1 && Utils.rand(4) === 0 && changes < changeLimit) {
             const firstCock = player.torso.cocks.get(0);
             DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + LegDescriptor.describeFeet(player) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + player.skin.desc + ", adjacent to your " + CockDescriptor.describeCock(player, firstCock) + ".  The flesh darkens, turning purple");
             if (player.skin.type === SkinType.FUR || player.skin.type === SkinType.SCALES)
@@ -179,7 +179,7 @@ export default class Reptilum extends Consumable {
         }
         // --Worms leave if 100% lizard dicks?
         // Require mammals?
-        if (player.torso.cocks.filter(Cock.Type(CockType.LIZARD)).length === player.torso.cocks.count && changes < changeLimit && player.statusAffects.has(StatusAffectType.Infested)) {
+        if (player.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === player.torso.cocks.count && changes < changeLimit && player.statusAffects.has(StatusAffectType.Infested)) {
             DisplayText("\n\nLike rats from a sinking ship, worms escape from your body in a steady stream.  Surprisingly, the sensation is remarkably pleasant, similar to the pleasure of sexual release in a way.  Though they seem inexhaustible, the tiny, cum-slimed invertebrates slow to a trickle.  The larger worm-kin inside you stirs as if disturbed from a nap, coming loose from whatever moorings it had attached itself to in the interior of your form.  It slowly works its way up your urethra, stretching to an almost painful degree with every lurching motion.  Your dick bloats out around the base, stretched like the ovipositor on a bee-girl in order to handle the parasitic creature, but thankfully, the ordeal is a brief one.");
             if (player.torso.balls.quantity > 1) DisplayText("  The remaining " + Utils.numToCardinalText(player.torso.balls.quantity - 1) + " slither out the pre-stretched holes with ease, though the last one hangs from your tip for a moment before dropping to the ground.");
             DisplayText("  The white creature joins its kin on the ground and slowly slithers away.  Perhaps they prefer mammals? In any event, <b>you are no longer infected with worms</b>.");

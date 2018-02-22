@@ -166,7 +166,7 @@ export default class FoxJewel extends Consumable {
             player.torso.tails.add(newTail);
             changes++;
         }
-        const foxTailCount = player.torso.tails.filter(Tail.Type(TailType.FOX)).length;
+        const foxTailCount = player.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
         if (!this.mystic && player.torso.neck.head.ears.type === EarType.FOX && foxTailCount === 8 && Utils.rand(3) === 0) {
             DisplayText("\n\nYou have the feeling that if you could grow a ninth tail you would be much more powerful, but you would need to find a way to enhance one of these gems or meditate with one to have a chance at unlocking your full potential.");
         }

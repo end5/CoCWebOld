@@ -55,7 +55,7 @@ export default class Equinum extends Consumable {
                     // If player has dicks check for horsedicks
                     if (character.torso.cocks.count > 0) {
                         // If player has horsedicks
-                        if (character.torso.cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
+                        if (character.torso.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                             DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the potion, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
                             if (character.gender === 0 || character.gender === 3) DisplayText("horse ");
                             if (character.gender === 1) DisplayText("stallion ");
@@ -199,7 +199,7 @@ export default class Equinum extends Consumable {
         // MALENESS.
         if ((character.gender === 1 || character.gender === 3) && Utils.rand(1.5) === 0 && changes < changeLimit) {
             // If cocks that aren't horsified!
-            if ((cocks.filter(Cock.Type(CockType.HORSE)).length + cocks.filter(Cock.Type(CockType.DEMON)).length) < cocks.count) {
+            if ((cocks.filter(Cock.FilterType(CockType.HORSE)).length + cocks.filter(Cock.FilterType(CockType.DEMON)).length) < cocks.count) {
                 // Transform a cock and store it's index value to talk about it.
                 // Single cock
                 let selectedCock: Cock = cocks.get(0);
@@ -261,7 +261,7 @@ export default class Equinum extends Consumable {
                     DisplayText("\n\nOne of your penises begins to feel strange.  You pull down your clothes to take a look and see the skin of your " + CockDescriptor.describeCock(character, selectedCock) + " darkening to a mottled brown and black pattern.");
 
                     // Already have a sheath
-                    if (cocks.filter(Cock.Type(CockType.HORSE)).length > 1 || cocks.filter(Cock.Type(CockType.DOG)).length > 0)
+                    if (cocks.filter(Cock.FilterType(CockType.HORSE)).length > 1 || cocks.filter(Cock.FilterType(CockType.DOG)).length > 0)
                         DisplayText("  Your sheath tingles and begins growing larger as the cock's base shifts to lie inside it.");
                     else
                         DisplayText("  You feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your " + CockDescriptor.describeCock(character, selectedCock) + "'s root, tightening and pulling your " + CockDescriptor.describeCock(character, selectedCock) + " inside its depths.");
@@ -300,7 +300,7 @@ export default class Equinum extends Consumable {
                 changes++;
             }
             // Chance of thickness + daydream
-            if (Utils.rand(2) === 0 && changes < changeLimit && cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
+            if (Utils.rand(2) === 0 && changes < changeLimit && cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                 const selectedCock: Cock = cocks.sort(Cock.ThinnestCocks)[0];
                 CockModifier.thickenCock(selectedCock, 0.5);
                 DisplayText("\n\nYour " + CockDescriptor.nounCock(CockType.HORSE) + " thickens inside its sheath, growing larger and fatter as your veins thicken, becoming more noticeable.  It feels right");
@@ -321,7 +321,7 @@ export default class Equinum extends Consumable {
                 character.stats.lust += 10;
             }
             // Chance of ball growth if not 3" yet
-            if (Utils.rand(2) === 0 && changes < changeLimit && character.torso.balls.size <= 3 && cocks.filter(Cock.Type(CockType.HORSE)).length > 0) {
+            if (Utils.rand(2) === 0 && changes < changeLimit && character.torso.balls.size <= 3 && cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                 if (character.torso.balls.quantity === 0) {
                     character.torso.balls.quantity = 2;
                     character.torso.balls.size = 1;
@@ -484,7 +484,7 @@ export default class Equinum extends Consumable {
             changes++;
         }
         // Tail - no-prereq
-        if (character.torso.tails.filter(Tail.Type(TailType.HORSE)).length < 0 && Utils.rand(2) === 0 && changes < changeLimit) {
+        if (character.torso.tails.filter(Tail.FilterType(TailType.HORSE)).length < 0 && Utils.rand(2) === 0 && changes < changeLimit) {
             // no tail
             if (character.torso.tails.count === 0) {
                 DisplayText("\n\nThere is a sudden tickling on your ass, and you notice you have sprouted a long shiny horsetail of the same " + character.torso.neck.head.hair.color + " color as your hair.");
