@@ -1,11 +1,10 @@
-import EquipmentSlot from './EquipmentSlot';
-import ListObserverEquipmentList from './ListObserverEquipmentList';
-import BreastRow from '../Body/BreastRow';
-import Cock from '../Body/Cock';
+import EquipSlot from './EquipSlot';
+import EquipSlotList from './EquipSlotList';
 import Character from '../Character/Character';
 import EquipableItem from '../Items/EquipableItem';
 import Piercing from '../Items/Misc/Piercing';
 import ISerializable from '../Utilities/ISerializable';
+import ListMonitor from '../Utilities/ListMonitor';
 import ListSerializer from '../Utilities/ListSerializer';
 
 export enum PiercingSlot {
@@ -22,30 +21,37 @@ export enum PiercingSlot {
 
 export default class PiercingInventory implements ISerializable<PiercingInventory> {
     private character: Character;
-    public readonly clit: EquipmentSlot<Piercing>;
-    public readonly ears: EquipmentSlot<Piercing>;
-    public readonly eyebrow: EquipmentSlot<Piercing>;
-    public readonly lip: EquipmentSlot<Piercing>;
-    public readonly nose: EquipmentSlot<Piercing>;
-    public readonly tongue: EquipmentSlot<Piercing>;
-    public readonly labia: EquipmentSlot<Piercing>;
+    public readonly clit: EquipSlot<Piercing>;
+    public readonly ears: EquipSlot<Piercing>;
+    public readonly eyebrow: EquipSlot<Piercing>;
+    public readonly lip: EquipSlot<Piercing>;
+    public readonly nose: EquipSlot<Piercing>;
+    public readonly tongue: EquipSlot<Piercing>;
+    public readonly labia: EquipSlot<Piercing>;
 
-    public readonly nipples: ListObserverEquipmentList<BreastRow, Piercing>;
-    public readonly cocks: ListObserverEquipmentList<Cock, Piercing>;
+    public readonly nipples: EquipSlotList<Piercing>;
+    public readonly cocks: EquipSlotList<Piercing>;
+
+    private nipplesMonitor: ListMonitor;
+    private cocksMonitor: ListMonitor;
 
     public constructor(character: Character) {
         this.character = character;
-        this.clit = new EquipmentSlot(character);
-        this.ears = new EquipmentSlot(character);
-        this.eyebrow = new EquipmentSlot(character);
-        this.lip = new EquipmentSlot(character);
-        this.nose = new EquipmentSlot(character);
-        this.tongue = new EquipmentSlot(character);
-        this.labia = new EquipmentSlot(character);
+        this.clit = new EquipSlot(character);
+        this.ears = new EquipSlot(character);
+        this.eyebrow = new EquipSlot(character);
+        this.lip = new EquipSlot(character);
+        this.nose = new EquipSlot(character);
+        this.tongue = new EquipSlot(character);
+        this.labia = new EquipSlot(character);
         this.addEquipEffects();
 
-        this.nipples = new ListObserverEquipmentList(character, character.torso.chest);
-        this.cocks = new ListObserverEquipmentList(character, character.torso.cocks);
+        this.nipples = new EquipSlotList(character);
+        this.cocks = new EquipSlotList(character);
+        this.nipplesMonitor = new ListMonitor(this.nipples, EquipSlot, character);
+        this.cocksMonitor = new ListMonitor(this.cocks, EquipSlot, character);
+        character.torso.chest.attach(this.nipplesMonitor);
+        character.torso.cocks.attach(this.cocksMonitor);
     }
 
     // 0) **Clit (+2 sens)

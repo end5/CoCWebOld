@@ -1,29 +1,35 @@
 import CockSockList from './CockSockList';
-import EquipmentSlot from './EquipmentSlot';
+import EquipSlot from './EquipSlot';
 import PiercingInventory from './PiercingInventory';
 import Character from '../Character/Character';
 import Armor from '../Items/Armors/Armor';
 import Weapon from '../Items/Weapons/Weapon';
 import ISerializable from '../Utilities/ISerializable';
+import ListMonitor from '../Utilities/ListMonitor';
 import ListSerializer from '../Utilities/ListSerializer';
 
 export default class EquipmentInventory implements ISerializable<EquipmentInventory> {
-    public readonly defaultWeaponSlot: EquipmentSlot<Weapon>;
-    public readonly equippedWeaponSlot: EquipmentSlot<Weapon>;
-    public readonly defaultArmorSlot: EquipmentSlot<Armor>;
-    public readonly equippedArmorSlot: EquipmentSlot<Armor>;
+    public readonly defaultWeaponSlot: EquipSlot<Weapon>;
+    public readonly equippedWeaponSlot: EquipSlot<Weapon>;
+    public readonly defaultArmorSlot: EquipSlot<Armor>;
+    public readonly equippedArmorSlot: EquipSlot<Armor>;
     public readonly piercings: PiercingInventory;
     public readonly cockSocks: CockSockList;
+    private cocksMonitor: ListMonitor;
     public armorDescMod: string;
+    private character: Character;
 
     public constructor(character: Character) {
-        this.defaultWeaponSlot = new EquipmentSlot(character);
-        this.equippedWeaponSlot = new EquipmentSlot(character);
-        this.defaultArmorSlot = new EquipmentSlot(character);
-        this.equippedArmorSlot = new EquipmentSlot(character);
+        this.defaultWeaponSlot = new EquipSlot(character);
+        this.equippedWeaponSlot = new EquipSlot(character);
+        this.defaultArmorSlot = new EquipSlot(character);
+        this.equippedArmorSlot = new EquipSlot(character);
         this.piercings = new PiercingInventory(character);
-        this.cockSocks = new CockSockList(character, character.torso.cocks);
+        this.cockSocks = new CockSockList(character);
+        this.cocksMonitor = new ListMonitor(this.cockSocks, EquipSlot, character);
+        character.torso.cocks.attach(this.cocksMonitor);
         this.armorDescMod = "";
+        this.character = character;
     }
 
     public get weapon(): Weapon {

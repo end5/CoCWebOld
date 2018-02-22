@@ -1,9 +1,8 @@
-import ListObserverEquipmentList from './ListObserverEquipmentList';
-import Cock from '../Body/Cock';
+import EquipSlotList from './EquipSlotList';
 import CockSock from '../Items/Misc/CockSock';
 import CockSockName from '../Items/Misc/CockSockName';
 
-export default class CockSockList extends ListObserverEquipmentList<Cock, CockSock> {
+export default class CockSockList extends EquipSlotList<CockSock> {
     public hasCockSock(name: CockSockName): boolean {
         for (const cocksock of this.list) {
             if (cocksock.isEquipped() && cocksock.item.name === name) {

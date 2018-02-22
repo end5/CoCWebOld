@@ -5,7 +5,7 @@ import ISerializable from '../Utilities/ISerializable';
 
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
-export default class EquipmentSlot<T extends EquipableItem> implements ISerializable<EquipmentSlot<T>> {
+export default class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
     private character: Character;
     private equippedItem: T;
     private onEquipEffects: EquipEffect[];
@@ -55,7 +55,7 @@ export default class EquipmentSlot<T extends EquipableItem> implements ISerializ
         });
     }
 
-    public deserialize(saveObject: EquipmentSlot<T>) {
+    public deserialize(saveObject: EquipSlot<T>) {
         if (saveObject.item) {
             this.equip(ItemFactory.get(saveObject.equippedItem.type, saveObject.equippedItem.name) as T);
         }
