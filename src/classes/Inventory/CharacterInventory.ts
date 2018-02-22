@@ -1,23 +1,23 @@
 import EquipmentInventory from './EquipmentInventory';
 import Inventory from './Inventory';
-import KeyItemList from './KeyItemList';
+import KeyItemDict from './KeyItemDict';
 import Character from '../Character/Character';
 import Item from '../Items/Item';
 import KeyItem from '../Items/KeyItem';
+import DictionarySerializer from '../Utilities/DictionarySerializer';
 import ISerializable from '../Utilities/ISerializable';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
 
 export default class CharacterInventory implements ISerializable<CharacterInventory> {
     public readonly items: Inventory<Item>;
     public readonly equipment: EquipmentInventory;
     public gems: number;
-    public readonly keyItems: KeyItemList;
+    public readonly keyItems: KeyItemDict;
 
     public constructor(character: Character) {
         this.items = new Inventory<Item>();
         this.equipment = new EquipmentInventory(character);
         this.gems = 0;
-        this.keyItems = new KeyItemList();
+        this.keyItems = new KeyItemDict();
     }
 
     public serialize(): string {
@@ -25,7 +25,7 @@ export default class CharacterInventory implements ISerializable<CharacterInvent
             gems: this.gems,
             items: this.items.serialize(),
             equipment: this.equipment.serialize(),
-            keyItems: this.keyItems.serialize()
+            keyItems: DictionarySerializer.serialize(this.keyItems)
         });
     }
 
@@ -33,6 +33,6 @@ export default class CharacterInventory implements ISerializable<CharacterInvent
         this.gems = saveObject.gems;
         this.items.deserialize(saveObject.items);
         this.equipment.deserialize(saveObject.equipment);
-        this.keyItems.deserialize(saveObject.keyItems);
+        DictionarySerializer.deserialize(saveObject.keyItems, this.keyItems, KeyItem);
     }
 }
