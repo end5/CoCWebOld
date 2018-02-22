@@ -5,6 +5,7 @@ import Character from '../Character/Character';
 import Armor from '../Items/Armors/Armor';
 import Weapon from '../Items/Weapons/Weapon';
 import ISerializable from '../Utilities/ISerializable';
+import ListSerializer from '../Utilities/ListSerializer';
 
 export default class EquipmentInventory implements ISerializable<EquipmentInventory> {
     public readonly defaultWeaponSlot: EquipmentSlot<Weapon>;
@@ -40,7 +41,7 @@ export default class EquipmentInventory implements ISerializable<EquipmentInvent
             defaultArmorSlot: this.defaultArmorSlot.serialize(),
             equippedArmorSlot: this.equippedArmorSlot.serialize(),
             piercings: this.piercings.serialize(),
-            cockSocks: this.cockSocks.serialize(),
+            cockSocks: ListSerializer.serialize(this.cockSocks),
             armorDescMod: this.armorDescMod
         });
     }
@@ -51,7 +52,7 @@ export default class EquipmentInventory implements ISerializable<EquipmentInvent
         this.defaultArmorSlot.deserialize(saveObject.defaultArmorSlot);
         this.equippedArmorSlot.deserialize(saveObject.equippedArmorSlot);
         this.piercings.deserialize(saveObject.piercings);
-        this.cockSocks.deserialize(saveObject.cockSocks);
+        ListSerializer.deserialize(saveObject.cockSocks, this.cockSocks, EquipSlot, this.character);
         this.armorDescMod = saveObject.armorDescMod;
     }
 }

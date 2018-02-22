@@ -1,11 +1,7 @@
 ﻿import BreastRow from './BreastRow';
-import SerializableList from '../Utilities/SerializableList';
+import ObservableList from '../Utilities/ObservableList';
 
-export default class Chest extends SerializableList<BreastRow> {
-    public constructor() {
-        super(BreastRow);
-    }
-
+export default class Chest extends ObservableList<BreastRow> {
     public add(newBreastRow: BreastRow) {
         if (this.list.length < 10)
             this.list.push(newBreastRow);

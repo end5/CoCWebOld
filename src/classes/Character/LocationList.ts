@@ -1,8 +1,8 @@
 import GameLocation from '../Game/GameLocation';
 import LocationName from '../Game/LocationName';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
+import Dictionary from '../Utilities/Dictionary';
 
-export default class LocationList extends SerializableDictionary<GameLocation> {
+export default class LocationList extends Dictionary<GameLocation> {
     public get(locationName: LocationName): GameLocation {
         if (!this.has(locationName)) {
             this.set(locationName, new GameLocation(locationName));

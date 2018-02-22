@@ -5,10 +5,11 @@ import InventoryDisplay from '../display/InventoryDisplay';
 import Item from '../Items/Item';
 import ISerializable from '../Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../Utilities/list';
-import SerializableList from '../Utilities/SerializableList';
+import List from '../Utilities/List';
+import ListSerializer from '../Utilities/ListSerializer';
 
 export default class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
-    private itemSlots: SerializableList<ItemStack<T>> = new SerializableList(ItemStack);
+    private itemSlots: List<ItemStack<T>> = new List();
 
     public unlock(amount: number = 1) {
         while (amount > 0) {
@@ -147,11 +148,11 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
 
     public serialize(): string {
         return JSON.stringify({
-            itemSlots: this.itemSlots.serialize()
+            itemSlots: ListSerializer.serialize(this.itemSlots, ItemStack)
         });
     }
 
     public deserialize(saveObject: Inventory<T>) {
-        this.itemSlots.deserialize(saveObject.itemSlots);
+        ListSerializer.deserialize(saveObject, this.itemSlots, ItemStack);
     }
 }

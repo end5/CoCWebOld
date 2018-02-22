@@ -6,6 +6,7 @@ import Character from '../Character/Character';
 import EquipableItem from '../Items/EquipableItem';
 import Piercing from '../Items/Misc/Piercing';
 import ISerializable from '../Utilities/ISerializable';
+import ListSerializer from '../Utilities/ListSerializer';
 
 export enum PiercingSlot {
     Clit,
@@ -87,8 +88,8 @@ export default class PiercingInventory implements ISerializable<PiercingInventor
             nose: this.nose.serialize(),
             tongue: this.tongue.serialize(),
             labia: this.labia.serialize(),
-            nipples: this.nipples.serialize(),
-            cocks: this.cocks.serialize()
+            nipples: ListSerializer.serialize(this.nipples),
+            cocks: ListSerializer.serialize(this.cocks)
         });
     }
 
@@ -100,7 +101,7 @@ export default class PiercingInventory implements ISerializable<PiercingInventor
         this.nose.deserialize(saveObject.nose);
         this.tongue.deserialize(saveObject.tongue);
         this.labia.deserialize(saveObject.labia);
-        this.nipples.deserialize(saveObject.nipples);
-        this.cocks.deserialize(saveObject.cocks);
+        ListSerializer.deserialize(saveObject.nipples, this.nipples);
+        ListSerializer.deserialize(saveObject.cocks, this.cocks);
     }
 }

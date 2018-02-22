@@ -12,15 +12,16 @@ import GameLocation from '../Game/GameLocation';
 import CharacterInventory from '../Inventory/CharacterInventory';
 import CockSockName from '../Items/Misc/CockSockName';
 import UpdateInterface from '../UpdateInterface';
+import Dictionary from '../Utilities/Dictionary';
+import DictionarySerializer from '../Utilities/DictionarySerializer';
 import ISerializable from '../Utilities/ISerializable';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
 import { Utils } from '../Utilities/Utils';
 
 export default abstract class Character extends Creature implements UpdateInterface, ISerializable<Character> {
     public charType: CharacterType;
     public readonly charID: number;
     public readonly inventory: CharacterInventory;
-    public readonly locations: SerializableDictionary<GameLocation>;
+    public readonly locations: Dictionary<GameLocation>;
 
     protected description: CharacterDescription;
     public get desc(): CharacterDescription {
@@ -40,7 +41,7 @@ export default abstract class Character extends Creature implements UpdateInterf
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
-        this.locations = new SerializableDictionary(GameLocation);
+        this.locations = new Dictionary();
     }
 
     public serialize(): string {
@@ -48,7 +49,7 @@ export default abstract class Character extends Creature implements UpdateInterf
             charType: this.charType,
             inventory: this.inventory.serialize(),
             desc: this.desc.serialize(),
-            locations: this.locations.serialize()
+            locations: DictionarySerializer.serialize(this.locations)
         });
     }
 
@@ -56,7 +57,7 @@ export default abstract class Character extends Creature implements UpdateInterf
         this.charType = saveObject.charType;
         this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
-        this.locations.deserialize(saveObject.locations);
+        DictionarySerializer.deserialize(saveObject.locations, this.locations, GameLocation);
         super.deserialize(saveObject);
     }
 

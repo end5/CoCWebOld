@@ -1,16 +1,14 @@
 ﻿import Flags from './Flags';
-import GameLocation from './GameLocation';
 import Initializer from './Initializer';
 import Settings from './Settings';
 import TimeManager from './TimeManager';
 import Character from '../Character/Character';
-import { CharacterType } from '../Character/CharacterType';
 import Menus from '../display/Menus/Menus';
 import CampStorage from '../Inventory/CampStorage';
 import Player from '../Player/Player';
 import SaveManager from '../SaveManager';
 import SceneManager from '../Scenes/SceneManager';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
+import Dictionary from '../Utilities/Dictionary';
 
 export enum GameState {
     Normal,
@@ -30,9 +28,8 @@ export default class Game {
     public static scenes: SceneManager;
     public static campStorage: CampStorage;
     public static settings: Settings;
-    public static npcs: SerializableDictionary<Character>;
-    public static characterData: SerializableDictionary<object>;
-    public static locations: SerializableDictionary<GameLocation>;
+    public static npcs: Dictionary<Character>;
+    public static characterData: Dictionary<object>;
 
     public constructor() {
         new Initializer();
