@@ -46,28 +46,6 @@ export default class Tail implements ISerializable<Tail> {
         this.recharge = recharge;
     }
 
-    // commented out for reminder that isNaga can no longer be checked here
-    /*public hasLongTail(): boolean {
-        switch (this.type) {
-            case TailType.DOG:
-            case TailType.DEMONIC:
-            case TailType.COW:
-            case TailType.SHARK:
-            case TailType.CAT:
-            case TailType.LIZARD:
-            case TailType.KANGAROO:
-            case TailType.FOX:
-            case TailType.DRACONIC:
-                return true;
-            default:
-                return false;
-        }
-    }*/
-
-    public static readonly HasLongTail: FilterOption<Tail> = (a: Tail) => {
-        return a.hasLongTail();
-    }
-
     public static readonly HasOvipositor: FilterOption<Tail> = (a: Tail) => {
         return a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN;
     }

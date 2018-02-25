@@ -2,6 +2,8 @@
 import { CharacterType } from './CharacterType';
 import { CockType } from '../Body/Cock';
 import Creature from '../Body/Creature';
+import { LegType } from '../Body/Legs';
+import Tail, { TailType } from '../Body/Tail';
 import CombatContainer from '../Combat/CombatContainer';
 import CockDescriptor from '../Descriptors/CockDescriptor';
 import DisplayText from '../display/DisplayText';
@@ -167,5 +169,50 @@ export default abstract class Character extends Creature implements UpdateInterf
             this.statusAffects.get(StatusAffectType.Feeder).value1 = 1;
             this.statusAffects.get(StatusAffectType.Feeder).value2 = 0;
         }
+    }
+
+    public slimeFeed(): void {
+        if (this.statusAffects.has(StatusAffectType.SlimeCraving)) {
+            // Reset craving value
+            this.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
+            // Flag to display feed update and restore stats in event parser
+            if (!this.statusAffects.has(StatusAffectType.SlimeCravingFeed)) {
+                this.statusAffects.add(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0);
+            }
+        }
+        if (this.perks.has(PerkType.Diapause)) {
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] += 3 + Utils.rand(33);
+            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 1;
+        }
+    }
+
+    // commented out for reminder that isNaga can no longer be checked here
+    public hasLongTail(): boolean {
+        if (this.torso.hips.legs.type === LegType.NAGA)
+            return true;
+        return this.torso.tails.filter((tail) => {
+            switch (tail.type) {
+                case TailType.DOG:
+                case TailType.DEMONIC:
+                case TailType.COW:
+                case TailType.SHARK:
+                case TailType.CAT:
+                case TailType.LIZARD:
+                case TailType.KANGAROO:
+                case TailType.FOX:
+                case TailType.DRACONIC:
+                    return true;
+                default:
+                    return false;
+            }
+        }).length > 0;
+    }
+
+    public canOvipositSpider(): boolean {
+        return this.pregnancy.ovipositor.canOviposit() && this.perks.has(PerkType.SpiderOvipositor) && this.torso.hips.legs.isDrider() && this.torso.tails.filter(Tail.FilterType(TailType.SPIDER_ABDOMEN)).length > 0;
+    }
+
+    public canOvipositBee(): boolean {
+        return this.pregnancy.ovipositor.canOviposit() && this.perks.has(PerkType.BeeOvipositor) && this.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN)).length > 0;
     }
 }

@@ -65,22 +65,6 @@ export default class Player extends Character {
     // Perks used to store 'queued' perk buys
     public perkPoints: number = 0;
 
-    public slimeFeed(): void {
-        if (this.statusAffects.has(StatusAffectType.SlimeCraving)) {
-            // Reset craving value
-            this.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
-            // Flag to display feed update and restore stats in event parser
-            if (!this.statusAffects.has(StatusAffectType.SlimeCravingFeed)) {
-                this.statusAffects.add(StatusAffectType.SlimeCravingFeed, 0, 0, 0, 0);
-            }
-        }
-        if (this.perks.has(PerkType.Diapause)) {
-            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00228] += 3 + Utils.rand(33);
-            Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00229] = 1;
-        }
-
-    }
-
     public minoCumAddiction(raw: number = 10): void {
         // Increment minotaur cum intake count
         Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00340]++;
