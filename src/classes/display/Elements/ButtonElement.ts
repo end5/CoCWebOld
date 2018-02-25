@@ -1,8 +1,8 @@
 import ScreenElement from './ScreenElement';
+import Character from '../../Character/Character';
 import Game from '../../Game/Game';
-import Player from '../../Player/Player';
 
-export type ClickFunction = (player: Player, event?: Event, prevMenu?: ClickFunction) => void;
+export type ClickFunction = (activeCharacter: Character, event?: Event, prevMenu?: ClickFunction) => void;
 
 type EventFunction = (event: Event) => void;
 

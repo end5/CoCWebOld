@@ -1,21 +1,21 @@
 import Menu from './Menu';
 import Menus from './Menus';
-import Player from '../../Player/Player';
+import Character from '../../Character/Character';
 import DisplayText from '../DisplayText';
 import { ClickFunction } from '../Elements/ButtonElement';
 import MainScreen from '../MainScreen';
 
 export default class LevelUpMenu implements Menu {
-    public display(player?: Player, prevMenu?: ClickFunction) {
+    public display(character?: Character, prevMenu?: ClickFunction) {
         DisplayText().clear();
         MainScreen.hideTopButtons();
         // MainScreen.getTopButton(TopButton.MainMenu).show();
         // Level up
-        if (player.stats.XP >= (player.stats.level) * 100) {
-            player.stats.level++;
-            player.perkPoints++;
-            DisplayText("<b>You are now level " + player.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
-            player.stats.XP -= (player.stats.level - 1) * 100;
+        if (character.stats.XP >= (character.stats.level) * 100) {
+            character.stats.level++;
+            character.perkPoints++;
+            DisplayText("<b>You are now level " + character.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
+            character.stats.XP -= (character.stats.level - 1) * 100;
             MainScreen.hideBottomButtons();
             MainScreen.getBottomButton(0).modify("Strength", this.levelUpStatStrength);
             MainScreen.getBottomButton(1).modify("Toughness", this.levelUpStatToughness);
@@ -24,29 +24,29 @@ export default class LevelUpMenu implements Menu {
         }
     }
 
-    private levelUpStatStrength(player: Player) {
-        player.stats.str += 5; // Gain +5 Str due to level
+    private levelUpStatStrength(character: Character) {
+        character.stats.str += 5; // Gain +5 Str due to level
         DisplayText().clear();
         DisplayText("Your muscles feel significantly stronger from your time adventuring.");
         MainScreen.doNext(Menus.PerkUp.display);
     }
 
-    private levelUpStatToughness(player: Player) {
-        player.stats.tou += 5; // Gain +5 Toughness due to level
+    private levelUpStatToughness(character: Character) {
+        character.stats.tou += 5; // Gain +5 Toughness due to level
         DisplayText().clear();
         DisplayText("You feel tougher from all the fights you have endured.");
         MainScreen.doNext(Menus.PerkUp.display);
     }
 
-    private levelUpStatSpeed(player: Player) {
-        player.stats.spe += 5; // Gain +5 speed due to level
+    private levelUpStatSpeed(character: Character) {
+        character.stats.spe += 5; // Gain +5 speed due to level
         DisplayText().clear();
         DisplayText("Your time in combat has driven you to move faster.");
         MainScreen.doNext(Menus.PerkUp.display);
     }
 
-    private levelUpStatIntelligence(player: Player) {
-        player.stats.int += 5; // Gain +5 Intelligence due to level
+    private levelUpStatIntelligence(character: Character) {
+        character.stats.int += 5; // Gain +5 Intelligence due to level
         DisplayText().clear();
         DisplayText("Your time spent fighting the creatures of this realm has sharpened your wit.");
         MainScreen.doNext(Menus.PerkUp.display);

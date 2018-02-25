@@ -1,19 +1,19 @@
 import Menu from './Menu';
 import Menus from './Menus';
+import Character from '../../Character/Character';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game from '../../Game/Game';
 import Inventory from '../../Inventory/Inventory';
 import Item from '../../Items/Item';
 import WeaponName from '../../Items/Weapons/WeaponName';
-import Player from '../../Player/Player';
 import DisplaySprite from '../DisplaySprite';
 import DisplayText from '../DisplayText';
 import InventoryDisplay from '../InventoryDisplay';
 import MainScreen from '../MainScreen';
 
-export default class PlayerInventoryMenu implements Menu {
-    public display(player: Player) {
+export default class CharacterInventoryMenu implements Menu {
+    public display(player: Character) {
         const inventory: Inventory<Item> = player.inventory.items;
         let foundItem: boolean = false;
 
@@ -24,13 +24,13 @@ export default class PlayerInventoryMenu implements Menu {
         DisplayText("<b><u>Equipment:</u></b>\n");
         DisplayText("<b>Weapon</b>: " + player.inventory.equipment.weapon.displayname + " (Attack - " + player.inventory.equipment.weapon.attack + ")\n");
         DisplayText("<b>Armor : </b>" + player.inventory.equipment.armor.displayName + " (Defense - " + player.inventory.equipment.armor.defense + ")\n");
-        if (player.keyItems.length > 0)
+        if (player.inventory.keyItems.keys().length > 0)
             DisplayText("<b><u>\nKey Items:</u></b>\n");
-        for (const keyItem of player.keyItems)
+        for (const keyItem of player.inventory.keyItems.keys())
             DisplayText(keyItem.objectKey + "\n");
 
         MainScreen.hideTopButtons();
-        InventoryDisplay.displayPlayersInventory(player);
+        InventoryDisplay.displayCharactersInventory(player);
 
         if (player.inventory.equipment.weapon.name !== WeaponName.Fists) {
             MainScreen.getBottomButton(5).modify("Unequip", InventoryDisplay.unequipFunction(player));
@@ -57,7 +57,7 @@ export default class PlayerInventoryMenu implements Menu {
         }
         if (!foundItem) {
             DisplayText("\nYou have no usable items.");
-            MainScreen.doNext(Menus.Player.display);
+            MainScreen.doNext(Menus.Character.display);
             return;
         }
         if (Game.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
@@ -72,7 +72,7 @@ export default class PlayerInventoryMenu implements Menu {
             if (Game.inCombat)
                 MainScreen.addBackButton("Back", Menus.Combat.display);
             else
-                MainScreen.addBackButton("Back", Menus.Player.display);
+                MainScreen.addBackButton("Back", Menus.Character.display);
         }
     }
 }

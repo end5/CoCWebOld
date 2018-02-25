@@ -1,10 +1,10 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
+import Character from '../../Character/Character';
 import ButtDescriptor from '../../Descriptors/ButtDescriptor';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import BodyModifier from '../../Modifiers/BodyModifier';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class Coal extends Consumable {
@@ -12,25 +12,25 @@ export default class Coal extends Consumable {
         super(ConsumableName.Coal, new ItemDesc("Coal", "two pieces of coal"));
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         let changes: number = 0;
         DisplayText().clear();
         DisplayText("You handle the coal rocks experimentally and they crumble to dust in your hands!  You cough as you breathe in the cloud, sputtering and wheezing.  After a minute of terrible coughing, you recover and realize there's no remaining trace of the rocks, not even a sooty stain on your hands!");
         // Try to go into intense heat
-        if (BodyModifier.displayGoIntoHeat(player, 2)) {
+        if (BodyModifier.displayGoIntoHeat(character, 2)) {
             changes++;
         }
         // Males go into rut
-        else if (BodyModifier.displayGoIntoRut(player)) {
+        else if (BodyModifier.displayGoIntoRut(character)) {
             changes++;
         }
         else {
             // Boost anal capacity without gaping
-            if (player.statusAffects.get(StatusAffectType.BonusACapacity).value1 < 80) {
-                if (!player.statusAffects.has(StatusAffectType.BonusACapacity))
-                    player.statusAffects.add(StatusAffectType.BonusACapacity, 0, 0, 0, 0);
-                player.statusAffects.get(StatusAffectType.BonusACapacity).value1 = 5;
-                DisplayText("\n\nYou feel... more accommodating somehow.  Your " + ButtDescriptor.describeButthole(player) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
+            if (character.statusAffects.get(StatusAffectType.BonusACapacity).value1 < 80) {
+                if (!character.statusAffects.has(StatusAffectType.BonusACapacity))
+                    character.statusAffects.add(StatusAffectType.BonusACapacity, 0, 0, 0, 0);
+                character.statusAffects.get(StatusAffectType.BonusACapacity).value1 = 5;
+                DisplayText("\n\nYou feel... more accommodating somehow.  Your " + ButtDescriptor.describeButthole(character) + " is tingling a bit, and though it doesn't seem to have loosened, it has grown more elastic.");
                 changes++;
             }
             else {

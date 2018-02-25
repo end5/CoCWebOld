@@ -1,8 +1,8 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
+import Character from '../../Character/Character';
 import HeadDescriptor from '../../Descriptors/HeadDescriptor';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export enum HairDyeType {
@@ -93,22 +93,22 @@ export default class HairDye extends Consumable {
         }
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         DisplayText().clear();
-        if (player.torso.neck.head.hair.color.indexOf("rubbery") !== -1 || player.torso.neck.head.hair.color.indexOf("latex-textured") !== -1) {
-            DisplayText("You massage the dye into your " + HeadDescriptor.describeHair(player) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
+        if (character.torso.neck.head.hair.color.indexOf("rubbery") !== -1 || character.torso.neck.head.hair.color.indexOf("latex-textured") !== -1) {
+            DisplayText("You massage the dye into your " + HeadDescriptor.describeHair(character) + " but the dye cannot penetrate the impermeable material your hair is composed of.");
             return;
         }
-        if (player.torso.neck.head.hair.length === 0) {
+        if (character.torso.neck.head.hair.length === 0) {
             DisplayText("You rub the dye into your bald head, but it has no effect.");
             return;
         }
-        DisplayText("You rub the dye into your " + HeadDescriptor.describeHair(player) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
-        player.torso.neck.head.hair.color = this.getColor();
-        DisplayText("You now have " + HeadDescriptor.describeHair(player) + ".");
-        if (player.stats.lust > 50) {
+        DisplayText("You rub the dye into your " + HeadDescriptor.describeHair(character) + ", then use a bucket of cool lakewater to rinse clean a few minutes later.  ");
+        character.torso.neck.head.hair.color = this.getColor();
+        DisplayText("You now have " + HeadDescriptor.describeHair(character) + ".");
+        if (character.stats.lust > 50) {
             DisplayText("\n\nThe cool water calms your urges somewhat, letting you think more clearly.");
-            player.stats.lust += -15;
+            character.stats.lust += -15;
         }
     }
 }

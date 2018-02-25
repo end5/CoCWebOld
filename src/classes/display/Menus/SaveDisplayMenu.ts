@@ -1,6 +1,6 @@
 import Menu from './Menu';
 import { Gender } from '../../Body/GenderIdentity';
-import Player from '../../Player/Player';
+import Character from '../../Character/Character';
 import SaveFile from '../../SaveFile';
 import SaveManager from '../../SaveManager';
 import DisplayText from '../DisplayText';
@@ -10,7 +10,7 @@ import UnorderedListElement from '../Elements/UnorderedListElement';
 import MainScreen from '../MainScreen';
 
 export default abstract class SaveDisplayMenu implements Menu {
-    public abstract display(player?: Player, prevMenu?: ClickFunction);
+    public abstract display(character?: Character, prevMenu?: ClickFunction);
 
     protected modifyBottomButtons(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction) {
         MainScreen.hideBottomButtons();

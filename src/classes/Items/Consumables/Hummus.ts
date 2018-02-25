@@ -12,9 +12,9 @@ import { SkinType } from '../../Body/Skin';
 import { TongueType } from '../../Body/Tongue';
 import Vagina, { VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
+import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Player from '../../Player/Player';
 import RaceScore from '../../RaceScore';
 import ItemDesc from '../ItemDesc';
 
@@ -23,92 +23,92 @@ export default class Hummus extends Consumable {
         super(ConsumableName.Hummus, new ItemDesc("Hummus ", "a blob of cheesy-looking hummus", "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it."));
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         DisplayText().clear();
         /*if (Game.debug) {
             DisplayText("You're about to eat the humus when you see it has bugs in it. Not wanting to eat bugged humus or try to debug it you throw it into the portal and find something else to eat.");
-            player.inventory.items.destroyItems(consumables.HUMMUS_, 1);
+            character.inventory.items.destroyItems(consumables.HUMMUS_, 1);
             return;
         }*/
         DisplayText("You shovel the stuff into your face, not sure WHY you're eating it, but once you start, you just can't stop.  It tastes incredibly bland, and with a slight hint of cheese.");
-        player.stats.str = 30;
-        player.stats.spe = 30;
-        player.stats.tou = 30;
-        player.stats.int = 30;
-        player.stats.sens = 20;
-        player.stats.lib = 25;
-        player.stats.cor = 5;
-        player.stats.lust = 10;
-        player.torso.neck.head.hair.type = 0;
-        if (RaceScore.humanScore(player) > 4) {
+        character.stats.str = 30;
+        character.stats.spe = 30;
+        character.stats.tou = 30;
+        character.stats.int = 30;
+        character.stats.sens = 20;
+        character.stats.lib = 25;
+        character.stats.cor = 5;
+        character.stats.lust = 10;
+        character.torso.neck.head.hair.type = 0;
+        if (RaceScore.humanScore(character) > 4) {
             DisplayText("\n\nYou blink and the world twists around you.  You feel more like yourself than you have in a while, but exactly how isn't immediately apparent.  Maybe you should take a look at yourself?");
         }
         else {
             DisplayText("\n\nYou cry out as the world spins around you.  You're aware of your entire body sliding and slipping, changing and morphing, but in the sea of sensation you have no idea exactly what's changing.  You nearly black out, and then it's over.  Maybe you had best have a look at yourself and see what changed?");
         }
-        player.torso.arms.type = ArmType.HUMAN;
-        player.torso.neck.head.face.eyes.type = EyeType.HUMAN;
-        player.torso.neck.head.face.tongue.type = TongueType.HUMAN;
-        player.torso.neck.head.face.type = FaceType.HUMAN;
-        player.torso.neck.head.horns.amount = 0;
-        player.torso.neck.head.horns.type = HornType.NONE;
-        player.torso.neck.head.antennae = AntennaeType.NONE;
-        player.torso.hips.legs.type = LegType.HUMAN;
-        player.torso.wings.type = WingType.NONE;
-        player.torso.wings.desc = "non-existant";
-        player.torso.tails.clear();
-        player.skin.type = SkinType.PLAIN;
-        player.skin.desc = "skin";
-        player.skin.adj = "";
-        if (player.fertility > 15) player.fertility = 15;
-        if (player.cumMultiplier > 50) player.cumMultiplier = 50;
+        character.torso.arms.type = ArmType.HUMAN;
+        character.torso.neck.head.face.eyes.type = EyeType.HUMAN;
+        character.torso.neck.head.face.tongue.type = TongueType.HUMAN;
+        character.torso.neck.head.face.type = FaceType.HUMAN;
+        character.torso.neck.head.horns.amount = 0;
+        character.torso.neck.head.horns.type = HornType.NONE;
+        character.torso.neck.head.antennae = AntennaeType.NONE;
+        character.torso.hips.legs.type = LegType.HUMAN;
+        character.torso.wings.type = WingType.NONE;
+        character.torso.wings.desc = "non-existant";
+        character.torso.tails.clear();
+        character.skin.type = SkinType.PLAIN;
+        character.skin.desc = "skin";
+        character.skin.adj = "";
+        if (character.fertility > 15) character.fertility = 15;
+        if (character.cumMultiplier > 50) character.cumMultiplier = 50;
         // Clear cocks
-        player.torso.cocks.clear();
+        character.torso.cocks.clear();
         // Reset dongs!
-        if (player.gender === 1 || player.gender === 3) {
-            player.torso.cocks.add(new Cock(6, 1));
-            player.torso.balls.size = 2;
-            if (player.torso.balls.quantity > 2) player.torso.balls.quantity = 2;
+        if (character.gender === 1 || character.gender === 3) {
+            character.torso.cocks.add(new Cock(6, 1));
+            character.torso.balls.size = 2;
+            if (character.torso.balls.quantity > 2) character.torso.balls.quantity = 2;
         }
         // Non duders lose any nuts
         else {
-            player.torso.balls.quantity = 0;
-            player.torso.balls.size = 2;
+            character.torso.balls.quantity = 0;
+            character.torso.balls.size = 2;
         }
         // Clear vaginas
         let virgin: boolean = false;
-        for (const vagina of player.torso.vaginas) {
+        for (const vagina of character.torso.vaginas) {
             if (vagina.virgin) {
                 virgin = true;
                 break;
             }
         }
-        player.torso.vaginas.clear();
+        character.torso.vaginas.clear();
         // Reset vaginal virginity to correct state
-        if (player.gender >= 2) {
+        if (character.gender >= 2) {
             const newVagina = new Vagina();
             newVagina.virgin = virgin;
             newVagina.type = VaginaType.HUMAN;
-            player.torso.vaginas.add(newVagina);
+            character.torso.vaginas.add(newVagina);
         }
-        player.torso.clit.length = .25;
+        character.torso.clit.length = .25;
         // Tighten butt!
-        player.torso.butt.rating = 2;
-        player.torso.hips.rating = 2;
-        if (player.torso.butt.looseness > 1) player.torso.butt.looseness = 1;
-        if (player.torso.butt.wetness > 1) player.torso.butt.wetness = 1;
+        character.torso.butt.rating = 2;
+        character.torso.hips.rating = 2;
+        if (character.torso.butt.looseness > 1) character.torso.butt.looseness = 1;
+        if (character.torso.butt.wetness > 1) character.torso.butt.wetness = 1;
         // Clear breasts
-        player.torso.chest.clear();
+        character.torso.chest.clear();
         const newBreastRow = new BreastRow();
         newBreastRow.nipples.length = .25;
-        player.torso.chest.add(newBreastRow);
+        character.torso.chest.add(newBreastRow);
         // Girls and herms get bewbs back
-        if (player.gender > 2) {
-            player.torso.chest.get(0).rating = 2;
+        if (character.gender > 2) {
+            character.torso.chest.get(0).rating = 2;
         }
-        else player.torso.chest.get(0).rating = 0;
-        player.torso.neck.gills = false;
-        player.statusAffects.remove(StatusAffectType.Uniball);
-        player.statusAffects.remove(StatusAffectType.BlackNipples);
+        else character.torso.chest.get(0).rating = 0;
+        character.torso.neck.gills = false;
+        character.statusAffects.remove(StatusAffectType.Uniball);
+        character.statusAffects.remove(StatusAffectType.BlackNipples);
     }
 }

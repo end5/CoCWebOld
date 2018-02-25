@@ -22,7 +22,7 @@ export default class Armor extends EquipableItem {
         this.canBulge = supportsBulge;
     }
 
-    public supportsBulge(character: Character): boolean { return this.canBulge && character.inventory.equipment.armorDescMod == ""; }
+    public supportsBulge(character: Character): boolean { return this.canBulge && character.inventory.equipment.armorDescMod === ""; }
     // For most clothes if the armorDescMod is set then it's Exgartuan's doing. The comfortable clothes are the exception, they override this function.
 
     public canUse(character: Character): boolean {

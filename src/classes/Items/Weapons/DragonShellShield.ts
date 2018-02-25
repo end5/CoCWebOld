@@ -1,8 +1,8 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
+import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class DragonShellShield extends Weapon {
@@ -10,11 +10,11 @@ export default class DragonShellShield extends Weapon {
         super(WeaponName.DragonShellShield, new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, "Large");
     }
 
-    public useText(player: Player): void {
+    public useText(character: Character): void {
         if (Flags.list[FlagEnum.TIMES_EQUIPPED_EMBER_SHIELD] === 0) {
             DisplayText().clear();
             DisplayText("Turning the sturdy shield over in inspection, you satisfy yourself as to its craftsmanship and adjust the straps to fit your arm snugly.  You try a few practice swings, but find yourself overbalancing at each one due to the deceptive lightness of the material.  Eventually, though, you pick up the knack of putting enough weight behind it to speed it through the air while thrusting a leg forward to stabilize yourself, and try bashing a nearby rock with it.  You smile with glee as ");
-            if (player.stats.str < 80)
+            if (character.stats.str < 80)
                 DisplayText("bits and pieces from the surface of the");
             else
                 DisplayText("huge shards of the shattered");

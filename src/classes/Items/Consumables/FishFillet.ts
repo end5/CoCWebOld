@@ -1,9 +1,9 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
+import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Game from '../../Game/Game';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class FishFillet extends Consumable {
@@ -11,7 +11,7 @@ export default class FishFillet extends Consumable {
         super(ConsumableName.FishFillet, new ItemDesc("FishFil", "a fish fillet", "A perfectly cooked piece of fish.  You're not sure what type of fish is, since you're fairly certain \"delicious\" is not a valid species."));
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         DisplayText().clear();
         if (!Game.inCombat)
             DisplayText("You sit down and unwrap your fish fillet. It's perfectly flaky, allowing you to break it off in bite-sized chunks.  The salty meal disappears quickly, and your stomach gives an appreciative gurgle.");
@@ -22,8 +22,8 @@ export default class FishFillet extends Consumable {
         // Increase HP by quite a bit!)
         // (Slight chance at increasing Toughness?)
         // (If lake has been tainted, +1 Corruption?)
-        if (player.statusAffects.has(StatusAffectType.FactoryOverload)) player.stats.cor += 0.5;
-        player.stats.cor += 0.1;
-        player.stats.HP += Math.round(player.stats.maxHP() * .25);
+        if (character.statusAffects.has(StatusAffectType.FactoryOverload)) character.stats.cor += 0.5;
+        character.stats.cor += 0.1;
+        character.stats.HP += Math.round(character.stats.maxHP() * .25);
     }
 }

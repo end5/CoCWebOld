@@ -1,6 +1,7 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import BreastRow from '../../Body/BreastRow';
+import Character from '../../Character/Character';
 import LegDescriptor from '../../Descriptors/LegDescriptor';
 import DisplaySprite from '../../display/DisplaySprite';
 import DisplayText from '../../display/DisplayText';
@@ -8,7 +9,6 @@ import SpriteName from '../../display/Images/SpriteName';
 import MainScreen from '../../display/MainScreen';
 import Game from '../../Game/Game';
 import BreastModifier from '../../Modifiers/BreastModifier';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class TatteredScroll extends Consumable {
@@ -16,51 +16,51 @@ export default class TatteredScroll extends Consumable {
         super(ConsumableName.TatteredScroll, new ItemDesc("TScroll", "a tattered scroll", "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it."));
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         DisplayText().clear();
-        DisplayText("Your wobbly " + LegDescriptor.describeLegs(player) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
-        if (player.torso.neck.head.hair.color === "sandy blonde") {
+        DisplayText("Your wobbly " + LegDescriptor.describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
+        if (character.torso.neck.head.hair.color === "sandy blonde") {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n");
-            if (player.torso.chest.count === 0) {
+            if (character.torso.chest.count === 0) {
                 DisplayText("You grow a perfectly rounded pair of C-cup breasts!  ");
                 const newBreastRow: BreastRow = new BreastRow();
                 newBreastRow.rating = 3;
                 if (newBreastRow.nipples.count < 1)
                     newBreastRow.nipples.count = 1;
-                player.torso.chest.add(newBreastRow);
-                player.stats.sens += 2;
-                player.stats.lust += 1;
+                character.torso.chest.add(newBreastRow);
+                character.stats.sens += 2;
+                character.stats.lust += 1;
             }
             else {
-                if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating === 0) {
+                if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating === 0) {
                     DisplayText("You grow a perfectly rounded pair of C-cup breasts!  ");
-                    const selectedBreastBow: BreastRow = player.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+                    const selectedBreastBow: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
                     selectedBreastBow.rating = 3;
                     if (selectedBreastBow.nipples.count < 1)
                         selectedBreastBow.nipples.count = 1;
-                    player.stats.sens += 2;
-                    player.stats.lust += 1;
+                    character.stats.sens += 2;
+                    character.stats.lust += 1;
                 }
-                const largestBreasts: BreastRow = player.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
+                const largestBreasts: BreastRow = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0];
                 if (largestBreasts.rating > 0 && largestBreasts.rating < 3) {
                     DisplayText("Your breasts suddenly balloon outwards, stopping as they reach a perfectly rounded C-cup.  ");
                     largestBreasts.rating = 3;
-                    player.stats.sens += 1;
-                    player.stats.lust += 1;
+                    character.stats.sens += 1;
+                    character.stats.lust += 1;
                 }
-                if (player.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
+                if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) < 1) {
                     DisplayText("A dark spot appears on each breast, rapidly forming into a sensitive nipple.  ");
-                    for (let index = 0; index < player.torso.chest.count; index++) {
+                    for (let index = 0; index < character.torso.chest.count; index++) {
                         // If that breast didnt have nipples reset length
-                        if (player.torso.chest.get(index).nipples.count < 1)
-                            player.torso.chest.get(index).nipples.length = .2;
-                        player.torso.chest.get(index).nipples.count = 1;
+                        if (character.torso.chest.get(index).nipples.count < 1)
+                            character.torso.chest.get(index).nipples.length = .2;
+                        character.torso.chest.get(index).nipples.count = 1;
 
                     }
-                    player.stats.sens += 2;
-                    player.stats.lust += 1;
+                    character.stats.sens += 2;
+                    character.stats.lust += 1;
                 }
-                const largestLactationMultiplier = player.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier;
+                const largestLactationMultiplier = character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier;
                 if (largestLactationMultiplier > 0) {
                     DisplayText("A strong pressure builds in your chest, painful in its intensity.  You yank down your top as ");
                     if (largestLactationMultiplier < 2)
@@ -73,38 +73,38 @@ export default class TatteredScroll extends Consumable {
                     if (largestLactationMultiplier >= 3)
                         DisplayText("you drop to your knees and grab your nipples.  With a very sexual moan you begin milking yourself, hosing out huge quantities of milk.  You pant and grunt, offering as much of your milk as you can.  It cascades down a hill in a small stream, and you can't help but blush with pride... and lust.  The erotic pleasures build as you do your best to feed the ground all of your milk.  You ride the edge of orgasm for an eternity, milk everywhere.  When you come to, you realize you're kneeling there, tugging your dry nipples.  Embarrassed, you stop, but your arousal remains.  ");
                     if (largestLactationMultiplier < 3) {
-                        BreastModifier.boostLactation(player, .7);
+                        BreastModifier.boostLactation(character, .7);
                         DisplayText("Your breasts feel fuller... riper... like your next milking could be even bigger.  ");
                     }
-                    player.stats.lib += 1;
-                    player.stats.sens += 4;
-                    player.stats.lust += 15;
+                    character.stats.lib += 1;
+                    character.stats.sens += 4;
+                    character.stats.lust += 15;
                 }
                 if (largestLactationMultiplier === 0) {
                     DisplayText("A pleasurable release suddenly erupts from your nipples!  Twin streams of milk are spraying from your breasts, soaking into the ground immediately.  It stops all too soon, though a voice in your head assures you that you can lactate quite often now.  ");
-                    BreastModifier.boostLactation(player, 1);
-                    player.stats.lib += 0.5;
-                    player.stats.sens += 1;
-                    player.stats.lust += 10;
+                    BreastModifier.boostLactation(character, 1);
+                    character.stats.lib += 0.5;
+                    character.stats.sens += 1;
+                    character.stats.lust += 10;
                 }
             }
             DisplayText("\n\nYour mouth curls into a sick smile and, with a voice that isn't your own, speaks, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.scenes.camp.returnToCampUseOneHour);
         }
         else {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>nuf erutuf rof riah ydnas, nus tresed eht sa ydnas.</i>\"\n\nYou feel a tingling in your scalp, and realize your hair has become a sandy blonde!");
-            player.torso.neck.head.hair.color = "sandy blonde";
+            character.torso.neck.head.hair.color = "sandy blonde";
             DisplayText("\n\nYour mouth curls with a sick smile, speaking with a voice that isn't your own, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            MainScreen.doNext(Game.camp.returnToCampUseOneHour);
+            MainScreen.doNext(Game.scenes.camp.returnToCampUseOneHour);
         }
         if (!Game.inCombat) {
             // RAEP
             DisplaySprite(SpriteName.Sandwich);
             DisplayText("\n\nYou hear the soft impact of clothes hitting the ground behind you, and turn to see that the sand witch has found you! You cannot resist a peek at your uninvited guest, beholding a curvy dark-skinned beauty, her form dominated by a quartet of lactating breasts.  Somewhere in your lust-fogged mind you register the top two as something close to double-Ds, and her lower pair to be about Cs.  She smiles and leans over you, pushing you to the ground violently.\n\nShe turns around and drops, planting her slick honey-pot firmly against your mouth.  Her scent is strong, overpowering in its intensity.  Your tongue darts out for a taste and finds a treasure trove of sticky sweetness.  Instinctively you tongue-fuck her, greedily devouring her cunny-juice, shoving your tongue in as far as possible while suckling her clit.  Dimly you feel the milk spattering over you, splashing off you and into the cracked earth.  Everywhere the milk touches feels silky smooth and sensitive, and your hands begin stroking your body, rubbing it in as the witch sprays more and more of it.  You lose track of time, orgasming many times, slick and sticky with sexual fluids.");
-            player.orgasm();
-            player.stats.lib += 1;
-            player.stats.sens += 5;
-            player.slimeFeed();
+            character.orgasm();
+            character.stats.lib += 1;
+            character.stats.sens += 5;
+            character.slimeFeed();
         }
     }
 }

@@ -1,33 +1,33 @@
 import Menu from './Menu';
 import Menus from './Menus';
+import Character from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player/Player';
 import { Utils } from '../../Utilities/Utils';
 import DisplayText from '../DisplayText';
 import MainScreen from '../MainScreen';
 
 export default class PerksMenu implements Menu {
-    public display(player: Player) {
+    public display(character: Character) {
         DisplayText().clear();
-        for (const key of player.perks.keys()) {
-            DisplayText(player.perks.get(key).type).bold();
-            DisplayText(" - " + player.perks.get(key).desc);
+        for (const key of character.perks.keys()) {
+            DisplayText(character.perks.get(key).type).bold();
+            DisplayText(" - " + character.perks.get(key).desc);
             DisplayText("\n\n");
         }
 
         MainScreen.hideBottomButtons();
-        if (player.perkPoints > 0) {
-            DisplayText("You have " + Utils.numToCardinalText(player.perkPoints) + " perk point").bold();
-            if (player.perkPoints > 1) DisplayText("s").bold();
+        if (character.perkPoints > 0) {
+            DisplayText("You have " + Utils.numToCardinalText(character.perkPoints) + " perk point").bold();
+            if (character.perkPoints > 1) DisplayText("s").bold();
             DisplayText(" to spend.").bold();
             MainScreen.getBottomButton(1).modify("Perk Up", Menus.PerkUp.display);
         }
-        if (player.perks.has(PerkType.DoubleAttack)) {
+        if (character.perks.has(PerkType.DoubleAttack)) {
             DisplayText("You can adjust your double attack settings.").bold();
             MainScreen.getBottomButton(2).modify("Dbl Options", this.doubleAttackOptions);
         }
-        MainScreen.doNext(Menus.Player.display);
+        MainScreen.doNext(Menus.Character.display);
     }
 
     public doubleAttackOptions(): void {

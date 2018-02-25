@@ -1,8 +1,8 @@
 import Menu from './Menu';
 import Menus from './Menus';
+import Character from '../../Character/Character';
 import BindableAction from '../../Input/BindableAction';
 import InputManager from '../../Input/InputManager';
-import Player from '../../Player/Player';
 import DisplayText from '../DisplayText';
 import ButtonElement from '../Elements/ButtonElement';
 import ListItemElement from '../Elements/ListItemElement';
@@ -66,7 +66,7 @@ export default class ControlsMenu implements Menu {
 
         const button1 = new ButtonElement();
         bindElement.appendElement(button1);
-        button1.modify(InputManager.get(bindableAction).primaryKey.toString(), (player: Player, event: KeyboardEvent) => {
+        button1.modify(InputManager.get(bindableAction).primaryKey.toString(), (character: Character, event: KeyboardEvent) => {
             const key = InputManager.get(bindableAction).primaryKey;
             key.keyCode = event.keyCode;
             key.shiftKey = event.shiftKey;
@@ -77,7 +77,7 @@ export default class ControlsMenu implements Menu {
 
         const button2 = new ButtonElement();
         bindElement.appendElement(button2);
-        button2.modify(InputManager.get(bindableAction).secondaryKey.toString(), (player: Player, event: KeyboardEvent) => {
+        button2.modify(InputManager.get(bindableAction).secondaryKey.toString(), (character: Character, event: KeyboardEvent) => {
             const key = InputManager.get(bindableAction).secondaryKey;
             key.keyCode = event.keyCode;
             key.shiftKey = event.shiftKey;

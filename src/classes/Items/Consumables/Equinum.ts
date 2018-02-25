@@ -52,9 +52,9 @@ export default class Equinum extends Consumable {
             if (Utils.rand(4) === 0 && character.statusAffects.has(StatusAffectType.HorseWarning)) {
                 // Must have been warned first...
                 if (character.statusAffects.get(StatusAffectType.HorseWarning).value1 > 0) {
-                    // If player has dicks check for horsedicks
+                    // If character has dicks check for horsedicks
                     if (character.torso.cocks.count > 0) {
-                        // If player has horsedicks
+                        // If character has horsedicks
                         if (character.torso.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                             DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the potion, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
                             if (character.gender === 0 || character.gender === 3) DisplayText("horse ");
@@ -70,7 +70,7 @@ export default class Equinum extends Consumable {
                             return;
                         }
                     }
-                    // If player has no cocks
+                    // If character has no cocks
                     else {
                         DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the drink, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and all the muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
                         if (character.gender === 0 || character.gender === 3) DisplayText("horse ");
@@ -454,7 +454,7 @@ export default class Equinum extends Consumable {
         // HorseFace - Req's Fur && Ears
         if (character.torso.neck.head.face.type !== FaceType.HORSE && character.skin.type === SkinType.FUR && changes < changeLimit &&
             Utils.rand(5) === 0 && character.torso.neck.head.ears.type === EarType.HORSE) {
-            if (character.torso.neck.head.face.type === FaceType.DOG) DisplayText("\n\nMind-numbing pain shatters through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your dog-like playeristics with those of a horse.  <b>You now have a horse's face.</b>");
+            if (character.torso.neck.head.face.type === FaceType.DOG) DisplayText("\n\nMind-numbing pain shatters through you as you feel your facial bones rearranging.  You clutch at your face in agony as your skin crawls and shifts, your visage reshaping to replace your dog-like characteristics with those of a horse.  <b>You now have a horse's face.</b>");
             else DisplayText("\n\nMind-numbing pain shatters through you as you feel your facial bones breaking and shifting.  You clutch at yourself in agony as you feel your skin crawl and elongate under your fingers.  Eventually the pain subsides, leaving you with a face that seamlessly blends human and equine features.  <b>You have a very equine-looking face.</b>");
             changes++;
             character.torso.neck.head.face.type = FaceType.HORSE;

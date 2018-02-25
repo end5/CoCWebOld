@@ -1,5 +1,5 @@
 import ConsumableName from './ConsumableName';
-import Player from '../../Player/Player';
+import Character from '../../Character/Character';
 import Item from '../Item';
 import ItemDesc from '../ItemDesc';
 import ItemType from '../ItemType';
@@ -11,15 +11,15 @@ export default class Consumable extends Item {
         this.mutationFunc = mutationFunc;
     }
 
-    public canUse(player: Player): boolean {
+    public canUse(character: Character): boolean {
         return true;
     }
 
-    public use(player: Player) {
+    public use(character: Character) {
         this.mutationFunc();
     }
 
-    public useText(player: Player) {
+    public useText(character: Character) {
 
     }
 }

@@ -1,8 +1,8 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
+import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
 import Game from '../../Game/Game';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class BeautifulSword extends Weapon {
@@ -14,8 +14,8 @@ export default class BeautifulSword extends Weapon {
         return 7 + Math.floor(10 - Game.player.stats.cor / 3);
     }
 
-    public canUse(player: Player): boolean {
-        if (player.stats.cor < 35)
+    public canUse(character: Character): boolean {
+        if (character.stats.cor < 35)
             return true;
         DisplayText("You grab hold of the handle of the sword only to have it grow burning hot.  You're forced to let it go lest you burn yourself.  Something within the sword must be displeased.  ");
         return false;

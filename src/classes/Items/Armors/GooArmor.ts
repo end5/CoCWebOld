@@ -4,7 +4,6 @@ import Character from '../../Character/Character';
 import CockDescriptor from '../../Descriptors/CockDescriptor';
 import DisplayText from '../../display/DisplayText';
 import Flags, { FlagEnum } from '../../Game/Flags';
-import Player from '../../Player/Player';
 import ItemDesc from '../ItemDesc';
 
 export default class GooArmor extends AbstractArmor {
@@ -12,17 +11,17 @@ export default class GooArmor extends AbstractArmor {
         super(ArmorName.GooArmor, new ItemDesc("GooArmr", "Valeria, the goo-girl armor", "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!"), "goo armor", 22, 1);
     }
 
-    public useText(player: Player): void { // Produces any text seen when equipping the armor normally
+    public useText(character: Character): void { // Produces any text seen when equipping the armor normally
         DisplayText("With an ecstatic smile, the goo-armor jumps to her feet and throws her arms around your shoulders.  \"<i>Oh, this is going to be so much fun!  Thank you thank you thank you!  I promise I'll keep you nice and snug and safe, don't you worry.  Oooh, a real adventure again!  WHEEE!</i>\"");
         DisplayText("\n\nBefore she can get too excited, you remind the goo that she's supposed to be your armor right about now.  Clasping her hands over her mouth in embarrassment, she utters a muted apology and urges you to just \"<i>put me on!</i>\"  Awkwardly, you strip out of your gear and open up the platemail armor and clamber in.  It's wet and squishy, making you shudder and squirm as you squash your new friend flat against the metal armor.");
         DisplayText("\n\nEventually, the two of you get situated. The goo-girl slips around your body inside the heavy armor, maneuvering so that your face is unobstructed and your joints, not protected by the armor, are soundly clad in squishy goo.  She even forms a gooey beaver on your new helm, allowing you to open and close her like a visor in battle.  Eventually, her goo settles around your ");
-        if (player.torso.vaginas.count > 0)
+        if (character.torso.vaginas.count > 0)
             DisplayText("[vagina]");
-        if (player.torso.vaginas.count > 0 && player.torso.cocks.count > 0)
+        if (character.torso.vaginas.count > 0 && character.torso.cocks.count > 0)
             DisplayText(" and ");
-        if (player.torso.cocks.count > 0)
-            DisplayText(CockDescriptor.describeMultiCockShort(player));
-        if (player.gender === 0)
+        if (character.torso.cocks.count > 0)
+            DisplayText(CockDescriptor.describeMultiCockShort(character));
+        if (character.gender === 0)
             DisplayText("groin");
         DisplayText(", encasing your loins in case you need a little mid-battle release, she says.");
         DisplayText("\n\nAfter a few minutes, you and your armor-friend are settled and ready to go.");

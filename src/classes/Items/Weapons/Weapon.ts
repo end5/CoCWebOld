@@ -1,7 +1,6 @@
 import WeaponName from './WeaponName';
 import Character from '../../Character/Character';
 import DisplayText from '../../display/DisplayText';
-import Player from '../../Player/Player';
 import EquipableItem from '../EquipableItem';
 import ItemDesc from '../ItemDesc';
 import ItemType from '../ItemType';
@@ -20,12 +19,12 @@ export default class Weapon extends EquipableItem {
         this.perk = perk;
     }
 
-    public use(player: Player) { }
-    public canUse(player: Player): boolean {
+    public use(character: Character) { }
+    public canUse(character: Character): boolean {
         return true;
     }
 
-    public useText(player: Player) {
+    public useText(character: Character) {
         DisplayText("You equip " + this.desc.longName + ".  ");
     }
 
