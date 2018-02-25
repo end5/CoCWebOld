@@ -1,5 +1,5 @@
 ﻿import BreastRow from './BreastRow';
-import GenderIdentifier, { Gender } from './GenderIdentifier';
+import GenderIdentity, { Gender } from './GenderIdentity';
 import { LegType } from './Legs';
 import PregnancyManager from './Pregnancy/PregnancyManager';
 import Skin from './Skin';
@@ -16,7 +16,7 @@ import ISerializable from '../Utilities/ISerializable';
 
 export default class Creature implements ISerializable<Creature> {
     // Appearance Variables
-    public genderManager: GenderIdentifier = new GenderIdentifier(this);
+    public genderManager: GenderIdentity = new GenderIdentity(this);
     public tallness: number = 0;
 
     public skin: Skin = new Skin();

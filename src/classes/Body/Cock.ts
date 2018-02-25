@@ -85,6 +85,26 @@ export default class Cock implements ISerializable<Cock> {
         };
     }
 
+    /**
+     * Filter selected cock.area >= supplied area.
+     * @param area Area
+     */
+    public static LargerThan(area: number): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.area >= area;
+        };
+    }
+
+    /**
+     * Filter selected cock.length >= supplied length.
+     * @param length Length
+     */
+    public static LongerThan(length: number): FilterOption<Cock> {
+        return (a: Cock) => {
+            return a.length >= length;
+        };
+    }
+
     public length: number;
     public thickness: number;
     public type: CockType;

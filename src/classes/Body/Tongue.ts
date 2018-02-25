@@ -1,5 +1,4 @@
 import ISerializable from '../Utilities/ISerializable';
-import SerializableList from '../Utilities/SerializableList';
 
 export enum TongueType {
     HUMAN, SNAKE, DEMONIC, DRACONIC
