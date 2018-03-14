@@ -1,91 +1,94 @@
-﻿
+﻿import Character from '../Character/Character';
+import BallsDescriptor from '../Descriptors/BallsDescriptor';
+import BodyDescriptor from '../Descriptors/BodyDescriptor';
+import BreastDescriptor from '../Descriptors/BreastDescriptor';
+import ButtDescriptor from '../Descriptors/ButtDescriptor';
+import CockDescriptor from '../Descriptors/CockDescriptor';
+import FaceDescriptor from '../Descriptors/FaceDescriptor';
+import GenderDescriptor from '../Descriptors/GenderDescriptor';
+import HeadDescriptor from '../Descriptors/HeadDescriptor';
+import HipDescriptor from '../Descriptors/HipDescriptor';
+import LegDescriptor from '../Descriptors/LegDescriptor';
+import SkinDescriptor from '../Descriptors/SkinDescriptor';
+import VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import Game from '../Game/Game';
 
-		// Lookup dictionary for converting any single argument brackets into it's corresponding string
-		// basically [armor] results in the "[armor]" segment of the string being replaced with the
-		// results of the corresponding anonymous function, in this case: function():* {return player.armorName;}
-		// tags not present in the singleArgConverters object return an error message.
-		//
-		//Calls are now made through kGAMECLASS rather than thisPtr. This allows the compiler to detect if/when a function is inaccessible.
-		import classes.GlobalFlags.FlagEnum;
-		import classes.GlobalFlags.kGAMECLASS;
-		
-		public let singleArgConverters:Object =
-		{
-				// all the errors related to trying to parse stuff if not present are
-				// already handled in the various *Descript() functions.
-				// no need to duplicate them.
+// Lookup dictionary for converting any single argument brackets into it's corresponding string
+// basically [armor] results in the "[armor]" segment of the string being replaced with the
+// results of the corresponding anonymous function, in this case: function():* {return player.inventory.armorSlot.equipment.displayName;}
+// tags not present in the singleArgConverters object return an error message.
+//
 
-				// Note: all key strings MUST be ENTIRELY lowercase.
+const singleArgConverters =
+    {
+        agility: (char: Character) => "[Agility]",
+        armor: (char: Character) => char.inventory.equipment.armor.displayName,
+        armorname: (char: Character) => char.inventory.equipment.armor.displayName,
+        ass: (char: Character) => ButtDescriptor.describeButt(char),
+        asshole: (char: Character) => ButtDescriptor.describeButthole(char.torso.butt),
+        balls: (char: Character) => BallsDescriptor.describeBalls(true, true, char),
+        boyfriend: (char: Character) => GenderDescriptor.mf(char, "boyfriend", "girlfriend"),
+        butt: (char: Character) => ButtDescriptor.describeButt(char),
+        butthole: (char: Character) => ButtDescriptor.describeButthole(char.torso.butt),
+        chest: (char: Character) => BreastDescriptor.describeChest(char),
+        clit: (char: Character) => VaginaDescriptor.describeClit(char),
+        cock: (char: Character) => CockDescriptor.describeCock(char, char.torso.cocks.get(0)),
+        cockhead: (char: Character) => CockDescriptor.describeCockHead(char.torso.cocks.get(0)),
+        cocks: (char: Character) => CockDescriptor.describeMultiCockShort(char),
+        cunt: (char: Character) => VaginaDescriptor.describeVagina(char, char.torso.vaginas.get(0)),
+        eachcock: (char: Character) => CockDescriptor.describeMultiCockSimpleOne(char),
+        evade: (char: Character) => "[Evade]",
+        face: (char: Character) => FaceDescriptor.describeFace(char),
+        feet: (char: Character) => LegDescriptor.describeFeet(char),
+        foot: (char: Character) => LegDescriptor.describeFoot(char),
+        fullchest: (char: Character) => BreastDescriptor.describeAllBreasts(char),
+        hair: (char: Character) => HeadDescriptor.describeHair(char),
+        hairorfur: (char: Character) => HeadDescriptor.hairOrFur(char),
+        he: (char: Character) => char.desc.subjectivePronoun,
+        // he2: (char: Character) => char2.mf("he", "she"),
+        him: (char: Character) => char.desc.objectivePronoun,
+        // him2: (char: Character) => char2.mf("him", "her"),
+        himself: (char: Character) => GenderDescriptor.mf(char, "himself", "herself"),
+        herself: (char: Character) => GenderDescriptor.mf(char, "himself", "herself"),
+        hips: (char: Character) => HipDescriptor.describeHips(char),
+        his: (char: Character) => char.desc.possessivePronoun,
+        // his2: (char: Character) => char2.mf("his", "her"),
+        leg: (char: Character) => LegDescriptor.describeLeg(char),
+        legs: (char: Character) => LegDescriptor.describeLegs(char),
+        man: (char: Character) => GenderDescriptor.mf(char, "man", "woman"),
+        men: (char: Character) => GenderDescriptor.mf(char, "men", "women"),
+        master: (char: Character) => GenderDescriptor.mf(char, "master", "mistress"),
+        misdirection: (char: Character) => "[Misdirection]",
+        multicock: (char: Character) => CockDescriptor.describeMultiCockShort(char),
+        multicockdescriptlight: (char: Character) => CockDescriptor.describeMultiCockShort(char),
+        name: (char: Character) => char.desc.short,
+        nipple: (char: Character) => BreastDescriptor.describeNipple(char, char.torso.chest.get(0)),
+        nipples: (char: Character) => BreastDescriptor.describeNipple(char, char.torso.chest.get(0)) + "s",
+        onecock: (char: Character) => CockDescriptor.describeMultiCockSimpleOne(char),
+        pg: (char: Character) => "\n\n",
+        pussy: (char: Character) => VaginaDescriptor.describeVagina(char, char.torso.vaginas.get(0)),
+        race: (char: Character) => BodyDescriptor.describeRace(char),
+        sack: (char: Character) => BallsDescriptor.describeSack(char),
+        sheath: (char: Character) => CockDescriptor.describeCockSheath(char.torso.cocks.get(0)),
+        skin: (char: Character) => SkinDescriptor.skin(char),
+        skinfurscales: (char: Character) => SkinDescriptor.skinFurScales(char),
+        // teasetext: (char: Character) => teaseText(),
+        tongue: (char: Character) => FaceDescriptor.describeTongue(char.torso.neck.head.face.tongue.type),
+        vag: (char: Character) => VaginaDescriptor.describeVagina(char, char.torso.vaginas.get(0)),
+        vagina: (char: Character) => VaginaDescriptor.describeVagina(char, char.torso.vaginas.get(0)),
+        vagorass: (char: Character) => (char.torso.vaginas.count > 0 ? VaginaDescriptor.describeVagina(char, char.torso.vaginas.get(0)) : ButtDescriptor.describeButthole(char.torso.butt)),
+        weapon: (char: Character) => char.inventory.equipment.weapon.displayname,
+        weaponname: (char: Character) => char.inventory.equipment.weapon.displayname,
 
-				"agility"					: function(thisPtr:*):* { return "[Agility]"; },
-				"armor"						: function(thisPtr:*):* { return kGAMECLASS.player.armorName;},
-				"armorname"					: function(thisPtr:*):* { return kGAMECLASS.player.armorName;},
-				"ass"						: function(thisPtr:*):* { return kGAMECLASS.buttDescript();},
-				"asshole"					: function(thisPtr:*):* { return kGAMECLASS.assholeDescript(); },
-				"balls"						: function(thisPtr:*):* { return kGAMECLASS.ballsDescriptLight(); },
-				"boyfriend"					: function(thisPtr:*):* { return kGAMECLASS.player.mf("boyfriend", "girlfriend"); },
-				"butt"						: function(thisPtr:*):* { return kGAMECLASS.buttDescript();},
-				"butthole"					: function(thisPtr:*):* { return kGAMECLASS.assholeDescript();},
-				"chest"						: function(thisPtr:*):* { return kGAMECLASS.chestDesc(); },
-				"clit"						: function(thisPtr:*):* { return kGAMECLASS.clitDescript(); },
-				"cock"						: function(thisPtr:*):* { return kGAMECLASS.player.cockDescript(0);},
-				"cockhead"					: function(thisPtr:*):* { return kGAMECLASS.player.cockHead(0);},
-				"cocks"						: function(thisPtr:*):* { return kGAMECLASS.player.multiCockDescriptLight(); },
-				"cunt"						: function(thisPtr:*):* { return kGAMECLASS.vaginaDescript(); },
-				"eachcock"					: function(thisPtr:*):* { return kGAMECLASS.player.sMultiCockDesc();},
-				"evade"						: function(thisPtr:*):* { return "[Evade]"; },
-				"face"						: function(thisPtr:*):* { return kGAMECLASS.player.face(); },
-				"feet"						: function(thisPtr:*):* { return kGAMECLASS.player.feet(); },
-				"foot"						: function(thisPtr:*):* { return kGAMECLASS.player.foot(); },
-				"fullchest"					: function(thisPtr:*):* { return kGAMECLASS.player.allChestDesc(); },
-				"hair"						: function(thisPtr:*):* { return kGAMECLASS.hairDescript(); },
-				"hairorfur"					: function(thisPtr:*):* { return kGAMECLASS.hairOrFur(); },
-				"he"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("he", "she"); },
-				"he2"						: function(thisPtr:*):* { return kGAMECLASS.player2.mf("he", "she"); },
-				"him"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("him", "her"); },
-				"him2"						: function(thisPtr:*):* { return kGAMECLASS.player2.mf("him", "her"); },
-				"himself"					: function(thisPtr:*):* { return kGAMECLASS.player.mf("himself", "herself"); },
-				"herself"					: function(thisPtr:*):* { return kGAMECLASS.player.mf("himself", "herself"); },
-				"hips"						: function(thisPtr:*):* { return kGAMECLASS.hipDescript();},
-				"his"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("his", "her"); },
-				"his2"						: function(thisPtr:*):* { return kGAMECLASS.player2.mf("his","her"); },
-				"leg"						: function(thisPtr:*):* { return kGAMECLASS.player.leg(); },
-				"legs"						: function(thisPtr:*):* { return kGAMECLASS.player.legs(); },
-				"man"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("man", "woman"); },
-				"men"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("men", "women"); },
-				"master"					: function(thisPtr:*):* { return kGAMECLASS.player.mf("master","mistress"); },
-				"misdirection"				: function(thisPtr:*):* { return "[Misdirection]"; },
-				"multicock"					: function(thisPtr:*):* { return kGAMECLASS.player.multiCockDescriptLight(); },
-				"multicockdescriptlight"	: function(thisPtr:*):* { return kGAMECLASS.player.multiCockDescriptLight(); },
-				"name"						: function(thisPtr:*):* { return kGAMECLASS.player.short;},
-				"nipple"					: function(thisPtr:*):* { return kGAMECLASS.nippleDescript(0);},
-				"nipples"					: function(thisPtr:*):* { return kGAMECLASS.nippleDescript(0) + "s";},
-				"onecock"					: function(thisPtr:*):* { return kGAMECLASS.player.oMultiCockDesc();},
-				"pg"						: function(thisPtr:*):* { return "\n\n";},
-				"pussy"						: function(thisPtr:*):* { return kGAMECLASS.vaginaDescript(); },
-				"race"						: function(thisPtr:*):* { return kGAMECLASS.player.race(); },
-				"sack"						: function(thisPtr:*):* { return kGAMECLASS.sackDescript(); },
-				"sheath"					: function(thisPtr:*):* { return kGAMECLASS.player.sheathDescription(); },
-				"skin"						: function(thisPtr:*):* { return kGAMECLASS.player.skin(); },
-				"skinfurscales"				: function(thisPtr:*):* { return kGAMECLASS.player.skinFurScales(); },
-				"teasetext"					: function(thisPtr:*):* { return kGAMECLASS.teaseText(); },
-				"tongue"					: function(thisPtr:*):* { return kGAMECLASS.tongueDescript(); },
-				"vag"						: function(thisPtr:*):* { return kGAMECLASS.vaginaDescript(); },
-				"vagina"					: function(thisPtr:*):* { return kGAMECLASS.vaginaDescript(); },
-				"vagorass"					: function(thisPtr:*):* { return (kGAMECLASS.player.lowerBody.vaginaSpot.hasVagina() ? kGAMECLASS.vaginaDescript() : kGAMECLASS.assholeDescript()); },
-				"weapon"					: function(thisPtr:*):* { return kGAMECLASS.player.weaponName;},
-				"weaponname"				: function(thisPtr:*):* { return kGAMECLASS.player.weaponName; },
-				
-				"latexyname"				: function(thisPtr:*):* { return kGAMECLASS.flags[FlagEnum.GOO_NAME]; },
-				"bathgirlname"				: function(thisPtr:*):* { return kGAMECLASS.flags[FlagEnum.MILK_NAME]; },
-				"cockplural"				: function(thisPtr:*):* { return (kGAMECLASS.player.lowerBody.cockSpot.count() == 1) ? "cock" : "cocks"; },
-				"dickplural"				: function(thisPtr:*):* { return (kGAMECLASS.player.lowerBody.cockSpot.count() == 1) ? "dick" : "dicks"; },
-				"headplural"				: function(thisPtr:*):* { return (kGAMECLASS.player.lowerBody.cockSpot.count() == 1) ? "head" : "heads"; },
-				"prickplural"				: function(thisPtr:*):* { return (kGAMECLASS.player.lowerBody.cockSpot.count() == 1) ? "prick" : "pricks"; },
-				"boy"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("boy", "girl"); },
-				"guy"						: function(thisPtr:*):* { return kGAMECLASS.player.mf("guy", "girl"); },
-				"wings"						: function(thisPtr:*):* { return kGAMECLASS.wingsDescript(); },
-				"tail"						: function(thisPtr:*):* { return kGAMECLASS.tailDescript(); },
-				"onetail"					: function(thisPtr:*):* { return kGAMECLASS.oneTailDescript(); }
-
-		}
+        // latexyname: (char: Character) => Flags.list[FlagEnum.GOO_NAME],
+        // bathgirlname: (char: Character) => Flags.list[FlagEnum.MILK_NAME],
+        cockplural: (char: Character) => (char.torso.cocks.count === 1) ? "cock" : "cocks",
+        dickplural: (char: Character) => (char.torso.cocks.count === 1) ? "dick" : "dicks",
+        headplural: (char: Character) => (char.torso.cocks.count === 1) ? "head" : "heads",
+        prickplural: (char: Character) => (char.torso.cocks.count === 1) ? "prick" : "pricks",
+        boy: (char: Character) => GenderDescriptor.boyGirl(char.gender),
+        guy: (char: Character) => GenderDescriptor.guyGirl(char.gender),
+        // wings: (char: Character) => wingsDescript(),
+        // tail: (char: Character) => tailDescript(),
+        // onetail: (char: Character) => oneTailDescript()
+    };
