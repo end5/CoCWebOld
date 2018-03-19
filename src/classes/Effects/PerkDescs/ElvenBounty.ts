@@ -1,5 +1,4 @@
-import Perk from '../Perk';
-import PerkDesc from '../PerkDesc';
+import Perk, { PerkDesc } from '../Perk';
 
 export default class ElvenBounty extends PerkDesc {
     public description(perk?: Perk): string {

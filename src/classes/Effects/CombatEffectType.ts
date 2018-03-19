@@ -1,6 +1,3 @@
-import { PerkType } from './PerkType';
-import { StatusAffectType } from './StatusAffectType';
-
 export enum CombatEffectType {
     // monster
     Attacks = "Attacks",

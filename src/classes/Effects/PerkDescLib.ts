@@ -1,4 +1,4 @@
-import PerkDesc from './PerkDesc';
+import { PerkDesc } from './Perk';
 import PerkDescs from './PerkDescs';
 import { PerkType } from './PerkType';
 import Dictionary from '../Utilities/Dictionary';

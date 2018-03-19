@@ -3,7 +3,6 @@ import CombatEffect from './CombatEffect';
 import CombatEffects from './CombatEffects';
 import { CombatEffectType } from './CombatEffectType';
 import Character from '../Character/Character';
-import Game from '../Game/Game';
 import Dictionary from '../Utilities/Dictionary';
 
 interface CombatEffectConstructor {

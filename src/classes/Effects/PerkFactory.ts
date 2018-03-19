@@ -1,5 +1,4 @@
-import Perk from './Perk';
-import PerkDesc from './PerkDesc';
+import Perk, { PerkDesc } from './Perk';
 import PerkDescLib from './PerkDescLib';
 import { PerkType } from './PerkType';
 

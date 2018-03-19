@@ -1,5 +1,4 @@
-import Perk from '../Perk';
-import PerkDesc from '../PerkDesc';
+import Perk, { PerkDesc } from '../Perk';
 
 export default class WizardsFocus extends PerkDesc {
     public description(perk?: Perk): string {
@@ -7,7 +6,7 @@ export default class WizardsFocus extends PerkDesc {
     }
 
     public constructor() {
-		super("Wizard's Focus", "Wizard's Focus",
-				"Your wizard's staff grants you additional focus, reducing the use of fatigue for spells.");
+        super("Wizard's Focus", "Wizard's Focus",
+            "Your wizard's staff grants you additional focus, reducing the use of fatigue for spells.");
     }
 }

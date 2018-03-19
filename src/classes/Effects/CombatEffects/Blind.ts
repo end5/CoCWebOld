@@ -20,7 +20,7 @@ export class Blind extends CombatEffect {
                 }
                 else {
                     // Remove blind if countdown to 0
-                    if (character.combat.effects.get(CombatEffectType.Blind).value1 == 0) {
+                    if (character.combat.effects.get(CombatEffectType.Blind).value1 === 0) {
                         character.combat.effects.remove(CombatEffectType.Blind);
                         // Alert PC that blind is gone if no more stacks are there.
                         if (!character.combat.effects.has(CombatEffectType.Blind)) {

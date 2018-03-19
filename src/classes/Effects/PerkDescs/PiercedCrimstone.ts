@@ -1,5 +1,4 @@
-import Perk from '../Perk';
-import PerkDesc from '../PerkDesc';
+import Perk, { PerkDesc } from '../Perk';
 
 export default class PiercedCrimstone extends PerkDesc {
     public description(perk?: Perk): string {

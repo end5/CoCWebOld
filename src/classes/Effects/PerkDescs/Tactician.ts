@@ -1,6 +1,5 @@
 import Character from '../../Character/Character';
-import Perk from '../Perk';
-import PerkDesc from '../PerkDesc';
+import Perk, { PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
 export default class Tactician extends PerkDesc {

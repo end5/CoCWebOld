@@ -3,10 +3,9 @@ import CombatEffect from './CombatEffect';
 import CombatEffectFactory from './CombatEffectFactory';
 import { CombatEffectType } from './CombatEffectType';
 import Character from '../Character/Character';
-import ISerializable from '../Utilities/ISerializable';
-import SerializableDictionary from '../Utilities/SerializableDictionary';
+import Dictionary from '../Utilities/Dictionary';
 
-export default class CombatEffectList extends SerializableDictionary<CombatEffect> {
+export default class CombatEffectList extends Dictionary<CombatEffect> {
     private character: Character;
     public constructor(character: Character) {
         super();
