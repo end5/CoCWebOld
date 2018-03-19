@@ -1,5 +1,6 @@
 ﻿import CharacterDescription from './CharacterDescription';
 import { CharacterType } from './CharacterType';
+import Party from './PartyManager';
 import { CockType } from '../Body/Cock';
 import Creature from '../Body/Creature';
 import { LegType } from '../Body/Legs';
@@ -21,9 +22,14 @@ import { Utils } from '../Utilities/Utils';
 
 export default abstract class Character extends Creature implements UpdateInterface, ISerializable<Character> {
     public charType: CharacterType;
-    public readonly charID: number;
     public readonly inventory: CharacterInventory;
     public readonly locations: Dictionary<GameLocation>;
+    public readonly party: Party;
+
+    private UUID: string;
+    public get uuid(): string {
+        return this.UUID;
+    }
 
     protected description: CharacterDescription;
     public get desc(): CharacterDescription {
@@ -38,6 +44,7 @@ export default abstract class Character extends Creature implements UpdateInterf
     public constructor(type: CharacterType) {
         super();
         this.charType = type;
+        this.UUID = Utils.generateUUID();
         this.inventory = new CharacterInventory(this);
         this.description = new CharacterDescription(this);
         if (type !== CharacterType.Player) {
@@ -49,6 +56,7 @@ export default abstract class Character extends Creature implements UpdateInterf
     public serialize(): string {
         return JSON.stringify({
             charType: this.charType,
+            UUID: this.UUID,
             inventory: this.inventory.serialize(),
             desc: this.desc.serialize(),
             locations: DictionarySerializer.serialize(this.locations)
@@ -57,6 +65,7 @@ export default abstract class Character extends Creature implements UpdateInterf
 
     public deserialize(saveObject: Character) {
         this.charType = saveObject.charType;
+        this.UUID = saveObject.UUID;
         this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
         DictionarySerializer.deserialize(saveObject.locations, this.locations, GameLocation);

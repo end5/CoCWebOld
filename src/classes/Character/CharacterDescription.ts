@@ -8,13 +8,15 @@ export default class Description implements ISerializable<Description> {
     private objective: string;
     private possessive: string;
     private article: string;
-    private shortDesc: string;
+    private defaultShort: string;
+    private otherShort: string;
     private longDesc: string;
     private isPlural: boolean;
 
     public constructor(character: Character, short: string = "", long: string = "", plural: boolean = false, article: string = "a") {
         this.character = character;
-        this.shortDesc = short;
+        this.defaultShort = short;
+        this.otherShort = "";
         this.longDesc = long;
         this.isPlural = plural;
         this.update();
@@ -28,16 +30,24 @@ export default class Description implements ISerializable<Description> {
             this.article = this.plural ? "the" : "a";
     }
 
+    public get name(): string {
+        return this.otherShort !== "" ? this.otherShort : this.defaultShort;
+    }
+
+    public set name(value: string) {
+        this.otherShort = value;
+    }
+
     public get short(): string {
-        return this.short;
+        return this.otherShort !== "" ? this.otherShort : this.defaultShort;
     }
 
     public get long(): string {
-        return this.long;
+        return this.longDesc;
     }
 
     public get plural(): boolean {
-        return this.plural;
+        return this.isPlural;
     }
 
     /**
@@ -93,7 +103,7 @@ export default class Description implements ISerializable<Description> {
         this.objective = saveObject.objective;
         this.possessive = saveObject.possessive;
         this.article = saveObject.article;
-        this.shortDesc = saveObject.shortDesc;
+        this.defaultShort = saveObject.defaultShort;
         this.longDesc = saveObject.longDesc;
         this.isPlural = saveObject.isPlural;
     }

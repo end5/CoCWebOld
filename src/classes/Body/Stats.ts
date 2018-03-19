@@ -21,6 +21,7 @@ export default class Stats implements ISerializable<Stats> {
     public XP: number;
     public level: number;
     public additionalXP: number;
+    public perkPoints: number;
 
     public constructor() {
         this.str = 0;
@@ -42,6 +43,7 @@ export default class Stats implements ISerializable<Stats> {
         this.XP = 0;
         this.level = 0;
         this.additionalXP = 0;
+        this.perkPoints = 0;
     }
 
     public serialize(): string {
@@ -60,7 +62,8 @@ export default class Stats implements ISerializable<Stats> {
             lustVuln: this.lustVuln,
             XP: this.XP,
             level: this.level,
-            additionalXP: this.additionalXP
+            additionalXP: this.additionalXP,
+            perkPoints: this.perkPoints
         });
     }
 
@@ -80,5 +83,6 @@ export default class Stats implements ISerializable<Stats> {
         this.XP = saveObject.XP;
         this.level = saveObject.level;
         this.additionalXP = saveObject.additionalXP;
+        this.perkPoints = saveObject.perkPoints;
     }
 }

@@ -447,4 +447,12 @@ export default class StatsModifier {
     public get additionalXP(): number {
         return this.stats.additionalXP;
     }
+
+    public set perkPoints(value: number) {
+        this.stats.perkPoints = value;
+    }
+
+    public get perkPoints(): number {
+        return this.stats.perkPoints;
+    }
 }
