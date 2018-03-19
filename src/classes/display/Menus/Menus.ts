@@ -1,3 +1,4 @@
+import CharCreationMenu from './CharCreationMenu';
 import ControlsMenu from './ControlsMenu';
 import CreditsMenu from './CreditsMenu';
 import DataMenu from './DataMenu';
@@ -42,4 +43,5 @@ export default class Menus {
     public static SaveFile = new SaveFileMenu();
     public static LoadFile = new LoadFileMenu();
 
+    public static CharCreation = new CharCreationMenu();
 }
