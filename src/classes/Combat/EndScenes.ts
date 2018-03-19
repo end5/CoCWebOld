@@ -84,18 +84,4 @@ export default abstract class EndScenes extends CharacterHolder {
             enemy.combat.endScenes.defeatScene(howYouWon, this.char);
         }
     }
-
-    /**
-     * Used if you want to describe something happening after enemy victory.
-     * @param howYouLost How this character lost to the enemy.
-     * @param enemy The enemy character.
-     */
-    public abstract defeatAftermath(howYouLost: DefeatType, enemy: Character): void;
-
-    /**
-     * Used if you want to describe something happening after enemy defeat.
-     * @param howYouWon How this character defeated to the enemy.
-     * @param enemy The enemy character.
-     */
-    public abstract victoryAftermath(howYouWon: DefeatType, enemy: Character): void;
 }
