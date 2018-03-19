@@ -3,8 +3,8 @@ import Character from '../Character/Character';
 import { Utils } from '../Utilities/Utils';
 
 export default class LegDescriptor {
-    public static describeLeg(body: Character): string {
-        switch (body.torso.hips.legs.type) {
+    public static describeLeg(character: Character): string {
+        switch (character.torso.hips.legs.type) {
             case LegType.HUMAN:
             case LegType.HOOFED:
             case LegType.DOG:

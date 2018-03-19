@@ -1,4 +1,4 @@
-﻿import { TailType } from '../Body/Tail';
+﻿import Tail, { TailType } from '../Body/Tail';
 import Character from '../Character/Character';
 
 export default class TailDescriptor {
@@ -26,7 +26,7 @@ export default class TailDescriptor {
         let description: string = "";
 
         if (character.torso.tails.count > 0) {
-            const kitsuneTailCount = character.torso.tails.filter(Tail.Type(TailType.FOX)).length;
+            const kitsuneTailCount = character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
             if (kitsuneTailCount > 0) {
                 if (kitsuneTailCount > 1) {
                     if (kitsuneTailCount === 2) description += "pair ";
@@ -51,7 +51,7 @@ export default class TailDescriptor {
         let description: string = "";
 
         if (character.torso.tails.count > 0) {
-            const kitsuneTailCount = character.torso.tails.filter(Tail.Type(TailType.FOX)).length;
+            const kitsuneTailCount = character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length;
             if (kitsuneTailCount === 1) {
                     description += "your kitsune tail";
             }

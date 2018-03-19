@@ -610,7 +610,7 @@ export default class CockDescriptor {
         let description: string = "";
         const cocks = character.torso.cocks;
         const cockCount = cocks.count;
-        const cocksSameType: boolean = cockCount === cocks.filterType(cocks.get(0).type).length;
+        const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
         if (cockCount === 1)
             return CockDescriptor.describeCock(character, cocks.get(0));
@@ -644,7 +644,7 @@ export default class CockDescriptor {
         let description: string = "";
         const cocks = character.torso.cocks;
         const cockCount: number = cocks.count;
-        const cocksSameType: boolean = cockCount === cocks.filterType(cocks.get(0).type).length;
+        const cocksSameType: boolean = cockCount === cocks.filter(Cock.FilterType(cocks.get(0).type)).length;
 
         if (cockCount === 1)
             return CockDescriptor.describeCock(character, cocks.get(0));

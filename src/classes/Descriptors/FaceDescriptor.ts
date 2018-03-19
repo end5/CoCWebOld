@@ -22,9 +22,9 @@ export default class FaceDescriptor {
         }
     }
 
-    public static describeFace(body: Character): string {
+    public static describeFace(character: Character): string {
         let stringo: string = "";
-        const face = body.torso.neck.head.face;
+        const face = character.torso.neck.head.face;
         const faceType = face.type;
         if (faceType === FaceType.HUMAN)
             return "face";

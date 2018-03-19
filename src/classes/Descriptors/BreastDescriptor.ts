@@ -328,66 +328,70 @@ export default class BreastDescriptor {
     }
 
     public static describeBreastGrowth(player: Player, amount: number, chest: Chest): string {
+        let text = "";
         if (amount <= 2) {
-            if (chest.count > 1) return "Your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
-            if (chest.count === 1) return "Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
+            if (chest.count > 1) text += "Your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight, growing a bit larger.";
+            if (chest.count === 1) text += "Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " jiggle with added weight as they expand, growing a bit larger.";
         }
         else if (amount <= 4) {
-            if (chest.count > 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
-            if (chest.count === 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
+            if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your rows of " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
+            if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " expand significantly.";
         }
         else {
-            if (chest.count > 1) return "You drop to your knees from a massive change in your body's center of gravity.  Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " tingle strongly, growing disturbingly large.";
-            if (chest.count === 1) return "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
+            if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " tingle strongly, growing disturbingly large.";
+            if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tingling in your " + BreastDescriptor.describeBreastRow(player.torso.chest.get(0)) + " intensifies as they continue to grow at an obscene rate.";
         }
         if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 8.5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 2) {
-            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
             chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 2;
         }
         if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 7 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1) {
-            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
             chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = 1;
         }
         if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 5 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .75) {
-            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
             chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .75;
         }
         if (chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 3 && chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < .5) {
-            return "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ratingat your " + BreastDescriptor.describeNipple(player, player.torso.chest.get(0)) + "s as they grow to match your burgeoning breast-flesh.";
             chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length = .5;
         }
+        return text;
     }
 
     public static describeTopRowBreastGrowth(amount: number, character: Character, chest: Chest) {
         const topBreastRow = chest.get(0);
+        let text = "";
         if (amount <= 2) {
-            if (chest.count > 1) return "Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
-            if (chest.count === 1) return "Your row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
+            if (chest.count > 1) text += "Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
+            if (chest.count === 1) text += "Your row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " jiggles with added weight as it expands, growing a bit larger.";
         }
         if (amount > 2 && amount <= 4) {
-            if (chest.count > 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
-            if (chest.count === 1) return "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
+            if (chest.count > 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
+            if (chest.count === 1) text += "You stagger as your chest gets much heavier.  Looking down, you watch with curiosity as your " + BreastDescriptor.describeBreastRow(topBreastRow) + " expand significantly.";
         }
         if (amount > 4) {
-            if (chest.count > 1) return "You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.";
-            if (chest.count === 1) return "You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + BreastDescriptor.describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.";
+            if (chest.count > 1) text += "You drop to your knees from a massive change in your body's center of gravity.  Your top row of " + BreastDescriptor.describeBreastRow(topBreastRow) + " tingle strongly, growing disturbingly large.";
+            if (chest.count === 1) text += "You drop to your knees from a massive change in your center of gravity.  The tinglng in your " + BreastDescriptor.describeBreastRow(topBreastRow) + " intensifies as they continue to grow at an obscene rate.";
         }
         if (topBreastRow.rating >= 8.5 && topBreastRow.nipples.length < 2) {
-            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
             topBreastRow.nipples.length = 2;
         }
         if (topBreastRow.rating >= 7 && topBreastRow.nipples.length < 1) {
-            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
             topBreastRow.nipples.length = 1;
         }
         if (topBreastRow.rating >= 5 && topBreastRow.nipples.length < .75) {
-            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
             topBreastRow.nipples.length = .75;
         }
         if (topBreastRow.rating >= 3 && topBreastRow.nipples.length < .5) {
-            return "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
+            text += "  A tender ache starts at your " + BreastDescriptor.describeNipple(character, topBreastRow) + "s as they grow to match your burgeoning breast-flesh.";
             topBreastRow.nipples.length = .5;
         }
+        return text;
     }
 
     public static describeChest(character: Character) {

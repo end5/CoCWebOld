@@ -3,113 +3,112 @@ import GenderDescriptor from './GenderDescriptor';
 import VaginaDescriptor from './VaginaDescriptor';
 import BreastRow from '../Body/BreastRow';
 import Character from '../Character/Character';
-import Player from '../Player/Player';
 import RaceScore from '../RaceScore';
 
 export default class BodyDescriptor {
-    public static describeBody(player: Player): string {
+    public static describeBody(character: Character): string {
         let description: string = "";
         // OLD STUFF
         // SUPAH THIN
-        if (player.thickness < 10) {
+        if (character.thickness < 10) {
             // SUPAH BUFF
-            if (player.tone > 90)
+            if (character.tone > 90)
                 description += "a lithe body covered in highly visible muscles";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "an incredibly thin, well-muscled frame";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a very thin body that has a good bit of muscle definition";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "a lithe body and only a little bit of muscle definition";
             else
                 description += "a waif-thin body, and soft, forgiving flesh";
         }
         // Pretty thin
-        else if (player.thickness < 25) {
-            if (player.tone > 90)
+        else if (character.thickness < 25) {
+            if (character.tone > 90)
                 description += "a thin body and incredible muscle definition";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "a narrow frame that shows off your muscles";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a somewhat lithe body and a fair amount of definition";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "a narrow, soft body that still manages to show off a few muscles";
             else
                 description += "a thin, soft body";
         }
         // Somewhat thin
-        else if (player.thickness < 40) {
-            if (player.tone > 90)
+        else if (character.thickness < 40) {
+            if (character.tone > 90)
                 description += "a fit, somewhat thin body and rippling muscles all over";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "a thinner-than-average frame and great muscle definition";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a somewhat narrow body and a decent amount of visible muscle";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "a moderately thin body, soft curves, and only a little bit of muscle";
             else
                 description += "a fairly thin form and soft, cuddle-able flesh";
         }
         // average
-        else if (player.thickness < 60) {
-            if (player.tone > 90)
+        else if (character.thickness < 60) {
+            if (character.tone > 90)
                 description += "average thickness and a bevy of perfectly defined muscles";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "an average-sized frame and great musculature";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a normal waistline and decently visible muscles";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "an average body and soft, unremarkable flesh";
             else
                 description += "an average frame and soft, untoned flesh with a tendency for jiggle";
         }
-        else if (player.thickness < 75) {
-            if (player.tone > 90)
+        else if (character.thickness < 75) {
+            if (character.tone > 90)
                 description += "a somewhat thick body that's covered in slabs of muscle";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "a body that's a little bit wide and has some highly-visible muscles";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a solid build that displays a decent amount of muscle";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "a slightly wide frame that displays your curves and has hints of muscle underneath";
             else
                 description += "a soft, plush body with plenty of jiggle";
         }
-        else if (player.thickness < 90) {
-            if (player.tone > 90)
+        else if (character.thickness < 90) {
+            if (character.tone > 90)
                 description += "a thickset frame that gives you the appearance of a wall of muscle";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "a burly form and plenty of muscle definition";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "a solid, thick frame and a decent amount of muscles";
-            else if (player.tone > 25)
+            else if (character.tone > 25)
                 description += "a wide-set body, some soft, forgiving flesh, and a hint of muscle underneath it";
             else {
                 description += "a wide, cushiony body";
-                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 3 || player.torso.hips.rating > 7 || player.torso.butt.rating > 7)
+                if (character.gender >= 2 || character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 3 || character.torso.hips.rating > 7 || character.torso.butt.rating > 7)
                     description += " and plenty of jiggle on your curves";
             }
         }
         // Chunky monkey
         else {
-            if (player.tone > 90)
+            if (character.tone > 90)
                 description += "an extremely thickset frame and so much muscle others would find you harder to move than a huge boulder";
-            else if (player.tone > 75)
+            else if (character.tone > 75)
                 description += "a very wide body and enough muscle to make you look like a tank";
-            else if (player.tone > 50)
+            else if (character.tone > 50)
                 description += "an extremely substantial frame packing a decent amount of muscle";
-            else if (player.tone > 25) {
+            else if (character.tone > 25) {
                 description += "a very wide body";
-                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
+                if (character.gender >= 2 || character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || character.torso.hips.rating > 10 || character.torso.butt.rating > 10)
                     description += ", lots of curvy jiggles,";
                 description += " and hints of muscle underneath";
             }
             else {
                 description += "a thick";
-                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
+                if (character.gender >= 2 || character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || character.torso.hips.rating > 10 || character.torso.butt.rating > 10)
                     description += ", voluptuous";
                 description += " body and plush, ";
-                if (player.gender >= 2 || player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || player.torso.hips.rating > 10 || player.torso.butt.rating > 10)
+                if (character.gender >= 2 || character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 4 || character.torso.hips.rating > 10 || character.torso.butt.rating > 10)
                     description += " jiggly curves";
                 else
                     description += " soft flesh";
@@ -225,9 +224,9 @@ export default class BodyDescriptor {
         return race;
     }
 
-    public static assholeOrPussy(body: Character): string {
-        if (body.torso.vaginas.count > 0)
-            return VaginaDescriptor.describeVagina(body, body.torso.vaginas.get(0));
-        return ButtDescriptor.describeButthole(body.torso.butt);
+    public static assholeOrPussy(character: Character): string {
+        if (character.torso.vaginas.count > 0)
+            return VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0));
+        return ButtDescriptor.describeButthole(character.torso.butt);
     }
 }

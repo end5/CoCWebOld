@@ -2,25 +2,25 @@ import { SkinType } from '../Body/Skin';
 import Character from '../Character/Character';
 
 export default class SkinDescriptor {
-    public static skinFurScales(body: Character): string {
+    public static skinFurScales(character: Character): string {
         let skinzilla: string = "";
         // Adjectives first!
-        if (body.skin.adj !== "")
-            skinzilla += body.skin.adj + ", ";
+        if (character.skin.adj !== "")
+            skinzilla += character.skin.adj + ", ";
         // Fur handled a little differently since it uses
         // haircolor
-        skinzilla += body.skin.type === SkinType.FUR ? body.torso.neck.head.hair.color + " " : body.skin.tone + " ";
-        skinzilla += body.skin.desc;
+        skinzilla += character.skin.type === SkinType.FUR ? character.torso.neck.head.hair.color + " " : character.skin.tone + " ";
+        skinzilla += character.skin.desc;
         return skinzilla;
     }
 
-    public static skin(body: Character, noAdj: boolean = false, noTone: boolean = false): string {
+    public static skin(character: Character, noAdj: boolean = false, noTone: boolean = false): string {
         let skinzilla: string = "";
         // Only show stuff other than skin.desc if justSkin is false
         if (!noAdj) {
             // Adjectives first!
-            if (body.skin.adj !== "" && !noTone && body.skin.tone !== "rough gray") {
-                skinzilla += body.skin.adj;
+            if (character.skin.adj !== "" && !noTone && character.skin.tone !== "rough gray") {
+                skinzilla += character.skin.adj;
                 if (noTone)
                     skinzilla += " ";
                 else
@@ -28,13 +28,13 @@ export default class SkinDescriptor {
             }
         }
         if (!noTone)
-            skinzilla += body.skin.tone + " ";
+            skinzilla += character.skin.tone + " ";
         // Fur handled a little differently since it uses
         // haircolor
-        if (body.skin.type === 1)
+        if (character.skin.type === 1)
             skinzilla += "skin";
         else
-            skinzilla += body.skin.desc;
+            skinzilla += character.skin.desc;
         return skinzilla;
     }
 }
