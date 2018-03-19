@@ -5,8 +5,11 @@ import MainScreen, { TopButton } from '../display/MainScreen';
 import Menus from '../display/Menus/Menus';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import Game from '../Game/Game';
+import Item from '../Items/Item';
+import List from '../Utilities/list';
 
 export default class CombatManager {
+    public static readonly itemsOnFloor: List<Item> = new List();
     private static encounter: Encounter;
     public static beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[], combatCleanUp: boolean = true) {
         CombatManager.encounter = new Encounter(mainCharacter, allyParty, enemyParty, combatCleanUp);
