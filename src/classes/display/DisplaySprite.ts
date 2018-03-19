@@ -8,6 +8,10 @@ spriteElement.setHTMLElement(Utils.loadFromId("mainSpriteDisplay") as HTMLImageE
 const spriteLib: SpriteLibrary = new SpriteLibrary();
 
 export default function DisplaySprite(name: SpriteName) {
-    spriteElement.load(spriteLib.get(name));
-    spriteElement.show();
+    if (name === SpriteName.None)
+        spriteElement.hide();
+    else {
+        spriteElement.load(spriteLib.get(name));
+        spriteElement.show();
+    }
 }

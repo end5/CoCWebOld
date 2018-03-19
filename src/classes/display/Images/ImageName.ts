@@ -1,4 +1,5 @@
 enum ImageName {
+    None = "None",
     akbal_deepwoods_bigbuttanaled = "akbal_deepwoods_bigbuttanaled",
     akbal_deepwoods_female_bindakbal = "akbal_deepwoods_female_bindakbal",
     akbal_deepwoods_female_highspeed = "akbal_deepwoods_female_highspeed",

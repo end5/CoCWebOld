@@ -8,6 +8,10 @@ imageElement.setHTMLElement(Utils.loadFromId("mainImageDisplay") as HTMLImageEle
 const imageLib: ImageLibrary = new ImageLibrary();
 
 export default function DisplayImage(name: ImageName) {
-    imageElement.load(imageLib.get(name));
-    imageElement.show();
+    if (name === ImageName.None)
+        imageElement.hide();
+    else {
+        imageElement.load(imageLib.get(name));
+        imageElement.show();
+    }
 }

@@ -1,4 +1,5 @@
 enum SpriteName {
+    None = "None",
     Akbal = "Akbal",
     Amarok = "Amarok",
     Amily = "Amily",
