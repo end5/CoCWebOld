@@ -46,10 +46,11 @@ interface AddItemsRequest<T extends Item> {
 export default class InventoryDisplay {
     /**
      * Displays character's item inventory.
-     * @param character
-     * @param prevMenu The menu to go to when the back button is pressed.
+     * @param character A character.
+     * @param fixedTextList A list of text to appear on the buttons. If a string is empty or undefined, the button will be disabled.
+     * @param fixedFuncList A list of ClickFunctions that will trigger when the buttons are clicked. If the ClickFunction is null or undefined, the button is disabled.
      */
-    public static inventoryCharacter(character: Character, prevMenu: ClickFunction) {
+    public static inventoryCharacter(character: Character, fixedTextList: string[], fixedFuncList: ClickFunction[]) {
         const buttonText = [];
         const buttonFunc = [];
         const inventory = character.inventory.items;
@@ -64,8 +65,7 @@ export default class InventoryDisplay {
                 });
             }
         }
-
-        MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [prevMenu]);
+        MainScreen.displayChoices(buttonText, buttonFunc, fixedTextList, fixedFuncList);
     }
 
     /**
@@ -74,28 +74,54 @@ export default class InventoryDisplay {
      * @param character The character inspecting the inventory.
      * @param prevMenu The menu to return to by pressing Back.
      */
-    public static inventoryInspect<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
+    public static inventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
         const buttonText = [];
         const buttonFunc = [];
-        const charInv = character.inventory.items;
-        for (let index = 0; index < inventory.slotCount; index++) {
-            const itemSlot = inventory.get(index);
+        const invTakingFrom = inventory;
+        const invAddingTo = character.inventory.items;
+        for (let index = 0; index < invTakingFrom.slotCount; index++) {
+            const itemSlot = invTakingFrom.get(index);
             if (itemSlot.quantity > 0) {
                 buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
                 buttonFunc.push(() => {
                     const pickedUpItem = itemSlot.split(1);
-                    const itemsCannotAdd = character.inventory.items.addItems([pickedUpItem]);
+                    const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
                     if (itemsCannotAdd.length > 0) {
                         const request = InventoryDisplay.createAddItemsRequest(character, itemsCannotAdd, () => {
-                            InventoryDisplay.inventoryInspect(inventory, character, prevMenu);
-                        }, inventory);
+                            InventoryDisplay.inventoryTake(invTakingFrom, character, prevMenu);
+                        }, invTakingFrom);
                         request.reverseActionFunc = InventoryDisplay.createReverseAction(itemSlot, pickedUpItem);
                         InventoryDisplay.invFull(request);
                     }
                 });
             }
         }
-        MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [prevMenu]);
+        MainScreen.displayChoices(buttonText, buttonFunc, ["Put", "Back"], [() => { InventoryDisplay.inventoryPut(inventory, character, prevMenu); }, prevMenu]);
+    }
+
+    private static inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
+        const buttonText = [];
+        const buttonFunc = [];
+        const invTakingFrom = character.inventory.items;
+        const invAddingTo = inventory;
+        for (let index = 0; index < invTakingFrom.slotCount; index++) {
+            const itemSlot = invTakingFrom.get(index);
+            if (itemSlot.quantity > 0) {
+                buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
+                buttonFunc.push(() => {
+                    const pickedUpItem = itemSlot.split(1);
+                    const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
+                    if (itemsCannotAdd.length > 0) {
+                        const request = InventoryDisplay.createAddItemsRequest(character, itemsCannotAdd, () => {
+                            InventoryDisplay.inventoryTake(invTakingFrom, character, prevMenu);
+                        }, invTakingFrom);
+                        request.reverseActionFunc = InventoryDisplay.createReverseAction(itemSlot, pickedUpItem);
+                        InventoryDisplay.invFull(request);
+                    }
+                });
+            }
+        }
+        MainScreen.displayChoices(buttonText, buttonFunc, ["Take", "Back"], [() => { InventoryDisplay.inventoryTake(inventory, character, prevMenu); }, prevMenu]);
     }
 
     private static createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpItem: ItemStack<T>): ReverseAction {
@@ -116,8 +142,10 @@ export default class InventoryDisplay {
      * @param nextMenu The menu to go to once the decision is made.
      */
     public static inventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
-        const request = InventoryDisplay.createAddItemsRequest(character, itemsToAdd, nextMenu);
-        InventoryDisplay.invFull(request);
+        if (itemsToAdd.length > 0) {
+            const request = InventoryDisplay.createAddItemsRequest(character, itemsToAdd, nextMenu);
+            InventoryDisplay.invFull(request);
+        }
     }
 
     private static invFull<T extends Item>(request: AddItemsRequest<T>) {
@@ -176,7 +204,7 @@ export default class InventoryDisplay {
         return () => {
             request.reverseActionFunc();
             request.reverseActionFunc = null;
-            InventoryDisplay.inventoryInspect(request.otherInventory, request.character, request.menuToDisplayUponFinish);
+            InventoryDisplay.inventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
         };
     }
 

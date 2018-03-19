@@ -407,8 +407,8 @@ export default class CharCreationMenu implements Menu {
     private chooseEndowment() {
         DisplayText().clear();
         DisplayText("Every person is born with a gift.  What's yours?");
-        let text = ["Strength", "Toughness", "Speed", "Smarts", "Libido", "Touch"];
-        let func = [
+        const text = ["Strength", "Toughness", "Speed", "Smarts", "Libido", "Touch"];
+        const func = [
             this.confirmEndowmentStrength,
             this.confirmEndowmentThoughness,
             this.confirmEndowmentSpeed,
@@ -417,12 +417,12 @@ export default class CharCreationMenu implements Menu {
             this.confirmEndowmentTouch
         ];
         if (Game.player.torso.cocks.count > 0) {
-            text = text.concat("Big Cock", "Lots of Jizz");
-            func = func.concat(this.confirmEndowmentBigCock, this.confirmEndowmentMessyOrgasms);
+            text.push("Big Cock", "Lots of Jizz");
+            func.push(this.confirmEndowmentBigCock, this.confirmEndowmentMessyOrgasms);
         }
         else {
-            text = text.concat("Big Breasts", "Big Clit", "Fertile", "Wet Vagina");
-            func = func.concat(this.confirmEndowmentBigBreasts, this.confirmEndowmentBigClit, this.confirmEndowmentFertile, this.confirmEndowmentWetVagina);
+            text.push("Big Breasts", "Big Clit", "Fertile", "Wet Vagina");
+            func.push(this.confirmEndowmentBigBreasts, this.confirmEndowmentBigClit, this.confirmEndowmentFertile, this.confirmEndowmentWetVagina);
         }
         MainScreen.displayChoices(text, func);
     }

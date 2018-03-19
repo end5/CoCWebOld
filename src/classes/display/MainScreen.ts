@@ -115,6 +115,19 @@ export default class MainScreen {
     }
 
     // Misc
+    /**
+     * Displays choices on the buttons on the bottom of the screen.
+     * The textList should be the same size as the funcList.
+     * The textList is displayed starting from the first button.
+     * The textList will automatically create pages if its length is greater than the amount of buttons.
+     * The fixedTextList should be the same size as fixedFuncList.
+     * The fixedTextList is displayed starting from the last button minus the fixedTextList length.
+     * The fixedTextList is displayed on every page and will not create new pages.
+     * @param textList A list of text to appear on the buttons. If a string is empty or undefined, the button will be disabled.
+     * @param funcList A list of ClickFunctions that will trigger when the buttons are clicked. If the ClickFunction is null or undefined, the button is disabled.
+     * @param fixedTextList A list of text to appear on the buttons. If a string is empty or undefined, the button will be disabled.
+     * @param fixedFuncList A list of ClickFunctions that will trigger when the buttons are clicked. If the ClickFunction is null or undefined, the button is disabled.
+     */
     public static displayChoices(textList: string[], funcList: ClickFunction[], fixedTextList?: string[], fixedFuncList?: ClickFunction[]) {
         const fixedCount = fixedTextList ? fixedTextList.length : 0;
         if (textList.length + fixedCount <= MainScreen.NUM_BOT_BUTTONS) {

@@ -16,45 +16,48 @@ export default class PerksMenu implements Menu {
             DisplayText("\n\n");
         }
 
+        const text = ["Next"];
+        const func = [Menus.Player.display];
+
         MainScreen.hideBottomButtons();
-        if (character.perkPoints > 0) {
-            DisplayText("You have " + Utils.numToCardinalText(character.perkPoints) + " perk point").bold();
-            if (character.perkPoints > 1) DisplayText("s").bold();
+        if (character.stats.perkPoints > 0) {
+            DisplayText("You have " + Utils.numToCardinalText(character.stats.perkPoints) + " perk point").bold();
+            if (character.stats.perkPoints > 1) DisplayText("s").bold();
             DisplayText(" to spend.").bold();
-            MainScreen.getBottomButton(1).modify("Perk Up", Menus.PerkUp.display);
+            text.push("Perk Up");
+            func.push(Menus.PerkUp.display);
         }
         if (character.perks.has(PerkType.DoubleAttack)) {
             DisplayText("You can adjust your double attack settings.").bold();
-            MainScreen.getBottomButton(2).modify("Dbl Options", this.doubleAttackOptions);
+            text.push("Dbl Options");
+            func.push(this.doubleAttackOptions);
         }
-        MainScreen.doNext(Menus.Character.display);
+        MainScreen.displayChoices(text, func);
     }
 
     public doubleAttackOptions(): void {
         DisplayText().clear();
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("All Double", this.doubleAttackForce);
-        MainScreen.getBottomButton(1).modify("Dynamic", this.doubleAttackDynamic);
-        MainScreen.getBottomButton(2).modify("Single", this.doubleAttackOff);
+        const text = ["All Double", "Dynamic", "Single"];
+        const func = [this.doubleAttackForce, this.doubleAttackDynamic, this.doubleAttackOff];
         if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] === 0) {
             DisplayText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
             DisplayText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
             DisplayText("\nYou can change it to always single attack.");
-            MainScreen.getBottomButton(0).disable();
+            func[0] = undefined;
         }
         else if (Flags.list[FlagEnum.DOUBLE_ATTACK_STYLE] === 1) {
             DisplayText("You will currently double attack until your strength exceeds sixty, and then single attack.");
             DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
             DisplayText("\nYou can change it to always single attack.");
-            MainScreen.getBottomButton(1).disable();
+            func[1] = undefined;
         }
         else {
             DisplayText("You will always single attack your foes in combat.");
             DisplayText("\n\nYou can choose to force double attacks at reduced strength (when over sixty, it makes attacks at a strength of sixty.");
             DisplayText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
-            MainScreen.getBottomButton(2).disable();
+            func[2] = undefined;
         }
-        MainScreen.addBackButton("Back", this.display);
+        MainScreen.displayChoices(text, func, ["Back"], [this.display]);
     }
 
     public doubleAttackForce(): void {

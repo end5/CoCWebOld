@@ -13,11 +13,12 @@ export default class LoadFileMenu implements Menu {
         DisplayText().appendElement(textAreaElement);
         textAreaElement.text(JSON.stringify(SaveManager.saveToFile()));
 
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Copy", () => {
-            textAreaElement.select();
-            document.execCommand("Copy");
-        });
-        MainScreen.getBottomButton(1).modify("Back", Menus.Data.display);
+        MainScreen.displayChoices(["Copy", "Back"], [
+            () => {
+                textAreaElement.select();
+                document.execCommand("Copy");
+            },
+            Menus.Data.display
+        ]);
     }
 }

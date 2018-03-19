@@ -13,14 +13,13 @@ export default class LevelUpMenu implements Menu {
         // Level up
         if (character.stats.XP >= (character.stats.level) * 100) {
             character.stats.level++;
-            character.perkPoints++;
+            character.stats.perkPoints++;
             DisplayText("<b>You are now level " + character.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
             character.stats.XP -= (character.stats.level - 1) * 100;
-            MainScreen.hideBottomButtons();
-            MainScreen.getBottomButton(0).modify("Strength", this.levelUpStatStrength);
-            MainScreen.getBottomButton(1).modify("Toughness", this.levelUpStatToughness);
-            MainScreen.getBottomButton(2).modify("Speed", this.levelUpStatSpeed);
-            MainScreen.getBottomButton(3).modify("Intelligence", this.levelUpStatIntelligence);
+            MainScreen.displayChoices(
+                ["Strength", "Toughness", "Speed", "Intelligence"],
+                [this.levelUpStatStrength, this.levelUpStatToughness, this.levelUpStatSpeed, this.levelUpStatIntelligence]
+            );
         }
     }
 

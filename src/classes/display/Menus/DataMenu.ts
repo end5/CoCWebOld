@@ -23,31 +23,27 @@ export default class DataMenu implements Menu {
     public display(character: Character) {
         this.displayInfo();
 
-        MainScreen.hideBottomButtons();
+        const text = ["Save", "Load", "AutoSav: ON", "Delete", "Save File", "Load File"];
+        const func = [Menus.Save.display, Menus.Load.display, SaveManager.autosaveToggle, Menus.Delete.display, Menus.SaveFile.display, Menus.LoadFile.display];
 
         if (Game.state === GameState.GameOver || character.stats.str === 0 || inDungeon) {
-            MainScreen.getBottomButton(0).modify("Save", Menus.Save.display, true);
-            MainScreen.getBottomButton(5).modify("Save File", Menus.SaveFile.display, true);
-        }
-        else {
-            MainScreen.getBottomButton(0).modify("Save", Menus.Save.display);
-            MainScreen.getBottomButton(5).modify("Save File", Menus.SaveFile.display);
+            func[0] = undefined;
+            func[4] = undefined;
         }
 
-        MainScreen.getBottomButton(1).modify("Load", Menus.Load.display);
-        if (SaveManager.autoSave)
-            MainScreen.getBottomButton(2).modify("AutoSav: ON", SaveManager.autosaveToggle);
-        else
-            MainScreen.getBottomButton(2).modify("AutoSav: OFF", SaveManager.autosaveToggle);
+        if (!SaveManager.autoSave) {
+            text[2] = "AutoSav: OFF";
+        }
 
-        MainScreen.getBottomButton(3).modify("Delete", Menus.Delete.display);
-        MainScreen.getBottomButton(6).modify("Load File", Menus.LoadFile.display);
+        let backFunc;
 
         if (Game.state === GameState.GameOver)
-            MainScreen.getBottomButton(9).modify("Back", Menus.GameOver.display);
-        if (character.stats.str === 0)
-            MainScreen.getBottomButton(9).modify("Back", Menus.MainMenu.display);
+            backFunc = Menus.GameOver.display;
+        else if (character.stats.str === 0)
+            backFunc = Menus.MainMenu.display;
         else
-            MainScreen.getBottomButton(9).modify("Back", Menus.Character.display);
+            backFunc = Menus.Player.display;
+
+        MainScreen.displayChoices(text, func, ["Back"], [backFunc]);
     }
 }

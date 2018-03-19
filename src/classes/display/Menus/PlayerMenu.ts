@@ -4,12 +4,13 @@ import Character from '../../Character/Character';
 import Flags, { FlagEnum } from '../../Game/Flags';
 import Game, { GameState } from '../../Game/Game';
 import DisplaySprite from '../DisplaySprite';
+import SpriteName from '../Images/SpriteName';
 import MainScreen, { TopButton } from '../MainScreen';
 
-export default class CharacterMenu implements Menu {
+export default class PlayerMenu implements Menu {
     public display(character: Character) {
         if (Game.state !== GameState.InCombat)
-            DisplaySprite().hide();
+            DisplaySprite(SpriteName.None);
         MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation.display);
         // MainScreen.getStatsPanel().nameBox.visible = false;
         if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {

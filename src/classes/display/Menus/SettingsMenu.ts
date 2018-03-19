@@ -60,17 +60,12 @@ export default class SettingsMenu implements Menu {
         else
             DisplayText("Hyper Happy mode <b>Off</b>\n	Male enhancement potions shrink female endowments, and vice versa.");
 
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Toggle Debug", this.toggleDebug);
-        MainScreen.getBottomButton(1).modify("Sprite Toggle", this.toggleSpritesFlag);
-        MainScreen.getBottomButton(2).modify("EZ Mode", this.toggleEasyModeFlag);
-        MainScreen.getBottomButton(3).modify("Larger Font", this.incFontSize);
-        MainScreen.getBottomButton(4).modify("Controls", Menus.Controls.display);
-        MainScreen.getBottomButton(5).modify("Hyper Happy", this.toggleHyperHappy);
-        MainScreen.getBottomButton(6).modify("Low Standards", this.toggleStandards);
-        MainScreen.getBottomButton(7).modify("Silly Toggle", this.toggleSillyFlag);
-        MainScreen.getBottomButton(8).modify("Smaller Font", this.decFontSize);
-        MainScreen.getBottomButton(9).modify("Back", Menus.MainMenu.display);
+        MainScreen.displayChoices(
+            ["Toggle Debug", "Sprite Toggle", "EZ Mode", "Larger Font", "Controls", "Hyper Happy", "Low Standards", "Silly Toggle", "Smaller Font"],
+            [this.toggleDebug, this.toggleSpritesFlag, this.toggleEasyModeFlag, this.incFontSize, Menus.Controls.display, this.toggleHyperHappy, this.toggleStandards, this.toggleSillyFlag, this.decFontSize],
+            ["Back"],
+            [Menus.MainMenu.display]
+        );
     }
 
     public incFontSize(): void {

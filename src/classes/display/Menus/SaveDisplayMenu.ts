@@ -13,13 +13,18 @@ export default abstract class SaveDisplayMenu implements Menu {
     public abstract display(character?: Character, prevMenu?: ClickFunction);
 
     protected modifyBottomButtons(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction) {
+        const text = [];
+        const func = [];
         MainScreen.hideBottomButtons();
         for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
             if (SaveManager.has(index)) {
-                MainScreen.getBottomButton(index).modify("Slot " + index.toString(), () => { saveSlotFunc(index); });
+                text.push("Slot " + index.toString());
+                func.push(() => { saveSlotFunc(index); });
+                // MainScreen.getBottomButton(index).modify("Slot " + index.toString(), () => { saveSlotFunc(index); });
             }
         }
-        MainScreen.getBottomButton(SaveManager.saveSlotCount()).modify("Back", prevMenu);
+        // MainScreen.addBackButton("Back", prevMenu);
+        MainScreen.displayChoices(text, func, ["Back"], [prevMenu]);
     }
 
     protected displaySaves() {

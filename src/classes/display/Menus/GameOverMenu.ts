@@ -7,9 +7,10 @@ export default class GameOverMenu implements Menu {
     public display() {
         DisplayText().clear();
         DisplayText("\n\n<b>GAME OVER</b>");
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
-        MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);
+        MainScreen.displayChoices(["Game Over", "NewGamePlus"], [this.gameOverMenuOverride, Menus.CharCreation.newGamePlus]);
+
+        // MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
+        // MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);
     }
     /*
     public gameOver(clear: boolean = false): void { //Leaves text on screen unless clear is set to true

@@ -4,6 +4,7 @@ import Cock from '../../Body/Cock';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Flags, { FlagEnum } from '../../Game/Flags';
+import Game from '../../Game/Game';
 import Spells from '../../Player/CombatActions/Spells';
 import Player from '../../Player/Player';
 import DisplayText from '../DisplayText';
@@ -16,7 +17,7 @@ export default class StatsMenu implements Menu {
 
         // Begin Combat Stats
         let combatStats: string = "";
-        if (player.hasKeyItem("Bow"))
+        if (player.inventory.keyItems.has("Bow"))
             combatStats += "<b>Bow Skill:</b> " + Math.round(player.statusAffects.get(StatusAffectType.Kelt).value1) + "\n";
 
         combatStats += "<b>Lust Resistance:</b> " + (100 - Math.round(player.stats.lustPercent())) + "% (Higher is better.)\n";
@@ -76,7 +77,7 @@ export default class StatsMenu implements Menu {
         if (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE] > 0)
             childStats += "<b>Children With Kelly (Females):</b> " + (Flags.list[FlagEnum.KELLY_KIDS] - Flags.list[FlagEnum.KELLY_KIDS_MALE]) + "\n";
 
-        if (mountain.salon.lynnetteApproval() !== 0)
+        if (Game.scenes.mountain.salon.lynnetteApproval() !== 0)
             childStats += "<b>Lynnette Children:</b> " + Flags.list[FlagEnum.LYNNETTE_BABY_COUNT] + "\n";
 
         if (Flags.list[FlagEnum.MARBLE_KIDS] > 0)
@@ -109,8 +110,8 @@ export default class StatsMenu implements Menu {
         if (Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] > 0)
             childStats += "<b>Children With Tamani:</b> " + Flags.list[FlagEnum.TAMANI_NUMBER_OF_DAUGHTERS] + " (after all forms of natural selection)\n";
 
-        if (urtaPregs.urtaKids() > 0)
-            childStats += "<b>Children With Urta:</b> " + urtaPregs.urtaKids() + "\n";
+        if (Game.scenes.urtaPregs.urtaKids() > 0)
+            childStats += "<b>Children With Urta:</b> " + Game.scenes.urtaPregs.urtaKids() + "\n";
 
         // Mino sons
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00326] > 0)
@@ -235,39 +236,39 @@ export default class StatsMenu implements Menu {
         let interpersonStats: string = "";
 
         if (Flags.list[FlagEnum.ARIAN_PARK] > 0)
-            interpersonStats += "<b>Arian's Health:</b> " + Math.round(arianScene.arianHealth()) + "\n";
+            interpersonStats += "<b>Arian's Health:</b> " + Math.round(Game.scenes.arianScene.arianHealth()) + "\n";
 
         if (Flags.list[FlagEnum.ARIAN_VIRGIN] > 0)
             interpersonStats += "<b>Arian Sex Counter:</b> " + Math.round(Flags.list[FlagEnum.ARIAN_VIRGIN]) + "\n";
 
-        if (bazaar.benoit.benoitAffection() > 0)
-            interpersonStats += "<b>" + bazaar.benoit.benoitMF("Benoit", "Benoite") + " Affection:</b> " + Math.round(bazaar.benoit.benoitAffection()) + "%\n";
+        if (Game.scenes.bazaar.benoit.benoitAffection() > 0)
+            interpersonStats += "<b>" + Game.scenes.bazaar.benoit.benoitMF("Benoit", "Benoite") + " Affection:</b> " + Math.round(Game.scenes.bazaar.benoit.benoitAffection()) + "%\n";
 
         if (Flags.list[FlagEnum.BROOKE_MET] > 0)
-            interpersonStats += "<b>Brooke Affection:</b> " + Math.round(telAdre.brooke.brookeAffection()) + "\n";
+            interpersonStats += "<b>Brooke Affection:</b> " + Math.round(Game.scenes.telAdre.brooke.brookeAffection()) + "\n";
 
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00218] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00219] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00220] > 0)
             interpersonStats += "<b>Body Parts Taken By Ceraph:</b> " + (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00218] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00219] + Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00220]) + "\n";
 
-        if (emberScene.emberAffection() > 0)
-            interpersonStats += "<b>Ember Affection:</b> " + Math.round(emberScene.emberAffection()) + "%\n";
+        if (Game.scenes.emberScene.emberAffection() > 0)
+            interpersonStats += "<b>Ember Affection:</b> " + Math.round(Game.scenes.emberScene.emberAffection()) + "%\n";
 
-        if (helFollower.helAffection() > 0)
-            interpersonStats += "<b>Helia Affection:</b> " + Math.round(helFollower.helAffection()) + "%\n";
-        if (helFollower.helAffection() >= 100)
+        if (Game.scenes.helFollower.helAffection() > 0)
+            interpersonStats += "<b>Helia Affection:</b> " + Math.round(Game.scenes.helFollower.helAffection()) + "%\n";
+        if (Game.scenes.helFollower.helAffection() >= 100)
             interpersonStats += "<b>Helia Bonus Points:</b> " + Math.round(Flags.list[FlagEnum.HEL_BONUS_POINTS]) + "\n";
 
         if (Flags.list[FlagEnum.ISABELLA_AFFECTION] > 0) {
             interpersonStats += "<b>Isabella Affection:</b> ";
 
-            if (!isabellaFollowerScene.isabellaFollower())
+            if (!Game.scenes.isabellaFollowerScene.isabellaFollower())
                 interpersonStats += Math.round(Flags.list[FlagEnum.ISABELLA_AFFECTION]) + "%\n";
             else
                 interpersonStats += "100%\n";
         }
 
         if (Flags.list[FlagEnum.KATHERINE_UNLOCKED] >= 4) {
-            interpersonStats += "<b>Katherine Submissiveness:</b> " + telAdre.katherine.submissiveness() + "\n";
+            interpersonStats += "<b>Katherine Submissiveness:</b> " + Game.scenes.telAdre.katherine.submissiveness() + "\n";
         }
 
         if (player.statusAffects.has(StatusAffectType.Kelt) && Flags.list[FlagEnum.KELT_BREAK_LEVEL] === 0) {
@@ -278,36 +279,36 @@ export default class StatsMenu implements Menu {
         }
 
         if (Flags.list[FlagEnum.ANEMONE_KID] > 0)
-            interpersonStats += "<b>Kid A's Confidence:</b> " + anemoneScene.kidAXP() + "%\n";
+            interpersonStats += "<b>Kid A's Confidence:</b> " + Game.scenes.anemoneScene.kidAXP() + "%\n";
 
         if (Flags.list[FlagEnum.KIHA_AFFECTION_LEVEL] === 2) {
-            if (kihaFollower.followerKiha())
+            if (Game.scenes.kihaFollower.followerKiha())
                 interpersonStats += "<b>Kiha Affection:</b> " + 100 + "%\n";
             else
                 interpersonStats += "<b>Kiha Affection:</b> " + Math.round(Flags.list[FlagEnum.KIHA_AFFECTION]) + "%\n";
         }
         // Lottie stuff
         if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00281] > 0)
-            interpersonStats += "<b>Lottie's Encouragement:</b> " + telAdre.lottie.lottieMorale() + " (higher is better)\n" + "<b>Lottie's Figure:</b> " + telAdre.lottie.lottieTone() + " (higher is better)\n";
+            interpersonStats += "<b>Lottie's Encouragement:</b> " + Game.scenes.telAdre.lottie.lottieMorale() + " (higher is better)\n" + "<b>Lottie's Figure:</b> " + Game.scenes.telAdre.lottie.lottieTone() + " (higher is better)\n";
 
-        if (mountain.salon.lynnetteApproval() !== 0)
-            interpersonStats += "<b>Lynnette's Approval:</b> " + mountain.salon.lynnetteApproval() + "\n";
+        if (Game.scenes.mountain.salon.lynnetteApproval() !== 0)
+            interpersonStats += "<b>Lynnette's Approval:</b> " + Game.scenes.mountain.salon.lynnetteApproval() + "\n";
 
         if (Flags.list[FlagEnum.OWCAS_ATTITUDE] > 0)
             interpersonStats += "<b>Owca's Attitude:</b> " + Flags.list[FlagEnum.OWCAS_ATTITUDE] + "\n";
 
-        if (telAdre.rubi.rubiAffection() > 0)
-            interpersonStats += "<b>Rubi's Affection:</b> " + Math.round(telAdre.rubi.rubiAffection()) + "%\n" + "<b>Rubi's Orifice Capacity:</b> " + Math.round(telAdre.rubi.rubiCapacity()) + "%\n";
+        if (Game.scenes.telAdre.rubi.rubiAffection() > 0)
+            interpersonStats += "<b>Rubi's Affection:</b> " + Math.round(Game.scenes.telAdre.rubi.rubiAffection()) + "%\n" + "<b>Rubi's Orifice Capacity:</b> " + Math.round(Game.scenes.telAdre.rubi.rubiCapacity()) + "%\n";
 
         if (Flags.list[FlagEnum.SHEILA_XP] !== 0) {
-            interpersonStats += "<b>Sheila's Corruption:</b> " + sheilaScene.sheilaCorruption();
-            if (sheilaScene.sheilaCorruption() > 100)
+            interpersonStats += "<b>Sheila's Corruption:</b> " + Game.scenes.sheilaScene.sheilaCorruption();
+            if (Game.scenes.sheilaScene.sheilaCorruption() > 100)
                 interpersonStats += " (Yes, it can go above 100)";
             interpersonStats += "\n";
         }
 
         if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] !== 0) {
-            if (urta.urtaLove())
+            if (Game.scenes.urta.urtaLove())
                 interpersonStats += "<b>Urta Status:</b> Lover\n";
             else if (Flags.list[FlagEnum.URTA_COMFORTABLE_WITH_OWN_BODY] === -1)
                 interpersonStats += "<b>Urta Status:</b> Ashamed\n";

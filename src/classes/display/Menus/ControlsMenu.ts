@@ -53,10 +53,7 @@ export default class ControlsMenu implements Menu {
         this.listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
         this.listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Reset Ctrls", this.resetControls);
-        MainScreen.getBottomButton(1).modify("Clear Ctrls", this.clearControls);
-        MainScreen.addBackButton("Back", Menus.Settings.display);
+        MainScreen.displayChoices(["Reset Ctrls", "Clear Ctrls"], [this.resetControls, this.clearControls], ["Back"], [Menus.Settings.display]);
     }
 
     private listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {

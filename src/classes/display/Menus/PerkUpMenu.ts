@@ -20,10 +20,10 @@ export default class PerkUpMenu implements Menu {
         const perkList: Perk[] = this.getAvailablePerks(character);
 
         if (perkList.length === 0) {
-            DisplayText("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + Utils.numToCardinalText(character.perkPoints) + " perk point");
-            if (character.perkPoints > 1) DisplayText("s");
+            DisplayText("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + Utils.numToCardinalText(character.stats.perkPoints) + " perk point");
+            if (character.stats.perkPoints > 1) DisplayText("s");
             DisplayText(".");
-            MainScreen.doNext(Menus.Character.display);
+            MainScreen.doNext(Menus.Player.display);
         }
         else {
             DisplayText("Please select a perk from the list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.");
@@ -33,8 +33,9 @@ export default class PerkUpMenu implements Menu {
 
             MainScreen.getTopButton(TopButton.MainMenu).hide();
             MainScreen.hideBottomButtons();
+            // "Okay" button is modified in displayPerkList
             MainScreen.getBottomButton(0).modify("Okay", this.confirmPerk, true);
-            MainScreen.getBottomButton(1).modify("Skip", Menus.Character.display);
+            MainScreen.getBottomButton(1).modify("Skip", Menus.Player.display);
         }
     }
 
@@ -48,7 +49,7 @@ export default class PerkUpMenu implements Menu {
         DisplayText("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
         MainScreen.hideBottomButtons();
         MainScreen.getBottomButton(0).modify("Okay", this.applyPerk);
-        MainScreen.getBottomButton(1).modify("Skip", Menus.Character.display);
+        MainScreen.getBottomButton(1).modify("Skip", Menus.Player.display);
     }
 
     private displayPerkList(character: Character) {
@@ -256,7 +257,7 @@ export default class PerkUpMenu implements Menu {
 
     private applyPerk(character: Character) {
         DisplayText().clear();
-        character.perkPoints--;
+        character.stats.perkPoints--;
         // Apply perk here.
         DisplayText(this.selectedPerk.type).bold();
         DisplayText(" gained!");
@@ -266,6 +267,6 @@ export default class PerkUpMenu implements Menu {
         if (this.selectedPerk.type === PerkType.Tank2) {
             character.stats.HP += character.stats.tou;
         }
-        MainScreen.doNext(Menus.Character.display);
+        MainScreen.doNext(Menus.Player.display);
     }
 }

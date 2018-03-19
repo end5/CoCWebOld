@@ -48,7 +48,7 @@ export default class MainMenu implements Menu {
 
 	    ]]>`);
 
-        if (debug)
+        if (Game.settings.debug)
             DisplayText("\n\n<b>DEBUG MODE ENABLED:  ITEMS WILL NOT BE CONSUMED BY USE.</b>");
         if (Flags.list[FlagEnum.SHOW_SPRITES_FLAG])
             DisplayText("\n\n<b>Sprites disabled.</b>");
@@ -60,7 +60,7 @@ export default class MainMenu implements Menu {
             DisplayText("\n\n<b>It's Easter!  Enjoy the eggs!</b>");
         if (DateUtils.isValentine())
             DisplayText("\n\n<b>It's Valentine's!</b>");
-        if (helFollower.isHeliaBirthday())
+        if (Game.scenes.helFollower.isHeliaBirthday())
             DisplayText("\n\n<b>It's Helia's Birthday Month!</b>");
 
         let resume;

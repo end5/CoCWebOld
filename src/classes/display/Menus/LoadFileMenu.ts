@@ -13,10 +13,11 @@ export default class LoadFileMenu implements Menu {
         DisplayText().appendElement(textAreaElement);
         textAreaElement.text(JSON.stringify(SaveManager.saveToFile()));
 
-        MainScreen.hideBottomButtons();
-        MainScreen.getBottomButton(0).modify("Load", () => {
-            SaveManager.loadFromFile(JSON.parse(textAreaElement.getText()));
-        });
-        MainScreen.getBottomButton(1).modify("Back", Menus.Data.display);
+        MainScreen.displayChoices(["Load", "Back"], [
+            () => {
+                SaveManager.loadFromFile(JSON.parse(textAreaElement.getText()));
+            },
+            Menus.Data.display
+        ]);
     }
 }
