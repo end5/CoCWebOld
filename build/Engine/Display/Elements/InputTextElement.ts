@@ -7,8 +7,12 @@ export default class InputTextElement extends ScreenElement {
         (this.htmlElement as HTMLInputElement).type = "text";
     }
 
-    public getText(): string {
+    public get text(): string {
         return (this.htmlElement as HTMLInputElement).value;
+    }
+
+    public set text(text: string) {
+        (this.htmlElement as HTMLInputElement).value = text;
     }
 
     public select() {

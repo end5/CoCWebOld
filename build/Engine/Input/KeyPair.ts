@@ -1,5 +1,5 @@
 import KeyCombination from './KeyCombination';
-import ISerializable from '../Utilities/ISerializable';
+import ISerializable from '../../Engine/Utilities/ISerializable';
 
 export default class KeyPair implements ISerializable<KeyPair> {
     public primaryKey: KeyCombination;

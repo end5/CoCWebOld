@@ -2,14 +2,15 @@ import Menus from './Menus';
 import DisplayText from '../../Engine/display/DisplayText';
 import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
 import Settings from '../Settings';
+import User from '../User';
 import { isEaster, isValentine } from '../Utilities/Dates';
 
-function onDisplay() {
+export default function display() {
     MainScreen.getStatsPanel().hide();
     // Reset newgame buttons
     MainScreen.hideTopButtons();
-    // MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation.display);
-    MainScreen.getTopButton(TopButton.Data).show();
+    // MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation);
+    MainScreen.getTopButton(TopButton.Data).modify("Data", Menus.Data);
 
     DisplayText().clear();
     DisplayText("Corruption of Champions (0.9.4c)").bold().newline();
@@ -42,34 +43,31 @@ function onDisplay() {
 
 	    ]]>`);
 
-    if (Settings.debug)
+    if (User.settings.debug)
         DisplayText("\n\n<b>DEBUG MODE ENABLED:  ITEMS WILL NOT BE CONSUMED BY USE.</b>");
-    if (Settings.showSprites)
+    if (User.settings.showSprites)
         DisplayText("\n\n<b>Sprites disabled.</b>");
-    if (Settings.easyMode)
+    if (User.settings.easyMode)
         DisplayText("\n\n<b>Easy Mode On:  Bad-ends can be ignored.</b>");
-    if (Settings.sillyMode)
+    if (User.settings.sillyMode)
         DisplayText("\n\n<b>SILLY MODE ENGAGED: Crazy, nonsensical, and possibly hilarious things may occur.</b>");
     if (isEaster())
         DisplayText("\n\n<b>It's Easter!  Enjoy the eggs!</b>");
     if (isValentine())
         DisplayText("\n\n<b>It's Valentine's!</b>");
-    // if (Game.scenes.helFollower.isHeliaBirthday())
+    // if (Scenes.helFollower.isHeliaBirthday())
     //     DisplayText("\n\n<b>It's Helia's Birthday Month!</b>");
 
-    // const resume = Menus.Player.display;
-    // if (Game.player.stats.str > 0)  // we're in a game, allow resume.
-    //     resume = Menus.Player.display;
+    // const resume = Menus.Player;
+    // if (User.char.stats.str > 0)  // we're in a game, allow resume.
+    //     resume = Menus.Player;
 
     // MainScreen.displayChoices(
     //     ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-    //     [null, Menus.Credits.display, Menus.Instructions.display, null, Menus.Settings.display, resume]
+    //     [null, Menus.Credits, Menus.Instructions, null, Menus.Settings, resume]
     // );
     MainScreen.displayChoices(
         ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
         [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, undefined]
     );
 }
-
-const display = () => { onDisplay(); };
-export default display;

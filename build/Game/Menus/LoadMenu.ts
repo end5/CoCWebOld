@@ -3,7 +3,7 @@ import { displaySaves, modifyBottomButtons } from './SaveDisplay';
 import DisplayText from '../../Engine/display/DisplayText';
 import SaveManager from '../../Engine/Save/SaveManager';
 
-function onDisplay() {
+export default function display() {
     DisplayText().clear();
     if (SaveManager.activeSlot() !== 0)
         DisplayText("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r");
@@ -13,6 +13,3 @@ function onDisplay() {
 
     modifyBottomButtons(SaveManager.loadFromSlot, Menus.Data);
 }
-
-const display = () => { onDisplay(); };
-export default display;

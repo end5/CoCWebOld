@@ -1,4 +1,4 @@
-import ISerializable from '../Utilities/ISerializable';
+import ISerializable from '../../Engine/Utilities/ISerializable';
 
 export default class KeyCombination implements ISerializable<KeyCombination> {
     public keyCode: number;

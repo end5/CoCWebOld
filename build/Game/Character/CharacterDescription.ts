@@ -1,6 +1,6 @@
 import Character from './Character';
 import ISerializable from '../../Engine/Utilities/ISerializable';
-import GenderDescriptor from '../Descriptors/GenderDescriptor';
+import * as GenderDescriptor from '../Descriptors/GenderDescriptor';
 
 export default class Description implements ISerializable<Description> {
     private character: Character;
@@ -65,7 +65,7 @@ export default class Description implements ISerializable<Description> {
     }
 
     /**
-     * Returns possessive pronoun. (ie. his/hers/its/theirs)
+     * Returns possessive pronoun. (ie. his/her/its/their)
      */
     public get possessivePronoun(): string {
         return this.possessive;

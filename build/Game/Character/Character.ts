@@ -1,17 +1,21 @@
 ﻿import CharacterDescription from './CharacterDescription';
 import { CharacterType } from './CharacterType';
-import DisplayText from '../../Engine/display/DisplayText';
 import Dictionary from '../../Engine/Utilities/Dictionary';
+import DictionarySerializer from '../../Engine/Utilities/DictionarySerializer';
 import ISerializable from '../../Engine/Utilities/ISerializable';
-import { rand, randomChoice } from '../../Engine/Utilities/Math';
-import { CockType } from '../Body/Cock';
+import { randInt } from '../../Engine/Utilities/SMath';
 import Creature from '../Body/Creature';
 import { LegType } from '../Body/Legs';
 import Tail, { TailType } from '../Body/Tail';
+import CombatContainer from '../Combat/CombatContainer';
+import CharacterInventory from '../Inventory/CharacterInventory';
+import LocationDict from '../Locations/LocationDict';
 import { generateUUID } from '../Utilities/Uuid';
 
 export default abstract class Character extends Creature implements ISerializable<Character> {
     public charType: CharacterType;
+    public readonly inventory: CharacterInventory;
+    public readonly locations: LocationDict;
 
     private UUID: string;
     public get uuid(): string {
@@ -23,28 +27,39 @@ export default abstract class Character extends Creature implements ISerializabl
         return this.description;
     }
 
+    protected combatContainer: CombatContainer;
+    public get combat(): CombatContainer {
+        return this.combatContainer;
+    }
+
     public constructor(type: CharacterType) {
         super();
         this.charType = type;
         this.UUID = generateUUID();
+        this.inventory = new CharacterInventory(this);
         this.description = new CharacterDescription(this);
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
+        this.locations = new LocationDict();
     }
 
     public serialize(): string {
         return JSON.stringify({
             charType: this.charType,
             UUID: this.UUID,
+            inventory: this.inventory.serialize(),
             desc: this.desc.serialize(),
+            locations: DictionarySerializer.serialize(this.locations)
         });
     }
 
     public deserialize(saveObject: Character) {
         this.charType = saveObject.charType;
         this.UUID = saveObject.UUID;
+        this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
+        DictionarySerializer.deserialize(saveObject.locations, this.locations, Location);
         super.deserialize(saveObject);
     }
 
@@ -74,7 +89,7 @@ export default abstract class Character extends Creature implements ISerializabl
     }
 
     private bonusXP(): number {
-        return rand([200, 10, 20, 30, 40, 50, 55, 58, 66, 75,
+        return randInt([200, 10, 20, 30, 40, 50, 55, 58, 66, 75,
             83, 85, 85, 86, 92, 94, 96, 98, 99, 101,
             107][Math.round(this.stats.level)] || 130);
     }

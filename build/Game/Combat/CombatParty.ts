@@ -2,7 +2,7 @@ import DefeatEvent, { DefeatType } from './DefeatEvent';
 import PartyEndScenes from './PartyEndScenes';
 import Character from '../Character/Character';
 
-export default class Party {
+export default class CombatParty {
     public readonly allMembers: Character[];
     public ableMembers: Character[];
     public defeatLog: DefeatEvent[];

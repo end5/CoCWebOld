@@ -5,7 +5,7 @@ import InputTextElement from '../../Engine/Display/Elements/InputTextElement';
 import MainScreen from '../../Engine/Display/MainScreen';
 import SaveManager from '../../Engine/Save/SaveManager';
 
-function onDisplay() {
+export default function display() {
     DisplayText().clear();
     if (SaveManager.activeSlot() !== 0)
         DisplayText("Last saved or loaded from: " + SaveManager.activeSlot()).bold();
@@ -30,6 +30,3 @@ function confirmOverwrite(slotNumber: number) {
     DisplayText("Are you sure you want to delete it?");
     MainScreen.displayChoices(["No", "Yes"], [Menus.Save, () => { SaveManager.saveToSlot(slotNumber); }]);
 }
-
-const display = () => { onDisplay(); };
-export default display;

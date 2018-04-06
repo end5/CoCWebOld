@@ -23,6 +23,8 @@ export default class Stats implements ISerializable<Stats> {
     public level: number;
     public additionalXP: number;
     public perkPoints: number;
+    public teaseXP: number;
+    public teaseLevel: number;
 
     public constructor() {
         this.str = 0;
@@ -46,6 +48,8 @@ export default class Stats implements ISerializable<Stats> {
         this.level = 0;
         this.additionalXP = 0;
         this.perkPoints = 0;
+        this.teaseXP = 0;
+        this.teaseLevel = 0;
     }
 
     public serialize(): string {
@@ -66,7 +70,9 @@ export default class Stats implements ISerializable<Stats> {
             XP: this.XP,
             level: this.level,
             additionalXP: this.additionalXP,
-            perkPoints: this.perkPoints
+            perkPoints: this.perkPoints,
+            teaseXP: this.teaseXP,
+            teaseLevel: this.teaseLevel
         });
     }
 
@@ -88,5 +94,7 @@ export default class Stats implements ISerializable<Stats> {
         this.level = saveObject.level;
         this.additionalXP = saveObject.additionalXP;
         this.perkPoints = saveObject.perkPoints;
+        this.teaseXP = saveObject.teaseXP;
+        this.teaseLevel = saveObject.teaseLevel;
     }
 }

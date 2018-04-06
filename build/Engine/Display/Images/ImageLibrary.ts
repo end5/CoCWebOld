@@ -1,6 +1,6 @@
 import ImageName from './ImageName';
 import Dictionary from '../../Utilities/Dictionary';
-import { randomChoice } from '../../Utilities/Math';
+import { randomChoice } from '../../Utilities/SMath';
 
 interface ImageLoaded {
     loaded: boolean;

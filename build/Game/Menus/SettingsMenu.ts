@@ -1,37 +1,37 @@
 import Menus from './Menus';
 import DisplayText from '../../Engine/display/DisplayText';
 import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
-import Settings from '../Settings';
+import User from '../User';
 
-function onDisplay() {
+export default function display() {
     MainScreen.getTopButton(TopButton.MainMenu).show();
     MainScreen.getTopButton(TopButton.Data).show();
 
     DisplayText().clear();
     DisplayText("<b>Settings toggles:</b>\n");
 
-    if (Settings.debug)
+    if (User.settings.debug)
         DisplayText("Debug mode enabled: <b>Yes</b>\n	Items will not be consumed by use, fleeing always succeeds, and bad-ends can be ignored.");
     else
         DisplayText("Debug mode enabled: <b>No</b>\n	Items consumption will occur as normal.");
 
     DisplayText("\n\n");
 
-    if (Settings.showSprites)
+    if (User.settings.showSprites)
         DisplayText("Sprites enabled: <b>Yes</b>.\n	You like to look at pretty pictures.");
     else
         DisplayText("Sprites enabled: <b>No</b>.\n	There are only words. Nothing else.");
 
     DisplayText("\n\n");
 
-    if (Settings.easyMode)
+    if (User.settings.easyMode)
         DisplayText("Easy Mode <b>On</b>\n	Bad-ends can be ignored and combat is easier.");
     else
         DisplayText("Easy Mode <b>Off</b>\n	Bad-ends can ruin your game and combat is challenging.");
 
     DisplayText("\n\n");
 
-    if (Settings.sillyMode)
+    if (User.settings.sillyMode)
         DisplayText("Silly Mode <b>On</b>\n	Crazy, nonsensical, and possibly hilarious things may occur.");
     else
         DisplayText("Silly Mode <b>Off</b>\n	You're an incorrigable stick-in-the-mud with no sense of humor.");
@@ -41,7 +41,7 @@ function onDisplay() {
     DisplayText("Additional note: You <b>must</b> be <i>in a game session</i> (e.g. load your save, hit \"Main Menu\", change the flag settings, and then hit \"Resume\") to change these flags. They're saved into the saveGame file, so if you load a save, it will clear them to the state in that save.");
     DisplayText("\n\n");
 
-    if (Settings.lowStandards) {
+    if (User.settings.lowStandards) {
         DisplayText("Low standards Mode <b>On</b>\n	NPCs ignore body type preferences.");
         DisplayText("\n	(Not gender preferences though. You still need the right hole.)");
     }
@@ -50,7 +50,7 @@ function onDisplay() {
 
     DisplayText("\n\n");
 
-    if (Settings.hyperHappy) {
+    if (User.settings.hyperHappy) {
         DisplayText("Hyper Happy mode <b>On</b>\n	Only reducto and humus shrink endowments.");
         DisplayText("\n	Incubus draft doesn't affect breasts, and succubi milk doesn't affect cocks.");
     }
@@ -66,46 +66,43 @@ function onDisplay() {
 }
 
 function incFontSize() {
-    Settings.customFontSize++;
-    DisplayText().style.fontSize = Settings.customFontSize + "px";
-    onDisplay();
+    User.settings.customFontSize++;
+    DisplayText().style.fontSize = User.settings.customFontSize + "px";
+    display();
 }
 
 function decFontSize() {
-    Settings.customFontSize--;
-    DisplayText().style.fontSize = Settings.customFontSize + "px";
-    onDisplay();
+    User.settings.customFontSize--;
+    DisplayText().style.fontSize = User.settings.customFontSize + "px";
+    display();
 }
 
 function toggleStandards() {
-    Settings.lowStandards = !Settings.lowStandards;
-    onDisplay();
+    User.settings.lowStandards = !User.settings.lowStandards;
+    display();
 }
 
 function toggleHyperHappy() {
-    Settings.hyperHappy = !Settings.hyperHappy;
-    onDisplay();
+    User.settings.hyperHappy = !User.settings.hyperHappy;
+    display();
 }
 
 function toggleDebug() {
-    Settings.debug = !Settings.debug;
-    onDisplay();
+    User.settings.debug = !User.settings.debug;
+    display();
 }
 
 function toggleEasyModeFlag() {
-    Settings.easyMode = !Settings.easyMode;
-    onDisplay();
+    User.settings.easyMode = !User.settings.easyMode;
+    display();
 }
 
 function toggleSpritesFlag() {
-    Settings.showSprites = !Settings.showSprites;
-    onDisplay();
+    User.settings.showSprites = !User.settings.showSprites;
+    display();
 }
 
 function toggleSillyFlag() {
-    Settings.sillyMode = !Settings.sillyMode;
-    onDisplay();
+    User.settings.sillyMode = !User.settings.sillyMode;
+    display();
 }
-
-const display = () => { onDisplay(); };
-export default display;

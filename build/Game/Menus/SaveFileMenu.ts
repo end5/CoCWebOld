@@ -4,7 +4,7 @@ import TextAreaElement from '../../Engine/Display/Elements/TextAreaElement';
 import MainScreen from '../../Engine/Display/MainScreen';
 import SaveManager from '../../Engine/Save/SaveManager';
 
-function onDisplay() {
+export default function display() {
     DisplayText().clear();
     DisplayText("Copy this text into a file.");
     const textAreaElement = new TextAreaElement();
@@ -19,6 +19,3 @@ function onDisplay() {
         Menus.Data
     ]);
 }
-
-const display = () => { onDisplay(); };
-export default display;

@@ -15,10 +15,8 @@ export function modifyBottomButtons(saveSlotFunc: (index: number) => void, prevM
         if (SaveManager.has(index)) {
             text.push("Slot " + index.toString());
             func.push(() => { saveSlotFunc(index); });
-            // MainScreen.getBottomButton(index).modify("Slot " + index.toString(), () => { saveSlotFunc(index); });
         }
     }
-    // MainScreen.addBackButton("Back", prevMenu);
     MainScreen.displayChoices(text, func, ["Back"], [prevMenu]);
 }
 

@@ -1,6 +1,6 @@
 import Pregnancy from './Pregnancy';
 import Womb from './Womb';
-import { rand } from '../../../Engine/Utilities/Math';
+import { randInt } from '../../../Engine/Utilities/SMath';
 
 export default class ButtWomb extends Womb {
     // fertility must be >= random(0-beat)
@@ -9,7 +9,7 @@ export default class ButtWomb extends Womb {
         // Contraceptives cancel!
         if (this.canKnockUp()) {
             // If unpregnant and fertility wins out:
-            if (guarantee || this.body.totalFertility() > rand(virility)) {
+            if (guarantee || this.body.totalFertility() > randInt(virility)) {
                 this.currentPregnancy = pregnancy;
                 // this.pregEvent = ButtPregnancyEventFactory.create(pregnancy.type);
             }

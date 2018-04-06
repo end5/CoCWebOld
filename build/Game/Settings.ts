@@ -1,6 +1,6 @@
 import ISerializable from '../Engine/Utilities/ISerializable';
 
-class GameSettings implements ISerializable<GameSettings> {
+export default class Settings implements ISerializable<Settings> {
     public customFontSize: number = 16;
     public lowStandards: boolean = false;
     public hyperHappy: boolean = false;
@@ -17,7 +17,7 @@ class GameSettings implements ISerializable<GameSettings> {
         return JSON.stringify(this);
     }
 
-    public deserialize(saveObject: GameSettings) {
+    public deserialize(saveObject: Settings) {
         this.customFontSize = saveObject.customFontSize;
         this.lowStandards = saveObject.lowStandards;
         this.hyperHappy = saveObject.hyperHappy;
@@ -27,6 +27,3 @@ class GameSettings implements ISerializable<GameSettings> {
         this.sillyMode = saveObject.sillyMode;
     }
 }
-
-const Settings = new GameSettings();
-export default Settings;

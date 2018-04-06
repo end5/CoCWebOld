@@ -8,7 +8,10 @@ import StatsModifier from './StatsModifier';
 import Torso from './Torso';
 import Vagina from './Vagina';
 import { WingType } from './Wings';
+import DictionarySerializer from '../../Engine/Utilities/DictionarySerializer';
 import ISerializable from '../../Engine/Utilities/ISerializable';
+import PerkDict from '../Effects/PerkDict';
+import StatusAffectDict from '../Effects/StatusAffectDict';
 
 export default class Creature implements ISerializable<Creature> {
     // Appearance Variables
@@ -34,6 +37,8 @@ export default class Creature implements ISerializable<Creature> {
 
     protected baseStats: Stats = new Stats();
     public stats: StatsModifier = new StatsModifier(this, this.baseStats);
+    public statusAffects: StatusAffectDict = new StatusAffectDict();
+    public perks: PerkDict = new PerkDict();
 
     public get gender(): Gender {
         return this.genderManager.gender;
@@ -194,7 +199,9 @@ export default class Creature implements ISerializable<Creature> {
             torso: this.torso.serialize(),
             pregnancy: this.pregnancy.serialize(),
             baseStats: this.baseStats.serialize(),
-        });
+            statusAffects: DictionarySerializer.serialize(this.statusAffects),
+            perks: DictionarySerializer.serialize(this.perks),
+     });
     }
 
     public deserialize(saveObject: Creature) {
@@ -210,5 +217,7 @@ export default class Creature implements ISerializable<Creature> {
         this.torso.deserialize(saveObject.torso);
         this.pregnancy.deserialize(saveObject.pregnancy);
         this.baseStats.deserialize(saveObject.baseStats);
-    }
+        this.statusAffects.deserialize(saveObject.statusAffects);
+        this.perks.deserialize(saveObject.perks);
+  }
 }

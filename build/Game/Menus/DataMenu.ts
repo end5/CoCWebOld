@@ -17,11 +17,11 @@ function displayInfo() {
     DisplayText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 }
 
-function onDisplay(character: Character) {
+export default function display(character: Character) {
     displayInfo();
 
     const text = ["Save", "Load", "AutoSav: ON", "Delete", "Save File", "Load File"];
-    const func = [Menus.Save, Menus.Load, SaveManager.autosaveToggle, Menus.Delete, Menus.SaveFile, Menus.LoadFile];
+    const func = [Menus.Save, Menus.Load, autosaveToggle, Menus.Delete, Menus.SaveFile, Menus.LoadFile];
 
     // if (Game.state === GameState.GameOver || character.stats.str === 0 || inDungeon) {
     //     func[0] = undefined;
@@ -32,16 +32,18 @@ function onDisplay(character: Character) {
         text[2] = "AutoSav: OFF";
     }
 
-    // const backFunc = Menus.Player.display;
+    // const backFunc = Menus.Player;
 
     // if (Game.state === GameState.GameOver)
-    //     backFunc = Menus.GameOver.display;
+    //     backFunc = Menus.GameOver;
     // else if (character.stats.str === 0)
-    //     backFunc = Menus.Main.display;
+    //     backFunc = Menus.Main;
 
     // MainScreen.displayChoices(text, func, ["Back"], [backFunc]);
-    MainScreen.displayChoices(text, func, ["Back"], [undefined]);
+    MainScreen.displayChoices(text, func, ["Back"], [Menus.Main]);
 }
 
-const display = (character?: Character) => { onDisplay(character); };
-export default display;
+function autosaveToggle(character?: Character) {
+    SaveManager.autosaveToggle();
+    display(character);
+}

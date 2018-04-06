@@ -10,7 +10,7 @@ import InputManager from '../../Engine/Input/InputManager';
 import KeyCombination from '../../Engine/Input/KeyCombination';
 import Character from '../Character/Character';
 
-function onDisplay() {
+export default function display() {
     DisplayText().clear();
     DisplayText("<b>Keyboard Control Bindings:</b>\n\n");
     DisplayText("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
@@ -137,9 +137,6 @@ function clearControlsYes(): void {
 
     MainScreen.doNext(display);
 }
-
-const display = () => { onDisplay(); };
-export default display;
 
 /*
 --Default controls

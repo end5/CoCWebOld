@@ -1,7 +1,7 @@
 ﻿import BindableAction from './BindableAction';
 import DefaultKeyBinds from './DefaultKeyBinds';
 import KeyPair from './KeyPair';
-import ISerializable from '../Utilities/ISerializable';
+import ISerializable from '../../Engine/Utilities/ISerializable';
 import List from '../Utilities/List';
 import ListSerializer from '../Utilities/ListSerializer';
 

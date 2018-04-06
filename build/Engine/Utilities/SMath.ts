@@ -16,14 +16,14 @@ export function randomChoice(...args): any {
 }
 
 /**
- * Returns the floor of a rand number from 0 to max. The maximum is exclusive and the minimum is inclusive.
+ * Returns the floor of a rand( number from 0 to max. The maximum is exclusive and the minimum is inclusive.
  * @param max
  */
-export function rand(max: number): number {
+export function randInt(max: number): number {
     return Math.floor(Math.random() * Math.floor(max)); //
 }
 
-export function chance(percent: number): boolean {
+export function percentChance(percent: number): boolean {
     if (percent > 100)
         percent = Math.random() * 100;
     return Math.random() * 100 < percent;

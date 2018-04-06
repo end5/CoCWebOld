@@ -2,12 +2,12 @@ import SaveFile from './SaveFile';
 import MainScreen from '../Display/MainScreen';
 
 class SaveManager {
-    private activedSlot: number;
+    private activatedSlot: number;
     private saveSlots: object[];
     public autoSave: boolean;
 
     public constructor() {
-        this.activedSlot = -1;
+        this.activatedSlot = -1;
         this.saveSlots = [];
         this.saveSlots.length = this.saveSlotCount();
         this.autoSave = true;
@@ -16,10 +16,10 @@ class SaveManager {
 
     private save(notes?: string): object {
         const saveFile = {} as SaveFile;
-        // saveFile.days = Game.time.day;
-        // saveFile.name = Game.player.desc.short;
+        // saveFile.days = Time.day;
+        // saveFile.name = User.char.desc.short;
         // saveFile.game = Game.save();
-        // saveFile.gender = Game.player.gender;
+        // saveFile.gender = User.char.gender;
         // saveFile.notes = notes;
         return saveFile;
     }
@@ -43,7 +43,7 @@ class SaveManager {
     }
 
     public activeSlot(): number {
-        return this.activedSlot;
+        return this.activatedSlot;
     }
 
     public has(slot: number): boolean {
@@ -60,7 +60,7 @@ class SaveManager {
     }
 
     public saveSlotCount(): number {
-        return MainScreen.NUM_BOT_BUTTONS;
+        return MainScreen.NUM_BOT_BUTTONS - 1;
     }
 
     public autosaveToggle() {

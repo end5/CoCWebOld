@@ -1,5 +1,5 @@
 import ScreenElement from './ScreenElement';
-import { rand } from '../../Utilities/Math';
+import { randInt } from '../../Utilities/SMath';
 
 export type ClickFunction = (activeCharacter: any, event?: Event, prevMenu?: ClickFunction) => void;
 
@@ -14,7 +14,7 @@ export default class ButtonElement extends ScreenElement {
     public constructor() {
         super();
         this.htmlElement = document.createElement('a');
-        this.htmlElement.style.backgroundImage = "url('resource/ui/button" + rand(10) + ".jpg')";
+        this.htmlElement.style.backgroundImage = "url('resource/ui/button" + randInt(10) + ".jpg')";
         this.htmlElement.className = "button";
     }
 

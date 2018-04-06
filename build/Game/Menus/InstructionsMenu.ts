@@ -2,7 +2,7 @@ import Menus from './Menus';
 import DisplayText from '../../Engine/display/DisplayText';
 import MainScreen from '../../Engine/Display/MainScreen';
 
-function onDisplay() {
+export default function display() {
     DisplayText().clear();
     DisplayText("<b><u>How To Play:</u></b>\nClick the buttons corresponding to the actions you want to take.  Your 'goal' is to obviously put an end to the demonic corruption around you, but do whatever the hell you want.  There is a story but sometimes it's fun to ignore it.\n\n");
     DisplayText("<b>Exploration:</b>\nThe lake is a safe zone when you start the game.  It's a good place to explore, and Whitney's farm can offer some nice stat boosts to help get you on your feet. Once you feel comfortable, the forest is probably the next safest area, but beware of tentacle monsters.  The desert is the next toughest area, and the mountains offer further challenges.  There are more areas beyond that, but that's a good way to get started.  You'll uncover plenty of new 'places' exploring, which can be accessed from the <b>Places</b> menu.  You'll also find some interesting characters when you try to discover new explorable locations by choosing <b>Explore</b> twice.\n\n");
@@ -11,6 +11,3 @@ function onDisplay() {
     DisplayText("<b>Save often using the Data Menu</b> - you never know when your journey will come to an end!");
     MainScreen.doNext(Menus.Main);
 }
-
-const display = () => { onDisplay(); };
-export default display;

@@ -4,7 +4,7 @@ import DisplayText from '../../Engine/display/DisplayText';
 import MainScreen from '../../Engine/Display/MainScreen';
 import SaveManager from '../../Engine/Save/SaveManager';
 
-function onDisplay() {
+export default function display() {
     DisplayText("Slot,  Race,  Sex,  Game Days Played");
     DisplayText("\n");
 
@@ -20,6 +20,3 @@ function confirmDelete(slotNumber: number): void {
     DisplayText("Are you sure you want to delete it?");
     MainScreen.displayChoices(["No", "Yes"], [display, () => { SaveManager.delete(slotNumber); }]);
 }
-
-const display = () => { onDisplay(); };
-export default display;

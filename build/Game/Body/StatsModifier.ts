@@ -2,6 +2,7 @@
 import Stats from './Stats';
 import Tail from './Tail';
 import Settings from '../Settings';
+import User from '../User';
 
 export default class StatsModifier {
     private body: Creature;
@@ -185,7 +186,7 @@ export default class StatsModifier {
     }
 
     private lustChange(value: number, lustResisted: boolean = true) {
-        if (Settings.easyMode && value > 0 && lustResisted)
+        if (User.settings.easyMode && value > 0 && lustResisted)
             value /= 2;
         if (value > 0 && lustResisted)
             value *= this.lustPercent() / 100;
@@ -253,5 +254,21 @@ export default class StatsModifier {
 
     public get perkPoints(): number {
         return this.stats.perkPoints;
+    }
+
+    public set teaseLevel(value: number) {
+        this.stats.teaseLevel = value;
+    }
+
+    public get teaseLevel(): number {
+        return this.stats.teaseLevel;
+    }
+
+    public set teaseXP(value: number) {
+        this.stats.teaseLevel = value;
+    }
+
+    public get teaseXP(): number {
+        return this.stats.teaseLevel;
     }
 }

@@ -2,7 +2,7 @@ import IPregnancyEvent from './IPregnancyEvent';
 import Pregnancy, { PregnancyType } from './Pregnancy';
 import DisplayText from '../../../Engine/display/DisplayText';
 import ISerializable from '../../../Engine/Utilities/ISerializable';
-import { rand } from '../../../Engine/Utilities/Math';
+import { randInt } from '../../../Engine/Utilities/SMath';
 import Creature from '../Creature';
 import Vagina from '../Vagina';
 
@@ -42,14 +42,14 @@ export default class Womb implements ISerializable<Womb> {
             this.removeHeat();
 
             // If unpregnant and fertility wins out:
-            if (guarantee || this.body.totalFertility() > rand(virility)) {
+            if (guarantee || this.body.totalFertility() > randInt(virility)) {
                 this.currentPregnancy = pregnancy;
                 // this.pregEvent = PregnancyEventFactory.create(pregnancy.type);
             }
 
             // Chance for eggs fertilization - ovi elixir and imps excluded!
             if (pregnancy.type !== PregnancyType.IMP && pregnancy.type !== PregnancyType.OVIELIXIR_EGGS && pregnancy.type !== PregnancyType.ANEMONE &&
-                (guarantee || this.body.totalFertility() > rand(virility)))
+                (guarantee || this.body.totalFertility() > randInt(virility)))
                 this.body.pregnancy.ovipositor.fertilizeEggs();
         }
     }
