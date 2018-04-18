@@ -1,3 +1,4 @@
+import { performActionAI } from './CombatAI';
 import CombatCleanup from './CombatCleanup';
 import CombatDrops from './CombatDrops';
 import CombatParty from './CombatParty';
@@ -33,6 +34,7 @@ export default class Encounter {
         else {
             this.performEnemyPartyTurn();
         }
+        this.allyPartyTurn = !this.allyPartyTurn;
     }
 
     private performAllyPartyTurn() {
@@ -45,7 +47,7 @@ export default class Encounter {
         }
         else {
             // do ai
-            // activeMember;
+            performActionAI(activeMember);
         }
         this.enemyParty.resolveAttacker(activeMember);
         this.resolveEndTurn(activeMember);
@@ -54,7 +56,7 @@ export default class Encounter {
     private performEnemyPartyTurn() {
         const activeMember = this.enemyParty.activePartyMember();
         // do ai
-        // activeMember;
+        performActionAI(activeMember);
         this.allyParty.resolveAttacker(activeMember);
         this.resolveEndTurn(activeMember);
     }
@@ -74,9 +76,10 @@ export default class Encounter {
         const allyChar: Character = allyParty[0];
         const enemyChar: Character = enemyParty[0];
 
-        for (const combatEffect of selectedChar.combat.effects) {
-            combatEffect.update(selectedChar, enemyChar);
-        }
+        if (selectedChar.combat.effects.keys.length > 0)
+            for (const combatEffect of selectedChar.combat.effects) {
+                combatEffect.update(selectedChar, enemyChar);
+            }
 
         combatRegeneration(selectedChar);
     }
@@ -116,7 +119,7 @@ export default class Encounter {
                     */
                 }
                 else {
-                    const defeatEvent = this.enemyParty.defeatLog[0];
+                    const defeatEvent = this.allyParty.defeatLog[0];
                     defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }
             }

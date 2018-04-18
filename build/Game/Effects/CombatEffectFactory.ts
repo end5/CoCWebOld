@@ -99,26 +99,27 @@ class AbilityFlagsLib extends Dictionary<CombatAbilityFlag> {
     }
 }
 
-export default class CombatEffectFactory {
-    private static lib: CombatEffectConstructorLib;
-    private static flagslib: AbilityFlagsLib;
+class CombatEffectFactory {
+    private lib: CombatEffectConstructorLib;
+    private flagslib: AbilityFlagsLib;
 
     public constructor() {
-        if (!CombatEffectFactory.lib)
-            CombatEffectFactory.lib = new CombatEffectConstructorLib();
-        if (!CombatEffectFactory.flagslib)
-            CombatEffectFactory.flagslib = new AbilityFlagsLib();
+        this.lib = new CombatEffectConstructorLib();
+        this.flagslib = new AbilityFlagsLib();
     }
 
-    public static create(type: CombatEffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0, inflictedBy?: Character): CombatEffect {
-        const abilityFlag = CombatEffectFactory.flagslib.has(type) ? CombatAbilityFlag.All : CombatEffectFactory.flagslib[type];
-        if (CombatEffectFactory.lib.has(type)) {
-            return new (CombatEffectFactory.lib.get(type))(type, value1, value2, value3, value4, abilityFlag, inflictedBy);
+    public create(type: CombatEffectType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0, inflictedBy?: Character): CombatEffect {
+        const abilityFlag = this.flagslib.has(type) ? CombatAbilityFlag.All : this.flagslib[type];
+        if (this.lib.has(type)) {
+            return new (this.lib.get(type))(type, value1, value2, value3, value4, abilityFlag, inflictedBy);
         }
         return new CombatEffect(type, value1, value2, value3, value4, abilityFlag, inflictedBy);
     }
 
-    public static copy(combatEffect: CombatEffect): CombatEffect {
-        return CombatEffectFactory.create(combatEffect.type, combatEffect.value1, combatEffect.value2, combatEffect.value3, combatEffect.value4, combatEffect.inflictedBy);
+    public copy(combatEffect: CombatEffect): CombatEffect {
+        return this.create(combatEffect.type, combatEffect.value1, combatEffect.value2, combatEffect.value3, combatEffect.value4, combatEffect.inflictedBy);
     }
 }
+
+const combatEffectFactory = new CombatEffectFactory();
+export default combatEffectFactory as CombatEffectFactory;

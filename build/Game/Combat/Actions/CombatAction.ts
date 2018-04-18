@@ -1,4 +1,4 @@
-import { ClickFunction } from '../../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../../Engine/Display/MainScreen';
 import Character from '../../Character/Character';
 
 export default interface CombatAction {
@@ -20,10 +20,10 @@ export default interface CombatAction {
     /**
      * Can the character use the action on the other character. Disabled otherwise.
      */
-    canUse(character: Character, enemy?: Character): boolean;
+    canUse(character: Character, target?: Character): boolean;
 
     /**
      * Call for using the Combat Action.
      */
-    use(character: Character, enemy?: Character): void;
+    use(character: Character, target: Character): void;
 }

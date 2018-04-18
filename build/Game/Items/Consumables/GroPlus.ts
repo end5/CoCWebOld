@@ -1,7 +1,7 @@
 import Consumable from './Consumable';
 import ConsumableName from './ConsumableName';
 import DisplayText from '../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../../Engine/Display/MainScreen';
 import MainScreen from '../../../Engine/Display/MainScreen';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import BreastRow from '../../Body/BreastRow';

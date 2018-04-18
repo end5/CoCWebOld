@@ -1,5 +1,5 @@
 import ItemStack from './ItemStack';
-import { ClickFunction } from '../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../Engine/Display/MainScreen';
 import ISerializable from '../../Engine/Utilities/ISerializable';
 import List, { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 import ListSerializer from '../../Engine/Utilities/ListSerializer';
@@ -15,12 +15,14 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
     public unlock(amount: number = 1) {
         while (amount > 0) {
             this.itemSlots.add(new ItemStack());
+            amount--;
         }
     }
 
     public lock(amount: number = 1) {
         while (amount > 0) {
             this.itemSlots.remove(this.itemSlots.count - 1);
+            amount--;
         }
     }
 
@@ -116,7 +118,7 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
 
     public filterName(name: string): ItemStack<T>[] {
         return this.filter((itemStack: ItemStack<T>) => {
-            return itemStack.item.name === name;
+            return itemStack.quantity > 0 && itemStack.item.name === name;
         });
     }
 

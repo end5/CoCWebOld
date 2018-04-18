@@ -6,20 +6,18 @@ interface PerkConstructor {
     new(perkType: PerkType, desc: PerkDesc, value1: number, value2: number, value3: number, value4: number): Perk;
 }
 
-export default class PerkFactory {
-    private static perkDescLib: PerkDescLib;
+const perkDescLib: PerkDescLib = new PerkDescLib();
 
-    public constructor() {
-        if (!PerkFactory.perkDescLib)
-            PerkFactory.perkDescLib = new PerkDescLib();
-    }
-
-    public static create(type: PerkType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0): Perk {
-        const desc = PerkFactory.perkDescLib.get(type);
+class PerkFactory {
+    public create(type: PerkType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0): Perk {
+        const desc = perkDescLib.get(type);
         return new Perk(type, desc, value1, value2, value3, value4);
     }
 
-    public static copy(perk: Perk): Perk {
-        return PerkFactory.create(perk.type, perk.value1, perk.value2, perk.value3, perk.value4);
+    public copy(perk: Perk): Perk {
+        return this.create(perk.type, perk.value1, perk.value2, perk.value3, perk.value4);
     }
 }
+
+const perkFactory = new PerkFactory();
+export default perkFactory as PerkFactory;

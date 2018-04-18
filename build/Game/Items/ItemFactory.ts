@@ -7,51 +7,46 @@ import MiscLib from './Misc/MiscLib';
 import WeaponLib from './Weapons/WeaponLib';
 import ItemStack from '../Inventory/ItemStack';
 
-export default class ItemFactory {
-    private static armorLib: ArmorLib;
-    private static weaponLib: WeaponLib;
-    private static consumableLib: ConsumableLib;
-    private static materialLib: MaterialLib;
-    private static miscLib: MiscLib;
+class ItemFactory {
+    private armorLib: ArmorLib;
+    private weaponLib: WeaponLib;
+    private consumableLib: ConsumableLib;
+    private materialLib: MaterialLib;
+    private miscLib: MiscLib;
 
     public constructor() {
-        if (!ItemFactory.armorLib)
-            ItemFactory.armorLib = new ArmorLib();
-        if (!ItemFactory.weaponLib)
-            ItemFactory.weaponLib = new WeaponLib();
-        if (!ItemFactory.consumableLib)
-            ItemFactory.consumableLib = new ConsumableLib();
-        if (!ItemFactory.materialLib)
-            ItemFactory.materialLib = new MaterialLib();
-        if (!ItemFactory.miscLib)
-            ItemFactory.miscLib = new MiscLib();
+        this.armorLib = new ArmorLib();
+        this.weaponLib = new WeaponLib();
+        this.consumableLib = new ConsumableLib();
+        this.materialLib = new MaterialLib();
+        this.miscLib = new MiscLib();
     }
 
-    public static get(type: ItemType, name: string): Item {
+    public get(type: ItemType, name: string): Item {
         switch (type) {
             case ItemType.Armor: {
-                if (ItemFactory.armorLib.has(name)) {
-                    return ItemFactory.armorLib.get(name);
+                if (this.armorLib.has(name)) {
+                    return this.armorLib.get(name);
                 }
             }
             case ItemType.Weapon: {
-                if (ItemFactory.weaponLib.has(name)) {
-                    return ItemFactory.weaponLib.get(name);
+                if (this.weaponLib.has(name)) {
+                    return this.weaponLib.get(name);
                 }
             }
             case ItemType.Consumable: {
-                if (ItemFactory.consumableLib.has(name)) {
-                    return ItemFactory.consumableLib.get(name);
+                if (this.consumableLib.has(name)) {
+                    return this.consumableLib.get(name);
                 }
             }
             case ItemType.Material: {
-                if (ItemFactory.materialLib.has(name)) {
-                    return ItemFactory.materialLib.get(name);
+                if (this.materialLib.has(name)) {
+                    return this.materialLib.get(name);
                 }
             }
             case ItemType.Misc: {
-                if (ItemFactory.miscLib.has(name)) {
-                    return ItemFactory.miscLib.get(name);
+                if (this.miscLib.has(name)) {
+                    return this.miscLib.get(name);
                 }
             }
         }
@@ -59,7 +54,10 @@ export default class ItemFactory {
         return null;
     }
 
-    public static create<T extends Item>(type: ItemType, name: string): ItemStack<T> {
-        return new ItemStack(ItemFactory.get(type, name), 1);
+    public create<T extends Item>(type: ItemType, name: string): ItemStack<T> {
+        return new ItemStack(this.get(type, name), 1);
     }
 }
+
+const itemFactory = new ItemFactory();
+export default itemFactory as ItemFactory;

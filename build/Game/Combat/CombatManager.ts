@@ -1,6 +1,6 @@
 import CombatParty from './CombatParty';
 import Encounter from './Encounter';
-import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
+import MainScreen, { ClickFunction, TopButton } from '../../Engine/Display/MainScreen';
 import List from '../../Engine/Utilities/List';
 import Character from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
@@ -12,6 +12,18 @@ class CombatManager {
     public beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
         this.encounter = new Encounter(mainCharacter, allyParty, enemyParty);
         this.startCombat();
+    }
+
+    public get inCombat(): boolean {
+        return this.encounter !== undefined;
+    }
+
+    public get nextRound(): ClickFunction {
+        return () => {
+            if (this.encounter) {
+                this.encounter.performRound();
+            }
+        };
     }
 
     private startCombat(): void {

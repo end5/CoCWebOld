@@ -13,6 +13,8 @@ export default class EquipSlot<T extends EquipableItem> implements ISerializable
 
     public constructor(character: Character) {
         this.character = character;
+        this.onEquipEffects = [];
+        this.onUnequipEffects = [];
     }
 
     public get item(): T {

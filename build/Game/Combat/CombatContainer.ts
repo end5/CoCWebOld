@@ -2,6 +2,7 @@ import ActionPerform from './ActionPerform';
 import ActionRespond from './ActionRespond';
 import CombatRewards from './CombatRewards';
 import CombatStats from './CombatStats';
+import DefaultRespond from './Default/DefaultRespond';
 import EndScenes from './EndScenes';
 import Character from '../Character/Character';
 import CombatEffectList from '../Effects/CombatEffectList';
@@ -20,7 +21,7 @@ export default class CombatContainer {
 
     public grappledEnemy: Character;
 
-    public constructor(character: Character, perform: ActionPerform, respond: ActionRespond, end: EndScenes) {
+    public constructor(character: Character, perform: ActionPerform, respond: ActionRespond = new DefaultRespond(), end: EndScenes) {
         this.character = character;
         this.perform = perform;
         this.respond = respond;

@@ -9,7 +9,7 @@ import ItemType from '../ItemType';
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
 export default class Armor extends EquipableItem {
-    public readonly defense: number;
+    private defenseValue: number;
     public readonly armorClass: ArmorClass;
     public readonly displayName: string;
     private readonly canBulge: boolean;
@@ -17,9 +17,13 @@ export default class Armor extends EquipableItem {
     constructor(name: ArmorName, desc: ItemDesc, displayname: string, defense: number, value?: number, armorClass: ArmorClass = "Light", supportsBulge: boolean = false) {
         super(name, ItemType.Armor, desc, value);
         this.displayName = displayname;
-        this.defense = defense;
+        this.defenseValue = defense;
         this.armorClass = armorClass;
         this.canBulge = supportsBulge;
+    }
+
+    public get defense(): number {
+        return this.defenseValue;
     }
 
     public supportsBulge(character: Character): boolean { return this.canBulge && character.inventory.equipment.armorDescMod === ""; }
@@ -34,7 +38,7 @@ export default class Armor extends EquipableItem {
     }
 
     public describe(): string {
-        return super.describe() + " (DEF: +" + this.defense + ")";
+        return super.describe() + " (DEF: +" + this.defenseValue + ")";
     }
 
     public use(character: Character) { }

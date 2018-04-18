@@ -1,8 +1,8 @@
 import CombatAction from './CombatAction';
-import { ClickFunction } from '../../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../../Engine/Display/MainScreen';
 import Character from '../../Character/Character';
 
-export default class NoAction implements CombatAction {
+class NoAction implements CombatAction {
     public name: string = "NoAction";
     public reasonCannotUse: string = "NoAction";
 
@@ -18,3 +18,6 @@ export default class NoAction implements CombatAction {
         return;
     }
 }
+
+const noAction = new NoAction();
+export default noAction as NoAction;
