@@ -6,6 +6,7 @@ import Character from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
+import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
 import User from '../User';
 
 export default class CombatStats extends CharacterHolder {
@@ -48,7 +49,7 @@ export default class CombatStats extends CharacterHolder {
                 if (this.defense() <= 10) this.defenseMod = -this.defense();
                 else this.defenseMod = -10;
             }
-            value = this.reduceDamage(value);
+            value = this.reduceDamage(value, source);
         }
         // if (this.char.charType === CharacterType.Player && Flags.list[FlagEnum.MINOTAUR_CUM_REALLY_ADDICTED_STATE] > 0) {
         //     this.char.stats.lust += value / 2;
@@ -61,10 +62,27 @@ export default class CombatStats extends CharacterHolder {
         return oldHP - this.char.stats.HP;
     }
 
-    private reduceDamage(damage: number): number {
-        damage = damage - randInt(this.char.stats.tou) - this.defense();
+    private reduceDamage(damage: number, source: Character): number {
+        let reduction: number = randInt(this.char.stats.tou);
+        const enemyWeapon = source.inventory.equipment.weapon;
+        // Add in enemy armor if needed
+        if (enemyWeapon.perks.has(WeaponPerkType.Penetrate)) {
+            const penetrationAmount = enemyWeapon.perks.get(WeaponPerkType.Penetrate)(source, this.char);
+            if (this.char.combat.stats.defense() >= penetrationAmount)
+                reduction -= penetrationAmount;
+            else
+                reduction -= this.char.combat.stats.defense();
+        }
+        else {
+            reduction += this.char.combat.stats.defense();
+            // Remove half armor for lunging strikes
+            if (source.perks.has(PerkType.LungingAttacks))
+                reduction -= this.char.combat.stats.defense() / 2;
+        }
+        damage -= reduction;
+        // damage = damage - randInt(this.char.stats.tou) - this.defense();
         // EZ MOAD half damage
-        if (User.settings.easyMode)
+        if (User.settings.easyMode && this.char === User.char)
             damage /= 2;
         if (this.char.statusAffects.has(StatusAffectType.Shielding)) {
             damage -= 30;
@@ -72,7 +90,7 @@ export default class CombatStats extends CharacterHolder {
                 damage = 1;
         }
         // Black cat beer = 25% reduction!
-        if (this.char.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
+        if (this.char.statusAffects.has(StatusAffectType.BlackCatBeer) && this.char.statusAffects.get(StatusAffectType.BlackCatBeer).value1 > 0)
             damage = Math.round(damage * .75);
 
         // Take damage you masochist!
@@ -165,15 +183,14 @@ export default class CombatStats extends CharacterHolder {
 
     public weaponAttack(): number {
         let attack: number = this.char.inventory.equipment.weapon.attack;
-        if (this.char.perks.has(PerkType.WeaponMastery) && this.char.inventory.equipment.weapon.perk === "Large" && this.char.stats.str > 60)
+        if (this.char.perks.has(PerkType.WeaponMastery) && this.char.inventory.equipment.weapon.perks.has("Large") && this.char.stats.str > 60)
             attack *= 2;
-        if (this.char.perks.has(PerkType.LightningStrikes) && this.char.stats.spe >= 60 && this.char.inventory.equipment.weapon.perk !== "Large") {
+        if (this.char.perks.has(PerkType.LightningStrikes) && this.char.stats.spe >= 60 && !this.char.inventory.equipment.weapon.perks.has("Large"))
             attack += Math.round((this.char.stats.spe - 50) / 3);
-        }
         if (this.char.statusAffects.has(StatusAffectType.Berzerking))
             attack += 30;
-
-        attack += this.char.statusAffects.get(StatusAffectType.ChargeWeapon).value1;
+        if (this.char.statusAffects.has(StatusAffectType.ChargeWeapon))
+            attack += this.char.statusAffects.get(StatusAffectType.ChargeWeapon).value1;
         return attack;
     }
 

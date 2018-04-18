@@ -32,18 +32,22 @@ export default class CombatParty {
             if (defender.stats.HP < 1) {
                 attacker.combat.endScenes.claimsVictory(DefeatType.HP, defender);
                 this.defeatLog.push(new DefeatEvent(attacker, defender, DefeatType.HP));
+                this.ableMembers.shift();
             }
             else if (defender.stats.lust > 99) {
                 attacker.combat.endScenes.claimsVictory(DefeatType.Lust, defender);
                 this.defeatLog.push(new DefeatEvent(attacker, defender, DefeatType.Lust));
+                this.ableMembers.shift();
             }
             else if (attacker.combat.endScenes.hasEscaped(defender)) {
                 attacker.combat.endScenes.claimsVictory(DefeatType.Escape, defender);
                 this.defeatLog.push(new DefeatEvent(attacker, defender, DefeatType.Escape));
+                this.ableMembers.shift();
             }
             else if (attacker.combat.endScenes.hasDefeated(defender)) {
                 attacker.combat.endScenes.claimsVictory(DefeatType.Special, defender);
                 this.defeatLog.push(new DefeatEvent(attacker, defender, DefeatType.Special));
+                this.ableMembers.shift();
             }
         }
     }
