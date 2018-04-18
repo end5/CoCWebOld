@@ -7,7 +7,7 @@ import { StatusAffectType } from '../../Effects/StatusAffectType';
 import Scenes from '../../Scenes/Scenes';
 import Character from '../Character';
 
-class PlayerEndScenes extends EndScenes {
+export default class PlayerEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
         return false;
     }

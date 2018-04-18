@@ -15,6 +15,7 @@ export default class Description implements ISerializable<Description> {
 
     public constructor(character: Character, short: string = "", long: string = "", plural: boolean = false, article: string = "a") {
         this.character = character;
+        this.article = article;
         this.defaultShort = short;
         this.otherShort = "";
         this.longDesc = long;

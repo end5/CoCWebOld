@@ -4,12 +4,7 @@ import Player from './Player/Player';
 import Dictionary from '../../Engine/Utilities/Dictionary';
 import Akbal from '../Scenes/Areas/Forest/Akbal';
 import BeeGirl from '../Scenes/Areas/Forest/BeeGirl';
-import Essrayle from '../Scenes/Areas/Forest/Essrayle';
-import Faerie from '../Scenes/Areas/Forest/Faerie';
 import Kitsune from '../Scenes/Areas/Forest/Kitsune';
-import Gargoyle from '../Scenes/Explore/Gargoyle';
-import Giacomo from '../Scenes/Explore/Giacomo';
-import Lumi from '../Scenes/Explore/Lumi';
 
 type CharConstructor = new () => Character;
 export default class CharConstructorLib extends Dictionary<CharConstructor> {

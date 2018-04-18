@@ -1,10 +1,19 @@
 ﻿import PlayerActionPerform from './CombatActions/PlayerActionPerform';
+import PlayerEndScenes from './PlayerEndScenes';
+import { ButtLooseness, ButtWetness } from '../../Body/Butt';
+import { FaceType } from '../../Body/Face';
+import { SkinType } from '../../Body/Skin';
+import { TongueType } from '../../Body/Tongue';
+import CombatContainer from '../../Combat/CombatContainer';
+import DefaultRespond from '../../Combat/Default/DefaultRespond';
+import Armor from '../../Items/Armors/Armor';
+import ArmorName from '../../Items/Armors/ArmorName';
+import ItemFactory from '../../Items/ItemFactory';
+import ItemType from '../../Items/ItemType';
+import Weapon from '../../Items/Weapons/Weapon';
+import WeaponName from '../../Items/Weapons/WeaponName';
 import Character from '../Character';
 import { CharacterType } from '../CharacterType';
-import { SkinType } from '../../Body/Skin';
-import { FaceType } from '../../Body/Face';
-import { TongueType } from '../../Body/Tongue';
-import { ButtLooseness, ButtWetness } from '../../Body/Butt';
 
 export default class Player extends Character {
     public constructor() {
@@ -36,12 +45,12 @@ export default class Player extends Character {
         this.stats.fatigue = 0;
 
         // Inventory
-        // this.inventory.items.unlock(6);
-        // this.inventory.equipment.defaultWeaponSlot.equip(ItemFactory.get(ItemType.Weapon, WeaponName.Fists) as Weapon);
-        // this.inventory.equipment.equippedArmorSlot.equip(ItemFactory.get(ItemType.Armor, ArmorName.ComfortUndercloth) as Armor);
+        this.inventory.items.unlock(6);
+        this.inventory.equipment.defaultWeaponSlot.equip(ItemFactory.get(ItemType.Weapon, WeaponName.Fists) as Weapon);
+        this.inventory.equipment.equippedArmorSlot.equip(ItemFactory.get(ItemType.Armor, ArmorName.ComfortUndercloth) as Armor);
 
         // Combat
-        // this.combatContainer = new CombatContainer(this, new PlayerActionPerform(), undefined, undefined);
+        this.combatContainer = new CombatContainer(this, new PlayerActionPerform(), new DefaultRespond(), new PlayerEndScenes(this));
     }
 
     // Lust vulnerability
