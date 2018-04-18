@@ -15,7 +15,6 @@ import { generateUUID } from '../Utilities/Uuid';
 export default abstract class Character extends Creature implements ISerializable<Character> {
     public charType: CharacterType;
     public readonly inventory: CharacterInventory;
-    public readonly locations: LocationDict;
 
     private UUID: string;
     public get uuid(): string {
@@ -41,7 +40,6 @@ export default abstract class Character extends Creature implements ISerializabl
         if (type !== CharacterType.Player) {
             this.stats.XP = this.totalXP();
         }
-        this.locations = new LocationDict();
     }
 
     public serialize(): string {
@@ -50,7 +48,6 @@ export default abstract class Character extends Creature implements ISerializabl
             UUID: this.UUID,
             inventory: this.inventory.serialize(),
             desc: this.desc.serialize(),
-            locations: DictionarySerializer.serialize(this.locations)
         });
     }
 
@@ -59,7 +56,6 @@ export default abstract class Character extends Creature implements ISerializabl
         this.UUID = saveObject.UUID;
         this.inventory.deserialize(saveObject.inventory);
         this.desc.deserialize(saveObject.desc);
-        DictionarySerializer.deserialize(saveObject.locations, this.locations, Location);
         super.deserialize(saveObject);
     }
 
