@@ -3,12 +3,7 @@ import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import Character from '../../../Character';
 import MagicalActionLib from '../ActionLibs/MagicalActionLib';
 
-export default class MagicalSpecials implements CombatAction {
-    private static magicalLib: MagicalActionLib;
-    public constructor() {
-        if (!MagicalSpecials.magicalLib)
-            MagicalSpecials.magicalLib = new MagicalActionLib();
-    }
+export class MagicalSpecials implements CombatAction {
     public name: string = "M. Specials";
     public reasonCannotUse: string = "";
 
@@ -16,11 +11,11 @@ export default class MagicalSpecials implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.PhysSpec ? true : false;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
-        return true;
+    public canUse(character: Character, target?: Character): boolean {
+        return MagicalActionLib.getPossibleActions(character).length > 0;
     }
 
-    public use(character: Character, monster: Character) {
-        MagicalSpecials.magicalLib.getPossibleActions(character);
+    public use(character: Character, target: Character) {
+        MagicalActionLib.getPossibleActions(character);
     }
 }

@@ -1,9 +1,11 @@
 import DisplayText from '../../../../../Engine/display/DisplayText';
+import MainScreen from '../../../../../Engine/Display/MainScreen';
 import CombatAction from '../../../../Combat/Actions/CombatAction';
+import CombatManager from '../../../../Combat/CombatManager';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import Character from '../../../Character';
 
-export default class Approach implements CombatAction {
+export class Approach implements CombatAction {
     public name: string = "Approach";
     public reasonCannotUse: string = "";
 
@@ -11,13 +13,14 @@ export default class Approach implements CombatAction {
         return true;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
+    public canUse(character: Character, target?: Character): boolean {
         return character.combat.effects.has(CombatEffectType.KnockedBack);
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         DisplayText().clear();
-        DisplayText("You close the distance between you and " + monster.desc.a + monster.desc.short + " as quickly as possible.\n\n");
+        DisplayText("You close the distance between you and " + target.desc.a + target.desc.short + " as quickly as possible.\n\n");
         character.combat.effects.remove(CombatEffectType.KnockedBack);
+        MainScreen.doNext(CombatManager.nextRound);
     }
 }

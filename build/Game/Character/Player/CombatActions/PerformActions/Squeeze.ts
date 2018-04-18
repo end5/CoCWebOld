@@ -2,7 +2,7 @@ import CombatAction from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
 import Character from '../../../Character';
 
-export default class Squeeze implements CombatAction {
+export class Squeeze implements CombatAction {
     public name: string = "Squeeze";
     public reasonCannotUse: string = "";
 
@@ -10,11 +10,11 @@ export default class Squeeze implements CombatAction {
         return true;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
-        return monster.statusAffects.has(StatusAffectType.Constricted);
+    public canUse(character: Character, target?: Character): boolean {
+        return target !== undefined && target.statusAffects.has(StatusAffectType.Constricted);
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         // Scenes.desert.nagaScene.naggaSqueeze();
     }
 }

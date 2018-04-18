@@ -3,7 +3,7 @@ import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import Menus from '../../../../Menus/Menus';
 import Character from '../../../Character';
 
-export default class Items implements CombatAction {
+export class Items implements CombatAction {
     public name: string = "Items";
     public reasonCannotUse: string = "";
 
@@ -11,11 +11,11 @@ export default class Items implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Items ? true : false;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
+    public canUse(character: Character, target?: Character): boolean {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         Menus.Inventory(character);
     }
 }

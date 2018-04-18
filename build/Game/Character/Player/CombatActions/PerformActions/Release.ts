@@ -2,7 +2,7 @@ import CombatAction from '../../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import Character from '../../../Character';
 
-export default class Release implements CombatAction {
+export class Release implements CombatAction {
     public name: string = "Release";
     public reasonCannotUse: string = "";
 
@@ -10,11 +10,11 @@ export default class Release implements CombatAction {
         return true;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
-        return monster.combat.effects.has(CombatEffectType.Constricted);
+    public canUse(character: Character, target?: Character): boolean {
+        return target !== undefined && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         // Scenes.desert.nagaScene.nagaLeggoMyEggo();
     }
 }

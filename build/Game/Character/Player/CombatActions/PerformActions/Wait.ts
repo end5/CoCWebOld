@@ -1,11 +1,13 @@
 import DisplayText from '../../../../../Engine/display/DisplayText';
+import MainScreen from '../../../../../Engine/Display/MainScreen';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import CombatAction from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
+import Menus from '../../../../Menus/Menus';
 import Character from '../../../Character';
 
-export default class Wait implements CombatAction {
+export class Wait implements CombatAction {
     public name: string = "Wait";
     public reasonCannotUse: string = "";
 
@@ -13,13 +15,13 @@ export default class Wait implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Wait ? true : false;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
+    public canUse(character: Character, target?: Character): boolean {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         // Gain fatigue if not fighting sand tarps
-        if (!monster.combat.effects.has(CombatEffectType.Level))
+        if (!target.combat.effects.has(CombatEffectType.Level))
             character.stats.fatigue += -5;
         // Flags.list[FlagEnum.IN_COMBAT_USE_PLAYER_WAITED_FLAG] = 1;
         // if (monster.combat.effects.has(CombatEffectType.MinotaurEntangled)) {
@@ -110,7 +112,7 @@ export default class Wait implements CombatAction {
         // else {
         DisplayText().clear();
         DisplayText("You decide not to take any action this round.\n\n");
-        return;
+        MainScreen.doNext(Menus.Combat);
         // }
     }
 }

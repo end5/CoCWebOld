@@ -2,7 +2,7 @@ import CombatActionLib from '../../../../Combat/CombatActionLib';
 import LearnedSpellAction from '../LearnedSpellAction';
 import * as Spells from '../Spells';
 
-export default class SpellActionLib extends CombatActionLib<LearnedSpellAction> {
+class SpellActionLib extends CombatActionLib<LearnedSpellAction> {
     public constructor() {
         super();
         this.list.push(new Spells.Arouse());
@@ -14,3 +14,6 @@ export default class SpellActionLib extends CombatActionLib<LearnedSpellAction> 
         this.list.push(new Spells.Whitefire());
     }
 }
+
+const spellActionLib = new SpellActionLib();
+export default spellActionLib as SpellActionLib;

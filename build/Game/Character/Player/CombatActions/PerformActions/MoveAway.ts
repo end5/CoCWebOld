@@ -2,8 +2,7 @@ import CombatAction from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import Character from '../../../Character';
 
-export default class MoveAway implements CombatAction {
-    private selectedAction: CombatAction;
+export class MoveAway implements CombatAction {
     public name: string = "MoveAway";
     public reasonCannotUse: string = "";
 
@@ -11,24 +10,32 @@ export default class MoveAway implements CombatAction {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.MoveAway ? true : false;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
+    public canUse(character: Character, target?: Character): boolean {
         const performActions = character.combat.perform;
-        if (performActions.climb.canUse(character, monster)) {
-            this.name = performActions.climb.name;
-            this.selectedAction = performActions.climb;
-        }
-        else if (performActions.release.canUse(character, monster)) {
-            this.name = performActions.release.name;
-            this.selectedAction = performActions.release;
+        if (target !== undefined) {
+            if (performActions.climb.canUse(character, target)) {
+                this.name = performActions.climb.name;
+            }
+            else if (performActions.release.canUse(character, target)) {
+                this.name = performActions.release.name;
+            }
         }
         else {
             this.name = performActions.run.name;
-            this.selectedAction = performActions.run;
         }
         return true;
     }
 
-    public use(character: Character, monster: Character) {
-        this.selectedAction.use(character, monster);
+    public use(character: Character, target: Character) {
+        const performActions = character.combat.perform;
+        if (performActions.climb.canUse(character, target)) {
+            performActions.climb.use(character, target);
+        }
+        else if (performActions.release.canUse(character, target)) {
+            performActions.release.use(character, target);
+        }
+        else {
+            performActions.run.use(character, target);
+        }
     }
 }

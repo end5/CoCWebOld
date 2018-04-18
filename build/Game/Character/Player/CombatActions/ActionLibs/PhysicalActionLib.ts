@@ -2,7 +2,7 @@ import CombatAction from '../../../../Combat/Actions/CombatAction';
 import CombatActionLib from '../../../../Combat/CombatActionLib';
 import * as PhysicalAttack from '../PhysicalAttacks';
 
-export default class PhysicalActionLib extends CombatActionLib<CombatAction> {
+class PhysicalActionLib extends CombatActionLib<CombatAction> {
     public constructor() {
         super();
         this.list.push(new PhysicalAttack.AnemoneSting());
@@ -20,3 +20,6 @@ export default class PhysicalActionLib extends CombatActionLib<CombatAction> {
         this.list.push(new PhysicalAttack.TailWhip());
     }
 }
+
+const physicalActionLib = new PhysicalActionLib();
+export default physicalActionLib as PhysicalActionLib;

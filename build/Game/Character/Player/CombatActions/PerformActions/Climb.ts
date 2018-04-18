@@ -2,7 +2,7 @@ import CombatAction from '../../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import Character from '../../../Character';
 
-export default class Climb implements CombatAction {
+export class Climb implements CombatAction {
     public name: string = "Climb";
     public reasonCannotUse: string = "";
 
@@ -10,11 +10,11 @@ export default class Climb implements CombatAction {
         return true;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
-        return monster.combat.effects.has(CombatEffectType.Level);
+    public canUse(character: Character, target?: Character): boolean {
+        return target !== undefined && target.combat.effects.has(CombatEffectType.Level);
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         // if (monster.combat.effects.has(CombatEffectType.Level)) {
         //     (monster as Sandtrap).sandTrapWait();
         // }

@@ -6,7 +6,7 @@ import { StatusAffectType } from '../../../../Effects/StatusAffectType';
 import { numToCardinalText } from '../../../../Utilities/NumToText';
 import Character from '../../../Character';
 
-export default class Struggle implements CombatAction {
+export class Struggle implements CombatAction {
     public name: string = "Struggle";
     public reasonCannotUse: string = "";
 
@@ -14,11 +14,11 @@ export default class Struggle implements CombatAction {
         return true;
     }
 
-    public canUse(character: Character, monster: Character): boolean {
-        return true;
+    public canUse(character: Character, target?: Character): boolean {
+        return false;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, target: Character) {
         // if (monster.statusAffects.has(StatusAffectType.MinotaurEntangled)) {
         //     DisplayText().clear();
         //     if (character.stats.str / 9 + randInt(20) + 1 >= 15) {
