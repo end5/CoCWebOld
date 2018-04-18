@@ -23,7 +23,7 @@ import Menus from '../Menus';
 //         player.stats.level--;
 //     }
 //     Flags[FlagEnum.NEW_GAME_PLUS_BONUS_STORED_ITEMS] = player.inventory.gems;
-//     this.display();
+//     display();
 // }
 
 export default function display() {
@@ -36,9 +36,9 @@ export default function display() {
     const newPlayer = new Player();
     User.char = newPlayer;
 
-    this.clearEverything();
+    clearEverything();
 
-    this.enterName(newPlayer);
+    enterName(newPlayer);
 }
 
 function clearEverything() {
@@ -54,41 +54,41 @@ function enterName(player: Player) {
     DisplayText().appendElement(nameField);
 
     MainScreen.hideBottomButtons();
-    MainScreen.displayChoices(["OK"], [() => { this.chooseName(player, nameField); }]);
+    MainScreen.displayChoices(["OK"], [() => { chooseName(player, nameField); }]);
 }
 
 function chooseName(player: Player, nameField: InputTextElement) {
     if (nameField.text === "") {
-        this.enterName(player);
+        enterName(player);
         DisplayText("\n\n\n<b>You must select a name.</b>");
         return;
     }
     player.desc.name = nameField.text;
     DisplayText().clear();
-    if (this.customName(player.desc.name) !== undefined) {
+    if (customName(player.desc.name) !== undefined) {
         DisplayText("This name, like you, is special.  Do you live up to your name or continue on, assuming it to be coincidence?");
-        MainScreen.displayChoices(["SpecialName", "Continue On"], [this.useCustomProfile, this.noCustomProfile]);
+        MainScreen.displayChoices(["SpecialName", "Continue On"], [useCustomProfile, noCustomProfile]);
     }
     else { // Proceed with normal character creation
         DisplayText("\n\n\n\nAre you a man or a woman?");
-        MainScreen.displayChoices(["Man", "Woman"], [this.isAMan, this.isAWoman]);
+        MainScreen.displayChoices(["Man", "Woman"], [isAMan, isAWoman]);
     }
 }
 
 function useCustomProfile(player: Player) {
     DisplayText().clear();
-    if (this.customNameWithHistory(player.desc.name) !== undefined) {
+    if (customNameWithHistory(player.desc.name) !== undefined) {
         DisplayText().clear();
         DisplayText("Your name defines everything about you, and as such, it is time to wake...\n\n");
         // Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 1;
-        this.completeCharacterCreation(player);
+        completeCharacterCreation(player);
     }
     else {
-        this.chooseHistory();
+        chooseHistory();
         /*
         DisplayText("There is something different about you, but first, what is your basic gender?  An individual such as you may later overcome this, of course...");
         DisplayText("\n\n\n\nAre you a man or a woman?");
-        MainScreen.displayChoices(["Man", "Woman"], [this.isAMan, this.isAWoman]);
+        MainScreen.displayChoices(["Man", "Woman"], [isAMan, isAWoman]);
         */
     }
 }
@@ -96,7 +96,7 @@ function useCustomProfile(player: Player) {
 function noCustomProfile() {
     DisplayText().clear();
     DisplayText("Your name carries little significance beyond it being your name.  What is your gender?");
-    MainScreen.displayChoices(["Man", "Woman"], [this.isAMan, this.isAWoman]);
+    MainScreen.displayChoices(["Man", "Woman"], [isAMan, isAWoman]);
 }
 
 // Determines if has character creation bonuses
@@ -115,7 +115,7 @@ function customName(arg: string): (player: Player) => void {
         // case "Rope": return Custom.Rope;
         // case "Sora": return Custom.Sora;
         default:
-            return this.customNameWithHistory(arg); // Must check against the special name list as well
+            return customNameWithHistory(arg); // Must check against the special name list as well
     }
 }
 
@@ -166,7 +166,7 @@ function isAMan(player: Player) {
     player.gender = Gender.MALE;
     DisplayText().clear();
     DisplayText("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
-    MainScreen.displayChoices(["Lean", "Average", "Thick", "Girly"], [this.buildLeanMale, this.buildAverageMale, this.buildThickMale, this.buildGirlyMale]);
+    MainScreen.displayChoices(["Lean", "Average", "Thick", "Girly"], [buildLeanMale, buildAverageMale, buildThickMale, buildGirlyMale]);
 }
 
 function isAWoman(player: Player) {
@@ -186,7 +186,7 @@ function isAWoman(player: Player) {
     player.gender = Gender.FEMALE;
     DisplayText().clear();
     DisplayText("You are a woman.  Your upbringing has provided you an advantage in speed and intellect.\n\nWhat type of build do you have?");
-    MainScreen.displayChoices(["Slender", "Average", "Curvy", "Tomboyish"], [this.buildSlenderFemale, this.buildAverageFemale, this.buildCurvyFemale, this.buildTomboyishFemale]);
+    MainScreen.displayChoices(["Slender", "Average", "Curvy", "Tomboyish"], [buildSlenderFemale, buildAverageFemale, buildCurvyFemale, buildTomboyishFemale]);
 }
 
 function buildLeanMale(player: Player) {
@@ -200,7 +200,7 @@ function buildLeanMale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.FLAT;
     player.torso.butt.rating = ButtRating.TIGHT;
     player.torso.hips.rating = HipRating.SLENDER;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildSlenderFemale(player: Player) {
@@ -214,7 +214,7 @@ function buildSlenderFemale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.B;
     player.torso.butt.rating = ButtRating.TIGHT;
     player.torso.hips.rating = HipRating.AMPLE;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildAverageMale(player: Player) {
@@ -224,7 +224,7 @@ function buildAverageMale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.FLAT;
     player.torso.butt.rating = ButtRating.AVERAGE;
     player.torso.hips.rating = HipRating.AVERAGE;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildAverageFemale(player: Player) {
@@ -234,7 +234,7 @@ function buildAverageFemale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.C;
     player.torso.butt.rating = ButtRating.NOTICEABLE;
     player.torso.hips.rating = HipRating.AMPLE;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildThickMale(player: Player) {
@@ -249,7 +249,7 @@ function buildThickMale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.FLAT;
     player.torso.butt.rating = ButtRating.NOTICEABLE;
     player.torso.hips.rating = HipRating.AVERAGE;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildCurvyFemale(player: Player) {
@@ -263,7 +263,7 @@ function buildCurvyFemale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.D;
     player.torso.butt.rating = ButtRating.LARGE;
     player.torso.hips.rating = HipRating.CURVY;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildGirlyMale(player: Player) {
@@ -277,7 +277,7 @@ function buildGirlyMale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.A;
     player.torso.butt.rating = ButtRating.NOTICEABLE;
     player.torso.hips.rating = HipRating.SLENDER;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function buildTomboyishFemale(player: Player) {
@@ -291,17 +291,17 @@ function buildTomboyishFemale(player: Player) {
     player.torso.chest.get(0).rating = BreastCup.A;
     player.torso.butt.rating = ButtRating.TIGHT;
     player.torso.hips.rating = HipRating.SLENDER;
-    this.chooseComplexion();
+    chooseComplexion();
 }
 
 function chooseComplexion() {
     DisplayText().clear();
     DisplayText("What is your complexion?");
     MainScreen.displayChoices(["Light", "Olive", "Dark", "Ebony"], [
-        (player: Player) => { this.setComplexion(player, "light"); },
-        (player: Player) => { this.setComplexion(player, "olive"); },
-        (player: Player) => { this.setComplexion(player, "dark"); },
-        (player: Player) => { this.setComplexion(player, "ebony"); }
+        (player: Player) => { setComplexion(player, "light"); },
+        (player: Player) => { setComplexion(player, "olive"); },
+        (player: Player) => { setComplexion(player, "dark"); },
+        (player: Player) => { setComplexion(player, "ebony"); }
     ]);
 }
 
@@ -310,13 +310,13 @@ function setComplexion(player: Player, choice: string) { // And choose hair
     DisplayText().clear();
     DisplayText("You selected a " + choice + " complexion.\n\nWhat color is your hair?");
     MainScreen.displayChoices(["Blonde", "Brown", "Black", "Red", "Gray", "White", "Auburn"], [
-        () => { this.setHair(player, "blonde"); },
-        () => { this.setHair(player, "brown"); },
-        () => { this.setHair(player, "black"); },
-        () => { this.setHair(player, "red"); },
-        () => { this.setHair(player, "gray"); },
-        () => { this.setHair(player, "white"); },
-        () => { this.setHair(player, "auburn"); }
+        () => { setHair(player, "blonde"); },
+        () => { setHair(player, "brown"); },
+        () => { setHair(player, "black"); },
+        () => { setHair(player, "red"); },
+        () => { setHair(player, "gray"); },
+        () => { setHair(player, "white"); },
+        () => { setHair(player, "auburn"); }
     ]);
 }
 
@@ -324,7 +324,7 @@ function setHair(player: Player, choice: string) {
     player.torso.neck.head.hair.color = choice;
     DisplayText().clear();
     DisplayText("You have " + HeadDescriptor.describeHair(player) + ".");
-    MainScreen.doNext(this.chooseEndowment);
+    MainScreen.doNext(chooseEndowment);
 }
 
 function chooseEndowment(player: Player) {
@@ -332,20 +332,20 @@ function chooseEndowment(player: Player) {
     DisplayText("Every person is born with a gift.  What's yours?");
     const text = ["Strength", "Toughness", "Speed", "Smarts", "Libido", "Touch"];
     const func = [
-        this.confirmEndowmentStrength,
-        this.confirmEndowmentThoughness,
-        this.confirmEndowmentSpeed,
-        this.confirmEndowmentSmarts,
-        this.confirmEndowmentLibido,
-        this.confirmEndowmentTouch
+        confirmEndowmentStrength,
+        confirmEndowmentThoughness,
+        confirmEndowmentSpeed,
+        confirmEndowmentSmarts,
+        confirmEndowmentLibido,
+        confirmEndowmentTouch
     ];
     if (player.torso.cocks.count > 0) {
         text.push("Big Cock", "Lots of Jizz");
-        func.push(this.confirmEndowmentBigCock, this.confirmEndowmentMessyOrgasms);
+        func.push(confirmEndowmentBigCock, confirmEndowmentMessyOrgasms);
     }
     else {
         text.push("Big Breasts", "Big Clit", "Fertile", "Wet Vagina");
-        func.push(this.confirmEndowmentBigBreasts, this.confirmEndowmentBigClit, this.confirmEndowmentFertile, this.confirmEndowmentWetVagina);
+        func.push(confirmEndowmentBigBreasts, confirmEndowmentBigClit, confirmEndowmentFertile, confirmEndowmentWetVagina);
     }
     MainScreen.displayChoices(text, func);
 }
@@ -353,73 +353,73 @@ function chooseEndowment(player: Player) {
 function confirmEndowmentStrength() {
     DisplayText().clear();
     DisplayText("Are you stronger than normal? (+5 Strength)\n\nStrength increases your combat damage, and your ability to hold on to an enemy or pull yourself away.");
-    MainScreen.doYesNo(this.setEndowmentStrength, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentStrength, chooseEndowment);
 }
 
 function confirmEndowmentThoughness() {
     DisplayText().clear();
     DisplayText("Are you unusually tough? (+5 Toughness)\n\nToughness gives you more HP and increases the chances an attack against you will fail to wound you.");
-    MainScreen.doYesNo(this.setEndowmentToughness, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentToughness, chooseEndowment);
 }
 
 function confirmEndowmentSpeed() {
     DisplayText().clear();
     DisplayText("Are you very quick?  (+5 Speed)\n\nSpeed makes it easier to escape combat and grapples.  It also boosts your chances of evading an enemy attack and successfully catching up to enemies who try to run.");
-    MainScreen.doYesNo(this.setEndowmentSpeed, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentSpeed, chooseEndowment);
 }
 
 function confirmEndowmentSmarts() {
     DisplayText().clear();
     DisplayText("Are you a quick learner?  (+5 Intellect)\n\nIntellect can help you avoid dangerous monsters or work with machinery.  It will also boost the power of any spells you may learn in your travels.");
-    MainScreen.doYesNo(this.setEndowmentSmarts, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentSmarts, chooseEndowment);
 }
 
 function confirmEndowmentLibido() {
     DisplayText().clear();
     DisplayText("Do you have an unusually high sex-drive?  (+5 Libido)\n\nLibido affects how quickly your lust builds over time.  You may find a high libido to be more trouble than it's worth...");
-    MainScreen.doYesNo(this.setEndowmentLibido, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentLibido, chooseEndowment);
 }
 
 function confirmEndowmentTouch() {
     DisplayText().clear();
     DisplayText("Is your skin unusually sensitive?  (+5 Sensitivity)\n\nSensitivity affects how easily touches and certain magics will raise your lust.  Very low sensitivity will make it difficult to orgasm.");
-    MainScreen.doYesNo(this.setEndowmentTouch, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentTouch, chooseEndowment);
 }
 
 function confirmEndowmentBigCock() {
     DisplayText().clear();
     DisplayText("Do you have a big cock?  (+2\" Cock Length)\n\nA bigger cock will make it easier to get off any sexual partners, but only if they can take your size.");
-    MainScreen.doYesNo(this.setEndowmentBigCock, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentBigCock, chooseEndowment);
 }
 
 function confirmEndowmentMessyOrgasms() {
     DisplayText().clear();
     DisplayText("Are your orgasms particularly messy?  (+50% Cum Multiplier)\n\nA higher cum multiplier will cause your orgasms to be messier.");
-    MainScreen.doYesNo(this.setEndowmentMessyOrgasms, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentMessyOrgasms, chooseEndowment);
 }
 
 function confirmEndowmentBigBreasts() {
     DisplayText().clear();
     DisplayText("Are your breasts bigger than average? (DD cups)\n\nLarger breasts will allow you to lactate greater amounts, tit-fuck larger cocks, and generally be a sexy bitch.");
-    MainScreen.doYesNo(this.setEndowmentBigBreasts, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentBigBreasts, chooseEndowment);
 }
 
 function confirmEndowmentBigClit() {
     DisplayText().clear();
     DisplayText("Do you have a big clit?  (1\" Long)\n\nA large enough clit may eventually become as large as a cock.  It also makes you gain lust much faster during oral or manual stimulation.");
-    MainScreen.doYesNo(this.setEndowmentBigClit, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentBigClit, chooseEndowment);
 }
 
 function confirmEndowmentFertile() {
     DisplayText().clear();
     DisplayText("Is your family particularly fertile?  (+15% Fertility)\n\nA high fertility will cause you to become pregnant much more easily.  Pregnancy may result in: Strange children, larger bust, larger hips, a bigger ass, and other weirdness.");
-    MainScreen.doYesNo(this.setEndowmentFertile, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentFertile, chooseEndowment);
 }
 
 function confirmEndowmentWetVagina() {
     DisplayText().clear();
     DisplayText("Does your pussy get particularly wet?  (+1 Vaginal Wetness)\n\nVaginal wetness will make it easier to take larger cocks, in turn helping you bring the well-endowed to orgasm quicker.");
-    MainScreen.doYesNo(this.setEndowmentWetVagina, this.chooseEndowment);
+    MainScreen.doYesNo(setEndowmentWetVagina, chooseEndowment);
 }
 
 function setEndowmentStrength(player: Player) {
@@ -428,7 +428,7 @@ function setEndowmentStrength(player: Player) {
     player.thickness += 3;
     // Add bonus +25% strength gain
     player.perks.add(PerkType.Strong, 0.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentToughness(player: Player) {
@@ -437,33 +437,33 @@ function setEndowmentToughness(player: Player) {
     player.thickness += 5;
     player.perks.add(PerkType.Tough, 0.25, 0, 0, 0);
     player.stats.HP = player.stats.maxHP();
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentSpeed(player: Player) {
     player.stats.spe += 5;
     player.tone += 10;
     player.perks.add(PerkType.Fast, 0.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentSmarts(player: Player) {
     player.stats.int += 5;
     player.thickness -= 5;
     player.perks.add(PerkType.Smart, 0.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentLibido(player: Player) {
     player.stats.lib += 5;
     player.perks.add(PerkType.Lusty, 0.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentTouch(player: Player) {
     player.stats.sens += 5;
     player.perks.add(PerkType.Sensitive, 0.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentBigCock(player: Player) {
@@ -471,28 +471,28 @@ function setEndowmentBigCock(player: Player) {
     player.torso.cocks.get(0).length = 8;
     player.torso.cocks.get(0).thickness = 1.5;
     player.perks.add(PerkType.BigCock, 1.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentMessyOrgasms(player: Player) {
     player.femininity -= 2;
     player.cumMultiplier = 1.5;
     player.perks.add(PerkType.MessyOrgasms, 1.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentBigBreasts(player: Player) {
     player.femininity += 5;
     player.torso.chest.get(0).rating += 2;
     player.perks.add(PerkType.BigTits, 1.5, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentBigClit(player: Player) {
     player.femininity -= 5;
     player.torso.clit.length = 1;
     player.perks.add(PerkType.BigClit, 1.25, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentFertile(player: Player) {
@@ -500,14 +500,14 @@ function setEndowmentFertile(player: Player) {
     player.fertility += 25;
     player.torso.hips.rating += 2;
     player.perks.add(PerkType.Fertile, 1.5, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function setEndowmentWetVagina(player: Player) {
     player.femininity += 7;
     player.torso.vaginas.get(0).wetness = VaginaWetness.WET;
     player.perks.add(PerkType.WetPussy, 2, 0, 0, 0);
-    this.chooseHistory();
+    chooseHistory();
 }
 
 function chooseHistory() {
@@ -516,15 +516,15 @@ function chooseHistory() {
     MainScreen.displayChoices(
         ["Alchemy", "Fighting", "Healing", "Religion", "Schooling", "Slacking", "Slutting", "Smithing", "Whoring"],
         [
-            () => { this.confirmHistory(PerkType.HistoryAlchemist); },
-            () => { this.confirmHistory(PerkType.HistoryFighter); },
-            () => { this.confirmHistory(PerkType.HistoryHealer); },
-            () => { this.confirmHistory(PerkType.HistoryReligious); },
-            () => { this.confirmHistory(PerkType.HistoryScholar); },
-            () => { this.confirmHistory(PerkType.HistorySlacker); },
-            () => { this.confirmHistory(PerkType.HistorySlut); },
-            () => { this.confirmHistory(PerkType.HistorySmith); },
-            () => { this.confirmHistory(PerkType.HistoryWhore); }
+            () => { confirmHistory(PerkType.HistoryAlchemist); },
+            () => { confirmHistory(PerkType.HistoryFighter); },
+            () => { confirmHistory(PerkType.HistoryHealer); },
+            () => { confirmHistory(PerkType.HistoryReligious); },
+            () => { confirmHistory(PerkType.HistoryScholar); },
+            () => { confirmHistory(PerkType.HistorySlacker); },
+            () => { confirmHistory(PerkType.HistorySlut); },
+            () => { confirmHistory(PerkType.HistorySmith); },
+            () => { confirmHistory(PerkType.HistoryWhore); }
         ]);
 }
 
@@ -558,7 +558,7 @@ function confirmHistory(choice: PerkType) {
         default:
             DisplayText("You managed to find work as a whore.  Because of your time spent trading seduction for profit, you're more effective at teasing (+15% tease damage).  Is this your history?");
     }
-    MainScreen.doYesNo((player: Player) => { this.setHistory(player, choice); }, this.chooseHistory);
+    MainScreen.doYesNo((player: Player) => { setHistory(player, choice); }, chooseHistory);
 }
 
 function setHistory(player: Player, choice: PerkType) {
@@ -570,16 +570,16 @@ function setHistory(player: Player, choice: PerkType) {
         }
         player.torso.butt.looseness = 1;
     }
-    this.completeCharacterCreation(player);
+    completeCharacterCreation(player);
 }
 
 function completeCharacterCreation(player: Player, customProile?: (player: Player) => void) {
     if (customProile !== undefined) {
         customProile(player);
-        MainScreen.doNext(this.arrival);
+        MainScreen.doNext(arrival);
         return;
     }
-    this.arrival(player);
+    arrival(player);
 }
 
 function arrival(player: Player) {
@@ -595,7 +595,7 @@ function arrival(player: Player) {
     DisplayText("You were warned of this and press forward, ignoring your body's growing needs.  A glowing purple-pink portal swirls and flares with demonic light along the back wall.  Cringing, you press forward, keenly aware that your body seems to be anticipating coming in contact with the tainted magical construct.  Closing your eyes, you gather your resolve and leap forwards.  Vertigo overwhelms you and you black out...");
     MainScreen.getStatsPanel().show();
     player.stats.lust += 15;
-    MainScreen.doNext(this.arrivalPartTwo);
+    MainScreen.doNext(arrivalPartTwo);
 }
 
 function arrivalPartTwo(player: Player) {
@@ -609,7 +609,7 @@ function arrivalPartTwo(player: Player) {
     else
         DisplayText("the urge to ram your cock down his throat.  The strangeness of the thought surprises you.\n\n");
     DisplayText("The imp says, \"<i>I'm amazed you aren't already chasing down my cock, human.  The last Champion was an eager whore for me by the time she woke up.  This lust draft made sure of it.</i>\"");
-    MainScreen.doNext(this.arrivalPartThree);
+    MainScreen.doNext(arrivalPartThree);
 }
 
 function arrivalPartThree(player: Player) {
@@ -618,7 +618,7 @@ function arrivalPartThree(player: Player) {
     DisplayText("The imp shakes the empty vial to emphasize his point.  You reel in shock at this revelation - you've just entered the demon realm and you've already been drugged!  You tremble with the aching need in your groin, but resist, righteous anger lending you strength.\n\nIn desperation you leap towards the imp, watching with glee as his cocky smile changes to an expression of sheer terror.  The smaller creature is no match for your brute strength as you pummel him mercilessly.  You pick up the diminutive demon and punt him into the air, frowning grimly as he spreads his wings and begins speeding into the distance.\n\n");
     DisplayText("The imp says, \"<i>FOOL!  You could have had pleasure unending... but should we ever cross paths again you will regret humiliating me!  Remember the name Zetaz, as you'll soon face the wrath of my master!</i>\"\n\n");
     DisplayText("Your pleasure at defeating the demon ebbs as you consider how you've already been defiled.  You swear to yourself you will find the demon responsible for doing this to you and the other Champions, and destroy him AND his pet imp.");
-    MainScreen.doNext(this.arrivalPartFour);
+    MainScreen.doNext(arrivalPartFour);
 }
 
 function arrivalPartFour() {

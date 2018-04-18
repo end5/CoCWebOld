@@ -153,6 +153,12 @@ body {
     overflow-y: auto;
 }
 
+#mainSpriteDisplay {
+    position: absolute;
+    top: 91%;
+    left: 8%;
+}
+
 #bottomRowButtons {
     position: absolute;
     bottom: 5%;

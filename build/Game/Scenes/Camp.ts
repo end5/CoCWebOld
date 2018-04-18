@@ -6,7 +6,6 @@ import ImageName from '../../Engine/Display/Images/ImageName';
 import SpriteName from '../../Engine/Display/Images/SpriteName';
 import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
 import SaveManager from '../../Engine/Save/SaveManager';
-import BreastRow from '../Body/BreastRow';
 import Character from '../Character/Character';
 import PlayerFlags from '../Character/Player/PlayerFlags';
 import { PerkType } from '../Effects/PerkType';
@@ -27,30 +26,24 @@ export function returnToCamp(timeUsed: number): void {
     Scenes.endDay.goNext(timeUsed, false);
 }
 
-export function returnToCampUseOneHour(): void { this.returnToCamp(1); } // Replacement for event number 13;
+export function returnToCampUseOneHour(): void { returnToCamp(1); } // Replacement for event number 13;
 
-export function returnToCampUseTwoHours(): void { this.returnToCamp(2); } // Replacement for event number 14;
+export function returnToCampUseTwoHours(): void { returnToCamp(2); } // Replacement for event number 14;
 
-export function returnToCampUseFourHours(): void { this.returnToCamp(4); } // Replacement for event number 15;
+export function returnToCampUseFourHours(): void { returnToCamp(4); } // Replacement for event number 15;
 
-export function returnToCampUseEightHours(): void { this.returnToCamp(8); } // Replacement for event number 16;
+export function returnToCampUseEightHours(): void { returnToCamp(8); } // Replacement for event number 16;
 
-//  SLEEP_WITH: number = 701;
-
-export function doCamp(character: Character): void { // Only called by characterMenu
-    // trace("Current fertility: " + character.totalFertility());
-    MainScreen.getTopButton(TopButton.MainMenu).show();
-}
-
-export function displayMenu(character: Character) {
+export function display(character: Character) {
     MainScreen.showTopButtons();
+    DisplaySprite(SpriteName.None);
 
     // Level junk
     if (character.stats.XP >= (character.stats.level) * 100 || character.stats.perkPoints > 0) {
         if (character.stats.XP < character.stats.level * 100)
-            MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", Menus.PerkUp);
+            MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", () => Menus.PerkUp(User.char));
         else
-            MainScreen.getTopButton(TopButton.PerkUp).modify("Level Up", Menus.LevelUp);
+            MainScreen.getTopButton(TopButton.PerkUp).modify("Level Up", () => Menus.LevelUp(User.char));
         MainScreen.getLevelUpIcon().show();
     }
     else {
@@ -58,7 +51,7 @@ export function displayMenu(character: Character) {
         MainScreen.getLevelUpIcon().hide();
     }
     // Build main menu
-    let exploreEvent = Scenes.exploration;
+    let exploreEvent = Scenes.exploration.display;
     const masturbate = (character.stats.lust > 30 ? Scenes.masturbation : null);
     DisplayText().clear();
 
@@ -89,14 +82,14 @@ export function displayMenu(character: Character) {
     }
     let baitText: string = "Masturbate";
     if (((character.perks.has(PerkType.HistoryReligious) && character.stats.cor <= 66) || (character.perks.has(PerkType.Enlightened) && character.stats.cor < 10)) && !(character.statusAffects.has(StatusAffectType.Exgartuan) && character.statusAffects.get(StatusAffectType.Exgartuan).value2 === 0)) baitText = "Meditate";
-    let restEvent = this.doWait;
+    let restEvent = doWait;
     let restName: string = "Wait";
     // Set up rest stuff
     // Night
     if (Time.hour < 6 || Time.hour > 20) {
         DisplayText("It is dark out, made worse by the lack of stars in the sky.  A blood-red moon hangs in the sky, seeming to watch you, but providing little light.  It's far too dark to leave camp.\n");
         restName = "Sleep";
-        restEvent = this.doSleep;
+        restEvent = doSleep;
         exploreEvent = null;
     }
     // Day Time!
@@ -104,20 +97,20 @@ export function displayMenu(character: Character) {
         DisplayText("It's light outside, a good time to explore and forage for supplies with which to fortify your camp.\n");
         if (character.stats.fatigue > 40 || character.stats.HP / character.stats.maxHP() <= .9) {
             restName = "Rest";
-            restEvent = this.rest;
+            restEvent = rest;
         }
     }
     // Menu
-    MainScreen.displayChoices(["Explore", "Places", "Invetory", "Stash", "Followers", "Lovers", "Slaves", "", baitText, restName],
-        [exploreEvent, undefined, Menus.Inventory, undefined, undefined, undefined, undefined, undefined, masturbate, restEvent]);
+    MainScreen.displayChoices(["Explore", "Places", "Inventory", "Stash", "Followers", "Lovers", "Slaves", "", baitText, restName],
+        [exploreEvent, undefined, Menus.Inventory, undefined, undefined, undefined, undefined, undefined, Scenes.masturbation.display, restEvent]);
 }
 
 export function hasCompanions(): boolean {
-    return this.companionsCount() > 0;
+    return companionsCount() > 0;
 }
 
 export function companionsCount(): number {
-    return this.followersCount() + this.slavesCount() + this.loversCount();
+    return followersCount() + slavesCount() + loversCount();
 }
 
 export function followersCount(): number {
@@ -210,7 +203,7 @@ export function doSleep(character: Character): void {
             User.save();
         }
         DisplayText().clear();
-        this.displaySleepRecovery(character, time);
+        displaySleepRecovery(character, time);
     }
     else {
         DisplayText().clear();
@@ -239,7 +232,7 @@ export function sleepWrapper(character: Character): void {
     DisplayText().clear();
     if (time !== 1) DisplayText("You lie down to resume sleeping for the remaining " + NumToText.numToCardinalText(time) + " hour.\n");
     else DisplayText("You lie down to resume sleeping for the remaining hour.\n");
-    this.displaySleepRecovery(character, time);
+    displaySleepRecovery(character, time);
     Scenes.endDay.goNext(time, true);
 }
 

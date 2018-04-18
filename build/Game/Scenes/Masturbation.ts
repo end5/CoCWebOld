@@ -12,7 +12,7 @@ import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import Menus from '../Menus/Menus';
 
-export default function display(player: Character): void {
+export function display(player: Character) {
     if (player.torso.cocks.count > 0 && (player.torso.cocks.get(0).type === CockType.BEE)) {
         DisplayText().clear();
         DisplayText("Although your bee cock aches you know that there's no way for you to get relief on your own.  When you touch your shaft or think about cumming images of the bee girl and the sound of her hypnotic buzzing fill your mind.");

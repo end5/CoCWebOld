@@ -1,14 +1,15 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
+import { WeaponPerkType } from './WeaponPerk';
 import DisplayText from '../../../Engine/display/DisplayText';
 import Character from '../../Character/Character';
 import PlayerFlags from '../../Character/Player/PlayerFlags';
 import User from '../../User';
 import ItemDesc from '../ItemDesc';
 
-export default class DragonShellShield extends Weapon {
+export class DragonShellShield extends Weapon {
     public constructor() {
-        super(WeaponName.DragonShellShield, new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, "Large");
+        super(WeaponName.DragonShellShield, new ItemDesc("DrgnShl", "a dragon-shell shield", "A durable shield that has been forged from the remains of the dragon egg you found in the swamp.  Absorbs any fluid attacks you can catch, rendering them useless."), "dragon-shell shield", "smack", 0, 1500, [WeaponPerkType.Large]);
     }
 
     public useText(character: Character): void {

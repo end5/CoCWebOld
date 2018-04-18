@@ -15,7 +15,7 @@ export default function display(character: Character) {
         character.stats.XP -= (character.stats.level - 1) * 100;
         MainScreen.displayChoices(
             ["Strength", "Toughness", "Speed", "Intelligence"],
-            [this.levelUpStatStrength, this.levelUpStatToughness, this.levelUpStatSpeed, this.levelUpStatIntelligence]
+            [levelUpStatStrength, levelUpStatToughness, levelUpStatSpeed, levelUpStatIntelligence]
         );
     }
 }

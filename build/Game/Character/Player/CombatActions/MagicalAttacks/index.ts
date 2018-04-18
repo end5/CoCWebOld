@@ -11,7 +11,6 @@ export * from './Possess';
 export * from './ShieldingSpell';
 export * from './SuperWhisper';
 
-
 /*
 "Berzerker"
     berzerk

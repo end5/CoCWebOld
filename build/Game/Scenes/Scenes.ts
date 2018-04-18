@@ -1,10 +1,10 @@
-import Forest from './Areas/Forest';
+import * as Forest from './Areas/Forest';
 import * as Camp from './Camp';
 import * as EndDay from './EndDay';
-import Exploration from './Explore/Exploration';
-import Gargoyle from './Explore/Gargoyle';
-import Lumi from './Explore/Lumi';
-import Masturbation from './Masturbation';
+import * as Exploration from './Exploration';
+import * as Gargoyle from './Explore/Gargoyle';
+import * as Lumi from './Explore/Lumi';
+import * as Masturbation from './Masturbation';
 
 class Scenes {
     // Scenes/
@@ -13,7 +13,7 @@ class Scenes {
     public masturbation = Masturbation;
     // Scenes/Areas/
     public exploration = Exploration;
-    public forest: Forest = new Forest();
+    public forest = Forest;
     // Scenes/Dungeons
     // Scenes/Monsters/
     // Scenes/NPC/

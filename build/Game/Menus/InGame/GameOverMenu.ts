@@ -5,8 +5,8 @@ import Menus from '../Menus';
 export default function display() {
     DisplayText().clear();
     DisplayText("\n\n<b>GAME OVER</b>");
-    // MainScreen.displayChoices(["Game Over", "NewGamePlus"], [this.gameOverMenuOverride, Menus.CharCreation.newGamePlus]);
-    MainScreen.displayChoices(["Game Over", "NewGamePlus"], [this.gameOverMenuOverride, undefined]);
+    // MainScreen.displayChoices(["Game Over", "NewGamePlus"], [gameOverMenuOverride, Menus.CharCreation.newGamePlus]);
+    MainScreen.displayChoices(["Game Over", "NewGamePlus"], [gameOverMenuOverride, undefined]);
 
     // MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
     // MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);

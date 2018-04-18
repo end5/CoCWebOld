@@ -1,6 +1,6 @@
 ﻿import { BeeGirlFlags } from './BeeGirlScene';
 import DisplayText from '../../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../../../Engine/Display/MainScreen';
 import MainScreen from '../../../../Engine/Display/MainScreen';
 import { randInt, randomChoice } from '../../../../Engine/Utilities/SMath';
 import BreastRow, { BreastCup } from '../../../Body/BreastRow';
@@ -209,6 +209,7 @@ export default class BeeGirl extends Character {
         this.torso.neck.head.antennae = AntennaeType.BEE;
         this.torso.wings.type = WingType.BEE_LIKE_SMALL;
         this.torso.tails.add(new Tail(TailType.BEE_ABDOMEN, 100));
-        this.combatContainer = new CombatContainer(this, new BeeGirlActions(), new DefaultRespond(this), new BeeGirlEndScenes(this));
+        this.combatContainer = new CombatContainer(this, new BeeGirlActions(), new DefaultRespond(), new BeeGirlEndScenes(this));
+        this.baseStats.HP = this.stats.maxHP();
     }
 }

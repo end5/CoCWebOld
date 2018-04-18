@@ -1,5 +1,5 @@
 import DisplayText from '../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../../Engine/Display/MainScreen';
 import MainScreen from '../../../Engine/Display/MainScreen';
 import Character from '../../Character/Character';
 import Inventory from '../../Inventory/Inventory';

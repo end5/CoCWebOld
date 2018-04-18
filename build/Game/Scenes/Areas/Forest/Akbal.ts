@@ -287,6 +287,6 @@ export default class Akbal extends Character {
         //     add(consumables.INCUBID, 6).
         //     add(consumables.W_FRUIT, 3).
         //     add(weapons.PIPE, 1);
-        this.combatContainer = new CombatContainer(this, new AkbalActions(), new DefaultRespond(this), new AkbalEndScenes(this));
+        this.combatContainer = new CombatContainer(this, new AkbalActions(), new DefaultRespond(), new AkbalEndScenes(this));
     }
 }

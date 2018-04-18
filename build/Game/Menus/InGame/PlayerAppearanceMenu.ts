@@ -37,49 +37,49 @@ import User from '../../User';
 import { numToCardinalCapText, numToCardinalText } from '../../Utilities/NumToText';
 
 export default function display(character: Character) {
-    this.heightRace(character);
+    heightRace(character);
     DisplayText("\n\n");
-    this.face(character);
+    face(character);
     DisplayText("\n\n");
-    this.eyes(character);
+    eyes(character);
     DisplayText("\n\n");
-    this.hair(character);
+    hair(character);
     DisplayText("\n\n");
-    this.tongue(character);
+    tongue(character);
     DisplayText("\n\n");
-    this.horns(character);
+    horns(character);
     DisplayText("\n\n");
-    this.wings(character);
+    wings(character);
     DisplayText("\n\n");
-    this.hips(character);
+    hips(character);
     DisplayText("\n\n");
-    this.butt(character);
+    butt(character);
     DisplayText("\n\n");
-    this.tail(character);
+    tail(character);
     DisplayText("\n\n");
-    this.lowerBody(character);
+    lowerBody(character);
     DisplayText("\n\n");
-    this.pregnancy(character);
+    pregnancy(character);
     DisplayText("\n\n");
-    this.neck(character);
+    neck(character);
     DisplayText("\n\n");
-    this.chest(character);
+    chest(character);
     DisplayText("\n\n");
-    this.lowerBodySex(character);
+    lowerBodySex(character);
     DisplayText("\n\n");
-    this.cocks(character);
+    cocks(character);
     DisplayText("\n\n");
-    this.balls(character);
+    balls(character);
     DisplayText("\n\n");
-    this.vaginas(character);
+    vaginas(character);
     DisplayText("\n\n");
-    this.noReproductiveOrgans(character);
+    noReproductiveOrgans(character);
     DisplayText("\n\n");
-    this.butthole(character);
+    butthole(character);
     DisplayText("\n\n");
-    this.piercing(character);
+    piercing(character);
     DisplayText("\n\n");
-    this.gems(character);
+    gems(character);
 }
 
 function heightRace(character: Character) {
@@ -778,15 +778,15 @@ function pregnancy(character: Character) {
     }
 }
 
-function Neck(character: Character) {
+function neck(character: Character) {
     if (character.torso.neck.gills)
         DisplayText("A pair of feathery gills are growing out just below your neck, spreading out horizontally and draping down your chest.  They allow you to stay in the water for quite a long time.  ");
 }
 
-function Chest(character: Character) {
-    const chest = character.torso.chest;
-    if (chest.count === 1) {
-        const firstRow = chest.get(0);
+function chest(character: Character) {
+    const charChest = character.torso.chest;
+    if (charChest.count === 1) {
+        const firstRow = charChest.get(0);
         DisplayText("You have " + numToCardinalText(2) + " " + BreastDescriptor.describeBreastRow(firstRow) + ", each supporting ");
         if (firstRow.nipples.count === 1)
             DisplayText(numToCardinalText(firstRow.nipples.count) + " " + firstRow.nipples.length + "-inch " + BreastDescriptor.describeNipple(character, firstRow) + ".");
@@ -798,9 +798,9 @@ function Chest(character: Character) {
             DisplayText("  You could easily fill a " + BreastDescriptor.breastCup(firstRow.rating) + " bra.");
     }
     else {
-        DisplayText("You have " + numToCardinalText(chest.count) + " rows of breasts, the topmost pair starting at your chest.");
-        for (let rowIndex = 0; rowIndex < chest.count; rowIndex++) {
-            const breastRow = chest.get(rowIndex);
+        DisplayText("You have " + numToCardinalText(charChest.count) + " rows of breasts, the topmost pair starting at your chest.");
+        for (let rowIndex = 0; rowIndex < charChest.count; rowIndex++) {
+            const breastRow = charChest.get(rowIndex);
             if (rowIndex === 0)
                 DisplayText("--Your uppermost rack houses ");
             if (rowIndex === 1)
@@ -813,9 +813,9 @@ function Chest(character: Character) {
                 DisplayText("--Your fifth and final mammory grouping swells with ");
             DisplayText(numToCardinalText(2) + " " + BreastDescriptor.describeBreastRow(breastRow) + " with ");
             if (breastRow.nipples.count === 1)
-                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + " each.");
+                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + " each.");
             else
-                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + "s each.");
+                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + "s each.");
             if (breastRow.rating >= 1)
                 DisplayText("  They could easily fill a " + BreastDescriptor.breastCup(breastRow.rating) + " bra.");
             if (breastRow.milkFullness > 75)
@@ -824,7 +824,7 @@ function Chest(character: Character) {
     }
 }
 
-function LowerBodySex(character: Character) {
+function lowerBodySex(character: Character) {
     // Crotchial stuff - mention snake
     if (character.torso.hips.legs.type === LegType.NAGA && character.gender > 0) {
         DisplayText("Your sex");
@@ -835,11 +835,11 @@ function LowerBodySex(character: Character) {
     }
 }
 
-function Cocks(character: Character) {
+function cocks(character: Character) {
     // Cock stuff!
-    const cocks = character.torso.cocks;
-    if (cocks.count === 1) {
-        const firstCock = cocks.get(0);
+    const charCocks = character.torso.cocks;
+    if (charCocks.count === 1) {
+        const firstCock = charCocks.get(0);
         if (character.torso.hips.legs.type === LegType.CENTAUR)
             DisplayText("Ever since becoming a centaur, your equipment has shifted to lie between your rear legs, like a horse.");
         DisplayText("Your " + CockDescriptor.describeCock(character, firstCock) + " is " + firstCock.length + " inches long and ");
@@ -901,16 +901,16 @@ function Cocks(character: Character) {
         if (character.statusAffects.has(StatusAffectType.Infested))
             DisplayText("  Every now and again a slimy worm coated in spunk slips partway out of your " + CockDescriptor.describeCock(character, firstCock) + ", tasting the air like a snake's tongue.");
         if (character.inventory.equipment.cockSocks.get(0).isEquipped())
-            this.sockDescript(character.inventory.equipment.cockSocks.get(0).item.name as CockSockName, firstCock.type);
+            sockDescript(character.inventory.equipment.cockSocks.get(0).item.name as CockSockName, firstCock.type);
     }
-    if (cocks.count > 1) {
+    if (charCocks.count > 1) {
         if (character.torso.hips.legs.type === LegType.CENTAUR)
             DisplayText("Where a horse's penis would usually be located, you have instead grown " + CockDescriptor.describeMultiCock(character) + "!");
         else
             DisplayText("Where a penis would normally be located, you have instead grown " + CockDescriptor.describeMultiCock(character) + "!");
 
-        for (let cockIndex = 0; cockIndex < cocks.count; cockIndex++) {
-            const curCock = cocks.get(cockIndex);
+        for (let cockIndex = 0; cockIndex < charCocks.count; cockIndex++) {
+            const curCock = charCocks.get(cockIndex);
             switch (randInt(4)) {
                 case 0: {
                     if (cockIndex === 0)
@@ -1054,20 +1054,20 @@ function balls(character: Character) {
     }
 }
 
-function Vaginas(character: Character) {
-    const vaginas = character.torso.vaginas;
-    if (vaginas.count > 0) {
-        const firstVagina = vaginas.get(0);
+function vaginas(character: Character) {
+    const charVaginas = character.torso.vaginas;
+    if (charVaginas.count > 0) {
+        const firstVagina = charVaginas.get(0);
         if (character.gender === Gender.FEMALE && character.torso.hips.legs.type === LegType.CENTAUR)
             DisplayText("Ever since becoming a centaur, your womanly parts have shifted to lie between your rear legs, in a rather equine fashion.");
         DisplayText("\n");
-        if (vaginas.count === 1)
+        if (charVaginas.count === 1)
             DisplayText("You have a " + VaginaDescriptor.describeVagina(character, firstVagina) + ", with a " + character.torso.clit.length + "-inch clit");
         if (firstVagina.virgin)
             DisplayText(" and an intact hymen");
         DisplayText(".  ");
-        if (vaginas.count > 1)
-            DisplayText("You have " + vaginas.count + " " + VaginaDescriptor.describeVagina(character, firstVagina) + "s, with " + character.torso.clit.length + "-inch clits each.  ");
+        if (charVaginas.count > 1)
+            DisplayText("You have " + charVaginas.count + " " + VaginaDescriptor.describeVagina(character, firstVagina) + "s, with " + character.torso.clit.length + "-inch clits each.  ");
         if (character.stats.lib < 50 && character.stats.lust < 50) { // not particularly horny
             // Wetness
             if (firstVagina.wetness >= VaginaWetness.WET && firstVagina.wetness < VaginaWetness.DROOLING)

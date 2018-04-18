@@ -1,12 +1,12 @@
 import MainScreen, { TopButton } from '../../../Engine/Display/MainScreen';
 import Character from '../../Character/Character';
-import { doCamp } from '../../Scenes/Camp';
+import Scenes from '../../Scenes/Scenes';
 import Menus from '../Menus';
 
 export default function display(character: Character) {
     // if (Game.state !== GameState.InCombat)
     //     DisplaySprite(SpriteName.None);
-    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation);
+    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", Menus.Main);
     // MainScreen.getStatsPanel().nameBox.visible = false;
     // if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {
     //     Menus.Combat.display(character);
@@ -23,5 +23,5 @@ export default function display(character: Character) {
     //     return;
     // }
     // Flags.list[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;
-    doCamp(character);
+    Scenes.camp.display(character);
 }

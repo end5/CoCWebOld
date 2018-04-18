@@ -1,10 +1,11 @@
 import { displayCharInventory } from './InventoryDisplay';
 import DisplaySprite from '../../../Engine/Display/DisplaySprite';
 import DisplayText from '../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../Engine/Display/Elements/ButtonElement';
 import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import MainScreen, { ClickFunction } from '../../../Engine/Display/MainScreen';
 import Character from '../../Character/Character';
+import CombatManager from '../../Combat/CombatManager';
+import { StatusAffectType } from '../../Effects/StatusAffectType';
 import WeaponName from '../../Items/Weapons/WeaponName';
 import Menus from '../Menus';
 
@@ -54,13 +55,13 @@ export default function display(player: Character) {
         DisplayText("\nYou have no usable items.");
         MainScreen.doNext(Menus.Player.display);
     }*/
-    // if (Game.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
-    //     DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
-    // }
+    if (CombatManager.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
+        DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
+    }
 
     DisplayText("\nWhich item will you use?");
     fixedTextList[4] = "Back";
-    fixedFuncList[4] = /*Game.inCombat ? Menus.Combat.display :*/ Menus.Player;
+    fixedFuncList[4] = CombatManager.inCombat ? Menus.Combat : Menus.Player;
     // Removes empty buttons for more inventory buttons
     while (fixedTextList[0] === undefined) {
         fixedTextList.shift();

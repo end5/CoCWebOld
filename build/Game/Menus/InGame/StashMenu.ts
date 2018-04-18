@@ -22,7 +22,7 @@ export default function display(player: Player) {
     //     DisplayText("You have a large wood and iron chest to help store excess items located near the portal entrance.");
     //     text[0] = "Chest";
     //     func[0] = () => {
-    //         InventoryDisplay.inventoryTake(Game.campStorage.chest, player, this.display);
+    //         InventoryDisplay.inventoryTake(Game.campStorage.chest, player, display);
     //     };
     //     DisplayText("\n\n");
     // }
@@ -31,7 +31,7 @@ export default function display(player: Player) {
     //     DisplayText("There's a weapon rack set up here, set up to hold up to nine various weapons.");
     //     text[1] = "W.Rack";
     //     func[1] = () => {
-    //         InventoryDisplay.inventoryTake(Game.campStorage.weaponRack, player, this.display);
+    //         InventoryDisplay.inventoryTake(Game.campStorage.weaponRack, player, display);
     //     };
     //     DisplayText("\n\n");
     // }
@@ -40,7 +40,7 @@ export default function display(player: Player) {
     //     DisplayText("Your camp has an armor rack set up to hold your various sets of gear.  It appears to be able to hold nine different types of armor.");
     //     text[2] = "A.Rack";
     //     func[2] = () => {
-    //         InventoryDisplay.inventoryTake(Game.campStorage.armorRack, player, this.display);
+    //         InventoryDisplay.inventoryTake(Game.campStorage.armorRack, player, display);
     //     };
     //     DisplayText("\n\n");
     // }

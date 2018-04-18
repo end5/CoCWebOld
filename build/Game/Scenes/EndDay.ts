@@ -3,6 +3,7 @@ import MainScreen from '../../Engine/Display/MainScreen';
 import BreastRow from '../Body/BreastRow';
 import * as SkinDescriptor from '../Descriptors/SkinDescriptor';
 import WeaponName from '../Items/Weapons/WeaponName';
+import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
 import Menus from '../Menus/Menus';
 import User from '../User';
 import Time from '../Utilities/Time';
@@ -53,7 +54,7 @@ export function goNext(time: number, needNext: boolean): boolean {
         return true;
     }
     // Drop beautiful sword if corrupted!
-    if (player.inventory.equipment.weapon.perk === "holySword" && player.stats.cor >= 35) {
+    if (player.inventory.equipment.weapon.perks.has(WeaponPerkType.HolySword) && player.stats.cor >= 35) {
         DisplayText("<b>\nThe <u>" + player.inventory.equipment.weapon.displayname + "</u> grows hot in your hand, until you are forced to drop it.  Whatever power inhabits this blade appears to be unhappy with you.  Touching it gingerly, you realize it is no longer hot, but as soon as you go to grab the hilt, it nearly burns you.\n\nYou realize you won't be able to use it right now, but you could probably keep it in your inventory.</b>\n\n");
         player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), Menus.Player);
         return true;

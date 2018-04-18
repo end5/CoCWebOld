@@ -1,7 +1,7 @@
 import DisplayText from '../../Engine/display/DisplayText';
-import { ClickFunction } from '../../Engine/Display/Elements/ButtonElement';
 import ListEntryElement from '../../Engine/Display/Elements/ListItemElement';
 import UnorderedListElement from '../../Engine/Display/Elements/UnorderedListElement';
+import { ClickFunction } from '../../Engine/Display/MainScreen';
 import MainScreen from '../../Engine/Display/MainScreen';
 import SaveFile from '../../Engine/Save/SaveFile';
 import SaveManager from '../../Engine/Save/SaveManager';

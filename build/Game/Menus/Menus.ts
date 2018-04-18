@@ -18,7 +18,7 @@ import MainMenu from './MainMenu';
 import SaveFileMenu from './SaveFileMenu';
 import SaveMenu from './SaveMenu';
 import SettingsMenu from './SettingsMenu';
-import { ClickFunction } from '../../Engine/Display/Elements/ButtonElement';
+import { ClickFunction } from '../../Engine/Display/MainScreen';
 
 class Menus {
     public readonly Main: ClickFunction = MainMenu;

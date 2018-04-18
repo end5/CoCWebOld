@@ -49,249 +49,44 @@ export function fatigueRecovery(character: Character): void {
         character.stats.fatigue -= (1 + randInt(3));
 }
 
-    // public packAttack(player: Character, monster: Character): void {
-    //     // Determine if dodged!
-    //     if (player.stats.spe - monster.stats.spe > 0 && randInt((player.stats.spe - monster.stats.spe) / 4) + 80) > 80) {
-    //         DisplayText("You duck, weave, and dodge.  Despite their best efforts, the throng of demons only hit the air and each other.");
-    //     }
-    //     // Determine if evaded
-    //     else if (player.perks.has(PerkType.Evade) && randInt(100) < 10) {
-    //         DisplayText("Using your skills at evading attacks, you anticipate and sidestep " + monster.desc.a + monster.desc.short + "' attacks.");
-    //     }
-    //     // ("Misdirection"
-    //     else if (player.perks.has(PerkType.Misdirection) && randInt(100) < 15 && player.inventory.equipment.armor.displayName === "red, high-society bodysuit") {
-    //         DisplayText("Using Raphael's teachings, you anticipate and sidestep " + monster.desc.a + monster.desc.short + "' attacks.");
-    //     }
-    //     // Determine if cat'ed
-    //     else if (player.perks.has(PerkType.Flexibility) && randInt(100) < 6) {
-    //         DisplayText("With your incredible flexibility, you squeeze out of the way of " + monster.desc.a + monster.desc.short + "' attacks.");
-    //     }
-    //     else {
-    //         let temp = Math.floor((monster.stats.str + monster.combat.stats.weaponAttack()) - randInt(player.stats.tou) - player.combat.stats.defense()); // Determine damage - str modified by enemy toughness!
-    //         if (temp <= 0) {
-    //             temp = 0;
-    //             if (!monster.desc.plural)
-    //                 DisplayText("You deflect and block every " + monster.inventory.equipment.weapon.displayname + " " + monster.desc.a + monster.desc.short + " throw at you.");
-    //             else DisplayText("You deflect " + monster.desc.a + monster.desc.short + " " + monster.weaponVerb + ".");
-    //         }
-    //         else {
-    //             temp = takeDamage(temp);
-    //             if (temp <= 5)
-    //                 DisplayText("You are struck a glancing blow by " + monster.desc.a + monster.desc.short + "! (" + temp + ")");
-    //             else if (temp <= 10)
-    //                 DisplayText(monster.desc.capitalA + monster.desc.short + " wound you! (" + temp + ")");
-    //             else if (temp <= 20)
-    //                 DisplayText(monster.desc.capitalA + monster.desc.short + " stagger you with the force of " + monster.desc.possessivePronoun + " " + monster.weaponVerb + "s! (" + temp + ")");
-    //             else DisplayText(monster.desc.capitalA + monster.desc.short + " <b>mutilates</b> you with powerful fists and " + monster.weaponVerb + "s! (" + temp + ")");
-    //         }
-    //         DisplayText("\n");
-    //     }
-    // }
-
-    // public display(): void {
-    //     if (!monster.checkCalled) {
-    //         DisplayText("<B>/!\\BUG! Monster.checkMonster() is not called! Calling it now...</B>\n");
-    //         monster.checkMonster();
-    //     }
-    //     if (monster.checkError !== "") {
-    //         DisplayText("<B>/!\\BUG! Monster is not correctly initialized! <u>" +
-    //             monster.checkError + "</u></b>\n");
-    //     }
-    //     let percent: string = "";
-    //     const math: number = monster.stats.HPRatio();
-    //     percent = "(<b>" + String(int(math * 1000) / 10) + "% HP</b>)";
-
-    //     // trace("trying to show monster image!");
-    //     if (monster.imageName !== "") {
-    //         let monsterName: string = "monster-" + monster.imageName;
-    //         // trace("Monster name = ", monsterName);
-    //         DisplayText(images.showImage(monsterName));
-    //     }
-    //     // 	if(gameState == 2) DisplayText("<b>You are grappling with:\n</b>");
-    //     // 	else
-    //     DisplayText("<b>You are fighting ");
-    //     DisplayText(monster.desc.a + monster.desc.short + ":</b> (Level: " + monster.level + ")\n");
-    //     if (player.statusAffects.has(StatusAffectType.Blind)) DisplayText("It's impossible to see anything!\n");
-    //     else {
-    //         DisplayText(monster.desc.long + "\n");
-    //         // Bonus sand trap stuff
-    //         if (monster.statusAffects.has(StatusAffectType.Level)) {
-    //             temp = monster.statusAffects.get(StatusAffectType.Level).value1;
-    //             // [(new PG for PC height levels)PC level 4:
-    //             DisplayText("\n");
-    //             if (temp === 4) DisplayText("You are right at the edge of its pit.  If you can just manage to keep your footing here, you'll be safe.");
-    //             else if (temp === 3) DisplayText("The sand sinking beneath your feet has carried you almost halfway into the creature's pit.");
-    //             else DisplayText("The dunes tower above you and the hissing of sand fills your ears.  <b>The leering sandtrap is almost on top of you!</b>");
-    //             // no new PG)
-    //             DisplayText("  You could try attacking it with your " + player.weaponName + ", but that will carry you straight to the bottom.  Alternately, you could try to tease it or hit it at range, or wait and maintain your footing until you can clamber up higher.");
-    //             DisplayText("\n");
-    //         }
-    //         if (monster.desc.plural) {
-    //             if (math >= 1) DisplayText("You see " + monster.desc.subjectivePronoun + " are in perfect health.");
-    //             else if (math > .75) DisplayText("You see " + monster.desc.subjectivePronoun + " aren't very hurt.");
-    //             else if (math > .5) DisplayText("You see " + monster.desc.subjectivePronoun + " are slightly wounded.");
-    //             else if (math > .25) DisplayText("You see " + monster.desc.subjectivePronoun + " are seriously hurt.");
-    //             else DisplayText("You see " + monster.desc.subjectivePronoun + " are unsteady and close to death.");
-    //         }
-    //         else {
-    //             if (math >= 1) DisplayText("You see " + monster.desc.subjectivePronoun + " is in perfect health.");
-    //             else if (math > .75) DisplayText("You see " + monster.desc.subjectivePronoun + " isn't very hurt.");
-    //             else if (math > .5) DisplayText("You see " + monster.desc.subjectivePronoun + " is slightly wounded.");
-    //             else if (math > .25) DisplayText("You see " + monster.desc.subjectivePronoun + " is seriously hurt.");
-    //             else DisplayText("You see " + monster.desc.subjectivePronoun + " is unsteady and close to death.");
-    //         }
-    //         DisplayText("  " + percent + "\n");
-    //         showMonsterLust();
-    //     }
-    // }
-
-    // public showMonsterLust(monster: Character): void {
-    //     // Entrapped
-    //     if (monster.statusAffects.has(StatusAffectType.Constricted)) {
-    //         DisplayText(monster.desc.capitalA + monster.desc.short + " is currently wrapped up in your tail-coils!  ");
-    //     }
-    //     // Venom stuff!
-    //     if (monster.statusAffects.has(StatusAffectType.NagaVenom)) {
-    //         if (monster.desc.plural) {
-    //             if (monster.statusAffects.get(StatusAffectType.NagaVenom).value1 <= 1) {
-    //                 DisplayText("You notice " + monster.desc.subjectivePronoun + " are beginning to show signs of weakening, but there still appears to be plenty of fight left in " + monster.desc.objectivePronoun + ".  ");
-    //             }
-    //             else {
-    //                 DisplayText("You notice " + monster.desc.subjectivePronoun + " are obviously affected by your venom, " + monster.desc.possessivePronoun + " movements become unsure, and " + monster.desc.possessivePronoun + " balance begins to fade. Sweat begins to roll on " + monster.desc.possessivePronoun + " skin. You wager " + monster.desc.subjectivePronoun + " are probably beginning to regret provoking you.  ");
-    //             }
-    //         }
-    //         // Not plural
-    //         else {
-    //             if (monster.statusAffects.get(StatusAffectType.NagaVenom).value1 <= 1) {
-    //                 DisplayText("You notice " + monster.desc.subjectivePronoun + " is beginning to show signs of weakening, but there still appears to be plenty of fight left in " + monster.desc.objectivePronoun + ".  ");
-    //             }
-    //             else {
-    //                 DisplayText("You notice " + monster.desc.subjectivePronoun + " is obviously affected by your venom, " + monster.desc.possessivePronoun + " movements become unsure, and " + monster.desc.possessivePronoun + " balance begins to fade. Sweat is beginning to roll on " + monster.desc.possessivePronoun + " skin. You wager " + monster.desc.subjectivePronoun + " is probably beginning to regret provoking you.  ");
-    //             }
-    //         }
-
-    //         monster.stats.spe -= monster.statusAffects.get(StatusAffectType.NagaVenom).value1;
-    //         monster.stats.str -= monster.statusAffects.get(StatusAffectType.NagaVenom).value1;
-    //         if (monster.stats.spe < 1) monster.stats.spe = 1;
-    //         if (monster.stats.str < 1) monster.stats.str = 1;
-    //     }
-    //     if (monster.desc.short === "harpy") {
-    //         // (Enemy slightly aroused)
-    //         if (monster.stats.lust >= 45 && monster.stats.lust < 70) DisplayText("The harpy's actions are becoming more and more erratic as she runs her mad-looking eyes over your body, her chest jiggling, clearly aroused.  ");
-    //         // (Enemy moderately aroused)
-    //         if (monster.stats.lust >= 70 && monster.stats.lust < 90) DisplayText("She stops flapping quite so frantically and instead gently sways from side to side, showing her soft, feathery body to you, even twirling and raising her tail feathers, giving you a glimpse of her plush pussy, glistening with fluids.");
-    //         // (Enemy dangerously aroused)
-    //         if (monster.stats.lust >= 90) DisplayText("You can see her thighs coated with clear fluids, the feathers matted and sticky as she struggles to contain her lust.");
-    //     }
-    //     else if (monster instanceof Clara) {
-    //         // Clara is becoming aroused
-    //         if (monster.stats.lust <= 40) { }
-    //         else if (monster.stats.lust <= 65) DisplayText("The anger in her motions is weakening.");
-    //         // Clara is somewhat aroused
-    //         else if (monster.stats.lust <= 75) DisplayText("Clara seems to be becoming more aroused than angry now.");
-    //         // Clara is very aroused
-    //         else if (monster.stats.lust <= 85) DisplayText("Clara is breathing heavily now, the signs of her arousal becoming quite visible now.");
-    //         // Clara is about to give in
-    //         else DisplayText("It looks like Clara is on the verge of having her anger overwhelmed by her lusts.");
-    //     }
-    //     // {Bonus Lust Descripts}
-    //     else if (monster.desc.short === "Minerva") {
-    //         if (monster.stats.lust < 40) { }
-    //         // (40)
-    //         else if (monster.stats.lust < 60) DisplayText("Letting out a groan Minerva shakes her head, focusing on the fight at hand.  The bulge in her short is getting larger, but the siren ignores her growing hard-on and continues fighting.  ");
-    //         // (60)
-    //         else if (monster.stats.lust < 80) DisplayText("Tentacles are squirming out from the crotch of her shorts as the throbbing bulge grows bigger and bigger, becoming harder and harder... for Minerva to ignore.  A damp spot has formed just below the bulge.  ");
-    //         // (80)
-    //         else DisplayText("She's holding onto her weapon for support as her face is flushed and pain-stricken.  Her tiny, short shorts are painfully holding back her quaking bulge, making the back of the fabric act like a thong as they ride up her ass and struggle against her cock.  Her cock-tentacles are lashing out in every direction.  The dampness has grown and is leaking down her leg.");
-    //     }
-    //     else if (monster.desc.short === "Cum Witch") {
-    //         // {Bonus Lust Desc (40+)}
-    //         if (monster.stats.lust < 40) { }
-    //         else if (monster.stats.lust < 50) DisplayText("Her nipples are hard, and poke two visible tents into the robe draped across her mountainous melons.  ");
-    //         // {Bonus Lust Desc (50-75)}
-    //         else if (monster.stats.lust < 75) DisplayText("Wobbling dangerously, you can see her semi-hard shaft rustling the fabric as she moves, evidence of her growing needs.  ");
-    //         // {75+}
-    //         if (monster.stats.lust >= 75) DisplayText("Swelling obscenely, the Cum Witch's thick cock stands out hard and proud, its bulbous tip rustling through the folds of her fabric as she moves and leaving dark smears in its wake.  ");
-    //         // (85+}
-    //         if (monster.stats.lust >= 85) DisplayText("Every time she takes a step, those dark patches seem to double in size.  ");
-    //         // {93+}
-    //         if (monster.stats.lust >= 93) DisplayText("There's no doubt about it, the Cum Witch is dripping with pre-cum and so close to caving in.  Hell, the lower half of her robes are slowly becoming a seed-stained mess.  ");
-    //         // {Bonus Lust Desc (60+)}
-    //         if (monster.stats.lust >= 70) DisplayText("She keeps licking her lips whenever she has a moment, and she seems to be breathing awfully hard.  ");
-    //     }
-    //     else if (monster.desc.short === "Kelt") {
-    //         // Kelt Lust Levels
-    //         // (sub 50)
-    //         if (monster.stats.lust < 50) DisplayText("Kelt actually seems to be turned off for once in his miserable life.  His maleness is fairly flaccid and droopy.  ");
-    //         // (sub 60)
-    //         else if (monster.stats.lust < 60) DisplayText("Kelt's gotten a little stiff down below, but he still seems focused on taking you down.  ");
-    //         // (sub 70)
-    //         else if (monster.stats.lust < 70) DisplayText("Kelt's member has grown to its full size and even flared a little at the tip.  It bobs and sways with every movement he makes, reminding him how aroused you get him.  ");
-    //         // (sub 80)
-    //         else if (monster.stats.lust < 80) DisplayText("Kelt is unabashedly aroused at this point.  His skin is flushed, his manhood is erect, and a thin bead of pre has begun to bead underneath.  ");
-    //         // (sub 90)
-    //         else if (monster.stats.lust < 90) DisplayText("Kelt seems to be having trouble focusing.  He keeps pausing and flexing his muscles, slapping his cock against his belly and moaning when it smears his pre-cum over his equine underside.  ");
-    //         // (sub 100)
-    //         else DisplayText("There can be no doubt that you're having quite the effect on Kelt.  He keeps fidgeting, dripping pre-cum everywhere as he tries to keep up the facade of fighting you.  His maleness is continually twitching and bobbing, dripping messily.  He's so close to giving in...");
-    //     }
-    //     else if (monster.desc.short === "green slime") {
-    //         if (monster.stats.lust >= 45 && monster.stats.lust < 65) DisplayText("A lump begins to form at the base of the figure's torso, where its crotch would be.  ");
-    //         if (monster.stats.lust >= 65 && monster.stats.lust < 85) DisplayText("A distinct lump pulses at the base of the slime's torso, as if something inside the creature were trying to escape.  ");
-    //         if (monster.stats.lust >= 85 && monster.stats.lust < 93) DisplayText("A long, thick pillar like a small arm protrudes from the base of the slime's torso.  ");
-    //         if (monster.stats.lust >= 93) DisplayText("A long, thick pillar like a small arm protrudes from the base of the slime's torso.  Its entire body pulses, and it is clearly beginning to lose its cohesion.  ");
-    //     }
-    //     else if (monster.desc.short === "Sirius, a naga hypnotist") {
-    //         if (monster.stats.lust < 40) { }
-    //         else if (monster.stats.lust >= 40) DisplayText("You can see the tip of his reptilian member poking out of its protective slit. ");
-    //         else if (monster.stats.lust >= 60) DisplayText("His cock is now completely exposed and half-erect, yet somehow he still stays focused on your eyes and his face is inexpressive.  ");
-    //         else DisplayText("His cock is throbbing hard, you don't think it will take much longer for him to pop.   Yet his face still looks inexpressive... despite the beads of sweat forming on his brow.  ");
-
-    //     }
-    //     else if (monster.desc.short === "kitsune") {
-    //         // Kitsune Lust states:
-    //         // Low
-    //         if (monster.stats.lust > 30 && monster.stats.lust < 50) DisplayText("The kitsune's face is slightly flushed.  She fans herself with her hand, watching you closely.");
-    //         // Med
-    //         else if (monster.stats.lust > 30 && monster.stats.lust < 75) DisplayText("The kitsune's cheeks are bright pink, and you can see her rubbing her thighs together and squirming with lust.");
-    //         // High
-    //         else if (monster.stats.lust > 30) {
-    //             // High (redhead only)
-    //             if (monster.torso.neck.head.hair.color === "red") DisplayText("The kitsune is openly aroused, unable to hide the obvious bulge in her robes as she seems to be struggling not to stroke it right here and now.");
-    //             else DisplayText("The kitsune is openly aroused, licking her lips frequently and desperately trying to hide the trail of fluids dripping down her leg.");
-    //         }
-    //     }
-    //     else if (monster.desc.short === "demons") {
-    //         if (monster.stats.lust > 30 && monster.stats.lust < 60) DisplayText("The demons lessen somewhat in the intensity of their attack, and some even eye up your assets as they strike at you.");
-    //         if (monster.stats.lust >= 60 && monster.stats.lust < 80) DisplayText("The demons are obviously steering clear from damaging anything you might use to fuck and they're starting to leave their hands on you just a little longer after each blow. Some are starting to cop quick feels with their other hands and you can smell the demonic lust of a dozen bodies on the air.");
-    //         if (monster.stats.lust >= 80) DisplayText(" The demons are less and less willing to hit you and more and more willing to just stroke their hands sensuously over you. The smell of demonic lust is thick on the air and part of the group just stands there stroking themselves openly.");
-    //     }
-    //     else {
-    //         if (monster.desc.plural) {
-    //             if (monster.stats.lust > 50 && monster.stats.lust < 60) DisplayText(monster.desc.capitalA + monster.desc.short + "' skin remains flushed with the beginnings of arousal.  ");
-    //             if (monster.stats.lust >= 60 && monster.stats.lust < 70) DisplayText(monster.desc.capitalA + monster.desc.short + "' eyes constantly dart over your most sexual parts, betraying " + monster.desc.possessivePronoun + " lust.  ");
-    //             if (monster.torso.cocks.count > 0) {
-    //                 if (monster.stats.lust >= 70 && monster.stats.lust < 85) DisplayText(monster.desc.capitalA + monster.desc.short + " are having trouble moving due to the rigid protrusion in " + monster.desc.possessivePronoun + " groins.  ");
-    //                 if (monster.stats.lust >= 85) DisplayText(monster.desc.capitalA + monster.desc.short + " are panting and softly whining, each movement seeming to make " + monster.desc.possessivePronoun + " bulges more pronounced.  You don't think " + monster.desc.subjectivePronoun + " can hold out much longer.  ");
-    //             }
-    //             if (monster.torso.vaginas.count > 0) {
-    //                 if (monster.stats.lust >= 70 && monster.stats.lust < 85) DisplayText(monster.desc.capitalA + monster.desc.short + " are obviously turned on, you can smell " + monster.desc.possessivePronoun + " arousal in the air.  ");
-    //                 if (monster.stats.lust >= 85) DisplayText(monster.desc.capitalA + monster.desc.short + "' " + VaginaDescriptor.describeVagina(monster, monster.torso.vaginas.get(0)) + "s are practically soaked with their lustful secretions.  ");
-    //             }
-    //         }
-    //         else {
-    //             if (monster.stats.lust > 50 && monster.stats.lust < 60) DisplayText(monster.desc.capitalA + monster.desc.short + "'s skin remains flushed with the beginnings of arousal.  ");
-    //             if (monster.stats.lust >= 60 && monster.stats.lust < 70) DisplayText(monster.desc.capitalA + monster.desc.short + "'s eyes constantly dart over your most sexual parts, betraying " + monster.desc.possessivePronoun + " lust.  ");
-    //             if (monster.torso.cocks.count > 0) {
-    //                 if (monster.stats.lust >= 70 && monster.stats.lust < 85) DisplayText(monster.desc.capitalA + monster.desc.short + " is having trouble moving due to the rigid protrusion in " + monster.desc.possessivePronoun + " groin.  ");
-    //                 if (monster.stats.lust >= 85) DisplayText(monster.desc.capitalA + monster.desc.short + " is panting and softly whining, each movement seeming to make " + monster.desc.possessivePronoun + " bulge more pronounced.  You don't think " + monster.desc.subjectivePronoun + " can hold out much longer.  ");
-    //             }
-    //             if (monster.torso.vaginas.count > 0) {
-    //                 if (monster.stats.lust >= 70 && monster.stats.lust < 85) DisplayText(monster.desc.capitalA + monster.desc.short + " is obviously turned on, you can smell " + monster.desc.possessivePronoun + " arousal in the air.  ");
-    //                 if (monster.stats.lust >= 85) DisplayText(monster.desc.capitalA + monster.desc.short + "'s " + VaginaDescriptor.describeVagina(monster, monster.torso.vaginas.get(0)) + " is practically soaked with her lustful secretions.  ");
-    //             }
-    //         }
-    //     }
-    // }
+// public packAttack(player: Character, monster: Character): void {
+//     // Determine if dodged!
+//     if (player.stats.spe - monster.stats.spe > 0 && randInt((player.stats.spe - monster.stats.spe) / 4) + 80) > 80) {
+//         DisplayText("You duck, weave, and dodge.  Despite their best efforts, the throng of demons only hit the air and each other.");
+//     }
+//     // Determine if evaded
+//     else if (player.perks.has(PerkType.Evade) && randInt(100) < 10) {
+//         DisplayText("Using your skills at evading attacks, you anticipate and sidestep " + monster.desc.a + monster.desc.short + "' attacks.");
+//     }
+//     // ("Misdirection"
+//     else if (player.perks.has(PerkType.Misdirection) && randInt(100) < 15 && player.inventory.equipment.armor.displayName === "red, high-society bodysuit") {
+//         DisplayText("Using Raphael's teachings, you anticipate and sidestep " + monster.desc.a + monster.desc.short + "' attacks.");
+//     }
+//     // Determine if cat'ed
+//     else if (player.perks.has(PerkType.Flexibility) && randInt(100) < 6) {
+//         DisplayText("With your incredible flexibility, you squeeze out of the way of " + monster.desc.a + monster.desc.short + "' attacks.");
+//     }
+//     else {
+//         let temp = Math.floor((monster.stats.str + monster.combat.stats.weaponAttack()) - randInt(player.stats.tou) - player.combat.stats.defense()); // Determine damage - str modified by enemy toughness!
+//         if (temp <= 0) {
+//             temp = 0;
+//             if (!monster.desc.plural)
+//                 DisplayText("You deflect and block every " + monster.inventory.equipment.weapon.displayname + " " + monster.desc.a + monster.desc.short + " throw at you.");
+//             else DisplayText("You deflect " + monster.desc.a + monster.desc.short + " " + monster.weaponVerb + ".");
+//         }
+//         else {
+//             temp = takeDamage(temp);
+//             if (temp <= 5)
+//                 DisplayText("You are struck a glancing blow by " + monster.desc.a + monster.desc.short + "! (" + temp + ")");
+//             else if (temp <= 10)
+//                 DisplayText(monster.desc.capitalA + monster.desc.short + " wound you! (" + temp + ")");
+//             else if (temp <= 20)
+//                 DisplayText(monster.desc.capitalA + monster.desc.short + " stagger you with the force of " + monster.desc.possessivePronoun + " " + monster.weaponVerb + "s! (" + temp + ")");
+//             else DisplayText(monster.desc.capitalA + monster.desc.short + " <b>mutilates</b> you with powerful fists and " + monster.weaponVerb + "s! (" + temp + ")");
+//         }
+//         DisplayText("\n");
+//     }
+// }
 
     // Just text should force the function to purely emit the test text to the output display, and not have any other side effects
     // public teaseXP(XP: number = 0): void {

@@ -29,7 +29,7 @@ export default function display(character: Character) {
     if (character.perks.has(PerkType.DoubleAttack)) {
         DisplayText("You can adjust your double attack settings.").bold();
         text.push("Dbl Options");
-        func.push(this.doubleAttackOptions);
+        func.push(doubleAttackOptions);
     }
     MainScreen.displayChoices(text, func);
 }
@@ -37,7 +37,7 @@ export default function display(character: Character) {
 function doubleAttackOptions(): void {
     DisplayText().clear();
     const text = ["All Double", "Dynamic", "Single"];
-    const func = [this.doubleAttackForce, this.doubleAttackDynamic, this.doubleAttackOff];
+    const func = [doubleAttackForce, doubleAttackDynamic, doubleAttackOff];
     if ((User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE === 0) {
         DisplayText("You will currently always double attack in combat.  If your strength exceeds sixty, your double-attacks will be done at sixty strength in order to double-attack.");
         DisplayText("\n\nYou can change it to double attack until sixty strength and then dynamicly switch to single attacks.");
@@ -56,20 +56,20 @@ function doubleAttackOptions(): void {
         DisplayText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
         func[2] = undefined;
     }
-    MainScreen.displayChoices(text, func, ["Back"], [this.display]);
+    MainScreen.displayChoices(text, func, ["Back"], [display]);
 }
 
 function doubleAttackForce(): void {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 0;
-    this.doubleAttackOptions();
+    doubleAttackOptions();
 }
 
 function doubleAttackDynamic(): void {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 1;
-    this.doubleAttackOptions();
+    doubleAttackOptions();
 }
 
 function doubleAttackOff(): void {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 2;
-    this.doubleAttackOptions();
+    doubleAttackOptions();
 }

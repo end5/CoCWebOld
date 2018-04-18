@@ -1,13 +1,14 @@
 import Weapon from './Weapon';
 import WeaponName from './WeaponName';
+import { WeaponPerkType } from './WeaponPerk';
 import DisplayText from '../../../Engine/display/DisplayText';
 import Character from '../../Character/Character';
 import User from '../../User';
 import ItemDesc from '../ItemDesc';
 
-export default class BeautifulSword extends Weapon {
+export class BeautifulSword extends Weapon {
     public constructor() {
-        super(WeaponName.BeautifulSword, new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade."), "beautiful sword", "slash", 7, 400, "holySword");
+        super(WeaponName.BeautifulSword, new ItemDesc("B.Sword", "a beautiful shining sword", "This beautiful sword shines brilliantly in the light, showing the flawless craftsmanship of its blade.  The pommel and guard are heavily decorated in gold and brass.  Some craftsman clearly poured his heart and soul into this blade."), "beautiful sword", "slash", 7, 400, [WeaponPerkType.HolySword]);
     }
 
     public get attack(): number {

@@ -335,6 +335,7 @@ export default class Kitsune extends Character {
         this.baseStats.lib = 60;
         this.baseStats.sens = 65;
         this.baseStats.cor = 45;
+        this.baseStats.HP = this.stats.maxHP();
         this.inventory.equipment.defaultWeaponSlot.equip(new Weapon("claws" as WeaponName, undefined, "claws", "punch", 0, 0));
         this.inventory.equipment.defaultArmorSlot.equip(new Armor("skin" as ArmorName, undefined, "skin", 0, 0));
         this.baseStats.bonusHP = 120;
@@ -345,6 +346,6 @@ export default class Kitsune extends Character {
         this.inventory.gems = randInt(10) + 10;
         // this.drop = new WeightedDrop(consumables.FOXJEWL, 1);
         this.torso.tails.add(new Tail(TailType.FOX));
-        this.combatContainer = new CombatContainer(this, new KistuneActions(), new DefaultRespond(this), new KitsuneEndScenes(this));
+        this.combatContainer = new CombatContainer(this, new KistuneActions(), new DefaultRespond(), new KitsuneEndScenes(this));
     }
 }

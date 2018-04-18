@@ -8,8 +8,12 @@ import { isEaster, isValentine } from '../Utilities/Dates';
 export default function display() {
     MainScreen.getStatsPanel().hide();
     // Reset newgame buttons
+    MainScreen.getTopButton(TopButton.Stats).modify("Stats", Menus.Stats);
+    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", Menus.PerkUp);
+    MainScreen.getTopButton(TopButton.Perks).modify("Perks", Menus.PerkUp);
+    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", Menus.Appearance);
     MainScreen.hideTopButtons();
-    // MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation);
+    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation);
     MainScreen.getTopButton(TopButton.Data).modify("Data", Menus.Data);
 
     DisplayText().clear();
@@ -68,6 +72,6 @@ export default function display() {
     // );
     MainScreen.displayChoices(
         ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-        [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, undefined]
+        [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, User.char ? Menus.Player : undefined]
     );
 }
