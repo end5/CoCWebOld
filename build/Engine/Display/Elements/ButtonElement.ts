@@ -1,7 +1,6 @@
 import ScreenElement from './ScreenElement';
 import { randInt } from '../../Utilities/SMath';
-
-export type ClickFunction = (activeCharacter: any, event?: Event, prevMenu?: ClickFunction) => void;
+import MainScreen from '../MainScreen';
 
 type EventFunction = (event: Event) => void;
 
@@ -24,14 +23,11 @@ export default class ButtonElement extends ScreenElement {
      * @param clickFunc The function that is called when clicked.
      * @param disable Whether or not the button should be clickable.
      */
-    public modify(text: string, clickFunc: ClickFunction, disable: boolean = false) {
+    public modify(text: string, clickFunc: EventFunction, disable: boolean = false) {
         this.htmlElement.textContent = text;
-
         this.disable();
         if (clickFunc) {
-            this.clickFunc = (evnt: Event) => {
-                clickFunc(undefined, evnt, clickFunc);
-            };
+            this.clickFunc = clickFunc;
             if (!disable)
                 this.enable();
         }

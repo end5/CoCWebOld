@@ -18,7 +18,7 @@ export default class StatPanelObserver extends ScreenElement {
     }
 
     public setStat(statCurrent: number, statMax: number = -1) {
-        this.statCurrent = statCurrent;
+        this.statCurrent = Math.floor(statCurrent);
         this.statCurrentElement.innerHTML = statCurrent.toString();
         if (this.statBarElement) {
             if (statMax >= 0) {
