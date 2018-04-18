@@ -1,4 +1,5 @@
 import DisplayText from '../../../../../Engine/display/DisplayText';
+import MainScreen from '../../../../../Engine/Display/MainScreen';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import BreastRow from '../../../../Body/BreastRow';
 import Cock, { CockType } from '../../../../Body/Cock';
@@ -23,6 +24,8 @@ import * as VaginaDescriptor from '../../../../Descriptors/VaginaDescriptor';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import ArmorName from '../../../../Items/Armors/ArmorName';
+import Menus from '../../../../Menus/Menus';
 import User from '../../../../User';
 import PlayerFlags from '../../PlayerFlags';
 
@@ -79,384 +82,384 @@ const enum TeaseType {
     MaxTeaseTypes,              // Max Tease Types - Used for choices array init
 }
 
-export default class Tease implements CombatAction {
+function determineBaseDamage(character: Character): number {
+    let damage: number = 6 + randInt(3);
+    if (character.perks.has(PerkType.SensualLover))
+        damage += 2;
+    if (character.perks.has(PerkType.Seduction))
+        damage += 5;
+    // + slutty armor bonus
+    if (character.perks.has(PerkType.SluttySeduction))
+        damage += character.perks.get(PerkType.SluttySeduction).value1;
+    damage += character.stats.level;
+    damage += character.stats.teaseLevel * 2;
+    return damage;
+}
+
+function determineBaseChance(character: Character): number {
+    let chance: number = 0;
+    chance = 60;
+    // 5% chance for each tease level.
+    chance += character.stats.teaseLevel * 5;
+    // 10% for seduction perk
+    if (character.perks.has(PerkType.Seduction)) chance += 10;
+    // 10% for sexy armor types
+    if (character.perks.has(PerkType.SluttySeduction)) chance += 10;
+    // 10% for bimbo shits
+    if (character.perks.has(PerkType.BimboBody)) {
+        chance += 10;
+    }
+    if (character.perks.has(PerkType.BroBody)) {
+        chance += 10;
+    }
+    if (character.perks.has(PerkType.FutaForm)) {
+        chance += 10;
+    }
+    // 2 & 2 for seductive valentines!
+    if (character.perks.has(PerkType.SensualLover)) {
+        chance += 2;
+    }
+    // if (character.perks.has(PerkType.ChiReflowLust))
+    //     chance += UmasShop.NEEDLEWORK_LUST_TEASE_MULTI;
+    return chance;
+}
+
+function determineTeaseChoice(character: Character, monster: Character, bimbo: boolean, bro: boolean, futa: boolean) {
+    const buttRating = character.torso.butt.rating;
+    const largestBreastRating = character.torso.chest.count > 0 ? character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating : 0;
+    const hasVagina = character.torso.vaginas.count > 0;
+    const vaginalWetness = hasVagina ? character.torso.vaginas.get(0).wetness : 0;
+    const vaginalCapacity = character.vaginalCapacity();
+    const cockCount = character.torso.cocks.count;
+    const largestCockArea = cockCount > 0 ? character.torso.cocks.sort(Cock.LargestCockArea)[0].area : 0;
+    const choices: number[] = [];
+    choices.length = TeaseType.MaxTeaseTypes;
+    for (let index: number = 0; index < TeaseType.MaxTeaseTypes; index++)
+        choices[index] = 0;
+
+    if ((futa || bimbo) && character.gender === Gender.HERM) {
+        // Once chance of butt.
+        choices[TeaseType.BimboButtShake]++;
+        // Big butts get more butt
+        if (buttRating >= 7) choices[TeaseType.BimboButtShake]++;
+        if (buttRating >= 10) choices[TeaseType.BimboButtShake]++;
+        if (buttRating >= 14) choices[TeaseType.BimboButtShake]++;
+        if (buttRating >= 20) choices[TeaseType.BimboButtShake]++;
+        if (buttRating >= 25) choices[TeaseType.BimboButtShake]++;
+        // Breast jiggle!
+        if (largestBreastRating >= 2) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 4) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 8) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 15) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 30) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 50) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 75) choices[TeaseType.BimboBreastJiggle]++;
+        if (largestBreastRating >= 100) choices[TeaseType.BimboBreastJiggle]++;
+        // Pussy Flash!
+        if (hasVagina) {
+            choices[TeaseType.PussyFlash]++;
+            if (vaginalWetness >= 3) choices[TeaseType.BimboPussyFlash]++;
+            if (vaginalWetness >= 5) choices[TeaseType.BimboPussyFlash]++;
+            if (vaginalCapacity >= 30) choices[TeaseType.BimboPussyFlash]++;
+            if (vaginalCapacity >= 60) choices[TeaseType.BimboPussyFlash]++;
+            if (vaginalCapacity >= 75) choices[TeaseType.BimboPussyFlash]++;
+        }
+        // Adj special!
+        if (hasVagina && character.torso.butt.rating >= 8 && character.torso.hips.rating >= 6 && largestBreastRating >= 4) {
+            choices[TeaseType.BimboSpecial] += 4;
+        }
+        // Cock flash!
+        if (futa && character.torso.cocks.count > 0) {
+            choices[TeaseType.BroBulgyGroinThrust]++;
+            choices[TeaseType.BroShowOffDick]++;
+            if (cockCount > 1) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (cockCount >= 2) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 10) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (largestCockArea >= 25) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 50) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 75) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (largestCockArea >= 100) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 300) choices[TeaseType.BroBulgyGroinThrust]++;
+        }
+    }
+    else if (bro) {
+        // 8 Pec Dance
+        if (largestBreastRating < 1 && character.tone >= 60) {
+            choices[TeaseType.BroPecDance]++;
+            if (character.tone >= 70) choices[TeaseType.BroPecDance]++;
+            if (character.tone >= 80) choices[TeaseType.BroPecDance]++;
+            if (character.tone >= 90) choices[TeaseType.BroPecDance]++;
+            if (character.tone === 100) choices[TeaseType.BroPecDance]++;
+        }
+        // 9 Heroic Pose
+        if (character.tone >= 60 && character.stats.str >= 50) {
+            choices[TeaseType.BroHeroicPose]++;
+            if (character.tone >= 80) choices[TeaseType.BroHeroicPose]++;
+            if (character.stats.str >= 70) choices[TeaseType.BroHeroicPose]++;
+            if (character.tone >= 90) choices[TeaseType.BroHeroicPose]++;
+            if (character.stats.str >= 80) choices[TeaseType.BroHeroicPose]++;
+        }
+        // Cock flash!
+        if (character.torso.cocks.count > 0) {
+            choices[TeaseType.BroBulgyGroinThrust]++;
+            choices[TeaseType.BroShowOffDick]++;
+            if (cockCount > 1) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (cockCount >= 2) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 10) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (largestCockArea >= 25) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 50) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 75) choices[TeaseType.BroBulgyGroinThrust]++;
+            if (largestCockArea >= 100) choices[TeaseType.BroShowOffDick]++;
+            if (largestCockArea >= 300) choices[TeaseType.BroBulgyGroinThrust]++;
+        }
+    }
+    // VANILLA FOLKS
+    else {
+        // Once chance of butt.
+        choices[TeaseType.ButtShake]++;
+        // Big butts get more butt
+        if (character.torso.butt.rating >= 7) choices[TeaseType.ButtShake]++;
+        if (character.torso.butt.rating >= 10) choices[TeaseType.ButtShake]++;
+        if (character.torso.butt.rating >= 14) choices[TeaseType.ButtShake]++;
+        if (character.torso.butt.rating >= 20) choices[TeaseType.ButtShake]++;
+        if (character.torso.butt.rating >= 25) choices[TeaseType.ButtShake]++;
+        // Breast jiggle!
+        if (largestBreastRating >= 2) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 4) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 8) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 15) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 30) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 50) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 75) choices[TeaseType.BreastJiggle]++;
+        if (largestBreastRating >= 100) choices[TeaseType.BreastJiggle]++;
+        // Pussy Flash!
+        if (hasVagina) {
+            choices[TeaseType.PussyFlash]++;
+            if (vaginalWetness >= 3) choices[TeaseType.PussyFlash]++;
+            if (vaginalWetness >= 5) choices[TeaseType.PussyFlash]++;
+            if (vaginalCapacity >= 30) choices[TeaseType.PussyFlash]++;
+            if (vaginalCapacity >= 60) choices[TeaseType.PussyFlash]++;
+            if (vaginalCapacity >= 75) choices[TeaseType.PussyFlash]++;
+        }
+        // Cock flash!
+        if (character.torso.cocks.count > 0) {
+            choices[TeaseType.CockFlash]++;
+            if (cockCount > 1) choices[TeaseType.CockFlash]++;
+            if (cockCount >= 2) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 10) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 25) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 50) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 75) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 100) choices[TeaseType.CockFlash]++;
+            if (largestCockArea >= 300) choices[TeaseType.CockFlash]++;
+        }
+    }
+    // ==EXTRAS========
+    // 12 Cat flexibility.
+    if (character.perks.has(PerkType.Flexibility) && character.torso.hips.legs.isBiped() && hasVagina) {
+        choices[TeaseType.CatFlexibility] += 2;
+        if (vaginalWetness >= 3) choices[TeaseType.CatFlexibility]++;
+        if (vaginalWetness >= 5) choices[TeaseType.CatFlexibility]++;
+        if (vaginalCapacity >= 30) choices[TeaseType.CatFlexibility]++;
+    }
+    // 13 Pregnant
+    // if (character.pregnancyIncubation <= 216 && character.pregnancyIncubation > 0) {
+    if (character.pregnancy.womb.isPregnant() || character.pregnancy.buttWomb.isPregnant()) {
+        choices[TeaseType.Pregnant]++;
+        const vagIncubationTime: number = character.pregnancy.womb.isPregnant() ? character.pregnancy.womb.pregnancy.incubation : 0;
+        const buttIncubationTime: number = character.pregnancy.buttWomb.isPregnant() ? character.pregnancy.buttWomb.pregnancy.incubation : 0;
+        const incubationTime: number = vagIncubationTime < buttIncubationTime ? vagIncubationTime : buttIncubationTime;
+        if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 180) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 120) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 100) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 50) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
+        if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
+    }
+    // 14 Brood Mother
+    if (monster.torso.cocks.count > 0 && hasVagina && character.perks.has(PerkType.BroodMother) && !character.pregnancy.womb.isPregnant() && !character.pregnancy.buttWomb.isPregnant()) {
+        choices[TeaseType.BroodMother] += 3;
+        if (character.statusAffects.has(StatusAffectType.Heat)) choices[TeaseType.BroodMother] += 7;
+    }
+    // 15 Nipplecunts
+    if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
+        choices[TeaseType.Nipplecunts] += 2;
+        if (hasVagina) choices[TeaseType.Nipplecunts] += 3;
+        if (vaginalWetness >= 3) choices[TeaseType.Nipplecunts]++;
+        if (vaginalWetness >= 5) choices[TeaseType.Nipplecunts]++;
+        if (largestBreastRating >= 3) choices[TeaseType.Nipplecunts]++;
+        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length >= 3) choices[TeaseType.Nipplecunts]++;
+    }
+    // 16 Anal gape
+    if (character.torso.butt.looseness >= 4) {
+        choices[TeaseType.AnalGape]++;
+        if (character.torso.butt.looseness >= 5) choices[TeaseType.AnalGape]++;
+    }
+    // 17 Bee abdomen tease
+    if (character.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
+        choices[TeaseType.BeeAbdomen] += 2;
+    }
+    // 18 DOG TEASE
+    if (RaceScore.dogScore(character) >= 4 && hasVagina && character.torso.hips.legs.isBiped()) {
+        choices[TeaseType.DogTease] += 2;
+    }
+    // 19 Maximum Femininity:
+    if (character.femininity >= 100) {
+        choices[TeaseType.MaxFemininity] += 3;
+    }
+    // 20 Maximum MAN:
+    if (character.femininity <= 0) {
+        choices[TeaseType.MaxManliness] += 3;
+    }
+    // 21 Perfect Androgyny:
+    if (character.femininity === 50) {
+        choices[TeaseType.PerfectAndrogyny] += 3;
+    }
+    // 22 SPOIDAH SILK
+    if (character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
+        choices[TeaseType.SpirderSilk] += 3;
+        if (RaceScore.spiderScore(character) >= 4) {
+            choices[TeaseType.SpirderSilk] += 3;
+        }
+    }
+    // 23 RUT
+    if (character.statusAffects.has(StatusAffectType.Rut) && monster.torso.vaginas.count > 0 && character.torso.cocks.count > 0) {
+        choices[TeaseType.Rut] += 5;
+    }
+    // 24 Poledance - req's staff! - Req's gender!  Req's TITS!
+    if (character.inventory.equipment.weapon.displayname === "wizard's staff" && largestBreastRating >= 1 && character.gender > 0) {
+        choices[TeaseType.Poledance] += 5;
+    }
+    // 25 Tall Tease! - Reqs 2+ feet & PC Cunt!
+    if (character.tallness - monster.tallness >= 24 && largestBreastRating >= 4) {
+        choices[TeaseType.TallTease] += 5;
+    }
+    // 26 SMART PEEPS! 70+ int, arouse spell!
+    if (character.stats.int >= 70 && character.statusAffects.has(StatusAffectType.KnowsArouse)) {
+        choices[TeaseType.Smartness] += 3;
+    }
+    // 27 FEEDER
+    if (character.perks.has(PerkType.Feeder) && largestBreastRating >= 4) {
+        choices[TeaseType.Feeder] += 3;
+        if (largestBreastRating >= 10) choices[TeaseType.Feeder]++;
+        if (largestBreastRating >= 15) choices[TeaseType.Feeder]++;
+        if (largestBreastRating >= 25) choices[TeaseType.Feeder]++;
+        if (largestBreastRating >= 40) choices[TeaseType.Feeder]++;
+        if (largestBreastRating >= 60) choices[TeaseType.Feeder]++;
+        if (largestBreastRating >= 80) choices[TeaseType.Feeder]++;
+    }
+    // 28 FEMALE TEACHER COSTUME TEASE
+    if (character.inventory.equipment.armor.displayName === "backless female teacher's clothes" && character.gender === 2) {
+        choices[TeaseType.ClothesFemaleTeacher] += 4;
+    }
+    // 29 Male Teacher Outfit Tease
+    if (character.inventory.equipment.armor.displayName === "formal vest, tie, and crotchless pants" && character.gender === 1) {
+        choices[TeaseType.ClothesMaleTeacher] += 4;
+    }
+    // 30 Naga Fetish Clothes
+    if (character.inventory.equipment.armor.displayName === "headdress, necklaces, and many body-chains") {
+        choices[TeaseType.ClothesNagaFetish] += 4;
+    }
+    // 31 Centaur harness clothes
+    if (character.inventory.equipment.armor.displayName === "bridle bit and saddle set") {
+        choices[TeaseType.ClothesCentaurHarness] += 4;
+    }
+    // 32 Genderless servant clothes
+    if (character.inventory.equipment.armor.displayName === "servant's clothes" && character.gender === 0) {
+        choices[TeaseType.ClothesGenderlessServant] += 4;
+    }
+    // 33 Crotch Revealing Clothes (herm only?)
+    if (character.inventory.equipment.armor.displayName === "crotch-revealing clothes" && character.gender === 3) {
+        choices[TeaseType.ClothesCrotchRevealing] += 4;
+    }
+    // 34 Maid Costume (female only):
+    if (character.inventory.equipment.armor.displayName === "maid's clothes" && hasVagina) {
+        choices[TeaseType.ClothesMaid] += 4;
+    }
+    // 35 Servant Boy Clothes (male only)
+    if (character.inventory.equipment.armor.displayName === "cute servant's clothes" && character.torso.cocks.count > 0) {
+        choices[TeaseType.ClothesServantBoy] += 4;
+    }
+    // 36 Bondage Patient Clothes
+    if (character.inventory.equipment.armor.displayName === "bondage patient clothes") {
+        choices[TeaseType.ClothesBondagePatient] += 4;
+    }
+    // 37 Kitsune Tease
+    // 38 Kitsune Tease
+    // 39 Kitsune Tease
+    // 40 Kitsune Tease
+    if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
+        choices[TeaseType.Kitsune1] += 4;
+        choices[TeaseType.Kitsune2] += 4;
+        choices[TeaseType.Kitsune3] += 4;
+        choices[TeaseType.Kitsune4] += 4;
+    }
+    // 41 Kitsune Gendered Tease
+    if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
+        choices[TeaseType.KitsuneGendered] += 4;
+    }
+    // 42 Urta teases!
+    // if (urtaQuest.isUrta()) {
+    //     choices[TeaseType.Urta] += 9;
+    // }
+    // 43 - special mino + cowgirls
+    if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
+        choices[TeaseType.Cowgirl] += 9;
+    }
+    // 44 - Bikini Mail Teases!
+    if (character.torso.vaginas.count > 0 && largestBreastRating >= 4 && character.inventory.equipment.armor.name === ArmorName.LustyMaidensArmor) {
+        choices[TeaseType.ClothesBikiniMail] += 15;
+    }
+    return selectChoice(choices);
+}
+
+function selectChoice(list: number[]): number {
+    const randomChoice: number = randInt(list.reduce((sum: number, value: number) => {
+        return sum + value;
+    }, 0));
+    let counter = 0;
+    for (let index = 0; index < list.length; index++) {
+        if (counter + list[index] >= randomChoice)
+            return index;
+        counter += list[index];
+    }
+}
+
+export class Tease implements CombatAction {
     public name: string = "Tease";
     public reasonCannotUse: string = "";
 
     public isPossible(character: Character): boolean {
         return character.combat.effects.combatAbilityFlag & CombatAbilityFlag.Tease ? true : false;
     }
-    public canUse(character: Character, monster: Character): boolean {
+    public canUse(character: Character, target?: Character): boolean {
         return true;
     }
 
-    private determineBaseDamage(character: Character): number {
-        let damage: number = 6 + randInt(3);
-        if (character.perks.has(PerkType.SensualLover))
-            damage += 2;
-        if (character.perks.has(PerkType.Seduction))
-            damage += 5;
-        // + slutty armor bonus
-        if (character.perks.has(PerkType.SluttySeduction))
-            damage += character.perks.get(PerkType.SluttySeduction).value1;
-        damage += character.stats.level;
-        damage += character.stats.teaseLevel * 2;
-        return damage;
-    }
-
-    private determineBaseChance(character: Character): number {
-        let chance: number = 0;
-        chance = 60;
-        // 5% chance for each tease level.
-        chance += character.stats.teaseLevel * 5;
-        // 10% for seduction perk
-        if (character.perks.has(PerkType.Seduction)) chance += 10;
-        // 10% for sexy armor types
-        if (character.perks.has(PerkType.SluttySeduction)) chance += 10;
-        // 10% for bimbo shits
-        if (character.perks.has(PerkType.BimboBody)) {
-            chance += 10;
-        }
-        if (character.perks.has(PerkType.BroBody)) {
-            chance += 10;
-        }
-        if (character.perks.has(PerkType.FutaForm)) {
-            chance += 10;
-        }
-        // 2 & 2 for seductive valentines!
-        if (character.perks.has(PerkType.SensualLover)) {
-            chance += 2;
-        }
-        // if (character.perks.has(PerkType.ChiReflowLust))
-        //     chance += UmasShop.NEEDLEWORK_LUST_TEASE_MULTI;
-        return chance;
-    }
-
-    private determineTeaseChoice(character: Character, monster: Character, bimbo: boolean, bro: boolean, futa: boolean) {
-        const buttRating = character.torso.butt.rating;
-        const largestBreastRating = character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating;
-        const hasVagina = character.torso.vaginas.count > 0;
-        const vaginalWetness = character.torso.vaginas.get(0).wetness;
-        const vaginalCapacity = character.vaginalCapacity();
-        const cockCount = character.torso.cocks.count;
-        const largestCockArea = character.torso.cocks.sort(Cock.LargestCockArea)[0].area;
-        const choices: number[] = [];
-        choices.length = TeaseType.MaxTeaseTypes;
-        for (let index: number = 0; index < TeaseType.MaxTeaseTypes; index++)
-            choices[index] = 0;
-
-        if ((futa || bimbo) && character.gender === Gender.HERM) {
-            // Once chance of butt.
-            choices[TeaseType.BimboButtShake]++;
-            // Big butts get more butt
-            if (buttRating >= 7) choices[TeaseType.BimboButtShake]++;
-            if (buttRating >= 10) choices[TeaseType.BimboButtShake]++;
-            if (buttRating >= 14) choices[TeaseType.BimboButtShake]++;
-            if (buttRating >= 20) choices[TeaseType.BimboButtShake]++;
-            if (buttRating >= 25) choices[TeaseType.BimboButtShake]++;
-            // Breast jiggle!
-            if (largestBreastRating >= 2) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 4) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 8) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 15) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 30) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 50) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 75) choices[TeaseType.BimboBreastJiggle]++;
-            if (largestBreastRating >= 100) choices[TeaseType.BimboBreastJiggle]++;
-            // Pussy Flash!
-            if (hasVagina) {
-                choices[TeaseType.PussyFlash]++;
-                if (vaginalWetness >= 3) choices[TeaseType.BimboPussyFlash]++;
-                if (vaginalWetness >= 5) choices[TeaseType.BimboPussyFlash]++;
-                if (vaginalCapacity >= 30) choices[TeaseType.BimboPussyFlash]++;
-                if (vaginalCapacity >= 60) choices[TeaseType.BimboPussyFlash]++;
-                if (vaginalCapacity >= 75) choices[TeaseType.BimboPussyFlash]++;
-            }
-            // Adj special!
-            if (hasVagina && character.torso.butt.rating >= 8 && character.torso.hips.rating >= 6 && largestBreastRating >= 4) {
-                choices[TeaseType.BimboSpecial] += 4;
-            }
-            // Cock flash!
-            if (futa && character.torso.cocks.count > 0) {
-                choices[TeaseType.BroBulgyGroinThrust]++;
-                choices[TeaseType.BroShowOffDick]++;
-                if (cockCount > 1) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (cockCount >= 2) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 10) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (largestCockArea >= 25) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 50) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 75) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (largestCockArea >= 100) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 300) choices[TeaseType.BroBulgyGroinThrust]++;
-            }
-        }
-        else if (bro) {
-            // 8 Pec Dance
-            if (largestBreastRating < 1 && character.tone >= 60) {
-                choices[TeaseType.BroPecDance]++;
-                if (character.tone >= 70) choices[TeaseType.BroPecDance]++;
-                if (character.tone >= 80) choices[TeaseType.BroPecDance]++;
-                if (character.tone >= 90) choices[TeaseType.BroPecDance]++;
-                if (character.tone === 100) choices[TeaseType.BroPecDance]++;
-            }
-            // 9 Heroic Pose
-            if (character.tone >= 60 && character.stats.str >= 50) {
-                choices[TeaseType.BroHeroicPose]++;
-                if (character.tone >= 80) choices[TeaseType.BroHeroicPose]++;
-                if (character.stats.str >= 70) choices[TeaseType.BroHeroicPose]++;
-                if (character.tone >= 90) choices[TeaseType.BroHeroicPose]++;
-                if (character.stats.str >= 80) choices[TeaseType.BroHeroicPose]++;
-            }
-            // Cock flash!
-            if (character.torso.cocks.count > 0) {
-                choices[TeaseType.BroBulgyGroinThrust]++;
-                choices[TeaseType.BroShowOffDick]++;
-                if (cockCount > 1) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (cockCount >= 2) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 10) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (largestCockArea >= 25) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 50) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 75) choices[TeaseType.BroBulgyGroinThrust]++;
-                if (largestCockArea >= 100) choices[TeaseType.BroShowOffDick]++;
-                if (largestCockArea >= 300) choices[TeaseType.BroBulgyGroinThrust]++;
-            }
-        }
-        // VANILLA FOLKS
-        else {
-            // Once chance of butt.
-            choices[TeaseType.ButtShake]++;
-            // Big butts get more butt
-            if (character.torso.butt.rating >= 7) choices[TeaseType.ButtShake]++;
-            if (character.torso.butt.rating >= 10) choices[TeaseType.ButtShake]++;
-            if (character.torso.butt.rating >= 14) choices[TeaseType.ButtShake]++;
-            if (character.torso.butt.rating >= 20) choices[TeaseType.ButtShake]++;
-            if (character.torso.butt.rating >= 25) choices[TeaseType.ButtShake]++;
-            // Breast jiggle!
-            if (largestBreastRating >= 2) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 4) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 8) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 15) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 30) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 50) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 75) choices[TeaseType.BreastJiggle]++;
-            if (largestBreastRating >= 100) choices[TeaseType.BreastJiggle]++;
-            // Pussy Flash!
-            if (hasVagina) {
-                choices[TeaseType.PussyFlash]++;
-                if (vaginalWetness >= 3) choices[TeaseType.PussyFlash]++;
-                if (vaginalWetness >= 5) choices[TeaseType.PussyFlash]++;
-                if (vaginalCapacity >= 30) choices[TeaseType.PussyFlash]++;
-                if (vaginalCapacity >= 60) choices[TeaseType.PussyFlash]++;
-                if (vaginalCapacity >= 75) choices[TeaseType.PussyFlash]++;
-            }
-            // Cock flash!
-            if (character.torso.cocks.count > 0) {
-                choices[TeaseType.CockFlash]++;
-                if (cockCount > 1) choices[TeaseType.CockFlash]++;
-                if (cockCount >= 2) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 10) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 25) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 50) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 75) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 100) choices[TeaseType.CockFlash]++;
-                if (largestCockArea >= 300) choices[TeaseType.CockFlash]++;
-            }
-        }
-        // ==EXTRAS========
-        // 12 Cat flexibility.
-        if (character.perks.has(PerkType.Flexibility) && character.torso.hips.legs.isBiped() && hasVagina) {
-            choices[TeaseType.CatFlexibility] += 2;
-            if (vaginalWetness >= 3) choices[TeaseType.CatFlexibility]++;
-            if (vaginalWetness >= 5) choices[TeaseType.CatFlexibility]++;
-            if (vaginalCapacity >= 30) choices[TeaseType.CatFlexibility]++;
-        }
-        // 13 Pregnant
-        // if (character.pregnancyIncubation <= 216 && character.pregnancyIncubation > 0) {
-        if (character.pregnancy.womb.isPregnant() || character.pregnancy.buttWomb.isPregnant()) {
-            choices[TeaseType.Pregnant]++;
-            const vagIncubationTime: number = character.pregnancy.womb.isPregnant() ? character.pregnancy.womb.pregnancy.incubation : 0;
-            const buttIncubationTime: number = character.pregnancy.buttWomb.isPregnant() ? character.pregnancy.buttWomb.pregnancy.incubation : 0;
-            const incubationTime: number = vagIncubationTime < buttIncubationTime ? vagIncubationTime : buttIncubationTime;
-            if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 180) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 120) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 100) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 50) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
-            if (incubationTime <= 24) choices[TeaseType.Pregnant]++;
-        }
-        // 14 Brood Mother
-        if (monster.torso.cocks.count > 0 && hasVagina && character.perks.has(PerkType.BroodMother) && !character.pregnancy.womb.isPregnant() && !character.pregnancy.buttWomb.isPregnant()) {
-            choices[TeaseType.BroodMother] += 3;
-            if (character.statusAffects.has(StatusAffectType.Heat)) choices[TeaseType.BroodMother] += 7;
-        }
-        // 15 Nipplecunts
-        if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
-            choices[TeaseType.Nipplecunts] += 2;
-            if (hasVagina) choices[TeaseType.Nipplecunts] += 3;
-            if (vaginalWetness >= 3) choices[TeaseType.Nipplecunts]++;
-            if (vaginalWetness >= 5) choices[TeaseType.Nipplecunts]++;
-            if (largestBreastRating >= 3) choices[TeaseType.Nipplecunts]++;
-            if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length >= 3) choices[TeaseType.Nipplecunts]++;
-        }
-        // 16 Anal gape
-        if (character.torso.butt.looseness >= 4) {
-            choices[TeaseType.AnalGape]++;
-            if (character.torso.butt.looseness >= 5) choices[TeaseType.AnalGape]++;
-        }
-        // 17 Bee abdomen tease
-        if (character.torso.tails.reduce(Tail.HasType(TailType.BEE_ABDOMEN), false)) {
-            choices[TeaseType.BeeAbdomen] += 2;
-        }
-        // 18 DOG TEASE
-        if (RaceScore.dogScore(character) >= 4 && hasVagina && character.torso.hips.legs.isBiped()) {
-            choices[TeaseType.DogTease] += 2;
-        }
-        // 19 Maximum Femininity:
-        if (character.femininity >= 100) {
-            choices[TeaseType.MaxFemininity] += 3;
-        }
-        // 20 Maximum MAN:
-        if (character.femininity <= 0) {
-            choices[TeaseType.MaxManliness] += 3;
-        }
-        // 21 Perfect Androgyny:
-        if (character.femininity === 50) {
-            choices[TeaseType.PerfectAndrogyny] += 3;
-        }
-        // 22 SPOIDAH SILK
-        if (character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
-            choices[TeaseType.SpirderSilk] += 3;
-            if (RaceScore.spiderScore(character) >= 4) {
-                choices[TeaseType.SpirderSilk] += 3;
-            }
-        }
-        // 23 RUT
-        if (character.statusAffects.has(StatusAffectType.Rut) && monster.torso.vaginas.count > 0 && character.torso.cocks.count > 0) {
-            choices[TeaseType.Rut] += 5;
-        }
-        // 24 Poledance - req's staff! - Req's gender!  Req's TITS!
-        if (character.inventory.equipment.weapon.displayname === "wizard's staff" && largestBreastRating >= 1 && character.gender > 0) {
-            choices[TeaseType.Poledance] += 5;
-        }
-        // 25 Tall Tease! - Reqs 2+ feet & PC Cunt!
-        if (character.tallness - monster.tallness >= 24 && largestBreastRating >= 4) {
-            choices[TeaseType.TallTease] += 5;
-        }
-        // 26 SMART PEEPS! 70+ int, arouse spell!
-        if (character.stats.int >= 70 && character.statusAffects.has(StatusAffectType.KnowsArouse)) {
-            choices[TeaseType.Smartness] += 3;
-        }
-        // 27 FEEDER
-        if (character.perks.has(PerkType.Feeder) && largestBreastRating >= 4) {
-            choices[TeaseType.Feeder] += 3;
-            if (largestBreastRating >= 10) choices[TeaseType.Feeder]++;
-            if (largestBreastRating >= 15) choices[TeaseType.Feeder]++;
-            if (largestBreastRating >= 25) choices[TeaseType.Feeder]++;
-            if (largestBreastRating >= 40) choices[TeaseType.Feeder]++;
-            if (largestBreastRating >= 60) choices[TeaseType.Feeder]++;
-            if (largestBreastRating >= 80) choices[TeaseType.Feeder]++;
-        }
-        // 28 FEMALE TEACHER COSTUME TEASE
-        if (character.inventory.equipment.armor.displayName === "backless female teacher's clothes" && character.gender === 2) {
-            choices[TeaseType.ClothesFemaleTeacher] += 4;
-        }
-        // 29 Male Teacher Outfit Tease
-        if (character.inventory.equipment.armor.displayName === "formal vest, tie, and crotchless pants" && character.gender === 1) {
-            choices[TeaseType.ClothesMaleTeacher] += 4;
-        }
-        // 30 Naga Fetish Clothes
-        if (character.inventory.equipment.armor.displayName === "headdress, necklaces, and many body-chains") {
-            choices[TeaseType.ClothesNagaFetish] += 4;
-        }
-        // 31 Centaur harness clothes
-        if (character.inventory.equipment.armor.displayName === "bridle bit and saddle set") {
-            choices[TeaseType.ClothesCentaurHarness] += 4;
-        }
-        // 32 Genderless servant clothes
-        if (character.inventory.equipment.armor.displayName === "servant's clothes" && character.gender === 0) {
-            choices[TeaseType.ClothesGenderlessServant] += 4;
-        }
-        // 33 Crotch Revealing Clothes (herm only?)
-        if (character.inventory.equipment.armor.displayName === "crotch-revealing clothes" && character.gender === 3) {
-            choices[TeaseType.ClothesCrotchRevealing] += 4;
-        }
-        // 34 Maid Costume (female only):
-        if (character.inventory.equipment.armor.displayName === "maid's clothes" && hasVagina) {
-            choices[TeaseType.ClothesMaid] += 4;
-        }
-        // 35 Servant Boy Clothes (male only)
-        if (character.inventory.equipment.armor.displayName === "cute servant's clothes" && character.torso.cocks.count > 0) {
-            choices[TeaseType.ClothesServantBoy] += 4;
-        }
-        // 36 Bondage Patient Clothes
-        if (character.inventory.equipment.armor.displayName === "bondage patient clothes") {
-            choices[TeaseType.ClothesBondagePatient] += 4;
-        }
-        // 37 Kitsune Tease
-        // 38 Kitsune Tease
-        // 39 Kitsune Tease
-        // 40 Kitsune Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
-            choices[TeaseType.Kitsune1] += 4;
-            choices[TeaseType.Kitsune2] += 4;
-            choices[TeaseType.Kitsune3] += 4;
-            choices[TeaseType.Kitsune4] += 4;
-        }
-        // 41 Kitsune Gendered Tease
-        if (RaceScore.kitsuneScore(character) >= 2 && character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
-            choices[TeaseType.KitsuneGendered] += 4;
-        }
-        // 42 Urta teases!
-        // if (urtaQuest.isUrta()) {
-        //     choices[TeaseType.Urta] += 9;
-        // }
-        // 43 - special mino + cowgirls
-        if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && largestBreastRating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
-            choices[TeaseType.Cowgirl] += 9;
-        }
-        // 44 - Bikini Mail Teases!
-        if (character.torso.vaginas.count > 0 && largestBreastRating >= 4 && character.inventory.equipment.armor.displayName === "lusty maiden's armor") {
-            choices[TeaseType.ClothesBikiniMail] += 15;
-        }
-        return this.selectChoice(choices);
-    }
-
-    private selectChoice(list: number[]): number {
-        const randomChoice: number = randInt(list.reduce((sum: number, value: number) => {
-            return sum + value;
-        }, 0));
-        let counter = 0;
-        for (let index = 0; index < list.length; index++) {
-            if (counter + list[index] >= randomChoice)
-                return index;
-            counter += list[index];
-        }
-    }
-
-    public use(character: Character, monster: Character): void {
+    public use(character: Character, target: Character): void {
         DisplayText().clear();
         // You cant tease a blind guy!
-        if (monster.statusAffects.has(StatusAffectType.Blind)) {
-            DisplayText("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  It doesn't work - you blinded " + monster.desc.objectivePronoun + ", remember?\n\n");
+        if (target.statusAffects.has(StatusAffectType.Blind)) {
+            DisplayText("You do your best to tease " + target.desc.a + target.desc.short + " with your body.  It doesn't work - you blinded " + target.desc.objectivePronoun + ", remember?\n\n");
             return;
         }
         if (character.statusAffects.has(StatusAffectType.Sealed) && character.statusAffects.get(StatusAffectType.Sealed).value2 === 1) {
-            DisplayText("You do your best to tease " + monster.desc.a + monster.desc.short + " with your body.  Your artless twirls have no effect, as <b>your ability to tease is sealed.</b>\n\n");
+            DisplayText("You do your best to tease " + target.desc.a + target.desc.short + " with your body.  Your artless twirls have no effect, as <b>your ability to tease is sealed.</b>\n\n");
             return;
         }
-        if (monster.desc.short === "Sirius, a naga hypnotist") {
+        if (target.desc.short === "Sirius, a naga hypnotist") {
             DisplayText("He is too focused on your eyes to pay any attention to your teasing moves, <b>looks like you'll have to beat him up.</b>\n\n");
             return;
         }
-        if (monster.stats.lustVuln === 0) {
+        if (target.stats.lustVuln === 0) {
             DisplayText().clear();
-            DisplayText("You try to tease " + monster.desc.a + monster.desc.short + " with your body, but it doesn't have any effect on " + monster.desc.objectivePronoun + ".\n\n");
+            DisplayText("You try to tease " + target.desc.a + target.desc.short + " with your body, but it doesn't have any effect on " + target.desc.objectivePronoun + ".\n\n");
             return;
         }
-        if (monster.desc.short === "worms") {
+        if (target.desc.short === "worms") {
             DisplayText().clear();
             DisplayText("Thinking to take advantage of its humanoid form, you wave your cock and slap your ass in a rather lewd manner. However, the creature fails to react to your suggestive actions.\n\n");
             return;
@@ -465,8 +468,8 @@ export default class Tease implements CombatAction {
         let bimbo: boolean = character.perks.has(PerkType.BimboBody) ? true : false;
         const bro: boolean = character.perks.has(PerkType.BroBody) ? true : false;
         const futa: boolean = character.perks.has(PerkType.FutaForm) ? true : false;
-        let chance: number = this.determineBaseChance(character);
-        let damage: number = this.determineBaseDamage(character);
+        let chance: number = determineBaseChance(character);
+        let damage: number = determineBaseDamage(character);
         // 10% for bimbo shits
         if (bimbo || bro || futa) {
             damage += 5;
@@ -485,8 +488,8 @@ export default class Tease implements CombatAction {
         // =======================================================
         //    CHOOSE YOUR TEASE AND DISPLAY IT!
         // =======================================================
-        let choice: TeaseType = this.determineTeaseChoice(character, monster, bimbo, bro, futa);
-        if (monster.desc.short.indexOf("minotaur") !== -1) {
+        let choice: TeaseType = determineTeaseChoice(character, target, bimbo, bro, futa);
+        if (target.desc.short.indexOf("minotaur") !== -1) {
             if (character.torso.vaginas.count > 0 && character.lactationQ() >= 500 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 6 && RaceScore.cowScore(character) >= 3 && character.torso.tails.reduce(Tail.HasType(TailType.COW), false))
                 choice = TeaseType.Cowgirl;
         }
@@ -506,8 +509,8 @@ export default class Tease implements CombatAction {
                 // Single breast row
                 if (character.torso.chest.count === 1) {
                     // 50+ breastsize% success rate
-                    DisplayText("Your lift your top, exposing your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " to " + monster.desc.a + monster.desc.short + ".  You shake them from side to side enticingly.");
-                    if (character.stats.lust >= 50) DisplayText("  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s seem to demand " + monster.desc.possessivePronoun + " attention.");
+                    DisplayText("Your lift your top, exposing your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " to " + target.desc.a + target.desc.short + ".  You shake them from side to side enticingly.");
+                    if (character.stats.lust >= 50) DisplayText("  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s seem to demand " + target.desc.possessivePronoun + " attention.");
                 }
                 // Multirow
                 if (character.torso.chest.count > 1) {
@@ -522,7 +525,7 @@ export default class Tease implements CombatAction {
             // 2 PUSSAH FLASHIN'
             case TeaseType.PussyFlash:
                 if (character.torso.hips.legs.isTaur()) {
-                    DisplayText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground.  Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you.  In this position, your opponent's face is buried right in your girthy horsecunt.  You grind your cunt into " + monster.desc.possessivePronoun + " face for a moment before standing.  When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
+                    DisplayText("You gallop toward your unsuspecting enemy, dodging their defenses and knocking them to the ground.  Before they can recover, you slam your massive centaur ass down upon them, stopping just short of using crushing force to pin them underneath you.  In this position, your opponent's face is buried right in your girthy horsecunt.  You grind your cunt into " + target.desc.possessivePronoun + " face for a moment before standing.  When you do, you're gratified to see your enemy covered in your lubricant and smelling powerfully of horsecunt.");
                     chance += 2;
                     damage += 4;
                 }
@@ -574,12 +577,12 @@ export default class Tease implements CombatAction {
                 DisplayText("You turn away and bounce your " + ButtDescriptor.describeButt(character) + " up and down hypnotically");
                 // Big butts = extra text + higher success
                 if (character.torso.butt.rating >= 10) {
-                    DisplayText(", making it jiggle delightfully.  " + monster.desc.capitalA + monster.desc.short + " even gets a few glimpses of the " + ButtDescriptor.describeButthole(character.torso.butt) + " between your cheeks.");
+                    DisplayText(", making it jiggle delightfully.  " + target.desc.capitalA + target.desc.short + " even gets a few glimpses of the " + ButtDescriptor.describeButthole(character.torso.butt) + " between your cheeks.");
                     chance += 3;
                 }
                 // Small butts = less damage, still high success
                 else {
-                    DisplayText(", letting " + monster.desc.a + monster.desc.short + " get a good look at your " + ButtDescriptor.describeButthole(character.torso.butt) + " and " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".");
+                    DisplayText(", letting " + target.desc.a + target.desc.short + " get a good look at your " + ButtDescriptor.describeButthole(character.torso.butt) + " and " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".");
                     chance += 1;
                     vagina = true;
                 }
@@ -588,14 +591,14 @@ export default class Tease implements CombatAction {
                 break;
             // 5 breast jiggle
             case TeaseType.BimboBreastJiggle:
-                DisplayText("You lean forward, letting the well-rounded curves of your " + BreastDescriptor.describeAllBreasts(character) + " show to " + monster.desc.a + monster.desc.short + ".");
+                DisplayText("You lean forward, letting the well-rounded curves of your " + BreastDescriptor.describeAllBreasts(character) + " show to " + target.desc.a + target.desc.short + ".");
                 DisplayText("  You cup them in your palms and lewdly bounce them, putting on a show and giggling the entire time.  An inch at a time, your " + character.inventory.equipment.armor.displayName + " starts to come down, dropping tantalizingly slowly until your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s pop free.");
                 if (character.stats.lust >= 50) {
                     if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
                         chance++;
                         DisplayText("  Clear slime leaks from them, making it quite clear that they're more than just nipples.");
                     }
-                    else DisplayText("  Your hard nipples seem to demand " + monster.desc.possessivePronoun + " attention.");
+                    else DisplayText("  Your hard nipples seem to demand " + target.desc.possessivePronoun + " attention.");
                     chance += 1;
                     damage += 2;
                 }
@@ -614,10 +617,10 @@ export default class Tease implements CombatAction {
                     else DisplayText("sexy ");
                     DisplayText("body turn you on?</i>\"  ");
                 }
-                if (monster.desc.plural)
-                    DisplayText(monster.desc.capitalA + monster.desc.short + "' gazes are riveted on your groin as you run your fingers up and down your folds seductively.");
+                if (target.desc.plural)
+                    DisplayText(target.desc.capitalA + target.desc.short + "' gazes are riveted on your groin as you run your fingers up and down your folds seductively.");
                 else
-                    DisplayText(monster.desc.capitalA + monster.desc.short + "'s gaze is riveted on your groin as you run your fingers up and down your folds seductively.");
+                    DisplayText(target.desc.capitalA + target.desc.short + "'s gaze is riveted on your groin as you run your fingers up and down your folds seductively.");
                 if (character.torso.clit.length > 3) DisplayText("  You smile as your " + VaginaDescriptor.describeClit(character) + " swells out from the folds and stands proudly, begging to be touched.");
                 else DisplayText("  You smile and pull apart your lower-lips to expose your " + VaginaDescriptor.describeClit(character) + ", giving the perfect view.");
                 if (character.torso.cocks.count > 0) DisplayText("  Meanwhile, " + CockDescriptor.describeMultiCockSimpleOne(character) + " bobs back and forth with your gyrating hips, adding to the display.");
@@ -630,7 +633,7 @@ export default class Tease implements CombatAction {
                 break;
             // 7 special Adjatha-crafted bend over bimbo times
             case TeaseType.BimboSpecial:
-                DisplayText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + monster.desc.a + monster.desc.short + ".  Locking your knees, you bend waaaaay over, " + BreastDescriptor.describeChest(character) + " swinging in the open air while your " + ButtDescriptor.describeButt(character) + " juts out at the " + monster.desc.a + monster.desc.short + ".  Your plump cheeks and " + HipDescriptor.describeHips(character) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n");
+                DisplayText("The glinting of light catches your eye and you whip around to inspect the glittering object, turning your back on " + target.desc.a + target.desc.short + ".  Locking your knees, you bend waaaaay over, " + BreastDescriptor.describeChest(character) + " swinging in the open air while your " + ButtDescriptor.describeButt(character) + " juts out at the " + target.desc.a + target.desc.short + ".  Your plump cheeks and " + HipDescriptor.describeHips(character) + " form a jiggling heart-shape as you eagerly rub your thighs together.\n\n");
                 DisplayText("The clear, warm fluid of your happy excitement trickles down from your loins, polishing your " + SkinDescriptor.skin(character) + " to a glossy, inviting shine.  Retrieving the useless, though shiny, bauble, you hold your pose for just a moment longer, a sly little smile playing across your lips as you wiggle your cheeks one more time before straightening up and turning back around.");
                 vagina = true;
                 chance++;
@@ -640,8 +643,8 @@ export default class Tease implements CombatAction {
             // 8 Pec Dance
             case TeaseType.BroPecDance:
                 DisplayText("You place your hands on your hips and flex repeatedly, skillfully making your pecs alternatively bounce in a muscular dance.  ");
-                if (character.perks.has(PerkType.BroBrains)) DisplayText("Damn, " + monster.desc.a + monster.desc.short + " has got to love this!");
-                else DisplayText(monster.desc.capitalA + monster.desc.short + " will probably enjoy the show, but you feel a bit silly doing this.");
+                if (character.perks.has(PerkType.BroBrains)) DisplayText("Damn, " + target.desc.a + target.desc.short + " has got to love this!");
+                else DisplayText(target.desc.capitalA + target.desc.short + " will probably enjoy the show, but you feel a bit silly doing this.");
                 chance += (character.tone - 75) / 5;
                 damage += (character.tone - 70) / 5;
                 auto = false;
@@ -649,7 +652,7 @@ export default class Tease implements CombatAction {
             // 9 Heroic Pose
             case TeaseType.BroHeroicPose:
                 DisplayText("You lift your arms and flex your incredibly muscular arms while flashing your most disarming smile.  ");
-                if (character.perks.has(PerkType.BroBrains)) DisplayText(monster.desc.capitalA + monster.desc.short + " can't resist such a heroic pose!");
+                if (character.perks.has(PerkType.BroBrains)) DisplayText(target.desc.capitalA + target.desc.short + " can't resist such a heroic pose!");
                 else DisplayText("At least the physical changes to your body are proving useful!");
                 chance += (character.tone - 75) / 5;
                 damage += (character.tone - 70) / 5;
@@ -657,8 +660,8 @@ export default class Tease implements CombatAction {
                 break;
             // 10 Bulgy groin thrust
             case TeaseType.BroBulgyGroinThrust:
-                DisplayText("You lean back and pump your hips at " + monster.desc.a + monster.desc.short + " in an incredibly vulgar display.  The bulging, barely-contained outline of your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " presses hard into your gear.  ");
-                if (character.perks.has(PerkType.BroBrains)) DisplayText("No way could " + monster.desc.subjectivePronoun + " resist your huge cock!");
+                DisplayText("You lean back and pump your hips at " + target.desc.a + target.desc.short + " in an incredibly vulgar display.  The bulging, barely-contained outline of your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " presses hard into your gear.  ");
+                if (character.perks.has(PerkType.BroBrains)) DisplayText("No way could " + target.desc.subjectivePronoun + " resist your huge cock!");
                 else DisplayText("This is so crude, but at the same time, you know it'll likely be effective.");
                 DisplayText("  You go on like that, humping the air for your foe");
                 DisplayText("'s");
@@ -668,7 +671,7 @@ export default class Tease implements CombatAction {
                 break;
             // 11 Show off dick
             case TeaseType.BroShowOffDick:
-                if (User.settings.silly() && randInt(2) === 0) DisplayText("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + monster.desc.a + monster.desc.short + ".");
+                if (User.settings.silly() && randInt(2) === 0) DisplayText("You strike a herculean pose and flex, whispering, \"<i>Do you even lift?</i>\" to " + target.desc.a + target.desc.short + ".");
                 else {
                     DisplayText("You open your " + character.inventory.equipment.armor.displayName + " just enough to let your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " and " + BallsDescriptor.describeBalls(true, true, character) + " dangle free.  A shiny rope of pre-cum dangles from your cock, showing that your reproductive system is every bit as fit as the rest of you.  ");
                     if (character.perks.has(PerkType.BroBrains)) DisplayText("Bitches love a cum-leaking cock.");
@@ -681,7 +684,7 @@ export default class Tease implements CombatAction {
             // 12 Cat flexibility.
             case TeaseType.CatFlexibility:
                 // CAT TEASE MOTHERFUCK (requires flexibility and legs [maybe can't do it with armor?])
-                DisplayText("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " + HeadDescriptor.describeHair(character) + ".  You bring the leg out to the side, showing off your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " through your " + character.inventory.equipment.armor.displayName + ".  The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " + monster.desc.a + monster.desc.short + " how good of a time they're in for with you.");
+                DisplayText("Reaching down, you grab an ankle and pull it backwards, looping it up and over to touch the foot to your " + HeadDescriptor.describeHair(character) + ".  You bring the leg out to the side, showing off your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " through your " + character.inventory.equipment.armor.displayName + ".  The combination of the lack of discomfort on your face and the ease of which you're able to pose shows " + target.desc.a + target.desc.short + " how good of a time they're in for with you.");
                 vagina = true;
                 if (character.thickness < 33) chance++;
                 else if (character.thickness >= 66) chance--;
@@ -690,7 +693,7 @@ export default class Tease implements CombatAction {
             // 13 Pregnant
             case TeaseType.Pregnant:
                 // PREG
-                DisplayText("You lean back, feigning a swoon while pressing a hand on the small of your back.  The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger.  With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " + monster.desc.a + monster.desc.short + " through heavily lidded eyes.  \"<i>All of this estrogen is making me frisky,</i>\" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.");
+                DisplayText("You lean back, feigning a swoon while pressing a hand on the small of your back.  The pose juts your huge, pregnant belly forward and makes the shiny spherical stomach look even bigger.  With a teasing groan, you rub the protruding tummy gently, biting your lip gently as you stare at " + target.desc.a + target.desc.short + " through heavily lidded eyes.  \"<i>All of this estrogen is making me frisky,</i>\" you moan, stroking hand gradually shifting to the southern hemisphere of your big baby-bump.");
                 // if lactating
                 if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier >= 1) {
                     DisplayText("  Your other hand moves to expose your " + BreastDescriptor.describeChest(character) + ", cupping and squeezing a stream of milk to leak down the front of your " + character.inventory.equipment.armor.displayName + ".  \"<i>Help a mommy out.</i>\"\n\n");
@@ -723,9 +726,9 @@ export default class Tease implements CombatAction {
             case TeaseType.Nipplecunts:
                 // Req's tits & Pussy
                 if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 1 && character.torso.vaginas.count > 0 && randInt(2) === 0) {
-                    DisplayText("Closing your eyes, you lean forward and slip a hand under your " + character.inventory.equipment.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + character.inventory.equipment.armor.displayName + " and bare your " + BreastDescriptor.describeChest(character) + " to " + monster.desc.a + monster.desc.short + ".\n\n");
+                    DisplayText("Closing your eyes, you lean forward and slip a hand under your " + character.inventory.equipment.armor.displayName + ".  You let out the slightest of gasps as your fingers find your drooling honeypot, warm tips poking, one after another between your engorged lips.  When you withdraw your hand, your fingers have been soaked in the dripping passion of your cunny, translucent beads rolling down to wet your palm.  With your other hand, you pull down the top of your " + character.inventory.equipment.armor.displayName + " and bare your " + BreastDescriptor.describeChest(character) + " to " + target.desc.a + target.desc.short + ".\n\n");
                     DisplayText("Drawing your lust-slick hand to your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s, the yielding flesh of your cunt-like nipples parts before the teasing digits.  Using your own girl cum as added lubrication, you pump your fingers in and out of your nipples, moaning as you add progressively more digits until only your thumb remains to stroke the inflamed flesh of your over-stimulated chest.  Your throat releases the faintest squeak of your near-orgasmic delight and you pant, withdrawing your hands and readjusting your armor.\n\n");
-                    DisplayText("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + monster.desc.a + monster.desc.short + ".");
+                    DisplayText("Despite how quiet you were, it's clear that every lewd, desperate noise you made was heard by " + target.desc.a + target.desc.short + ".");
                     chance += 2;
                     damage += 4;
                 }
@@ -745,7 +748,7 @@ export default class Tease implements CombatAction {
                 break;
             // 17 Bee abdomen tease
             case TeaseType.BeeAbdomen:
-                DisplayText("You swing around, shedding the " + character.inventory.equipment.armor.displayName + " around your waist to expose your " + ButtDescriptor.describeButt(character) + " to " + monster.desc.a + monster.desc.short + ".  Taking up your oversized bee abdomen in both hands, you heft the thing and wave it about teasingly.  Drops of venom drip to and fro, a few coming dangerously close to " + monster.desc.objectivePronoun + ".  \"<i>Maybe if you behave well enough, I'll even drop a few eggs into your belly,</i>\" you say softly, dropping the abdomen back to dangle above your butt and redressing.");
+                DisplayText("You swing around, shedding the " + character.inventory.equipment.armor.displayName + " around your waist to expose your " + ButtDescriptor.describeButt(character) + " to " + target.desc.a + target.desc.short + ".  Taking up your oversized bee abdomen in both hands, you heft the thing and wave it about teasingly.  Drops of venom drip to and fro, a few coming dangerously close to " + target.desc.objectivePronoun + ".  \"<i>Maybe if you behave well enough, I'll even drop a few eggs into your belly,</i>\" you say softly, dropping the abdomen back to dangle above your butt and redressing.");
                 ass = true;
                 chance += .5;
                 damage += .5;
@@ -779,7 +782,7 @@ export default class Tease implements CombatAction {
                 break;
             // 22 SPOIDAH SILK
             case TeaseType.SpirderSilk:
-                DisplayText("Reaching back, you milk some wet silk from your spider-y abdomen and present it to " + monster.desc.a + monster.desc.short + ", molding the sticky substance as " + monster.desc.subjectivePronoun + " looks on curiously.  Within moments, you hold up a silken heart scuplture, and with a wink, you toss it at " + monster.desc.objectivePronoun + ". It sticks to " + monster.desc.possessivePronoun + " body, the sensation causing " + monster.desc.objectivePronoun + " to hastily slap the heart off.  " + GenderDescriptor.mf(monster, "He", "She") + " returns " + monster.desc.possessivePronoun + " gaze to you to find you turned around, " + ButtDescriptor.describeButt(character) + " bared and abdomen bouncing lazily.  \"<i>I wonder what would happen if I webbed up your hole after I dropped some eggs inside?</i>\" you hiss mischievously.  " + GenderDescriptor.mf(monster, "He", "She") + " gulps.");
+                DisplayText("Reaching back, you milk some wet silk from your spider-y abdomen and present it to " + target.desc.a + target.desc.short + ", molding the sticky substance as " + target.desc.subjectivePronoun + " looks on curiously.  Within moments, you hold up a silken heart scuplture, and with a wink, you toss it at " + target.desc.objectivePronoun + ". It sticks to " + target.desc.possessivePronoun + " body, the sensation causing " + target.desc.objectivePronoun + " to hastily slap the heart off.  " + GenderDescriptor.mf(target, "He", "She") + " returns " + target.desc.possessivePronoun + " gaze to you to find you turned around, " + ButtDescriptor.describeButt(character) + " bared and abdomen bouncing lazily.  \"<i>I wonder what would happen if I webbed up your hole after I dropped some eggs inside?</i>\" you hiss mischievously.  " + GenderDescriptor.mf(target, "He", "She") + " gulps.");
                 ass = true;
                 break;
             // 23 RUT TEASE
@@ -801,7 +804,7 @@ export default class Tease implements CombatAction {
                 break;
             // TALL WOMAN TEASE
             case TeaseType.TallTease:
-                DisplayText("You move close to your enemy, handily stepping over " + monster.desc.possessivePronoun + " defensive strike before leaning right down in " + monster.desc.possessivePronoun + " face, giving " + monster.desc.objectivePronoun + " a good long view at your cleavage.  \"<i>Hey, there, little " + GenderDescriptor.mf(monster, "guy", "girl") + ",</i>\" you smile.  Before " + monster.desc.subjectivePronoun + " can react, you grab " + monster.desc.objectivePronoun + " and smoosh " + monster.desc.possessivePronoun + " face into your " + BreastDescriptor.describeAllBreasts(character) + ", nearly choking " + monster.desc.objectivePronoun + " in the canyon of your cleavage.  " + GenderDescriptor.mf(monster, "He", "She") + " struggles for a moment.  You give " + monster.desc.objectivePronoun + " a little kiss on the head and step back, ready for combat.");
+                DisplayText("You move close to your enemy, handily stepping over " + target.desc.possessivePronoun + " defensive strike before leaning right down in " + target.desc.possessivePronoun + " face, giving " + target.desc.objectivePronoun + " a good long view at your cleavage.  \"<i>Hey, there, little " + GenderDescriptor.mf(target, "guy", "girl") + ",</i>\" you smile.  Before " + target.desc.subjectivePronoun + " can react, you grab " + target.desc.objectivePronoun + " and smoosh " + target.desc.possessivePronoun + " face into your " + BreastDescriptor.describeAllBreasts(character) + ", nearly choking " + target.desc.objectivePronoun + " in the canyon of your cleavage.  " + GenderDescriptor.mf(target, "He", "She") + " struggles for a moment.  You give " + target.desc.objectivePronoun + " a little kiss on the head and step back, ready for combat.");
                 breasts = true;
                 chance += 2;
                 damage += 4;
@@ -814,25 +817,25 @@ export default class Tease implements CombatAction {
                 break;
             // Feeder
             case TeaseType.Feeder:
-                DisplayText("You present your swollen breasts full of milk to " + monster.desc.a + monster.desc.short + " and say \"<i>Wouldn't you just love to lie back in my arms and enjoy what I have to offer you?</i>\"");
+                DisplayText("You present your swollen breasts full of milk to " + target.desc.a + target.desc.short + " and say \"<i>Wouldn't you just love to lie back in my arms and enjoy what I have to offer you?</i>\"");
                 breasts = true;
                 chance++;
                 damage++;
                 break;
             // 28 FEMALE TEACHER COSTUME TEASE
             case TeaseType.ClothesFemaleTeacher:
-                DisplayText("You turn to the side and give " + monster.desc.a + monster.desc.short + " a full view of your body.  You ask them if they're in need of a private lesson in lovemaking after class.");
+                DisplayText("You turn to the side and give " + target.desc.a + target.desc.short + " a full view of your body.  You ask them if they're in need of a private lesson in lovemaking after class.");
                 ass = true;
                 break;
             // 29 Male Teacher Outfit Tease
             case TeaseType.ClothesMaleTeacher:
-                DisplayText("You play with the strings on your outfit a bit and ask " + monster.desc.a + monster.desc.short + " just how much do they want to see their teacher pull them off?");
+                DisplayText("You play with the strings on your outfit a bit and ask " + target.desc.a + target.desc.short + " just how much do they want to see their teacher pull them off?");
                 chance++;
                 damage += 3;
                 break;
             // 30 Naga Fetish Clothes
             case TeaseType.ClothesNagaFetish:
-                DisplayText("You sway your body back and forth, and do an erotic dance for " + monster.desc.a + monster.desc.short + ".");
+                DisplayText("You sway your body back and forth, and do an erotic dance for " + target.desc.a + target.desc.short + ".");
                 chance += 2;
                 damage += 4;
                 break;
@@ -857,14 +860,14 @@ export default class Tease implements CombatAction {
                 break;
             // 34 Maid Costume (female only)
             case TeaseType.ClothesMaid:
-                DisplayText("You give a rather explicit curtsey towards " + monster.desc.a + monster.desc.short + " and ask them if your " + GenderDescriptor.mf(character, "master", "mistress") + " is interested in other services today.");
+                DisplayText("You give a rather explicit curtsey towards " + target.desc.a + target.desc.short + " and ask them if your " + GenderDescriptor.mf(character, "master", "mistress") + " is interested in other services today.");
                 chance++;
                 damage += 2;
                 breasts = true;
                 break;
             // 35 Servant Boy Clothes (male only)
             case TeaseType.ClothesServantBoy:
-                DisplayText("You brush aside your crotch flap for a moment, then ask " + monster.desc.a + monster.desc.short + " if, " + GenderDescriptor.mf(character, "Master", "Mistress") + " would like you to use your " + CockDescriptor.describeMultiCockShort(character) + " on them?");
+                DisplayText("You brush aside your crotch flap for a moment, then ask " + target.desc.a + target.desc.short + " if, " + GenderDescriptor.mf(character, "Master", "Mistress") + " would like you to use your " + CockDescriptor.describeMultiCockShort(character) + " on them?");
                 penis = true;
                 chance++;
                 damage += 2;
@@ -879,18 +882,18 @@ export default class Tease implements CombatAction {
                 DisplayText("You shimmy and shake sensually. (An error occurred.)");
                 break;
             case TeaseType.Kitsune1:
-                DisplayText("You purse your lips coyly, narrowing your eyes mischievously and beckoning to " + monster.desc.a + monster.desc.short + " with a burning come-hither glare.  Sauntering forward, you pop your hip to the side and strike a coquettish pose, running " + ((character.torso.tails.count > 1) ? "one of your tails" : "your tail") + " up and down " + monster.desc.possessivePronoun + " body sensually.");
+                DisplayText("You purse your lips coyly, narrowing your eyes mischievously and beckoning to " + target.desc.a + target.desc.short + " with a burning come-hither glare.  Sauntering forward, you pop your hip to the side and strike a coquettish pose, running " + ((character.torso.tails.count > 1) ? "one of your tails" : "your tail") + " up and down " + target.desc.possessivePronoun + " body sensually.");
                 chance += 6;
                 damage += 3;
                 break;
             case TeaseType.Kitsune2:
-                DisplayText("You wet your lips, narrowing your eyes into a smoldering, hungry gaze.  Licking the tip of your index finger, you trail it slowly and sensually down the front of your " + character.inventory.equipment.armor.displayName + ", following the line of your " + BreastDescriptor.describeChest(character) + " teasingly.  You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace.  The very instant that your [nipples] pop free, your tail crosses in front, obscuring " + monster.desc.a + monster.desc.short + "'s view.");
+                DisplayText("You wet your lips, narrowing your eyes into a smoldering, hungry gaze.  Licking the tip of your index finger, you trail it slowly and sensually down the front of your " + character.inventory.equipment.armor.displayName + ", following the line of your " + BreastDescriptor.describeChest(character) + " teasingly.  You hook your thumbs into your top and shimmy it downward at an agonizingly slow pace.  The very instant that your [nipples] pop free, your tail crosses in front, obscuring " + target.desc.a + target.desc.short + "'s view.");
                 breasts = true;
                 chance++;
                 damage++;
                 break;
             case TeaseType.Kitsune3:
-                DisplayText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " + monster.desc.a + monster.desc.short + " a kiss.  You stand straight, wiggling your " + HipDescriptor.describeHips(character) + " back and forth seductively while trailing your fingers down your front slowly, pouting demurely.  The tip of ");
+                DisplayText("Leaning forward, you bow down low, raising a hand up to your lips and blowing " + target.desc.a + target.desc.short + " a kiss.  You stand straight, wiggling your " + HipDescriptor.describeHips(character) + " back and forth seductively while trailing your fingers down your front slowly, pouting demurely.  The tip of ");
                 if (character.torso.tails.count === 1) DisplayText("your");
                 else DisplayText("a");
                 DisplayText(" bushy tail curls up around your " + LegDescriptor.describeLeg(character) + ", uncoiling with a whipping motion that makes an audible crack in the air.");
@@ -899,7 +902,7 @@ export default class Tease implements CombatAction {
                 damage += 1;
                 break;
             case TeaseType.Kitsune4:
-                DisplayText("Turning around, you stare demurely over your shoulder at " + monster.desc.a + monster.desc.short + ", batting your eyelashes amorously.");
+                DisplayText("Turning around, you stare demurely over your shoulder at " + target.desc.a + target.desc.short + ", batting your eyelashes amorously.");
                 if (character.torso.tails.count === 1) DisplayText("  Your tail twists and whips about, sliding around your " + HipDescriptor.describeHips(character) + " in a slow arc and framing your rear nicely as you slowly lift your " + character.inventory.equipment.armor.displayName + ".");
                 else DisplayText("  Your tails fan out, twisting and whipping sensually, sliding up and down your " + LegDescriptor.describeLegs(character) + " and framing your rear nicely as you slowly lift your " + character.inventory.equipment.armor.displayName + ".");
                 DisplayText("  As your [butt] comes into view, you brush your tail" + ((character.torso.tails.count > 1) ? "s" : "") + " across it, partially obscuring the view in a tantalizingly teasing display.");
@@ -981,7 +984,7 @@ export default class Tease implements CombatAction {
                     breasts = true;
                     damage += 2;
                 }
-                if (monster.desc.short.indexOf("minotaur") !== -1) {
+                if (target.desc.short.indexOf("minotaur") !== -1) {
                     damage += 6;
                     chance += 3;
                 }
@@ -996,12 +999,12 @@ export default class Tease implements CombatAction {
                     breasts = true;
                 }
                 else if (maiden === 1) {
-                    DisplayText("You skip up to " + monster.desc.a + monster.desc.short + " and spin around to rub your barely-covered butt up against " + monster.desc.objectivePronoun + ".  Before " + monster.desc.subjectivePronoun + " can react, you're slowly bouncing your [butt] up and down against " + monster.desc.possessivePronoun + " groin.  When " + monster.desc.subjectivePronoun + " reaches down, you grab " + monster.desc.possessivePronoun + " hand and press it up, under your skirt, right against the steamy seal on your sex.  The simmering heat of your overwhelming lust burns hot enough for " + monster.desc.objectivePronoun + " to feel even through the contoured leather, and you let " + monster.desc.objectivePronoun + " trace the inside of your [leg] for a moment before moving away, laughing playfully.");
+                    DisplayText("You skip up to " + target.desc.a + target.desc.short + " and spin around to rub your barely-covered butt up against " + target.desc.objectivePronoun + ".  Before " + target.desc.subjectivePronoun + " can react, you're slowly bouncing your [butt] up and down against " + target.desc.possessivePronoun + " groin.  When " + target.desc.subjectivePronoun + " reaches down, you grab " + target.desc.possessivePronoun + " hand and press it up, under your skirt, right against the steamy seal on your sex.  The simmering heat of your overwhelming lust burns hot enough for " + target.desc.objectivePronoun + " to feel even through the contoured leather, and you let " + target.desc.objectivePronoun + " trace the inside of your [leg] for a moment before moving away, laughing playfully.");
                     ass = true;
                     vagina = true;
                 }
                 else if (maiden === 2) {
-                    DisplayText("You flip up the barely-modest chain you call a skirt and expose your g-string to " + monster.desc.a + monster.desc.short + ".  Slowly swaying your [hips], you press a finger down on the creased crotch plate and exaggerate a lascivious moan into a throaty purr of enticing, sexual bliss.  Your eyes meet " + monster.desc.possessivePronoun + ", and you throatily whisper, \"<i>");
+                    DisplayText("You flip up the barely-modest chain you call a skirt and expose your g-string to " + target.desc.a + target.desc.short + ".  Slowly swaying your [hips], you press a finger down on the creased crotch plate and exaggerate a lascivious moan into a throaty purr of enticing, sexual bliss.  Your eyes meet " + target.desc.possessivePronoun + ", and you throatily whisper, \"<i>");
                     if (character.torso.vaginas.filter(Vagina.NotVirgin).length === 0) DisplayText("Think you can handle a virgin's infinite lust?");
                     else DisplayText("Think you have what it takes to satisfy this perfect pussy?");
                     DisplayText("</i>\"");
@@ -1009,11 +1012,11 @@ export default class Tease implements CombatAction {
                     damage += 3;
                 }
                 else if (maiden === 3) {
-                    DisplayText("You seductively wiggle your way up to " + monster.desc.a + monster.desc.short + ", and before " + monster.desc.subjectivePronoun + " can react to your salacious advance, you snap a [leg] up in what would be a vicious kick, if you weren't simply raising it to rest your [foot] on " + monster.desc.possessivePronoun + " shoulder.  With your thighs so perfectly spready, your skirt is lifted, and " + monster.desc.a + monster.desc.short + " is given a perfect view of your thong-enhanced cameltoe and the moisture that beads at the edges of your not-so-modest covering.");
+                    DisplayText("You seductively wiggle your way up to " + target.desc.a + target.desc.short + ", and before " + target.desc.subjectivePronoun + " can react to your salacious advance, you snap a [leg] up in what would be a vicious kick, if you weren't simply raising it to rest your [foot] on " + target.desc.possessivePronoun + " shoulder.  With your thighs so perfectly spready, your skirt is lifted, and " + target.desc.a + target.desc.short + " is given a perfect view of your thong-enhanced cameltoe and the moisture that beads at the edges of your not-so-modest covering.");
                     vagina = true;
                 }
                 else {
-                    DisplayText("Bending over, you lift your [butt] high in the air.  Most of your barely-covered tush is exposed, but the hem of your chainmail skirt still protects some of your anal modesty.  That doesn't last long.  You start shaking your [butt] up, down, back, and forth to an unheard rhythm, flipping the pointless covering out of the way so that " + monster.desc.a + monster.desc.short + " can gaze upon your curvy behind in it all its splendid detail.  A part of you hopes that " + monster.desc.subjectivePronoun + " takes in the intricate filigree on the back of your thong, though to " + monster.desc.objectivePronoun + " it looks like a bunch of glittering arrows on an alabaster background, all pointing squarely at your [asshole].");
+                    DisplayText("Bending over, you lift your [butt] high in the air.  Most of your barely-covered tush is exposed, but the hem of your chainmail skirt still protects some of your anal modesty.  That doesn't last long.  You start shaking your [butt] up, down, back, and forth to an unheard rhythm, flipping the pointless covering out of the way so that " + target.desc.a + target.desc.short + " can gaze upon your curvy behind in it all its splendid detail.  A part of you hopes that " + target.desc.subjectivePronoun + " takes in the intricate filigree on the back of your thong, though to " + target.desc.objectivePronoun + " it looks like a bunch of glittering arrows on an alabaster background, all pointing squarely at your [asshole].");
                     ass = true;
                     chance += 2;
                 }
@@ -1282,15 +1285,15 @@ export default class Tease implements CombatAction {
                 bonusDamage *= 1.15;
             }
             // if (character.perks.has(PerkType.ChiReflowLust)) damage *= UmasShop.NEEDLEWORK_LUST_TEASE_DAMAGE_MULTI;
-            if (monster.desc.plural) damage *= 1.3;
-            damage = (damage + randInt(bonusDamage)) * monster.stats.lustVuln;
+            if (target.desc.plural) damage *= 1.3;
+            damage = (damage + randInt(bonusDamage)) * target.stats.lustVuln;
 
             // if (monster.charType === CharacterType.JeanClaude)
             //     (monster as JeanClaude).handleTease(damage, true);
             // else if (monster.charType === CharacterType.Doppleganger && !monster.statusAffects.has(StatusAffectType.Stunned))
             //     (monster as Doppleganger).mirrorTease(damage, true);
             // else
-            monster.combat.respond.enemyTease(damage, character);
+            target.combat.respond.enemyTease(damage, target, character);
 
             if ((User.flags.get("Player") as PlayerFlags).FETISH >= 1) { // && !urtaQuest.isUrta()) {
                 if (character.stats.lust < 75) DisplayText("\nFlaunting your body in such a way gets you a little hot and bothered.");
@@ -1310,8 +1313,9 @@ export default class Tease implements CombatAction {
             // if (monster.charType === CharacterType.JeanClaude) (monster as JeanClaude).handleTease(0, false);
             // else if (monster.charType === CharacterType.Doppleganger) (monster as Doppleganger).mirrorTease(0, false);
             // else
-            DisplayText("\n" + monster.desc.capitalA + monster.desc.short + " seems unimpressed.");
+            DisplayText("\n" + target.desc.capitalA + target.desc.short + " seems unimpressed.");
         }
         DisplayText("\n\n");
+        MainScreen.doNext(Menus.Combat);
     }
 }
