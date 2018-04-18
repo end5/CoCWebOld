@@ -358,7 +358,7 @@ export default class RaceScore {
             kitsuneCounter++;
         if (character.torso.tails.filter(Tail.FilterType(TailType.FOX)).length > 0 && character.torso.tails.count >= 2)
             kitsuneCounter += 2;
-        if (character.torso.vaginas.get(0).capacity() >= 8000)
+        if (character.torso.vaginas.count > 0 && character.torso.vaginas.get(0).capacity() >= 8000)
             kitsuneCounter++;
         if (kitsuneCounter > 0 && character.torso.neck.head.face.type === FaceType.HUMAN)
             kitsuneCounter++;
@@ -441,7 +441,7 @@ export default class RaceScore {
             gooCounter++;
         if (character.torso.hips.legs.type === LegType.GOO)
             gooCounter++;
-        if (character.torso.vaginas.get(0).capacity() > 9000)
+        if (character.torso.vaginas.count > 0 && character.torso.vaginas.get(0).capacity() > 9000)
             gooCounter++;
         if (character.statusAffects.has(StatusAffectType.SlimeCraving))
             gooCounter++;

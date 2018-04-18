@@ -61,7 +61,7 @@ export default class Creature implements ISerializable<Creature> {
         else if (value < 0)
             value = 0;
 
-        this.femininity = value;
+        this.fem = value;
     }
 
     public vaginalCapacity(): number {
