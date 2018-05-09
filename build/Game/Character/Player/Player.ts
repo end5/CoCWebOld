@@ -1,21 +1,21 @@
-﻿import PlayerActionPerform from './CombatActions/PlayerActionPerform';
-import PlayerEndScenes from './PlayerEndScenes';
+﻿import { PlayerActionPerform } from './CombatActions/PlayerActionPerform';
+import { PlayerEndScenes } from './PlayerEndScenes';
 import { ButtLooseness, ButtWetness } from '../../Body/Butt';
 import { FaceType } from '../../Body/Face';
 import { SkinType } from '../../Body/Skin';
 import { TongueType } from '../../Body/Tongue';
-import CombatContainer from '../../Combat/CombatContainer';
-import DefaultRespond from '../../Combat/Default/DefaultRespond';
-import Armor from '../../Items/Armors/Armor';
-import ArmorName from '../../Items/Armors/ArmorName';
-import ItemFactory from '../../Items/ItemFactory';
-import ItemType from '../../Items/ItemType';
-import Weapon from '../../Items/Weapons/Weapon';
-import WeaponName from '../../Items/Weapons/WeaponName';
-import Character from '../Character';
+import { CombatContainer } from '../../Combat/CombatContainer';
+import { DefaultRespond } from '../../Combat/Default/DefaultRespond';
+import { Armor } from '../../Items/Armors/Armor';
+import { ArmorName } from '../../Items/Armors/ArmorName';
+import { ItemFactory } from '../../Items/ItemFactory';
+import { ItemType } from '../../Items/ItemType';
+import { Weapon } from '../../Items/Weapons/Weapon';
+import { WeaponName } from '../../Items/Weapons/WeaponName';
+import { Character } from '../Character';
 import { CharacterType } from '../CharacterType';
 
-export default class Player extends Character {
+export class Player extends Character {
     public constructor() {
         super(CharacterType.Player);
         // Reset all standard stats

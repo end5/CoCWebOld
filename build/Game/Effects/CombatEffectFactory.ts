@@ -1,9 +1,9 @@
 import { CombatAbilityFlag } from './CombatAbilityFlag';
-import CombatEffect from './CombatEffect';
+import { CombatEffect } from './CombatEffect';
 import * as CombatEffects from './CombatEffects';
 import { CombatEffectType } from './CombatEffectType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
-import Character from '../Character/Character';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
+import { Character } from '../Character/Character';
 
 interface CombatEffectConstructor {
     new(type: CombatEffectType,
@@ -122,4 +122,4 @@ class CombatEffectFactory {
 }
 
 const combatEffectFactory = new CombatEffectFactory();
-export default combatEffectFactory as CombatEffectFactory;
+export { combatEffectFactory as CombatEffectFactory };

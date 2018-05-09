@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class ImmovableObject extends PerkDesc {
+export class ImmovableObject extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.tou >= 75)
             return "Grants 20% physical damage reduction.</b>";

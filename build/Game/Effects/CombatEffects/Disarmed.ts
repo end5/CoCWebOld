@@ -1,6 +1,6 @@
-import Character from '../../Character/Character';
-import CombatManager from '../../Combat/CombatManager';
-import CombatEffect from '../CombatEffect';
+import { Character } from '../../Character/Character';
+import { CombatManager } from '../../Combat/CombatManager';
+import { CombatEffect } from '../CombatEffect';
 
 export class Disarmed extends CombatEffect {
     public onAdd(character: Character) {

@@ -1,11 +1,11 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 
 export enum TailType {
     HORSE, DOG, DEMONIC, COW, SPIDER_ABDOMEN, BEE_ABDOMEN, SHARK, CAT, LIZARD, BUNNY, HARPY, KANGAROO, FOX, DRACONIC, RACCOON, MOUSE, FERRET
 }
 
-export default class Tail implements ISerializable<Tail> {
+export class Tail implements ISerializable<Tail> {
     public static VenomMost: SortOption<Tail> = (a: Tail, b: Tail) => {
         return a.vemon - b.vemon;
     }

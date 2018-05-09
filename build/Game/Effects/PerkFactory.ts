@@ -1,5 +1,5 @@
-import Perk, { PerkDesc } from './Perk';
-import PerkDescLib from './PerkDescLib';
+import { Perk, PerkDesc } from './Perk';
+import { PerkDescLib } from './PerkDescLib';
 import { PerkType } from './PerkType';
 
 interface PerkConstructor {
@@ -20,4 +20,4 @@ class PerkFactory {
 }
 
 const perkFactory = new PerkFactory();
-export default perkFactory as PerkFactory;
+export { perkFactory as PerkFactory };

@@ -1,4 +1,4 @@
-enum ImageName {
+export enum ImageName {
     None = "None",
     akbal_deepwoods_bigbuttanaled = "akbal-deepwoods-bigbuttanaled",
     akbal_deepwoods_female_bindakbal = "akbal-deepwoods-female-bindakbal",
@@ -349,4 +349,3 @@ enum ImageName {
     urta_scylla_masti = "urta-scylla-masti",
     urta_syclla_3some = "urta-syclla-3some",
 }
-export default ImageName;

@@ -1,16 +1,15 @@
-import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import Player from '../../Character/Player/Player';
-import Menus from '../Menus';
+import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
+import { Player } from '../../Character/Player/Player';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { Menus } from '../Menus';
 
-export default function display(player: Player) {
+export function display(player: Player): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.None);
     const text = [];
     const func = [];
-    MainScreen.hideBottomButtons();
     // if (Flags.list[FlagEnum.ANEMONE_KID] > 0) {
     //     Scenes.anemoneScene.anemoneBarrelDescription();
     //     if (Game.time.hour >= 6) {
@@ -44,5 +43,5 @@ export default function display(player: Player) {
     //     };
     //     DisplayText("\n\n");
     // }
-    MainScreen.addBackButton("Back", Menus.Player);
+    return { choices: [["Back"], [Menus.Player]] };
 }

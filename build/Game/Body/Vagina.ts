@@ -1,4 +1,4 @@
-﻿import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 
 export enum VaginaType {
@@ -13,7 +13,7 @@ export enum VaginaLooseness {
     TIGHT, NORMAL, LOOSE, GAPING, GAPING_WIDE, LEVEL_CLOWN_CAR
 }
 
-export default class Vagina implements ISerializable<Vagina> {
+export class Vagina implements ISerializable<Vagina> {
     public static readonly LoosenessMost: SortOption<Vagina> = (a: Vagina, b: Vagina) => {
         return a.looseness - b.looseness;
     }

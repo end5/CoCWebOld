@@ -1,9 +1,10 @@
-import ItemDesc from './ItemDesc';
-import ItemType from './ItemType';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import Character from '../Character/Character';
+import { ItemDesc } from './ItemDesc';
+import { ItemType } from './ItemType';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { Character } from '../Character/Character';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default abstract class Item implements ISerializable<Item> {
+export abstract class Item implements ISerializable<Item> {
     public static readonly DefaultValue: number = 6;
     public readonly name: string;
     public readonly type: ItemType;

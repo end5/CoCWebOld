@@ -1,9 +1,10 @@
-import CharacterHolder from './CharacterHolder';
+import { CharacterHolder } from './CharacterHolder';
 import { DefeatType } from './DefeatEvent';
 import { randInt } from '../../Engine/Utilities/SMath';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default abstract class EndScenes extends CharacterHolder {
+export abstract class EndScenes extends CharacterHolder {
     /**
      * The default number of hours that pass when losing a fight.
      */
@@ -50,7 +51,7 @@ export default abstract class EndScenes extends CharacterHolder {
      * @param howYouWon How this character defeated the enemy.
      * @param enemy The enemy character.
      */
-    protected abstract victoryScene(howYouWon: DefeatType, enemy: Character): void;
+    protected abstract victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices;
 
     /** Used to determine if this character has a defeat scene. */
     public abstract readonly hasDefeatScene: boolean;
@@ -59,7 +60,7 @@ export default abstract class EndScenes extends CharacterHolder {
      * @param howYouLost How this character lost to the enemy.
      * @param enemy The enemy character.
      */
-    protected abstract defeatScene(howYouLost: DefeatType, enemy: Character): void;
+    protected abstract defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices;
 
     /**
      * Displays victory scene.
@@ -67,21 +68,21 @@ export default abstract class EndScenes extends CharacterHolder {
      * @param howYouWon How this character defeated the enemy.
      * @param enemy The enemy character.
      */
-    public victory(howYouWon: DefeatType, enemy: Character): void {
+    public victory(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         enemy.combat.endScenes.beforeEndingScene(howYouWon, this.char);
         if (this.hasVictoryScene && enemy.combat.endScenes.hasDefeatScene) {
             if (randInt(2) === 0) {
-                this.victoryScene(howYouWon, enemy);
+                return this.victoryScene(howYouWon, enemy);
             }
             else {
-                enemy.combat.endScenes.defeatScene(howYouWon, this.char);
+                return enemy.combat.endScenes.defeatScene(howYouWon, this.char);
             }
         }
         else if (this.victoryScene) {
-            this.victoryScene(howYouWon, enemy);
+            return this.victoryScene(howYouWon, enemy);
         }
         else if (enemy.combat.endScenes.defeatScene) {
-            enemy.combat.endScenes.defeatScene(howYouWon, this.char);
+            return enemy.combat.endScenes.defeatScene(howYouWon, this.char);
         }
     }
 }

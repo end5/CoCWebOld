@@ -1,8 +1,8 @@
 import { StatusAffectDesc } from './StatusAffect';
 import { StatusAffectType } from './StatusAffectType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
 
-export default class StatusAffectDescLib extends Dictionary<StatusAffectDesc> {
+export class StatusAffectDescLib extends Dictionary<StatusAffectDesc> {
     public constructor() {
         super();
         this.set(StatusAffectType.AllNaturalOnaholeUsed, new StatusAffectDesc(StatusAffectType.AllNaturalOnaholeUsed, "AllNaturalOnaholeUsed", "all-natural onahole used", ""));

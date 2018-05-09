@@ -1,17 +1,18 @@
-import PlayerSpellAction from './PlayerSpellAction';
-import DisplayText from '../../../../Engine/display/DisplayText';
-import Character from '../../../Character/Character';
+import { PlayerSpellAction } from './PlayerSpellAction';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
+import { Character } from '../../../Character/Character';
 import { PerkType } from '../../../Effects/PerkType';
-import User from '../../../User';
-import PlayerFlags from '../PlayerFlags';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { User } from '../../../User';
+import { PlayerFlags } from '../PlayerFlags';
 
-export default abstract class LearnedSpellAction extends PlayerSpellAction {
-    public abstract castSpell(character: Character, enemy: Character);
+export abstract class LearnedSpellAction extends PlayerSpellAction {
+    public abstract castSpell(character: Character, enemy: Character): NextScreenChoices;
 
-    public use(character: Character, enemy: Character) {
-        this.castSpell(character, enemy);
+    public use(character: Character, enemy: Character): NextScreenChoices {
         (User.flags.get("Player") as PlayerFlags).SPELLS_CAST++;
         this.spellPerkUnlock(character);
+        return this.castSpell(character, enemy);
     }
 
     protected spellPerkUnlock(character: Character): void {

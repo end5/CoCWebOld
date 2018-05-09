@@ -1,8 +1,8 @@
-﻿import ISerializable from '../../Engine/Utilities/ISerializable';
-import Item from '../Items/Item';
-import ItemFactory from '../Items/ItemFactory';
+﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { Item } from '../Items/Item';
+import { ItemFactory } from '../Items/ItemFactory';
 
-export default class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
+export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
     public item: Item;
     private amount: number;
     private maxAmount: number;

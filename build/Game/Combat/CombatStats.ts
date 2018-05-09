@@ -1,15 +1,15 @@
-import CharacterHolder from './CharacterHolder';
-import DisplayText from '../../Engine/display/DisplayText';
+import { CharacterHolder } from './CharacterHolder';
+import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { SkinType } from '../Body/Skin';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
-import User from '../User';
+import { User } from '../User';
 
-export default class CombatStats extends CharacterHolder {
+export class CombatStats extends CharacterHolder {
     public defenseMod: number = 0;
 
     public constructor(character: Character, bonusHP: number = 0) {

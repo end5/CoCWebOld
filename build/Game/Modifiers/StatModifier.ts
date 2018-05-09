@@ -1,5 +1,5 @@
-import DisplayText from '../../Engine/display/DisplayText';
-import Character from '../Character/Character';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { Character } from '../Character/Character';
 
 export function displayCharacterHPChange(character: Character, changeAmount: number) {
     if (changeAmount > 0 && character.stats.HP === character.stats.maxHP()) {

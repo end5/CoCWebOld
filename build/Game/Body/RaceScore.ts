@@ -1,6 +1,6 @@
 ﻿import { ArmType } from './Arms';
-import BreastRow from './BreastRow';
-import Cock, { CockType } from './Cock';
+import { BreastRow } from './BreastRow';
+import { Cock, CockType } from './Cock';
 import { EarType } from './Ears';
 import { EyeType } from './Eyes';
 import { FaceType } from './Face';
@@ -9,14 +9,14 @@ import { AntennaeType } from './Head';
 import { HornType } from './Horns';
 import { LegType } from './Legs';
 import { SkinType } from './Skin';
-import Tail, { TailType } from './Tail';
+import { Tail, TailType } from './Tail';
 import { TongueType } from './Tongue';
 import { VaginaType } from './Vagina';
 import { WingType } from './Wings';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
-export default class RaceScore {
+export class RaceScore {
     public static demonScore(character: Character): number {
         let demonCounter: number = 0;
         if (character.torso.neck.head.horns.amount === HornType.DEMON && character.torso.neck.head.horns.amount > 0) {

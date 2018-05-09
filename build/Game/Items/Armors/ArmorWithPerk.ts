@@ -1,10 +1,10 @@
-import Armor, { ArmorClass } from './Armor';
-import ArmorName from './ArmorName';
-import Character from '../../Character/Character';
-import Perk from '../../Effects/Perk';
-import ItemDesc from '../ItemDesc';
+import { Armor, ArmorClass } from './Armor';
+import { ArmorName } from './ArmorName';
+import { Character } from '../../Character/Character';
+import { Perk } from '../../Effects/Perk';
+import { ItemDesc } from '../ItemDesc';
 
-export default class ArmorWithPerk extends Armor {
+export class ArmorWithPerk extends Armor {
     public readonly perk: Perk;
 
     public constructor(name: ArmorName, desc: ItemDesc, displayName: string, defense: number, value: number, armorClass: ArmorClass, perk: Perk, perkDesc: string = "", supportsBulge: boolean = false) {

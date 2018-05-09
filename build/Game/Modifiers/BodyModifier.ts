@@ -1,9 +1,7 @@
-import DisplayText from '../../Engine/display/DisplayText';
+import { DisplayText } from '../../Engine/display/DisplayText';
 import { Gender } from '../Body/GenderIdentity';
-import Character from '../Character/Character';
-import * as CockDescriptor from '../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../Descriptors/FaceDescriptor';
-import * as VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import { Character } from '../Character/Character';
+import { Desc } from '../Descriptors/Descriptors';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
@@ -67,7 +65,7 @@ export function displayModTone(character: Character, goal: number, strength: num
 // Modify this.femininity!
 export function displayModFem(character: Character, goal: number, strength: number = 1): string {
     let output: string = "";
-    const old: string = FaceDescriptor.describeFaceOther(character);
+    const old: string = Desc.Face.describeFaceOther(character);
     const oldN: number = character.femininity;
     let Changed: boolean = false;
     // If already perfect!
@@ -96,7 +94,7 @@ export function displayModFem(character: Character, goal: number, strength: numb
     if (!Changed)
         return "";
     // See if a change happened!
-    if (old !== FaceDescriptor.describeFaceOther(character)) {
+    if (old !== Desc.Face.describeFaceOther(character)) {
         // Gain fem?
         if (goal > oldN)
             output = "\n\n<b>Your facial features soften as your body becomes more feminine. (+" + strength + ")</b>";
@@ -106,9 +104,9 @@ export function displayModFem(character: Character, goal: number, strength: numb
     // Barely noticable change!
     else {
         if (goal > oldN)
-            output = "\n\nThere's a tingling in your " + FaceDescriptor.describeFace(character) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
+            output = "\n\nThere's a tingling in your " + Desc.Face.describeFace(character) + " as it changes imperceptibly towards being more feminine. (+" + strength + ")";
         else if (goal < oldN)
-            output = "\n\nThere's a tingling in your " + FaceDescriptor.describeFace(character) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
+            output = "\n\nThere's a tingling in your " + Desc.Face.describeFace(character) + " as it changes imperciptibly towards being more masculine. (+" + strength + ")";
     }
     return output;
 }
@@ -121,7 +119,7 @@ export function displayFixFemininity(character: Character): string {
         if (character.femininity < 20) {
             output += "\n<b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
             if (character.torso.neck.head.face.hasBeard()) {
-                output += "  As if that wasn't bad enough, your " + FaceDescriptor.describeBeard(character) + " falls out too!";
+                output += "  As if that wasn't bad enough, your " + Desc.Face.describeBeard(character) + " falls out too!";
                 character.torso.neck.head.face.beard.length = 0;
                 character.torso.neck.head.face.beard.style = "";
             }
@@ -138,7 +136,7 @@ export function displayFixFemininity(character: Character): string {
         if (character.femininity < 30) {
             output += "\n<b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
             if (character.torso.neck.head.face.hasBeard()) {
-                output += "  As if that wasn't bad enough, your " + FaceDescriptor.describeBeard(character) + " falls out too!";
+                output += "  As if that wasn't bad enough, your " + Desc.Face.describeBeard(character) + " falls out too!";
                 character.torso.neck.head.face.beard.length = 0;
                 character.torso.neck.head.face.beard.style = "";
             }
@@ -153,13 +151,13 @@ export function displayFixFemininity(character: Character): string {
             character.femininity = 70;
         }
         if (character.femininity > 40 && character.torso.neck.head.face.hasBeard()) {
-            output += "\n<b>Your beard falls out, leaving you with " + FaceDescriptor.describeFace(character) + ".</b>\n";
+            output += "\n<b>Your beard falls out, leaving you with " + Desc.Face.describeFace(character) + ".</b>\n";
             character.torso.neck.head.face.beard.length = 0;
             character.torso.neck.head.face.beard.style = "";
         }
     }
     if (character.gender !== 1 && character.torso.neck.head.face.hasBeard()) {
-        output += "\n<b>Your beard falls out, leaving you with " + FaceDescriptor.describeFace(character) + ".</b>\n";
+        output += "\n<b>Your beard falls out, leaving you with " + Desc.Face.describeFace(character) + ".</b>\n";
         character.torso.neck.head.face.beard.length = 0;
         character.torso.neck.head.face.beard.style = "";
     }
@@ -176,7 +174,7 @@ export function displayFixFemininity(character: Character): string {
 export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     // Already in heat, intensify further.
     if (character.statusAffects.has(StatusAffectType.Heat)) {
-        DisplayText("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
+        DisplayText("\n\nYour mind clouds as your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " moistens.  Despite already being in heat, the desire to copulate constantly grows even larger.");
         const statusAffectHeat = character.statusAffects.get(StatusAffectType.Heat);
         statusAffectHeat.value1 += 5 * intensity;
         statusAffectHeat.value2 += 5 * intensity;
@@ -185,7 +183,7 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
     }
     // Go into heat.  Heats v1 is bonus fertility, v2 is bonus libido, v3 is hours till it's gone
     else {
-        DisplayText("\n\nYour mind clouds as your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
+        DisplayText("\n\nYour mind clouds as your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " moistens.  Your hands begin stroking your body from top to bottom, your sensitive skin burning with desire.  Fantasies about bending over and presenting your needy pussy to a male overwhelm you as <b>you realize you have gone into heat!</b>");
         character.statusAffects.add(StatusAffectType.Heat, 10 * intensity, 15 * intensity, 48 * intensity, 0);
         character.stats.libBimbo += 15 * intensity;
     }
@@ -201,7 +199,7 @@ export function displayGoIntoHeat(character: Character, intensity: number = 1) {
 export function displayGoIntoRut(character: Character, intensity: number = 1) {
     // Has rut, intensify it!
     if (character.statusAffects.has(StatusAffectType.Rut)) {
-        DisplayText("\n\nYour " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
+        DisplayText("\n\nYour " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " throbs and dribbles as your desire to mate intensifies.  You know that <b>you've sunken deeper into rut</b>, but all that really matters is unloading into a cum-hungry cunt.");
         const statusAffectRut = character.statusAffects.get(StatusAffectType.Rut);
         statusAffectRut.value1 = 100 * intensity;
         statusAffectRut.value2 = 5 * intensity;

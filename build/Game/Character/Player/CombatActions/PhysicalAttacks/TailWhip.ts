@@ -1,11 +1,12 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import Tail, { TailType } from '../../../../Body/Tail';
-import Character from '../../../../Character/Character';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import StatusAffectFactory from '../../../../Effects/StatusAffectFactory';
+import { Tail, TailType } from '../../../../Body/Tail';
+import { Character } from '../../../../Character/Character';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
 
 export class TailWhip implements CombatAction {
     public name: string = "Tail Whip";
@@ -19,7 +20,7 @@ export class TailWhip implements CombatAction {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // miss
         if ((player.statusAffects.has(StatusAffectType.Blind) && randInt(2) === 0) ||
@@ -35,5 +36,6 @@ export class TailWhip implements CombatAction {
                 monster.statusAffects.add(StatusAffectType.CoonWhip, Math.round(monster.combat.stats.defense() * .75), !player.torso.tails.reduce(Tail.HasType(TailType.RACCOON), false) ? 2 : 4, 0, 0);
         }
         DisplayText("\n\n");
+        return;
     }
 }

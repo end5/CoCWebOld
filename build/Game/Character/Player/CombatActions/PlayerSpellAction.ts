@@ -1,9 +1,10 @@
-import CombatAction from '../../../Combat/Actions/CombatAction';
-import SpellAction from '../../../Combat/Actions/SpellAction';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { SpellAction } from '../../../Combat/Actions/SpellAction';
 import { PerkType } from '../../../Effects/PerkType';
-import Character from '../../Character';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { Character } from '../../Character';
 
-export default abstract class PlayerSpellAction implements CombatAction, SpellAction {
+export abstract class PlayerSpellAction implements CombatAction, SpellAction {
     public abstract name: string;
     public reasonCannotUse: string = "";
 
@@ -17,7 +18,7 @@ export default abstract class PlayerSpellAction implements CombatAction, SpellAc
         return true;
     }
 
-    public abstract use(character: Character, monster: Character);
+    public abstract use(character: Character, monster: Character): NextScreenChoices;
 
     public abstract readonly baseCost: number;
 

@@ -1,20 +1,18 @@
-﻿import DisplayText from '../../../../Engine/display/DisplayText';
-import MainScreen from '../../../../Engine/Display/MainScreen';
+﻿import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow from '../../../Body/BreastRow';
-import Cock from '../../../Body/Cock';
-import Character from '../../../Character/Character';
+import { BreastRow } from '../../../Body/BreastRow';
+import { Cock } from '../../../Body/Cock';
+import { Character } from '../../../Character/Character';
 import { CharacterType } from '../../../Character/CharacterType';
-import * as BreastDescriptor from '../../../Descriptors/BreastDescriptor';
-import * as HeadDescriptor from '../../../Descriptors/HeadDescriptor';
-import ConsumableName from '../../../Items/Consumables/ConsumableName';
-import ItemType from '../../../Items/ItemType';
-import Menus from '../../../Menus/Menus';
-import * as BreastModifier from '../../../Modifiers/BreastModifier';
-import * as ButtModifier from '../../../Modifiers/ButtModifier';
-import User from '../../../User';
+import { Desc } from '../../../Descriptors/Descriptors';
+import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
+import { ItemType } from '../../../Items/ItemType';
+import { Menus } from '../../../Menus/Menus';
+import { Mod } from '../../../Modifiers/Modifiers';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { User } from '../../../User';
 import { numToCardinalCapText } from '../../../Utilities/NumToText';
-import Scenes from '../../Scenes';
+import { Scenes } from '../../Scenes';
 
 export interface EssrayleFlags {
     met: number;
@@ -44,7 +42,7 @@ User.flags.set(CharacterType.Essrayle, essrayleFlags);
 
 // Restriction on meeting Essy I'd figure is you can't be genderless, Essy is a very sexual being and if she doesn't detect a sex in someone, she's bluntly not interested. I'd imagine she'd be more receptive to nagas, those rather cowish in species, and characters with very, very large breasts.
 
-export function essrayleMeetingI(character: Character): void {
+export function essrayleMeetingI(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (essrayleFlags.met === 0) {
         DisplayText("You blunder along through the thick foliage, swatting aside stray branches and the long grasses that try to impede your progress.  A clearing appears up ahead, giving you a goal to reach.  Honestly, you could use a brief break.  Forging through the brush, tromping, and causing a general ruckus, you practically burst into the glen in no time.");
@@ -88,19 +86,19 @@ export function essrayleMeetingI(character: Character): void {
     }
     essrayleFlags.met++;
     // [Yes] [No]
-    MainScreen.doYesNo(plantsForMe, noPlantsForMe);
+    return { yes: plantsForMe, no: noPlantsForMe };
 }
 
 // >If No
-function noPlantsForMe(): void {
+function noPlantsForMe(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essy pouts, ears flattening to the sides a bit.  \"<i>I see,</i>\" she nods, looking at you with thinly masked disappointment.  She seems to instantly put on a false smile and move aside, gesturing to the path ahead with a sweep of the arm.  \"<i>Well, in that case, you must be going somewhere important.  Best not keep you waiting.  I do wish you luck in your adventures!</i>\" She continues to beam as you head on off, leaving her behind you in no time.  Though as you leave, you swear you hear a mumbled, \"<i>Leave it to me to find the prudish ones.</i>\"");
     essrayleFlags.turnedDownFirstMeeting = 1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // >If Yes
-function plantsForMe(character: Character): void {
+function plantsForMe(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (essrayleFlags.turnedDownFirstMeeting === 0) {
         essrayleFlags.turnedDownFirstMeeting = 1;
@@ -132,28 +130,28 @@ function plantsForMe(character: Character): void {
         if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) DisplayText("  Her fingers play with your nipples and press gently to tease at them.  She seems quite surprised as they sink in with minimal effort.  A grin spreads over her face as she begins to steadily thrust those digits in and out of your nipples, fingers swirling about the interiors all the while.");
         DisplayText("  \"<i>You certainly have a lovely pair, but they could always be better, don't you think?</i>\"");
         // [Yes] [No]
-        MainScreen.doYesNo(plantsForMe2BE, plantsForMe2NoBE);
+        return { yes: plantsForMe2BE, no: plantsForMe2NoBE };
     }
     // Else
     else {
         // [Next]
-        MainScreen.doNext(plantsForMe2NoMentionBE);
+        return { next: plantsForMe2NoMentionBE };
     }
 }
 
-function plantsForMe2NoMentionBE(character: Character) {
-    plantsForMe2(character, 1);
+function plantsForMe2NoMentionBE(character: Character): NextScreenChoices {
+    return plantsForMe2(character, 1);
 }
 
-function plantsForMe2BE(character: Character) {
-    plantsForMe2(character, 1);
+function plantsForMe2BE(character: Character): NextScreenChoices {
+    return plantsForMe2(character, 1);
 }
 
-function plantsForMe2NoBE(character: Character) {
-    plantsForMe2(character, 2);
+function plantsForMe2NoBE(character: Character): NextScreenChoices {
+    return plantsForMe2(character, 2);
 }
 
-function plantsForMe2(character: Character, BE: number = 0): void {
+function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
     DisplayText().clear();
     // Yes
     if (BE === 1) DisplayText("Essy grins, nodding.  \"<i>Precisely.  I don't doubt they'll be even more fun given enough exposure here.</i>\"\n\n");
@@ -193,7 +191,7 @@ function plantsForMe2(character: Character, BE: number = 0): void {
         DisplayText("\n\nEssy drags her thin tongue over the length of [oneCock], flowing over every inch of it, bending about its curve as she licks from base to tip before engulfing it with her lips. Without a moment's hesitation, she slides down to the hilt, giving amazing pleasure from the surreal tightness, hitting you as you feel the plant's throat rippling and actually milking at your length.");
 
         DisplayText("\n\nEssy just smiles as she begins to bob her head, slowly at first, but with increasing speed as your moans of delight egg her on.  Two tentacles rise up, funneling wide at the tips and engulfing your [nipples]");
-        if (character.torso.chest.get(0).rating >= 1) DisplayText(" and " + BreastDescriptor.breastCup(character.torso.chest.get(0).rating) + " breasts");
+        if (character.torso.chest.get(0).rating >= 1) DisplayText(" and " + Desc.Breast.breastCup(character.torso.chest.get(0).rating) + " breasts");
         DisplayText(".  The opaque cups pump and suck, Essy humming to herself as the base of her tongue continues to skillfully tease over every hot spot near the [cockHead biggest] of your [cock biggest], her length slithering about it skillfully.");
     }
     // (Pussy=
@@ -208,7 +206,7 @@ function plantsForMe2(character: Character, BE: number = 0): void {
     }
 
     DisplayText("\n\nAnother tentacle momentarily rubs over her breast, growing slimy with the sap before it moves around behind you and abruptly shoves into your [asshole].  Like a professional, she takes it slow to start, letting you adjust to the unique girth and contours of the tentacle as it plunges in deep.  It smoothly pulls nearly out only to pump in deeply once more.");
-    ButtModifier.displayStretchButt(character, 10, true, true, false);
+    Mod.Butt.displayStretchButt(character, 10, true, true, false);
 
     DisplayText("\n\nIt doesn't take long before you're screaming out in climax.  The pleasure swells and ebbs steadily, your planty friend making it sound like she's enjoying a four-course meal fit for a queen.  She continues to pump you on all fronts, not daring to stop until she's certain she's drained you for every drop she can get.");
     if (character.cumQ() >= 500 && character.cumQ() < 2000) DisplayText("  It takes some time for her to completely drain your virile reserves, humming happily as splurt after splurt bulges her cheeks and forces her throat to work.  By the time you start to go dry, you can swear the bulb that is her base looks a little bit bigger, and perhaps her breasts as well.");
@@ -216,7 +214,7 @@ function plantsForMe2(character: Character, BE: number = 0): void {
 
     DisplayText("\n\nYou hang limply in her tentacles as she sucks firmly on you, a final pull before she pops off wetly.  Licking her lips to get every stray drop, she lowers you to the ground, tentacles disengaging and pulling back to where they came from.  She shivers gently, squishing her fat bosom in a self-hug.");
 
-    DisplayText("\n\n\"<i>Oooh yes,</i>\" she grins, \"<i>this will do me quite nicely for a time.</i>\"  She looks over to you as you lay there, spent, panting hotly as you struggle to regain your composure.  Smiling softly, she moves over and extends the stalk from her bulb, stretching with naga-like ease out to 'sit' at your side.   Her hand slides over your brow, wiping it dry and gently brushing through your " + HeadDescriptor.describeHair(character) + ".");
+    DisplayText("\n\n\"<i>Oooh yes,</i>\" she grins, \"<i>this will do me quite nicely for a time.</i>\"  She looks over to you as you lay there, spent, panting hotly as you struggle to regain your composure.  Smiling softly, she moves over and extends the stalk from her bulb, stretching with naga-like ease out to 'sit' at your side.   Her hand slides over your brow, wiping it dry and gently brushing through your " + Desc.Head.describeHair(character) + ".");
 
     DisplayText("\n\n\"<i>I thank you for your kindness, stranger,</i>\" she coos softly with each caress, the mist slowly dissipating.  \"<i>I'd love to stay and enjoy you for a week or two, but I really should get going; so much to see and do here still.</i>\"  Essy grins, leaning down and kissing you tenderly once more, lingering a bit before pulling back up, still smiling at you.  \"<i>But hey, maybe we'll run into each other some time, you never know.</i>\"  She winks, giggling as she returns to her usual position in her bulb.");
 
@@ -242,26 +240,26 @@ function plantsForMe2(character: Character, BE: number = 0): void {
         if (character.torso.chest.count > 1) DisplayText(", the top pair being largest, descending in size with each subsequent pair");
         DisplayText(".");
         // Boost size, set lactation quantity.
-        BreastModifier.growSmallestBreastRow(character, 1, character.torso.chest.count, false);
+        Mod.Breast.growSmallestBreastRow(character, 1, character.torso.chest.count, false);
         // character.growTits(7, character.torso.chest.count, false, 2);
-        BreastModifier.boostLactation(character, character.torso.chest.count);
+        Mod.Breast.boostLactation(character, character.torso.chest.count);
         // character.boostLactation(character.torso.chest.count);
         DisplayText("\n\nYou sit there for the next hour or two, milking your bloated bosom and giving the flora a generous watering in the process.  When all is taken care of, you stumble back upright with a brief struggle and don your gear once more.  The smell of fresh-cut flowers seems to linger on your [armor] as you depart.");
     }
     if (character.torso.chest.count > 0 && character.isLactating()) {
         // character.milked();
-        // BreastModifier.boostLactation(character, 0.01);
-        BreastModifier.boostLactation(character, 0.01);
+        // Mod.Breast.boostLactation(character, 0.01);
+        Mod.Breast.boostLactation(character, 0.01);
     }
     character.orgasm();
     character.stats.lib += 1;
     // Slimefeed!
     // character.slimeFeed();
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // Look Closer
-export function approachTrappedEssy(character: Character): void {
+export function approachTrappedEssy(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (essrayleFlags.dungeonFucked === 0) {
         DisplayText("Where once the leafy maiden sported two enormous, watermelon sized breasts, she now is host to four mammoth jugs that put her former bust to shame.  The heaving tits glisten with moisture and almost seem to swell with every exhausted breath she takes.  Her hips - what you can see of them beyond the plant's gigantic udders - are immersed in a black, rich soil that fills the pot to its lip.  A glaze is prominent in her purple eyes, and she seems quite exhausted from something.");
@@ -290,14 +288,13 @@ export function approachTrappedEssy(character: Character): void {
         DisplayText("Essrayle sits here in her pot just like you left her.  She seems to be a bit out of it once more, not realizing you're there.  Her heavy breasts jiggle and ripple with the least amount of movement, apparently drawing nutrients from her soil to refill themselves.  Just watching the oblivious girl pant and swell with bovine surplus is oddly arousing, and having sampled her sap already... no wonder the sand witches keep her here.  Judging by the steady leak coming from her four breasts, it seems likely the ethereal hands have recently given her a good milking, but you're sure she wouldn't mind a more personal touch.");
     }
     character.stats.lust += 10 + character.stats.lib / 10;
-    MainScreen.hideBottomButtons();
     // Option: [Feed her] [leave]
-    if (character.gender > 0) MainScreen.displayChoices(["Feed Her"], [feedTrappedEssy], ["Leave"], [Menus.Player]);
-    MainScreen.displayChoices(["Leave"], [Menus.Player]);
+    if (character.gender > 0) return { choices: [["Feed Her"], [feedTrappedEssy]], persistantChoices: [["Leave"], [Menus.Player]] };
+    return { choices: [["Leave"], [Menus.Player]] };
 }
 
 // [Feed Her]
-function feedTrappedEssy(character: Character): void {
+function feedTrappedEssy(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Well, it's not like she's going anywhere right now, and she probably would love a good fuck from a friend anyway.");
     DisplayText("\n\nYou approach Essrayle once more, taking advantage of her dazed state to disrobe and sidle up to the enchanted flower pot before she realizes your intentions.  From this angle you can clearly see that her hands are sunk deep into the soil around her bubbly hips.  She blinks, confused by your sudden forwardness, but soon moans out loudly as your palms sink into the girl's recently massaged teats, fingers sinking deeply into the tender flesh.");
@@ -306,25 +303,25 @@ function feedTrappedEssy(character: Character): void {
 
     if (character.gender === 1) {
         DisplayText("\n\n");
-        hasCockFeedEssy(character);
+        return hasCockFeedEssy(character);
     }
     if (character.gender === 2) {
         DisplayText("\n\n");
-        hasPussyFeedEssy(character);
+        return hasPussyFeedEssy(character);
     }
     if (character.gender === 3) {
         DisplayText("  How best to make use of this floral beauty?");
-        MainScreen.displayChoices(["Cock", "Pussy"], [hasCockFeedEssyClear, hasPussyFeedEssyClear]);
+        return { choices: [["Cock", "Pussy"], [hasCockFeedEssyClear, hasPussyFeedEssyClear]] };
     }
 }
 
-function hasCockFeedEssyClear(character: Character) {
+function hasCockFeedEssyClear(character: Character): NextScreenChoices {
     DisplayText().clear();
-    hasCockFeedEssy(character);
+    return hasCockFeedEssy(character);
 }
 
 // (Cock)
-function hasCockFeedEssy(character: Character): void {
+function hasCockFeedEssy(character: Character): NextScreenChoices {
     DisplayText("[EachCock] stands erect as you grind it against her belly, enormous tits squishing wonderfully around it.  The udder-like melons squeeze [oneCock] with every hot breath the plant girl takes, taut skin soaked with the sweat of her afterglow wetly suckling at your length.  Determined to use such productive breasts to the fullest, you move forward, your [cock biggest]'s mass easily slipping between the bottom pair, her leaking, jade pillows snugly engulfing your girth as tightly as if she were holding them together with all four arms.");
 
     DisplayText("\n\nAs pliant as her mammaries are, a little extra lubrication couldn't hurt.  Grabbing two of her puffy, fist-sized teats, you begin to squeeze and tug at them as if you were milking a cow.  Essy pants with heated, bovine moans as syrupy, white sap gushes from her spouting nipples in thick, cascading gouts.  For being used so thoroughly by the sand witches, she seems remarkably receptive to your milking, as if her body's needed a more personal touch.  Not wanting to disappoint, you tighten your wringing grip and pump even harder.");
@@ -342,15 +339,15 @@ function hasCockFeedEssy(character: Character): void {
 
     DisplayText("\n\nExhausted anew, Essy reclines in her pot, already dozing with an expression of happy contentment.  Though she's still imprisoned, you've at least set her at ease.  While you might like to move her somewhere more function, the sheer weight of her pot is more than enough to frustrate any attempt you might make.  Best to just leave her and check in later.");
     character.orgasm();
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }
 
-function hasPussyFeedEssyClear(character: Character) {
+function hasPussyFeedEssyClear(character: Character): NextScreenChoices {
     DisplayText().clear();
-    hasPussyFeedEssy(character);
+    return hasPussyFeedEssy(character);
 }
 
-function hasPussyFeedEssy(character: Character): void {
+function hasPussyFeedEssy(character: Character): NextScreenChoices {
     DisplayText("Repositioning one of Essy's massive tits, you opt to try something new, something different.  Essy's long, fat nipples glisten with plump promise as you climb up, over the lip of her ensorcelled flowerpot.  The soil is soft and moist with her milk as you gently push her back, leaning the girl's pliant form against the bulging swell of her pronounced ass.  She reclines, woozy and unable to process what it is that you're doing as you move over her ponderous bosom.  It takes almost no effort to guide one of the pert, fist-thick nipples into your womanly folds, sliding it into your [vagina] with ");
     if (character.torso.vaginas.get(0).looseness < 2) DisplayText("a gasping grunt of effort");
     else if (character.torso.vaginas.get(0).looseness < 4) DisplayText("little resistance");
@@ -366,11 +363,11 @@ function hasPussyFeedEssy(character: Character): void {
     DisplayText("\n\nIt takes you a while, but you extricate yourself and clean off the best you can, leaving her with a friendly kiss on the cheek before you head on your way once more.  With visitors like you, she hardly seems like she'll mind being trapped in the enchanted flower pot.");
     character.orgasm();
     if (character.fertility < 50) character.fertility++;
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }
 
 // (After defeating the Cum Witch)
-export function essyWitchVictory(): void {
+export function essyWitchVictory(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("As before, you find Essrayle in the glade, but now she appears to be freed from her restraints.  The rune-engraved flower pot is turned over, damp soil spilled out over the ground.  The plant-girl giggles as she folds her arms between both her upper and lower sets of breasts.  \"<i>I guess this means you were successful and I should show a hero some gratitude,</i>\" she coos warmly.  With a rippling of her hefty bulb, she approaches, tits bouncing and jiggling with voluptuous abundance.");
 
@@ -384,11 +381,11 @@ export function essyWitchVictory(): void {
 
     DisplayText("\n\n\"<i>Now, I may be a visitor to this world, but I've learned some things.</i>\"  She grins and crosses her other two arms atop those jiggling, swaying, lush beauties.  \"<i>Since you seem to like these four so much, perhaps you'd like to join the club?</i>\"  Essrayle winks coyly, \"<i>How about it?</i>\"");
     essrayleFlags.escapedDungeon = 1;
-    MainScreen.doYesNo(acceptEssyPrizes, declineEssyPrizes);
+    return { yes: acceptEssyPrizes, no: declineEssyPrizes };
 }
 
 // [No]
-function declineEssyPrizes(character: Character): void {
+function declineEssyPrizes(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essy sighs and shakes her head.  \"<i>What a let down!</i>\"  She shrugs, throwing all four arms into the air helplessly, and digs about in the pouch she keeps on her vine belt.  \"<i>Here, hope this tickles your fancy.</i>\"  She reaches out and places a number of glittering gems into your hand.  \"<i>They don't do me much good anyway.</i>\"");
 
@@ -396,11 +393,11 @@ function declineEssyPrizes(character: Character): void {
     character.inventory.gems += 100 + randInt(70);
 
     DisplayText("\n\n\"<i>Well, maybe in the future you'll change your mind and find another way to do it on your own.  But I guess for now I'll just see you around!  Thanks for the save, hun!</i>\"  The planty beauty blows you a kiss before she heads off, bulging breasts jiggling and bouncing steadily all the way.");
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }
 
 // [Yes]
-function acceptEssyPrizes(character: Character): void {
+function acceptEssyPrizes(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Essrayle beams.  \"<i>That's what I thought!  You know a good thing when you see it!</i>\"  She takes you by the hand and guides you to sit on the side of the overturned pot.  Shuffling backwards, she pokes her leafy, green tongue out of the corner of her mouth while tapping the side of her head with a finger.  \"<i>Now... how did that go?</i>\"  She frowns in scatterbrained thought, trying to remember for a time before her expression lights up with ditzy delight once more.  \"<i>Oh, wait, I know! You stay right there, my little sprout.</i>\"");
 
@@ -428,46 +425,46 @@ function acceptEssyPrizes(character: Character): void {
     // if four+ breasts:
     else {
         DisplayText("your [fullChest] swell larger and larger under the expanding magic of the spell");
-        BreastModifier.growSmallestBreastRow(character, 6, character.torso.chest.count, false);
+        Mod.Breast.growSmallestBreastRow(character, 6, character.torso.chest.count, false);
         // character.growTits(6, character.torso.chest.count, false, 2);
     }
-    BreastModifier.boostLactation(character, character.torso.chest.count);
+    Mod.Breast.boostLactation(character, character.torso.chest.count);
     // character.boostLactation(character.torso.chest.count);
     DisplayText(", filling with warm, fluid weight.  They jiggle and wobble against each other and your belly as they adjust to their brimming plumpness.  You now proudly sport [fullChest].");
 
     DisplayText("\n\nGrinning, Essrayle nods happily, rolling the scroll back up.  \"<i>Yes, that looks veeerry good on you!</i>\”  She ogles your chest for a while before glancing down at her own.  \"<i>But I think I could do you one better, since you've been so sweet to me,</i>\" the all-natural beauty coos happily.  \"<i>As a special bonus to you, how'd you like to have these too?</i>\" she moos, running her finger about her four, plump nipples, giving you a seductive smile.");
     character.stats.lust += 10;
-    MainScreen.doYesNo(yesGimmeGiantNipplesEssy, noGimmeGiantNipplesEssy);
+    return { yes: yesGimmeGiantNipplesEssy, no: noGimmeGiantNipplesEssy };
 }
 
 // [Yes]
-function yesGimmeGiantNipplesEssy(character: Character): void {
+function yesGimmeGiantNipplesEssy(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("She smiles knowingly and, reaching into her pouch once more, Essy produces a strange looking fruit.  It seems almost like a plum-colored eggplant, but it feels soft and rubbery to the touch.  \"<i>Here ya go!  Whenever you'd like, enjoy this!</i>\"  She places the strange thing in your hands.  \"<i>Call it my gift to another chest connoisseur.</i>\"");
 
     essyRewardEpilogueOUTTIES();
     // [gain purple fruit] [Next]
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PurpleFruit, Scenes.camp.returnToCampUseOneHour);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PurpleFruit, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.PRFRUIT, Scenes.camp.returnToCampUseOneHour);
 }
 
 // [No]
-function noGimmeGiantNipplesEssy(): void {
+function noGimmeGiantNipplesEssy(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("She shrugs her shoulders, giving one bundle of milk-drooling nipples a soft squeeze.  \"<i>Eh, to each their own, I suppose.</i>\"");
-    essyRewardEpilogueOUTTIES();
+    return essyRewardEpilogueOUTTIES();
 }
 
 // [Either choice]
-function essyRewardEpilogueOUTTIES(): void {
+function essyRewardEpilogueOUTTIES(): NextScreenChoices {
     DisplayText("\n\nAbruptly, she pushes in and kisses you deeply, shoving her moist, leafy tongue deep into your mouth.");
     DisplayText("\n\nThe passionate kiss goes on for a while before she releases it, sticky strand(s of saliva still clinging to both of your mouths.  Separating, she leans back and puffs herself out once more, smiling to you.  \"<i>Do enjoy yourself a bit, Hero.  Here's hoping we meet again.</i>\"  She places the back of her hand conspiratorially against the side of her mouth and lowers her voice.  \"<i>After you get a chance to enjoy your improved chest a bit, I'd love to get my shot at playing with those lovely melons!</i>\"");
     DisplayText("\n\nWith a shameless giggle, she kisses the peak of one of your breasts while groping the one next to it.  \"<i>Mmm, yes, I'd ravish them hard and drain you dry right now, but out of respect I'll let you have the first crack at it.</i>\"  With a dainty wave, she shuffles towards the exit and is gone once more.\n\n");
     // [End Encounter]
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }
 
-    // export function askMotherToReleaseEssy(): void {
+    // export function askMotherToReleaseEssy(): NextScreenChoices {
     //     DisplayText().clear();
     //     if ((Game.characterData.get(CharacterType.SandMother) as SandWitchData).sandWitchesCowed === 0) {
     //         DisplayText("You point out that the witches have a friend of yours trapped here with magic and you'd like her released.");
@@ -479,5 +476,5 @@ function essyRewardEpilogueOUTTIES(): void {
     //         DisplayText("\n\nThat'll do.");
     //     }
     //     data.toldMotherToRelease = 1;
-    //     MainScreen.doNext(Menus.Player);
+    //     return { next: Menus.Player };
     // }

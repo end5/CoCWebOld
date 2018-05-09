@@ -51,7 +51,7 @@
  * 68	-- ???				-- ??? Unknown, theres a conditional check for the button, but no code is ever executed
  */
 
-enum BindableAction {
+export enum BindableAction {
     Stats,
     LevelUp,
     Quicksave1,
@@ -83,4 +83,3 @@ enum BindableAction {
     Button8,
     Button9
 }
-export default BindableAction;

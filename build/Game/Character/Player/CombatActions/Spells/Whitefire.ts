@@ -1,9 +1,10 @@
-import WhiteMagic from './WhiteMagic';
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { WhiteMagic } from './WhiteMagic';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 
 export class Whitefire extends WhiteMagic {
@@ -14,7 +15,7 @@ export class Whitefire extends WhiteMagic {
         return character.statusAffects.has(StatusAffectType.KnowsWhitefire);
     }
 
-    public castSpell(character: Character, monster: Character) {
+    public castSpell(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // This is now automatic - newRound arg defaults to true:	menuLoc = 0;
         character.stats.fatigueMagic(this.baseCost);

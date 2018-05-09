@@ -1,6 +1,6 @@
-import Perk, { PerkDesc } from '../Perk';
+import { Perk, PerkDesc } from '../Perk';
 
-export default class PiercedFertite extends PerkDesc {
+export class PiercedFertite extends PerkDesc {
     public description(perk?: Perk): string {
         return "Increases cum production by " + Math.round(2 * perk.value1) + "% and fertility by " + Math.round(perk.value1) + ".";
     }

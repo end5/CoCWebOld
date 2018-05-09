@@ -1,11 +1,12 @@
-import CombatAction from './Actions/CombatAction';
-import CombatManager from './CombatManager';
+import { CombatAction } from './Actions/CombatAction';
+import { CombatManager } from './CombatManager';
 import { randInt } from '../../Engine/Utilities/SMath';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { CombatAbilityFlag } from '../Effects/CombatAbilityFlag';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export function performActionAI(character: Character) {
-    const actions: (() => void)[] = [];
+export function performActionAI(character: Character): NextScreenChoices {
+    const actions: (() => NextScreenChoices)[] = [];
 
     const performActions = character.combat.perform;
     canPerformAction(actions, character, performActions.mainAction, CombatAbilityFlag.MainAction);
@@ -18,7 +19,7 @@ export function performActionAI(character: Character) {
     canPerformAction(actions, character, performActions.wait, CombatAbilityFlag.Wait);
     canPerformAction(actions, character, performActions.fantasize, CombatAbilityFlag.Fantasize);
 
-    actions[randInt(actions.length)]();
+    return (actions[randInt(actions.length)])();
 }
 
 function canPerformAction(actions: (() => void)[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {

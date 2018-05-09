@@ -1,7 +1,7 @@
 ﻿import { percentChance, randomChoice } from '../../Engine/Utilities/SMath';
-import Cock, { CockType } from '../Body/Cock';
+import { Cock, CockType } from '../Body/Cock';
 import { SkinType } from '../Body/Skin';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
 export function describeCock(character: Character, cock: Cock): string {
     if (character.torso.cocks.count > 0 || cock === undefined)

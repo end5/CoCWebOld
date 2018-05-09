@@ -1,7 +1,7 @@
-﻿import Beard from './Beard';
-import Eyes from './Eyes';
-import Tongue from './Tongue';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { Beard } from './Beard';
+import { Eyes } from './Eyes';
+import { Tongue } from './Tongue';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum FaceType {
     HUMAN, HORSE, DOG, COW_MINOTAUR, SHARK_TEETH, SNAKE_FANGS,
@@ -9,7 +9,7 @@ export enum FaceType {
     RACCOON, BUCKTEETH, MOUSE, FERRET_MASK, FERRET
 }
 
-export default class Face implements ISerializable<Face>  {
+export class Face implements ISerializable<Face>  {
     public type: FaceType = FaceType.HUMAN;
     public readonly eyes: Eyes = new Eyes();
     public readonly tongue: Tongue = new Tongue();

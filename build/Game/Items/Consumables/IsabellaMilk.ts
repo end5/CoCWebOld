@@ -1,10 +1,10 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
-export default class IsabellaMilk extends Consumable {
+export class IsabellaMilk extends Consumable {
     public constructor() {
         super(ConsumableName.IsabellaMilk, new ItemDesc("IzyMilk", "a bottle of Isabella's milk", "This is a bottle of Isabella's milk.  Isabella seems fairly certain it will invigorate you."));
     }

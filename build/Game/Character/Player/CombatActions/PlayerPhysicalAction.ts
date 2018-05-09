@@ -1,9 +1,9 @@
-import CombatAction from '../../../Combat/Actions/CombatAction';
-import PhysicalAction from '../../../Combat/Actions/PhysicalAction';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { PhysicalAction } from '../../../Combat/Actions/PhysicalAction';
 import { PerkType } from '../../../Effects/PerkType';
-import Character from '../../Character';
+import { Character } from '../../Character';
 
-export default abstract class PlayerPhysicalAction implements CombatAction, PhysicalAction {
+export abstract class PlayerPhysicalAction implements CombatAction, PhysicalAction {
     public abstract name: string;
     public reasonCannotUse: string;
     public abstract isPossible(character: Character): boolean;

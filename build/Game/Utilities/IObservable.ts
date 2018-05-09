@@ -1,6 +1,6 @@
-import IObserver from './IObserver';
+import { IObserver } from './IObserver';
 
-export default interface IObservable {
+export interface IObservable {
     attach(observer: IObserver): void;
     detach(observer: IObserver): void;
     notify(message: string): void;

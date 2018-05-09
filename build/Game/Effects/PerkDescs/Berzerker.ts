@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class Berzerker extends PerkDesc {
+export class Berzerker extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.str >= 75)
             return "Grants 'Berzerk' ability.";

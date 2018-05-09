@@ -1,14 +1,14 @@
-﻿// import Flags from './Flags';
-// import Initializer from './Initializer';
-// import Settings from './Settings';
-// import TimeManager from './TimeManager';
-// import Character from '../Character/Character';
-// import Menus from '../display/Menus/Menus';
-// import CampStorage from '../Inventory/CampStorage';
-// import Player from '../Player/Player';
-// import SaveManager from '../SaveManager';
-// import SceneManager from '../Scenes/SceneManager';
-// import Dictionary from '../Utilities/Dictionary';
+﻿// import { Flags } from './Flags';
+// import { Initializer } from './Initializer';
+// import { Settings } from './Settings';
+// import { TimeManager } from './TimeManager';
+// import { Character } from '../Character/Character';
+// import { Menus } from '../display/Menus/Menus';
+// import { CampStorage } from '../Inventory/CampStorage';
+// import { Player } from '../Player/Player';
+// import { SaveManager } from '../SaveManager';
+// import { SceneManager } from '../Scenes/SceneManager';
+// import { Dictionary } from '../Utilities/Dictionary';
 
 // export enum GameState {
 //     Normal,
@@ -18,7 +18,7 @@
 //     GameOver
 // }
 
-// export default class Game {
+// export class Game {
 //     private static instance: object;
 //     public static flags: Flags;
 //     public static state: GameState;

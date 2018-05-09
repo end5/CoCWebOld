@@ -1,40 +1,41 @@
-﻿import Scenes from './Scenes';
-import DisplayImage from '../../Engine/Display/DisplayImage';
-import DisplaySprite from '../../Engine/Display/DisplaySprite';
-import DisplayText from '../../Engine/display/DisplayText';
-import ImageName from '../../Engine/Display/Images/ImageName';
-import SpriteName from '../../Engine/Display/Images/SpriteName';
-import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
-import SaveManager from '../../Engine/Save/SaveManager';
-import Character from '../Character/Character';
-import PlayerFlags from '../Character/Player/PlayerFlags';
+﻿import { Scenes } from './Scenes';
+import { DisplayImage } from '../../Engine/Display/DisplayImage';
+import { DisplaySprite } from '../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { ImageName } from '../../Engine/Display/Images/ImageName';
+import { SpriteName } from '../../Engine/Display/Images/SpriteName';
+import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { SaveManager } from '../../Engine/Save/SaveManager';
+import { Character } from '../Character/Character';
+import { PlayerFlags } from '../Character/Player/PlayerFlags';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import Menus from '../Menus/Menus';
-import * as StatModifier from '../Modifiers/StatModifier';
-import User from '../User';
-import * as NumToText from '../Utilities/NumToText';
-import Time from '../Utilities/Time';
+import { Menus } from '../Menus/Menus';
+import { Mod } from '../Modifiers/Modifiers';
+import { NextScreenChoices } from '../SceneDisplay';
+import { User } from '../User';
+import { numToCardinalCapText, numToCardinalText } from '../Utilities/NumToText';
+import { Time } from '../Utilities/Time';
 
-export function returnToCamp(timeUsed: number): void {
+export function returnToCamp(timeUsed: number): NextScreenChoices {
     DisplayText().clear();
     if (timeUsed === 1)
         DisplayText("An hour passes...\n");
-    else DisplayText(NumToText.numToCardinalCapText(timeUsed) + " hour pass...\n");
+    else DisplayText(numToCardinalCapText(timeUsed) + " hour pass...\n");
     // if (!Game.inCombat) DisplaySprite(SpriteName.None);
     MainScreen.hideTopButtons();
-    Scenes.endDay.goNext(timeUsed, false);
+    return Scenes.endDay.goNext(timeUsed, false);
 }
 
-export function returnToCampUseOneHour(): void { returnToCamp(1); } // Replacement for event number 13;
+export function returnToCampUseOneHour(): NextScreenChoices { return returnToCamp(1); } // Replacement for event number 13;
 
-export function returnToCampUseTwoHours(): void { returnToCamp(2); } // Replacement for event number 14;
+export function returnToCampUseTwoHours(): NextScreenChoices { return returnToCamp(2); } // Replacement for event number 14;
 
-export function returnToCampUseFourHours(): void { returnToCamp(4); } // Replacement for event number 15;
+export function returnToCampUseFourHours(): NextScreenChoices { return returnToCamp(4); } // Replacement for event number 15;
 
-export function returnToCampUseEightHours(): void { returnToCamp(8); } // Replacement for event number 16;
+export function returnToCampUseEightHours(): NextScreenChoices { return returnToCamp(8); } // Replacement for event number 16;
 
-export function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     MainScreen.showTopButtons();
     DisplaySprite(SpriteName.None);
 
@@ -52,7 +53,7 @@ export function display(character: Character) {
     }
     // Build main menu
     let exploreEvent = Scenes.exploration.display;
-    const masturbate = (character.stats.lust > 30 ? Scenes.masturbation : null);
+    const masturbate = (character.stats.lust > 30 ? Scenes.masturbation.display : undefined);
     DisplayText().clear();
 
     DisplayImage(ImageName.camping);
@@ -76,7 +77,7 @@ export function display(character: Character) {
         }
         else {
             DisplayText("<b>You are debilitatingly aroused, and can think of doing nothing other than masturbating.</b>\n\n");
-            exploreEvent = null;
+            exploreEvent = undefined;
             // This once disabled the ability to rest, sleep or wait, but ir hasn't done that for many many builds
         }
     }
@@ -90,7 +91,7 @@ export function display(character: Character) {
         DisplayText("It is dark out, made worse by the lack of stars in the sky.  A blood-red moon hangs in the sky, seeming to watch you, but providing little light.  It's far too dark to leave camp.\n");
         restName = "Sleep";
         restEvent = doSleep;
-        exploreEvent = null;
+        exploreEvent = undefined;
     }
     // Day Time!
     else {
@@ -101,8 +102,10 @@ export function display(character: Character) {
         }
     }
     // Menu
-    MainScreen.displayChoices(["Explore", "Places", "Inventory", "Stash", "Followers", "Lovers", "Slaves", "", baitText, restName],
-        [exploreEvent, undefined, Menus.Inventory, undefined, undefined, undefined, undefined, undefined, Scenes.masturbation.display, restEvent]);
+    return {
+        choices: [["Explore", "Places", "Inventory", "Stash", "Followers", "Lovers", "Slaves", "", baitText, restName],
+        [exploreEvent, undefined, Menus.Inventory, undefined, undefined, undefined, undefined, undefined, masturbate, restEvent]]
+    };
 }
 
 export function hasCompanions(): boolean {
@@ -128,7 +131,7 @@ export function loversCount(): number {
     return counter;
 }
 
-function rest(character: Character): void {
+function rest(character: Character): NextScreenChoices {
     let time = 0;
     if (time === 0) {
         DisplayText().clear();
@@ -137,7 +140,7 @@ function rest(character: Character): void {
         // Marble withdrawl
         if (character.statusAffects.has(StatusAffectType.MarbleWithdrawl)) {
             DisplayText("\nYour rest is very troubled, and you aren't able to settle down.  You get up feeling tired and unsatisfied, always thinking of Marble's milk.\n");
-            StatModifier.displayCharacterHPChange(character, time * 5);
+            Mod.Stat.displayCharacterHPChange(character, time * 5);
             character.stats.tou += -.1;
             character.stats.int += -.1;
             character.stats.fatigue += -2 * time;
@@ -145,20 +148,20 @@ function rest(character: Character): void {
         }
         // REGULAR HP/FATIGUE RECOVERY
         else {
-            StatModifier.displayCharacterHPChange(character, time * 10);
+            Mod.Stat.displayCharacterHPChange(character, time * 10);
             character.stats.fatigue += -4 * time;
             if (character.perks.has(PerkType.SpeedyRecovery)) character.stats.fatigue += -2 * time;
         }
     }
     else {
         DisplayText().clear();
-        if (time !== 1) DisplayText("You continue to rest for " + NumToText.numToCardinalText(time) + " more hour.\n");
+        if (time !== 1) DisplayText("You continue to rest for " + numToCardinalText(time) + " more hour.\n");
         else DisplayText("You continue to rest for another hour.\n");
     }
-    Scenes.endDay.goNext(time, true);
+    return Scenes.endDay.goNext(time, true);
 }
 
-function doWait(character: Character): void {
+function doWait(character: Character): NextScreenChoices {
     DisplayText().clear();
     let time = 0;
     if (time === 0) {
@@ -179,13 +182,13 @@ function doWait(character: Character): void {
         }
     }
     else {
-        if (time !== 1) DisplayText("You continue to wait for " + NumToText.numToCardinalText(time) + " more hour.\n");
+        if (time !== 1) DisplayText("You continue to wait for " + numToCardinalText(time) + " more hour.\n");
         else DisplayText("You continue to wait for another hour.\n");
     }
-    Scenes.endDay.goNext(time, true);
+    return Scenes.endDay.goNext(time, true);
 }
 
-export function doSleep(character: Character): void {
+export function doSleep(character: Character): NextScreenChoices {
     let time = 0;
     if (time === 0) {
         if (Time.hour === 21) time = 9;
@@ -207,13 +210,13 @@ export function doSleep(character: Character): void {
     }
     else {
         DisplayText().clear();
-        if (time !== 1) DisplayText("You lie down to resume sleeping for the remaining " + NumToText.numToCardinalText(time) + " hour.\n");
+        if (time !== 1) DisplayText("You lie down to resume sleeping for the remaining " + numToCardinalText(time) + " hour.\n");
         else DisplayText("You lie down to resume sleeping for the remaining hour.\n");
     }
-    Scenes.endDay.goNext(time, true);
+    return Scenes.endDay.goNext(time, true);
 }
 // For shit that breaks normal sleep processing.
-export function sleepWrapper(character: Character): void {
+export function sleepWrapper(character: Character): NextScreenChoices {
     let time = 0;
     if (Time.hour === 16) time = 14;
     if (Time.hour === 17) time = 13;
@@ -230,14 +233,14 @@ export function sleepWrapper(character: Character): void {
     if (Time.hour === 4) time = 2;
     if (Time.hour === 5) time = 1;
     DisplayText().clear();
-    if (time !== 1) DisplayText("You lie down to resume sleeping for the remaining " + NumToText.numToCardinalText(time) + " hour.\n");
+    if (time !== 1) DisplayText("You lie down to resume sleeping for the remaining " + numToCardinalText(time) + " hour.\n");
     else DisplayText("You lie down to resume sleeping for the remaining hour.\n");
     displaySleepRecovery(character, time);
-    Scenes.endDay.goNext(time, true);
+    return Scenes.endDay.goNext(time, true);
 }
 
 export function displaySleepRecovery(character: Character, time: number) {
-    StatModifier.displayCharacterHPChange(character, time * 20);
+    Mod.Stat.displayCharacterHPChange(character, time * 20);
     character.stats.fatigue -= character.stats.fatigue;
 }
 

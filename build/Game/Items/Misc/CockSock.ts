@@ -1,10 +1,10 @@
-import CockSockName from './CockSockName';
-import Character from '../../Character/Character';
+import { CockSockName } from './CockSockName';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import EquipableItem from '../EquipableItem';
-import ItemType from '../ItemType';
+import { EquipableItem } from '../EquipableItem';
+import { ItemType } from '../ItemType';
 
-export default class CockSock extends EquipableItem {
+export class CockSock extends EquipableItem {
     public constructor(name: CockSockName) {
         super(name, ItemType.Misc, undefined);
     }

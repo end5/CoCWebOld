@@ -1,17 +1,14 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { CockType } from '../../Body/Cock';
 import { SkinType } from '../../Body/Skin';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as HipDescriptor from '../../Descriptors/HipDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
 // Miscellaneous
 // ITEM GAINED FROM LUST WINS
@@ -19,7 +16,7 @@ import ItemDesc from '../ItemDesc';
 // Mouseover script: \"The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel...uncomfortable, as you observe it.\"
 
 // Bottle of Ectoplasm Text
-export default class Ectoplasm extends Consumable {
+export class Ectoplasm extends Consumable {
     public constructor() {
         super(ConsumableName.Ectoplasm, new ItemDesc("EctoPls", "a bottle of ectoplasm", "The green-tinted, hardly corporeal substance flows like a liquid inside its container. It makes you feel... uncomfortable, as you observe it."));
     }
@@ -43,7 +40,7 @@ export default class Ectoplasm extends Consumable {
         }
         // Effect script 2:  (lower sensitivity)
         if (character.stats.sens >= 20 && randInt(3) === 0 && changes < changeLimit) {
-            DisplayText("\n\nWoah, what the... you pinch your " + SkinDescriptor.skin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
+            DisplayText("\n\nWoah, what the... you pinch your " + Desc.Skin.skin(character) + " to confirm your suspicions; the ghostly snack has definitely lowered your sensitivity.");
             character.stats.sens -= 2;
             if (character.stats.sens >= 75)
                 character.stats.sens -= 2;
@@ -63,7 +60,7 @@ export default class Ectoplasm extends Consumable {
         // Effect script a:  (human wang)
         if (character.torso.cocks.count > 0 && changes < changeLimit) {
             if (randInt(3) === 0 && character.torso.cocks.get(0).type !== CockType.HUMAN) {
-                DisplayText("\n\nA strange tingling begins behind your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + character.inventory.equipment.armor.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>");
+                DisplayText("\n\nA strange tingling begins behind your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", slowly crawling up across its entire length.  While neither particularly arousing nor uncomfortable, you do shift nervously as the feeling intensifies.  You resist the urge to undo your " + character.inventory.equipment.armor.displayName + " to check, but by the feel of it, your penis is shifting form.  Eventually the transformative sensation fades, <b>leaving you with a completely human penis.</b>");
                 character.torso.cocks.get(0).type = CockType.HUMAN;
                 changes++;
             }
@@ -96,14 +93,14 @@ export default class Ectoplasm extends Consumable {
         // Legs
         if (changes < changeLimit && !character.perks.has(PerkType.Incorporeality) && (character.skin.tone === "white" || character.skin.tone === "sable") && character.torso.neck.head.hair.type === 2) {
             // (ghost-legs!  Absolutely no problem with regular encounters, though! [if you somehow got this with a centaur it'd probably do nothing cuz you're not supposed to be a centaur with ectoplasm ya dingus])
-            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + HipDescriptor.describeHips(character) + ". Before you can react, your " + LegDescriptor.describeLegs(character) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + LegDescriptor.describeLegs(character) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
+            DisplayText("\n\nAn otherworldly sensation begins in your belly, working its way to your " + Desc.Hip.describeHips(character) + ". Before you can react, your " + Desc.Leg.describeLegs(character) + " begin to tingle, and you fall on your rump as a large shudder runs through them. As you watch, your lower body shimmers, becoming ethereal, wisps rising from the newly ghost-like " + Desc.Leg.describeLegs(character) + ". You manage to rise, surprised to find your new, ghostly form to be as sturdy as its former corporeal version. Suddenly, like a dam breaking, fleeting visions and images flow into your head, never lasting long enough for you to concentrate on one. You don't even realize it, but your arms fly up to your head, grasping your temples as you groan in pain. As fast as the mental bombardment came, it disappears, leaving you with a surprising sense of spiritual superiority.  <b>You have ghost legs!</b>\n\n");
             DisplayText("<b>(Gained Perk:  Incorporeality</b>)");
             character.perks.add(PerkType.Incorporeality, 0, 0, 0, 0);
         }
         // Effect Script 8: 100% chance of healing
         if (changes === 0) {
             DisplayText("You feel strangely refreshed, as if you just gobbled down a bottle of sunshine.  A smile graces your lips as vitality fills you.  ");
-            StatModifier.displayCharacterHPChange(character, character.stats.level * 5 + 10);
+            Mod.Stat.displayCharacterHPChange(character, character.stats.level * 5 + 10);
             changes++;
         }
         // Incorporeality Perk Text:  You seem to have inherited some of the spiritual powers of the residents of the afterlife!  While you wouldn't consider doing it for long due to its instability, you can temporarily become incorporeal for the sake of taking over enemies and giving them a taste of ghostly libido.

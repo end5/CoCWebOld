@@ -1,4 +1,4 @@
-enum ItemType {
+export enum ItemType {
     Material,
     KeyItem,
     Consumable,
@@ -6,4 +6,3 @@ enum ItemType {
     Armor,
     Misc
 }
-export default ItemType;

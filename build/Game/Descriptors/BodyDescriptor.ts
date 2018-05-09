@@ -1,9 +1,7 @@
-﻿import * as ButtDescriptor from './ButtDescriptor';
-import * as GenderDescriptor from './GenderDescriptor';
-import * as VaginaDescriptor from './VaginaDescriptor';
-import BreastRow from '../Body/BreastRow';
-import RaceScore from '../Body/RaceScore';
-import Character from '../Character/Character';
+﻿import { Desc } from './Descriptors';
+import { BreastRow } from '../Body/BreastRow';
+import { RaceScore } from '../Body/RaceScore';
+import { Character } from '../Character/Character';
 
 export function describeBody(character: Character): string {
     let description: string = "";
@@ -123,7 +121,7 @@ export function describeRace(character: Character): string {
     if (character.torso.hips.legs.type === 11)
         race = "pony-kin";
     if (RaceScore.catScore(character) >= 4)
-        race = "cat-" + GenderDescriptor.mf(character, "boy", "girl");
+        race = "cat-" + Desc.Gender.mf(character, "boy", "girl");
     if (RaceScore.lizardScore(character) >= 4) {
         if (character.gender === 0)
             race = "lizan";
@@ -137,7 +135,7 @@ export function describeRace(character: Character): string {
     if (RaceScore.dragonScore(character) >= 4) {
         race = "dragon-morph";
         if (character.torso.neck.head.face.type === 0)
-            race = "dragon-" + GenderDescriptor.mf(character, "man", "girl");
+            race = "dragon-" + Desc.Gender.mf(character, "man", "girl");
     }
     if (RaceScore.raccoonScore(character) >= 4) {
         race = "raccoon-morph";
@@ -147,19 +145,19 @@ export function describeRace(character: Character): string {
     if (RaceScore.dogScore(character) >= 4) {
         race = "dog-morph";
         if (character.torso.neck.head.face.type === 0)
-            race = "dog-" + GenderDescriptor.mf(character, "man", "girl");
+            race = "dog-" + Desc.Gender.mf(character, "man", "girl");
     }
     if (RaceScore.foxScore(character) >= 4) {
         if (character.skin.type === 1)
             race = "fox-morph";
         else
-            race = "fox-" + GenderDescriptor.mf(character, "morph", "girl");
+            race = "fox-" + Desc.Gender.mf(character, "morph", "girl");
     }
     if (RaceScore.ferretScore(character) >= 4) {
         if (character.skin.type === 1)
             race = "ferret-morph";
         else
-            race = "ferret-" + GenderDescriptor.mf(character, "morph", "girl");
+            race = "ferret-" + Desc.Gender.mf(character, "morph", "girl");
     }
     if (RaceScore.kitsuneScore(character) >= 4) {
         race = "kitsune";
@@ -176,7 +174,7 @@ export function describeRace(character: Character): string {
         race = "minotaur-morph";
     if (RaceScore.cowScore(character) > 5) {
         race = "cow-";
-        race += GenderDescriptor.mf(character, "morph", "girl");
+        race += Desc.Gender.mf(character, "morph", "girl");
     }
     if (RaceScore.beeScore(character) >= 5)
         race = "bee-morph";
@@ -189,7 +187,7 @@ export function describeRace(character: Character): string {
     if (RaceScore.sharkScore(character) >= 3)
         race = "shark-morph";
     if (RaceScore.bunnyScore(character) >= 4)
-        race = "bunny-" + GenderDescriptor.mf(character, "boy", "girl");
+        race = "bunny-" + Desc.Gender.mf(character, "boy", "girl");
     if (RaceScore.harpyScore(character) >= 4) {
         if (character.gender >= 2)
             race = "harpy";
@@ -198,7 +196,7 @@ export function describeRace(character: Character): string {
     }
     if (RaceScore.spiderScore(character) >= 4) {
         race = "spider-morph";
-        if (GenderDescriptor.mf(character, "no", "yes") === "yes")
+        if (Desc.Gender.mf(character, "no", "yes") === "yes")
             race = "spider-girl";
         if (character.torso.hips.legs.type === 16)
             race = "drider";
@@ -207,7 +205,7 @@ export function describeRace(character: Character): string {
         race = "kangaroo-morph";
     if (RaceScore.mouseScore(character) >= 3) {
         if (character.torso.neck.head.face.type !== 16)
-            race = "mouse-" + GenderDescriptor.mf(character, "boy", "girl");
+            race = "mouse-" + Desc.Gender.mf(character, "boy", "girl");
         else
             race = "mouse-morph";
     }
@@ -218,13 +216,13 @@ export function describeRace(character: Character): string {
 
     if (RaceScore.gooScore(character) >= 3) {
         race = "goo-";
-        race += GenderDescriptor.mf(character, "boi", "girl");
+        race += Desc.Gender.mf(character, "boi", "girl");
     }
     return race;
 }
 
 export function assholeOrPussy(character: Character): string {
     if (character.torso.vaginas.count > 0)
-        return VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0));
-    return ButtDescriptor.describeButthole(character.torso.butt);
+        return Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0));
+    return Desc.Butt.describeButthole(character.torso.butt);
 }

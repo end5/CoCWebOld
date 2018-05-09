@@ -1,6 +1,6 @@
-﻿import Cock, { CockType } from '../Body/Cock';
+﻿import { Cock, CockType } from '../Body/Cock';
 
-export default class CockDescLib {
+export class CockDescLib {
     private static library: object = {};
 
     public static lookupPerk(id: CockType): string {

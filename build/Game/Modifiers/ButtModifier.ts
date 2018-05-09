@@ -1,8 +1,8 @@
-﻿import DisplayText from '../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { ButtLooseness } from '../Body/Butt';
-import Character from '../Character/Character';
-import * as ButtDescriptor from '../Descriptors/ButtDescriptor';
+import { Character } from '../Character/Character';
+import { Desc } from '../Descriptors/Descriptors';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
 export function stretchButt(character: Character, buttArea: number): boolean {
@@ -51,10 +51,10 @@ export function displayStretchButt(character: Character, cArea: number, display:
     // STRETCH SUCCESSFUL - begin flavor text if outputting it!
     if (stretched && display) {
         if (spacingsF) DisplayText("  ");
-        if (character.torso.butt.looseness === 5) DisplayText("<b>Your " + ButtDescriptor.describeButthole(character.torso.butt) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
-        if (character.torso.butt.looseness === 4) DisplayText("<b>Your " + ButtDescriptor.describeButthole(character.torso.butt) + " becomes so stretched that it gapes continually.</b>");
-        if (character.torso.butt.looseness === 3) DisplayText("<b>Your " + ButtDescriptor.describeButthole(character.torso.butt) + " is now very loose.</b>");
-        if (character.torso.butt.looseness === 2) DisplayText("<b>Your " + ButtDescriptor.describeButthole(character.torso.butt) + " is now a little loose.</b>");
+        if (character.torso.butt.looseness === 5) DisplayText("<b>Your " + Desc.Butt.describeButthole(character.torso.butt) + " is stretched even wider, capable of taking even the largest of demons and beasts.</b>");
+        if (character.torso.butt.looseness === 4) DisplayText("<b>Your " + Desc.Butt.describeButthole(character.torso.butt) + " becomes so stretched that it gapes continually.</b>");
+        if (character.torso.butt.looseness === 3) DisplayText("<b>Your " + Desc.Butt.describeButthole(character.torso.butt) + " is now very loose.</b>");
+        if (character.torso.butt.looseness === 2) DisplayText("<b>Your " + Desc.Butt.describeButthole(character.torso.butt) + " is now a little loose.</b>");
         if (character.torso.butt.looseness === 1) DisplayText("<b>You have lost your anal virginity.</b>");
         if (spacingsB) DisplayText("  ");
     }

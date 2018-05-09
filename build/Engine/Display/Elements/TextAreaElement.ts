@@ -1,6 +1,6 @@
-import TextElement from './TextElement';
+import { TextElement } from './TextElement';
 
-export default class TextAreaElement extends TextElement {
+export class TextAreaElement extends TextElement {
     public constructor() {
         super();
         this.htmlElement = document.createElement('textarea');

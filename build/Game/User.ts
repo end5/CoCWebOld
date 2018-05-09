@@ -1,8 +1,8 @@
-import Character from './Character/Character';
-import LocationDict from './Locations/LocationDict';
-import Settings from './Settings';
-import Flags from './Utilities/Flags';
-import Dictionary from '../Engine/Utilities/Dictionary';
+import { Character } from './Character/Character';
+import { LocationDict } from './Locations/LocationDict';
+import { Settings } from './Settings';
+import { Flags } from './Utilities/Flags';
+import { Dictionary } from '../Engine/Utilities/Dictionary';
 
 class User {
     public char: Character;
@@ -17,4 +17,4 @@ class User {
 }
 
 const user = new User();
-export default user as User;
+export { user as User };

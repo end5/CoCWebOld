@@ -1,10 +1,10 @@
-import KitsuneStatue from './KitsuneStatue';
-import Material from './Material';
-import MaterialName from './MaterialName';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
-import ItemDesc from '../ItemDesc';
+import { KitsuneStatue } from './KitsuneStatue';
+import { Material } from './Material';
+import { MaterialName } from './MaterialName';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
+import { ItemDesc } from '../ItemDesc';
 
-export default class MaterialLib extends Dictionary<Material> {
+export class MaterialLib extends Dictionary<Material> {
     public constructor() {
         super();
         this.set(MaterialName.BlackChitin, new Material(MaterialName.BlackChitin, new ItemDesc("B.Chitn", "a large shard of chitinous plating",

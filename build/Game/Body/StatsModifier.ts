@@ -1,10 +1,10 @@
-﻿import Creature from './Creature';
-import Stats from './Stats';
-import Tail from './Tail';
-import Settings from '../Settings';
-import User from '../User';
+﻿import { Creature } from './Creature';
+import { Stats } from './Stats';
+import { Tail } from './Tail';
+import { Settings } from '../Settings';
+import { User } from '../User';
 
-export default class StatsModifier {
+export class StatsModifier {
     private body: Creature;
     private stats: Stats;
 

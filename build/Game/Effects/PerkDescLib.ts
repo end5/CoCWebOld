@@ -1,9 +1,9 @@
 import { PerkDesc } from './Perk';
 import * as PerkDescs from './PerkDescs';
 import { PerkType } from './PerkType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
 
-export default class PerkDescLib extends Dictionary<PerkDesc>{
+export class PerkDescLib extends Dictionary<PerkDesc>{
     public constructor() {
         super();
         this.set(PerkType.Brawler, new PerkDesc(PerkType.Brawler, "Brawler",
@@ -311,7 +311,7 @@ export default class PerkDescLib extends Dictionary<PerkDesc>{
         this.set(PerkType.Whispered, new PerkDesc(PerkType.Whispered, "Whispered", "Whispered",
             "Akbal's blessings grant limited telepathy that can induce fear."));
 
-        this.set(PerkType.ControlledBreath, new PerkDescs.ControlledBreathPerk());
+        this.set(PerkType.ControlledBreath, new PerkDescs.ControlledBreath());
         this.set(PerkType.CleansingPalm, new PerkDescs.CleansingPalm());
         this.set(PerkType.Enlightened, new PerkDescs.Enlightened());
 

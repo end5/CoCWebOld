@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Stats implements ISerializable<Stats> {
+export class Stats implements ISerializable<Stats> {
     // Primary stats
     public str: number;
     public tou: number;

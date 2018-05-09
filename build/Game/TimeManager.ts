@@ -1,6 +1,6 @@
-import ITimeAware from './ITimeAware';
-import IUpdate from './IUpdate';
-import Time from './Utilities/Time';
+import { ITimeAware } from './ITimeAware';
+import { IUpdate } from './IUpdate';
+import { Time } from './Utilities/Time';
 
 class TimeManager implements IUpdate {
     private timeAwareObjects: ITimeAware[];
@@ -23,5 +23,5 @@ class TimeManager implements IUpdate {
     }
 }
 
-const timeManager = new TimeManager();
-export default timeManager as TimeManager;
+const time = new TimeManager();
+export { time as TimeManager };

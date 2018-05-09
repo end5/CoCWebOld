@@ -1,8 +1,8 @@
-import Item from './Item';
-import Character from '../Character/Character';
-import EquipSlot from '../Inventory/EquipSlot';
+import { Item } from './Item';
+import { Character } from '../Character/Character';
+import { EquipSlot } from '../Inventory/EquipSlot';
 
-export default abstract class EquipableItem extends Item {
+export abstract class EquipableItem extends Item {
     protected slot: EquipSlot<EquipableItem>;
     /**
      * This item is being equipped by the character. Add any perks, etc. - This should only handle mechanics, not text output

@@ -1,3 +1,3 @@
-export default interface IObserver {
+export interface IObserver {
     update(message: string): void;
 }

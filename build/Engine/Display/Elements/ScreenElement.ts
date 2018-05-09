@@ -1,4 +1,4 @@
-export default abstract class ScreenElement {
+export abstract class ScreenElement {
     protected htmlElement: HTMLElement;
 
     public setHTMLElement(element: HTMLElement) {

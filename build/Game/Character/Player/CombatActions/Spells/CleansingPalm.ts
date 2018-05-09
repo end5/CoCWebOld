@@ -1,12 +1,13 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import User from '../../../../User';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { User } from '../../../../User';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import PlayerFlags from '../../PlayerFlags';
-import LearnedSpellAction from '../LearnedSpellAction';
+import { PlayerFlags } from '../../PlayerFlags';
+import { LearnedSpellAction } from '../LearnedSpellAction';
 
 export class CleansingPalm extends LearnedSpellAction {
     public name: string = "C.Palm";
@@ -16,7 +17,7 @@ export class CleansingPalm extends LearnedSpellAction {
         return character.perks.has(PerkType.CleansingPalm) && character.stats.cor < 10;
     }
 
-    public castSpell(character: Character, monster: Character) {
+    public castSpell(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {

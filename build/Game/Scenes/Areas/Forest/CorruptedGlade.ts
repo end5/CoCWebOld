@@ -1,25 +1,19 @@
-import DisplaySprite from '../../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../../Engine/display/DisplayText';
-import SpriteName from '../../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../../Engine/Display/MainScreen';
+import { DisplaySprite } from '../../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow from '../../../Body/BreastRow';
-import Cock, { CockType } from '../../../Body/Cock';
+import { BreastRow } from '../../../Body/BreastRow';
+import { Cock, CockType } from '../../../Body/Cock';
 import { VaginaLooseness } from '../../../Body/Vagina';
-import Character from '../../../Character/Character';
-import * as BallsDescriptor from '../../../Descriptors/BallsDescriptor';
-import * as ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../../Descriptors/CockDescriptor';
-import * as HipDescriptor from '../../../Descriptors/HipDescriptor';
-import * as LegDescriptor from '../../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../../Descriptors/VaginaDescriptor';
+import { Character } from '../../../Character/Character';
+import { Desc } from '../../../Descriptors/Descriptors';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import * as BreastModifier from '../../../Modifiers/BreastModifier';
-import * as VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Scenes from '../../Scenes';
+import { Mod } from '../../../Modifiers/Modifiers';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { Scenes } from '../../Scenes';
 
-export function intro(character: Character) {
+export function intro(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Corrupted_Glade);
     DisplayText("Walking through the woods, you find a damp patch overgrown with corrupted plant-life.  Every flower seems warped into a colorful imitation of a female's genitals, each vine appears throbbing and veiny, and every knot on the nearby trees is capped with a nipple-like protrusion, leaking dark sap.");
     if (character.stats.cor <= 33) { // disgusted reaction
@@ -32,7 +26,7 @@ export function intro(character: Character) {
             DisplayText("  Disgusted by this perversion of nature, you turn away to leave, narrowly avoiding a sudden dripping of thick white fluid from the vines overhead.");
             character.stats.lust += 2;
         }
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
     else if (character.stats.cor <= 66) { // intrigued reaction
         DisplayText("  You explore the glade with equal parts caution and curiosity.  ");
@@ -48,42 +42,42 @@ export function intro(character: Character) {
         }
         character.stats.lust += 20 + character.stats.lib / 5;
         character.stats.cor += 0.5;
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
     else { // drink sap/lick flower reaction
         DisplayText("  You smile as you enter the glade, wondering which of the forbidden fruits you should try...\n\nThere are flowers that bear more than a passing resemblance to pussies,\nvines with absurdly large penis-like tips,\nand trees covered in breast-like knots, leaking sap.");
-        MainScreen.displayChoices(["Flowers", "Vines", "Trees"], [this.flowerFun, this.tentacleFun, this.treeBoobFun], ["Leave"], [Scenes.camp.returnToCampUseOneHour]);
+        return { choices: [["Flowers", "Vines", "Trees"], [this.flowerFun, this.tentacleFun, this.treeBoobFun]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
     }
     // Wallow in decadence reaction - UNFINISHED
 }
 
-function flowerFun(character: Character) {
+function flowerFun(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Corrupted_Glade);
     if (character.torso.cocks.count > 0) { // Sex scenes for those with cawks
         if (character.torso.cocks.count === 1) { // Single Cawk
-            DisplayText("You grin to yourself as you decide to see just how close to a pussy these perverted little flowers are.  The thick stem bends with ease as you grasp it and bend it towards your groin, your other hand fumbling to open your " + character.inventory.equipment.armor.displayName + ".  In seconds you free yourself and gingerly bring the folds closer, the musky scent that fills the air rapidly bringing you to a full, throbbing hardness.  The first touch of petals to your skin slicks you with the flower's silky secretions, allowing you to easily slip between the petals.  Though the flower looks fairly deep, you quickly feel yourself bottom out inside the petal's slippery grip.  Shrugging, you decide to make the best of it and begin thrusting into the plant, enjoying the unusual sensations along the front-most parts of your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".  As you pound away, you begin to notice a change in the rear of the flower.\n\n");
+            DisplayText("You grin to yourself as you decide to see just how close to a pussy these perverted little flowers are.  The thick stem bends with ease as you grasp it and bend it towards your groin, your other hand fumbling to open your " + character.inventory.equipment.armor.displayName + ".  In seconds you free yourself and gingerly bring the folds closer, the musky scent that fills the air rapidly bringing you to a full, throbbing hardness.  The first touch of petals to your skin slicks you with the flower's silky secretions, allowing you to easily slip between the petals.  Though the flower looks fairly deep, you quickly feel yourself bottom out inside the petal's slippery grip.  Shrugging, you decide to make the best of it and begin thrusting into the plant, enjoying the unusual sensations along the front-most parts of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  As you pound away, you begin to notice a change in the rear of the flower.\n\n");
 
-            DisplayText("It feels as if something is opening up, and the tip of your cock begins slipping through a tight ring, bulging the plant's stem noticeably.  The sudden change worries you enough to pull back for a moment, your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " nearly clearing the opening before dozens of tiny whip-like tendrils burst from the flower, wrapping your maleness with painful tightness.  They constrict further and with a burst of movement, slam the flower down onto your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ", pulling you further and further into the stem with painful force.  You struggle briefly but the pain it causes your over-stimulated member is too much, so you just give up, letting the pussy-like plant draw the last of you inside its stem, the silken flowers cupping around your ");
+            DisplayText("It feels as if something is opening up, and the tip of your cock begins slipping through a tight ring, bulging the plant's stem noticeably.  The sudden change worries you enough to pull back for a moment, your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " nearly clearing the opening before dozens of tiny whip-like tendrils burst from the flower, wrapping your maleness with painful tightness.  They constrict further and with a burst of movement, slam the flower down onto your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", pulling you further and further into the stem with painful force.  You struggle briefly but the pain it causes your over-stimulated member is too much, so you just give up, letting the pussy-like plant draw the last of you inside its stem, the silken flowers cupping around your ");
             if (character.torso.balls.quantity > 0)
                 DisplayText("balls and gently squeezing them.\n\n");
             else
                 DisplayText("groin and gently squeezing your taint.\n\n");
 
-            DisplayText("You feel a flood of wetness surge up from the depths of the plant, surrounding your member with even more fluid as the stem begins constricting and squeezing.  Gently at first, and then with increasing insistence, a suction builds inside the stem, drawing more and more blood into your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".  The stem, now heavily distended by your massive member, continues rippling, squeezing, and sucking your over-engorged meat-pole, overwhelming your mind with sensation far beyond normal.  You'd wonder just what kind of tactile-enhancing fluids that plant excretes, if you weren't already mindlessly pistoning against the tainted plant, still locked inside it by tight little tentacles.\n\n");
+            DisplayText("You feel a flood of wetness surge up from the depths of the plant, surrounding your member with even more fluid as the stem begins constricting and squeezing.  Gently at first, and then with increasing insistence, a suction builds inside the stem, drawing more and more blood into your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".  The stem, now heavily distended by your massive member, continues rippling, squeezing, and sucking your over-engorged meat-pole, overwhelming your mind with sensation far beyond normal.  You'd wonder just what kind of tactile-enhancing fluids that plant excretes, if you weren't already mindlessly pistoning against the tainted plant, still locked inside it by tight little tentacles.\n\n");
         }
         else { // Multicock
-            DisplayText("You grin to yourself as you decide to see just how close to a pussy these perverted little flowers are.  The thick stems bend with ease as you grab a few with your hand and pull them towards your groin, your other hand fumbling to open your " + character.inventory.equipment.armor.displayName + ".  In seconds you free yourself, and gingerly bring the folds closer.  The musky scent filling the air rapidly brings your " + CockDescriptor.describeMultiCockShort(character) + " to a full, throbbing hardness.  The first touch of petals to your skin slicks you with the flower's silky secretions, allowing you to easily slip between the petals.  Though the flowers look fairly deep, you quickly feel yourself bottom out inside the petals' slippery grip.  Shrugging, you decide to make the best of it and begin thrusting into the plant, enjoying the unusual sensations along the front-most parts of your " + CockDescriptor.describeMultiCockShort(character) + ".  As you pound away, you begin to notice a change in the rear of the flowers.\n\n");
+            DisplayText("You grin to yourself as you decide to see just how close to a pussy these perverted little flowers are.  The thick stems bend with ease as you grab a few with your hand and pull them towards your groin, your other hand fumbling to open your " + character.inventory.equipment.armor.displayName + ".  In seconds you free yourself, and gingerly bring the folds closer.  The musky scent filling the air rapidly brings your " + Desc.Cock.describeMultiCockShort(character) + " to a full, throbbing hardness.  The first touch of petals to your skin slicks you with the flower's silky secretions, allowing you to easily slip between the petals.  Though the flowers look fairly deep, you quickly feel yourself bottom out inside the petals' slippery grip.  Shrugging, you decide to make the best of it and begin thrusting into the plant, enjoying the unusual sensations along the front-most parts of your " + Desc.Cock.describeMultiCockShort(character) + ".  As you pound away, you begin to notice a change in the rear of the flowers.\n\n");
 
-            DisplayText("They seem to be gradually opening up, allowing the smallest of your cock-tips to begin slipping through an opening in the backs of the flowers and into the stems.  Shocked by this unexpected development, you pull the bundle of flowers from your " + CockDescriptor.describeMultiCockShort(character) + ", but whiplike tendrils shoot forth from deep within the flowers, wrapping tightly around your manhoods, painfully squeezing as they drag your " + CockDescriptor.describeMultiCockShort(character) + " back into the tight vaginal openings.  They pull tighter as they force you deeper inside the plant, pulling the full length of each of your members into the constricting stalks.   Wrapped tightly around your base, the tendrils form effective cock-rings, making each of your " + CockDescriptor.describeMultiCockShort(character) + " overfill with blood.\n\n");
+            DisplayText("They seem to be gradually opening up, allowing the smallest of your cock-tips to begin slipping through an opening in the backs of the flowers and into the stems.  Shocked by this unexpected development, you pull the bundle of flowers from your " + Desc.Cock.describeMultiCockShort(character) + ", but whiplike tendrils shoot forth from deep within the flowers, wrapping tightly around your manhoods, painfully squeezing as they drag your " + Desc.Cock.describeMultiCockShort(character) + " back into the tight vaginal openings.  They pull tighter as they force you deeper inside the plant, pulling the full length of each of your members into the constricting stalks.   Wrapped tightly around your base, the tendrils form effective cock-rings, making each of your " + Desc.Cock.describeMultiCockShort(character) + " overfill with blood.\n\n");
 
             DisplayText("You briefly try to free yourself but the pain it causes your groin overwhelms you.  Resigned to your fate, you allow the plants to wrap their petals fully around your groin, encapsulating all of your maleness.  With surprising gentleness, you feel a suction and squeezing building around each and every one of your dicks.  You feel a flood of fluids around each over-engorged member, making them tingle with unnatural sensitivity.  The squeezing and sucking of the plant's stalks, combined with the sudden onset of strange sensation, is too much to bear.  You feel a churning pressure at the base of your groin, liquid heat filling every member as your body makes ready to give these plants what they want.\n\n");
         }
-        DisplayText("You cum, and cum, and cum, the evidence of your pleasure devoured by the plant's sucking, squeezing gullet.  The orgasm drags on for what feels like forever, your " + LegDescriptor.describeLegs(character) + " eventually giving out, your hips the only muscle that seems to work as they twitch into the air, as if begging for more.  You are milked of a few last big spurts, at last collapsing.\n\n");
+        DisplayText("You cum, and cum, and cum, the evidence of your pleasure devoured by the plant's sucking, squeezing gullet.  The orgasm drags on for what feels like forever, your " + Desc.Leg.describeLegs(character) + " eventually giving out, your hips the only muscle that seems to work as they twitch into the air, as if begging for more.  You are milked of a few last big spurts, at last collapsing.\n\n");
 
         DisplayText("The tendrils encircling your genitals do not release; instead they pull tighter, one of " + (character.torso.cocks.count > 1 ? "each plant's tiny" : "the tiny plant's") + " appendages penetrating your urethra" + (character.torso.cocks.count > 1 ? "s" : "") + ", squirming up your cum slicked passage" + (character.torso.cocks.count > 1 ? "s" : "") + " with uncomfortable slowness.  You lay there, too weak to resist it or fight, hoping that whatever the plants are doing won't hurt much.  You feel it twisting and coiling inside you... until it stops.  You feel a sharp pinch, and then it withdraws, seemingly satisfied.  The tendrils unwrap, allowing the plants to spring back up, exposing your still over-engorged and sensitive member" + (character.torso.cocks.count > 1 ? "s" : "") + ".\n\n");
 
-        DisplayText("You lay there for some time until your muscle control returns, your cock" + (character.torso.cocks.count > 1 ? "s" : "") + " still slightly over-large " + (character.torso.balls.quantity >= 2 ? "and your " + BallsDescriptor.describeBalls(true, true, character) : "and") + " feeling sore from the exertion.  At least you hope it's just from the exertion and not from whatever the plant did.\n\n");
+        DisplayText("You lay there for some time until your muscle control returns, your cock" + (character.torso.cocks.count > 1 ? "s" : "") + " still slightly over-large " + (character.torso.balls.quantity >= 2 ? "and your " + Desc.Balls.describeBalls(true, true, character) : "and") + " feeling sore from the exertion.  At least you hope it's just from the exertion and not from whatever the plant did.\n\n");
         if (character.cumQ() < 25)
             DisplayText("As you depart, you notice the plants looking remarkably colorful and healthy...");
         else if (character.cumQ() < 250)
@@ -115,10 +109,10 @@ function flowerFun(character: Character) {
         character.stats.sens += 4;
         character.stats.cor += 1;
     }
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function tentacleFun(character: Character) {
+function tentacleFun(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Corrupted_Glade);
     if (character.torso.vaginas.count > 0 && randInt(2) === 0) { // Vaginal Variant 50% of the time
@@ -159,17 +153,17 @@ function tentacleFun(character: Character) {
             }
         }
         // resume secksings
-        DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ". Pulling gently, you manage to yank a bit more vine free, allowing it to brush against the damp forest loam. That same soft earth makes the perfect cushion for you as you lay down, spreading your legs. With both hands you grasp the vine, guiding it towards the entrance of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ". The beaded moisture that covers the vine tingles tantalizingly at the first contact with your lips.\n\n");
+        DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ". Pulling gently, you manage to yank a bit more vine free, allowing it to brush against the damp forest loam. That same soft earth makes the perfect cushion for you as you lay down, spreading your legs. With both hands you grasp the vine, guiding it towards the entrance of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ". The beaded moisture that covers the vine tingles tantalizingly at the first contact with your lips.\n\n");
 
         if (tentacle === 0) // Small
-            DisplayText("With a sexy little sigh, you slip the mushroom-like tip between your nether-lips, feeling it bulge a little as it penetrates you. The vine's lubricants combine with your own, turning your horny cunt into a sloppy little slip-and-slide. You take it all the way to your cervix, easily handling its smaller size as you begin to use it like a favorite dildo. Deep inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
+            DisplayText("With a sexy little sigh, you slip the mushroom-like tip between your nether-lips, feeling it bulge a little as it penetrates you. The vine's lubricants combine with your own, turning your horny cunt into a sloppy little slip-and-slide. You take it all the way to your cervix, easily handling its smaller size as you begin to use it like a favorite dildo. Deep inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
         if (tentacle === 1) // Medium
-            DisplayText("With a soft grunt, you manage to wrangle the fat tip of the vine between your nether-lips, feeling the swollen bulge pulse inside you penetrate yourself with it. The vine's lubricants combine with your own, turning your horny cunt into a sloppy slip-and-slide. You force in the rest of the vine's length, taking it all the way to your cervix, enjoying the feeling of fullness it gives you as you begin pumping it in and out like an obscene green dildo. Deep inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
+            DisplayText("With a soft grunt, you manage to wrangle the fat tip of the vine between your nether-lips, feeling the swollen bulge pulse inside you penetrate yourself with it. The vine's lubricants combine with your own, turning your horny cunt into a sloppy slip-and-slide. You force in the rest of the vine's length, taking it all the way to your cervix, enjoying the feeling of fullness it gives you as you begin pumping it in and out like an obscene green dildo. Deep inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
         if (tentacle === 2) // Large
-            DisplayText("With a desperate grunt, you barely manage to force the obscene cock-head of the vine between your nether-lips. The swollen bulge pulses inside you, stretching you uncomfortably as it reacts to the warmth and tightness of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ". The vine's lubricants begin to combine with your own, rapidly transforming your horny cunt into a sloppy slip-and-slide. You manage to cram the vine the rest of the way inside, bottoming it out against your cervix, reveling in the feeling of being stretched so wide, as you begin pumping it in and out of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " like an over-sized sex-toy. Deep inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
-        if (VaginaModifier.displayStretchVagina(character, tentacleSize, true)) DisplayText("\n\n"); // Stretch cuuuuunt and newline if it gets stretched
+            DisplayText("With a desperate grunt, you barely manage to force the obscene cock-head of the vine between your nether-lips. The swollen bulge pulses inside you, stretching you uncomfortably as it reacts to the warmth and tightness of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ". The vine's lubricants begin to combine with your own, rapidly transforming your horny cunt into a sloppy slip-and-slide. You manage to cram the vine the rest of the way inside, bottoming it out against your cervix, reveling in the feeling of being stretched so wide, as you begin pumping it in and out of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " like an over-sized sex-toy. Deep inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", the vine's lubricants begin to make your passage tingle, intensifying until your entire channel is overloaded with clit-like levels of sensation.\n\n");
+        if (Mod.Vagina.displayStretchVagina(character, tentacleSize, true)) DisplayText("\n\n"); // Stretch cuuuuunt and newline if it gets stretched
 
-        DisplayText("The rest of the world disappears as your mind tries to cope with the sensation overload coming from your groin. You're dimly aware of your hands pumping the slippery vine in and out, in and out, over and over.  Hips bucking, " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " squeezing, thighs trembling, you achieve the first of many orgasms.  Incredibly, the sensitivity of your groin redoubles, nearly blacking you out from the pleasure.  Cumming over and over, you writhe in the dirt, pumping the corrupted prick-vine in and out of your spasming cunt.  Your eyes roll back in your head when the vine begins pumping you full of its strange fluid, and you finally lose your battle to remain conscious.\n\n");
+        DisplayText("The rest of the world disappears as your mind tries to cope with the sensation overload coming from your groin. You're dimly aware of your hands pumping the slippery vine in and out, in and out, over and over.  Hips bucking, " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " squeezing, thighs trembling, you achieve the first of many orgasms.  Incredibly, the sensitivity of your groin redoubles, nearly blacking you out from the pleasure.  Cumming over and over, you writhe in the dirt, pumping the corrupted prick-vine in and out of your spasming cunt.  Your eyes roll back in your head when the vine begins pumping you full of its strange fluid, and you finally lose your battle to remain conscious.\n\n");
 
         DisplayText("An hour or two later, you wake feeling very sore, but satisfied.  The vine must have popped free at some point and the bulb now rests on your pussy lips.  You go to brush it off and nearly orgasm from touching your nether-lips, still sensitive and parted from the overlarge tentacle they so recently took.  A rush of white goop escapes from between your thighs as you stand, soaking back into the soil immediately.   A quick stretch later, you don your gear and head back to camp with a smile.\n\n");
         // Normal stat changes
@@ -182,7 +176,7 @@ function tentacleFun(character: Character) {
             character.torso.neck.head.hair.color = "green";
         }
         if (randInt(4) === 0 && character.torso.hips.rating <= 10) { // +hip up to 10
-            DisplayText("A strange shifting occurs below your waist, making your " + character.inventory.equipment.armor.displayName + " feel tight.  <b>Your hips have grown larger</b>, becoming " + HipDescriptor.describeHips(character) + ".  ");
+            DisplayText("A strange shifting occurs below your waist, making your " + character.inventory.equipment.armor.displayName + " feel tight.  <b>Your hips have grown larger</b>, becoming " + Desc.Hip.describeHips(character) + ".  ");
             character.torso.hips.rating += randInt(3) + 1;
             character.fertility++;
         }
@@ -199,11 +193,11 @@ function tentacleFun(character: Character) {
         DisplayText("As you leave the corrupted plant-life behind a comforting warmth seems to radiate from your gut, suffusing you with gentle heat that makes your ");
 
         if (character.torso.cocks.count > 0) { // Cocks (and maybe vagina)
-            DisplayText(character.torso.cocks.count === 1 ? CockDescriptor.describeCock(character, character.torso.cocks.get(0)) : CockDescriptor.describeMultiCockShort(character));
-            if (character.torso.vaginas.count > 0) DisplayText(" and " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+            DisplayText(character.torso.cocks.count === 1 ? Desc.Cock.describeCock(character, character.torso.cocks.get(0)) : Desc.Cock.describeMultiCockShort(character));
+            if (character.torso.vaginas.count > 0) DisplayText(" and " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
         }
         else if (character.torso.vaginas.count > 0) // Vagina
-            DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+            DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
         else DisplayText("nipples"); // Nipples
         // Finish sentance
         DisplayText(" tingle.  ");
@@ -217,19 +211,19 @@ function tentacleFun(character: Character) {
         }
         // +butt up to 10
         if (randInt(4) === 0 && character.torso.butt.rating <= 10) {
-            DisplayText("A strange shifting occurs on your backside, making your " + character.inventory.equipment.armor.displayName + " feel tight.  <b>Your butt has grown larger</b>, becoming a " + ButtDescriptor.describeButt(character) + ".  ");
+            DisplayText("A strange shifting occurs on your backside, making your " + character.inventory.equipment.armor.displayName + " feel tight.  <b>Your butt has grown larger</b>, becoming a " + Desc.Butt.describeButt(character) + ".  ");
             character.torso.butt.rating += randInt(3) + 1;
         }
         // Rarely change one prick to a vine-like tentacle cock.
         if (randInt(3) === 0 && character.torso.cocks.count > 0 && character.torso.neck.head.hair.color === "green") {
             if (character.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length < character.torso.cocks.count) {
                 if (character.torso.cocks.count === 1) { // Single cawks
-                    DisplayText("Your feel your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " bending and flexing of its own volition... looking down, you see it morph into a green vine-like shape.  <b>You now have a tentacle cock!</b>  ");
+                    DisplayText("Your feel your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " bending and flexing of its own volition... looking down, you see it morph into a green vine-like shape.  <b>You now have a tentacle cock!</b>  ");
                     // Set primary cock flag
                     character.torso.cocks.get(0).type = CockType.TENTACLE;
                 }
                 if (character.torso.cocks.count > 1) { // multi
-                    DisplayText("Your feel your " + CockDescriptor.describeMultiCockShort(character) + " bending and flexing of their own volition... looking down, you watch them morph into flexible vine-like shapes.  <b>You now have green tentacle cocks!</b>  ");
+                    DisplayText("Your feel your " + Desc.Cock.describeMultiCockShort(character) + " bending and flexing of their own volition... looking down, you watch them morph into flexible vine-like shapes.  <b>You now have green tentacle cocks!</b>  ");
                     for (const cock of character.torso.cocks)
                         cock.type = CockType.TENTACLE;
                 }
@@ -237,10 +231,10 @@ function tentacleFun(character: Character) {
         }
     }
     // character.slimeFeed();
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function treeBoobFun(character: Character) {
+function treeBoobFun(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Corrupted_Glade);
     DisplayText("Stepping carefully around the other hazards of the glade, you close on the strange trees with equal parts curiosity and desire.  Up close, it's easy to see the strange growths that sprout from the bark – dozens of full ripe-looking breasts, each capped with a swollen and leaking nipple.  You touch one, marveling at the smooth texture of its chocolate-colored skin.   In response a runner of sap oozes free of the nipple and slides down the curved surface.\n\n");
@@ -260,21 +254,21 @@ function treeBoobFun(character: Character) {
     if (randInt(2) === 0) { // 50% Chance of breast-growth
         if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 5) {
             DisplayText("  As you redress, you feel a sense of added weight on your chest.  After a few moments you realize your already-formidable chest has grown even larger.");
-            BreastModifier.growSmallestBreastRow(character, 1, 1 + randInt(3), false);
+            Mod.Breast.growSmallestBreastRow(character, 1, 1 + randInt(3), false);
             // character.growTits(1, 1 + randInt(3), false, 1);
         }
         else {
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating === 0) { // No tits yet
                 DisplayText("  As you redress, you realize you have grown a pair of luscious breasts!  Perhaps this was a good idea after all...");
-                BreastModifier.growSmallestBreastRow(character, 1, 2 + randInt(3), false);
+                Mod.Breast.growSmallestBreastRow(character, 1, 2 + randInt(3), false);
                 // character.growTits(1, 2 + randInt(3), false, 1);
             }
             else { // Small tits growth
                 DisplayText("  As you redress, you realize your breasts have gotten quite a bit larger!  Maybe you can come back later when you aren't so full and plump them up a bit more.");
-                BreastModifier.growSmallestBreastRow(character, 1, 1 + randInt(3), false);
+                Mod.Breast.growSmallestBreastRow(character, 1, 1 + randInt(3), false);
                 // character.growTits(1, 1 + randInt(3), false, 1);
             }
         }
     }
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }

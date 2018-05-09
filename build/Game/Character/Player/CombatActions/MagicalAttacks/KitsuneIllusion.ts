@@ -1,9 +1,10 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class KitsuneIllusion extends PlayerSpellAction {
     public name: string = "Illusion";
@@ -25,7 +26,7 @@ export class KitsuneIllusion extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         if (monster.desc.short === "pod" || monster.stats.int === 0) {
             DisplayText("In the tight confines of this pod, there's no use making such an attack!\n\n");
@@ -49,5 +50,6 @@ export class KitsuneIllusion extends PlayerSpellAction {
         }
         else
             DisplayText("  Like the snapping of a rubber band, reality falls back into its rightful place as they resist your illusory conjurations.\n\n");
+        return;
     }
 }

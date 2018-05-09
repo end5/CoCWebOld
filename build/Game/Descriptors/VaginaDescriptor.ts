@@ -1,7 +1,12 @@
 ﻿import { percentChance, randomChoice } from '../../Engine/Utilities/SMath';
 import { SkinType } from '../Body/Skin';
-import Vagina, { VaginaLooseness, VaginaType, VaginaWetness } from '../Body/Vagina';
-import Character from '../Character/Character';
+import {
+    Vagina,
+    VaginaLooseness,
+    VaginaType,
+    VaginaWetness
+    } from '../Body/Vagina';
+import { Character } from '../Character/Character';
 
 export function describeVagina(character: Character, vagina: Vagina): string {
     let description: string = "";

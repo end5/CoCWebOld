@@ -1,20 +1,18 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import GenericTransforms from './GenericTransforms';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { GenericTransforms } from './GenericTransforms';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Cock, { CockType } from '../../Body/Cock';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
+import { Cock, CockType } from '../../Body/Cock';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as BreastModifier from '../../Modifiers/BreastModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import User from '../../User';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class IncubusDraft extends Consumable {
+export class IncubusDraft extends Consumable {
     public readonly tainted: boolean;
     public constructor(tainted: boolean) {
         if (tainted)
@@ -53,9 +51,9 @@ export default class IncubusDraft extends Consumable {
             GenericTransforms.demonChanges(character);
         character.updateGender();
         if (randInt(4) === 0 && this.tainted)
-            DisplayText(BodyModifier.displayModFem(character, 5, 2));
+            DisplayText(Mod.Body.displayModFem(character, 5, 2));
         if (randInt(4) === 0 && this.tainted)
-            DisplayText(BodyModifier.displayModThickness(character, 30, 2));
+            DisplayText(Mod.Body.displayModThickness(character, 30, 2));
     }
 
     private lowLevelChanges(character: Character) {
@@ -66,13 +64,13 @@ export default class IncubusDraft extends Consumable {
             cockGrowth = 0;
             selectedCock = character.torso.cocks.get(0);
             if (selectedCock.type !== CockType.DEMON)
-                DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.");
+                DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " becomes shockingly hard.  It turns a shiny inhuman purple and spasms, dribbling hot demon-like cum as it begins to grow.");
             else
-                DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.");
+                DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " becomes shockingly hard.  It dribbles hot demon-like cum as it begins to grow.");
             if (randInt(4) === 0)
-                cockGrowth = CockModifier.growCock(character, selectedCock, 3);
+                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
             else
-                cockGrowth = CockModifier.growCock(character, selectedCock, 3);
+                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
 
             character.stats.int += 1;
             character.stats.lib += 2;
@@ -87,19 +85,19 @@ export default class IncubusDraft extends Consumable {
             if (cockGrowth >= 1 && cockGrowth <= 2)
                 DisplayText("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
             if (cockGrowth > 2)
-                DisplayText("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(character, selectedCock) + " as a few more inches sprout.");
+                DisplayText("  You smile and idly stroke your lengthening " + Desc.Cock.describeCock(character, selectedCock) + " as a few more inches sprout.");
             if (selectedCock.type !== CockType.DEMON)
-                DisplayText("  With the transformation complete, your " + CockDescriptor.describeCock(character, selectedCock) + " returns to its normal coloration.");
+                DisplayText("  With the transformation complete, your " + Desc.Cock.describeCock(character, selectedCock) + " returns to its normal coloration.");
             else
-                DisplayText("  With the transformation complete, your " + CockDescriptor.describeCock(character, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.");
+                DisplayText("  With the transformation complete, your " + Desc.Cock.describeCock(character, selectedCock) + " throbs in an almost happy way as it goes flaccid once more.");
         }
         if (cockCount > 1) {
             selectedCock = character.torso.cocks.sort(Cock.ShortestCocks)[0];
             cockGrowth = 0;
             if (randInt(4) === 0)
-                cockGrowth = CockModifier.growCock(character, selectedCock, 3);
+                cockGrowth = Mod.Cock.growCock(character, selectedCock, 3);
             else
-                cockGrowth = CockModifier.growCock(character, selectedCock, 1);
+                cockGrowth = Mod.Cock.growCock(character, selectedCock, 1);
 
             character.stats.int += 1;
             character.stats.lib += 2;
@@ -108,9 +106,9 @@ export default class IncubusDraft extends Consumable {
             character.stats.cor += this.tainted ? 1 : 0;
 
             if (character.torso.cocks.count === 2)
-                DisplayText("\n\nBoth of your " + CockDescriptor.describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(character, selectedCock) + " begins to grow.");
+                DisplayText("\n\nBoth of your " + Desc.Cock.describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + Desc.Cock.describeCock(character, selectedCock) + " begins to grow.");
             else
-                DisplayText("\n\nAll of your " + CockDescriptor.describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + CockDescriptor.describeCock(character, selectedCock) + " begins to grow.");
+                DisplayText("\n\nAll of your " + Desc.Cock.describeMultiCockShort(character) + " become shockingly hard, swollen and twitching as they turn a shiny inhuman purple in color.  They spasm, dripping thick ropes of hot demon-like pre-cum along their lengths as your shortest " + Desc.Cock.describeCock(character, selectedCock) + " begins to grow.");
 
             if (cockGrowth < .5)
                 DisplayText("  It stops almost as soon as it starts, growing only a tiny bit longer.");
@@ -119,8 +117,8 @@ export default class IncubusDraft extends Consumable {
             if (cockGrowth >= 1 && cockGrowth <= 2)
                 DisplayText("  The sensation is incredible as more than an inch of lengthened dick-flesh grows in.");
             if (cockGrowth > 2)
-                DisplayText("  You smile and idly stroke your lengthening " + CockDescriptor.describeCock(character, selectedCock) + " as a few more inches sprout.");
-            DisplayText("  With the transformation complete, your " + CockDescriptor.describeMultiCockShort(character) + " return to their normal coloration.");
+                DisplayText("  You smile and idly stroke your lengthening " + Desc.Cock.describeCock(character, selectedCock) + " as a few more inches sprout.");
+            DisplayText("  With the transformation complete, your " + Desc.Cock.describeMultiCockShort(character) + " return to their normal coloration.");
         }
         // NO CAWKS?
         if (cockCount === 0) {
@@ -130,7 +128,7 @@ export default class IncubusDraft extends Consumable {
             character.torso.cocks.add(selectedCock);
 
             DisplayText("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
-            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(character, selectedCock) + " fades to a more normal " + character.skin.tone + " tone.");
+            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + Desc.Cock.describeCock(character, selectedCock) + " fades to a more normal " + character.skin.tone + " tone.");
 
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -140,7 +138,7 @@ export default class IncubusDraft extends Consumable {
         // TIT CHANGE 25% chance of shrinkage
         if (randInt(4) === 0) {
             if (!User.settings.hyperHappy) {
-                BreastModifier.shrinkTits(character);
+                Mod.Breast.shrinkTits(character);
             }
         }
     }
@@ -154,12 +152,12 @@ export default class IncubusDraft extends Consumable {
             DisplayText("\n\nYour cocks fill to full-size... and begin growing obscenely.  ");
             for (let index: number = 0; index < cockCount; index++) {
                 selectedCock = character.torso.cocks.get(index);
-                cockGrowth = CockModifier.growCock(character, selectedCock, randInt(3) + 2);
-                thickness = CockModifier.thickenCock(selectedCock, 1);
+                cockGrowth = Mod.Cock.growCock(character, selectedCock, randInt(3) + 2);
+                thickness = Mod.Cock.thickenCock(selectedCock, 1);
                 if (thickness < .1)
                     selectedCock.thickness += .05;
             }
-            CockModifier.displayLengthChange(character, cockGrowth, cockCount);
+            Mod.Cock.displayLengthChange(character, cockGrowth, cockCount);
 
             // Display the degree of thickness change.
             if (thickness >= 1) {
@@ -182,9 +180,9 @@ export default class IncubusDraft extends Consumable {
         if (cockCount === 1) {
             DisplayText("\n\nYour cock fills to its normal size and begins growing... ");
             selectedCock = character.torso.cocks.get(0);
-            thickness = CockModifier.thickenCock(selectedCock, 1);
-            cockGrowth = CockModifier.growCock(character, selectedCock, randInt(3) + 2);
-            CockModifier.displayLengthChange(character, cockGrowth, cockCount);
+            thickness = Mod.Cock.thickenCock(selectedCock, 1);
+            cockGrowth = Mod.Cock.growCock(character, selectedCock, randInt(3) + 2);
+            Mod.Cock.displayLengthChange(character, cockGrowth, cockCount);
             // Display the degree of thickness change.
             if (thickness >= 1) {
                 if (character.torso.cocks.count === 1) DisplayText("  Your cock spreads rapidly, swelling an inch or more in girth, making it feel fat and floppy.");
@@ -210,7 +208,7 @@ export default class IncubusDraft extends Consumable {
             character.torso.cocks.add(selectedCock);
 
             DisplayText("\n\nYou shudder as a pressure builds in your crotch, peaking painfully as a large bulge begins to push out from your body.  ");
-            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + CockDescriptor.describeCock(character, selectedCock) + " fades to a more normal " + character.skin.tone + " tone.");
+            DisplayText("The skin seems to fold back as a fully formed demon-cock bursts forth from your loins, drizzling hot cum everywhere as it orgasms.  Eventually the orgasm ends as your " + Desc.Cock.describeCock(character, selectedCock) + " fades to a more normal " + character.skin.tone + " tone.");
 
             character.stats.lib += 3;
             character.stats.sens += 5;
@@ -221,7 +219,7 @@ export default class IncubusDraft extends Consumable {
         // TIT CHANGE 50% chance of shrinkage
         if (randInt(2) === 0) {
             if (!User.settings.hyperHappy) {
-                BreastModifier.shrinkTits(character);
+                Mod.Breast.shrinkTits(character);
             }
         }
     }
@@ -241,8 +239,8 @@ export default class IncubusDraft extends Consumable {
             }
         }
         if (!User.settings.hyperHappy) {
-            BreastModifier.shrinkTits(character);
-            BreastModifier.shrinkTits(character);
+            Mod.Breast.shrinkTits(character);
+            Mod.Breast.shrinkTits(character);
         }
     }
 

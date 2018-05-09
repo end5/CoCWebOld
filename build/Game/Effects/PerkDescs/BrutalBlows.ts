@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class BrutalBlows extends PerkDesc {
+export class BrutalBlows extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.str >= 75)
             return "Reduces enemy armor with each hit.";

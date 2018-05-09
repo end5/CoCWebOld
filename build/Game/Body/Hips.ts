@@ -1,11 +1,11 @@
-import Legs from './Legs';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { Legs } from './Legs';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum HipRating {
     BOYISH, SLENDER, AVERAGE, AMPLE, CURVY, FERTILE, INHUMANLY_WIDE
 }
 
-export default class Hips implements ISerializable<Hips> {
+export class Hips implements ISerializable<Hips> {
     public rating: HipRating = HipRating.BOYISH;
     public readonly legs: Legs = new Legs();
 

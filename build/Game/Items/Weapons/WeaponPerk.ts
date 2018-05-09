@@ -1,7 +1,7 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
 import { PerkType } from '../../Effects/PerkType';

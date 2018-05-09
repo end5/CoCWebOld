@@ -1,7 +1,10 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import Character from '../../../Character';
-import SpellActionLib from '../ActionLibs/SpellActionLib';
+import { showActions } from '../../../../Menus/InGame/PlayerCombatMenu';
+import { Menus } from '../../../../Menus/Menus';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { SpellActionLib } from '../ActionLibs/SpellActionLib';
 
 export class Spells implements CombatAction {
     public name: string = "Spells";
@@ -15,7 +18,7 @@ export class Spells implements CombatAction {
         return SpellActionLib.getPossibleActions(character).length > 0;
     }
 
-    public use(character: Character, target: Character) {
-        SpellActionLib.getPossibleActions(character);
+    public use(character: Character, target: Character): NextScreenChoices {
+        return showActions(character, SpellActionLib.getPossibleActions(character));
     }
 }

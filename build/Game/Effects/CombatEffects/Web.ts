@@ -1,5 +1,5 @@
-import Character from '../../Character/Character';
-import CombatEffect from '../CombatEffect';
+import { Character } from '../../Character/Character';
+import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 
 export class Web extends CombatEffect {

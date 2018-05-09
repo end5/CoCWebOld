@@ -1,24 +1,20 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Cock from '../../Body/Cock';
+import { Cock } from '../../Body/Cock';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Vagina from '../../Body/Vagina';
+import { Tail, TailType } from '../../Body/Tail';
+import { Vagina } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class SharkTooth extends Consumable {
+export class SharkTooth extends Consumable {
     private enhanced: boolean;
 
     public constructor(enhanced: boolean) {
@@ -77,10 +73,10 @@ export default class SharkTooth extends Consumable {
             changes++;
             // (balls)
             if (character.torso.balls.quantity > 0)
-                DisplayText("\n\nAn itch starts behind your " + BallsDescriptor.describeBalls(true, true, character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + BallsDescriptor.describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
+                DisplayText("\n\nAn itch starts behind your " + Desc.Balls.describeBalls(true, true, character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + Desc.Balls.describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
             // (dick)
             else if (character.torso.cocks.count > 0)
-                DisplayText("\n\nAn itch starts on your groin, just below your " + CockDescriptor.describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
+                DisplayText("\n\nAn itch starts on your groin, just below your " + Desc.Cock.describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
             else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your bUtils.Utils.rand( new vagina, complete with pussy lips and a tiny clit.</b>");
             const newVagina: Vagina = new Vagina();
@@ -93,7 +89,7 @@ export default class SharkTooth extends Consumable {
             // Genderless:
             if (character.torso.vaginas.count <= 0) DisplayText("\n\nYou feel a sudden stabbing pain in your featureless crotch and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of a new human-shaped penis");
             // Female:
-            else DisplayText("\n\nYou feel a sudden stabbing pain just above your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of not only a " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", but a new human-shaped penis");
+            else DisplayText("\n\nYou feel a sudden stabbing pain just above your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and bend over, moaning in agony. Your hands clasp protectively over the surface - which is swelling in an alarming fashion under your fingers! Stripping off your clothes, you are presented with the shocking site of once-smooth flesh swelling and flowing like self-animate clay, resculpting itself into the form of male genitalia! When the pain dies down, you are the proud owner of not only a " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", but a new human-shaped penis");
             if (character.torso.balls.quantity === 0) {
                 DisplayText(" and a pair of balls");
                 character.torso.balls.quantity = 2;
@@ -111,7 +107,7 @@ export default class SharkTooth extends Consumable {
         // (Requires the character having two testicles)
         if (this.enhanced && (character.torso.balls.quantity === 0 || character.torso.balls.quantity === 2) && character.torso.cocks.count > 0 && changes < changeLimit && randInt(3) === 0) {
             if (character.torso.balls.quantity === 2) {
-                DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two more testes drop down into your " + BallsDescriptor.describeSack(character) + ", your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new quartet of testes.</b>");
+                DisplayText("\n\nYou gasp in shock as a sudden pain racks your abdomen. Within seconds, two more testes drop down into your " + Desc.Balls.describeSack(character) + ", your skin stretching out to accommodate them. Once the pain clears, you examine <b>your new quartet of testes.</b>");
                 character.torso.balls.quantity = 4;
             }
             else if (character.torso.balls.quantity === 0) {
@@ -128,7 +124,7 @@ export default class SharkTooth extends Consumable {
         // Mouth TF
         if (character.torso.neck.head.face.type !== FaceType.SHARK_TEETH && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\n");
-            if (character.torso.neck.head.face.type > FaceType.HUMAN && character.torso.neck.head.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + FaceDescriptor.describeFace(character) + " explodes with agony, reshaping into a more human-like visage.  ");
+            if (character.torso.neck.head.face.type > FaceType.HUMAN && character.torso.neck.head.face.type < FaceType.SHARK_TEETH) DisplayText("Your " + Desc.Face.describeFace(character) + " explodes with agony, reshaping into a more human-like visage.  ");
             character.torso.neck.head.face.type = FaceType.SHARK_TEETH;
             DisplayText("You firmly grasp your mouth, an intense pain racking your oral cavity. Your gums shift around and the bones in your jaw reset. You blink a few times wondering what just happened. You move over to a puddle to catch sight of your reflection, and you are thoroughly surprised by what you see. A set of retractable shark fangs have grown in front of your normal teeth, and your face has elongated slightly to accommodate them!  They even scare you a little.\n(Gain: 'Bite' special attack)");
             changes++;
@@ -139,7 +135,7 @@ export default class SharkTooth extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }

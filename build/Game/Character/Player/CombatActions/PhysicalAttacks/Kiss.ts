@@ -1,11 +1,12 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import Character from '../../../../Character/Character';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import * as GenderDescriptor from '../../../../Descriptors/GenderDescriptor';
-import StatusAffectFactory from '../../../../Effects/StatusAffectFactory';
+import { Character } from '../../../../Character/Character';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { Desc } from '../../../../Descriptors/Descriptors';
+import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
 
 export class Kiss implements CombatAction {
     public name: string = "Kiss";
@@ -19,7 +20,7 @@ export class Kiss implements CombatAction {
         return !player.statusAffects.has(StatusAffectType.Blind);
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         switch (randInt(6)) {
             case 1:
@@ -79,7 +80,7 @@ export class Kiss implements CombatAction {
             // Success 1:
             case 1:
                 if (monster.desc.plural) DisplayText("  Success!  A spit-soaked kiss lands right on one of their mouths.  The victim quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
-                else DisplayText("  Success!  A spit-soaked kiss lands right on " + monster.desc.a + monster.desc.short + "'s mouth.  " + GenderDescriptor.mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
+                else DisplayText("  Success!  A spit-soaked kiss lands right on " + monster.desc.a + monster.desc.short + "'s mouth.  " + Desc.Gender.mf(monster, "He", "She") + " quickly melts into your embrace, allowing you to give them a nice, heavy dose of sloppy oral aphrodisiacs.\n\n");
                 damage = 15;
                 break;
             // Success 2:
@@ -91,9 +92,9 @@ export class Kiss implements CombatAction {
             // CRITICAL SUCCESS (3)
             case 3:
                 if (monster.desc.plural)
-                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against one of them.  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + GenderDescriptor.mf(monster, "his", "her") + " tongue sliding into your mouth as " + GenderDescriptor.mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + GenderDescriptor.mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a + monster.desc.short + " is still standing there, licking " + GenderDescriptor.mf(monster, "his", "her") + " his lips while " + GenderDescriptor.mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + GenderDescriptor.mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n");
+                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against one of them.  " + Desc.Gender.mf(monster, "He", "She") + " melts against you, " + Desc.Gender.mf(monster, "his", "her") + " tongue sliding into your mouth as " + Desc.Gender.mf(monster, "he", "she") + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + Desc.Gender.mf(monster, "his", "her") + " mouth, you break back and observe your handwork.  One of " + monster.desc.a + monster.desc.short + " is still standing there, licking " + Desc.Gender.mf(monster, "his", "her") + " his lips while " + Desc.Gender.mf(monster, "his", "her") + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + Desc.Gender.mf(monster, "he", "she") + " will go soft now.  Though you didn't drug the rest, they're probably a little 'heated up' from the show.\n\n");
                 else
-                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + GenderDescriptor.mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n");
+                    DisplayText("  You slip past " + monster.desc.a + monster.desc.short + "'s guard and press your lips against " + monster.desc.possessivePronoun + ".  " + Desc.Gender.mf(monster, "He", "She") + " melts against you, " + monster.desc.possessivePronoun + " tongue sliding into your mouth as " + monster.desc.subjectivePronoun + " quickly succumbs to the fiery, cock-swelling kiss.  It goes on for quite some time.  Once you're sure you've given a full dose to " + monster.desc.possessivePronoun + " mouth, you break back and observe your handwork.  " + monster.desc.capitalA + monster.desc.short + " is still standing there, licking " + monster.desc.possessivePronoun + " lips while " + monster.desc.possessivePronoun + " dick is standing out, iron hard.  You feel a little daring and give the swollen meat another moist peck, glossing the tip in gold.  There's no way " + monster.desc.subjectivePronoun + " will go soft now.\n\n");
                 damage = 30;
                 break;
             // Success 4:

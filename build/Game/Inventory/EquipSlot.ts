@@ -1,11 +1,11 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import Character from '../Character/Character';
-import EquipableItem from '../Items/EquipableItem';
-import ItemFactory from '../Items/ItemFactory';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { Character } from '../Character/Character';
+import { EquipableItem } from '../Items/EquipableItem';
+import { ItemFactory } from '../Items/ItemFactory';
 
 export type EquipEffect = (item: EquipableItem, character: Character) => void;
 
-export default class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
+export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSlot<T>> {
     private character: Character;
     private equippedItem: T;
     private onEquipEffects: EquipEffect[];

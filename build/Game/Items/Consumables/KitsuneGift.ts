@@ -1,16 +1,16 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import Menus from '../../Menus/Menus';
+import { Character } from '../../Character/Character';
+import { Menus } from '../../Menus/Menus';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
-import ItemFactory from '../ItemFactory';
-import ItemType from '../ItemType';
-import MaterialName from '../Materials/MaterialName';
+import { ItemDesc } from '../ItemDesc';
+import { ItemFactory } from '../ItemFactory';
+import { ItemType } from '../ItemType';
+import { MaterialName } from '../Materials/MaterialName';
 
-export default class KitsuneGift extends Consumable {
+export class KitsuneGift extends Consumable {
     public constructor() {
         super(ConsumableName.KitsuneGift, new ItemDesc("KitGift", "a kitsune's gift", "A small square package given to you by a forest kitsune.  It is wrapped up in plain white paper and tied with a string.  Who knows what's inside?"));
     }

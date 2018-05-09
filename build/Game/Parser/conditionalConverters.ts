@@ -1,7 +1,7 @@
-﻿import BreastRow from '../Body/BreastRow';
+﻿import { BreastRow } from '../Body/BreastRow';
 import { Gender } from '../Body/GenderIdentity';
-import Character from '../Character/Character';
-import Time from '../Utilities/Time';
+import { Character } from '../Character/Character';
+import { Time } from '../Utilities/Time';
 
 // Possible text arguments in the conditional of a if statement
 // First, there is an attempt to cast the argument to a Number. If that fails,

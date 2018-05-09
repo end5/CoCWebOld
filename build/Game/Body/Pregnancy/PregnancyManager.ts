@@ -1,10 +1,10 @@
-import ButtWomb from './ButtWomb';
-import Ovipositor from './Ovipositor';
-import Womb from './Womb';
-import ISerializable from '../../../Engine/Utilities/ISerializable';
-import Creature from '../Creature';
+import { ButtWomb } from './ButtWomb';
+import { Ovipositor } from './Ovipositor';
+import { Womb } from './Womb';
+import { ISerializable } from '../../../Engine/Utilities/ISerializable';
+import { Creature } from '../Creature';
 
-export default class PregnancyManager implements ISerializable<PregnancyManager> {
+export class PregnancyManager implements ISerializable<PregnancyManager> {
     protected body: Creature;
     public readonly buttWomb: ButtWomb;
     public readonly womb: Womb;

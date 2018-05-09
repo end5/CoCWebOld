@@ -1,7 +1,8 @@
-import WhiteMagic from './WhiteMagic';
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { WhiteMagic } from './WhiteMagic';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class ChargeWeapon extends WhiteMagic {
     public name: string = "Charge W.";
@@ -19,10 +20,11 @@ export class ChargeWeapon extends WhiteMagic {
         return super.canUse(character);
     }
 
-    public castSpell(character: Character, monster: Character) {
+    public castSpell(character: Character, monster: Character): NextScreenChoices {
         character.stats.fatigueMagic(this.baseCost);
         DisplayText().clear();
         DisplayText("You utter words of power, summoning an electrical charge around your " + character.inventory.equipment.weapon.displayname + ".  It crackles loudly, ensuring you'll do more damage with it for the rest of the fight.\n\n");
         character.statusAffects.add(StatusAffectType.ChargeWeapon, 10 * character.combat.stats.spellMod(), 0, 0, 0);
+        return;
     }
 }

@@ -1,6 +1,6 @@
-import Perk, { PerkDesc } from '../Perk';
+import { Perk, PerkDesc } from '../Perk';
 
-export default class PiercedCrimstone extends PerkDesc {
+export class PiercedCrimstone extends PerkDesc {
     public description(perk?: Perk): string {
         return "Increases minimum lust by " + Math.round(perk.value1) + ".";
     }

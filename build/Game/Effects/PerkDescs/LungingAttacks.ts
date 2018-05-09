@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class LungingAttacks extends PerkDesc {
+export class LungingAttacks extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.spe >= 75)
             return "Grants 50% armor penetration for standard attacks.";

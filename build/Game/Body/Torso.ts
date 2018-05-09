@@ -1,20 +1,20 @@
-﻿import Arms from './Arms';
-import Balls from './Balls';
-import BreastRow from './BreastRow';
-import Butt from './Butt';
-import Chest from './Chest';
-import Clit from './Clit';
-import Cock from './Cock';
-import Hips from './Hips';
-import Neck from './Neck';
-import Tail from './Tail';
-import Vagina from './Vagina';
-import Wings from './Wings';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import ListSerializer from '../../Engine/Utilities/ListSerializer';
-import ObservableList from '../Utilities/ObservableList';
+﻿import { Arms } from './Arms';
+import { Balls } from './Balls';
+import { BreastRow } from './BreastRow';
+import { Butt } from './Butt';
+import { Chest } from './Chest';
+import { Clit } from './Clit';
+import { Cock } from './Cock';
+import { Hips } from './Hips';
+import { Neck } from './Neck';
+import { Tail } from './Tail';
+import { Vagina } from './Vagina';
+import { Wings } from './Wings';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
+import { ObservableList } from '../Utilities/ObservableList';
 
-export default class Torso implements ISerializable<Torso> {
+export class Torso implements ISerializable<Torso> {
     public readonly neck: Neck;
     public readonly arms: Arms;
     public readonly chest: Chest;

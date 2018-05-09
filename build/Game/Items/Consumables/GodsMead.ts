@@ -1,12 +1,12 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class GodsMead extends Consumable {
+export class GodsMead extends Consumable {
     public constructor() {
         super(ConsumableName.GodsMead, new ItemDesc("GodMead", "a pint of god's mead"));
     }

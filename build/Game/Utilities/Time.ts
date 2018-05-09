@@ -1,6 +1,6 @@
-import MainScreen from '../../Engine/Display/MainScreen';
+import { MainScreen } from '../../Engine/Display/MainScreen';
 
-class Time {
+class TimeHandler {
     private date: Date;
     public constructor() {
         this.date = new Date(0);
@@ -11,7 +11,7 @@ class Time {
     }
 
     public set hour(value: number) {
-        this.date.setHours(this.date.getHours() + value);
+        this.date.setHours(value);
         this.updateDisplay();
     }
 
@@ -20,7 +20,7 @@ class Time {
     }
 
     public set day(value: number) {
-        this.date.setDate(this.date.getDate() + value);
+        this.date.setDate(value);
         this.updateDisplay();
     }
 
@@ -32,5 +32,4 @@ class Time {
     }
 }
 
-const time = new Time();
-export default time as Time;
+export const Time = new TimeHandler();

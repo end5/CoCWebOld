@@ -1,25 +1,21 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import Cock, { CockType } from '../../Body/Cock';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import Menus from '../../Menus/Menus';
-import ItemDesc from '../ItemDesc';
+import { Menus } from '../../Menus/Menus';
+import { ItemDesc } from '../ItemDesc';
 
 /*
  General Effects:
@@ -44,7 +40,7 @@ import ItemDesc from '../ItemDesc';
  -Fur
  -Roo face*/
 
-export default class KangaFruit extends Consumable {
+export class KangaFruit extends Consumable {
     private enhanced: boolean;
 
     public constructor(enhanced: boolean) {
@@ -75,8 +71,7 @@ export default class KangaFruit extends Consumable {
                 DisplayText("\n\nStill hungry and licking your lips in anticipation, you sniff in deep lungfuls of air.  There's more of that wonderful fruit nearby!  You bound off in search of it on your incredibly muscular legs, their shape becoming more and more feral with every hop.  Now guided completely by instinct, you find a few stalks that grow from the ground.  Your belly rumbles, reminding you of your hunger, as you begin to dig into the kanga fruits...");
                 DisplayText("\n\nLosing more of what little remains of yourself, your body is now entirely that of a feral kangaroo and your mind has devolved to match it.  After you finish the handful of fruits you found, you move on in search for more of the tasty treats.  Though you pass by your camp later on, there's no memory, no recognition, just a slight feeling of comfort and familiarity.  There's no food here so you hop away.");
                 // [GAME OVER]
-                MainScreen.doNext(Menus.GameOver);
-                return;
+                return { next: Menus.GameOver };
             }
             DisplayText("\n\nWhile chewing, your mind becomes more and more tranquil.  You find it hard to even remember your mission, let alone your name.  <b>Maybe more kanga fruits will help?</b>");
         }
@@ -135,7 +130,7 @@ export default class KangaFruit extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -149,12 +144,12 @@ export default class KangaFruit extends Consumable {
         if (character.torso.balls.size >= 4 && changes < changeLimit && randInt(2) === 0) {
             character.torso.balls.size--;
             character.cumMultiplier++;
-            DisplayText("\n\nYour " + BallsDescriptor.describeSack(character) + " pulls tight against your groin, vibrating slightly as it changes.  Once it finishes, you give your " + BallsDescriptor.describeBallsShort(character) + " a gentle squeeze and discover they've shrunk.  Even with the reduced volume, they feel just as heavy.");
+            DisplayText("\n\nYour " + Desc.Balls.describeSack(character) + " pulls tight against your groin, vibrating slightly as it changes.  Once it finishes, you give your " + Desc.Balls.describeBallsShort(character) + " a gentle squeeze and discover they've shrunk.  Even with the reduced volume, they feel just as heavy.");
             changes++;
         }
         // -Shorten clits to reasonable size
         if (character.torso.clit.length >= 4 && changes < changeLimit && randInt(5) === 0) {
-            DisplayText("\n\nPainful pricks work through your " + VaginaDescriptor.describeClit(character) + ", all the way into its swollen clitoral sheath.  Gods, it feels afire with pain!  Agony runs up and down its length, and by the time the pain finally fades, the feminine organ has lost half its size.");
+            DisplayText("\n\nPainful pricks work through your " + Desc.Vagina.describeClit(character) + ", all the way into its swollen clitoral sheath.  Gods, it feels afire with pain!  Agony runs up and down its length, and by the time the pain finally fades, the feminine organ has lost half its size.");
             character.torso.clit.length /= 2;
             changes++;
         }
@@ -163,7 +158,7 @@ export default class KangaFruit extends Consumable {
         // -Shrink dicks down to 8\" max.
         if (character.torso.cocks.count > 0) {
             if (biggestCock.length >= 16 && changes < changeLimit && randInt(5) === 0) {
-                DisplayText("\n\nA roiling inferno of heat blazes in your " + CockDescriptor.describeCock(character, biggestCock) + ", doubling you over in the dirt.  You rock back and forth while tears run unchecked down your cheeks.  Once the pain subsides and you're able to move again, you find the poor member has lost nearly half its size.");
+                DisplayText("\n\nA roiling inferno of heat blazes in your " + Desc.Cock.describeCock(character, biggestCock) + ", doubling you over in the dirt.  You rock back and forth while tears run unchecked down your cheeks.  Once the pain subsides and you're able to move again, you find the poor member has lost nearly half its size.");
                 biggestCock.length /= 2;
                 biggestCock.thickness /= 1.5;
                 if (biggestCock.thickness * 6 > biggestCock.length) biggestCock.thickness -= .2;

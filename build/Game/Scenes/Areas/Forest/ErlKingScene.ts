@@ -1,24 +1,23 @@
-import DisplayText from '../../../../Engine/display/DisplayText';
-import MainScreen from '../../../../Engine/Display/MainScreen';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow from '../../../Body/BreastRow';
-import Cock, { CockType } from '../../../Body/Cock';
+import { BreastRow } from '../../../Body/BreastRow';
+import { Cock, CockType } from '../../../Body/Cock';
 import { FaceType } from '../../../Body/Face';
 import { LegType } from '../../../Body/Legs';
-import RaceScore from '../../../Body/RaceScore';
+import { RaceScore } from '../../../Body/RaceScore';
 import { SkinType } from '../../../Body/Skin';
 import { WingType } from '../../../Body/Wings';
-import Character from '../../../Character/Character';
+import { Character } from '../../../Character/Character';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import ConsumableName from '../../../Items/Consumables/ConsumableName';
-import ItemType from '../../../Items/ItemType';
-import Menus from '../../../Menus/Menus';
-import * as ButtModifier from '../../../Modifiers/ButtModifier';
-import * as VaginaModifier from '../../../Modifiers/VaginaModifier';
-import User from '../../../User';
-import Time from '../../../Utilities/Time';
-import Scenes from '../../Scenes';
+import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
+import { ItemType } from '../../../Items/ItemType';
+import { Menus } from '../../../Menus/Menus';
+import { Mod } from '../../../Modifiers/Modifiers';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { User } from '../../../User';
+import { Time } from '../../../Utilities/Time';
+import { Scenes } from '../../Scenes';
 
 export interface ErlkingFlags {
     erlkingDisabled: number;
@@ -33,18 +32,17 @@ const erlkingFlags: ErlkingFlags = {
 };
 User.flags.set("Erlking", erlkingFlags);
 
-export function encounterWildHunt(character: Character) {
+export function encounterWildHunt(character: Character): NextScreenChoices {
+    erlkingFlags.wildHuntEncounters++;
     if (erlkingFlags.wildHuntEncounters === 0) {
-        firstWildHuntEncounter();
+        return firstWildHuntEncounter();
     }
     else if (!character.inventory.keyItems.has("Golden Antlers")) {
-        repeatWildHuntEncounter(character);
+        return repeatWildHuntEncounter(character);
     }
     else if (character.inventory.keyItems.has("Golden Antlers")) {
-        encounterPrincessGwynn(character);
+        return encounterPrincessGwynn(character);
     }
-
-    erlkingFlags.wildHuntEncounters++;
 }
 
 export function characterHuntScore(character: Character): number {
@@ -142,7 +140,7 @@ export function characterHuntScore(character: Character): number {
     return baseVal;
 }
 
-export function firstWildHuntEncounter() {
+export function firstWildHuntEncounter(): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("As you explore between the tall, ancient trees, you notice a thick fog beginning to spill out from between the trees and over the mossy ground. As the haze pours forth and flows past your [feet], you notice the forest around you growing distinctly darker and colder. \n\n");
@@ -156,18 +154,18 @@ export function firstWildHuntEncounter() {
 
     DisplayText("The unholy choir of horns, hounds, and hooves shake the woods around you as the fog rises, shoulder-high.  Your heart pounds - you’re not sure <b>why</b> you’re frightened, only that you <b>are</b>.  Something is out there in the darkness, and it's coming for you!  Do you flee, or stand your ground?\n\n");
 
-    MainScreen.displayChoices(["Wait", "Run"], [firstWildHuntChaseWaited, firstWildHuntChaseRan]);
+    return { choices: [["Wait", "Run"], [firstWildHuntChaseWaited, firstWildHuntChaseRan]] };
 }
 
-function firstWildHuntChaseWaited(character: Character) {
-    firstWildHuntChase(character, true);
+function firstWildHuntChaseWaited(character: Character): NextScreenChoices {
+    return firstWildHuntChase(character, true);
 }
 
-function firstWildHuntChaseRan(character: Character) {
-    firstWildHuntChase(character, false);
+function firstWildHuntChaseRan(character: Character): NextScreenChoices {
+    return firstWildHuntChase(character, false);
 }
 
-function firstWildHuntChase(character: Character, waited: boolean = false) {
+function firstWildHuntChase(character: Character, waited: boolean = false): NextScreenChoices {
     DisplayText().clear();
 
     if (waited === false) {
@@ -227,14 +225,14 @@ function firstWildHuntChase(character: Character, waited: boolean = false) {
     character.stats.fatigue += 10;
 
     if (waited)
-        character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
+        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
     else
-        character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.FoxBerry, Scenes.camp.returnToCampUseOneHour);
+        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.FoxBerry, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.FOXBERY, Scenes.camp.returnToCampUseOneHour);
 }
 
-export function repeatWildHuntEncounter(character: Character) {
+export function repeatWildHuntEncounter(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("As you wander through the Deepwoods, a familiar chilly fog begins to gather around your [feet], and in the distance, you hear the sound of a hunting horn and the baying of Hounds.\n\n");
@@ -245,10 +243,10 @@ export function repeatWildHuntEncounter(character: Character) {
 
     DisplayText("Do you make a run for it or stand your ground?\n\n");
 
-    MainScreen.displayChoices(["Run", "Wait"], [repeatWildHuntChase, repeatWildHuntWait]);
+    return { choices: [["Run", "Wait"], [repeatWildHuntChase, repeatWildHuntWait]] };
 }
 
-function repeatWildHuntWait(character: Character) {
+function repeatWildHuntWait(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("The fog pours in like a wave, surrounding you and blurring the forest around you.  You hear the thunder of hooves approaching, followed by the baying of hounds.\n\n");
@@ -263,20 +261,20 @@ function repeatWildHuntWait(character: Character) {
 
     if (character.stats.int < 80) character.stats.int++;
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function repeatWildHuntChase(character: Character) {
+function repeatWildHuntChase(character: Character): NextScreenChoices {
     const pScore: number = characterHuntScore(character);
     if (pScore > 150) {
-        repeatWildHuntEscaped(character);
+        return repeatWildHuntEscaped(character);
     }
     else {
-        repeatWildHuntCaught(character, pScore);
+        return repeatWildHuntCaught(character, pScore);
     }
 }
 
-function repeatWildHuntEscaped(character: Character) {
+function repeatWildHuntEscaped(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("The Erlking might be the Master of the Hunt, but you are no one’s prey.  You immediately begin running, moving like the wind through the Deepwoods, your heart beating hard in your chest.");
@@ -301,10 +299,10 @@ function repeatWildHuntEscaped(character: Character) {
         }
     }
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function repeatWildHuntCaught(character: Character, pScore: number) {
+function repeatWildHuntCaught(character: Character, pScore: number): NextScreenChoices {
     DisplayText().clear();
 
     // Player Hunt Score < 150.  The Erlking captures you.
@@ -324,11 +322,11 @@ function repeatWildHuntCaught(character: Character, pScore: number) {
     DisplayText("The ropes are thicker than your wrist, and you could probably untie them, given time, but the spin of the net, combined with the mind-bending terror of the fog has left you no room to think.  The hounds are snarling, the world is spinning, you’re prey, and you’ve been caught.\n\n");
 
     if (RaceScore.bunnyScore(character) >= 4 || RaceScore.kitsuneScore(character) >= 4 || RaceScore.harpyScore(character) >= 4 || pScore > 100)
-        repeatWildHuntAWinnerIsYou(character);
-    else repeatWildHuntGivenToTheHounds(character);
+        return repeatWildHuntAWinnerIsYou(character);
+    else return repeatWildHuntGivenToTheHounds(character);
 }
 
-export function repeatWildHuntGivenToTheHounds(character: Character) {
+export function repeatWildHuntGivenToTheHounds(character: Character): NextScreenChoices {
     DisplayText("“<i>How disappointing,</i>” drips the refined voice of the Erlking.  His horse’s hooves thud softly on the ground as he walks below you.  The cane at his side clicks against the forest floor with every other step.  You have just enough wherewithal to understand his words as your fingers grip the net.\n\n");
 
     DisplayText("“<i>This was but a few minutes’ diversion.  I had been hoping for more of a challenge,</i>” he says, the red glow in his eyes dimming.  “<i>You’re not particularly good at this, are you?</i>” he says, sighing.  His long face looks almost wistful.\n\n");
@@ -363,7 +361,7 @@ export function repeatWildHuntGivenToTheHounds(character: Character) {
     DisplayText("The Hound begins fucking your face roughly, leaving salty precum on your tongue, his cock throbbing between your lips.  You feel grateful that the Hound has chosen to simply fuck you, and you want nothing more than to do the best job possible for the Hound.\n\n");
 
     DisplayText("You groan around the Hound’s dick as you feel a pressure against your [asshole].  The beast squeezes your [ass] cheeks as he shoves his foot-long doggie cock into your rear. ");
-    ButtModifier.displayStretchButt(character, 12 * 3, true, false, false);
+    Mod.Butt.displayStretchButt(character, 12 * 3, true, false, false);
     DisplayText(" You yelp, realizing what’s to come, and try to wriggle away, but, pinned between the two Hounds, there’s no escape.  The Hounds growl in unison and you freeze, cowed by the two powerful males who want their way with your frightened, vulnerable body.\n\n");
 
     DisplayText("After all, comes a thought in your fog-addled head, they’ve earned the right to do whatever they want to their prey.\n\n");
@@ -384,8 +382,6 @@ export function repeatWildHuntGivenToTheHounds(character: Character) {
     character.inventory.gems -= gemLoss;
 
     DisplayText("<b>You’ve lost " + gemLoss + " gems.</b>\n\n");
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
-    // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
     character.stats.sens -= 2;
     character.stats.lib += 2;
     character.stats.cor += 1;
@@ -393,9 +389,11 @@ export function repeatWildHuntGivenToTheHounds(character: Character) {
     character.stats.fatigue += 10;
     character.orgasm();
     // character.slimeFeed();
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
+    // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
 }
 
-function repeatWildHuntAWinnerIsYou(character: Character) {
+function repeatWildHuntAWinnerIsYou(character: Character): NextScreenChoices {
     DisplayText("Spirited clapping fills the woods.  The Hounds fall silent, sitting obediently on their haunches as the Erlking walks into the clearing, dismounting and looking up at you.\n\n");
 
     DisplayText("“<i>A spirited chase,</i>” he says, his black-gloved hands still chipping a sharp staccato through the cold air.  “<i>I have not had such fun in ages.</i>” The clearing is awash with a dim glow - it seems the Erlking’s golden antlers are lit with their own inner fire.\n\n");
@@ -416,10 +414,10 @@ function repeatWildHuntAWinnerIsYou(character: Character) {
 
     // Sex	 	What’s my prize?		Stop the Madness 		Surrender Forever		How Dare You!
     character.stats.fatigue += 10;
-    MainScreen.displayChoices(["Sex", "Prize?", "Stop", "Surrender", "Revenge"], [predatoryPrey, whatsMyPrize, stopTheMadness, surrenderToTheHounds, howDareYou]);
+    return { choices: [["Sex", "Prize?", "Stop", "Surrender", "Revenge"], [predatoryPrey, whatsMyPrize, stopTheMadness, surrenderToTheHounds, howDareYou]] };
 }
 
-function whatsMyPrize(character: Character) {
+function whatsMyPrize(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You stand up, brushing yourself off, and ignore the Erlking’s clearly-visible dick, stating that you’d like some compensation for all the trouble.\n\n");
@@ -434,14 +432,14 @@ function whatsMyPrize(character: Character) {
     DisplayText("<b>You found " + gemFind + " gems.</b>\n\n");
 
     const itemToAdd = [ConsumableName.CaninePepper, ConsumableName.FoxBerry, ConsumableName.NeonPinkEgg][randInt(3)];
-    character.inventory.items.createAdd(character, ItemType.Consumable, itemToAdd, Scenes.camp.returnToCampUseOneHour);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, itemToAdd, Scenes.camp.returnToCampUseOneHour);
     /*
     if (selector === 0) inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
     if (selector === 1) inventory.takeItem(consumables.FOXBERY, Scenes.camp.returnToCampUseOneHour);
     if (selector === 2) inventory.takeItem(consumables.NPNKEGG, Scenes.camp.returnToCampUseOneHour);*/
 }
 
-function stopTheMadness() {
+function stopTheMadness(): NextScreenChoices {
     erlkingFlags.erlkingDisabled = 1;
     DisplayText().clear();
 
@@ -459,10 +457,10 @@ function stopTheMadness() {
 
     DisplayText("You get the feeling you won’t be seeing him anymore.\n\n");
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function surrenderToTheHounds(character: Character) {
+function surrenderToTheHounds(character: Character): NextScreenChoices {
     // [Bad End]
     DisplayText().clear();
 
@@ -546,13 +544,13 @@ function surrenderToTheHounds(character: Character) {
     DisplayText("The Master stands up, and as you wobble to your feet, the two other Hounds move forwards, their broad tongue licking your chest, stomach, and dick, cleaning the cum from your fur.\n\n");
 
     DisplayText("<b>The Master sounds his horn, and your ears perk up.  Astride his horse, he gallops off into the fog-haunted woods, and, like the rest of the Hounds, you follow.</b>\n\n");
-    MainScreen.doNext(Menus.GameOver);
+    return { next: Menus.GameOver };
 
     // 			menu();
-    // 			MainScreen.doNext(5025); // Find out the gameover shits
+    // 			return { next: 5025 }; // Find out the gameover shits
 }
 
-function predatoryPrey(character: Character) {
+function predatoryPrey(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You stand, unable to take your eyes from the Erlking’s slim body and erect dick.\n\n");
@@ -571,7 +569,7 @@ function predatoryPrey(character: Character) {
             DisplayText("  One hand grasps firmly under your [ass], holding you up, while the other plays softly across your chest, squeezing and caressing each of your [chest] in turn.  He tweaks your nipples, one by one, sending shockwaves of pleasure through your body.\n\n");
 
             DisplayText("“<i>Take me, Huntsman,</i>” you moan.  His shaft is already poised, his equine dick sliding up into your [vagina], pushing deep inside you.");
-            VaginaModifier.displayStretchVagina(character, 12 * 3, true, true, false);
+            Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
             // character.cuntChange(12 * 3, true, true, false);
             DisplayText("\n\n");
 
@@ -593,7 +591,7 @@ function predatoryPrey(character: Character) {
 
             DisplayText("“<i>Take me, Huntsman,</i>” you groan.  His shaft is already at your [ass].  His equine dick pushing up into your [asshole], pushing deep inside you.");
 
-            ButtModifier.displayStretchButt(character, 12 * 3, true, true, false);
+            Mod.Butt.displayStretchButt(character, 12 * 3, true, true, false);
             // character.buttChange(12 * 3, true, true, false);
             DisplayText("\n\n");
 
@@ -614,7 +612,7 @@ function predatoryPrey(character: Character) {
         if (character.torso.vaginas.count > 0 && character.torso.cocks.count <= 0) {
             DisplayText("With your [chest] against the rough bark, he lifts your [tail], exposing your [pussy] to the swelling head of his equine cock.  With a soft sound, he pushes between your lips, letting you feel each prepuce ring as they squeeze into you.");
 
-            VaginaModifier.displayStretchVagina(character, 12 * 3, true, true, false);
+            Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
             // character.cuntChange(12 * 3, true, true, false);
             DisplayText("\n\n");
 
@@ -666,10 +664,10 @@ function predatoryPrey(character: Character) {
     character.orgasm();
     // character.slimeFeed();
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function howDareYou(character: Character) {
+function howDareYou(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     // [ends the Hunt permanently, Opens Princess Option]
@@ -745,10 +743,10 @@ function howDareYou(character: Character) {
     // dynStats("lust=", 0);
     character.stats.lust = 0;
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function encounterPrincessGwynn(character: Character) {
+function encounterPrincessGwynn(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("As you wander through the Deepwoods, you hear a rustling in the bushes.  You turn to see a flash of pink between the trees.  A slim, graceful figure steps out from behind a tree, wearing a dark green cloak and a small, leather shoulder bag.  It takes you a moment to recognize the Princess, the once-Erlking.  Her deer-like face and large, doe eyes peer timidly at you.\n\n");
@@ -785,7 +783,6 @@ function encounterPrincessGwynn(character: Character) {
     DisplayText("You run through the options in your head, even briefly considering ‘getting some of her potion’ on your own terms.\n\n");
 
     // Suck My Dick  /  Fuck Her Ass  /  Eat My Pussy  /  Milk Her Dick  /  Gifts
-    MainScreen.hideBottomButtons();
     const names = ["", "", ""];
     const funcs = [undefined, undefined, undefined];
     if (character.torso.cocks.count > 0) {
@@ -802,10 +799,10 @@ function encounterPrincessGwynn(character: Character) {
     funcs.push(gwynnGetsDickmilked);
     names.push("Gifts");
     funcs.push(gwynnGibsGifts);
-    MainScreen.displayChoices(names, funcs);
+    return { choices: [names, funcs] };
 }
 
-function gwynnSucksDicks(character: Character) {
+function gwynnSucksDicks(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("“<i>Yes, of course, M’Lord!</i>” Gwynn burbles, happily, dropping down to her knees.  In an instant, your [cock] is in her wet mouth.  Her time in the woods has developed her skill as she moans around your [cock], slurping wetly at it.\n\n");
 
@@ -827,10 +824,10 @@ function gwynnSucksDicks(character: Character) {
     character.stats.lust = 0;
     character.orgasm();
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGetsButtfuxed(character: Character) {
+function gwynnGetsButtfuxed(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>At once, M’Lord!</i>” she says, clapping her hands excitedly.  She bounces up in the air, then bounds low to the ground, pulling a small bottle from her purse, and dumping a liberal amount of raspberry-scented lube on your cock.  She works it in, her slim fingers massaging your cock to full attention before she hops around.\n\n");
@@ -853,10 +850,10 @@ function gwynnGetsButtfuxed(character: Character) {
     character.stats.lust = 0;
     character.orgasm();
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnNomsDaCunts(character: Character) {
+function gwynnNomsDaCunts(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>Yes Ma’am,</i>” she says, licking her lips.  She points to a nearby stump, gesturing for you to have a seat on the soft moss.  As you do, she wastes no time in dropping her pink muzzle to your pussy.  \n\n");
@@ -880,10 +877,10 @@ function gwynnNomsDaCunts(character: Character) {
     character.stats.lust = 0;
     character.orgasm();
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGetsDickmilked(character: Character) {
+function gwynnGetsDickmilked(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>My Lord, are you sure?</i>” she says, tilting her head to the side.\n\n");
@@ -913,10 +910,10 @@ function gwynnGetsDickmilked(character: Character) {
     character.stats.lust += 20;
     character.stats.lib += 2;
 
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function gwynnGibsGifts(character: Character) {
+function gwynnGibsGifts(character: Character): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("“<i>Do you have any presents for your Master?</i>” you ask casually.\n\n");
@@ -930,6 +927,6 @@ function gwynnGibsGifts(character: Character) {
     DisplayText("“<i>I’ll get started on it right away!</i>” she says suddenly.  She pulls away from you, nods her head seriously, then bounds off into the woods.\n\n");
 
     DisplayText("Before you can stop her, she’s gone, and you pocket the small bottle for later.\n\n");
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PrincessPucker, Scenes.camp.returnToCampUseOneHour);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.PrincessPucker, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.PRNPKR, Scenes.camp.returnToCampUseOneHour);
 }

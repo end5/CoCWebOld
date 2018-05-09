@@ -1,11 +1,11 @@
 import { CombatAbilityFlag } from './CombatAbilityFlag';
-import CombatEffect from './CombatEffect';
-import CombatEffectFactory from './CombatEffectFactory';
+import { CombatEffect } from './CombatEffect';
+import { CombatEffectFactory } from './CombatEffectFactory';
 import { CombatEffectType } from './CombatEffectType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
-import Character from '../Character/Character';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
+import { Character } from '../Character/Character';
 
-export default class CombatEffectList extends Dictionary<CombatEffect> {
+export class CombatEffectList extends Dictionary<CombatEffect> {
     private character: Character;
     public constructor(character: Character) {
         super();

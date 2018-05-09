@@ -1,4 +1,4 @@
-enum SpriteName {
+export enum SpriteName {
     None = "None",
     Akbal = "Akbal",
     Amarok = "Amarok",
@@ -116,4 +116,3 @@ enum SpriteName {
     Yara = "Yara",
     Yvonne = "Yvonne",
 }
-export default SpriteName;

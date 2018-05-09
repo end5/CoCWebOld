@@ -1,6 +1,6 @@
-import RandomDrop from './RandomDrop';
+import { ItemDrop } from './ItemDrop';
 
-export default class ChainedDrop implements RandomDrop {
+export class ChainedDrop implements ItemDrop {
     private items: any[] = [];
     private probs: number[] = [];
     private defaultItem: any;

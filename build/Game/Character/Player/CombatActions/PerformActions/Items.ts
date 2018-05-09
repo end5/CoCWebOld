@@ -1,7 +1,8 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import Menus from '../../../../Menus/Menus';
-import Character from '../../../Character';
+import { Menus } from '../../../../Menus/Menus';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Items implements CombatAction {
     public name: string = "Items";
@@ -15,7 +16,7 @@ export class Items implements CombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character) {
-        Menus.Inventory(character);
+    public use(character: Character, target: Character): NextScreenChoices {
+        return Menus.Inventory(character);
     }
 }

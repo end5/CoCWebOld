@@ -1,10 +1,10 @@
-import ScreenElement from './ScreenElement';
+import { ScreenElement } from './ScreenElement';
 import { randInt } from '../../Utilities/SMath';
-import MainScreen from '../MainScreen';
+import { MainScreen } from '../MainScreen';
 
 type EventFunction = (event: Event) => void;
 
-export default class ButtonElement extends ScreenElement {
+export class ButtonElement extends ScreenElement {
     private static textColorActive = "Black";
     private static textColorInactive = "DarkRed";
     private clickFunc: EventFunction;

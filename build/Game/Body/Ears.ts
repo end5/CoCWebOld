@@ -1,10 +1,10 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum EarType {
     HUMAN, HORSE, DOG, COW, ELFIN, CAT, LIZARD, BUNNY, KANGAROO, FOX, DRAGON, RACCOON, MOUSE, FERRET
 }
 
-export default class Ears implements ISerializable<Ears> {
+export class Ears implements ISerializable<Ears> {
     public type: EarType = EarType.HUMAN;
     public value: number = 0;
 

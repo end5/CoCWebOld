@@ -1,11 +1,11 @@
-//Call CoC.timeAwareClassAdd if you want a class that implements this interface to receive time changes
-export default interface ITimeAware {
+// Call CoC.timeAwareClassAdd if you want a class that implements this interface to receive time changes
+export interface ITimeAware {
     /*	Called for every Class in the _timeAwareClassList each time the game time advances.
         Should be used for code with no screen output and short text output which can be bundled with
         other game text. Larger scenes which require an immediate pause should go in timeChangeLarge instead.
         Returning true indicates that you want the game to pause and display a set of screen output.
         Returning false indicates the function has produced no screen output.
-	
+
         Note that all timeChanges are called first. All their text (if any) is displayed on one screen.
         Then, afterward, each timeChangeLarge is called and stops immediately if there is any screen output.
         Once the player presses [Next] the code will continue and display the next screen of text or

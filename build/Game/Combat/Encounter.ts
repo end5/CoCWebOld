@@ -1,15 +1,16 @@
 import { performActionAI } from './CombatAI';
-import CombatCleanup from './CombatCleanup';
-import CombatDrops from './CombatDrops';
-import CombatParty from './CombatParty';
+import { CombatCleanup } from './CombatCleanup';
+import { CombatDrops } from './CombatDrops';
+import { CombatParty } from './CombatParty';
 import { combatRegeneration } from './CombatUtils';
 import { DefeatType } from './DefeatEvent';
-import MainScreen from '../../Engine/Display/MainScreen';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
-import Menus from '../Menus/Menus';
+import { Menus } from '../Menus/Menus';
+import { displayScreenQueue, NextScreenChoices, queueScreen } from '../SceneDisplay';
+import { User } from '../User';
 
-export default class Encounter {
+export class Encounter {
     private mainCharacter: Character;
     private allyList: Character[];
     private enemyList: Character[];
@@ -27,38 +28,44 @@ export default class Encounter {
         this.allyPartyTurn = true;
     }
 
-    public performRound() {
+    public performRound(): NextScreenChoices {
+        displayScreenQueue();
         if (this.allyPartyTurn) {
-            this.performAllyPartyTurn();
+            return this.performAllyPartyTurn();
         }
         else {
-            this.performEnemyPartyTurn();
+            return this.performEnemyPartyTurn();
         }
-        this.allyPartyTurn = !this.allyPartyTurn;
     }
 
-    private performAllyPartyTurn() {
+    private performAllyPartyTurn(): NextScreenChoices {
         const activeMember = this.allyParty.activePartyMember();
-        // Should be:
-        // activeMember == User.char
-        if (activeMember.charType === CharacterType.Player) {
+        queueScreen(() => {
+            const encounter = this;
+            encounter.enemyParty.resolveAttacker(activeMember);
+            encounter.resolveEndTurn(activeMember);
+            return encounter.endCombatOrNextRound();
+        });
+        if (activeMember.uuid === User.char.uuid) {
             // player pick action
-            Menus.Combat(this.mainCharacter);
+            return Menus.Combat(this.mainCharacter);
         }
         else {
             // do ai
-            performActionAI(activeMember);
+            return performActionAI(activeMember);
         }
-        this.enemyParty.resolveAttacker(activeMember);
-        this.resolveEndTurn(activeMember);
     }
 
-    private performEnemyPartyTurn() {
+    private performEnemyPartyTurn(): NextScreenChoices {
         const activeMember = this.enemyParty.activePartyMember();
         // do ai
-        performActionAI(activeMember);
-        this.allyParty.resolveAttacker(activeMember);
-        this.resolveEndTurn(activeMember);
+        queueScreen(() => {
+            const encounter = this;
+            encounter.allyParty.resolveAttacker(activeMember);
+            encounter.resolveEndTurn(activeMember);
+            return encounter.endCombatOrNextRound();
+        });
+        return performActionAI(activeMember);
     }
 
     /*private resolvePlayerRound() {
@@ -84,7 +91,7 @@ export default class Encounter {
         combatRegeneration(selectedChar);
     }
 
-    private resolveEndTurn(character: Character) {
+    private resolveEndTurn(character: Character): void {
         if (this.allyPartyTurn) {
             this.combatEffectUpdate(character, this.allyParty.ableMembers, this.enemyParty.ableMembers);
             this.allyParty.selectNextPartyMember();
@@ -93,23 +100,28 @@ export default class Encounter {
             this.combatEffectUpdate(character, this.enemyParty.ableMembers, this.allyParty.ableMembers);
             this.enemyParty.selectNextPartyMember();
         }
-        if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
-            CombatCleanup.performCleanup(this.mainCharacter, this.allyList, this.enemyList);
-            this.displayDefeatEvent();
-        }
+        this.allyPartyTurn = !this.allyPartyTurn;
     }
 
-    private displayDefeatEvent() {
+    private endCombatOrNextRound(): NextScreenChoices {
+        if (this.allyParty.ableMembers.length === 0 || this.enemyParty.ableMembers.length === 0) {
+            CombatCleanup.performCleanup(this.mainCharacter, this.allyList, this.enemyList);
+            return this.displayDefeatEvent();
+        }
+        return this.performRound();
+    }
+
+    private displayDefeatEvent(): NextScreenChoices {
         if (this.allyParty.ableMembers.length === 0) {
             if (this.enemyParty.partyEndScenes) {
-                this.enemyParty.partyEndScenes.victory(this.allyParty, this.enemyParty);
+                return this.enemyParty.partyEndScenes.victory(this.allyParty, this.enemyParty);
             }
             else {
                 if (this.allyParty.allMembers.length > 1) {
                     // Whoever defeated the player, that is the scene that is displayed
                     for (const defeatEvent of this.enemyParty.defeatLog) {
-                        if (defeatEvent.loser.charType === CharacterType.Player) {
-                            defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
+                        if (defeatEvent.loser.uuid === User.char.uuid) {
+                            return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                         }
                     }
                     /*
@@ -120,13 +132,13 @@ export default class Encounter {
                 }
                 else {
                     const defeatEvent = this.allyParty.defeatLog[0];
-                    defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
+                    return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }
             }
         }
         else if (this.enemyParty.ableMembers.length === 0) {
             if (this.allyParty.partyEndScenes) {
-                this.allyParty.partyEndScenes.victory(this.enemyParty, this.allyParty);
+                return this.allyParty.partyEndScenes.victory(this.enemyParty, this.allyParty);
             }
             else {
                 if (this.enemyParty.allMembers.length > 1) {
@@ -137,18 +149,21 @@ export default class Encounter {
                         if (defeatEvent.how !== DefeatType.Escape) {
                             nameList.push(defeatEvent.loser);
                             sceneList.push(() => {
-                                defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
+                                return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                             });
                         }
                     }
                     // Should be replaced with separate menu
-                    MainScreen.displayChoices(nameList, sceneList);
+                    return { choices: [nameList, sceneList] };
                 }
                 else {
                     const defeatEvent = this.enemyParty.defeatLog[0];
-                    defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
-                    if (defeatEvent.how !== DefeatType.Escape)
-                        CombatDrops.awardPlayer(this.mainCharacter, defeatEvent.loser);
+                    if (defeatEvent.how !== DefeatType.Escape) {
+                        queueScreen(() => {
+                            return CombatDrops.awardPlayer(this.mainCharacter, defeatEvent.loser);
+                        });
+                    }
+                    return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }
             }
         }

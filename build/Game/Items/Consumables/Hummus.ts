@@ -1,24 +1,24 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Head';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
 import { TongueType } from '../../Body/Tongue';
-import Vagina, { VaginaType } from '../../Body/Vagina';
+import { Vagina, VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class Hummus extends Consumable {
+export class Hummus extends Consumable {
     public constructor() {
         super(ConsumableName.Hummus, new ItemDesc("Hummus ", "a blob of cheesy-looking hummus", "This pile of hummus doesn't look that clean, and you really don't remember where you got it from.  It looks bland.  So bland that you feel blander just by looking at it."));
     }

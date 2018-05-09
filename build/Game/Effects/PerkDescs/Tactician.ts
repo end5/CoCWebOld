@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class Tactician extends PerkDesc {
+export class Tactician extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.spe >= 75)
             return "Increases critical hit chance by up to 10% (Intelligence-based).";

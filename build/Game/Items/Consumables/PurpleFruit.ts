@@ -1,12 +1,12 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import BreastRow from '../../Body/BreastRow';
-import Character from '../../Character/Character';
-import * as BreastModifier from '../../Modifiers/BreastModifier';
-import ItemDesc from '../ItemDesc';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { BreastRow } from '../../Body/BreastRow';
+import { Character } from '../../Character/Character';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class PurpleFruit extends Consumable {
+export class PurpleFruit extends Consumable {
     public constructor() {
         super(ConsumableName.PurpleFruit, new ItemDesc("PrFruit", "a purple fruit", "This sweet-smelling produce looks like an eggplant, but feels almost squishy, and rubbery to the touch. Holding it to your ear, you think you can hear some fluid sloshing around inside."));
     }
@@ -24,6 +24,6 @@ export default class PurpleFruit extends Consumable {
         }
         // [Character gains quad nipples, milk production and libido way up]
         character.stats.lib += 5;
-        BreastModifier.boostLactation(character, 3 * character.torso.chest.count);
+        Mod.Breast.boostLactation(character, 3 * character.torso.chest.count);
     }
 }

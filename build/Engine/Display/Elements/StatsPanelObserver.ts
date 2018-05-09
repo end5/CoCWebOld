@@ -1,5 +1,5 @@
-import ScreenElement from './ScreenElement';
-import StatPanelObserver from './StatPanelObserver';
+import { ScreenElement } from './ScreenElement';
+import { StatPanelObserver } from './StatPanelObserver';
 import { loadFromId } from '../../Utilities/Html';
 
 export enum StatType {
@@ -19,7 +19,7 @@ export enum StatType {
     Gems
 }
 
-export default class StatsPanelObserver extends ScreenElement {
+export class StatsPanelObserver extends ScreenElement {
     private statPanels: StatPanelObserver[];
     public setHTMLElement(element: HTMLElement) {
         this.statPanels = [];

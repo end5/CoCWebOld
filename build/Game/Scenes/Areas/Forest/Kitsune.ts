@@ -1,31 +1,37 @@
 import { KitsuneFlags } from './KitsuneScene';
-import DisplayText from '../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow, { BreastCup } from '../../../Body/BreastRow';
+import { BreastCup, BreastRow } from '../../../Body/BreastRow';
 import { ButtLooseness, ButtRating, ButtWetness } from '../../../Body/Butt';
-import Cock, { CockType } from '../../../Body/Cock';
+import { Cock, CockType } from '../../../Body/Cock';
 import { HipRating } from '../../../Body/Hips';
-import Tail, { TailType } from '../../../Body/Tail';
-import Vagina, { VaginaLooseness, VaginaType, VaginaWetness } from '../../../Body/Vagina';
-import Character from '../../../Character/Character';
-import Description from '../../../Character/CharacterDescription';
+import { Tail, TailType } from '../../../Body/Tail';
+import {
+    Vagina,
+    VaginaLooseness,
+    VaginaType,
+    VaginaWetness
+    } from '../../../Body/Vagina';
+import { Character } from '../../../Character/Character';
+import { CharacterDescription } from '../../../Character/CharacterDescription';
 import { CharacterType } from '../../../Character/CharacterType';
-import ActionPerform from '../../../Combat/ActionPerform';
-import CombatAction from '../../../Combat/Actions/CombatAction';
-import CombatContainer from '../../../Combat/CombatContainer';
-import DefaultRespond from '../../../Combat/Default/DefaultRespond';
+import { ActionPerform } from '../../../Combat/ActionPerform';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { CombatContainer } from '../../../Combat/CombatContainer';
+import { DefaultRespond } from '../../../Combat/Default/DefaultRespond';
 import { DefeatType } from '../../../Combat/DefeatEvent';
-import EndScenes from '../../../Combat/EndScenes';
-import * as LegDescriptor from '../../../Descriptors/LegDescriptor';
+import { EndScenes } from '../../../Combat/EndScenes';
+import { Desc } from '../../../Descriptors/Descriptors';
 import { CombatEffectType } from '../../../Effects/CombatEffectType';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Armor from '../../../Items/Armors/Armor';
-import ArmorName from '../../../Items/Armors/ArmorName';
-import Weapon from '../../../Items/Weapons/Weapon';
-import WeaponName from '../../../Items/Weapons/WeaponName';
-import User from '../../../User';
-import Scenes from '../../Scenes';
+import { Armor } from '../../../Items/Armors/Armor';
+import { ArmorName } from '../../../Items/Armors/ArmorName';
+import { Weapon } from '../../../Items/Weapons/Weapon';
+import { WeaponName } from '../../../Items/Weapons/WeaponName';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { User } from '../../../User';
+import { Scenes } from '../../Scenes';
 
 class Entwine implements CombatAction {
     public name: string;
@@ -36,11 +42,12 @@ class Entwine implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return !kitsune.combat.effects.has(CombatEffectType.PCTailTangle);
     }
-    public use(kitsune: Character, enemy?: Character) {
-        DisplayText("The kitsune closes in on you with a mischievous glint in her eyes.  You raise your guard, keeping your eyes trained on her to ensure that she doesn't try to pull anything.  Suddenly, you feel something coiling around your " + LegDescriptor.describeLeg(enemy) + ", and let out a yelp as you are suddenly lifted into the air, entangled in the kitsune's tails!");
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
+        DisplayText("The kitsune closes in on you with a mischievous glint in her eyes.  You raise your guard, keeping your eyes trained on her to ensure that she doesn't try to pull anything.  Suddenly, you feel something coiling around your " + Desc.Leg.describeLeg(enemy) + ", and let out a yelp as you are suddenly lifted into the air, entangled in the kitsune's tails!");
         DisplayText("\n\nYour limbs are bound tightly while coils of delightfully soft fur caress you on all sides.  You can do little besides struggle against your furry bonds as the constant writhing of her tails sends shudders flying up and down your spine.");
         kitsune.combat.effects.add(CombatEffectType.PCTailTangle, 0, 0, 0, 0);
         enemy.stats.lust += 10 + enemy.stats.sens / 8;
+        return;
     }
 }
 
@@ -53,7 +60,7 @@ class Struggle implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         DisplayText().clear();
         // Struggle:
         DisplayText("You struggle against the kitsune's tails with all your might, desperately trying to free yourself before she has her way with you.");
@@ -69,6 +76,7 @@ class Struggle implements CombatAction {
             enemy.stats.lust += 5 + enemy.stats.sens / 10;
             kitsune.combat.effects.get(CombatEffectType.PCTailTangle).value1 = 3;
         }
+        return;
     }
 }
 
@@ -81,12 +89,13 @@ class Wait implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         DisplayText().clear();
         DisplayText("Happily, you slump deeper into the fluffy tails, eliciting an amused giggle from the kitsune.");
         if (User.settings.silly()) DisplayText("  You're so glad you got to touch fluffy tail.");
         DisplayText("\n\nShe licks her lips, running her hands along you wherever she can find exposed flesh.  Her fingertips leave small trails of dazzling blue that make you flush with lust - you must escape her grasp soon or else you will be like putty in her hands!");
         enemy.stats.lust += 5 + enemy.stats.sens / 10;
+        return;
     }
 }
 
@@ -100,13 +109,14 @@ class FoxFire implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         DisplayText("The kitsune makes a small circle in the air with her fingers, conjuring up a pale blue flame into her palm with the sound of flint striking against steel.  Pursing her lips, she blows it toward you with a kiss.");
         DisplayText("\n\nThe flames burn furiously, but leave you with an incredibly pleasant tingling sensation all over your body.  Your skin flushes with excitement, and you can feel blood rushing to your extremities, making you shudder with pleasure.");
         let damage: number = 5 + randInt(20);
         damage = enemy.combat.stats.loseHP(damage, kitsune);
         DisplayText(" (" + damage + ")");
         enemy.stats.lust += 15 + enemy.stats.sens / 10;
+        return;
     }
 }
 
@@ -121,7 +131,7 @@ class Illusion implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return !kitsune.combat.effects.has(CombatEffectType.Illusion);
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         DisplayText("You struggle to keep your eyes on the kitsune, ghostly laughter echoing all around you as you turn to and fro, trying to track her movements.  It almost seems like the edges of reality are blurring around her, severely distorting your perceptions and making it hard to follow her.  It's going to be much harder to hit her if she keeps this up!");
         // Resist: - successfully resisting deals small health & lust damage to kitsune
         let resist: number = 0;
@@ -136,6 +146,7 @@ class Illusion implements CombatAction {
             kitsune.combat.effects.add(CombatEffectType.Illusion, 0, 0, 0, 0);
             enemy.stats.spe += 20;
         }
+        return;
     }
 }
 
@@ -150,7 +161,7 @@ class Seal implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return !enemy.combat.effects.has(CombatEffectType.Sealed);
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         let resist: number = 0;
         if (enemy.stats.int < 30) resist = Math.round(enemy.stats.int);
         else resist = 30;
@@ -182,7 +193,7 @@ class Seal implements CombatAction {
         }
         // Run:
         else if (select === 4) {
-            DisplayText("\"<i>Tsk tsk, leaving so soon?</i>\"  the kitsune says, popping up in front of you suddenly as you attempt to make your escape.  Before you can react, she draws a small circle on your chest with her fingertip, leaving behind a glowing rune made of crackling blue flames.  You try to run the other way, but your " + LegDescriptor.describeLegs(enemy) + " won't budge!\n\n\"<i>Sorry baby, you'll just have to stay and play~.</i>\" she says in a singsong tone, appearing in front of you again.  <b>The kitsune's spell prevents your escape!</b>  You'll have to tough it out until the spell wears off.");
+            DisplayText("\"<i>Tsk tsk, leaving so soon?</i>\"  the kitsune says, popping up in front of you suddenly as you attempt to make your escape.  Before you can react, she draws a small circle on your chest with her fingertip, leaving behind a glowing rune made of crackling blue flames.  You try to run the other way, but your " + Desc.Leg.describeLegs(enemy) + " won't budge!\n\n\"<i>Sorry baby, you'll just have to stay and play~.</i>\" she says in a singsong tone, appearing in front of you again.  <b>The kitsune's spell prevents your escape!</b>  You'll have to tough it out until the spell wears off.");
             enemy.combat.effects.add(CombatEffectType.Sealed, 4, 4, 0, 0);
         }
         // P.Special:
@@ -203,6 +214,7 @@ class Seal implements CombatAction {
             DisplayText("\n\nUpon your touch, the seal dissipates, and you are free of the kitsune's magic!  She pouts in disappointment, looking thoroughly irritated, but quickly resumes her coy trickster facade.");
             enemy.combat.effects.remove(CombatEffectType.Sealed);
         }
+        return;
     }
 }
 
@@ -215,7 +227,7 @@ class Tease implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         let select: number = randInt(3);
         if (kitsune.torso.neck.head.hair.color === "red" && randInt(2) === 0) select = 3;
         if (select === 0) DisplayText("You rub your eyes, suddenly seeing triple as you find yourself in the midst of a crowd of kitsune doppelgangers.  They run their hands all over you, teasing and doting on you as their tails caress every inch of your body.  Taken by surprise, you forget to fight back until they have already dispersed, blending back into a single fox-woman.");
@@ -224,6 +236,7 @@ class Tease implements CombatAction {
         // Redhead only:
         else DisplayText("The kitsune sways her hips enticingly as she appears in front of you abruptly, rubbing up against your side.  Her teasing caresses make you shiver with arousal, and you can feel something thick and warm pressing against your [hips].  She gives you a wry grin as she breaks away from you, sporting an obvious tent in her robes.  \"<i>Just you wait...</i>\"");
         enemy.stats.lust += 5 + enemy.stats.sens / 7;
+        return;
     }
 }
 
@@ -236,7 +249,7 @@ class MainAction implements CombatAction {
     public canUse(kitsune: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(kitsune: Character, enemy?: Character) {
+    public use(kitsune: Character, enemy?: Character): NextScreenChoices {
         const foxFire = new FoxFire();
         const entwine = new Entwine();
         const seal = new Seal();
@@ -248,6 +261,7 @@ class MainAction implements CombatAction {
         if (entwine.canUse(kitsune, enemy)) moves.push(entwine.use);
         if (illusion.canUse(kitsune, enemy)) moves.push(illusion.use);
         moves[randInt(moves.length)](kitsune, enemy);
+        return;
     }
 }
 
@@ -283,21 +297,22 @@ class KitsuneEndScenes extends EndScenes {
     public criesInDefeat(howYouLost: DefeatType, enemy: Character): void { }
     protected beforeEndingScene(howYouLost: DefeatType, enemy: Character): void { }
     public readonly hasVictoryScene: boolean = true;
-    protected victoryScene(howYouWon: DefeatType, enemy: Character): void {
+    protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         if (howYouWon === DefeatType.Lust && enemy.statusAffects.has(StatusAffectType.Infested)) {
             DisplayText("\n\nThe kitsune recoils before running off, no longer interested in you...");
+            return;
         }
         else {
-            Scenes.forest.kitsuneScene.loseToKitsunes(this.char, enemy);
+            return Scenes.forest.kitsuneScene.loseToKitsunes(this.char, enemy);
         }
     }
     public readonly hasDefeatScene: boolean = true;
-    protected defeatScene(howYouLost: DefeatType, enemy: Character): void {
-        Scenes.forest.kitsuneScene.defeatTheKitsunes(enemy);
+    protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
+        return Scenes.forest.kitsuneScene.defeatTheKitsunes(enemy);
     }
 }
 
-export default class Kitsune extends Character {
+export class Kitsune extends Character {
     public constructor(hairColor: string) {
         super(CharacterType.Kitsune);
         const kitsuneData = User.flags.get(CharacterType.Kitsune) as KitsuneFlags;
@@ -307,7 +322,7 @@ export default class Kitsune extends Character {
             black: "lustrous, ass-length black",
             red: "unkempt, shoulder-length reddish"
         }[hairColor];
-        this.description = new Description(this, "kitsune", "A kitsune stands in front of you, about five and a half feet tall.  She has a head of " + hairDesc +
+        this.description = new CharacterDescription(this, "kitsune", "A kitsune stands in front of you, about five and a half feet tall.  She has a head of " + hairDesc +
             " hair.  She appears mostly human, except for a pair of large, furry ears poking through her hair and six luxurious silky tails swaying in the air behind her.  Her robes are revealing but comfortable-looking, hugging her voluptuous curves and exposing large swaths of tattooed skin.  A layer of ornate tattoos covers patches of her exposed flesh, accentuating her feminine curves nicely, and each movement brings a pleasant jiggle from her plump backside and large breasts.", false, "a ");
         if (hairColor === "red" && kitsuneData.redheadIsFuta === 1) {
             this.torso.cocks.add(new Cock(randInt(13) + 14, 1.5 + randInt(20) / 2, CockType.HUMAN));

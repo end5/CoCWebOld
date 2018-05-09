@@ -1,6 +1,6 @@
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
-export default interface ActionRespond {
+export interface ActionRespond {
     enemyAttack();
     enemyTease(damage: number, self: Character, enemy: Character);
     enemyUseItem();

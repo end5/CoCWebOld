@@ -1,6 +1,7 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class MoveAway implements CombatAction {
     public name: string = "MoveAway";
@@ -26,16 +27,16 @@ export class MoveAway implements CombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         const performActions = character.combat.perform;
         if (performActions.climb.canUse(character, target)) {
-            performActions.climb.use(character, target);
+            return performActions.climb.use(character, target);
         }
         else if (performActions.release.canUse(character, target)) {
-            performActions.release.use(character, target);
+            return performActions.release.use(character, target);
         }
         else {
-            performActions.run.use(character, target);
+            return performActions.run.use(character, target);
         }
     }
 }

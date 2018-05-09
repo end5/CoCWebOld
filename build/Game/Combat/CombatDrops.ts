@@ -1,33 +1,34 @@
-import DisplayText from '../../Engine/display/DisplayText';
+import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import ItemStack from '../Inventory/ItemStack';
-import ArmorName from '../Items/Armors/ArmorName';
-import ConsumableName from '../Items/Consumables/ConsumableName';
-import Item from '../Items/Item';
-import ItemFactory from '../Items/ItemFactory';
-import ItemType from '../Items/ItemType';
-import CockSockName from '../Items/Misc/CockSockName';
-import WeaponName from '../Items/Weapons/WeaponName';
-import Menus from '../Menus/Menus';
+import { ItemStack } from '../Inventory/ItemStack';
+import { ArmorName } from '../Items/Armors/ArmorName';
+import { ConsumableName } from '../Items/Consumables/ConsumableName';
+import { Item } from '../Items/Item';
+import { ItemFactory } from '../Items/ItemFactory';
+import { ItemType } from '../Items/ItemType';
+import { CockSockName } from '../Items/Misc/CockSockName';
+import { WeaponName } from '../Items/Weapons/WeaponName';
+import { Menus } from '../Menus/Menus';
+import { NextScreenChoices } from '../SceneDisplay';
 import { isEaster } from '../Utilities/Dates';
 
-export default class CombatDrops {
-    public static awardPlayer(character: Character, enemy: Character) {
+export class CombatDrops {
+    public static awardPlayer(character: Character, enemy: Character): NextScreenChoices {
         if (character.inventory.equipment.cockSocks.hasCockSock(CockSockName.Gilded)) {
             const cockIndex = character.inventory.equipment.cockSocks.indexOfCockSock(CockSockName.Gilded);
             enemy.inventory.gems += enemy.inventory.gems * 0.15 + 5 * character.torso.cocks.get(cockIndex).length;
         }
         enemy.combat.rewards.onReward();
-        const item = CombatDrops.dropItem(character, enemy);
-        if (item !== undefined) {
-            character.inventory.items.createAdd(character, item.type, item.name, Menus.Player);
-        }
         character.inventory.gems += enemy.combat.rewards.gems();
         character.stats.XP += enemy.combat.rewards.XP();
+        const item = CombatDrops.dropItem(character, enemy);
+        if (item !== undefined) {
+            return character.inventory.items.createAdd(character, item.type, item.name, Menus.Player);
+        }
     }
 
     public static dropItem(character: Character, enemy: Character): Item {

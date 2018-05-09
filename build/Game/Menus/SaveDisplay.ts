@@ -1,23 +1,21 @@
-import DisplayText from '../../Engine/display/DisplayText';
-import ListEntryElement from '../../Engine/Display/Elements/ListItemElement';
-import UnorderedListElement from '../../Engine/Display/Elements/UnorderedListElement';
-import { ClickFunction } from '../../Engine/Display/MainScreen';
-import MainScreen from '../../Engine/Display/MainScreen';
-import SaveFile from '../../Engine/Save/SaveFile';
-import SaveManager from '../../Engine/Save/SaveManager';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
+import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
+import { SaveFile } from '../../Engine/Save/SaveFile';
+import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
+import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
 
-export function modifyBottomButtons(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction) {
+export function saveSlotChoices(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction): NextScreenChoices {
     const text = [];
     const func = [];
-    MainScreen.hideBottomButtons();
     for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
         if (SaveManager.has(index)) {
             text.push("Slot " + index.toString());
             func.push(() => { saveSlotFunc(index); });
         }
     }
-    MainScreen.displayChoices(text, func, ["Back"], [prevMenu]);
+    return { choices: [text, func], persistantChoices: [["Back"], [prevMenu]] };
 }
 
 export function displaySaves() {

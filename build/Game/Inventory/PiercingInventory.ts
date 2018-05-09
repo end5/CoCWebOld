@@ -1,11 +1,11 @@
-import EquipSlot from './EquipSlot';
-import EquipSlotList from './EquipSlotList';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import ListSerializer from '../../Engine/Utilities/ListSerializer';
-import Character from '../Character/Character';
-import EquipableItem from '../Items/EquipableItem';
-import Piercing from '../Items/Misc/Piercing';
-import ListMonitor from '../Utilities/ListMonitor';
+import { EquipSlot } from './EquipSlot';
+import { EquipSlotList } from './EquipSlotList';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
+import { Character } from '../Character/Character';
+import { EquipableItem } from '../Items/EquipableItem';
+import { Piercing } from '../Items/Misc/Piercing';
+import { ListMonitor } from '../Utilities/ListMonitor';
 
 export enum PiercingSlot {
     Clit,
@@ -19,7 +19,7 @@ export enum PiercingSlot {
     Vulva
 }
 
-export default class PiercingInventory implements ISerializable<PiercingInventory> {
+export class PiercingInventory implements ISerializable<PiercingInventory> {
     private character: Character;
     public readonly clit: EquipSlot<Piercing>;
     public readonly ears: EquipSlot<Piercing>;

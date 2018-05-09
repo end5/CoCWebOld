@@ -1,31 +1,27 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
+import { Tail, TailType } from '../../Body/Tail';
 import { VaginaType } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Menus from '../../Menus/Menus';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import User from '../../User';
+import { Menus } from '../../Menus/Menus';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
 import { numToCardinalText, numToOrdinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class FoxBerry extends Consumable {
+export class FoxBerry extends Consumable {
     private enhanced: boolean;
     public constructor(enhanced: boolean) {
         if (!enhanced)
@@ -64,8 +60,7 @@ export default class FoxBerry extends Consumable {
                 if (character.torso.tails.filter(Tail.FilterType(TailType.FOX))[0].vemon > 1) DisplayText("  Your tails thrash around violently as they begin to fuse painfully back into one, the fur bristling back out with a flourish.");
                 DisplayText("\n\nA sharp spark of pain jolts through your spinal column as the bones shift themselves around, the joints in your hips migrating forward.  You continue to howl in agony even as you feel your intelligence slipping away.  In a way, it's a blessing - as your thoughts grow muddied, the pain is dulled, until you are finally left staring blankly at the sky above, tilting your head curiously.");
                 DisplayText("\n\nYou roll over and crawl free of the " + character.inventory.equipment.armor.displayName + " covering you, pawing the ground for a few moments before a pang of hunger rumbles through your stomach.  Sniffing the wind, you bound off into the wilderness, following the telltale scent of a farm toward the certain bounty of a chicken coop.");
-                MainScreen.doNext(Menus.GameOver);
-                return;
+                return { next: Menus.GameOver };
             }
         }
         // [increase Intelligence, Libido and Sensitivity]
@@ -158,14 +153,14 @@ export default class FoxBerry extends Consumable {
             if (cockChoices.length !== 0) {
                 const selectedCock = randomChoice(cockChoices);
                 if (selectedCock.type === CockType.HUMAN) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + CockDescriptor.describeCock(character, selectedCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + CockDescriptor.nounCock(CockType.DOG) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + Desc.Cock.describeCock(character, selectedCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + Desc.Cock.nounCock(CockType.DOG) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>");
                     selectedCock.thickness += .3;
                     character.stats.sens += 10;
                     character.stats.lust += 5;
                 }
                 // Horse
                 else if (selectedCock.type === CockType.HORSE) {
-                    DisplayText("\n\nYour " + CockDescriptor.nounCock(CockType.HORSE) + " shrinks, the extra equine length seeming to shift into girth.  The flared tip vanishes into a more pointed form, a thick knotted bulge forming just above your sheath.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.nounCock(CockType.HORSE) + " shrinks, the extra equine length seeming to shift into girth.  The flared tip vanishes into a more pointed form, a thick knotted bulge forming just above your sheath.  <b>You now have a dog-cock.</b>");
                     // Tweak length/thickness.
                     if (selectedCock.length > 6) selectedCock.length -= 2;
                     else selectedCock.length -= .5;
@@ -176,13 +171,13 @@ export default class FoxBerry extends Consumable {
                 }
                 // Tentacular Tuesday!
                 else if (selectedCock.type === CockType.TENTACLE) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " coils in on itself, reshaping and losing its plant-like coloration as thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " coils in on itself, reshaping and losing its plant-like coloration as thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>");
                     character.stats.sens += 4;
                     character.stats.lust += 10;
                 }
                 // Misc
                 else {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>");
                     character.stats.sens += 4;
                     character.stats.lust += 10;
                 }
@@ -200,8 +195,8 @@ export default class FoxBerry extends Consumable {
             character.cumMultiplier += cumMultiplierChange;
             // Flavor text
             if (character.torso.balls.quantity === 0) DisplayText("\n\nYou feel a churning inside your gut as something inside you changes.");
-            if (character.torso.balls.quantity > 0) DisplayText("\n\nYou feel a churning in your " + BallsDescriptor.describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
-            DisplayText("  A bit of milky pre dribbles from your " + CockDescriptor.describeMultiCockShort(character) + ", pushed out by the change.");
+            if (character.torso.balls.quantity > 0) DisplayText("\n\nYou feel a churning in your " + Desc.Balls.describeBalls(true, true, character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
+            DisplayText("  A bit of milky pre dribbles from your " + Desc.Cock.describeMultiCockShort(character) + ", pushed out by the change.");
             changes++;
         }
         if (changes < changeLimit && character.torso.balls.quantity > 0 && character.torso.balls.size > 4 && randInt(3) === 0) {
@@ -222,14 +217,14 @@ export default class FoxBerry extends Consumable {
             DisplayText("\n\nYour belly rumbles unpleasantly for a second as the ");
             if (!this.enhanced) DisplayText("berry ");
             else DisplayText("drink ");
-            DisplayText("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + BreastDescriptor.describeAllBreasts(character) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + character.inventory.equipment.armor.displayName + " to inspect the unwholesome itch, ");
+            DisplayText("settles deeper inside you.  A second later, the unpleasant gut-gurgle passes, and you let out a tiny burp of relief.  Before you finish taking a few breaths, there's an itching below your " + Desc.Breast.describeAllBreasts(character) + ".  You idly scratch at it, but gods be damned, it hurts!  You peel off part of your " + character.inventory.equipment.armor.displayName + " to inspect the unwholesome itch, ");
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 8) DisplayText("it's difficult to see past the wall of tits obscuring your view.");
             else DisplayText("it's hard to get a good look at.");
             DisplayText("  A few gentle prods draw a pleasant gasp from your lips, and you realize that you didn't have an itch - you were growing new nipples!");
             DisplayText("\n\nA closer examination reveals your new nipples to be just like the ones above in size and shape");
             if (bottomBreastRow.nipples.count > 1) DisplayText(", not to mention number");
             else if (bottomBreastRow.nipples.fuckable) DisplayText(", not to mention penetrability");
-            DisplayText(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + BreastDescriptor.breastCup(bottomBreastRow.rating) + "s.  <b>You have " + numToCardinalText(character.torso.chest.count + 1) + " rows of breasts!</b>");
+            DisplayText(".  While you continue to explore your body's newest addition, a strange heat builds behind the new nubs. Soft, jiggly breastflesh begins to fill your cupped hands.  Radiant warmth spreads through you, eliciting a moan of pleasure from your lips as your new breasts catch up to the pair above.  They stop at " + Desc.Breast.breastCup(bottomBreastRow.rating) + "s.  <b>You have " + numToCardinalText(character.torso.chest.count + 1) + " rows of breasts!</b>");
             const newBreastRow = new BreastRow();
             newBreastRow.rating = bottomBreastRow.rating;
             newBreastRow.lactationMultiplier = bottomBreastRow.lactationMultiplier;
@@ -255,11 +250,11 @@ export default class FoxBerry extends Consumable {
                     else {
                         chance = randInt(3);
                         if (chance === 1)
-                            DisplayText("\n\nA faint warmth buzzes to the surface of your " + BreastDescriptor.describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + SkinDescriptor.skin(character) + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + BreastDescriptor.describeNipple(character, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
+                            DisplayText("\n\nA faint warmth buzzes to the surface of your " + Desc.Breast.describeBreastRow(currentRow) + ", the fluttering tingles seeming to vibrate faster and faster just underneath your " + Desc.Skin.skin(character) + ".  Soon, the heat becomes uncomfortable, and that row of chest-flesh begins to feel tight, almost thrumming like a newly-stretched drum.  You " + Desc.Breast.describeNipple(character, currentRow) + "s go rock hard, and though the discomforting feeling of being stretched fades, the pleasant, warm buzz remains.  It isn't until you cup your tingly tits that you realize they've grown larger, almost in envy of the pair above.");
                         else if (chance === 2)
-                            DisplayText("\n\nA faintly muffled gurgle emanates from your " + BreastDescriptor.describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + SkinDescriptor.skinFurScales(character) + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
+                            DisplayText("\n\nA faintly muffled gurgle emanates from your " + Desc.Breast.describeBreastRow(currentRow) + " for a split-second, just before your flesh shudders and shakes, stretching your " + Desc.Skin.skinFurScales(character) + " outward with newly grown breast.  Idly, you cup your hands to your swelling bosom, and though it stops soon, you realize that your breasts have grown closer in size to the pair above.");
                         else {
-                            DisplayText("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + BreastDescriptor.describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + SkinDescriptor.skin(character) + " growing flushed with arousal and your " + BreastDescriptor.describeNipple(character, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.");
+                            DisplayText("\n\nAn uncomfortable stretching sensation spreads its way across the curves of your " + Desc.Breast.describeBreastRow(currentRow) + ", threads of heat tingling through your flesh.  It feels as though your heartbeat has been magnified tenfold within the expanding mounds, your " + Desc.Skin.skin(character) + " growing flushed with arousal and your " + Desc.Breast.describeNipple(character, currentRow) + " filling with warmth.  As the tingling heat gradually fades, a few more inches worth of jiggling breast spill forth.  Cupping them experimentally, you confirm that they have indeed grown to be a bit more in line with the size of the pair above.");
                         }
                     }
                     // Bigger change!
@@ -267,7 +262,7 @@ export default class FoxBerry extends Consumable {
                         currentRow.rating += 2 + randInt(2);
                     // Smallish change.
                     else currentRow.rating++;
-                    DisplayText("  You do a quick measurement and determine that your " + numToOrdinalText(indexReverseChestCompare + 1) + " row of breasts are now " + BreastDescriptor.breastCup(currentRow.rating) + "s.");
+                    DisplayText("  You do a quick measurement and determine that your " + numToOrdinalText(indexReverseChestCompare + 1) + " row of breasts are now " + Desc.Breast.breastCup(currentRow.rating) + "s.");
 
                     if (!tits) {
                         tits = true;
@@ -280,7 +275,7 @@ export default class FoxBerry extends Consumable {
         }
         // HEAT!
         if (character.statusAffects.get(StatusAffectType.Heat).value2 < 30 && randInt(6) === 0 && changes < changeLimit) {
-            if (BodyModifier.displayGoIntoHeat(character)) {
+            if (Mod.Body.displayGoIntoHeat(character)) {
                 changes++;
             }
         }
@@ -361,7 +356,7 @@ export default class FoxBerry extends Consumable {
         }
         // Nipples Turn Back:
         if (character.statusAffects.has(StatusAffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            DisplayText("\n\nSomething invisible brushes against your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.statusAffects.remove(StatusAffectType.BlackNipples);
         }

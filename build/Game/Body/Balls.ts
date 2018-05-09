@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Balls implements ISerializable<Balls> {
+export class Balls implements ISerializable<Balls> {
     public quantity: number = 0;
     public size: number = 0;
 

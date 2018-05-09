@@ -1,10 +1,10 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum SkinType {
     PLAIN, FUR, SCALES, GOO, UNDEFINED
 }
 
-export default class Skin implements ISerializable<Skin> {
+export class Skin implements ISerializable<Skin> {
     public type: SkinType = SkinType.PLAIN;
     public tone: string = "albino";
     public desc: string = "skin";

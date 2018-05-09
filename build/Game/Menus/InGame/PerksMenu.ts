@@ -1,13 +1,13 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { PerkType } from '../../Effects/PerkType';
-import User from '../../User';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import Menus from '../Menus';
+import { Menus } from '../Menus';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     DisplayText().clear();
     for (const key of character.perks.keys()) {
         DisplayText(character.perks.get(key).type).bold();
@@ -18,7 +18,6 @@ export default function display(character: Character) {
     const text = ["Next"];
     const func = [Menus.Player];
 
-    MainScreen.hideBottomButtons();
     if (character.stats.perkPoints > 0) {
         DisplayText("You have " + numToCardinalText(character.stats.perkPoints) + " perk point").bold();
         if (character.stats.perkPoints > 1) DisplayText("s").bold();
@@ -31,10 +30,10 @@ export default function display(character: Character) {
         text.push("Dbl Options");
         func.push(doubleAttackOptions);
     }
-    MainScreen.displayChoices(text, func);
+    return { choices: [text, func] };
 }
 
-function doubleAttackOptions(): void {
+function doubleAttackOptions(): NextScreenChoices {
     DisplayText().clear();
     const text = ["All Double", "Dynamic", "Single"];
     const func = [doubleAttackForce, doubleAttackDynamic, doubleAttackOff];
@@ -56,20 +55,20 @@ function doubleAttackOptions(): void {
         DisplayText("\nYou can change it to double attack until sixty strength and then switch to single attacks.");
         func[2] = undefined;
     }
-    MainScreen.displayChoices(text, func, ["Back"], [display]);
+    return { choices: [text, func], persistantChoices: [["Back"], [display]] };
 }
 
-function doubleAttackForce(): void {
+function doubleAttackForce(): NextScreenChoices {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 0;
-    doubleAttackOptions();
+    return doubleAttackOptions();
 }
 
-function doubleAttackDynamic(): void {
+function doubleAttackDynamic(): NextScreenChoices {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 1;
-    doubleAttackOptions();
+    return doubleAttackOptions();
 }
 
-function doubleAttackOff(): void {
+function doubleAttackOff(): NextScreenChoices {
     (User.flags.get("Player") as PlayerFlags).DOUBLE_ATTACK_STYLE = 2;
-    doubleAttackOptions();
+    return doubleAttackOptions();
 }

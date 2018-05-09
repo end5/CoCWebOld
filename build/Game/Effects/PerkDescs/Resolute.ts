@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class Resolute extends PerkDesc {
+export class Resolute extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.tou >= 75)
             return "Grants immunity to stuns and some statuses.</b>";

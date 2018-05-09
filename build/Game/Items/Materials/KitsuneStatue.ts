@@ -1,10 +1,10 @@
-import Material from './Material';
-import MaterialName from './MaterialName';
-import Character from '../../Character/Character';
-import Scenes from '../../Scenes/Scenes';
-import ItemDesc from '../ItemDesc';
+import { Material } from './Material';
+import { MaterialName } from './MaterialName';
+import { Character } from '../../Character/Character';
+import { Scenes } from '../../Scenes/Scenes';
+import { ItemDesc } from '../ItemDesc';
 
-export default class KitsuneStatue extends Material {
+export class KitsuneStatue extends Material {
     public constructor() {
         super(
             MaterialName.GoldenStatue,

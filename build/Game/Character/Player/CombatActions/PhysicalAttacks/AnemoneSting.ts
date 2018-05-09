@@ -1,8 +1,9 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import Character from '../../../../Character/Character';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import Player from '../../Player';
+import { Character } from '../../../../Character/Character';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
 
 export class AnemoneSting implements CombatAction {
     public name: string = "AnemoneSting";
@@ -16,7 +17,7 @@ export class AnemoneSting implements CombatAction {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // -sting with hair (combines both bee-sting effects, but weaker than either one separately):
         // Fail!
@@ -63,5 +64,6 @@ export class AnemoneSting implements CombatAction {
         }
         // New lines and moving on!!
         DisplayText("\n\n");
+        return;
     }
 }

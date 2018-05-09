@@ -1,12 +1,12 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class DragonEgg extends Consumable {
+export class DragonEgg extends Consumable {
     public constructor() {
         super(ConsumableName.DragonEgg, new ItemDesc("DrgnEgg", "an unfertilized dragon egg", "A large, solid egg, easily the size of your clenched fist.  Its shell color is reddish-white, with blue splotches."));
     }

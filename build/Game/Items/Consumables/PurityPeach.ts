@@ -1,10 +1,10 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
-export default class PurityPeach extends Consumable {
+export class PurityPeach extends Consumable {
     public constructor() {
         super(ConsumableName.PurityPeach, new ItemDesc("PurPeac", "a pure peach", "This is a peach from Minerva's spring, yellowy-orange with red stripes all over it."), 10);
     }

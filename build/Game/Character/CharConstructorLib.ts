@@ -1,13 +1,13 @@
-import Character from './Character';
+import { Character } from './Character';
 import { CharacterType } from './CharacterType';
-import Player from './Player/Player';
-import Dictionary from '../../Engine/Utilities/Dictionary';
-import Akbal from '../Scenes/Areas/Forest/Akbal';
-import BeeGirl from '../Scenes/Areas/Forest/BeeGirl';
-import Kitsune from '../Scenes/Areas/Forest/Kitsune';
+import { Player } from './Player/Player';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
+import { Akbal } from '../Scenes/Areas/Forest/Akbal';
+import { BeeGirl } from '../Scenes/Areas/Forest/BeeGirl';
+import { Kitsune } from '../Scenes/Areas/Forest/Kitsune';
 
 type CharConstructor = new () => Character;
-export default class CharConstructorLib extends Dictionary<CharConstructor> {
+export class CharConstructorLib extends Dictionary<CharConstructor> {
     public constructor() {
         super();
         this.set(CharacterType.Player, Player);

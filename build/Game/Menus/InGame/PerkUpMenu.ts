@@ -1,19 +1,20 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import ButtonElement from '../../../Engine/Display/Elements/ButtonElement';
-import ListEntryElement from '../../../Engine/Display/Elements/ListItemElement';
-import ParagraphElement from '../../../Engine/display/Elements/ParagraphElement';
-import UnorderedListElement from '../../../Engine/Display/Elements/UnorderedListElement';
-import MainScreen, { TopButton } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import Perk from '../../Effects/Perk';
-import PerkFactory from '../../Effects/PerkFactory';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { ButtonElement } from '../../../Engine/Display/Elements/ButtonElement';
+import { ListEntryElement } from '../../../Engine/Display/Elements/ListItemElement';
+import { ParagraphElement } from '../../../Engine/display/Elements/ParagraphElement';
+import { UnorderedListElement } from '../../../Engine/Display/Elements/UnorderedListElement';
+import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Perk } from '../../Effects/Perk';
+import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import User from '../../User';
+import { displayNextSceneChoices, NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import Menus from '../Menus';
+import { Menus } from '../Menus';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     DisplayText().clear();
     const perkList: Perk[] = getAvailablePerks(character);
 
@@ -21,7 +22,7 @@ export default function display(character: Character) {
         DisplayText("<b>You do not qualify for any perks at present.  </b>In case you qualify for any in the future, you will keep your " + numToCardinalText(character.stats.perkPoints) + " perk point");
         if (character.stats.perkPoints > 1) DisplayText("s");
         DisplayText(".");
-        MainScreen.doNext(Menus.Player);
+        return { next: Menus.Player };
     }
     else {
         DisplayText("Please select a perk from the list, then click 'Okay'.  You can press 'Skip' to save your perk point for later.");
@@ -30,13 +31,12 @@ export default function display(character: Character) {
         displayPerkList(character, undefined);
 
         MainScreen.getTopButton(TopButton.MainMenu).hide();
-        MainScreen.hideBottomButtons();
         // "Okay" button is modified in displayPerkList
-        MainScreen.displayChoices(["Okay", "Skip"], [undefined, Menus.Player]);
+        return { choices: [["Okay", "Skip"], [undefined, Menus.Player]] };
     }
 }
 
-function confirmPerk(character: Character, selectedPerk: Perk) {
+function confirmPerk(character: Character, selectedPerk: Perk): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You have selected the following perk:");
     DisplayText("\n\n");
@@ -44,8 +44,7 @@ function confirmPerk(character: Character, selectedPerk: Perk) {
     DisplayText(selectedPerk.desc.longDesc);
     DisplayText("\n\n");
     DisplayText("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-    MainScreen.hideBottomButtons();
-    MainScreen.displayChoices(["Okay", "Skip"], [(char) => applyPerk(char, selectedPerk), Menus.Player]);
+    return { choices: [["Okay", "Skip"], [(char) => applyPerk(char, selectedPerk), Menus.Player]] };
 }
 
 function displayPerkList(character: Character, selectedPerk: string) {
@@ -62,7 +61,7 @@ function displayPerkList(character: Character, selectedPerk: string) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            MainScreen.displayChoices(["Okay", "Skip"], [(char) => confirmPerk(char, perk), Menus.Player]);
+            displayNextSceneChoices({ choices: [["Okay", "Skip"], [(char) => confirmPerk(char, perk), Menus.Player]] });
         });
 
         const longDescElement = new ParagraphElement();
@@ -262,5 +261,5 @@ function applyPerk(character: Character, selectedPerk: Perk) {
     if (selectedPerk.type === PerkType.Tank2) {
         character.stats.HP += character.stats.tou;
     }
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }

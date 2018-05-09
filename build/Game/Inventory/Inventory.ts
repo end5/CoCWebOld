@@ -1,15 +1,20 @@
-import ItemStack from './ItemStack';
-import { ClickFunction } from '../../Engine/Display/MainScreen';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import List, { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
-import ListSerializer from '../../Engine/Utilities/ListSerializer';
-import Character from '../Character/Character';
-import Item from '../Items/Item';
-import ItemFactory from '../Items/ItemFactory';
-import ItemType from '../Items/ItemType';
+import { ItemStack } from './ItemStack';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import {
+    FilterOption,
+    List,
+    ReduceOption,
+    SortOption
+    } from '../../Engine/Utilities/List';
+import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
+import { Character } from '../Character/Character';
+import { Item } from '../Items/Item';
+import { ItemFactory } from '../Items/ItemFactory';
+import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
+import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
 
-export default class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
+export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();
 
     public unlock(amount: number = 1) {
@@ -45,8 +50,8 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
      * @param itemsToAdd List of ItemStack to be added.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
-        displayCharInventoryFull(characterAddingItems, this.addItems(itemsToAdd), nextMenu);
+    public addList(characterAddingItems: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
+        return displayCharInventoryFull(characterAddingItems, this.addItems(itemsToAdd), nextMenu);
     }
 
     /**
@@ -57,12 +62,12 @@ export default class Inventory<T extends Item> implements ISerializable<Inventor
      * @param itemName The item name.
      * @param nextMenu The menu that will display after the items are added.
      */
-    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction) {
-        this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
+    public createAdd(characterAddingItems: Character, itemType: ItemType, itemName: string, nextMenu: ClickFunction): NextScreenChoices {
+        return this.addList(characterAddingItems, [ItemFactory.create(itemType, itemName)], nextMenu);
     }
 
-    public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction) {
-        this.addList(characterAddingItems, [new ItemStack<Item>(item, 1)], nextMenu);
+    public add(characterAddingItems: Character, item: Item, nextMenu: ClickFunction): NextScreenChoices {
+        return this.addList(characterAddingItems, [new ItemStack<Item>(item, 1)], nextMenu);
     }
     /**
      * Adds items to inventory and return the items that cannot be added.

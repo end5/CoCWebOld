@@ -1,7 +1,7 @@
-import KeyCombination from './KeyCombination';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { KeyCombination } from './KeyCombination';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class KeyPair implements ISerializable<KeyPair> {
+export class KeyPair implements ISerializable<KeyPair> {
     public primaryKey: KeyCombination;
     public secondaryKey: KeyCombination;
     public constructor(primaryKey?: KeyCombination, secondaryKey?: KeyCombination) {

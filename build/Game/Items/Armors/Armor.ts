@@ -1,14 +1,14 @@
-import ArmorName from './ArmorName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { ArmorName } from './ArmorName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import EquipableItem from '../EquipableItem';
-import ItemDesc from '../ItemDesc';
-import ItemType from '../ItemType';
+import { EquipableItem } from '../EquipableItem';
+import { ItemDesc } from '../ItemDesc';
+import { ItemType } from '../ItemType';
 
 export type ArmorClass = "Light" | "Medium" | "Heavy" | "";
 
-export default class Armor extends EquipableItem {
+export class Armor extends EquipableItem {
     private defenseValue: number;
     public readonly armorClass: ArmorClass;
     public readonly displayName: string;

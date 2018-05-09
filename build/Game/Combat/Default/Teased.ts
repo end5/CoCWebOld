@@ -1,8 +1,8 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 
-export default function teased(lustDelta: number, self: Character, enemy: Character) {
+export function teased(lustDelta: number, self: Character, enemy: Character) {
     displayDefaultTeaseReaction(lustDelta, self);
     if (lustDelta > 0) {
         // Imp mob uber interrupt!

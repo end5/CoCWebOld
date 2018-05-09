@@ -1,10 +1,10 @@
-import Creature from './Creature';
+import { Creature } from './Creature';
 
 export enum Gender {
     NONE, MALE, FEMALE, HERM
 }
 
-export default class GenderIdentity {
+export class GenderIdentity {
     private creatureGender: Gender;
     public forced: boolean;
     private creature: Creature;

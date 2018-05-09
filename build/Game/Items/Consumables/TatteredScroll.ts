@@ -1,24 +1,23 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import BreastRow from '../../Body/BreastRow';
-import Character from '../../Character/Character';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as BreastModifier from '../../Modifiers/BreastModifier';
-import Scenes from '../../Scenes/Scenes';
-import ItemDesc from '../ItemDesc';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
+import { BreastRow } from '../../Body/BreastRow';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { Mod } from '../../Modifiers/Modifiers';
+import { Scenes } from '../../Scenes/Scenes';
+import { ItemDesc } from '../ItemDesc';
 
-export default class TatteredScroll extends Consumable {
+export class TatteredScroll extends Consumable {
     public constructor() {
         super(ConsumableName.TatteredScroll, new ItemDesc("TScroll", "a tattered scroll", "This tattered scroll is written in strange symbols, yet you have the feeling that if you tried to, you could decipher it."));
     }
 
     public use(character: Character) {
         DisplayText().clear();
-        DisplayText("Your wobbly " + LegDescriptor.describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
+        DisplayText("Your wobbly " + Desc.Leg.describeLegs(character) + " give out underneath you as your body's willpower seems to evaporate, your mouth reading the words on the scroll with a backwards sounding sing-song voice.\n\n");
         if (character.torso.neck.head.hair.color === "sandy blonde") {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>Tresed eht retaw llahs klim ruoy.</i>\"\n\n");
             if (character.torso.chest.count === 0) {
@@ -73,7 +72,7 @@ export default class TatteredScroll extends Consumable {
                     if (largestLactationMultiplier >= 3)
                         DisplayText("you drop to your knees and grab your nipples.  With a very sexual moan you begin milking yourself, hosing out huge quantities of milk.  You pant and grunt, offering as much of your milk as you can.  It cascades down a hill in a small stream, and you can't help but blush with pride... and lust.  The erotic pleasures build as you do your best to feed the ground all of your milk.  You ride the edge of orgasm for an eternity, milk everywhere.  When you come to, you realize you're kneeling there, tugging your dry nipples.  Embarrassed, you stop, but your arousal remains.  ");
                     if (largestLactationMultiplier < 3) {
-                        BreastModifier.boostLactation(character, .7);
+                        Mod.Breast.boostLactation(character, .7);
                         DisplayText("Your breasts feel fuller... riper... like your next milking could be even bigger.  ");
                     }
                     character.stats.lib += 1;
@@ -82,28 +81,28 @@ export default class TatteredScroll extends Consumable {
                 }
                 if (largestLactationMultiplier === 0) {
                     DisplayText("A pleasurable release suddenly erupts from your nipples!  Twin streams of milk are spraying from your breasts, soaking into the ground immediately.  It stops all too soon, though a voice in your head assures you that you can lactate quite often now.  ");
-                    BreastModifier.boostLactation(character, 1);
+                    Mod.Breast.boostLactation(character, 1);
                     character.stats.lib += 0.5;
                     character.stats.sens += 1;
                     character.stats.lust += 10;
                 }
             }
             DisplayText("\n\nYour mouth curls into a sick smile and, with a voice that isn't your own, speaks, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+            return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else {
             DisplayText("Your mouth forms a smile of its own volition, reading, \"<i>nuf erutuf rof riah ydnas, nus tresed eht sa ydnas.</i>\"\n\nYou feel a tingling in your scalp, and realize your hair has become a sandy blonde!");
             character.torso.neck.head.hair.color = "sandy blonde";
             DisplayText("\n\nYour mouth curls with a sick smile, speaking with a voice that isn't your own, \"<i>I ALWAYS get what I want, dear...</i>\"");
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+            return { next: Scenes.camp.returnToCampUseOneHour };
         }
         // if (!Game.inCombat) {
         // RAEP
-        DisplaySprite(SpriteName.Sandwich);
-        DisplayText("\n\nYou hear the soft impact of clothes hitting the ground behind you, and turn to see that the sand witch has found you! You cannot resist a peek at your uninvited guest, beholding a curvy dark-skinned beauty, her form dominated by a quartet of lactating breasts.  Somewhere in your lust-fogged mind you register the top two as something close to double-Ds, and her lower pair to be about Cs.  She smiles and leans over you, pushing you to the ground violently.\n\nShe turns around and drops, planting her slick honey-pot firmly against your mouth.  Her scent is strong, overpowering in its intensity.  Your tongue darts out for a taste and finds a treasure trove of sticky sweetness.  Instinctively you tongue-fuck her, greedily devouring her cunny-juice, shoving your tongue in as far as possible while suckling her clit.  Dimly you feel the milk spattering over you, splashing off you and into the cracked earth.  Everywhere the milk touches feels silky smooth and sensitive, and your hands begin stroking your body, rubbing it in as the witch sprays more and more of it.  You lose track of time, orgasming many times, slick and sticky with sexual fluids.");
-        character.orgasm();
-        character.stats.lib += 1;
-        character.stats.sens += 5;
+        // DisplaySprite(SpriteName.Sandwich);
+        // DisplayText("\n\nYou hear the soft impact of clothes hitting the ground behind you, and turn to see that the sand witch has found you! You cannot resist a peek at your uninvited guest, beholding a curvy dark-skinned beauty, her form dominated by a quartet of lactating breasts.  Somewhere in your lust-fogged mind you register the top two as something close to double-Ds, and her lower pair to be about Cs.  She smiles and leans over you, pushing you to the ground violently.\n\nShe turns around and drops, planting her slick honey-pot firmly against your mouth.  Her scent is strong, overpowering in its intensity.  Your tongue darts out for a taste and finds a treasure trove of sticky sweetness.  Instinctively you tongue-fuck her, greedily devouring her cunny-juice, shoving your tongue in as far as possible while suckling her clit.  Dimly you feel the milk spattering over you, splashing off you and into the cracked earth.  Everywhere the milk touches feels silky smooth and sensitive, and your hands begin stroking your body, rubbing it in as the witch sprays more and more of it.  You lose track of time, orgasming many times, slick and sticky with sexual fluids.");
+        // character.orgasm();
+        // character.stats.lib += 1;
+        // character.stats.sens += 5;
         // character.slimeFeed();
         // }
     }

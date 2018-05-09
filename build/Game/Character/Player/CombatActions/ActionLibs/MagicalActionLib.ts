@@ -1,8 +1,8 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import CombatActionLib from '../../../../Combat/CombatActionLib';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { CombatActionLib } from '../../../../Combat/CombatActionLib';
 import * as MagicalAttack from '../MagicalAttacks';
 
-class MagicalActionLib extends CombatActionLib<CombatAction> {
+class MagicalActionList extends CombatActionLib<CombatAction> {
     public constructor() {
         super();
         this.list.push(new MagicalAttack.Berserk());
@@ -20,5 +20,4 @@ class MagicalActionLib extends CombatActionLib<CombatAction> {
     }
 }
 
-const magicalActionLib = new MagicalActionLib();
-export default magicalActionLib as MagicalActionLib;
+export const MagicalActionLib = new MagicalActionList();

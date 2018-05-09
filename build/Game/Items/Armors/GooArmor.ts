@@ -1,11 +1,11 @@
-import AbstractArmor from './Armor';
-import ArmorName from './ArmorName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import ItemDesc from '../ItemDesc';
+import { Armor } from './Armor';
+import { ArmorName } from './ArmorName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { ItemDesc } from '../ItemDesc';
 
-export default class GooArmor extends AbstractArmor {
+export class GooArmor extends Armor {
     public constructor() {
         super(ArmorName.GooArmor, new ItemDesc("GooArmr", "Valeria, the goo-girl armor", "This shining suit of platemail is more than just platemail - it houses the goo-girl, Valeria!  Together, they provide one tough defense, but you had better be okay with having goo handling your junk while you fight if you wear this!"), "goo armor", 22, 1);
     }
@@ -19,7 +19,7 @@ export default class GooArmor extends AbstractArmor {
         if (character.torso.vaginas.count > 0 && character.torso.cocks.count > 0)
             DisplayText(" and ");
         if (character.torso.cocks.count > 0)
-            DisplayText(CockDescriptor.describeMultiCockShort(character));
+            DisplayText(Desc.Cock.describeMultiCockShort(character));
         if (character.gender === 0)
             DisplayText("groin");
         DisplayText(", encasing your loins in case you need a little mid-battle release, she says.");

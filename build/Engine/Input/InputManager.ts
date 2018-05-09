@@ -1,9 +1,9 @@
-﻿import BindableAction from './BindableAction';
-import DefaultKeyBinds from './DefaultKeyBinds';
-import KeyPair from './KeyPair';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import List from '../Utilities/List';
-import ListSerializer from '../Utilities/ListSerializer';
+﻿import { BindableAction } from './BindableAction';
+import { DefaultKeyBinds } from './DefaultKeyBinds';
+import { KeyPair } from './KeyPair';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { List } from '../Utilities/List';
+import { ListSerializer } from '../Utilities/ListSerializer';
 
 class InputManager implements ISerializable<InputManager> {
     private keyBinds: List<KeyPair>;
@@ -92,4 +92,4 @@ class InputManager implements ISerializable<InputManager> {
 }
 
 const inputManager = new InputManager();
-export default inputManager as InputManager;
+export { inputManager as InputManager };

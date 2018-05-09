@@ -1,10 +1,10 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
-export default class SheepMilk extends Consumable {
+export class SheepMilk extends Consumable {
     public constructor() {
         super(ConsumableName.SheepMilk, new ItemDesc("SheepMk", "a bottle of sheep milk", "This bottle of sheep milk is said to have corruption-fighting properties.  It may be useful."));
     }

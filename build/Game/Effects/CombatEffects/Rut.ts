@@ -1,9 +1,8 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import CombatEffect from '../CombatEffect';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { CombatEffect } from '../CombatEffect';
 
 export class Rut extends CombatEffect {
     public update(character: Character, enemy: Character) {
@@ -15,9 +14,9 @@ export class Rut extends CombatEffect {
             else
                 out = "Y";
             if (enemy.desc.plural)
-                out += "our " + CockDescriptor.describeMultiCockShort(character) + " dribbles pre-cum as you think about plowing " + enemy.desc.a + enemy.desc.short + " right here and now, fucking " + enemy.desc.possessivePronoun + " " + VaginaDescriptor.describeVagina(enemy, enemy.torso.vaginas.get(0)) + "s until they're totally fertilized and pregnant.";
+                out += "our " + Desc.Cock.describeMultiCockShort(character) + " dribbles pre-cum as you think about plowing " + enemy.desc.a + enemy.desc.short + " right here and now, fucking " + enemy.desc.possessivePronoun + " " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + "s until they're totally fertilized and pregnant.";
             else
-                out += "our " + CockDescriptor.describeMultiCockShort(character) + " dribbles pre-cum as you think about plowing " + enemy.desc.a + enemy.desc.short + " right here and now, fucking " + enemy.desc.possessivePronoun + " " + VaginaDescriptor.describeVagina(enemy, enemy.torso.vaginas.get(0)) + " until it's totally fertilized and pregnant.";
+                out += "our " + Desc.Cock.describeMultiCockShort(character) + " dribbles pre-cum as you think about plowing " + enemy.desc.a + enemy.desc.short + " right here and now, fucking " + enemy.desc.possessivePronoun + " " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + " until it's totally fertilized and pregnant.";
             DisplayText(out);
             DisplayText("\n\n");
         }

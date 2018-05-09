@@ -1,12 +1,12 @@
-import IPregnancyEvent from './IPregnancyEvent';
-import Pregnancy, { PregnancyType } from './Pregnancy';
-import DisplayText from '../../../Engine/display/DisplayText';
-import ISerializable from '../../../Engine/Utilities/ISerializable';
+import { IPregnancyEvent } from './IPregnancyEvent';
+import { Pregnancy, PregnancyType } from './Pregnancy';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Creature from '../Creature';
-import Vagina from '../Vagina';
+import { Creature } from '../Creature';
+import { Vagina } from '../Vagina';
 
-export default class Womb implements ISerializable<Womb> {
+export class Womb implements ISerializable<Womb> {
     protected currentPregnancy: Pregnancy;
     protected pregEvent: IPregnancyEvent;
     protected body: Creature;

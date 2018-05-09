@@ -1,9 +1,9 @@
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
 export class RaphaelsRapier extends Weapon {
     public constructor() {

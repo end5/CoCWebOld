@@ -1,10 +1,10 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../Engine/Display/MainScreen';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import Inventory from '../../Inventory/Inventory';
-import ItemStack from '../../Inventory/ItemStack';
-import Item from '../../Items/Item';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { Inventory } from '../../Inventory/Inventory';
+import { ItemStack } from '../../Inventory/ItemStack';
+import { Item } from '../../Items/Item';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
 
 /* better inventory system
     other inv = null
@@ -49,7 +49,7 @@ interface AddItemsRequest<T extends Item> {
  * @param fixedTextList A list of text to appear on the buttons. If a string is empty or undefined, the button will be disabled.
  * @param fixedFuncList A list of ClickFunctions that will trigger when the buttons are clicked. If the ClickFunction is null or undefined, the button is disabled.
  */
-export function displayCharInventory(character: Character, fixedTextList: string[], fixedFuncList: ClickFunction[]) {
+export function displayCharInventory(character: Character, fixedTextList: string[], fixedFuncList: ClickFunction[]): NextScreenChoices {
     const buttonText = [];
     const buttonFunc = [];
     const inventory = character.inventory.items;
@@ -64,7 +64,7 @@ export function displayCharInventory(character: Character, fixedTextList: string
             });
         }
     }
-    MainScreen.displayChoices(buttonText, buttonFunc, fixedTextList, fixedFuncList);
+    return { choices: [buttonText, buttonFunc], persistantChoices: [fixedTextList, fixedFuncList] };
 }
 
 /**
@@ -73,7 +73,7 @@ export function displayCharInventory(character: Character, fixedTextList: string
  * @param character The character inspecting the inventory.
  * @param prevMenu The menu to return to by pressing Back.
  */
-export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
+export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
     const buttonText = [];
     const buttonFunc = [];
     const invTakingFrom = inventory;
@@ -86,19 +86,17 @@ export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, ch
                 const pickedUpItem = itemSlot.split(1);
                 const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
                 if (itemsCannotAdd.length > 0) {
-                    const request = createAddItemsRequest(character, itemsCannotAdd, () => {
-                        displayInventoryTake(invTakingFrom, character, prevMenu);
-                    }, invTakingFrom);
+                    const request = createAddItemsRequest(character, itemsCannotAdd, () => displayInventoryTake(invTakingFrom, character, prevMenu), invTakingFrom);
                     request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
                     invFull(request);
                 }
             });
         }
     }
-    MainScreen.displayChoices(buttonText, buttonFunc, ["Put", "Back"], [() => { inventoryPut(inventory, character, prevMenu); }, prevMenu]);
+    return { choices: [buttonText, buttonFunc], persistantChoices: [["Put", "Back"], [() => inventoryPut(inventory, character, prevMenu), prevMenu]] };
 }
 
-function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction) {
+function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
     const buttonText = [];
     const buttonFunc = [];
     const invTakingFrom = character.inventory.items;
@@ -112,7 +110,7 @@ function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Charac
                 const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
                 if (itemsCannotAdd.length > 0) {
                     const request = createAddItemsRequest(character, itemsCannotAdd, () => {
-                        displayInventoryTake(invTakingFrom, character, prevMenu);
+                        return displayInventoryTake(invTakingFrom, character, prevMenu);
                     }, invTakingFrom);
                     request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
                     invFull(request);
@@ -120,7 +118,7 @@ function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Charac
             });
         }
     }
-    MainScreen.displayChoices(buttonText, buttonFunc, ["Take", "Back"], [() => { displayInventoryTake(inventory, character, prevMenu); }, prevMenu]);
+    return { choices: [buttonText, buttonFunc], persistantChoices: [["Take", "Back"], [() => displayInventoryTake(inventory, character, prevMenu), prevMenu]] };
 }
 
 function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpItem: ItemStack<T>): ReverseAction {
@@ -140,14 +138,17 @@ function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpIte
  * @param itemsToAdd The items that cannot be added to the characters inventory.
  * @param nextMenu The menu to go to once the decision is made.
  */
-export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction) {
+export function displayCharInventoryFull<T extends Item>(character: Character, itemsToAdd: ItemStack<T>[], nextMenu: ClickFunction): NextScreenChoices {
     if (itemsToAdd.length > 0) {
         const request = createAddItemsRequest(character, itemsToAdd, nextMenu);
         invFull(request);
     }
+    else {
+        return { next: nextMenu };
+    }
 }
 
-function invFull<T extends Item>(request: AddItemsRequest<T>) {
+function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices {
     const buttonText = [];
     const buttonFunc = [];
     const inventory = request.character.inventory.items;
@@ -156,7 +157,7 @@ function invFull<T extends Item>(request: AddItemsRequest<T>) {
         const itemSlot = inventory.get(index);
         if (itemSlot.quantity > 0) {
             buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
-            buttonFunc.push(discardFromInventory(itemSlot, itemToAdd));
+            buttonFunc.push(discardFromInventory(request, itemSlot, itemToAdd));
         }
     }
     if (request.itemList.length > 0) {
@@ -171,11 +172,16 @@ function invFull<T extends Item>(request: AddItemsRequest<T>) {
         fixedFuncList.push(useNow(request));
         fixedTextList.push("Abandon");
         fixedFuncList.push(abandon(request));
-        MainScreen.displayChoices(buttonText, buttonFunc, ["Back"], [request.menuToDisplayUponFinish]);
+        return {
+            choices: [buttonText, buttonFunc], persistantChoices: [["Back"], [request.menuToDisplayUponFinish]]
+        };
+    }
+    else {
+        return request.menuToDisplayUponFinish(User.char);
     }
 }
 
-function discardFromInventory<T extends Item>(slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickFunction {
+function discardFromInventory<T extends Item>(request: AddItemsRequest<T>, slotInInv: ItemStack<T>, itemToAdd: ItemStack<T>): ClickFunction {
     return () => {
         if (slotInInv.item === itemToAdd.item)
             DisplayText("You discard " + itemToAdd.item.desc.longName + " from the stack to make room for the new one.");
@@ -185,6 +191,8 @@ function discardFromInventory<T extends Item>(slotInInv: ItemStack<T>, itemToAdd
             DisplayText("You throw away " + slotInInv.item.desc.longName + "(x" + slotInInv.quantity + ") and replace it with " + itemToAdd.item.desc.longName + ".");
         slotInInv.item = itemToAdd.item;
         slotInInv.quantity = itemToAdd.quantity;
+        request.itemList.shift();
+        return { next: () => invFull(request) };
     };
 }
 
@@ -202,7 +210,7 @@ function putBack<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
     return () => {
         request.reverseActionFunc();
         request.reverseActionFunc = null;
-        displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
+        return displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
     };
 }
 
@@ -213,18 +221,18 @@ function useNow<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
             itemToAdd.item.use(request.character);
             itemToAdd.item.useText(request.character);
             request.reverseActionFunc = null;
-            destroyItem(request);
+            return destroyItem(request);
         }
     };
 }
 
 function abandon<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
     return () => {
-        destroyItem(request);
+        return destroyItem(request);
     };
 }
 
-function destroyItem<T extends Item>(request: AddItemsRequest<T>) {
+function destroyItem<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices {
     const itemToDestroy = request.itemList[0];
     itemToDestroy.quantity--;
     if (itemToDestroy.quantity <= 0)
@@ -232,5 +240,5 @@ function destroyItem<T extends Item>(request: AddItemsRequest<T>) {
     if (request.itemList.length > 0)
         invFull(request);
     else
-        MainScreen.doNext(request.menuToDisplayUponFinish);
+        return { next: request.menuToDisplayUponFinish };
 }

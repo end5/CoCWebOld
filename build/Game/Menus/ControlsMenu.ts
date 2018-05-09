@@ -1,16 +1,16 @@
-import Menus from './Menus';
-import DisplayText from '../../Engine/display/DisplayText';
-import ButtonElement from '../../Engine/Display/Elements/ButtonElement';
-import ListEntryElement from '../../Engine/Display/Elements/ListItemElement';
-import ParagraphElement from '../../Engine/display/Elements/ParagraphElement';
-import UnorderedListElement from '../../Engine/Display/Elements/UnorderedListElement';
-import MainScreen from '../../Engine/Display/MainScreen';
-import BindableAction from '../../Engine/Input/BindableAction';
-import InputManager from '../../Engine/Input/InputManager';
-import KeyCombination from '../../Engine/Input/KeyCombination';
-import Character from '../Character/Character';
+import { Menus } from './Menus';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { ButtonElement } from '../../Engine/Display/Elements/ButtonElement';
+import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
+import { ParagraphElement } from '../../Engine/display/Elements/ParagraphElement';
+import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
+import { BindableAction } from '../../Engine/Input/BindableAction';
+import { InputManager } from '../../Engine/Input/InputManager';
+import { KeyCombination } from '../../Engine/Input/KeyCombination';
+import { Character } from '../Character/Character';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default function display() {
+export function display(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("<b>Keyboard Control Bindings:</b>\n\n");
     DisplayText("Click a button next to the action you wish to bind to a new key, then hit the key you want to bind the selected action to.\n\n");
@@ -53,7 +53,7 @@ export default function display() {
     listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
     listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-    MainScreen.displayChoices(["Reset Ctrls", "Clear Ctrls"], [resetControls, clearControls], ["Back"], [Menus.Settings]);
+    return { choices: [["Reset Ctrls", "Clear Ctrls"], [resetControls, clearControls]], persistantChoices: [["Back"], [Menus.Settings]] };
 }
 
 function listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {
@@ -105,37 +105,37 @@ function listBindableAction(bindListElement: UnorderedListElement, text: string,
     button2.style.marginLeft = parseFloat(button1.computedStyle.width) + 200 + "px";
 }
 
-function resetControls() {
+function resetControls(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Are you sure you want to reset all of the currently bound controls to their defaults?");
 
-    MainScreen.doYesNo(resetControlsYes, display);
+    return { yes: resetControlsYes, no: display };
 }
 
-function resetControlsYes(): void {
+function resetControlsYes(): NextScreenChoices {
     InputManager.resetAll();
 
     DisplayText().clear();
     DisplayText("Controls have been reset to defaults!");
 
-    MainScreen.doNext(display);
+    return { next: display };
 }
 
-function clearControls(): void {
+function clearControls(): NextScreenChoices {
 
     DisplayText().clear();
     DisplayText("Are you sure you want to clear all of the currently bound controls?");
 
-    MainScreen.doYesNo(clearControlsYes, display);
+    return { yes: clearControlsYes, no: display };
 }
 
-function clearControlsYes(): void {
+function clearControlsYes(): NextScreenChoices {
     InputManager.clearAll();
 
     DisplayText().clear();
     DisplayText("Controls have been cleared!");
 
-    MainScreen.doNext(display);
+    return { next: display };
 }
 
 /*

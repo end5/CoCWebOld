@@ -1,4 +1,4 @@
-﻿import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum LegType {
     HUMAN, HOOFED, DOG, NAGA, CENTAUR, DEMONIC_HIGH_HEELS, DEMONIC_CLAWS, BEE,
@@ -6,7 +6,7 @@ export enum LegType {
     DRIDER_LOWER_BODY, FOX, DRAGON, RACCOON, FERRET
 }
 
-export default class Legs implements ISerializable<Legs> {
+export class Legs implements ISerializable<Legs> {
     public type: LegType = LegType.HUMAN;
 
     public isBiped(): boolean {

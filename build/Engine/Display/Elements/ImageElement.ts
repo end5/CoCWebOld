@@ -1,6 +1,6 @@
-import ScreenElement from './ScreenElement';
+import { ScreenElement } from './ScreenElement';
 
-export default class ImageElement extends ScreenElement {
+export class ImageElement extends ScreenElement {
     public constructor() {
         super();
         this.htmlElement = document.createElement('img');

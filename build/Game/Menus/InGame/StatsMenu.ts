@@ -1,13 +1,13 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import Cock from '../../Body/Cock';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Cock } from '../../Body/Cock';
 import * as Spells from '../../Character/Player/CombatActions/PerformActions';
-import Player from '../../Character/Player/Player';
+import { Player } from '../../Character/Player/Player';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Menus from '../Menus';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { Menus } from '../Menus';
 
-export default function display(player: Player) {
+export function display(player: Player): NextScreenChoices {
     // DisplaySprite.hide();
     DisplayText().clear();
 
@@ -337,5 +337,5 @@ export default function display(player: Player) {
         DisplayText("\n<b><u>Ongoing Status Effects</u></b>\n" + statEffects);
     // End Ongoing Stat Effects
 
-    MainScreen.doNext(Menus.Player);
+    return { next: Menus.Player };
 }

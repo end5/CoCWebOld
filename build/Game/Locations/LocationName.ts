@@ -1,4 +1,4 @@
-enum LocationName {
+export enum LocationName {
     Cathedral = "Cathedral",
     Desert = "Desert",
     TelAdre = "TelAdre",
@@ -13,4 +13,3 @@ enum LocationName {
     Bog = "Bog",
     BeyondCamp = "BeyondCamp"
 }
-export default LocationName;

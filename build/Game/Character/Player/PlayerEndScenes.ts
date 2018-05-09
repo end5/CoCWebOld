@@ -1,13 +1,13 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { DefeatType } from '../../Combat/DefeatEvent';
-import EndScenes from '../../Combat/EndScenes';
+import { EndScenes } from '../../Combat/EndScenes';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Scenes from '../../Scenes/Scenes';
-import Character from '../Character';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { Scenes } from '../../Scenes/Scenes';
+import { Character } from '../Character';
 
-export default class PlayerEndScenes extends EndScenes {
+export class PlayerEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
         return false;
     }
@@ -46,20 +46,19 @@ export default class PlayerEndScenes extends EndScenes {
     }
 
     public readonly hasVictoryScene = false;
-    protected victoryScene(howYouWon: DefeatType, enemy: Character): void { }
+    protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
+        return { next: Scenes.camp.returnToCampUseOneHour };
+    }
 
     public readonly hasDefeatScene = false;
-    protected defeatScene(howYouLost: DefeatType, enemy: Character): void { }
-
-    public defeatAftermath(howYouLost: DefeatType, enemy: Character): void {
+    protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
         if (enemy.statusAffects.get(StatusAffectType.Sparring).value1 === 2) {
             DisplayText().clear();
             DisplayText("The cow-girl has defeated you in a practice fight!");
             DisplayText("\n\nYou have to lean on Isabella's shoulder while the two of your hike back to camp.  She clearly won.");
             // Game.inCombat = false;
             this.char.stats.HP = 1;
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-            return;
+            return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else if (enemy.statusAffects.has(StatusAffectType.PeachLootLoss)) {
             // Game.inCombat = false;
@@ -69,8 +68,7 @@ export default class PlayerEndScenes extends EndScenes {
         else if (enemy.desc.short === "Ember") {
             // Game.inCombat = false;
             this.char.stats.HP = 1;
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-            return;
+            return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else {
             let lostGems: number = randInt(10) + 1;
@@ -118,10 +116,6 @@ export default class PlayerEndScenes extends EndScenes {
         // }
         // else MainScreen.doNext(createCallBackFunction(Scenes.camp.returnToCamp, timePasses));
 
-        MainScreen.doNext(Scenes.camp.returnToCampUseEightHours);
-    }
-
-    public victoryAftermath(howYouWon: DefeatType, enemy: Character): void {
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+        return { next: Scenes.camp.returnToCampUseEightHours };
     }
 }

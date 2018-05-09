@@ -1,14 +1,14 @@
-import ActionPerform from './ActionPerform';
-import ActionRespond from './ActionRespond';
-import CombatRewards from './CombatRewards';
-import CombatStats from './CombatStats';
-import DefaultRespond from './Default/DefaultRespond';
-import EndScenes from './EndScenes';
-import Character from '../Character/Character';
-import CombatEffectList from '../Effects/CombatEffectList';
+import { ActionPerform } from './ActionPerform';
+import { ActionRespond } from './ActionRespond';
+import { CombatRewards } from './CombatRewards';
+import { CombatStats } from './CombatStats';
+import { DefaultRespond } from './Default/DefaultRespond';
+import { EndScenes } from './EndScenes';
+import { Character } from '../Character/Character';
+import { CombatEffectList } from '../Effects/CombatEffectList';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
-export default class CombatContainer {
+export class CombatContainer {
     private character: Character;
     public readonly perform: ActionPerform;
     public readonly respond: ActionRespond;

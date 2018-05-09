@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import * as LegDescriptor from '../../../../Descriptors/LegDescriptor';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
+import { NextScreenChoices } from '../../../../SceneDisplay';
 import { numToCardinalText } from '../../../../Utilities/NumToText';
-import Character from '../../../Character';
+import { Character } from '../../../Character';
 
 export class Struggle implements CombatAction {
     public name: string = "Struggle";
@@ -18,7 +19,8 @@ export class Struggle implements CombatAction {
         return false;
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
+        return;
         // if (monster.statusAffects.has(StatusAffectType.MinotaurEntangled)) {
         //     DisplayText().clear();
         //     if (character.stats.str / 9 + randInt(20) + 1 >= 15) {
@@ -87,7 +89,7 @@ export class Struggle implements CombatAction {
         // DisplayText("You struggle with all of your might to free yourself from the tentacles before the creature can fulfill whatever unholy desire it has for you.\n");
         // // 33% chance to break free + up to 50% chance for strength
         // if (randInt(3) === 0 || randInt(80) < character.stats.str / 2) {
-        //     DisplayText("As the creature attempts to adjust your position in its grip, you free one of your " + LegDescriptor.describeLegs(character) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
+        //     DisplayText("As the creature attempts to adjust your position in its grip, you free one of your " + Desc.Leg.describeLegs(character) + " and hit the beast in its beak, causing it to let out an inhuman cry and drop you to the ground smartly.\n\n");
         //     character.statusAffects.remove(StatusAffectType.TentacleBind);
         //     monster.statusAffects.add(StatusAffectType.TentacleCoolDown, 3, 0, 0, 0);
         //     enemyAI();

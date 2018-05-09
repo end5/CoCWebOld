@@ -1,9 +1,9 @@
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
 export class LargeHammer extends Weapon {
     public constructor() {

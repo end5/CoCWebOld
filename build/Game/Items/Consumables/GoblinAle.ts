@@ -1,6 +1,6 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
 import { EarType } from '../../Body/Ears';
@@ -10,19 +10,15 @@ import { AntennaeType } from '../../Body/Head';
 import { SkinType } from '../../Body/Skin';
 import { VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class GoblinAle extends Consumable {
+export class GoblinAle extends Consumable {
     public constructor() {
         super(ConsumableName.GoblinAle, new ItemDesc("Gob.Ale", "a flagon of potent goblin ale", "This sealed flagon of 'Goblin Ale' sloshes noisily with alcoholic brew.  Judging by the markings on the flagon, it's a VERY strong drink, and not to be trifled with."));
     }
@@ -88,7 +84,7 @@ export default class GoblinAle extends Consumable {
         // Multidick killa!
         if (character.torso.cocks.count > 1 && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\n");
-            CockModifier.displayKillCocks(character, 1);
+            Mod.Cock.displayKillCocks(character, 1);
             changes++;
         }
         // Boost vaginal capacity without gaping
@@ -96,7 +92,7 @@ export default class GoblinAle extends Consumable {
             if (!character.statusAffects.has(StatusAffectType.BonusVCapacity))
                 character.statusAffects.add(StatusAffectType.BonusVCapacity, 0, 0, 0, 0);
             character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 5;
-            DisplayText("\n\nThere is a sudden... emptiness within your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".  Somehow you know you could accommodate even larger... insertions.");
+            DisplayText("\n\nThere is a sudden... emptiness within your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".  Somehow you know you could accommodate even larger... insertions.");
             changes++;
         }
         // Boost fertility
@@ -116,8 +112,8 @@ export default class GoblinAle extends Consumable {
                     character.torso.cocks.get(0).length -= .5;
                     temp3 -= .5;
                 }
-                temp3 += CockModifier.growCock(character, character.torso.cocks.get(0), (randInt(3) + 1) * -1);
-                CockModifier.displayLengthChange(character, temp3, 1);
+                temp3 += Mod.Cock.growCock(character, character.torso.cocks.get(0), (randInt(3) + 1) * -1);
+                Mod.Cock.displayLengthChange(character, temp3, 1);
             }
         }
         // GENERAL APPEARANCE STUFF BELOW
@@ -131,7 +127,7 @@ export default class GoblinAle extends Consumable {
         }
         // Removes wings and antennaes!
         if (character.torso.neck.head.antennae > AntennaeType.NONE && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nYour " + HeadDescriptor.describeHair(character) + " itches so you give it a scratch, only to have your antennae fall to the ground.  What a relief.  <b>You've lost your antennae!</b>");
+            DisplayText("\n\nYour " + Desc.Head.describeHair(character) + " itches so you give it a scratch, only to have your antennae fall to the ground.  What a relief.  <b>You've lost your antennae!</b>");
             changes++;
             character.torso.neck.head.antennae = AntennaeType.NONE;
         }
@@ -141,7 +137,7 @@ export default class GoblinAle extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -152,10 +148,10 @@ export default class GoblinAle extends Consumable {
         if (changes < changeLimit && character.torso.chest.count > 1 && randInt(3) === 0) {
             changes++;
             const lastRow = character.torso.chest.get(character.torso.chest.count - 1);
-            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(lastRow) + " shrink down, disappearing completely into your ");
+            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + Desc.Breast.describeBreastRow(lastRow) + " shrink down, disappearing completely into your ");
             if (character.torso.chest.count >= 3) DisplayText("abdomen");
             else DisplayText("chest");
-            DisplayText(". The " + BreastDescriptor.describeNipple(character, lastRow) + "s even fade until nothing but ");
+            DisplayText(". The " + Desc.Breast.describeNipple(character, lastRow) + "s even fade until nothing but ");
             if (character.skin.type === SkinType.FUR) DisplayText(character.torso.neck.head.hair.color + " " + character.skin.desc);
             else DisplayText(character.skin.tone + " " + character.skin.desc);
             DisplayText(" remains. <b>You've lost a row of breasts!</b>");
@@ -193,7 +189,7 @@ export default class GoblinAle extends Consumable {
         }
         // Ears!
         if (character.torso.neck.head.ears.type !== EarType.ELFIN && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nA weird tingling runs through your scalp as your " + HeadDescriptor.describeHair(character) + " shifts slightly.  You reach up to touch and bump <b>your new pointed elfin ears</b>.  You bet they look cute!");
+            DisplayText("\n\nA weird tingling runs through your scalp as your " + Desc.Head.describeHair(character) + " shifts slightly.  You reach up to touch and bump <b>your new pointed elfin ears</b>.  You bet they look cute!");
             changes++;
             character.torso.neck.head.ears.type = EarType.ELFIN;
         }
@@ -204,7 +200,7 @@ export default class GoblinAle extends Consumable {
         }
         // Nipples Turn Back:
         if (character.statusAffects.has(StatusAffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            DisplayText("\n\nSomething invisible brushes against your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.statusAffects.remove(StatusAffectType.BlackNipples);
         }
@@ -221,9 +217,9 @@ export default class GoblinAle extends Consumable {
             changes++;
         }
         if (changes < changeLimit && randInt(3) === 0) {
-            if (randInt(2) === 0) BodyModifier.displayModFem(character, 85, 3);
-            if (randInt(2) === 0) BodyModifier.displayModThickness(character, 20, 3);
-            if (randInt(2) === 0) BodyModifier.displayModTone(character, 15, 5);
+            if (randInt(2) === 0) Mod.Body.displayModFem(character, 85, 3);
+            if (randInt(2) === 0) Mod.Body.displayModThickness(character, 20, 3);
+            if (randInt(2) === 0) Mod.Body.displayModTone(character, 15, 5);
         }
     }
 }

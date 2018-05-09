@@ -1,9 +1,9 @@
-import ISerializable from './ISerializable';
-import List from './List';
+import { ISerializable } from './ISerializable';
+import { List } from './List';
 
 type constr = new (...args) => any;
 
-export default class ListSerializer {
+export class ListSerializer {
     public static serialize(list: List<any>): string {
         const saveObject: object = {};
         for (let index = 0; index < list.count; index++) {

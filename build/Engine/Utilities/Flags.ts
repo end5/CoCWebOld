@@ -1,6 +1,6 @@
-import ISerializable from './ISerializable';
+import { ISerializable } from './ISerializable';
 
-export default class Flags implements ISerializable<Flags> {
+export class Flags implements ISerializable<Flags> {
     public readonly list: object;
     private keys: object;
 

@@ -1,8 +1,8 @@
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
 export class Katana extends Weapon {
     public constructor() {

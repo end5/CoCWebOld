@@ -1,12 +1,13 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
-import Character from '../../../../Character/Character';
+import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import StatusAffectFactory from '../../../../Effects/StatusAffectFactory';
+import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class NagaBite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -21,7 +22,7 @@ export class NagaBite extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!

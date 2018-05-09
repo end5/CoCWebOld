@@ -1,12 +1,13 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen, { TopButton } from '../../../Engine/Display/MainScreen';
-import Menus from '../Menus';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { Menus } from '../Menus';
 
-export default function display() {
+export function display(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("\n\n<b>GAME OVER</b>");
-    // MainScreen.displayChoices(["Game Over", "NewGamePlus"], [gameOverMenuOverride, Menus.CharCreation.newGamePlus]);
-    MainScreen.displayChoices(["Game Over", "NewGamePlus"], [gameOverMenuOverride, undefined]);
+    // return { choices: [["Game Over", "NewGamePlus"], [gameOverMenuOverride, Menus.CharCreation.newGamePlus]] };
+    return { choices: [["Game Over", "NewGamePlus"], [gameOverMenuOverride, undefined]] };
 
     // MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
     // MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);
@@ -30,8 +31,9 @@ public gameOver(clear: boolean = false): void { //Leaves text on screen unless c
     dungeonLoc = 0; //Replaces inDungeon = false;
 }
 */
-function gameOverMenuOverride() { // Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
+function gameOverMenuOverride(): NextScreenChoices { // Game over event; override whatever the fuck has been done to the UI up to this point to force display of the data and new game buttons
     MainScreen.hideTopButtons();
     MainScreen.getTopButton(TopButton.MainMenu).show();
     MainScreen.getTopButton(TopButton.Data).show();
+    return Menus.Main();
 }

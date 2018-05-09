@@ -1,5 +1,5 @@
 ﻿import { randInt, randomChoice } from '../../Engine/Utilities/SMath';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
 // ballsDescriptLight(forcedSize, true, this)

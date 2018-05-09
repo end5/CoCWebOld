@@ -1,5 +1,5 @@
-﻿import Nipples from './Nipples';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { Nipples } from './Nipples';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 
 export enum BreastCup {
@@ -13,7 +13,7 @@ export enum BreastCup {
     X, X_LARGE, XX, XX_LARGE, Y, Y_LARGE, YY, YY_LARGE, Z, Z_LARGE, ZZ, ZZ_LARGE, ZZZ, ZZZ_LARGE
 }
 
-export default class BreastRow implements ISerializable<BreastRow> {
+export class BreastRow implements ISerializable<BreastRow> {
     public static readonly BreastRatingLargest: SortOption<BreastRow> = (a: BreastRow, b: BreastRow) => {
         return a.rating - b.rating;
     }

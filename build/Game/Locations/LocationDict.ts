@@ -1,8 +1,8 @@
-import Location from './Location';
-import LocationName from './LocationName';
-import Dictionary from '../../Engine/Utilities/Dictionary';
+import { Location } from './Location';
+import { LocationName } from './LocationName';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
 
-export default class LocationDict extends Dictionary<Location> {
+export class LocationDict extends Dictionary<Location> {
     public get(locationName: LocationName): Location {
         if (!this.has(locationName)) {
             this.set(locationName, new Location(locationName));

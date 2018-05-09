@@ -1,10 +1,10 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum TongueType {
     HUMAN, SNAKE, DEMONIC, DRACONIC
 }
 
-export default class Tongue implements ISerializable<Tongue> {
+export class Tongue implements ISerializable<Tongue> {
     public type: TongueType = TongueType.HUMAN;
 
     public serialize(): string {

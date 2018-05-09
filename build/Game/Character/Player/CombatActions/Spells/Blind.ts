@@ -1,8 +1,9 @@
-import WhiteMagic from './WhiteMagic';
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { WhiteMagic } from './WhiteMagic';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 
 export class Blind extends WhiteMagic {
@@ -21,7 +22,7 @@ export class Blind extends WhiteMagic {
         return super.canUse(character);
     }
 
-    public castSpell(character: Character, monster: Character) {
+    public castSpell(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {

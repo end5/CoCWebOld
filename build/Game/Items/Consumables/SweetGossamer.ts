@@ -1,29 +1,24 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
+import { BreastRow } from '../../Body/BreastRow';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class SweetGossamer extends Consumable {
+export class SweetGossamer extends Consumable {
     private sweet: boolean;
     public constructor(sweet: boolean) {
         if (!sweet)
@@ -73,7 +68,7 @@ export default class SweetGossamer extends Consumable {
         }
         // (increase toughness to 60)
         if (changes < changeLimit && randInt(3) === 0 && character.stats.tou < 60) {
-            DisplayText("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + SkinDescriptor.skinFurScales(character) + " doesn't feel much different, the underlying flesh does seem tougher.");
+            DisplayText("\n\nStretching languidly, you realize you're feeling a little tougher than before, almost as if you had a full-body shell of armor protecting your internal organs.  How strange.  You probe at yourself, and while your " + Desc.Skin.skinFurScales(character) + " doesn't feel much different, the underlying flesh does seem tougher.");
             character.stats.tou += 1;
             changes++;
         }
@@ -98,7 +93,7 @@ export default class SweetGossamer extends Consumable {
         // (tightens vagina to 1, increases lust/libido)
         if (character.torso.vaginas.count > 0) {
             if (character.torso.vaginas.get(0).looseness > 1 && changes < changeLimit && randInt(3) === 0) {
-                DisplayText("\n\nWith a gasp, you feel your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
+                DisplayText("\n\nWith a gasp, you feel your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " tightening, making you leak sticky girl-juice. After a few seconds, it stops, and you rub on your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " excitedly. You can't wait to try this out!");
                 character.stats.lib += 2;
                 character.stats.lust += 25;
                 changes++;
@@ -107,7 +102,7 @@ export default class SweetGossamer extends Consumable {
         }
         // (tightens asshole to 1, increases lust)
         if (character.torso.butt.looseness > 1 && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nYou let out a small cry as your " + ButtDescriptor.describeButthole(character.torso.butt) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
+            DisplayText("\n\nYou let out a small cry as your " + Desc.Butt.describeButthole(character.torso.butt) + " shrinks, becoming smaller and tighter. When it's done, you feel much hornier and eager to stretch it out again.");
             character.stats.lib += 2;
             character.stats.lust += 25;
             changes++;
@@ -126,7 +121,7 @@ export default class SweetGossamer extends Consumable {
             }
             // If something got thickened
             if (cockGotThickened) {
-                DisplayText("\n\nYou can feel your " + CockDescriptor.describeMultiCockShort(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
+                DisplayText("\n\nYou can feel your " + Desc.Cock.describeMultiCockShort(character) + " filling out in your " + character.inventory.equipment.armor.displayName + ". Pulling ");
                 if (character.torso.cocks.count === 1) DisplayText("it");
                 else DisplayText("them");
                 DisplayText(" out, you look closely.  ");
@@ -140,14 +135,14 @@ export default class SweetGossamer extends Consumable {
         if (character.torso.chest.count > 0) {
             const smallestBreastRow = character.torso.chest.sort(BreastRow.BreastRatingSmallest)[0];
             if (smallestBreastRow.rating < 6 && changes < changeLimit && randInt(4) === 0) {
-                DisplayText("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + BreastDescriptor.describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
+                DisplayText("\n\nAfter eating it, your chest aches and tingles, and your hands reach up to scratch at it unthinkingly.  Silently, you hope that you aren't allergic to it.  Just as you start to scratch at your " + Desc.Breast.describeBreastRow(smallestBreastRow) + ", your chest pushes out in slight but sudden growth.");
                 smallestBreastRow.rating++;
                 changes++;
             }
         }
         // [Increase to Ass Size] - to 11
         if (character.torso.butt.rating < 11 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nYou look over your shoulder at your " + ButtDescriptor.describeButt(character) + " only to see it expand just slightly. You gape in confusion before looking back at the remaining silk in your hands. You finish it anyway. Dammit!");
+            DisplayText("\n\nYou look over your shoulder at your " + Desc.Butt.describeButt(character) + " only to see it expand just slightly. You gape in confusion before looking back at the remaining silk in your hands. You finish it anyway. Dammit!");
             character.torso.butt.rating++;
             changes++;
         }
@@ -162,7 +157,7 @@ export default class SweetGossamer extends Consumable {
         }
         // (Fur/Scales fall out)
         if (character.skin.type !== SkinType.PLAIN && (character.torso.neck.head.ears.type === EarType.HUMAN || character.torso.neck.head.ears.type === EarType.ELFIN) && randInt(4) === 0 && changes < changeLimit) {
-            DisplayText("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + SkinDescriptor.skinFurScales(character) + " ");
+            DisplayText("\n\nA slowly-building itch spreads over your whole body, and as you idly scratch yourself, you find that your " + Desc.Skin.skinFurScales(character) + " ");
             if (character.skin.type === SkinType.SCALES) DisplayText("are");
             else DisplayText("is");
             DisplayText(" falling to the ground, revealing flawless, almost pearly-white skin underneath.  <b>You now have pale white skin.</b>");
@@ -182,10 +177,10 @@ export default class SweetGossamer extends Consumable {
         if (changes < changeLimit && character.torso.chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
             const bottomBreastRow: BreastRow = character.torso.chest.get(character.torso.chest.count - 1);
-            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
+            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + Desc.Breast.describeBreastRow(bottomBreastRow) + " shrink down, disappearing completely into your ");
             if (character.torso.chest.count >= 3) DisplayText("abdomen");
             else DisplayText("chest");
-            DisplayText(". The " + BreastDescriptor.describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
+            DisplayText(". The " + Desc.Breast.describeNipple(character, bottomBreastRow) + "s even fade until nothing but ");
             if (character.skin.type === SkinType.FUR) DisplayText(character.torso.neck.head.hair.color + " " + character.skin.desc);
             else DisplayText(character.skin.tone + " " + character.skin.desc);
             DisplayText(" remains. <b>You've lost a row of breasts!</b>");
@@ -194,7 +189,7 @@ export default class SweetGossamer extends Consumable {
         }
         // -Nipples reduction to 1 per tit.
         if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            DisplayText("\n\nA chill runs over your " + Desc.Breast.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("'breast'.");
             else DisplayText("breast.");
             changes++;
@@ -227,7 +222,7 @@ export default class SweetGossamer extends Consumable {
             DisplayText("\n\n");
             // (Bird pretext)
             if (character.torso.arms.type === ArmType.HARPY) DisplayText("The feathers covering your arms fall away, leaving them to return to a far more human appearance.  ");
-            DisplayText("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + SkinDescriptor.skinFurScales(character) + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.");
+            DisplayText("You watch, spellbound, while your forearms gradually become shiny.  The entire outer structure of your arms tingles while it divides into segments, turning the " + Desc.Skin.skinFurScales(character) + " into a shiny black carapace.  You touch the onyx exoskeleton and discover to your delight that you can still feel through it as naturally as your own skin.");
             character.torso.arms.type = ArmType.SPIDER;
             changes++;
         }
@@ -272,7 +267,7 @@ export default class SweetGossamer extends Consumable {
             changes < changeLimit &&
             randInt(4) === 0
         ) {
-            DisplayText("\n\nStarting at your " + LegDescriptor.describeFeet(character) + ", a tingle runs up your " + LegDescriptor.describeLegs(character) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + ButtDescriptor.describeButt(character) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
+            DisplayText("\n\nStarting at your " + Desc.Leg.describeFeet(character) + ", a tingle runs up your " + Desc.Leg.describeLegs(character) + ", not stopping until it reaches your thighs.  From the waist down, your strength completely deserts you, leaving you to fall hard on your " + Desc.Butt.describeButt(character) + " in the dirt.  With nothing else to do, you look down, only to be mesmerized by the sight of black exoskeleton creeping up a perfectly human-looking calf.  It crests up your knee to envelop the joint in a many-faceted onyx coating.  Then, it resumes its slow upward crawl, not stopping until it has girded your thighs in glittery, midnight exoskeleton.  From a distance it would look almost like a black, thigh-high boot, but you know the truth.  <b>You now have human-like legs covered in a black, arachnid exoskeleton.</b>");
             character.torso.hips.legs.type = LegType.CHITINOUS_SPIDER_LEGS;
             changes++;
         }
@@ -280,9 +275,9 @@ export default class SweetGossamer extends Consumable {
         if (!character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false) && (character.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS || character.torso.hips.legs.type === LegType.DRIDER_LOWER_BODY) && character.torso.arms.type === ArmType.SPIDER && randInt(4) === 0) {
             DisplayText("\n\n");
             // (Pre-existing tails)
-            if (character.torso.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + ButtDescriptor.describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(character) + "!</b>\n\n");
+            if (character.torso.tails.count > 0) DisplayText("Your tail shudders as heat races through it, twitching violently until it feels almost as if it's on fire.  You jump from the pain at your " + Desc.Butt.describeButt(character) + " and grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + Desc.Butt.describeButt(character) + "!</b>\n\n");
             // (No tail)
-            else DisplayText("A burst of pain hits you just above your " + ButtDescriptor.describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + SkinDescriptor.skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + ButtDescriptor.describeButt(character) + "!</b>");
+            else DisplayText("A burst of pain hits you just above your " + Desc.Butt.describeButt(character) + ", coupled with a sensation of burning heat and pressure.  You can feel your " + Desc.Skin.skinFurScales(character) + " tearing as something forces its way out of your body.  Reaching back, you grab at it with your hands.  It's huge... and you can feel it hardening under your touches, firming up until the whole tail has become rock-hard and spherical in shape.  The heat fades, leaving behind a gentle warmth, and you realize your tail has become a spider's abdomen!  With one experimental clench, you even discover that it can shoot webs from some of its spinnerets, both sticky and non-adhesive ones.  That may prove useful.  <b>You now have a spider's abdomen hanging from above your " + Desc.Butt.describeButt(character) + "!</b>");
             character.torso.tails.clear();
             const newTail = new Tail(TailType.SPIDER_ABDOMEN);
             newTail.vemon = 5;
@@ -292,7 +287,7 @@ export default class SweetGossamer extends Consumable {
         }
         // (Drider Item Only: Carapace-Clad Legs to Drider Legs)
         if (!this.sweet && character.torso.hips.legs.type === LegType.CHITINOUS_SPIDER_LEGS && randInt(4) === 0 && character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
-            DisplayText("\n\nJust like when your legs changed to those of a spider-morph, you find yourself suddenly paralyzed below the waist.  Your dark, reflective legs splay out and drop you flat on your back.   Before you can sit up, you feel tiny feelers of pain mixed with warmth and tingling running through them.  Terrified at the thought of all the horrible changes that could be wracking your body, you slowly sit up, expecting to find yourself turned into some incomprehensible monstrosity from the waist down.  As if to confirm your suspicions, the first thing you see is that your legs have transformed into eight long, spindly legs.  Instead of joining directly with your hips, they now connect with the spider-like body that has sprouted in place of where your legs would normally start.  Your abdomen has gotten even larger as well.  Once the strength returns to your new, eight-legged lower body, you struggle up onto your pointed 'feet', and wobble around, trying to get your balance.  As you experiment with your new form, you find you're even able to twist the spider half of your body down between your legs in an emulation of your old, bipedal stance.  That might prove useful should you ever want to engage in 'normal' sexual positions, particularly since your " + ButtDescriptor.describeButt(character) + " is still positioned just above the start of your arachnid half.  <b>You're now a drider.</b>");
+            DisplayText("\n\nJust like when your legs changed to those of a spider-morph, you find yourself suddenly paralyzed below the waist.  Your dark, reflective legs splay out and drop you flat on your back.   Before you can sit up, you feel tiny feelers of pain mixed with warmth and tingling running through them.  Terrified at the thought of all the horrible changes that could be wracking your body, you slowly sit up, expecting to find yourself turned into some incomprehensible monstrosity from the waist down.  As if to confirm your suspicions, the first thing you see is that your legs have transformed into eight long, spindly legs.  Instead of joining directly with your hips, they now connect with the spider-like body that has sprouted in place of where your legs would normally start.  Your abdomen has gotten even larger as well.  Once the strength returns to your new, eight-legged lower body, you struggle up onto your pointed 'feet', and wobble around, trying to get your balance.  As you experiment with your new form, you find you're even able to twist the spider half of your body down between your legs in an emulation of your old, bipedal stance.  That might prove useful should you ever want to engage in 'normal' sexual positions, particularly since your " + Desc.Butt.describeButt(character) + " is still positioned just above the start of your arachnid half.  <b>You're now a drider.</b>");
             character.torso.hips.legs.type = LegType.DRIDER_LOWER_BODY;
             changes++;
         }

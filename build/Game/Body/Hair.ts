@@ -1,10 +1,10 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum HairType {
     NORMAL, FEATHER, GHOST, GOO, ANEMONE
 }
 
-export default class Hair implements ISerializable<Hair> {
+export class Hair implements ISerializable<Hair> {
     public type: HairType = HairType.NORMAL;
     public color: string = "black";
     public length: number = 0;

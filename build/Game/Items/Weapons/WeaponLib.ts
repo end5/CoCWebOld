@@ -1,12 +1,12 @@
 import * as Weapons from './';
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
-import ItemDesc from '../ItemDesc';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
+import { ItemDesc } from '../ItemDesc';
 
 // key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = ""
-export default class WeaponLib extends Dictionary<Weapon> {
+export class WeaponLib extends Dictionary<Weapon> {
     public constructor() {
         super();
         this.set(WeaponName.Fists, new Weapon(WeaponName.Fists, new ItemDesc("Fists", "fists"), "fists", "punch", 0));

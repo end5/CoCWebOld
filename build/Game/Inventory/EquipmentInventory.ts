@@ -1,14 +1,14 @@
-import CockSockList from './CockSockList';
-import EquipSlot from './EquipSlot';
-import PiercingInventory from './PiercingInventory';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import ListSerializer from '../../Engine/Utilities/ListSerializer';
-import Character from '../Character/Character';
-import Armor from '../Items/Armors/Armor';
-import Weapon from '../Items/Weapons/Weapon';
-import ListMonitor from '../Utilities/ListMonitor';
+import { CockSockList } from './CockSockList';
+import { EquipSlot } from './EquipSlot';
+import { PiercingInventory } from './PiercingInventory';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { ListSerializer } from '../../Engine/Utilities/ListSerializer';
+import { Character } from '../Character/Character';
+import { Armor } from '../Items/Armors/Armor';
+import { Weapon } from '../Items/Weapons/Weapon';
+import { ListMonitor } from '../Utilities/ListMonitor';
 
-export default class EquipmentInventory implements ISerializable<EquipmentInventory> {
+export class EquipmentInventory implements ISerializable<EquipmentInventory> {
     public readonly defaultWeaponSlot: EquipSlot<Weapon>;
     public readonly equippedWeaponSlot: EquipSlot<Weapon>;
     public readonly defaultArmorSlot: EquipSlot<Armor>;

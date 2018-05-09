@@ -1,4 +1,4 @@
-﻿import ISerializable from '../../../Engine/Utilities/ISerializable';
+﻿import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 import { SortOption } from '../../../Engine/Utilities/List';
 
 export enum PregnancyType {
@@ -81,7 +81,7 @@ export enum IncubationTime {
     SALAMANDER = 336,
 }
 
-export default class Pregnancy implements ISerializable<Pregnancy> {
+export class Pregnancy implements ISerializable<Pregnancy> {
     public static LargestIncubationTime: SortOption<Pregnancy> = (first: Pregnancy, second: Pregnancy) => {
         return second.incubation - first.incubation;
     }

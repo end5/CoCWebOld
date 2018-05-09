@@ -1,5 +1,5 @@
-import SaveFile from './SaveFile';
-import MainScreen from '../Display/MainScreen';
+import { SaveFile } from './SaveFile';
+import { MainScreen } from '../Display/MainScreen';
 
 class SaveManager {
     private activatedSlot: number;
@@ -34,12 +34,12 @@ class SaveManager {
 
     private readSlots() {
         if (document.cookie !== "")
-        try {
-            this.saveSlots = JSON.parse(document.cookie);
-        }
-        catch (e) {
-            console.error(e);
-        }
+            try {
+                this.saveSlots = JSON.parse(document.cookie);
+            }
+            catch (e) {
+                console.error(e);
+            }
     }
 
     public activeSlot(): number {
@@ -87,4 +87,4 @@ class SaveManager {
 }
 
 const saveManager = new SaveManager();
-export default saveManager as SaveManager;
+export { saveManager as SaveManager };

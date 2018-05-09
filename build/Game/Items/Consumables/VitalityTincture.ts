@@ -1,12 +1,12 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class VitalityTincture extends Consumable {
+export class VitalityTincture extends Consumable {
     public constructor() {
         super(ConsumableName.VitalityTincture, new ItemDesc("Vitality T.", "a vitality tincture", "This potent tea is supposedly good for strengthening the body."));
     }
@@ -34,6 +34,6 @@ export default class VitalityTincture extends Consumable {
             DisplayText("  Any aches, pains and bruises you have suffered no longer hurt and you feel much better.");
         }
         if (randInt(3) === 0)
-            DisplayText(BodyModifier.displayModTone(character, 95, 3));
+            DisplayText(Mod.Body.displayModTone(character, 95, 3));
     }
 }

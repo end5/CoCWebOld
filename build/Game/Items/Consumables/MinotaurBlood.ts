@@ -1,33 +1,26 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Vagina, { VaginaLooseness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Vagina, VaginaLooseness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class MinotaurBlood extends Consumable {
+export class MinotaurBlood extends Consumable {
     public constructor() {
         super(ConsumableName.MinotaurBlood, new ItemDesc("MinoBlo", "a vial of Minotaur blood", "You've got a scratched up looking vial full of bright red minotaur blood.  Any time you move it around it seems to froth up, as if eager to escape."));
     }
@@ -122,8 +115,8 @@ export default class MinotaurBlood extends Consumable {
             }
             else {
                 character.torso.balls.size++;
-                if (character.torso.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + BallsDescriptor.describeBalls(false, true, character) + " have grown larger than a human's.");
-                if (character.torso.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + BallsDescriptor.describeSack(character) + ".  Walking becomes difficult as you discover your " + BallsDescriptor.describeBalls(false, true, character) + " have enlarged again.");
+                if (character.torso.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + Desc.Balls.describeBalls(false, true, character) + " have grown larger than a human's.");
+                if (character.torso.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + Desc.Balls.describeSack(character) + ".  Walking becomes difficult as you discover your " + Desc.Balls.describeBalls(false, true, character) + " have enlarged again.");
                 character.stats.lib += 1;
                 character.stats.lust += 3;
             }
@@ -149,7 +142,7 @@ export default class MinotaurBlood extends Consumable {
                 if (character.torso.hips.legs.type === LegType.DOG) DisplayText("\n\nYou stagger as your paws change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
                 if (character.torso.hips.legs.type === LegType.NAGA) DisplayText("\n\nYou collapse as your sinuous snake-tail tears in half, shifting into legs.  The pain is immense, particularly in your new feet as they curl inward and transform into hooves!");
                 // Catch-all
-                if (character.torso.hips.legs.type > LegType.NAGA) DisplayText("\n\nYou stagger as your " + LegDescriptor.describeFeet(character) + " change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
+                if (character.torso.hips.legs.type > LegType.NAGA) DisplayText("\n\nYou stagger as your " + Desc.Leg.describeFeet(character) + " change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
                 if (character.skin.type !== SkinType.FUR) DisplayText("  A fine coat of fur grows out below your waist, itching briefly as it fills in.");
                 DisplayText("<b>  You now have hooves in place of your feet!</b>");
                 character.torso.hips.legs.type = LegType.HOOFED;
@@ -163,11 +156,11 @@ export default class MinotaurBlood extends Consumable {
                 const topVagina = vaginas.get(0);
                 if (topVagina.looseness > VaginaLooseness.TIGHT) {
                     // tighten that bitch up!
-                    DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " clenches up painfully as it tightens up, becoming smaller and tighter.");
+                    DisplayText("\n\nYour " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " clenches up painfully as it tightens up, becoming smaller and tighter.");
                     topVagina.looseness--;
                 }
                 else {
-                    DisplayText("\n\nA tightness in your groin is the only warning you get before your <b>" + VaginaDescriptor.describeVagina(character, topVagina) + " disappears forever</b>!");
+                    DisplayText("\n\nA tightness in your groin is the only warning you get before your <b>" + Desc.Vagina.describeVagina(character, topVagina) + " disappears forever</b>!");
                     // Goodbye womanhood!
                     vaginas.remove(0);
                     if (cocks.count === 0) {
@@ -186,10 +179,10 @@ export default class MinotaurBlood extends Consumable {
             if (changes < changeLimit && character.torso.chest.count > 1 && randInt(3) === 0) {
                 const lastBreastRow = chest.get(chest.count - 1);
                 changes++;
-                DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
+                DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + Desc.Breast.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
                 if (character.torso.chest.count >= 3) DisplayText("abdomen");
                 else DisplayText("chest");
-                DisplayText(". The " + BreastDescriptor.describeNipple(character, lastBreastRow) + "s even fade until nothing but ");
+                DisplayText(". The " + Desc.Breast.describeNipple(character, lastBreastRow) + "s even fade until nothing but ");
                 if (character.skin.type === SkinType.FUR) DisplayText(character.torso.neck.head.hair.color + " " + character.skin.desc);
                 else DisplayText(character.skin.tone + " " + character.skin.desc);
                 DisplayText(" remains. <b>You've lost a row of breasts!</b>");
@@ -211,9 +204,9 @@ export default class MinotaurBlood extends Consumable {
                         }
                         // Talk about shrinkage
                         if (!superShrink)
-                            DisplayText("\n\nYou feel a weight lifted from you, and realize your " + BreastDescriptor.describeBreastRow(chest.get(0)) + " have shrunk to " + BreastDescriptor.breastCup(chest.get(0).rating) + "s.");
+                            DisplayText("\n\nYou feel a weight lifted from you, and realize your " + Desc.Breast.describeBreastRow(chest.get(0)) + " have shrunk to " + Desc.Breast.breastCup(chest.get(0).rating) + "s.");
                         else
-                            DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + BreastDescriptor.breastCup(chest.get(0).rating) + "s.");
+                            DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + Desc.Breast.breastCup(chest.get(0).rating) + "s.");
                         changes++;
                     }
 
@@ -231,7 +224,7 @@ export default class MinotaurBlood extends Consumable {
                             // If this isn't the first change...
                             if (growthAmount > 1) DisplayText("...and y");
                             else DisplayText("Y");
-                            DisplayText("our " + BreastDescriptor.describeBreastRow(chest.get(index)) + " shrink, dropping to " + BreastDescriptor.breastCup(chest.get(index).rating) + "s.");
+                            DisplayText("our " + Desc.Breast.describeBreastRow(chest.get(index)) + " shrink, dropping to " + Desc.Breast.breastCup(chest.get(index).rating) + "s.");
                         }
                     }
                     if (growthAmount === 2) DisplayText("\nYou feel so much lighter after the change.");
@@ -256,11 +249,11 @@ export default class MinotaurBlood extends Consumable {
                 // Thickness too if small enough
                 if (selectedCock.thickness < 5) {
                     // Increase by 2 + randInt(8), and store the actual amount in temp
-                    let growthAmount: number = CockModifier.growCock(character, selectedCock, 2 + randInt(8));
-                    growthAmount += CockModifier.thickenCock(selectedCock, 1);
+                    let growthAmount: number = Mod.Cock.growCock(character, selectedCock, 2 + randInt(8));
+                    growthAmount += Mod.Cock.thickenCock(selectedCock, 1);
                     // Comment on length changes
-                    if (growthAmount > 6) DisplayText("\n\nGasping in sudden pleasure, your " + CockDescriptor.describeCock(character, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.");
-                    if (growthAmount <= 6 && growthAmount >= 3) DisplayText("\n\nYou pant in delight as a few inches of " + CockDescriptor.describeCock(character, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.");
+                    if (growthAmount > 6) DisplayText("\n\nGasping in sudden pleasure, your " + Desc.Cock.describeCock(character, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.");
+                    if (growthAmount <= 6 && growthAmount >= 3) DisplayText("\n\nYou pant in delight as a few inches of " + Desc.Cock.describeCock(character, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.");
                     if (growthAmount < 3) DisplayText("\n\nGroaning softly, you feel a pleasurable change in your groin.  Looking down, you see [oneCock] grow slightly longer.");
                     // Add a blurb about thickness...
                     DisplayText("  To your delight and surprise, you discover it has grown slightly thicker as well!");
@@ -268,10 +261,10 @@ export default class MinotaurBlood extends Consumable {
                 // Just length...
                 else {
                     // Increase by 2 + randInt(8), and store the actual amount in temp
-                    const growthAmount: number = CockModifier.growCock(character, selectedCock, 2 + randInt(8));
+                    const growthAmount: number = Mod.Cock.growCock(character, selectedCock, 2 + randInt(8));
                     // Comment on length changes
-                    if (growthAmount > 6) DisplayText("\n\nGasping in sudden pleasure, your " + CockDescriptor.describeCock(character, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.");
-                    if (growthAmount <= 6 && growthAmount >= 3) DisplayText("\n\nYou pant in delight as a few inches of " + CockDescriptor.describeCock(character, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.");
+                    if (growthAmount > 6) DisplayText("\n\nGasping in sudden pleasure, your " + Desc.Cock.describeCock(character, selectedCock) + " surges free of its sheath, emerging with over half a foot of new dick-flesh.");
+                    if (growthAmount <= 6 && growthAmount >= 3) DisplayText("\n\nYou pant in delight as a few inches of " + Desc.Cock.describeCock(character, selectedCock) + " pop free from your sheath, the thick new horse-flesh still slick and sensitive.");
                     if (growthAmount < 3) DisplayText("\n\nGroaning softly, you feel a pleasurable change in your groin.  Looking down, you see [oneCock] grow slightly longer.");
                 }
                 changes++;
@@ -289,11 +282,11 @@ export default class MinotaurBlood extends Consumable {
 
             if (selectedCock) {
                 // Text for humandicks or others
-                if (selectedCock.type === CockType.HUMAN || selectedCock.type > 2) DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.");
+                if (selectedCock.type === CockType.HUMAN || selectedCock.type > 2) DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.");
                 // Text for dogdicks
-                if (selectedCock.type === CockType.DOG) DisplayText("\n\nYour " + CockDescriptor.nounCock(CockType.DOG) + " begins to feel odd...  You pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond its traditional size.  You notice your knot vanishing, the extra flesh pushing more fresh horsecock out from your sheath.  <b>Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + "</b>, and you jerk yourself off, splattering thick ropes of cum with intense force.");
+                if (selectedCock.type === CockType.DOG) DisplayText("\n\nYour " + Desc.Cock.nounCock(CockType.DOG) + " begins to feel odd...  You pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + Desc.Cock.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond its traditional size.  You notice your knot vanishing, the extra flesh pushing more fresh horsecock out from your sheath.  <b>Your hands are drawn to the strange new " + Desc.Cock.nounCock(CockType.HORSE) + "</b>, and you jerk yourself off, splattering thick ropes of cum with intense force.");
                 selectedCock.type = CockType.HORSE;
-                CockModifier.growCock(character, selectedCock, 4);
+                Mod.Cock.growCock(character, selectedCock, 4);
                 character.stats.lib += 5;
                 character.stats.sens += 4;
                 character.stats.lust += 35;
@@ -306,13 +299,13 @@ export default class MinotaurBlood extends Consumable {
 
         // Males go into rut
         if (randInt(4) === 0) {
-            BodyModifier.displayGoIntoRut(character);
+            Mod.Body.displayGoIntoRut(character);
         }
 
         // Anti-masturbation status
         if (randInt(4) === 0 && changes < changeLimit && !character.statusAffects.has(StatusAffectType.Dysfunction)) {
-            if (cocks.count > 0) DisplayText("\n\nYour " + CockDescriptor.describeCock(character, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
-            else if (vaginas.count > 0) DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
+            if (cocks.count > 0) DisplayText("\n\nYour " + Desc.Cock.describeCock(character, cocks.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
+            else if (vaginas.count > 0) DisplayText("\n\nYour " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " tingles abruptly, then stops.  Worried, you reach down to check it, only to discover that it feels... numb.  It will be very hard to masturbate like this.");
             if (cocks.count > 0 || vaginas.count > 0) {
                 character.statusAffects.add(StatusAffectType.Dysfunction, 96, 0, 0, 0);
                 changes++;
@@ -408,7 +401,7 @@ export default class MinotaurBlood extends Consumable {
         }
         // +cow tail
         if (changes < changeLimit && randInt(2) === 0 && !character.torso.tails.reduce(Tail.HasType(TailType.COW), false)) {
-            if (character.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + ButtDescriptor.describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
+            if (character.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + Desc.Butt.describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
                 if (character.torso.tails.count > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
@@ -436,9 +429,9 @@ export default class MinotaurBlood extends Consumable {
             changes++;
         }
         // Give you that mino build!
-        if (randInt(4) === 0) DisplayText(BodyModifier.displayModFem(character, 5, 10));
-        if (randInt(4) === 0) DisplayText(BodyModifier.displayModTone(character, 85, 3));
-        if (randInt(4) === 0) DisplayText(BodyModifier.displayModThickness(character, 70, 4));
+        if (randInt(4) === 0) DisplayText(Mod.Body.displayModFem(character, 5, 10));
+        if (randInt(4) === 0) DisplayText(Mod.Body.displayModTone(character, 85, 3));
+        if (randInt(4) === 0) DisplayText(Mod.Body.displayModThickness(character, 70, 4));
         // Default
         if (changes === 0) {
             DisplayText("\n\nMinotaur-like vitality surges through your body, invigorating and arousing you!\n");
@@ -446,7 +439,7 @@ export default class MinotaurBlood extends Consumable {
                 DisplayText("Your balls feel as if they've grown heavier with the weight of more sperm.\n");
                 character.hoursSinceCum += 200;
             }
-            StatModifier.displayCharacterHPChange(character, 50);
+            Mod.Stat.displayCharacterHPChange(character, 50);
             character.stats.lust += 50;
         }
     }

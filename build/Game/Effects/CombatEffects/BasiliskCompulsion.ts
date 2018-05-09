@@ -1,6 +1,6 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import CombatEffect from '../CombatEffect';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { CombatEffect } from '../CombatEffect';
 
 export class BasiliskCompulsion extends CombatEffect {
     public update(character: Character) {

@@ -1,13 +1,13 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen, { ClickFunction } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import CombatAction from '../../Combat/Actions/CombatAction';
-import CombatManager from '../../Combat/CombatManager';
-import { describeVagina } from '../../Descriptors/VaginaDescriptor';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { CombatAction } from '../../Combat/Actions/CombatAction';
+import { CombatManager } from '../../Combat/CombatManager';
+import { Desc } from '../../Descriptors/Descriptors';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     DisplayText().clear();
     const enemies = CombatManager.getEnemyParty(character);
     for (const enemy of enemies.ableMembers) {
@@ -31,7 +31,29 @@ export default function display(character: Character) {
     showAction(names, funcs, character, performActions.wait, CombatAbilityFlag.Wait);
     showAction(names, funcs, character, performActions.fantasize, CombatAbilityFlag.Fantasize);
     // showAction(INSPECT, character, performActions.inspect, CombatAbilityFlag.None);
-    MainScreen.displayChoices(names, funcs);
+    return { choices: [names, funcs] };
+}
+
+export function showActions<T extends CombatAction>(character: Character, combatActions: T[]): NextScreenChoices {
+    const names = [];
+    const funcs = [];
+    for (const combatAction of combatActions) {
+        if (combatAction.isPossible(character)) {
+            if (combatAction.canUse(character)) {
+                names.push(combatAction.name);
+                funcs.push(() => selectTarget(character, combatAction.use));
+            }
+            else {
+                names.push(combatAction.name);
+                funcs.push(undefined);
+            }
+        }
+        else {
+            names.push("");
+            funcs.push(undefined);
+        }
+    }
+    return { choices: [names, funcs] };
 }
 
 function showAction(names: string[], funcs: ClickFunction[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {
@@ -51,10 +73,14 @@ function showAction(names: string[], funcs: ClickFunction[], character: Characte
     }
 }
 
-function selectTarget(character: Character, use: (char, enemy) => void) {
+function selectTarget(character: Character, use: (char, enemy) => void | NextScreenChoices): NextScreenChoices {
     const enemies = CombatManager.getEnemyParty(character);
     if (enemies.ableMembers.length === 1) {
-        use(character, enemies.ableMembers[0]);
+        const useResult = use(character, enemies.ableMembers[0]);
+        if (useResult)
+            return useResult;
+        else
+            return display(character);
     }
     else {
         const names = [];
@@ -63,7 +89,7 @@ function selectTarget(character: Character, use: (char, enemy) => void) {
             names.push(enemy.desc.name);
             funcs.push(() => use(character, enemy));
         }
-        MainScreen.displayChoices(names, funcs);
+        return { choices: [names, funcs] };
     }
 }
 
@@ -240,7 +266,7 @@ function showMonsterLust(enemy: Character): void {
             }
             if (enemy.torso.vaginas.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " are obviously turned on, you can smell " + enemy.desc.possessivePronoun + " arousal in the air.  ");
-                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' " + describeVagina(enemy, enemy.torso.vaginas.get(0)) + "s are practically soaked with their lustful secretions.  ");
+                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "' " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + "s are practically soaked with their lustful secretions.  ");
             }
         }
         else {
@@ -252,7 +278,7 @@ function showMonsterLust(enemy: Character): void {
             }
             if (enemy.torso.vaginas.count > 0) {
                 if (enemy.stats.lust >= 70 && enemy.stats.lust < 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + " is obviously turned on, you can smell " + enemy.desc.possessivePronoun + " arousal in the air.  ");
-                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s " + describeVagina(enemy, enemy.torso.vaginas.get(0)) + " is practically soaked with her lustful secretions.  ");
+                if (enemy.stats.lust >= 85) DisplayText(enemy.desc.capitalA + enemy.desc.short + "'s " + Desc.Vagina.describeVagina(enemy, enemy.torso.vaginas.get(0)) + " is practically soaked with her lustful secretions.  ");
             }
         }
     }

@@ -1,21 +1,21 @@
-import Armor from './Armor';
-import ArmorName from './ArmorName';
-import ArmorWithPerk from './ArmorWithPerk';
-import ComfortableClothes from './ComfortableClothes';
-import GooArmor from './GooArmor';
-import InquisitorsCorset from './InquisitorsCorset';
-import InquisitorsRobes from './InquisitorsRobes';
-import LeatherArmorSegments from './LeatherArmorSegments';
-import LustyMaidensArmor from './LustyMaidensArmor';
-import SeductiveArmor from './SeductiveArmor';
-import SluttySwimwear from './SluttySwimwear';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
-import PerkFactory from '../../Effects/PerkFactory';
+import { Armor } from './Armor';
+import { ArmorName } from './ArmorName';
+import { ArmorWithPerk } from './ArmorWithPerk';
+import { ComfortableClothes } from './ComfortableClothes';
+import { GooArmor } from './GooArmor';
+import { InquisitorsCorset } from './InquisitorsCorset';
+import { InquisitorsRobes } from './InquisitorsRobes';
+import { LeatherArmorSegments } from './LeatherArmorSegments';
+import { LustyMaidensArmor } from './LustyMaidensArmor';
+import { SeductiveArmor } from './SeductiveArmor';
+import { SluttySwimwear } from './SluttySwimwear';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
+import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
 // key: string, shortName: string, displayname: string, longName: string, defense: number, value: number = 0, description: string = null, armorClass: ArmorClass = "Light", supportsBulge: boolean = false
-export default class ArmorLib extends Dictionary<Armor> {
+export class ArmorLib extends Dictionary<Armor> {
     public constructor() {
         super();
         this.set(ArmorName.ComfortUndercloth, new Armor(ArmorName.ComfortUndercloth, new ItemDesc("c.under", "comfortable underclothes", "comfortable underclothes"), "comfortable underclothes", 0, 0, ""));

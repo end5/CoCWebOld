@@ -1,10 +1,10 @@
-import CockSock from './CockSock';
-import CockSockName from './CockSockName';
-import Piercing, { PiercingType } from './Piercing';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
-import EquipableItem from '../EquipableItem';
+import { CockSock } from './CockSock';
+import { CockSockName } from './CockSockName';
+import { Piercing, PiercingType } from './Piercing';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
+import { EquipableItem } from '../EquipableItem';
 
-export default class MiscLib extends Dictionary<EquipableItem> {
+export class MiscLib extends Dictionary<EquipableItem> {
     public constructor() {
         super();
         this.set(CockSockName.Alabaster, new CockSock(CockSockName.Alabaster));

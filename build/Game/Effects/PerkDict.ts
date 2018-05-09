@@ -1,9 +1,9 @@
-import Perk from './Perk';
-import PerkFactory from './PerkFactory';
+import { Perk } from './Perk';
+import { PerkFactory } from './PerkFactory';
 import { PerkType } from './PerkType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
 
-export default class PerkDict extends Dictionary<Perk> {
+export class PerkDict extends Dictionary<Perk> {
     public add(type: PerkType, value1: number = 0, value2: number = 0, value3: number = 0, value4: number = 0) {
         this.set(type, PerkFactory.create(type, value1, value2, value3, value4));
     }

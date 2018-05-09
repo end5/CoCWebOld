@@ -1,15 +1,15 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class PhoukaWhiskey extends Consumable {
+export class PhoukaWhiskey extends Consumable {
     public constructor() {
         super(ConsumableName.PhoukaWhiskey, new ItemDesc("Ph. Whiskey", "a small bottle of whiskey", "A small, corked glass bottle with a dark amber liquid inside.  The whiskey smells strongly of peat."), 20);
     }

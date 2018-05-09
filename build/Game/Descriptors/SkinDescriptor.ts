@@ -1,5 +1,5 @@
 import { SkinType } from '../Body/Skin';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
 export function skinFurScales(character: Character): string {
     let skinzilla: string = "";

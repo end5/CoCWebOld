@@ -1,6 +1,6 @@
-import BindableActions from './BindableAction';
-import KeyCombination from './KeyCombination';
-import KeyPair from './KeyPair';
+import { BindableAction } from './BindableAction';
+import { KeyCombination } from './KeyCombination';
+import { KeyPair } from './KeyPair';
 
 /**
  * List of known bound keyboard methods
@@ -55,35 +55,34 @@ import KeyPair from './KeyPair';
  * 68	-- ???				-- ??? Unknown, theres a conditional check for the button, but no code is ever executed
  */
 
-const DefaultKeyBinds = {};
-DefaultKeyBinds[BindableActions.Stats] = new KeyPair(new KeyCombination(83));
-DefaultKeyBinds[BindableActions.LevelUp] = new KeyPair(new KeyCombination(76));
-DefaultKeyBinds[BindableActions.Quicksave1] = new KeyPair(new KeyCombination(112));
-DefaultKeyBinds[BindableActions.Quicksave2] = new KeyPair(new KeyCombination(113));
-DefaultKeyBinds[BindableActions.Quicksave3] = new KeyPair(new KeyCombination(114));
-DefaultKeyBinds[BindableActions.Quicksave4] = new KeyPair(new KeyCombination(115));
-DefaultKeyBinds[BindableActions.Quicksave5] = new KeyPair(new KeyCombination(116));
-DefaultKeyBinds[BindableActions.Quickload1] = new KeyPair(new KeyCombination(117));
-DefaultKeyBinds[BindableActions.Quickload2] = new KeyPair(new KeyCombination(118));
-DefaultKeyBinds[BindableActions.Quickload3] = new KeyPair(new KeyCombination(119));
-DefaultKeyBinds[BindableActions.Quickload4] = new KeyPair(new KeyCombination(120));
-DefaultKeyBinds[BindableActions.Quickload5] = new KeyPair(new KeyCombination(121));
-DefaultKeyBinds[BindableActions.MainMenu] = new KeyPair(new KeyCombination(8));
-DefaultKeyBinds[BindableActions.SaveLoad] = new KeyPair(new KeyCombination(68));
-DefaultKeyBinds[BindableActions.Appearance] = new KeyPair(new KeyCombination(65));
-DefaultKeyBinds[BindableActions.No] = new KeyPair(new KeyCombination(78));
-DefaultKeyBinds[BindableActions.Yes] = new KeyPair(new KeyCombination(89));
-DefaultKeyBinds[BindableActions.Perks] = new KeyPair(new KeyCombination(80));
-DefaultKeyBinds[BindableActions.Back] = new KeyPair(new KeyCombination(13), new KeyCombination(32));
-DefaultKeyBinds[BindableActions.CycleBackground] = new KeyPair(new KeyCombination(36));
-DefaultKeyBinds[BindableActions.Button0] = new KeyPair(new KeyCombination(49));
-DefaultKeyBinds[BindableActions.Button1] = new KeyPair(new KeyCombination(50));
-DefaultKeyBinds[BindableActions.Button2] = new KeyPair(new KeyCombination(51));
-DefaultKeyBinds[BindableActions.Button3] = new KeyPair(new KeyCombination(52));
-DefaultKeyBinds[BindableActions.Button4] = new KeyPair(new KeyCombination(53));
-DefaultKeyBinds[BindableActions.Button5] = new KeyPair(new KeyCombination(54), new KeyCombination(81));
-DefaultKeyBinds[BindableActions.Button6] = new KeyPair(new KeyCombination(55), new KeyCombination(87));
-DefaultKeyBinds[BindableActions.Button7] = new KeyPair(new KeyCombination(56), new KeyCombination(69));
-DefaultKeyBinds[BindableActions.Button8] = new KeyPair(new KeyCombination(57), new KeyCombination(82));
-DefaultKeyBinds[BindableActions.Button9] = new KeyPair(new KeyCombination(48), new KeyCombination(84));
-export default DefaultKeyBinds;
+export const DefaultKeyBinds = {};
+DefaultKeyBinds[BindableAction.Stats] = new KeyPair(new KeyCombination(83));
+DefaultKeyBinds[BindableAction.LevelUp] = new KeyPair(new KeyCombination(76));
+DefaultKeyBinds[BindableAction.Quicksave1] = new KeyPair(new KeyCombination(112));
+DefaultKeyBinds[BindableAction.Quicksave2] = new KeyPair(new KeyCombination(113));
+DefaultKeyBinds[BindableAction.Quicksave3] = new KeyPair(new KeyCombination(114));
+DefaultKeyBinds[BindableAction.Quicksave4] = new KeyPair(new KeyCombination(115));
+DefaultKeyBinds[BindableAction.Quicksave5] = new KeyPair(new KeyCombination(116));
+DefaultKeyBinds[BindableAction.Quickload1] = new KeyPair(new KeyCombination(117));
+DefaultKeyBinds[BindableAction.Quickload2] = new KeyPair(new KeyCombination(118));
+DefaultKeyBinds[BindableAction.Quickload3] = new KeyPair(new KeyCombination(119));
+DefaultKeyBinds[BindableAction.Quickload4] = new KeyPair(new KeyCombination(120));
+DefaultKeyBinds[BindableAction.Quickload5] = new KeyPair(new KeyCombination(121));
+DefaultKeyBinds[BindableAction.MainMenu] = new KeyPair(new KeyCombination(8));
+DefaultKeyBinds[BindableAction.SaveLoad] = new KeyPair(new KeyCombination(68));
+DefaultKeyBinds[BindableAction.Appearance] = new KeyPair(new KeyCombination(65));
+DefaultKeyBinds[BindableAction.No] = new KeyPair(new KeyCombination(78));
+DefaultKeyBinds[BindableAction.Yes] = new KeyPair(new KeyCombination(89));
+DefaultKeyBinds[BindableAction.Perks] = new KeyPair(new KeyCombination(80));
+DefaultKeyBinds[BindableAction.Back] = new KeyPair(new KeyCombination(13), new KeyCombination(32));
+DefaultKeyBinds[BindableAction.CycleBackground] = new KeyPair(new KeyCombination(36));
+DefaultKeyBinds[BindableAction.Button0] = new KeyPair(new KeyCombination(49));
+DefaultKeyBinds[BindableAction.Button1] = new KeyPair(new KeyCombination(50));
+DefaultKeyBinds[BindableAction.Button2] = new KeyPair(new KeyCombination(51));
+DefaultKeyBinds[BindableAction.Button3] = new KeyPair(new KeyCombination(52));
+DefaultKeyBinds[BindableAction.Button4] = new KeyPair(new KeyCombination(53));
+DefaultKeyBinds[BindableAction.Button5] = new KeyPair(new KeyCombination(54), new KeyCombination(81));
+DefaultKeyBinds[BindableAction.Button6] = new KeyPair(new KeyCombination(55), new KeyCombination(87));
+DefaultKeyBinds[BindableAction.Button7] = new KeyPair(new KeyCombination(56), new KeyCombination(69));
+DefaultKeyBinds[BindableAction.Button8] = new KeyPair(new KeyCombination(57), new KeyCombination(82));
+DefaultKeyBinds[BindableAction.Button9] = new KeyPair(new KeyCombination(48), new KeyCombination(84));

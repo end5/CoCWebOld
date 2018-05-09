@@ -1,7 +1,9 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import Character from '../../../Character';
-import MagicalActionLib from '../ActionLibs/MagicalActionLib';
+import { showActions } from '../../../../Menus/InGame/PlayerCombatMenu';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { MagicalActionLib } from '../ActionLibs/MagicalActionLib';
 
 export class MagicalSpecials implements CombatAction {
     public name: string = "M. Specials";
@@ -15,7 +17,7 @@ export class MagicalSpecials implements CombatAction {
         return MagicalActionLib.getPossibleActions(character).length > 0;
     }
 
-    public use(character: Character, target: Character) {
-        MagicalActionLib.getPossibleActions(character);
+    public use(character: Character, target: Character): NextScreenChoices {
+        return showActions(character, MagicalActionLib.getPossibleActions(character));
     }
 }

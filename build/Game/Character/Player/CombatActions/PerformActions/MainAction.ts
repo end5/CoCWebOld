@@ -1,7 +1,8 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import NoAction from '../../../../Combat/Actions/NoAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { NoAction } from '../../../../Combat/Actions/NoAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class MainAction implements CombatAction {
     public name: string = "MainAction";
@@ -31,22 +32,22 @@ export class MainAction implements CombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         const performActions = character.combat.perform;
         if (performActions.approach.canUse(character)) {
-            performActions.approach.use(character, target);
+            return performActions.approach.use(character, target);
         }
         else if (performActions.recover.canUse(character)) {
-            performActions.recover.use(character, target);
+            return performActions.recover.use(character, target);
         }
         else if (performActions.squeeze.canUse(character)) {
-            performActions.squeeze.use(character, target);
+            return performActions.squeeze.use(character, target);
         }
         else if (performActions.struggle.canUse(character)) {
-            performActions.struggle.use(character, target);
+            return performActions.struggle.use(character, target);
         }
         else {
-            performActions.attack.use(character, target);
+            return performActions.attack.use(character, target);
         }
     }
 }

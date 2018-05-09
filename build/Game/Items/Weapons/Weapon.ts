@@ -1,14 +1,14 @@
-import WeaponName from './WeaponName';
+import { WeaponName } from './WeaponName';
 import { WeaponPerk, WeaponPerkLib, WeaponPerkType } from './WeaponPerk';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
-import List from '../../../Engine/Utilities/List';
-import Character from '../../Character/Character';
-import EquipableItem from '../EquipableItem';
-import ItemDesc from '../ItemDesc';
-import ItemType from '../ItemType';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
+import { List } from '../../../Engine/Utilities/List';
+import { Character } from '../../Character/Character';
+import { EquipableItem } from '../EquipableItem';
+import { ItemDesc } from '../ItemDesc';
+import { ItemType } from '../ItemType';
 
-export default class Weapon extends EquipableItem {
+export class Weapon extends EquipableItem {
     public readonly verb: string;
     private attackValue: number;
     public readonly perks: Dictionary<WeaponPerk>;

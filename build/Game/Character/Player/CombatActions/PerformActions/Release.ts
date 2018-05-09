@@ -1,6 +1,7 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Release implements CombatAction {
     public name: string = "Release";
@@ -14,7 +15,8 @@ export class Release implements CombatAction {
         return target !== undefined && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         // Scenes.desert.nagaScene.nagaLeggoMyEggo();
+        return;
     }
 }

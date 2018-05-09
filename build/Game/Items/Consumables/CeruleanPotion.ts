@@ -1,14 +1,14 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Gender } from '../../Body/GenderIdentity';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class CeruleanPotion extends Consumable {
+export class CeruleanPotion extends Consumable {
     public constructor() {
         super(ConsumableName.CeruleanPotion, new ItemDesc("Cerulean P.", "a cerulean-tinted potion", "This is a mysterious bottle filled with a sky-blue liquid that sloshes gently inside.  Supposedly it will make you irresistible, though to what or who you cannot say."));
     }

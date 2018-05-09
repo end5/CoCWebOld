@@ -1,10 +1,10 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum ArmType {
     HUMAN, HARPY, SPIDER
 }
 
-export default class Arms implements ISerializable<Arms> {
+export class Arms implements ISerializable<Arms> {
     public type: ArmType = ArmType.HUMAN;
 
     public serialize(): string {

@@ -1,11 +1,11 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class DeBimbo extends Consumable {
+export class DeBimbo extends Consumable {
     public constructor() {
         super(ConsumableName.DeBimbo, new ItemDesc("Debimbo", "a bottle marked as 'Debimbo'"), 250);
     }

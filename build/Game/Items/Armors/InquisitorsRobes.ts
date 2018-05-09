@@ -1,11 +1,11 @@
-import ArmorName from './ArmorName';
-import ArmorWithPerk from './ArmorWithPerk';
-import DisplayText from '../../../Engine/display/DisplayText';
-import PerkFactory from '../../Effects/PerkFactory';
+import { ArmorName } from './ArmorName';
+import { ArmorWithPerk } from './ArmorWithPerk';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class InquisitorsRobes extends ArmorWithPerk {
+export class InquisitorsRobes extends ArmorWithPerk {
     public constructor() {
         super(ArmorName.InquisitorsRobes, new ItemDesc("I.Robes", "inquisitor's robes", "These foreboding red and gold robes are embroidered with the symbols of a lost kingdom.  Wearing them will cause spells to tax your health instead of exhausting you."), "inquisitor's robes", 8, 2000, "Light", PerkFactory.create(PerkType.BloodMage, 0, 0, 0, 0));
     }

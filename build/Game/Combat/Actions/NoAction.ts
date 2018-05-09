@@ -1,6 +1,6 @@
-import CombatAction from './CombatAction';
-import { ClickFunction } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
+import { CombatAction } from './CombatAction';
+import { Character } from '../../Character/Character';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
 
 class NoAction implements CombatAction {
     public name: string = "NoAction";
@@ -14,10 +14,10 @@ class NoAction implements CombatAction {
         return false;
     }
 
-    public use(character: Character, monster: Character): ClickFunction {
+    public use(character: Character, monster: Character): NextScreenChoices {
         return;
     }
 }
 
 const noAction = new NoAction();
-export default noAction as NoAction;
+export { noAction as NoAction };

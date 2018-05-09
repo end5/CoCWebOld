@@ -1,9 +1,10 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 
 export class Fireball implements CombatAction {
@@ -19,7 +20,7 @@ export class Fireball implements CombatAction {
         return character.stats.fatigue + this.fatigueCost <= 100;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigue += this.fatigueCost;
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
@@ -98,5 +99,6 @@ export class Fireball implements CombatAction {
             // if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
             //     (monster as Holli).lightHolliOnFireMagically();
         }
+        return;
     }
 }

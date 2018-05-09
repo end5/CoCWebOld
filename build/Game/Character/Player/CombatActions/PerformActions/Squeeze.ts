@@ -1,6 +1,7 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Squeeze implements CombatAction {
     public name: string = "Squeeze";
@@ -14,7 +15,8 @@ export class Squeeze implements CombatAction {
         return target !== undefined && target.statusAffects.has(StatusAffectType.Constricted);
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         // Scenes.desert.nagaScene.naggaSqueeze();
+        return;
     }
 }

@@ -1,10 +1,10 @@
-import ConsumableName from './ConsumableName';
-import Character from '../../Character/Character';
-import Item from '../Item';
-import ItemDesc from '../ItemDesc';
-import ItemType from '../ItemType';
+import { ConsumableName } from './ConsumableName';
+import { Character } from '../../Character/Character';
+import { Item } from '../Item';
+import { ItemDesc } from '../ItemDesc';
+import { ItemType } from '../ItemType';
 
-export default class Consumable extends Item {
+export class Consumable extends Item {
     private readonly mutationFunc: () => void;
     constructor(key: ConsumableName, itemDesc: ItemDesc, value?: number, mutationFunc: () => void = null) {
         super(key, ItemType.Consumable, itemDesc, value);

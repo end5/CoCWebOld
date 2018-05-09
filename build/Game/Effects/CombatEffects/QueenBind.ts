@@ -1,9 +1,9 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import User from '../../User';
-import CombatEffect from '../CombatEffect';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { User } from '../../User';
+import { CombatEffect } from '../CombatEffect';
 
 export class QueenBind extends CombatEffect {
     public update(character: Character, enemy: Character) {

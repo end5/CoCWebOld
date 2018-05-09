@@ -1,18 +1,18 @@
-﻿import CharacterDescription from './CharacterDescription';
+﻿import { CharacterDescription } from './CharacterDescription';
 import { CharacterType } from './CharacterType';
-import Dictionary from '../../Engine/Utilities/Dictionary';
-import DictionarySerializer from '../../Engine/Utilities/DictionarySerializer';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { Dictionary } from '../../Engine/Utilities/Dictionary';
+import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { randInt } from '../../Engine/Utilities/SMath';
-import Creature from '../Body/Creature';
+import { Creature } from '../Body/Creature';
 import { LegType } from '../Body/Legs';
-import Tail, { TailType } from '../Body/Tail';
-import CombatContainer from '../Combat/CombatContainer';
-import CharacterInventory from '../Inventory/CharacterInventory';
-import LocationDict from '../Locations/LocationDict';
+import { Tail, TailType } from '../Body/Tail';
+import { CombatContainer } from '../Combat/CombatContainer';
+import { CharacterInventory } from '../Inventory/CharacterInventory';
+import { LocationDict } from '../Locations/LocationDict';
 import { generateUUID } from '../Utilities/Uuid';
 
-export default abstract class Character extends Creature implements ISerializable<Character> {
+export abstract class Character extends Creature implements ISerializable<Character> {
     public charType: CharacterType;
     public readonly inventory: CharacterInventory;
 

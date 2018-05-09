@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import Tail, { TailType } from '../../../../Body/Tail';
-import Character from '../../../../Character/Character';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { Tail, TailType } from '../../../../Body/Tail';
+import { Character } from '../../../../Character/Character';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
 
 export class Sting implements CombatAction {
     public name: string = "Sting";
@@ -18,7 +19,7 @@ export class Sting implements CombatAction {
         return player.torso.tails.filter(Tail.FilterType(TailType.BEE_ABDOMEN))[0].vemon >= 33;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // Worms are immune!
         if (monster.desc.short === "worms") {

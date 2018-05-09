@@ -1,7 +1,7 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 
-export default class CleansingPalm extends PerkDesc {
+export class CleansingPalm extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.cor >= 10)
             return "<b>DISABLED</b> - Corruption too high!";

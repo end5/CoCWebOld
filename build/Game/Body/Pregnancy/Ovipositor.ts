@@ -1,6 +1,6 @@
-﻿import ISerializable from '../../../Engine/Utilities/ISerializable';
+﻿import { ISerializable } from '../../../Engine/Utilities/ISerializable';
 
-export default class Ovipositor implements ISerializable<Ovipositor> {
+export class Ovipositor implements ISerializable<Ovipositor> {
     private unfertileEggs: number = 0;
     private fertileEggs: number = 0;
 

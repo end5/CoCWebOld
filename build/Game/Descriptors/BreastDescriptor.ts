@@ -1,8 +1,8 @@
 ﻿import { randInt, randomChoice } from '../../Engine/Utilities/SMath';
-import BreastRow, { BreastCup } from '../Body/BreastRow';
-import Chest from '../Body/Chest';
-import Character from '../Character/Character';
-import Player from '../Character/Player/Player';
+import { BreastCup, BreastRow } from '../Body/BreastRow';
+import { Chest } from '../Body/Chest';
+import { Character } from '../Character/Character';
+import { Player } from '../Character/Player/Player';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { PiercingType } from '../Items/Misc/Piercing';
 

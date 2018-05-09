@@ -1,7 +1,8 @@
-import CharacterHolder from './CharacterHolder';
-import CombatParty from './CombatParty';
+import { CharacterHolder } from './CharacterHolder';
+import { CombatParty } from './CombatParty';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default abstract class PartyEndScenes extends CharacterHolder {
+export abstract class PartyEndScenes extends CharacterHolder {
     /**
      * The default number of hours that pass when losing a fight.
      */
@@ -20,11 +21,11 @@ export default abstract class PartyEndScenes extends CharacterHolder {
      * @param defeatedParty
      * @param victoriousParty
      */
-    protected abstract victoryScene(defeatedParty: CombatParty, victoriousParty: CombatParty): void;
+    protected abstract victoryScene(defeatedParty: CombatParty, victoriousParty: CombatParty): NextScreenChoices;
 
-    public victory(defeatedParty: CombatParty, victoriousParty: CombatParty): void {
+    public victory(defeatedParty: CombatParty, victoriousParty: CombatParty): NextScreenChoices {
         this.beforeVictoriousPartyScene(defeatedParty, victoriousParty);
-        this.victoryScene(defeatedParty, victoriousParty);
+        return this.victoryScene(defeatedParty, victoriousParty);
     }
 
     /**

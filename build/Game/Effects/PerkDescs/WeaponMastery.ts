@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class WeaponMastery extends PerkDesc {
+export class WeaponMastery extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.str > 60)
             return "Doubles damage bonus of weapons classified as 'Large'.";

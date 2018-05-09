@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default abstract class ValueContainer implements ISerializable<ValueContainer> {
+export abstract class ValueContainer implements ISerializable<ValueContainer> {
     public value1: number;
     public value2: number;
     public value3: number;

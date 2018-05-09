@@ -1,9 +1,9 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
-import MainScreen from '../../../../../Engine/Display/MainScreen';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import CombatManager from '../../../../Combat/CombatManager';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { CombatManager } from '../../../../Combat/CombatManager';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Approach implements CombatAction {
     public name: string = "Approach";
@@ -17,10 +17,10 @@ export class Approach implements CombatAction {
         return character.combat.effects.has(CombatEffectType.KnockedBack);
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         DisplayText().clear();
         DisplayText("You close the distance between you and " + target.desc.a + target.desc.short + " as quickly as possible.\n\n");
         character.combat.effects.remove(CombatEffectType.KnockedBack);
-        MainScreen.doNext(CombatManager.nextRound);
+        return;
     }
 }

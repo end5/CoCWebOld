@@ -1,4 +1,4 @@
-﻿import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum ButtWetness {
     DRY, NORMAL, MOIST, SLIMY, DROOLING, SLIME_DROOLING
@@ -20,7 +20,7 @@ export enum ButtRating {
     INCONCEIVABLY_BIG = 20
 }
 
-export default class Butt implements ISerializable<Butt> {
+export class Butt implements ISerializable<Butt> {
     public rating: ButtRating = ButtRating.BUTTLESS;
     public wetness: ButtWetness = ButtWetness.DRY;
     public looseness: ButtLooseness = ButtLooseness.VIRGIN;

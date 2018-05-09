@@ -1,7 +1,7 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import CombatEffect from '../CombatEffect';
+import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 
 export class Blind extends CombatEffect {

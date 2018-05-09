@@ -1,21 +1,20 @@
-import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import RaceScore from '../../Body/RaceScore';
-import Character from '../../Character/Character';
+import { RaceScore } from '../../Body/RaceScore';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as GenderDescriptor from '../../Descriptors/GenderDescriptor';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
+import { StatusAffectFactory } from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ConsumableName from '../../Items/Consumables/ConsumableName';
-import ItemType from '../../Items/ItemType';
-import Menus from '../../Menus/Menus';
-import User from '../../User';
-import Scenes from '../Scenes';
+import { ConsumableName } from '../../Items/Consumables/ConsumableName';
+import { ItemType } from '../../Items/ItemType';
+import { Menus } from '../../Menus/Menus';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
+import { Scenes } from '../Scenes';
 
 /*
  LICENSE
@@ -51,7 +50,7 @@ const giacomoFlags: GiacomoFlags = {
 
 User.flags.set(CharacterType.Giacomo, giacomoFlags);
 
-export function encounter(character: Character) {
+export function encounter(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (giacomoFlags.met === 0) {
@@ -71,20 +70,19 @@ export function encounter(character: Character) {
         else { // Can afford
             DisplayText("Do you purchase his cure?");
             // Remove/No
-            MainScreen.doYesNo(wormRemoval, encounter);
-            return;
+            return { yes: wormRemoval, no: encounter };
         }
     }
     else { // Normal greeting
         DisplayText("You spy the merchant Giacomo in the distance.  He makes a beeline for you, setting up his shop in moments.  ");
         DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you. What are you interested in?");
     }
-    MainScreen.displayChoices(["Potions", "Books", "Erotica", "Worm Cure", "Leave"], [potionMenu, bookMenu, eroticaMenu, deworm, Scenes.camp.returnToCampUseOneHour]);
+    return { choices: [["Potions", "Books", "Erotica", "Worm Cure", "Leave"], [potionMenu, bookMenu, eroticaMenu, deworm, Scenes.camp.returnToCampUseOneHour]] };
 }
 
-function deworm(character: Character) {
+function deworm(character: Character): NextScreenChoices {
     if (character.statusAffects.has(StatusAffectType.WormOffer) && character.statusAffects.has(StatusAffectType.Infested))
-        wormRemovalOffer(character);
+        return wormRemovalOffer(character);
 }
 
 function firstEncounter(character: Character) {
@@ -98,186 +96,180 @@ function firstEncounter(character: Character) {
     giacomoFlags.met = 1;
 }
 
-function potionMenu(character: Character) {
+function potionMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Which potion or tincture will you examine?");
-    MainScreen.displayChoices(["Vitality T.", "Scholars T.", "Cerulean P.", "Back"], [pitchVitailtyTincture, pitchScholarsTea, (character.gender !== 2 ? pitchCeruleanPotion : undefined), encounter]);
+    return { choices: [["Vitality T.", "Scholars T.", "Cerulean P.", "Back"], [pitchVitailtyTincture, pitchScholarsTea, (character.gender !== 2 ? pitchCeruleanPotion : undefined), encounter]] };
 }
 
-function bookMenu(character: Character) {
+function bookMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Which book are you interested in perusing?");
-    MainScreen.displayChoices(["Dangerous Plants", "Traveler's Guide", "Hentai Comic", "Yoga Guide", "Back"], [pitchDangerousPlantsBook, pitchTravellersGuide, pitchHentaiComic, ((User.flags.get("Player") as PlayerFlags).COTTON_UNUSUAL_YOGA_BOOK_TRACKER > 0 ? pitchYogaGuide : undefined), encounter]);
+    return { choices: [["Dangerous Plants", "Traveler's Guide", "Hentai Comic", "Yoga Guide", "Back"], [pitchDangerousPlantsBook, pitchTravellersGuide, pitchHentaiComic, ((User.flags.get("Player") as PlayerFlags).COTTON_UNUSUAL_YOGA_BOOK_TRACKER > 0 ? pitchYogaGuide : undefined), encounter]] };
 }
 
-function eroticaMenu(character: Character) {
+function eroticaMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you.  What are you interested in?");
     if (character.gender === 1)
-        MainScreen.displayChoices(["Dildo", "Onahole", "D Onahole", "Back"], [pitchDildo, pitchOnahole, pitchDeluxeOnahole, encounter]);
+        return { choices: [["Dildo", "Onahole", "D Onahole", "Back"], [pitchDildo, pitchOnahole, pitchDeluxeOnahole, encounter]] };
     if (character.gender === 2)
-        MainScreen.displayChoices(["Dildo", "Stim-Belt", "AN Stim-Belt", "Back"], [pitchDildo, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, encounter]);
+        return { choices: [["Dildo", "Stim-Belt", "AN Stim-Belt", "Back"], [pitchDildo, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, encounter]] };
     if (character.gender === 3)
-        MainScreen.displayChoices(["Onahole", "D Onahole", "AN Onahole", "Stim-Belt", "AN Stim-Belt", "Dual Belt", "Dildo", "Back"], [pitchOnahole, pitchDeluxeOnahole, pitchAllNaturalOnahole, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, pitchDualStimulationBelt, pitchDildo, encounter]);
+        return { choices: [["Onahole", "D Onahole", "AN Onahole", "Stim-Belt", "AN Stim-Belt", "Dual Belt", "Dildo", "Back"], [pitchOnahole, pitchDeluxeOnahole, pitchAllNaturalOnahole, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, pitchDualStimulationBelt, pitchDildo, encounter]] };
     if (character.gender === 0)
-        MainScreen.displayChoices(["Dildo", "Onahole", "Stim-Belt", "Back"], [pitchDildo, pitchOnahole, pitchSelfStimulationBelt, encounter]);
+        return { choices: [["Dildo", "Onahole", "Stim-Belt", "Back"], [pitchDildo, pitchOnahole, pitchSelfStimulationBelt, encounter]] };
 }
 
-function pitchVitailtyTincture(character: Character) {
+function pitchVitailtyTincture(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
-    DisplayText("Giacomo holds up the item and says, \"<i>Ah, yes!  The quintessential elixir for all travelers, this little bottle of distilled livelihood will aid you in restoring your energy on your journey and, should you be hurt or injured, will aid the body's ability to heal itself.  Yes " + GenderDescriptor.mf(character, "sir", "madam") + ", this is liquid gold for pilgrim and adventurer alike.  Interested?  It is <b>15 gems</b></i>.\"  ");
-    MainScreen.doYesNo(buyVitailtyTincture, potionMenu);
+    DisplayText("Giacomo holds up the item and says, \"<i>Ah, yes!  The quintessential elixir for all travelers, this little bottle of distilled livelihood will aid you in restoring your energy on your journey and, should you be hurt or injured, will aid the body's ability to heal itself.  Yes " + Desc.Gender.mf(character, "sir", "madam") + ", this is liquid gold for pilgrim and adventurer alike.  Interested?  It is <b>15 gems</b></i>.\"  ");
+    return { yes: buyVitailtyTincture, no: potionMenu };
 }
 
-function buyVitailtyTincture(character: Character) {
+function buyVitailtyTincture(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     if (character.inventory.gems < 15) {
         DisplayText().clear();
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(15 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(potionMenu);
+        return { next: potionMenu };
     }
     else {
         character.inventory.gems -= 15;
-        character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.VitalityTincture, potionMenu);
+        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.VitalityTincture, potionMenu);
     }
 }
 
-function pitchScholarsTea(character: Character) {
+function pitchScholarsTea(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Giacomo holds up a pouch of dried, fragrant leaves and begins his spiel, \"<i>Have you ever wondered how scholars and other smart folk keep up such a mental effort for so long?  They make a tea out of this fine mixture of quality plants and herbs.  Nothing but the best, this mysterious mixture of herbs in its Orange Pekoe base makes anyone, short of a lummox, as brainy as the finest minds of the land.  All you do is steep the leaves in some water and drink up!  Hot or cold, straight or sweetened with honey, your mind will run circles around itself once it has this for fuel.  Buy it now and I will throw in the strainer for free!  Interested?  Only <b>15 gems</b>!</i>\"  ");
-    MainScreen.doYesNo(buyScholarsTea, potionMenu);
+    return { yes: buyScholarsTea, no: potionMenu };
 }
 
-function buyScholarsTea(character: Character) {
+function buyScholarsTea(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     if (character.inventory.gems < 15) {
         DisplayText().clear();
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(15 - character.inventory.gems) + " more gems to purchase this item.  ");
-        MainScreen.doNext(potionMenu);
+        return { next: potionMenu };
     }
     else {
         character.inventory.gems -= 15;
-        character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.ScholarsTea, potionMenu);
+        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.ScholarsTea, potionMenu);
     }
 }
 
-function pitchCeruleanPotion(character: Character) {
+function pitchCeruleanPotion(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Giacomo makes his comical over-the-shoulder search and holds up a sky-blue bottle.  He grins widely as he begins his pitch, \"<i>My friend, you truly have a discerning eye.  Even the most successful of men seek to attract more women for pleasure and status.  This, my friend, will attract the most discerning and aroused of women.  Women attracted by this fine unction will NEVER say no.  I GUARANTEE that she will want pleasure every time you demand pleasure!  A bit of a caution to you, brother.  Some say this works TOO well.  If you aren't man enough to handle the women this urn draws to you, you'd best say so now and I will offer something more to your liking.  However, if you have the heart for it, I can sell you this little gem for <b>75 gems</b></i>!\"  ");
-    MainScreen.doYesNo(buyCeruleanPotion, potionMenu);
+    return { yes: buyCeruleanPotion, no: potionMenu };
 }
 
-function buyCeruleanPotion(character: Character) {
+function buyCeruleanPotion(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     if (character.inventory.gems < 75) {
         DisplayText().clear();
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(75 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(potionMenu);
+        return { next: potionMenu };
     }
     else {
-        character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, potionMenu);
         character.inventory.gems -= 75;
+        return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, potionMenu);
     }
 }
 
-function pitchDangerousPlantsBook(character: Character) {
+function pitchDangerousPlantsBook(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Dangerous Plants")) {
         DisplayText("<b>You already own the book 'Dangerous Plants'.</b>");
-        MainScreen.doNext(bookMenu);
-        return;
+        return { next: bookMenu };
     }
     DisplayText("Giacomo proudly holds up a small text.  The cover is plain and unadorned with artwork.  \"<i>According to the scholars,</i>\" Giacomo begins, \"<i>knowledge is power.  It is one of the few things that scholars say that I agree with.  You cannot survive in today's world without knowing something of it.  Beasts and men are not your only problems.  This book specializes in the dangerous plants of the realm.  There exists flora the likes of which will chew you up and spit you out faster than any pack of wolves or gang of thieves.  For the small price of 10 gems, you can benefit from this fine book on the nastiest blossoms in existence.  Care to broaden your learning?</i>\"");
-    MainScreen.doYesNo(buyDangerousPlantsBook, bookMenu);
+    return { yes: buyDangerousPlantsBook, no: bookMenu };
 }
 
-function buyDangerousPlantsBook(character: Character) {
+function buyDangerousPlantsBook(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 10) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(10 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(bookMenu);
+        return { next: bookMenu };
     }
     else {
         DisplayText("\n\nYou consider yourself fortunate to be quite literate in this day and age.  It certainly comes in handy with this book.  Obviously written by well-informed, but women-starved men, the narrative drearily states the various types of poisonous and carnivorous plants in the world.  One entry that really grabs you is the chapter on 'Violation Plants'.  The chapter drones on about an entire classification of specially bred plants whose purpose is to torture or feed off a human being without permanently injuring and killing them.  Most of these plants attempt to try breeding with humans and are insensitive to the intricacies of human reproduction to be of any value, save giving the person no end of hell.  These plants range from massive shambling horrors to small plant-animal hybrids that attach themselves to people.  As you finish the book, you cannot help but shiver at the many unnatural types of plants out there and wonder what sick bastard created such monstrosities. ");
-        MainScreen.doNext(bookMenu);
         character.inventory.gems -= 10;
         character.inventory.keyItems.add("Dangerous Plants", 0, 0, 0, 0);
-
+        return { next: bookMenu };
     }
 }
 
-function pitchTravellersGuide(character: Character) {
+function pitchTravellersGuide(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Traveler's Guide")) {
         DisplayText("<b>You already own the book 'Traveler's Guide'.</b>");
-        MainScreen.doNext(bookMenu);
-        return;
+        return { next: bookMenu };
     }
     DisplayText("Giacomo holds up a humble pamphlet.  \"<i>While you may not find value in this as a seasoned traveler,</i>\", Giacomo opens, \"<i>you never know what you may learn from this handy, dandy information packet!  Geared to the novice, this piece of work emphasizes the necessary items and some good rules of thumb for going out into the world.  You may not need it, but you may know someone who does.  Why waste your time when the answers could be in this handy pamphlet!  I will offer the super-cheap price of 1 gem!</i>\"");
-    MainScreen.doYesNo(buyTravellersGuide, bookMenu);
+    return { yes: buyTravellersGuide, no: bookMenu };
 }
 
-function buyTravellersGuide(character: Character) {
+function buyTravellersGuide(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 1) {
         DisplayText("\n\nGiacomo sighs, indicating you need 1 gem to purchase this item.");
-        MainScreen.doNext(bookMenu);
+        return { next: bookMenu };
     }
     else {
         DisplayText("The crazy merchant said you might not need this and he was right.  Written at a simple level, this was obviously intended for a city-dweller who never left the confines of their walls.  Littered with childish illustrations and silly phrases, the book is informative in the sense that it does tell a person what they need and what to do, but naively downplays the dangers of the forest and from bandits.  Were it not so cheap, you would be pissed at the merchant.  However, he is right in the fact that giving this to some idiot ignorant of the dangers of the road saves time from having to answer a bunch of stupid questions.");
-        MainScreen.doNext(bookMenu);
         character.inventory.gems -= 1;
         character.inventory.keyItems.add("Traveler's Guide", 0, 0, 0, 0);
-
+        return { next: bookMenu };
     }
 }
 
-function pitchHentaiComic(character: Character) {
+function pitchHentaiComic(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Hentai Comic")) {
         DisplayText("<b>You already own a Hentai Comic!</b>");
-        MainScreen.doNext(bookMenu);
-        return;
+        return { next: bookMenu };
     }
-    DisplayText("Giacomo takes out a colorfully written magazine from his bag.  The cover contains well-drawn, overly-endowed women in sexual poses.  \"<i>Perhaps your taste in reading is a bit more primal, my good " + GenderDescriptor.mfn(character.gender, "man", "lady", "...err, whatever you are") + "</i>,\" says Giacomo.  \"<i>Taken from the lands far to the east, this is a tawdry tale of a group of ladies seeking out endless pleasures.  With a half a dozen pictures on every page to illustrate their peccadilloes, you will have your passions inflamed and wish to join these fantasy vixens in their adventures!  Collectable and in high demand, and even if this is not to your tastes, you can easily turn a profit on it!  Care to adventure into the realm of fantasy?  It's only 10 gems and I am doing YOU a favor for such a price.</i>\"");
-    MainScreen.doYesNo(buyHentaiComic, bookMenu);
+    DisplayText("Giacomo takes out a colorfully written magazine from his bag.  The cover contains well-drawn, overly-endowed women in sexual poses.  \"<i>Perhaps your taste in reading is a bit more primal, my good " + Desc.Gender.mfn(character.gender, "man", "lady", "...err, whatever you are") + "</i>,\" says Giacomo.  \"<i>Taken from the lands far to the east, this is a tawdry tale of a group of ladies seeking out endless pleasures.  With a half a dozen pictures on every page to illustrate their peccadilloes, you will have your passions inflamed and wish to join these fantasy vixens in their adventures!  Collectable and in high demand, and even if this is not to your tastes, you can easily turn a profit on it!  Care to adventure into the realm of fantasy?  It's only 10 gems and I am doing YOU a favor for such a price.</i>\"");
+    return { yes: buyHentaiComic, no: bookMenu };
 }
 
-function buyHentaiComic(character: Character) {
+function buyHentaiComic(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 10) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(10 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(bookMenu);
+        return { next: bookMenu };
     }
     else {
         DisplayText("You peruse the erotic book.  The story is one of a group of sisters who are all impossibly heavy-chested and equally horny getting into constant misadventures trying to satisfy their lust.  While the comic was entertaining and erotic to the highest degree, you cannot help but laugh at how over-the-top the story and all of the characters are.  Were the world as it was in the book, nothing would get done as humanity would be fucking like jackrabbits in heat for the rest of their lives.  While certainly a tempting proposition, everyone gets worn out sometime.  You place the book in your sack, well entertained and with a head filled with wilder perversions than what you woke up with this morning.");
-        MainScreen.doNext(bookMenu);
         character.inventory.gems -= 10;
         character.inventory.keyItems.add("Hentai Comic", 0, 0, 0, 0);
-
+        return { next: bookMenu };
     }
 }
 
-function pitchYogaGuide(character: Character) {
+function pitchYogaGuide(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Giacomo holds up the book with a small degree of reverence.  The cover is leather, with the lettering stitched in by hand.  \"<i>This, my friend,</i>\" begins Giacomo, \"<i>is a strange book indeed.  I traded for it in the east, where they practice a form of exercise known as yoga.  This volume in particular deals with those of, shall we say, unusual body shapes.  Because of its rarity and usefulness, I simply cannot let it go for less than 100 gems and believe me, at this price I'm practically cutting my own throat.  Care to broaden your horizons?</i>\"");
-    MainScreen.doYesNo(buyYogaGuide, bookMenu);
+    return { yes: buyYogaGuide, no: bookMenu };
 }
 
-function buyYogaGuide(character: Character) {
+function buyYogaGuide(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (character.inventory.keyItems.has("Yoga Guide")) {
         DisplayText("<b>You already own a yoga guide!</b>");
@@ -291,70 +283,65 @@ function buyYogaGuide(character: Character) {
         character.inventory.gems -= 100;
 
     }
-    MainScreen.doNext(bookMenu);
+    return { next: bookMenu };
 }
 
-function pitchDildo(character: Character) {
+function pitchDildo(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Dildo")) {
         DisplayText("<b>You already own a Dildo!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo takes out a slender tube roughly over half a foot in length.  \"<i>Since you seek pleasure, this is as simple and effective as it gets.  This dildo is a healthy seven inches long and is suitable for most women and even adventurous men.  Pick a hole, stick it in and work it to your heart's content or your partner's pleasure.  The single-piece construction makes it solid, sturdy and straightforward.  For 20 gems, you can take matters into your own hands.  How about it?</i>\"");
-    MainScreen.doYesNo(buyDildo, eroticaMenu);
+    return { yes: buyDildo, no: eroticaMenu };
 }
 
-function buyDildo(character: Character) {
+function buyDildo(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 20) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(20 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
+        return { next: eroticaMenu };
     }
     else {
         DisplayText("After making the payment, Giacomo hands you the Dildo");
-        MainScreen.doNext(eroticaMenu);
         character.inventory.gems -= 20;
         character.inventory.keyItems.add("Dildo", 0, 0, 0, 0);
-
+        return { next: eroticaMenu };
     }
 }
 
-function pitchSelfStimulationBelt(character: Character) {
+function pitchSelfStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Self-Stimulation Belt")) {
         DisplayText("<b>You already own a Self-Stimulation Belt!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo holds up what appears to be a chastity belt.  However, this device has a dildo attached to the inside.  There is a small gearbox on the outside and a wind-up key is tethered to it.  The crazed merchant holds the contraption up and begins his liturgy.  \"<i>Ah! Someone who both appreciates pleasure AND the wonders of artifice.  This naughty little piece of jewelry is designed to pleasure any woman all at the push of a button!  All you do is take this key, wind up the gear box...</i>\"  Giacomo takes the key and inserts it into the box and winds it like a watch.  He then points to a switch.  \"<i>...you then press this button and enjoy yourself!</i>\"  Giacomo flips the switch and the dildo vibrates rapidly.  The distinct hum from the toy and the whirring of gears stirs your imagination.  Giacomo pipes up, breaking your train of thought.  \"<i>This belt is not cheap, but it is most certainly worth the investment of 30 gems!</i>\"");
-    MainScreen.doYesNo(buySelfStimulationBelt, eroticaMenu);
+    return { yes: buySelfStimulationBelt, no: eroticaMenu };
 }
 
-function buySelfStimulationBelt(character: Character) {
+function buySelfStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 30) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(30 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("After making the payment, Giacomo hands you the Self-Stimulation Belt");
     character.inventory.keyItems.add("Self-Stimulation Belt", 0, 0, 0, 0);
-    MainScreen.doNext(eroticaMenu);
     character.inventory.gems -= 30;
+    return { next: eroticaMenu };
 }
 
-function pitchAllNaturalSelfStimulationBelt(character: Character) {
+function pitchAllNaturalSelfStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("All-Natural Self-Stimulation Belt")) {
         DisplayText("<b>You already own an All-Natural Self-Stimulation Belt!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("The merchant places his bag on the ground.  He reaches into one of his purses and pulls out a pair of gloves.  After putting them on, he reaches into his bag and pulls out what appears to be a chastity belt.  The device has a clearly organic look to it.  In the center of the front cover is a nodule.  You have heard of similar devices.  They normally have a dildo attached to them to pleasure women.  ");
     DisplayText("\"<i>This device is quite intriguing,</i>\" Giacomo begins, \"<i>This pleasure engine is NOT for the faint-of-heart.  Being constructed of materials from the workshops of biomechanical artificers, this device outperforms its mechanical cousin in every way.  Guaranteed to last longer than you do, this machine will give you as many mind-shattering orgasms as you can handle.  Unlike the mechanical belt, you do not need to wind it up.  It soaks up the power of the sun itself in an amazing feat of engineering.  Four hours a day is all it needs!  Keep in mind that if there is no sun for a couple of days, it will not work without a full day's sunshine.  You may wonder why I am wearing gloves.  Well, that is because of the pads on the belt.</i>\"  Giacomo points to a couple of small, amber pads on the belt.  \"<i>They are sensitive to human touch and activate the belt.  This is all yours for 40 gems and you get the gloves for free!  Again, this device offers ultimate pleasure.  If you can't handle it, I will not be offended if you turn it down.</i>\"");
@@ -367,82 +354,76 @@ function pitchAllNaturalSelfStimulationBelt(character: Character) {
         }
     }
     DisplayText("\n\nDo you buy the All-Natural Self-Stimulation Belt?");
-    MainScreen.doYesNo(buyAllNaturalSelfStimulationBelt, eroticaMenu);
+    return { yes: buyAllNaturalSelfStimulationBelt, no: eroticaMenu };
 }
 
-function buyAllNaturalSelfStimulationBelt(character: Character) {
+function buyAllNaturalSelfStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 40) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(40 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("After making the payment, Giacomo hands you the All-Natural Self-Stimulation Belt");
     character.inventory.keyItems.add("All-Natural Self-Stimulation Belt", 0, 0, 0, 0);
-    MainScreen.doNext(eroticaMenu);
     character.inventory.gems -= 40;
+    return { next: eroticaMenu };
 }
 
-function pitchOnahole(character: Character) {
+function pitchOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Plain Onahole")) {
         DisplayText("<b>You already own a Plain Onahole!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo takes out a pink cylinder from his bag.  It appears to be sealed at one end and the cap is topped with a piece of rubber that has a vertical slit.  \"<i>Friend</i>,\" Giacomo starts, \"<i>when you do not want to go through all of the shit to bag a woman, this is the thing for you.  It never says no, it never bitches and it never takes everything you own in a divorce.  All you do is get hard, slip your cock in the slit, work it at your pace and unload.  Simple is as simple does.  Take the top off for easy clean up and there you go!  As you can see it is portable and is much safer than risking some social disease from an errant barmaid.  I have plenty of these in stock and I can let it go for 20 gems.  What say you?</i>\"");
-    MainScreen.doYesNo(buyOnahole, eroticaMenu);
+    return { yes: buyOnahole, no: eroticaMenu };
 }
 
-function buyOnahole(character: Character) {
+function buyOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 20) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(20 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("After making the payment, Giacomo hands you the Plain Onahole");
     character.inventory.keyItems.add("Plain Onahole", 0, 0, 0, 0);
-    MainScreen.doNext(eroticaMenu);
     character.inventory.gems -= 20;
+    return { next: eroticaMenu };
 }
 
-function pitchDeluxeOnahole(character: Character) {
+function pitchDeluxeOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Deluxe Onahole")) {
         DisplayText("<b>You already own a Deluxe Onahole!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo holds up a weirdly shaped lump of rubber.  One end is shaped and contoured like a woman's genitalia while the rest stretches out to almost a foot long.  \"<i>This thing right here is excellent!  While a standard onahole will get you off, this has the look and feel of the real thing!  As you can see, the outside orifice looks just like a woman's functions and,</i>\" Giacomo pauses to open the inside for you to view.  You see the inner folds and curves that are typical to the inside of a woman's womb, \"<i>as you can see, great care has been taken to make the inside feel as much like a real pussy as possible.  You hammer your cock with this thing a few times and you may never want the real thing again!  If nothing else, it won't whine about you running out the door first thing in the morning.  50 gems is more than reasonable for all of the satisfaction this will bring.</i>\"");
-    MainScreen.doYesNo(buyDeluxeOnahole, eroticaMenu);
+    return { yes: buyDeluxeOnahole, no: eroticaMenu };
 }
 
-function buyDeluxeOnahole(character: Character) {
+function buyDeluxeOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 50) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(50 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("After making the payment, Giacomo hands you the Deluxe Onahole");
     character.inventory.keyItems.add("Deluxe Onahole", 0, 0, 0, 0);
-    MainScreen.doNext(eroticaMenu);
     character.inventory.gems -= 50;
+    return { next: eroticaMenu };
 }
 
-function pitchAllNaturalOnahole(character: Character) {
+function pitchAllNaturalOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("All-Natural Onahole")) {
         DisplayText("<b>You already own an All-Natural Onahole!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo reaches into his bag and pulls out what looks like an oblong coconut.  It is roughly seven inches in diameter.  There is a distinctive opening in one end that is just large enough for an erect penis.  Inside the opening you see what looks like two pink cushions.  There are multiple symmetrical depressions surrounding the outside hole of the thing.  Giacomo's smile fades and he takes on a much more serious attitude befitting his aquiline face.  \"<i>Miss,</i>\" Giacomo states, \"<i>without sounding too bold, it is no secret that members of the third gender are capable of sexual feats that force the other two genders into jealous fits.  Having bigger cocks than men, cumming more than an elephant and a pussy with the strength and coordination of a human hand, regular toys do not last long for you folk.  Hence, this little beasty.  I will tell you straightaway, only the third sex ");
     DisplayText("can handle this toy.  The other two genders simply do not have the stamina for it.  This thing is all-natural, meaning that it powers itself and is made with the Artificers' organic methods.  It will cease functioning if it is not used or you fail to give the opening a few drops of this fluid once every three days.</i>\"  Giacomo pauses to hold up a small bottle.  He places the bottle down and continues his sales pitch, \"<i>If you plan on not using this thing regularly, do not buy it.  These items are very rare and this one will probably be the only one you'll ever see.  Normally I pitch my products like crazy.  However, with this I do not need to.  This thing DOES work too well, and you WILL cum, period.  It will work you until you do not want it to work anymore.  It will not stop until IT decides to stop.  However, for the extreme needs of a lovely example of the dual-sex, it may be the very thing you need.  Again, this is for the ultimate hardcore pleasure seeker amongst the ultimate hardcore.  It costs a humble 150 gems, but for superhuman thrills, who can put a price tag on that?</i>");
@@ -452,36 +433,34 @@ function pitchAllNaturalOnahole(character: Character) {
             DisplayText("After a moment, you remember what it was you read.  Unlike many simple beasts, this creature has a male and a female gender.  The creature itself is similar to a tubeworm.  While the males are considered reasonably \"safe\", the females have a nasty habit of injecting its young inside the sex organs of the person using the thing, leaving the hapless person to convulse in endless, painful orgasms as the beasties wriggle around their insides until they are ready for birth.  The process takes about a week and recorded victims normally make full recoveries after a period of blindingly painful orgasms as they shoot out the young.  It is not a surprise to have people's hearts give out at the endless stimulation from the young.  The recovery time is quite long due to the stress on the body such overwhelming stimulus would generate.  Some ultra-extreme pleasure seekers actively look for these things just for this experience.\n\nHowever, the problem is there is NO WAY to tell if this is male or female by looking at it.");
         }
     }
-    MainScreen.doYesNo(buyAllNaturalOnahole, eroticaMenu);
+    return { yes: buyAllNaturalOnahole, no: eroticaMenu };
 }
 
-function buyAllNaturalOnahole(character: Character) {
+function buyAllNaturalOnahole(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 150) {
         DisplayText("\n\nGiacomo sighs, indicating you need " + String(150 - character.inventory.gems) + " more gems to purchase this item.");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("After making the payment, Giacomo hands you the All-Natural Onahole");
     character.inventory.keyItems.add("All-Natural Onahole", 0, 0, 0, 0);
-    MainScreen.doNext(eroticaMenu);
     character.inventory.gems -= 150;
+    return { next: eroticaMenu };
 }
 
-function pitchDualStimulationBelt(character: Character) {
+function pitchDualStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.keyItems.has("Dual Belt")) {
         DisplayText("<b>You already own a dual belt!</b>");
-        MainScreen.doNext(eroticaMenu);
-        return;
+        return { next: eroticaMenu };
     }
     DisplayText("Giacomo smiles widely as you look through his wares seeing a strange looking device sitting there.  \"<i>Ahh, I see you have spotted our latest piece of equipment.  Members of the third gender had a hard time finding enough pleasure to suit their special needs.  With this little device, you will never have to worry about satisfying your needs ever again.</i>\"  He grins widely at you.  \"<i>The deluxe dual belt will have you shaking in the throes of orgasm hours after a simple stim belt would leave you dry.  You will cum in this thing, and it will leave you running back to it anytime you need sexual gratification.  Everything else may as well be sandpaper on your skin.  Simply flick this switch here on the side to start it up and send yourself to heaven.  And you can have it for the low price of 50 gems.</i>\"  He smiles again at you.  \"<i>So, shall I hand it over to you?</i>\" he asks.");
-    MainScreen.doYesNo(buyDualStimulationBelt, eroticaMenu);
+    return { yes: buyDualStimulationBelt, no: eroticaMenu };
 }
 
-function buyDualStimulationBelt(character: Character) {
+function buyDualStimulationBelt(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     if (character.inventory.gems < 50) {
@@ -491,12 +470,11 @@ function buyDualStimulationBelt(character: Character) {
         DisplayText("You are a bit dubious at the pleasure it could offer you, but it would be better than being raped by the creatures constantly... maybe to even work out some excess lusts... hesitantly, you reach into your bag and grab 50 gems, handing it to him.  He greedily snatches it from your palm and hands you with the belt with a smile.  \"<i>I promise you won't be disappointed.</i>\"  He counts the gems and waves goodbye.\n\n(<b>Dual Belt acquired!</b>)");
         character.inventory.keyItems.add("Dual Belt", 0, 0, 0, 0);
         character.inventory.gems -= 50;
-
     }
-    MainScreen.doNext(eroticaMenu);
+    return { next: eroticaMenu };
 }
 
-function wormRemoval(character: Character) {
+function wormRemoval(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("You toss the gems at the merchant, who calmly hands you the bottle. Gulping down the liquid, your guts light up as if you swallowed fire. Pain overwhelms your body and you drop to your knees convulsing. You curse the merchant for poisoning you, yet you can only choke out gibberish through your groans. The pain quickly focuses from your stomach to your crotch as the worms inside you are clearly NOT happy with what you have done. You fall onto your back as the thrashing overwhelms you. With an unexpected climax, every worm in your body fights to escape your gonads. The fat worm that resided deep in your sex lazily pushes itself out last.\n\n");
@@ -513,10 +491,10 @@ function wormRemoval(character: Character) {
     character.stats.lust += -99;
     character.stats.cor += -4;
     character.inventory.gems -= 175;
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.VitalityTincture, Scenes.camp.returnToCampUseOneHour);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.VitalityTincture, Scenes.camp.returnToCampUseOneHour);
 }
 
-function wormRemovalOffer(character: Character) {
+function wormRemovalOffer(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText("\n\n\"<i>Been playing with creatures best left alone, I see</i>\", he chuckles, \"<i>Infestations of any kind are annoying, yet your plight is quite challenging given the magnitude of corrupt creatures around here. It is not the first time I have seen one infested with THOSE worms.</i>\"\n\n");
     DisplayText("You ask how he knows of your change and the merchant giggles heartily.\n\n");
@@ -526,17 +504,17 @@ function wormRemovalOffer(character: Character) {
     // Broke as a joke
     if (character.inventory.gems < 175) {
         DisplayText("You realize you don't have enough gems for such a pricey potion, but perhaps there is something else in his inventory you can buy.");
-        MainScreen.doNext(encounter);
+        return { next: encounter };
     }
     // Can afford
     else {
         DisplayText("Do you purchase his cure?");
         // Remove/No
-        MainScreen.doYesNo(wormRemoval, encounter);
+        return { yes: wormRemoval, no: encounter };
     }
 }
 
-function nightSuccubiFirstTime(character: Character) {
+function nightSuccubiFirstTime(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText("\nAs you sleep, your rest becomes increasingly disturbed.  You feel a great weight on top of you and you find it difficult to breathe.  Stirred to consciousness, your eyes are greeted by an enormous pair of blue tinged breasts.  The nipples are quite long and thick and are surrounded by large, round areola.  A deep, feminine voice breaks the silence.  \"<i>I was wondering if you would wake up.</i>\"  You turn your head to the voice to see the visage of a sharp-featured, attractive woman.  The woman grins mischievously and speaks again.  \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\"  Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features.  The pupils of her eyes are slit like a cat's.  As she grins, she bares her teeth, which contain two pairs of long and short fangs.  This woman is clearly NOT human!  In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground.  You see that each finger on her hand also contains a fourth joint, further proving her status.  Before you can speak a word, the woman begins mocking your fear and places her face in front of yours.  Her face is almost certainly demonic in nature.\n\n");
     if (character.gender === 0) {
@@ -554,8 +532,7 @@ function nightSuccubiFirstTime(character: Character) {
         DisplayText("The Succubus stops, turns and points to you in derision.  \"<i>And YOU!  You no-cock, no-cunt having pissant!  Take your ass back to the lab before they find out you escaped!!!!!</i>\"\n\n");
         DisplayText("The Succubus resumes her stormy exit.  You look at the bottle of Cerulean Potion and wonder if it REALLY had some psychotropics in it.  What the hell just happened?!");
         (User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_NEUTER_ATTEMPTED = 1;
-        MainScreen.doNext(Menus.Player);
-        return;
+        return { next: Menus.Player };
     }
     if (character.gender === 1)
         DisplayText("\"<i>Awwww!  Did my blue skin and pointy teeth scare you?</i>\" she says in a childish voice.  \"<i>Believe me stud, if I wanted to harm you, I would not have let you wake up at all.  I am here because you have 'called' me.</i>\"  She teases you with the empty blue bottle you bought from the merchant.  \"<i>My essence is in this bottle.  Any man who drinks this, I am compelled to return the pleasure by drinking his.</i>\"  The demon woman reaches her skinny hand down to your crotch where you see you have become fiercely erect.  The demon gently strokes your cock until you begin oozing generous amounts of your own natural lubricants.  The demon takes one of her massive breasts and teases you with her fat nipples.  \"<i>Open your mouth,</i>\" she demands.  \"<i>Take me into your mouth as I will soon take you into mine.</i>\"\n\n");
@@ -563,17 +540,17 @@ function nightSuccubiFirstTime(character: Character) {
         (User.flags.get("Player") as PlayerFlags).UNKNOWN_FLAG_NUMBER_00111++;
         DisplayText("\nIt is obvious that you have been confronted by a succubus.  As the fire illuminates your captor, her grin widens broadly.\n\n");
         DisplayText("\"<i>Well, well, well!</i>\" the Succubus jingles.  \"<i>What have we here?!  A little girl with a big cock!</i>\"\n\n");
-        DisplayText("As the Succubus looks down at your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ", you have quickly achieved one of the healthiest erections you have ever had.  The succubus quickly poises her hairy hole over your member and allows her weight to force your dick into her womb.  The demoness rests her weight in her lap as she allows you to fully penetrate her.  Her womb is hot and wet and her muscles have your prick in one of the strongest grips imaginable.  Even if you went totally limp, withdrawal would be an impossibility.  Wincing at the sudden crushing force of her vaginal muscles, the succubus giggles inhumanly.\n\n");
+        DisplayText("As the Succubus looks down at your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ", you have quickly achieved one of the healthiest erections you have ever had.  The succubus quickly poises her hairy hole over your member and allows her weight to force your dick into her womb.  The demoness rests her weight in her lap as she allows you to fully penetrate her.  Her womb is hot and wet and her muscles have your prick in one of the strongest grips imaginable.  Even if you went totally limp, withdrawal would be an impossibility.  Wincing at the sudden crushing force of her vaginal muscles, the succubus giggles inhumanly.\n\n");
         DisplayText("\"<i>Quit whimpering,</i>\" the Succubus orders.  \"<i>I hope the rumors about you futas are true.  I need a good, fiery load of cum to get me going.  I haven't had one in a while and as much as I LOVE men, they can only feed me so much.</i>\"\n\n");
         DisplayText("You quickly try to struggle, but find the Succubus to be utterly dominating.  She wraps her arms around your back and entwines her lean legs around your hips.  The Succubus playfully licks your lips and grins.\n\n");
         DisplayText("\"<i>You are getting your dick milked,</i>\" the Succubus says flatly, \"<i>Accept it.  Trust me, when I am done, you will want more of me, anyway.</i>\"\n\n");
         DisplayText("As the Succubus finishes her ultimatum, you feel churning vaginal contractions stroking your massive cock.  Heavy, powerful, coordinated undulations work your dick as surely as the best handjob.  You quickly moan in shock and pleasure at such rough treatment.");
     }
     character.stats.lust += 35;
-    MainScreen.doNext(ceruleanSuccubusEncounterPart2);
+    return { next: ceruleanSuccubusEncounterPart2 };
 }
 
-function ceruleanSuccubusEncounterPart2(character: Character) {
+function ceruleanSuccubusEncounterPart2(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Giacomo);
     if (character.gender === 1) {
@@ -590,10 +567,10 @@ function ceruleanSuccubusEncounterPart2(character: Character) {
     character.stats.sens += .5;
     character.stats.lust += 5;
     character.stats.cor += 1;
-    MainScreen.doNext(ceruleanSuccubusEncounterPart3);
+    return { next: ceruleanSuccubusEncounterPart3 };
 }
 
-function ceruleanSuccubusEncounterPart3(character: Character) {
+function ceruleanSuccubusEncounterPart3(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Giacomo);
     if (character.gender === 1) {
@@ -611,10 +588,10 @@ function ceruleanSuccubusEncounterPart3(character: Character) {
     character.stats.fatigue += 20;
     character.orgasm();
     character.stats.lib += .5;
-    MainScreen.doNext(ceruleanSuccubusEncounterPart4);
+    return { next: ceruleanSuccubusEncounterPart4 };
 }
 
-function ceruleanSuccubusEncounterPart4(character: Character) {
+function ceruleanSuccubusEncounterPart4(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     if (character.gender === 1) {
         DisplayText().clear();
@@ -630,10 +607,10 @@ function ceruleanSuccubusEncounterPart4(character: Character) {
         character.stats.str += .5;
         character.stats.lust += 4;
     }
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, Menus.Player);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, Menus.Player);
 }
 
-function nightSuccubiRepeat(character: Character) {
+function nightSuccubiRepeat(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     if (character.gender === 0) {
         if ((User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_NEUTER_ATTEMPTED === 0) {
@@ -686,23 +663,22 @@ function nightSuccubiRepeat(character: Character) {
 
             DisplayText("\"<i><b>Problem?</b></i>\"");
         }
-        MainScreen.doNext(Menus.Player);
-        return;
+        return { next: Menus.Player };
     }
     character.orgasm();
     character.stats.cor += 2;
     if (character.gender === 1) {
         if (character.stats.cor < 66) {
             DisplayText("\nAgainst your better judgment, you've again partaken of the cerulean elixir and fallen asleep. You are quickly awakened by a thick nipple being thrust into your mouth and torrents of breast milk gushing down your throat as the succubus returns to have her way with you. Looking up, your eyes meet hers as a hungry manipulative grin stretches across her blue face. Unable to control your lust, your prick jumps to attention, which prompts the demoness to ");
-            if (character.torso.hips.legs.isTaur()) DisplayText(" crouch between your legs and impale herself on your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " with a wet sound caused by her well-lubricated vulva. Y");
-            else DisplayText(" open her womb and quickly consume your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ". She embraces you, entrapping your head in her cleavage as y");
-            DisplayText("ou quickly feel her superhuman vaginal muscles work and stroke your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " better than any human woman or pair of hands could ever hope to accomplish. You are helpless as your unholy embrace milks the both of you in an infernal symphony of debauchery. The familiar cramp of an impending ejaculation grips you and your twitching signals the succubus of your approaching climax.\n\n");
-            if (character.torso.hips.legs.isTaur()) DisplayText("Pushing on your forelegs, she engulfs even more of your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)));
+            if (character.torso.hips.legs.isTaur()) DisplayText(" crouch between your legs and impale herself on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " with a wet sound caused by her well-lubricated vulva. Y");
+            else DisplayText(" open her womb and quickly consume your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ". She embraces you, entrapping your head in her cleavage as y");
+            DisplayText("ou quickly feel her superhuman vaginal muscles work and stroke your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " better than any human woman or pair of hands could ever hope to accomplish. You are helpless as your unholy embrace milks the both of you in an infernal symphony of debauchery. The familiar cramp of an impending ejaculation grips you and your twitching signals the succubus of your approaching climax.\n\n");
+            if (character.torso.hips.legs.isTaur()) DisplayText("Pushing on your forelegs, she engulfs even more of your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)));
             else DisplayText("Almost crushing your pelvis, she wraps her legs around your body");
             DisplayText(" and her muscles churn mercilessly demanding that you release your 'milk' as freely as she has released hers into you. Stimulated beyond any human ability to maintain control, you bear down and release a milky flood of your own inside the succubus. Moaning in ecstasy, she ");
-            if (character.torso.hips.legs.isTaur()) DisplayText("arches under your belly as you feel your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " bending pleasurably inside her, and");
+            if (character.torso.hips.legs.isTaur()) DisplayText("arches under your belly as you feel your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " bending pleasurably inside her, and");
             else DisplayText("releases you from her grip, allowing you to finally breathe deeply, and leans back, arching high to reveal your joined genitals in the moonlight. You visibly see");
-            DisplayText(" her contractions milking your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " as fiercely as a maid milks a cow! Another torrent of cum pushes its way out of your body and you let out a moan of pleasure and exhaustion.\n\n");
+            DisplayText(" her contractions milking your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " as fiercely as a maid milks a cow! Another torrent of cum pushes its way out of your body and you let out a moan of pleasure and exhaustion.\n\n");
             DisplayText("As you are passing out, you feel a deep kiss upon your lips from the succubus. \"You taste better each time we join. Call upon me soon, lest I take what I want from you anyway,\", says the lustful creature.\n\n");
             DisplayText("Fatigue takes you and you collapse into a deep sleep.  ");
         }
@@ -716,12 +692,12 @@ function nightSuccubiRepeat(character: Character) {
             else DisplayText("hips");
             DisplayText(" in the all-too-familiar rhythm, hammering away at the succubus' cunt. Impressed with your initiative, she chooses to remain submissive as you work up an impressive load of spunk. Trying with all of your might, you continue to hold off your orgasm, painfully, as you continue stimulating your inhuman lover.\n\n");
             DisplayText("However, she senses your control and immediately brings her own muscles into the little love game. With one good squeeze, she breaks down any control and resistance you have. Sensing you are about to explode, she ");
-            if (character.torso.hips.legs.isTaur()) DisplayText("pushes on your forelegs, impaling herself even deeper on your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)));
+            if (character.torso.hips.legs.isTaur()) DisplayText("pushes on your forelegs, impaling herself even deeper on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)));
             else DisplayText("wraps her legs around your hips and bears down");
             DisplayText(". You feel the head of your prick push past the dilated opening in her cervix, which immediately contracts around your head. Your penis is literally trapped and caught in her womb!\n\n");
             DisplayText("Groaning loudly, long muscle spasms release the painfully stored semen into the deepest parts of the succubus. The sensation of your hot cum so deep inside her body triggers her peak. ");
 
-            if (character.torso.hips.legs.isTaur()) DisplayText("She moans inhumanly, and reflexively digs her claws into your forelegs. Searing with lust, the pain means little to you as you only feel the sensation of your body forcing your fluids out of your body and into hers. You press your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " into her");
+            if (character.torso.hips.legs.isTaur()) DisplayText("She moans inhumanly, and reflexively digs her claws into your forelegs. Searing with lust, the pain means little to you as you only feel the sensation of your body forcing your fluids out of your body and into hers. You press your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " into her");
             else DisplayText("She embraces you, moaning inhumanly, and reflexively digs her claws into your back. Searing with lust, the pain means little to you as you only feel the sensation of your body forcing your fluids out of your body and into hers. You slam your pelvis into hers");
             DisplayText(", as if to force yourself to cum harder than you already are capable of, prompting an equally pleasurable reaction from her.\n\n");
             DisplayText("For the first time since you have had your 'visits', the succubus appears winded. Without another word, her muscles release your manhood, which she quickly licks clean of your intermingled juices.  She tongues your face in lustful approval and flies away. You quickly fall asleep, utterly spent.  ");
@@ -747,8 +723,7 @@ function nightSuccubiRepeat(character: Character) {
             DisplayText("  As the reality soaks in, you feel a sharp pain in your stomach and your cock. You NEED to feed. Cum, milk, it doesn't matter. Likewise, your dick is hard and you need to cum. Despite your need, you cannot bring yourself to masturbate. You want ANOTHER'S attention.\n\n");
 
             DisplayText("Without further acknowledgement, you take up your on your demonic wings to find your first \"meal\". The Succubus left behind simply giggles as she sees another of her kind take up the night in search for more meals and pleasure.");
-            MainScreen.doNext(Menus.GameOver);
-            return;
+            return { next: Menus.GameOver };
         }
         else {
             // Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00111]++;
@@ -775,5 +750,5 @@ function nightSuccubiRepeat(character: Character) {
     character.stats.spe += randInt(2);
     character.stats.int += randInt(2);
     character.stats.cor += 1;
-    character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, Menus.Player);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CeruleanPotion, Menus.Player);
 }

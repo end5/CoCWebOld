@@ -1,4 +1,4 @@
-export default class Dictionary<Entry> implements Iterable<Entry> {
+export class Dictionary<Entry> implements Iterable<Entry> {
     protected dictionary: object;
 
     public constructor() {

@@ -1,32 +1,36 @@
 ﻿import { BeeGirlFlags } from './BeeGirlScene';
-import DisplayText from '../../../../Engine/display/DisplayText';
-import { ClickFunction } from '../../../../Engine/Display/MainScreen';
-import MainScreen from '../../../../Engine/Display/MainScreen';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt, randomChoice } from '../../../../Engine/Utilities/SMath';
-import BreastRow, { BreastCup } from '../../../Body/BreastRow';
+import { BreastCup, BreastRow } from '../../../Body/BreastRow';
 import { ButtLooseness, ButtRating, ButtWetness } from '../../../Body/Butt';
 import { AntennaeType } from '../../../Body/Head';
 import { HipRating } from '../../../Body/Hips';
 import { LegType } from '../../../Body/Legs';
-import Tail, { TailType } from '../../../Body/Tail';
-import Vagina, { VaginaLooseness, VaginaType, VaginaWetness } from '../../../Body/Vagina';
+import { Tail, TailType } from '../../../Body/Tail';
+import {
+    Vagina,
+    VaginaLooseness,
+    VaginaType,
+    VaginaWetness
+    } from '../../../Body/Vagina';
 import { WingType } from '../../../Body/Wings';
-import Character from '../../../Character/Character';
-import Description from '../../../Character/CharacterDescription';
+import { Character } from '../../../Character/Character';
+import { CharacterDescription } from '../../../Character/CharacterDescription';
 import { CharacterType } from '../../../Character/CharacterType';
-import ActionPerform from '../../../Combat/ActionPerform';
-import CombatAction from '../../../Combat/Actions/CombatAction';
-import CombatContainer from '../../../Combat/CombatContainer';
-import DefaultRespond from '../../../Combat/Default/DefaultRespond';
+import { ActionPerform } from '../../../Combat/ActionPerform';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { CombatContainer } from '../../../Combat/CombatContainer';
+import { DefaultRespond } from '../../../Combat/Default/DefaultRespond';
 import { DefeatType } from '../../../Combat/DefeatEvent';
-import EndScenes from '../../../Combat/EndScenes';
+import { EndScenes } from '../../../Combat/EndScenes';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Armor from '../../../Items/Armors/Armor';
-import ArmorName from '../../../Items/Armors/ArmorName';
-import Weapon from '../../../Items/Weapons/Weapon';
-import WeaponName from '../../../Items/Weapons/WeaponName';
-import User from '../../../User';
-import Scenes from '../../Scenes';
+import { Armor } from '../../../Items/Armors/Armor';
+import { ArmorName } from '../../../Items/Armors/ArmorName';
+import { Weapon } from '../../../Items/Weapons/Weapon';
+import { WeaponName } from '../../../Items/Weapons/WeaponName';
+import { ClickFunction, NextScreenChoices } from '../../../SceneDisplay';
+import { User } from '../../../User';
+import { Scenes } from '../../Scenes';
 
 class BeeGirlEndScenes extends EndScenes {
     public hasEscaped(enemy: Character): boolean {
@@ -39,17 +43,17 @@ class BeeGirlEndScenes extends EndScenes {
     public criesInDefeat(howYouLost: DefeatType, enemy: Character): void { }
     protected beforeEndingScene(howYouLost: DefeatType, enemy: Character): void { }
     public readonly hasVictoryScene: boolean = true;
-    protected victoryScene(howYouWon: DefeatType, enemy: Character): void {
+    protected victoryScene(howYouWon: DefeatType, enemy: Character): NextScreenChoices {
         if (howYouWon === DefeatType.Lust && enemy.statusAffects.has(StatusAffectType.Infested)) {
             DisplayText("\n\nThe bee-girl goes white and backs away with a disgusted look on her face.\n\n");
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+            return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else {
             Scenes.forest.beeGirlScene.beeRapesYou(enemy);
         }
     }
     public readonly hasDefeatScene: boolean = true;
-    protected defeatScene(howYouLost: DefeatType, enemy: Character): void {
+    protected defeatScene(howYouLost: DefeatType, enemy: Character): NextScreenChoices {
         DisplayText().clear();
         if (enemy.gender > 0) {
             if (howYouLost === DefeatType.HP) {
@@ -62,7 +66,7 @@ class BeeGirlEndScenes extends EndScenes {
             enemy.stats.lust += 1;
             const dildoRape = (enemy.inventory.keyItems.has("Deluxe Dildo") ? Scenes.forest.beeGirlScene.beeGirlsGetsDildoed : null);
             const milkAndHoney = (enemy.statusAffects.has(StatusAffectType.Feeder) ? Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny : null);
-            MainScreen.displayChoices(["Rape", "Dildo Rape", "B. Feed"], [Scenes.forest.beeGirlScene.rapeTheBeeGirl, dildoRape, milkAndHoney], ["Leave"], [this.leaveAfterDefeating(howYouLost)]);
+            return { choices: [["Rape", "Dildo Rape", "B. Feed"], [Scenes.forest.beeGirlScene.rapeTheBeeGirl, dildoRape, milkAndHoney]], persistantChoices: [["Leave"], [this.leaveAfterDefeating(howYouLost)]] };
         }
         else if (enemy.statusAffects.has(StatusAffectType.Feeder)) { // Genderless can still breastfeed
             if (howYouLost === DefeatType.HP) {
@@ -71,7 +75,7 @@ class BeeGirlEndScenes extends EndScenes {
             else {
                 DisplayText("You smile in satisfaction as the " + this.char.desc.short + " spreads her legs and starts frigging her honey-soaked cunt.  The sweet scent oozing from between her legs is too much to bear, arousing you painfully.\n\nWhat do you do?");
             }
-            MainScreen.displayChoices(["B. Feed"], [Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny], ["Leave"], [this.leaveAfterDefeating(howYouLost)]);
+            return { choices: [["B. Feed"], [Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny]], persistantChoices: [["Leave"], [this.leaveAfterDefeating(howYouLost)]] };
         }
     }
 
@@ -83,7 +87,7 @@ class BeeGirlEndScenes extends EndScenes {
             else {
                 (User.flags.get(CharacterType.BeeGirl) as BeeGirlFlags).combatWinsWithRape++; // All wins by lust count towards the desire option, even when you leave
             }
-            MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+            return { next: Scenes.camp.returnToCampUseOneHour };
         };
     }
 }
@@ -97,7 +101,7 @@ class Attack implements CombatAction {
     public canUse(character: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(character: Character, enemy?: Character) {
+    public use(character: Character, enemy?: Character): NextScreenChoices {
         // Blind dodge change
         const name = character.desc.a + character.desc.short;
         const speedDif = enemy.stats.spe - character.stats.spe;
@@ -152,6 +156,7 @@ class Attack implements CombatAction {
                 DisplayText("  You've fallen prey to paralyzation venom!  Better end this quick!");
             }
         }
+        return;
     }
 }
 
@@ -176,10 +181,10 @@ class BeeGirlActions implements ActionPerform {
     public inspect: CombatAction;
 }
 
-export default class BeeGirl extends Character {
+export class BeeGirl extends Character {
     public constructor() {
         super(CharacterType.BeeGirl);
-        this.description = new Description(this, "bee-girl", "A bee-girl buzzes around you, filling the air with intoxicatingly sweet scents and a buzz that gets inside your head.  She has a humanoid face with small antennae, black chitin on her arms and legs that looks like shiny gloves and boots, sizable breasts, and a swollen abdomen tipped with a gleaming stinger.", false, "a ");
+        this.description = new CharacterDescription(this, "bee-girl", "A bee-girl buzzes around you, filling the air with intoxicatingly sweet scents and a buzz that gets inside your head.  She has a humanoid face with small antennae, black chitin on her arms and legs that looks like shiny gloves and boots, sizable breasts, and a swollen abdomen tipped with a gleaming stinger.", false, "a ");
         this.torso.vaginas.add(new Vagina(VaginaType.HUMAN, VaginaWetness.SLAVERING, VaginaLooseness.GAPING));
         this.torso.chest.add(new BreastRow(BreastCup.DD));
         this.torso.butt.looseness = ButtLooseness.STRETCHED;

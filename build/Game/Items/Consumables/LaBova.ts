@@ -1,33 +1,26 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as BreastModifier from '../../Modifiers/BreastModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import User from '../../User';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class LaBova extends Consumable {
+export class LaBova extends Consumable {
     /*Purified LaBova:
      This will be one of the items that the character will have to give Marble to purify her, but there is a limit on how much she can be purified in this way.
      Effects on the character:
@@ -128,14 +121,14 @@ export default class LaBova extends Consumable {
                 biggestCock.length -= .5;
                 cockGrowth -= .5;
             }
-            cockGrowth += CockModifier.growCock(character, biggestCock, (randInt(3) + 1) * -1);
-            CockModifier.displayLengthChange(character, cockGrowth, 1);
+            cockGrowth += Mod.Cock.growCock(character, biggestCock, (randInt(3) + 1) * -1);
+            Mod.Cock.displayLengthChange(character, cockGrowth, 1);
             if (biggestCock.length < 2) {
                 DisplayText("  ");
                 if (character.torso.cocks.count === 1 && character.torso.vaginas.count <= 0) {
-                    DisplayText("Your " + CockDescriptor.describeCock(character, biggestCock) + " suddenly starts tingling.  It's a familiar feeling, similar to an orgasm.  However, this one seems to start from the top down, instead of gushing up from your loins.  You spend a few seconds frozen to the odd sensation, when it suddenly feels as though your own body starts sucking on the base of your shaft.  Almost instantly, your cock sinks into your crotch with a wet slurp.  The tip gets stuck on the front of your body on the way down, but your glans soon loses all volume to turn into a shiny new clit.");
+                    DisplayText("Your " + Desc.Cock.describeCock(character, biggestCock) + " suddenly starts tingling.  It's a familiar feeling, similar to an orgasm.  However, this one seems to start from the top down, instead of gushing up from your loins.  You spend a few seconds frozen to the odd sensation, when it suddenly feels as though your own body starts sucking on the base of your shaft.  Almost instantly, your cock sinks into your crotch with a wet slurp.  The tip gets stuck on the front of your body on the way down, but your glans soon loses all volume to turn into a shiny new clit.");
                     if (character.torso.balls.quantity > 0)
-                        DisplayText("  At the same time, your " + BallsDescriptor.describeBallsShort(character) + " fall victim to the same sensation; eagerly swallowed whole by your crotch.");
+                        DisplayText("  At the same time, your " + Desc.Balls.describeBallsShort(character) + " fall victim to the same sensation; eagerly swallowed whole by your crotch.");
                     DisplayText("  Curious, you touch around down there, to find you don't have any exterior organs left.  All of it got swallowed into the gash you now have running between two fleshy folds, like sensitive lips.  It suddenly occurs to you; <b>you now have a vagina!</b>");
                     character.torso.balls.quantity = 0;
                     character.torso.balls.size = 1;
@@ -143,7 +136,7 @@ export default class LaBova extends Consumable {
                     character.torso.cocks.remove(character.torso.cocks.indexOf(biggestCock));
                 }
                 else {
-                    CockModifier.displayKillCocks(character, 1);
+                    Mod.Cock.displayKillCocks(character, 1);
                     character.updateGender();
                 }
             }
@@ -154,7 +147,7 @@ export default class LaBova extends Consumable {
                 newVagina.wetness = VaginaWetness.NORMAL;
                 newVagina.virgin = true;
                 character.torso.vaginas.add(newVagina);
-                DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
+                DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
 
                 changes++;
                 character.updateGender();
@@ -166,9 +159,9 @@ export default class LaBova extends Consumable {
         // Increase character's breast size, if they are HH or bigger
         // do not increase size, but do the other actions:
         if (((this.tainted && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating <= 11) || (!this.tainted && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating <= 5)) && changes < changeLimit && (randInt(3) === 0 || this.enhanced)) {
-            if (randInt(2) === 0) DisplayText("\n\nYour " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " tingle for a moment before becoming larger.");
-            else DisplayText("\n\nYou feel a little weight added to your chest as your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " seem to inflate and settle in a larger size.");
-            BreastModifier.growTopBreastRow(character, 1 + randInt(3), 1, false);
+            if (randInt(2) === 0) DisplayText("\n\nYour " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " tingle for a moment before becoming larger.");
+            else DisplayText("\n\nYou feel a little weight added to your chest as your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " seem to inflate and settle in a larger size.");
+            Mod.Breast.growTopBreastRow(character, 1 + randInt(3), 1, false);
             changes++;
             character.stats.sens += .5;
             boobsGrew = true;
@@ -184,7 +177,7 @@ export default class LaBova extends Consumable {
         }
         // If breasts are D or bigger and are not lactating, they also start lactating:
         if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && character.torso.chest.get(0).lactationMultiplier < 1 && changes < changeLimit && (randInt(3) === 0 || boobsGrew || this.enhanced)) {
-            DisplayText("\n\nYou gasp as your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " feel like they are filling up with something.  Within moments, a drop of milk leaks from your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + "; <b> you are now lactating</b>.");
+            DisplayText("\n\nYou gasp as your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " feel like they are filling up with something.  Within moments, a drop of milk leaks from your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + "; <b> you are now lactating</b>.");
             character.torso.chest.get(0).lactationMultiplier = 1.25;
             changes++;
             character.stats.sens += .5;
@@ -195,14 +188,14 @@ export default class LaBova extends Consumable {
             if (character.torso.chest.get(0).nipples.count === 1) {
                 changes++;
                 character.torso.chest.get(0).nipples.count = 4;
-                DisplayText("\n\nYour " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
+                DisplayText("\n\nYour " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as they split into four distinct nipples!  <b>You now have four nipples on each side of your chest!</b>");
                 if (character.torso.chest.count >= 2 && character.torso.chest.get(1).nipples.count === 1) {
-                    DisplayText("A moment later your second row of " + BreastDescriptor.describeBreastRow(character.torso.chest.get(1)) + " does the same.  <b>You have sixteen nipples now!</b>");
+                    DisplayText("A moment later your second row of " + Desc.Breast.describeBreastRow(character.torso.chest.get(1)) + " does the same.  <b>You have sixteen nipples now!</b>");
                     character.torso.chest.get(1).nipples.count = 4;
                 }
                 if (character.torso.chest.count >= 3 && character.torso.chest.get(2).nipples.count === 1) {
                     DisplayText("Finally, your ");
-                    if (character.torso.chest.count === 3) DisplayText("third row of " + BreastDescriptor.describeBreastRow(character.torso.chest.get(2)) + " mutates along with its sisters, sprouting into a wonderland of nipples.");
+                    if (character.torso.chest.count === 3) DisplayText("third row of " + Desc.Breast.describeBreastRow(character.torso.chest.get(2)) + " mutates along with its sisters, sprouting into a wonderland of nipples.");
                     else if (character.torso.chest.count >= 4) {
                         DisplayText("everything from the third row down mutates, sprouting into a wonderland of nipples.");
                         character.torso.chest.get(3).nipples.count = 4;
@@ -219,28 +212,28 @@ export default class LaBova extends Consumable {
             // QUAD DAMAGE IF WEIRD SHIT BROKE BEFORE
             else if (character.torso.chest.count > 1 && character.torso.chest.get(1).nipples.count === 1) {
                 if (character.torso.chest.get(1).nipples.count === 1) {
-                    DisplayText("\n\nYour second row of " + BreastDescriptor.describeBreastRow(character.torso.chest.get(1)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(1)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your second row of breasts</b>.");
+                    DisplayText("\n\nYour second row of " + Desc.Breast.describeBreastRow(character.torso.chest.get(1)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + Desc.Breast.describeNipple(character, character.torso.chest.get(1)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your second row of breasts</b>.");
                     character.torso.chest.get(1).nipples.count = 4;
                 }
             }
             else if (character.torso.chest.count > 2 && character.torso.chest.get(2).nipples.count === 1) {
                 if (character.torso.chest.get(2).nipples.count === 1) {
-                    DisplayText("\n\nYour third row of " + BreastDescriptor.describeBreastRow(character.torso.chest.get(2)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(2)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your third row of breasts</b>.");
+                    DisplayText("\n\nYour third row of " + Desc.Breast.describeBreastRow(character.torso.chest.get(2)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + Desc.Breast.describeNipple(character, character.torso.chest.get(2)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your third row of breasts</b>.");
                     character.torso.chest.get(2).nipples.count = 4;
                 }
             }
             else if (character.torso.chest.count > 3 && character.torso.chest.get(3).nipples.count === 1) {
                 if (character.torso.chest.get(3).nipples.count === 1) {
-                    DisplayText("\n\nYour fourth row of " + BreastDescriptor.describeBreastRow(character.torso.chest.get(3)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(3)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your fourth row of breasts</b>.");
+                    DisplayText("\n\nYour fourth row of " + Desc.Breast.describeBreastRow(character.torso.chest.get(3)) + " tingle and itch.  You pull back your " + character.inventory.equipment.armor.displayName + " and watch in shock as your " + Desc.Breast.describeNipple(character, character.torso.chest.get(3)) + " split into four distinct nipples!  <b>You now have four nipples on each breast in your fourth row of breasts</b>.");
                     character.torso.chest.get(3).nipples.count = 4;
                 }
             }
             else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 1) {
-                if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " start leaking milk from a massive jump in production.");
-                else DisplayText("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " and they feel MUCH fuller and riper.  You know that you've started producing much more milk.");
-                BreastModifier.boostLactation(character, 2.5);
+                if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " start leaking milk from a massive jump in production.");
+                else DisplayText("\n\nSomething shifts inside your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " and they feel MUCH fuller and riper.  You know that you've started producing much more milk.");
+                Mod.Breast.boostLactation(character, 2.5);
                 if ((character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1)) {
-                    DisplayText("  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
+                    DisplayText("  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
                     character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length += .25;
                     character.stats.sens += .5;
                 }
@@ -250,11 +243,11 @@ export default class LaBova extends Consumable {
         // If breasts are already lactating and the character is not lactating beyond a reasonable level, they start lactating more:
         else {
             if (this.tainted && character.torso.chest.get(0).lactationMultiplier > 1 && character.torso.chest.get(0).lactationMultiplier < 5 && changes < changeLimit && (randInt(3) === 0 || this.enhanced)) {
-                if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " start producing more milk.");
-                else DisplayText("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
-                BreastModifier.boostLactation(character, 0.75);
+                if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " start producing more milk.");
+                else DisplayText("\n\nSomething shifts inside your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
+                Mod.Breast.boostLactation(character, 0.75);
                 if ((character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1)) {
-                    DisplayText("  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
+                    DisplayText("  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
                     character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length += .25;
                     character.stats.sens += .5;
                 }
@@ -262,11 +255,11 @@ export default class LaBova extends Consumable {
             }
             if (!this.tainted) {
                 if (character.torso.chest.get(0).lactationMultiplier > 1 && character.torso.chest.get(0).lactationMultiplier < 3.2 && changes < changeLimit && randInt(3) === 0) {
-                    if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " start producing more milk.");
-                    else DisplayText("\n\nSomething shifts inside your " + BreastDescriptor.describeBreastRow(character.torso.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
-                    BreastModifier.boostLactation(character, 0.75);
+                    if (randInt(2) === 0) DisplayText("\n\nA wave of pleasure passes through your chest as your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " start producing more milk.");
+                    else DisplayText("\n\nSomething shifts inside your " + Desc.Breast.describeBreastRow(character.torso.chest.get(0)) + " and they feel fuller and riper.  You know that you've started producing more milk.");
+                    Mod.Breast.boostLactation(character, 0.75);
                     if ((character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1.5 && this.tainted) || (!this.tainted && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length < 1)) {
-                        DisplayText("  Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
+                        DisplayText("  Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s swell up, growing larger to accommodate your increased milk flow.");
                         character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length += .25;
                         character.stats.sens += .5;
                     }
@@ -277,7 +270,7 @@ export default class LaBova extends Consumable {
                     else DisplayText("\n\nThe insides of your breasts suddenly feel bloated.  There is a spray of milk from them, and they settle closer to a more natural level of lactation.");
                     changes++;
                     character.stats.sens += .5;
-                    BreastModifier.boostLactation(character, -1);
+                    Mod.Breast.boostLactation(character, -1);
                 }
             }
         }
@@ -297,7 +290,7 @@ export default class LaBova extends Consumable {
         // if the character has a vagina and it is tight, it loosens.
         if (character.torso.vaginas.count > 0) {
             if (character.torso.vaginas.get(0).looseness < VaginaLooseness.LOOSE && changes < changeLimit && randInt(2) === 0) {
-                DisplayText("\n\nYou feel a relaxing sensation in your groin.  On further inspection you discover your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " has somehow relaxed, permanently loosening.");
+                DisplayText("\n\nYou feel a relaxing sensation in your groin.  On further inspection you discover your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " has somehow relaxed, permanently loosening.");
                 character.torso.vaginas.get(0).looseness++;
                 // Cunt Stretched used to determine how long since last enlargement
                 if (!character.statusAffects.has(StatusAffectType.CuntStretched))
@@ -313,7 +306,7 @@ export default class LaBova extends Consumable {
         // General Appearance (Tail -> Ears -> Paws(fur stripper) -> Face -> Horns
         // Give the character a bovine tail, same as the minotaur
         if (this.tainted && !character.torso.tails.reduce(Tail.HasType(TailType.COW), false) && changes < changeLimit && randInt(3) === 0) {
-            if (character.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + ButtDescriptor.describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
+            if (character.torso.tails.count === 0) DisplayText("\n\nYou feel the flesh above your " + Desc.Butt.describeButt(character) + " knotting and growing.  It twists and writhes around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
             else {
                 if (character.torso.tails.count > 0) {
                     DisplayText("\n\nYour tail bunches uncomfortably, twisting and writhing around itself before flopping straight down, now shaped into a distinctly bovine form.  You have a <b>cow tail</b>.");
@@ -357,7 +350,7 @@ export default class LaBova extends Consumable {
                 if (character.torso.hips.legs.type === LegType.DOG) DisplayText("\n\nYou stagger as your paws change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
                 if (character.torso.hips.legs.type === LegType.NAGA) DisplayText("\n\nYou collapse as your sinuous snake-tail tears in half, shifting into legs.  The pain is immense, particularly in your new feet as they curl inward and transform into hooves!");
                 // Catch-all
-                if (character.torso.hips.legs.type > LegType.NAGA) DisplayText("\n\nYou stagger as your " + LegDescriptor.describeFeet(character) + " change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
+                if (character.torso.hips.legs.type > LegType.NAGA) DisplayText("\n\nYou stagger as your " + Desc.Leg.describeFeet(character) + " change, curling up into painful angry lumps of flesh.  They get tighter and tighter, harder and harder, until at last they solidify into hooves!");
                 DisplayText("  A coat of beastial fur springs up below your waist, itching as it fills in.<b>  You now have hooves in place of your feet!</b>");
                 character.torso.hips.legs.type = LegType.HOOFED;
                 character.stats.cor += 0;
@@ -446,7 +439,7 @@ export default class LaBova extends Consumable {
         }
         // Nipples Turn Back:
         if (character.statusAffects.has(StatusAffectType.BlackNipples) && changes < changeLimit && randInt(3) === 0) {
-            DisplayText("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            DisplayText("\n\nSomething invisible brushes against your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             changes++;
             character.statusAffects.remove(StatusAffectType.BlackNipples);
         }
@@ -456,8 +449,8 @@ export default class LaBova extends Consumable {
             character.torso.vaginas.get(0).type = 0;
             changes++;
         }
-        if (randInt(3) === 0) DisplayText(BodyModifier.displayModFem(character, 79, 3));
-        if (randInt(3) === 0) DisplayText(BodyModifier.displayModThickness(character, 70, 4));
-        if (randInt(5) === 0) DisplayText(BodyModifier.displayModTone(character, 10, 5));
+        if (randInt(3) === 0) DisplayText(Mod.Body.displayModFem(character, 79, 3));
+        if (randInt(3) === 0) DisplayText(Mod.Body.displayModThickness(character, 70, 4));
+        if (randInt(5) === 0) DisplayText(Mod.Body.displayModTone(character, 10, 5));
     }
 }

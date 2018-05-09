@@ -1,20 +1,22 @@
-import Menus from './Menus';
-import DisplayText from '../../Engine/display/DisplayText';
-import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
-import Settings from '../Settings';
-import User from '../User';
+import { Menus } from './Menus';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { clickFuncWrapper, NextScreenChoices } from '../SceneDisplay';
+import { Settings } from '../Settings';
+import { User } from '../User';
 import { isEaster, isValentine } from '../Utilities/Dates';
 
-export default function display() {
-    MainScreen.getStatsPanel().hide();
+export function display(): NextScreenChoices {
+    if (!User.char)
+        MainScreen.getStatsPanel().hide();
     // Reset newgame buttons
-    MainScreen.getTopButton(TopButton.Stats).modify("Stats", Menus.Stats);
-    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", Menus.PerkUp);
-    MainScreen.getTopButton(TopButton.Perks).modify("Perks", Menus.PerkUp);
-    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", Menus.Appearance);
+    MainScreen.getTopButton(TopButton.Stats).modify("Stats", clickFuncWrapper(Menus.Stats));
+    MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", clickFuncWrapper(Menus.PerkUp));
+    MainScreen.getTopButton(TopButton.Perks).modify("Perks", clickFuncWrapper(Menus.PerkUp));
+    MainScreen.getTopButton(TopButton.Appearance).modify("Appearance", clickFuncWrapper(Menus.Appearance));
     MainScreen.hideTopButtons();
-    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", Menus.CharCreation);
-    MainScreen.getTopButton(TopButton.Data).modify("Data", Menus.Data);
+    MainScreen.getTopButton(TopButton.MainMenu).modify("New Game", clickFuncWrapper(Menus.CharCreation));
+    MainScreen.getTopButton(TopButton.Data).modify("Data", clickFuncWrapper(Menus.Data));
 
     DisplayText().clear();
     DisplayText("Corruption of Champions (0.9.4c)").bold().newline();
@@ -70,8 +72,10 @@ export default function display() {
     //     ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
     //     [null, Menus.Credits, Menus.Instructions, null, Menus.Settings, resume]
     // );
-    MainScreen.displayChoices(
-        ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-        [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, User.char ? Menus.Player : undefined]
-    );
+    return {
+        choices: [
+            ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
+            [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, User.char ? Menus.Player : undefined]
+        ]
+    };
 }

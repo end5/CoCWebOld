@@ -1,9 +1,9 @@
-import Effect from './Effect';
-import EffectDescription from './EffectDescription';
+import { Effect } from './Effect';
+import { EffectDescription } from './EffectDescription';
 import { PerkType } from './PerkType';
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
-export default class Perk extends Effect<PerkType, PerkDesc> { }
+export class Perk extends Effect<PerkType, PerkDesc> { }
 
 export class PerkDesc extends EffectDescription {
     constructor(key: string, name: string, desc: string, longDesc: string = null) {

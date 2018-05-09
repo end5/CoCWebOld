@@ -1,11 +1,11 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class PurePearl extends Consumable {
+export class PurePearl extends Consumable {
     public constructor() {
         super(ConsumableName.PurePearl, new ItemDesc("P.Pearl", "a pure pearl"), 1000);
     }

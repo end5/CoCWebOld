@@ -1,7 +1,7 @@
-import ISerializable from '../../../Engine/Utilities/ISerializable';
-import Character from '../../Character/Character';
-import EquipableItem from '../EquipableItem';
-import ItemType from '../ItemType';
+import { ISerializable } from '../../../Engine/Utilities/ISerializable';
+import { Character } from '../../Character/Character';
+import { EquipableItem } from '../EquipableItem';
+import { ItemType } from '../ItemType';
 
 export enum PiercingType {
     /** 1 */
@@ -16,7 +16,7 @@ export enum PiercingType {
     Chain = "Chain"
 }
 
-export default class Piercing extends EquipableItem implements ISerializable<Piercing> {
+export class Piercing extends EquipableItem implements ISerializable<Piercing> {
     public shortDesc: string;
     public longDesc: string;
 

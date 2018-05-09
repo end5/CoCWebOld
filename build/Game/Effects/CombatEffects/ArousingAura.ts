@@ -1,8 +1,8 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import CombatEffect from '../CombatEffect';
+import { CombatEffect } from '../CombatEffect';
 
 export class ArousingAura extends CombatEffect {
     public update(character: Character, enemy: Character) {

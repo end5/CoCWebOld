@@ -1,9 +1,10 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class KitsuneTerror extends PlayerSpellAction {
     public name: string = "Terror";
@@ -25,7 +26,7 @@ export class KitsuneTerror extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         // Fatigue Cost: 25
         if (monster.statusAffects.has(StatusAffectType.Shell)) {

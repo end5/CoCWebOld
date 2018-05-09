@@ -1,4 +1,4 @@
-enum WeaponName {
+export enum WeaponName {
     Fists = "Fists  ",
     BeautifulSword = "B.Sword",
     LargeClaymore = "Claymor",
@@ -22,4 +22,3 @@ enum WeaponName {
     HugeWarhammer = "Warhamr",
     Whip = "Whip   ",
 }
-export default WeaponName;

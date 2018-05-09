@@ -1,6 +1,6 @@
-import ScreenElement from './ScreenElement';
+import { ScreenElement } from './ScreenElement';
 
-export default abstract class TextElement extends ScreenElement {
+export abstract class TextElement extends ScreenElement {
     private textBuffer: string = "";
     private bufferModified: boolean = false;
 

@@ -1,8 +1,8 @@
-import CombatActionLib from '../../../../Combat/CombatActionLib';
-import LearnedSpellAction from '../LearnedSpellAction';
+import { CombatActionLib } from '../../../../Combat/CombatActionLib';
+import { LearnedSpellAction } from '../LearnedSpellAction';
 import * as Spells from '../Spells';
 
-class SpellActionLib extends CombatActionLib<LearnedSpellAction> {
+class SpellActionList extends CombatActionLib<LearnedSpellAction> {
     public constructor() {
         super();
         this.list.push(new Spells.Arouse());
@@ -15,5 +15,4 @@ class SpellActionLib extends CombatActionLib<LearnedSpellAction> {
     }
 }
 
-const spellActionLib = new SpellActionLib();
-export default spellActionLib as SpellActionLib;
+export const SpellActionLib = new SpellActionList();

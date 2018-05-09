@@ -1,11 +1,11 @@
-﻿import DisplayText from '../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
-import BreastRow from '../Body/BreastRow';
-import Character from '../Character/Character';
-import * as BreastDescriptor from '../Descriptors/BreastDescriptor';
+import { BreastRow } from '../Body/BreastRow';
+import { Character } from '../Character/Character';
+import { Desc } from '../Descriptors/Descriptors';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
-import User from '../User';
+import { User } from '../User';
 
 export function growSmallestBreastRow(character: Character, amount: number, rowsGrown: number, display: boolean) {
     const chest = character.torso.chest;
@@ -121,8 +121,8 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
             }
             if (topRow.rating < 0) topRow.rating = 0;
             // Talk about shrinkage
-            if (!superShrink) DisplayText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.rating) + "s.");
-            if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + BreastDescriptor.breastCup(topRow.rating) + "s.");
+            if (!superShrink) DisplayText("\n\nYou feel a weight lifted from you, and realize your breasts have shrunk!  With a quick measure, you determine they're now " + Desc.Breast.breastCup(topRow.rating) + "s.");
+            if (superShrink) DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are much smaller!  With a quick measure, you determine they're now " + Desc.Breast.breastCup(topRow.rating) + "s.");
         }
     }
     else if (character.torso.chest.count > 1) {
@@ -141,7 +141,7 @@ export function shrinkTits(character: Character, ignoreHyperHappy: boolean = fal
                 DisplayText("\n");
                 if (breastRowIndex < character.torso.chest.count - 1) DisplayText("...and y");
                 else DisplayText("Y");
-                DisplayText("our " + BreastDescriptor.describeBreastRow(character.torso.chest.get(breastRowIndex)) + " shrink, dropping to " + BreastDescriptor.breastCup(character.torso.chest.get(breastRowIndex).rating) + "s.");
+                DisplayText("our " + Desc.Breast.describeBreastRow(character.torso.chest.get(breastRowIndex)) + " shrink, dropping to " + Desc.Breast.breastCup(character.torso.chest.get(breastRowIndex).rating) + "s.");
             }
             if (character.torso.chest.get(breastRowIndex).rating < 0) character.torso.chest.get(breastRowIndex).rating = 0;
         }

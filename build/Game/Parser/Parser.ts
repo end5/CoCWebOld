@@ -52,7 +52,7 @@ Conditional statements:
     String = [\w\d\s.\"\']+
 */
 
-export default class Parser {
+export class Parser {
     private curIndex: number;
     private str: string;
     private hasFailed: boolean;

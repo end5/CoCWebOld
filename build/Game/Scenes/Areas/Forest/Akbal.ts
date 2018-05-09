@@ -1,28 +1,29 @@
-﻿import DisplayText from '../../../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow from '../../../Body/BreastRow';
+import { BreastRow } from '../../../Body/BreastRow';
 import { ButtLooseness, ButtRating, ButtWetness } from '../../../Body/Butt';
-import Cock, { CockType } from '../../../Body/Cock';
+import { Cock, CockType } from '../../../Body/Cock';
 import { HipRating } from '../../../Body/Hips';
 import { SkinType } from '../../../Body/Skin';
-import Tail, { TailType } from '../../../Body/Tail';
-import Character from '../../../Character/Character';
-import Description from '../../../Character/CharacterDescription';
+import { Tail, TailType } from '../../../Body/Tail';
+import { Character } from '../../../Character/Character';
+import { CharacterDescription } from '../../../Character/CharacterDescription';
 import { CharacterType } from '../../../Character/CharacterType';
-import ActionPerform from '../../../Combat/ActionPerform';
-import CombatAction from '../../../Combat/Actions/CombatAction';
-import CombatContainer from '../../../Combat/CombatContainer';
-import DefaultRespond from '../../../Combat/Default/DefaultRespond';
+import { ActionPerform } from '../../../Combat/ActionPerform';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
+import { CombatContainer } from '../../../Combat/CombatContainer';
+import { DefaultRespond } from '../../../Combat/Default/DefaultRespond';
 import { DefeatType } from '../../../Combat/DefeatEvent';
-import EndScenes from '../../../Combat/EndScenes';
+import { EndScenes } from '../../../Combat/EndScenes';
 import { CombatEffectType } from '../../../Effects/CombatEffectType';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import Armor from '../../../Items/Armors/Armor';
-import ArmorName from '../../../Items/Armors/ArmorName';
-import Weapon from '../../../Items/Weapons/Weapon';
-import WeaponName from '../../../Items/Weapons/WeaponName';
-import Scenes from '../../Scenes';
+import { Armor } from '../../../Items/Armors/Armor';
+import { ArmorName } from '../../../Items/Armors/ArmorName';
+import { Weapon } from '../../../Items/Weapons/Weapon';
+import { WeaponName } from '../../../Items/Weapons/WeaponName';
+import { NextScreenChoices } from '../../../SceneDisplay';
+import { Scenes } from '../../Scenes';
 
 class Attack implements CombatAction {
     public name: string = "Attack";
@@ -33,7 +34,7 @@ class Attack implements CombatAction {
     public canUse(akbal: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(akbal: Character, enemy?: Character) {
+    public use(akbal: Character, enemy?: Character): NextScreenChoices {
         // Chances to miss:
         let damage: number = 0;
         // Blind dodge change
@@ -76,7 +77,8 @@ class Attack implements CombatAction {
                 DisplayText("Akbal rushes at you, his claws like lightning as they leave four red-hot lines of pain across your stomach.");
                 enemy.combat.stats.loseHP(damage, akbal);
             }
-        } else { // *Normal Attack B
+        }
+        else { // *Normal Attack B
             // (high HP damage)
             damage = Math.floor((akbal.stats.str + 25 + akbal.inventory.equipment.weapon.attack) - Math.random() * (enemy.stats.tou) - enemy.inventory.equipment.armor.defense);
             if (damage === 0) {
@@ -89,6 +91,7 @@ class Attack implements CombatAction {
                 enemy.combat.stats.loseHP(damage, akbal);
             }
         }
+        return;
     }
 }
 
@@ -101,7 +104,7 @@ class LustAttack implements CombatAction {
     public canUse(akbal: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(akbal: Character, enemy?: Character) {
+    public use(akbal: Character, enemy?: Character): NextScreenChoices {
         if (!enemy.combat.effects.has(CombatEffectType.Whispered)) {
             DisplayText("You hear whispering in your head. Akbal begins speaking to you as he circles you, telling all the ways he'll dominate you once he beats the fight out of you.");
             // (Lust increase)
@@ -114,6 +117,7 @@ class LustAttack implements CombatAction {
             // (Lust increase)
             enemy.stats.lust += 12 + (100 - enemy.stats.int) / 10;
         }
+        return;
     }
 }
 
@@ -126,7 +130,7 @@ class Special implements CombatAction {
     public canUse(akbal: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(akbal: Character, enemy?: Character) {
+    public use(akbal: Character, enemy?: Character): NextScreenChoices {
         // *Special Attack A -
         if (randInt(2) === 0 && enemy.stats.spe > 20) {
             const speedChange: number = enemy.stats.spe / 5 * -1;
@@ -166,6 +170,7 @@ class Special implements CombatAction {
             }
             DisplayText("You are burned badly by the flames! (" + enemy.combat.stats.loseHP(40, akbal) + ")");
         }
+        return;
     }
 }
 
@@ -178,13 +183,14 @@ class Heal implements CombatAction {
     public canUse(akbal: Character, enemy?: Character): boolean {
         return true;
     }
-    public use(akbal: Character, enemy?: Character) {
+    public use(akbal: Character, enemy?: Character): NextScreenChoices {
         if (akbal.combat.stats.HPRatio() >= 1)
             DisplayText("Akbal licks himself, ignoring you for now.");
         else
             DisplayText("Akbal licks one of his wounds, and you scowl as the injury quickly heals itself.");
         akbal.combat.stats.gainHP(30, akbal);
         akbal.stats.lust += 10;
+        return;
     }
 }
 
@@ -226,30 +232,30 @@ class AkbalEndScenes extends EndScenes {
     protected beforeEndingScene(howAkbalLost: DefeatType, enemy: Character): void { }
 
     public readonly hasVictoryScene = true;
-    protected victoryScene(howAkbalWon: DefeatType, enemy: Character): void {
+    protected victoryScene(howAkbalWon: DefeatType, enemy: Character): NextScreenChoices {
         if (howAkbalWon === DefeatType.HP) {
-            Scenes.forest.akbalScene.akbalWon(enemy, true, false);
+            return Scenes.forest.akbalScene.akbalWon(enemy, true, false);
         }
         else if (howAkbalWon === DefeatType.Lust) {
-            Scenes.forest.akbalScene.akbalWon(enemy, false, enemy.statusAffects.has(StatusAffectType.Infested));
+            return Scenes.forest.akbalScene.akbalWon(enemy, false, enemy.statusAffects.has(StatusAffectType.Infested));
         }
     }
 
     public readonly hasDefeatScene = true;
-    protected defeatScene(howAkbalLost: DefeatType, enemy: Character): void {
+    protected defeatScene(howAkbalLost: DefeatType, enemy: Character): NextScreenChoices {
         if (howAkbalLost === DefeatType.HP) {
-            Scenes.forest.akbalScene.akbalDefeated(enemy, true);
+            return Scenes.forest.akbalScene.akbalDefeated(enemy, true);
         }
         else if (howAkbalLost === DefeatType.Lust) {
-            Scenes.forest.akbalScene.akbalDefeated(enemy, false);
+            return Scenes.forest.akbalScene.akbalDefeated(enemy, false);
         }
     }
 }
 
-export default class Akbal extends Character {
+export class Akbal extends Character {
     public constructor() {
         super(CharacterType.Akbal);
-        this.description = new Description(this, "Akbal", "Akbal, 'God of the Terrestrial Fire', circles around you. His sleek yet muscular body is covered in tan fur, with dark spots that seem to dance around as you look upon them.  His mouth holds two ivory incisors that glint in the sparse sunlight as his lips tremble to the sound of an unending growl.  Each paw conceals lethal claws capable of shredding men and demons to ribbons.  His large and sickeningly alluring bright green eyes promise unbearable agony as you look upon them.", false, "");
+        this.description = new CharacterDescription(this, "Akbal", "Akbal, 'God of the Terrestrial Fire', circles around you. His sleek yet muscular body is covered in tan fur, with dark spots that seem to dance around as you look upon them.  His mouth holds two ivory incisors that glint in the sparse sunlight as his lips tremble to the sound of an unending growl.  Each paw conceals lethal claws capable of shredding men and demons to ribbons.  His large and sickeningly alluring bright green eyes promise unbearable agony as you look upon them.", false, "");
         this.torso.cocks.add(new Cock(CockType.DOG, 15, 2.5));
         this.torso.balls.quantity = 2;
         this.torso.balls.size = 4;

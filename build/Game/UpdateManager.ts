@@ -1,3 +1,3 @@
-export default class UpdateManager {
+export class UpdateManager {
 
 }

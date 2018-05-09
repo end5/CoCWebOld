@@ -1,10 +1,10 @@
-import IObserverList from './IObserverList';
-import List from '../../Engine/Utilities/List';
+import { IObserverList } from './IObserverList';
+import { List } from '../../Engine/Utilities/List';
 
 /**
  * An IObserverList that reflects event changes from the observed List to the provided List.
  */
-export default class ListMonitor implements IObserverList<any> {
+export class ListMonitor implements IObserverList<any> {
     private list: List<any>;
     private objectConstructor: new (...args) => any;
     private args: any[];

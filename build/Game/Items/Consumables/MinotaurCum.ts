@@ -1,17 +1,16 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Vagina, { VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Vagina, VaginaWetness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class MinotaurCum extends Consumable {
+export class MinotaurCum extends Consumable {
     public constructor() {
         super(ConsumableName.MinotaurCum, new ItemDesc("MinoCum", "a sealed bottle of minotaur cum", "This bottle of minotaur cum looks thick and viscous.  You know it has narcotic properties, but aside from that its effects are relatively unknown."), 60);
     }
@@ -40,15 +39,15 @@ export default class MinotaurCum extends Consumable {
             DisplayText("  ");
             if (character.torso.cocks.count === 1) DisplayText("Y");
             else DisplayText("Each of y");
-            DisplayText("our " + CockDescriptor.describeMultiCockShort(character) + " aches, flooding with blood until it's bloating and trembling.");
+            DisplayText("our " + Desc.Cock.describeMultiCockShort(character) + " aches, flooding with blood until it's bloating and trembling.");
         }
         if (character.torso.vaginas.count > 0) {
             const vagina: Vagina = character.torso.vaginas.get(0);
-            DisplayText("  Your " + VaginaDescriptor.describeClit(character) + " engorges, ");
+            DisplayText("  Your " + Desc.Vagina.describeClit(character) + " engorges, ");
             if (character.torso.clit.length < 3) DisplayText("parting your lips.");
             else DisplayText("bursting free of your lips and bobbing under its own weight.");
-            if (vagina.wetness <= VaginaWetness.NORMAL) DisplayText("  Wetness builds inside you as your " + VaginaDescriptor.describeVagina(character, vagina) + " tingles and aches to be filled.");
-            else if (vagina.wetness <= VaginaWetness.SLICK) DisplayText("  A trickle of wetness escapes your " + VaginaDescriptor.describeVagina(character, vagina) + " as your body reacts to the desire burning inside you.");
+            if (vagina.wetness <= VaginaWetness.NORMAL) DisplayText("  Wetness builds inside you as your " + Desc.Vagina.describeVagina(character, vagina) + " tingles and aches to be filled.");
+            else if (vagina.wetness <= VaginaWetness.SLICK) DisplayText("  A trickle of wetness escapes your " + Desc.Vagina.describeVagina(character, vagina) + " as your body reacts to the desire burning inside you.");
             else if (vagina.wetness <= VaginaWetness.DROOLING) DisplayText("  Wet fluids leak down your thighs as your body reacts to this new stimulus.");
             else DisplayText("  Slick fluids soak your thighs as your body reacts to this new stimulus.");
         }

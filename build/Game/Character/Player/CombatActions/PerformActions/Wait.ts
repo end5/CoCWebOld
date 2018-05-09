@@ -1,11 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
-import MainScreen from '../../../../../Engine/Display/MainScreen';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import Menus from '../../../../Menus/Menus';
-import Character from '../../../Character';
+import { Menus } from '../../../../Menus/Menus';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Wait implements CombatAction {
     public name: string = "Wait";
@@ -19,7 +19,7 @@ export class Wait implements CombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         // Gain fatigue if not fighting sand tarps
         if (!target.combat.effects.has(CombatEffectType.Level))
             character.stats.fatigue += -5;
@@ -112,7 +112,7 @@ export class Wait implements CombatAction {
         // else {
         DisplayText().clear();
         DisplayText("You decide not to take any action this round.\n\n");
-        MainScreen.doNext(Menus.Combat);
+        return { next: Menus.Combat };
         // }
     }
 }

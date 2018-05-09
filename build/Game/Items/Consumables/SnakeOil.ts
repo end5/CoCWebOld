@@ -1,17 +1,16 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { FaceType } from '../../Body/Face';
 import { AntennaeType } from '../../Body/Head';
 import { LegType } from '../../Body/Legs';
 import { TongueType } from '../../Body/Tongue';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
 // 9)  Transformation Item - Snake Oil (S. Oil)
 /*Effects:
@@ -36,7 +35,7 @@ import ItemDesc from '../ItemDesc';
     "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."
     */
 
-export default class SnakeOil extends Consumable {
+export class SnakeOil extends Consumable {
     public constructor() {
         super(ConsumableName.SnakeOil, new ItemDesc("SnakOil", "a vial of snake oil", "A vial the size of your fist made of dark brown glass. It contains what appears to be an oily, yellowish liquid. The odor is abominable."));
     }
@@ -85,7 +84,7 @@ export default class SnakeOil extends Consumable {
         if (changes === 0 && character.torso.neck.head.face.tongue.type === TongueType.SNAKE && character.torso.neck.head.face.type !== FaceType.SNAKE_FANGS && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nWithout warning, you feel your canine teeth jump almost an inch in size, clashing on your gums, cutting yourself quite badly. As you attempt to find a new way to close your mouth without dislocating your jaw, you notice that they are dripping with a bitter, khaki liquid.  Watch out, and <b>try not to bite your tongue with your poisonous fangs!</b>");
             if (character.torso.neck.head.face.type !== FaceType.HUMAN && character.torso.neck.head.face.type !== FaceType.SHARK_TEETH && character.torso.neck.head.face.type !== FaceType.BUNNY && character.torso.neck.head.face.type !== FaceType.SPIDER_FANGS) {
-                DisplayText("  As the change progresses, your " + FaceDescriptor.describeFace(character) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
+                DisplayText("  As the change progresses, your " + Desc.Face.describeFace(character) + " reshapes.  The sensation is far more pleasant than teeth cutting into gums, and as the tingling transformation completes, <b>you've gained with a normal-looking, human visage.</b>");
             }
             character.torso.neck.head.face.type = FaceType.SNAKE_FANGS;
             changes++;
@@ -97,7 +96,7 @@ export default class SnakeOil extends Consumable {
             // (If used in combat, you lose a turn here. Half-corrupted Jojo and the Naga won't attack you during that period, but other monsters will)
             // FUCK NO
             DisplayText("\n\nTrying to get back up, you realize that the skin on the inner sides of your thighs is merging together like it was being sewn by an invisible needle.");
-            DisplayText("  The process continues through the length of your " + LegDescriptor.describeLegs(character) + ", eventually reaching your " + LegDescriptor.describeFeet(character) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terrible experience. Once you feel you've recovered, you try to stand, but to your amazement you discover that you no longer have " + LegDescriptor.describeLegs(character) + ": the bottom half of your body is like that of a snake's.");
+            DisplayText("  The process continues through the length of your " + Desc.Leg.describeLegs(character) + ", eventually reaching your " + Desc.Leg.describeFeet(character) + ".  Just when you think that the transformation is over, you find yourself pinned to the ground by an overwhelming sensation of pain. You hear the horrible sound of your bones snapping, fusing together and changing into something else while you contort in unthinkable agony.  Sometime later you feel the pain begin to ease and you lay on the ground, spent by the terrible experience. Once you feel you've recovered, you try to stand, but to your amazement you discover that you no longer have " + Desc.Leg.describeLegs(character) + ": the bottom half of your body is like that of a snake's.");
             DisplayText("\n\nWondering what happened to your sex, you pass your hand down the front of your body until you find a large, horizontal slit around your pelvic area, which contains all of your sexual organs.");
             if (character.torso.balls.quantity > 0 && character.torso.balls.size > 10) DisplayText("  You're happy not to have to drag those testicles around with you anymore.");
             DisplayText("  But then, scales start to form on the surface of your skin, slowly becoming visible, recoloring all of your body from the waist down in a snake-like pattern. The feeling is... not that bad actually, kind of like callous, except on your whole lower body. The transformation complete, you get up, standing on your newly formed snake tail. You can't help feeling proud of this majestic new body of yours.");
@@ -117,11 +116,11 @@ export default class SnakeOil extends Consumable {
          DisplayText("\n\nAs the liquid takes effect, ");
          //(if multicock)
          if(character.torso.cocks.count > 1) DisplayText("one of ");
-         DisplayText("your " + CockDescriptor.describeMultiCockShort(character) + " starts to throb painfully and swell to its full size.  With a horrifying ripping sensation, your cock splits down the middle, the pain causing you to black out momentarily.");
+         DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " starts to throb painfully and swell to its full size.  With a horrifying ripping sensation, your cock splits down the middle, the pain causing you to black out momentarily.");
          DisplayText("When you awaken, you quickly look down to see that where ");
          //(if multicock)
          if(character.torso.cocks.count > 1) DisplayText("one of ");
-         DisplayText("your " + CockDescriptor.describeMultiCockShort(character) + " was, you now have two pointed reptilian cocks, still stiff and pulsing.");
+         DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " was, you now have two pointed reptilian cocks, still stiff and pulsing.");
          }*/
         // Default change - blah
         if (changes === 0) DisplayText("\n\nRemakarbly, the snake-oil has no effect.  Should you really be surprised at snake-oil NOT doing anything?");

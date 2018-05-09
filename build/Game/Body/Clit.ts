@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Clit implements ISerializable<Clit> {
+export class Clit implements ISerializable<Clit> {
     public length: number = 0.25;
 
     public serialize(): string {

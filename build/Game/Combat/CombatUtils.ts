@@ -1,15 +1,10 @@
-﻿import DisplayText from '../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
-import BreastRow from '../Body/BreastRow';
+import { BreastRow } from '../Body/BreastRow';
 import { EarType } from '../Body/Ears';
 import { TailType } from '../Body/Tail';
-import Character from '../Character/Character';
-import * as BallsDescriptor from '../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../Descriptors/ButtDescriptor';
-import * as HipDescriptor from '../Descriptors/HipDescriptor';
-import * as LegDescriptor from '../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import { Character } from '../Character/Character';
+import { Desc } from '../Descriptors/Descriptors';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
@@ -121,8 +116,8 @@ export function fatigueRecovery(character: Character): void {
     //         DisplayText().clear();
     //         DisplayText("The thought of another male in your area competing for all the pussy infuriates you!  No way will you run!");
     //         // Pass false to combatMenu instead:		menuLoc = 3;
-    //         // 		MainScreen.doNext(combatMenu);
-    //         MainScreen.doNext(Menus.Combat);
+    //         // 		return { next: combatMenu };
+    //         return { next: Menus.Combat };
     //         return;
     //     }
     //     if (monster.statusAffects.has(StatusAffectType.Level) && player.canFly()) {
@@ -130,28 +125,28 @@ export function fatigueRecovery(character: Character): void {
     //         DisplayText("You flex the muscles in your back and, shaking clear of the sand, burst into the air!  Wasting no time you fly free of the sandtrap and its treacherous pit.  \"One day your wings will fall off, little ant,\" the snarling voice of the thwarted androgyne carries up to you as you make your escape.  \"And I will be waiting for you when they do!\"");
     //         inCombat = false;
     //         clearStatuses(false);
-    //         MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //         return { next: Scenes.camp.returnToCampUseOneHour };
     //         return;
     //     }
     //     if (monster.statusAffects.has(StatusAffectType.GenericRunDisabled) || urtaQuest.isUrta()) {
     //         DisplayText("You can't escape from this fight!");
     //         // Pass false to combatMenu instead:		menuLoc = 3;
-    //         // 		MainScreen.doNext(combatMenu);
-    //         MainScreen.doNext(Menus.Combat);
+    //         // 		return { next: combatMenu };
+    //         return { next: Menus.Combat };
     //         return;
     //     }
     //     if (monster.statusAffects.has(StatusAffectType.Level) && monster.statusAffects.get(StatusAffectType.Level).value1 < 4) {
     //         DisplayText("You're too deeply mired to escape!  You'll have to <b>climb</b> some first!");
     //         // Pass false to combatMenu instead:		menuLoc = 3;
-    //         // 		MainScreen.doNext(combatMenu);
-    //         MainScreen.doNext(Menus.Combat);
+    //         // 		return { next: combatMenu };
+    //         return { next: Menus.Combat };
     //         return;
     //     }
     //     if (monster.statusAffects.has(StatusAffectType.RunDisabled)) {
     //         DisplayText("You'd like to run, but you can't scale the walls of the pit with so many demonic hands pulling you down!");
     //         // Pass false to combatMenu instead:		menuLoc = 3;
-    //         // 		MainScreen.doNext(combatMenu);
-    //         MainScreen.doNext(Menus.Combat);
+    //         // 		return { next: combatMenu };
+    //         return { next: Menus.Combat };
     //         return;
     //     }
     //     if (Flags.list[FlagEnum.UNKNOWN_FLAG_NUMBER_00329] === 1 && (monster.desc.short === "minotaur gang" || monster.desc.short === "minotaur tribe")) {
@@ -161,15 +156,15 @@ export function fatigueRecovery(character: Character): void {
     //         DisplayText("You slink away while the pack of brutes is arguing.  Once they finish that argument, they'll be sorely disappointed!");
     //         inCombat = false;
     //         clearStatuses(false);
-    //         MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //         return { next: Scenes.camp.returnToCampUseOneHour };
     //         return;
     //     }
     //     else if (monster.desc.short === "minotaur tribe" && monster.stats.HPRatio() >= 0.75) {
     //         DisplayText().clear();
     //         DisplayText("There's too many of them surrounding you to run!");
     //         // Pass false to combatMenu instead:		menuLoc = 3;
-    //         // 		MainScreen.doNext(combatMenu);
-    //         MainScreen.doNext(Menus.Combat);
+    //         // 		return { next: combatMenu };
+    //         return { next: Menus.Combat };
     //         return;
     //     }
     //     if (inDungeon || inRoomedDungeon) {
@@ -224,7 +219,7 @@ export function fatigueRecovery(character: Character): void {
     //             DisplayText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.");
     //             inCombat = false;
     //             clearStatuses(false);
-    //             MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //             return { next: Scenes.camp.returnToCampUseOneHour };
     //             return;
     //         }
     //         // Speed dependent
@@ -235,7 +230,7 @@ export function fatigueRecovery(character: Character): void {
     //                 clearStatuses(false);
     //                 DisplayText().clear();
     //                 DisplayText("Marshalling your thoughts, you frown at the strange girl and turn to march up the beach.  After twenty paces inshore you turn back to look at her again.  The anemone is clearly crestfallen by your departure, pouting heavily as she sinks beneath the water's surface.");
-    //                 MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //                 return { next: Scenes.camp.returnToCampUseOneHour };
     //                 return;
     //             }
     //             // Run failed:
@@ -258,7 +253,7 @@ export function fatigueRecovery(character: Character): void {
     //             DisplayText("\n\nNot to be outdone, you call back, \"Sucks to you!  If even the mighty Last Ember of Hope can't catch me, why do I need to train?  Later, little bird!\"");
     //             inCombat = false;
     //             clearStatuses(false);
-    //             MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //             return { next: Scenes.camp.returnToCampUseOneHour };
     //         }
     //         // Fail:
     //         else {
@@ -282,7 +277,7 @@ export function fatigueRecovery(character: Character): void {
     //         }
     //         inCombat = false;
     //         clearStatuses(false);
-    //         MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //         return { next: Scenes.camp.returnToCampUseOneHour };
     //         return;
     //     }
     //     // Runner perk chance
@@ -293,7 +288,7 @@ export function fatigueRecovery(character: Character): void {
     //             DisplayText("\n\nAs you leave the tigershark behind, her taunting voice rings out after you.  \"<i>Oooh, look at that fine backside!  Are you running or trying to entice me?  Haha, looks like we know who's the superior specimen now!  Remember: next time we meet, you owe me that ass!</i>\"  Your cheek tingles in shame at her catcalls.");
     //         }
     //         clearStatuses(false);
-    //         MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    //         return { next: Scenes.camp.returnToCampUseOneHour };
     //         return;
     //     }
     //     // FAIL FLEE
@@ -304,8 +299,8 @@ export function fatigueRecovery(character: Character): void {
     //         }
     //         // Flyers get special failure message.
     //         if (player.canFly()) {
-    //             if (monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " manage to grab your " + LegDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!");
-    //             else DisplayText(monster.desc.capitalA + monster.desc.short + " manages to grab your " + LegDescriptor.describeLegs(player) + " and drag you back to the ground before you can fly away!");
+    //             if (monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " manage to grab your " + Desc.Leg.describeLegs(player) + " and drag you back to the ground before you can fly away!");
+    //             else DisplayText(monster.desc.capitalA + monster.desc.short + " manages to grab your " + Desc.Leg.describeLegs(player) + " and drag you back to the ground before you can fly away!");
     //         }
     //         // fail
     //         else if (player.torso.tailType === TailType.RACCOON && player.torso.neck.head.earType === EarType.RACCOON && player.perks.has(PerkType.Runner)) DisplayText("Using your running skill, you build up a head of steam and jump, but before you can clear the ground more than a foot, your opponent latches onto you and drags you back down with a thud!");
@@ -313,39 +308,39 @@ export function fatigueRecovery(character: Character): void {
     //         else {
     //             // Huge balls messages
     //             if (player.torso.balls.quantity > 0 && player.torso.balls.size >= 24) {
-    //                 if (player.torso.balls.size < 48) DisplayText("With your " + BallsDescriptor.describeBalls(true, true, player) + " swinging ponderously beneath you, getting away is far harder than it should be.  ");
-    //                 else DisplayText("With your " + BallsDescriptor.describeBalls(true, true, player) + " dragging along the ground, getting away is far harder than it should be.  ");
+    //                 if (player.torso.balls.size < 48) DisplayText("With your " + Desc.Balls.describeBalls(true, true, player) + " swinging ponderously beneath you, getting away is far harder than it should be.  ");
+    //                 else DisplayText("With your " + Desc.Balls.describeBalls(true, true, player) + " dragging along the ground, getting away is far harder than it should be.  ");
     //             }
     //             // FATASS BODY MESSAGES
     //             if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 || player.torso.butt.rating >= 20 || player.torso.hipRating >= 20) {
     //                 // FOR PLAYERS WITH GIANT BREASTS
     //                 if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 35 && player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 66) {
     //                     if (player.torso.hipRating >= 20) {
-    //                         DisplayText("Your " + HipDescriptor.describeHips(player) + " forces your gait to lurch slightly side to side, which causes the fat of your " + player.skin.tone + " ");
-    //                         if (player.torso.butt.rating >= 20) DisplayText(ButtDescriptor.describeButt(player) + " and ");
-    //                         DisplayText(BreastDescriptor.describeChest(player) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
+    //                         DisplayText("Your " + Desc.Hip.describeHips(player) + " forces your gait to lurch slightly side to side, which causes the fat of your " + player.skin.tone + " ");
+    //                         if (player.torso.butt.rating >= 20) DisplayText(Desc.Butt.describeButt(player) + " and ");
+    //                         DisplayText(Desc.Breast.describeChest(player) + " to wobble immensely, throwing you off balance and preventing you from moving quick enough to escape.");
     //                     }
-    //                     else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + ButtDescriptor.describeButt(player) + " and " + BreastDescriptor.describeChest(player) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
-    //                     else DisplayText("Your " + BreastDescriptor.describeChest(player) + " jiggle and wobble side to side like the " + player.skin.tone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
+    //                     else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + Desc.Butt.describeButt(player) + " and " + Desc.Breast.describeChest(player) + " wobble and bounce heavily, throwing you off balance and preventing you from moving quick enough to escape.");
+    //                     else DisplayText("Your " + Desc.Breast.describeChest(player) + " jiggle and wobble side to side like the " + player.skin.tone + " sacks of milky fat they are, with such force as to constantly throw you off balance, preventing you from moving quick enough to escape.");
     //                 }
     //                 // FOR PLAYERS WITH MASSIVE BREASTS
     //                 else if (player.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 66) {
     //                     if (player.torso.hipRating >= 20) {
-    //                         DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground while your " + HipDescriptor.describeHips(player) + " swing side to side ");
-    //                         if (player.torso.butt.rating >= 20) DisplayText("causing the fat of your " + player.skin.tone + ButtDescriptor.describeButt(player) + " to wobble heavily, ");
+    //                         DisplayText("Your " + Desc.Breast.describeChest(player) + " nearly drag along the ground while your " + Desc.Hip.describeHips(player) + " swing side to side ");
+    //                         if (player.torso.butt.rating >= 20) DisplayText("causing the fat of your " + player.skin.tone + Desc.Butt.describeButt(player) + " to wobble heavily, ");
     //                         DisplayText("forcing your body off balance and preventing you from moving quick enough to get escape.");
     //                     }
-    //                     else if (player.torso.butt.rating >= 20) DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground while the fat of your " + player.skin.tone + ButtDescriptor.describeButt(player) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
-    //                     else DisplayText("Your " + BreastDescriptor.describeChest(player) + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
+    //                     else if (player.torso.butt.rating >= 20) DisplayText("Your " + Desc.Breast.describeChest(player) + " nearly drag along the ground while the fat of your " + player.skin.tone + Desc.Butt.describeButt(player) + " wobbles heavily from side to side, forcing your body off balance and preventing you from moving quick enough to escape.");
+    //                     else DisplayText("Your " + Desc.Breast.describeChest(player) + " nearly drag along the ground, preventing you from moving quick enough to get escape.");
     //                 }
     //                 // FOR PLAYERS WITH EITHER GIANT HIPS OR BUTT BUT NOT THE BREASTS
     //                 else if (player.torso.hipRating >= 20) {
-    //                     DisplayText("Your " + HipDescriptor.describeHips(player) + " swing heavily from side to side ");
-    //                     if (player.torso.butt.rating >= 20) DisplayText("causing your " + player.skin.tone + ButtDescriptor.describeButt(player) + " to wobble obscenely ");
+    //                     DisplayText("Your " + Desc.Hip.describeHips(player) + " swing heavily from side to side ");
+    //                     if (player.torso.butt.rating >= 20) DisplayText("causing your " + player.skin.tone + Desc.Butt.describeButt(player) + " to wobble obscenely ");
     //                     DisplayText("and forcing your body into an awkward gait that slows you down, preventing you from escaping.");
     //                 }
     //                 // JUST DA BOOTAH
-    //                 else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + ButtDescriptor.describeButt(player) + " wobbles so heavily that you're unable to move quick enough to escape.");
+    //                 else if (player.torso.butt.rating >= 20) DisplayText("Your " + player.skin.tone + Desc.Butt.describeButt(player) + " wobbles so heavily that you're unable to move quick enough to escape.");
     //             }
     //             // NORMAL RUN FAIL MESSAGES
     //             else if (monster.desc.plural) DisplayText(monster.desc.capitalA + monster.desc.short + " stay hot on your heels, denying you a chance at escape!");

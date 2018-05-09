@@ -1,18 +1,17 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { FaceType } from '../../Body/Face';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
+import { Tail, TailType } from '../../Body/Tail';
 import { TongueType } from '../../Body/Tongue';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 
-export default class GenericTransforms {
+export class GenericTransforms {
     public static demonChanges(character: Character): void {
         // Change tail if already horned.
         if (!character.torso.tails.reduce(Tail.HasType(TailType.DEMONIC), false) && character.torso.neck.head.horns.amount > 0) {
@@ -55,7 +54,7 @@ export default class GenericTransforms {
         }
         // Nipples Turn Back:
         if (character.statusAffects.has(StatusAffectType.BlackNipples) && randInt(3) === 0) {
-            DisplayText("\n\nSomething invisible brushes against your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
+            DisplayText("\n\nSomething invisible brushes against your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + ", making you twitch.  Undoing your clothes, you take a look at your chest and find that your nipples have turned back to their natural flesh colour.");
             character.statusAffects.remove(StatusAffectType.BlackNipples);
         }
         // remove fur
@@ -86,14 +85,14 @@ export default class GenericTransforms {
             if (character.gender <= 1) {
                 if (character.torso.hips.legs.type !== LegType.DEMONIC_CLAWS) {
                     DisplayText("\n\n");
-                    DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LegDescriptor.describeFeet(character) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
+                    DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + Desc.Leg.describeFeet(character) + ". Something hard breaks through your sole from the inside out as your toes splinter and curve cruelly. The pain slowly diminishes and your eyes look along a human leg that splinters at the foot into a claw with sharp black nails. When you relax, your feet grip the ground easily. <b>Your feet are now formed into demonic claws.</b>");
                     character.torso.hips.legs.type = LegType.DEMONIC_CLAWS;
                 }
             }
             // Females/futa get high heels
             else if (character.torso.hips.legs.type !== LegType.DEMONIC_HIGH_HEELS) {
                 DisplayText("\n\n");
-                DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + LegDescriptor.describeFeet(character) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
+                DisplayText("Every muscle and sinew below your hip tingles and you begin to stagger. Seconds after you sit down, pain explodes in your " + Desc.Leg.describeFeet(character) + ". Something hard breaks through your sole from the inside out. The pain slowly diminishes and your eyes look along a human leg to a thin and sharp horn protruding from the heel. When you relax, your feet are pointing down and their old posture is only possible with an enormous effort. <b>Your feet are now formed into demonic high-heels.</b> Tentatively you stand up and try to take a few steps. To your surprise you feel as if you were born with this and stride vigorously forward, hips swaying.");
                 character.torso.hips.legs.type = LegType.DEMONIC_HIGH_HEELS;
             }
         }

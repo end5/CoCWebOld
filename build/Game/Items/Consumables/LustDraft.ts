@@ -1,14 +1,13 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class LustDraft extends Consumable {
+export class LustDraft extends Consumable {
     private enhanced: boolean;
     public constructor(enhanced: boolean) {
         if (enhanced)
@@ -30,21 +29,21 @@ export default class LustDraft extends Consumable {
         // Heat/Rut for those that can have them if "fuck draft"
         if (this.enhanced) {
             // Try to go into intense heat.
-            BodyModifier.displayGoIntoHeat(character, 2);
+            Mod.Body.displayGoIntoHeat(character, 2);
             // Males go into rut
-            BodyModifier.displayGoIntoRut(character);
+            Mod.Body.displayGoIntoRut(character);
         }
         // ORGAZMO
         if (character.stats.lust >= 100){ // && !Game.inCombat) {
             DisplayText("\n\nThe arousal from the potion overwhelms your senses and causes you to spontaneously orgasm.  You rip off your " + character.inventory.equipment.armor.displayName + " and look down as your ");
             if (character.torso.cocks.count > 0) {
-                DisplayText(CockDescriptor.describeMultiCockShort(character) + " erupts in front of you, liberally spraying the ground around you.  ");
+                DisplayText(Desc.Cock.describeMultiCockShort(character) + " erupts in front of you, liberally spraying the ground around you.  ");
             }
             if (character.torso.cocks.count > 0 && character.torso.vaginas.count > 0) {
                 DisplayText("At the same time your ");
             }
             if (character.torso.vaginas.count > 0) {
-                DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " soaks your thighs.  ");
+                DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " soaks your thighs.  ");
             }
             if (character.gender === 0) DisplayText("body begins to quiver with orgasmic bliss.  ");
             DisplayText("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");

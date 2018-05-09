@@ -1,11 +1,11 @@
-﻿import Player from './Player';
-import PlayerFlags from './PlayerFlags';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Pregnancy, { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+﻿import { Player } from './Player';
+import { PlayerFlags } from './PlayerFlags';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Pregnancy, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import User from '../../User';
-import * as NumToText from '../../Utilities/NumToText';
+import { User } from '../../User';
+import { numToCardinalText } from '../../Utilities/NumToText';
 
 export function updatePregnancy(player: Player) {
     // Cancel Heat
@@ -38,7 +38,7 @@ export function updatePregnancy(player: Player) {
 export function eggDescript(player: Player, plural: boolean = true): string {
     let descript: string = "";
     if (player.statusAffects.has(StatusAffectType.Eggs)) {
-        descript += NumToText.numToCardinalText(player.statusAffects.get(StatusAffectType.Eggs).value3) + " ";
+        descript += numToCardinalText(player.statusAffects.get(StatusAffectType.Eggs).value3) + " ";
         // size descriptor
         if (player.statusAffects.get(StatusAffectType.Eggs).value2 === 1) descript += "large ";
         /*color descriptor

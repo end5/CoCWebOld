@@ -1,7 +1,7 @@
-import { ClickFunction } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
 
-export default interface CombatAction {
+export interface CombatAction {
     /**
      * The name of the Combat Action.
      */
@@ -25,5 +25,5 @@ export default interface CombatAction {
     /**
      * Call for using the Combat Action.
      */
-    use(character: Character, target: Character): void;
+    use(character: Character, target: Character): NextScreenChoices;
 }

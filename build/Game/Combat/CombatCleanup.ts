@@ -1,7 +1,7 @@
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
-export default class CombatCleanup {
+export class CombatCleanup {
     public static performCleanup(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
         mainCharacter.combat.effects.clear();
         for (const member of allyParty) {

@@ -1,11 +1,11 @@
-import Menus from './Menus';
-import { displaySaves, modifyBottomButtons } from './SaveDisplay';
-import DisplayText from '../../Engine/display/DisplayText';
-import InputTextElement from '../../Engine/Display/Elements/InputTextElement';
-import MainScreen from '../../Engine/Display/MainScreen';
-import SaveManager from '../../Engine/Save/SaveManager';
+import { Menus } from './Menus';
+import { displaySaves, saveSlotChoices } from './SaveDisplay';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
+import { SaveManager } from '../../Engine/Save/SaveManager';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default function display() {
+export function display(): NextScreenChoices {
     DisplayText().clear();
     if (SaveManager.activeSlot() !== 0)
         DisplayText("Last saved or loaded from: " + SaveManager.activeSlot()).bold();
@@ -20,13 +20,18 @@ export default function display() {
     DisplayText().appendElement(notesInputElement);
     notesInputElement.style.position = "fixed";
 
-    modifyBottomButtons(confirmOverwrite, Menus.Data);
+    return saveSlotChoices(confirmOverwrite, Menus.Data);
 }
 
-function confirmOverwrite(slotNumber: number) {
+function confirmOverwrite(slotNumber: number): NextScreenChoices {
     DisplayText("You are about to overwrite the following save: <b>");
     // DisplayText(Flags.list[FlagEnum.TEMP_STORAGE_SAVE_DELETION]).bold();
     DisplayText("\n\n");
     DisplayText("Are you sure you want to delete it?");
-    MainScreen.displayChoices(["No", "Yes"], [Menus.Save, () => { SaveManager.saveToSlot(slotNumber); }]);
+    return {
+        choices: [["No", "Yes"], [Menus.Save, () => {
+            SaveManager.saveToSlot(slotNumber);
+            return display();
+        }]]
+    };
 }

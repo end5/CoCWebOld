@@ -1,13 +1,14 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
-import Tail, { TailType } from '../../../../Body/Tail';
-import Character from '../../../../Character/Character';
+import { Tail, TailType } from '../../../../Body/Tail';
+import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import User from '../../../../User';
-import Player from '../../Player';
-import PlayerFlags from '../../PlayerFlags';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { User } from '../../../../User';
+import { Player } from '../../Player';
+import { PlayerFlags } from '../../PlayerFlags';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class Kick extends PlayerPhysicalAction {
     public name: string = "Kick";
@@ -22,7 +23,7 @@ export class Kick extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Variant start messages!

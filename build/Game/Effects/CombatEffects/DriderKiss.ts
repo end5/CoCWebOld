@@ -1,7 +1,7 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Gender } from '../../Body/GenderIdentity';
-import Character from '../../Character/Character';
-import CombatEffect from '../CombatEffect';
+import { Character } from '../../Character/Character';
+import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 
 export class DriderKiss extends CombatEffect {

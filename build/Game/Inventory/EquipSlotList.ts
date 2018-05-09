@@ -1,9 +1,9 @@
-import EquipmentSlot from './EquipSlot';
-import List from '../../Engine/Utilities/List';
-import Character from '../Character/Character';
-import EquipableItem from '../Items/EquipableItem';
+import { EquipSlot } from './EquipSlot';
+import { List } from '../../Engine/Utilities/List';
+import { Character } from '../Character/Character';
+import { EquipableItem } from '../Items/EquipableItem';
 
-export default class EquipSlotList<T extends EquipableItem> extends List<EquipmentSlot<T>> {
+export class EquipSlotList<T extends EquipableItem> extends List<EquipSlot<T>> {
     private character: Character;
     public constructor(character: Character) {
         super();

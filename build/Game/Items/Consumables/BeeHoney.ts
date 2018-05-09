@@ -1,28 +1,24 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { AntennaeType } from '../../Body/Head';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
+import { Tail, TailType } from '../../Body/Tail';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as BodyDescriptor from '../../Descriptors/BodyDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class BeeHoney extends Consumable {
+export class BeeHoney extends Consumable {
     private static PURE_HONEY_VALUE: number = 40;
     private static SPECIAL_HONEY_VALUE: number = 20;
 
@@ -144,19 +140,19 @@ export default class BeeHoney extends Consumable {
         if (changes < changeLimit && character.torso.neck.head.hair.length < 25 && randInt(3) === 0) {
             DisplayText("\n\nFeeling a bit off-balance, you discover your hair has lengthened, ");
             character.torso.neck.head.hair.length += randInt(4) + 1;
-            DisplayText("becoming " + HeadDescriptor.describeHair(character) + ".");
+            DisplayText("becoming " + Desc.Head.describeHair(character) + ".");
             changes++;
         }
         // -Remove extra breast rows
         if (changes < changeLimit && chest.count > 2 && randInt(3) === 0 && !User.settings.hyperHappy) {
             changes++;
             const lastBreastRow = chest.get(chest.count - 1);
-            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + BreastDescriptor.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
+            DisplayText("\n\nYou stumble back when your center of balance shifts, and though you adjust before you can fall over, you're left to watch in awe as your bottom-most " + Desc.Breast.describeBreastRow(lastBreastRow) + " shrink down, disappearing completely into your ");
             if (chest.count >= 3)
                 DisplayText("abdomen");
             else
                 DisplayText("chest");
-            DisplayText(". The " + BreastDescriptor.describeNipple(character, lastBreastRow) + "s even fade until nothing but ");
+            DisplayText(". The " + Desc.Breast.describeNipple(character, lastBreastRow) + "s even fade until nothing but ");
             if (character.skin.type === SkinType.FUR)
                 DisplayText(character.torso.neck.head.hair.color + " " + character.skin.desc);
             else
@@ -167,7 +163,7 @@ export default class BeeHoney extends Consumable {
         }
         // Antennae
         if (changes < changeLimit && character.torso.neck.head.antennae === AntennaeType.NONE && character.torso.neck.head.horns.amount === 0 && randInt(3) === 0) {
-            DisplayText("\n\nYour head itches momentarily as two floppy antennae sprout from your " + HeadDescriptor.describeHair(character) + ".");
+            DisplayText("\n\nYour head itches momentarily as two floppy antennae sprout from your " + Desc.Head.describeHair(character) + ".");
             character.torso.neck.head.antennae = AntennaeType.BEE;
             changes++;
         }
@@ -186,7 +182,7 @@ export default class BeeHoney extends Consumable {
         }
         // -Nipples reduction to 1 per tit.
         if (chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            DisplayText("\n\nA chill runs over your " + Desc.Breast.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1)
                 DisplayText("'breast'.");
             else
@@ -206,8 +202,8 @@ export default class BeeHoney extends Consumable {
         }
         // Bee butt - 66% lower chance if already has a tail
         if (changes < changeLimit && (character.torso.tails.count === 0 || randInt(1.5) === 0) && randInt(4) === 0) {
-            if (character.torso.tails.count > 0) DisplayText("\n\nPainful swelling just above your " + ButtDescriptor.describeButt(character) + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
-            else DisplayText("\n\nPainful swelling just above your " + ButtDescriptor.describeButt(character) + " doubles you over.  It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt.  The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide.  You sigh as your stinger slides into place with a 'snick', finishing the transformation.  <b>You have a bee's abdomen.</b>");
+            if (character.torso.tails.count > 0) DisplayText("\n\nPainful swelling just above your " + Desc.Butt.describeButt(character) + " doubles you over, and you hear the sound of your tail dropping off onto the ground!  Before you can consider the implications, the pain gets worse, and you feel your backside bulge outward sickeningly, cracking and popping as a rounded bee-like abdomen grows in place of your old tail.  It grows large enough to be impossible to hide, and with a note of finality, your stinger slides free with an audible 'snick'.");
+            else DisplayText("\n\nPainful swelling just above your " + Desc.Butt.describeButt(character) + " doubles you over.  It gets worse and worse as the swollen lump begins to protrude from your backside, swelling and rounding with a series of pops until you have a bulbous abdomen hanging just above your butt.  The whole thing is covered in a hard chitinous material, and large enough to be impossible to hide.  You sigh as your stinger slides into place with a 'snick', finishing the transformation.  <b>You have a bee's abdomen.</b>");
             character.torso.tails.clear();
             const newTail = new Tail();
             character.torso.tails.add(newTail);
@@ -270,7 +266,7 @@ export default class BeeHoney extends Consumable {
             else if (character.torso.cocks.count > 1) {
                 const largestCock = cocks.sort(Cock.LargestCockArea)[0];
                 selectedCock = cocks.get(0);
-                DisplayText("\n\nThe effects of the honey move towards your groin, and into your " + CockDescriptor.describeMultiCockShort(character) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + CockDescriptor.describeCock(character, largestCock) + " is absorbed into your " + CockDescriptor.describeCock(character, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + CockDescriptor.describeCock(character, selectedCock) + " seems a lot more sensative now...");
+                DisplayText("\n\nThe effects of the honey move towards your groin, and into your " + Desc.Cock.describeMultiCockShort(character) + ", causing them to stand at attention.  They quiver for a moment, and feel rather itchy.  Suddenly you are overwhelmed with pleasure as <b>your " + Desc.Cock.describeCock(character, largestCock) + " is absorbed into your " + Desc.Cock.describeCock(character, selectedCock) + "!</b>  You grab onto the merging cock and pump it with your hands as it increases in size and you cum in pleasure.  Your " + Desc.Cock.describeCock(character, selectedCock) + " seems a lot more sensative now...");
                 selectedCock.length += 5 * Math.sqrt(0.2 * largestCock.area);
                 selectedCock.thickness += Math.sqrt(0.2 * largestCock.area);
                 cocks.remove(cocks.indexOf(largestCock));
@@ -278,7 +274,7 @@ export default class BeeHoney extends Consumable {
             }
             else if (character.torso.cocks.get(0).area < 100) {
                 selectedCock = cocks.get(0);
-                DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + character.inventory.equipment.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + CockDescriptor.describeCock(character, selectedCock) + " has both grown much longer and wider!  <b>");
+                DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " suddenly becomes rock hard and incredibly sensitive to the touch.  You pull away your " + character.inventory.equipment.armor.displayName + ", and start to masturbate furiously as it rapidly swells in size.  When the change finally finishes, you realize that your " + Desc.Cock.describeCock(character, selectedCock) + " has both grown much longer and wider!  <b>");
                 if (selectedCock.area <= 20)
                     DisplayText("It now swings as low as your knees!");
                 else if (selectedCock.area <= 50)
@@ -290,9 +286,9 @@ export default class BeeHoney extends Consumable {
                 selectedCock.thickness += 0.1 * randInt(5) + 0.5; // 0.5 to 1 inches in thickness
                 character.stats.sens += 5;
             }
-            else if (cocks.get(0).type !== CockType.BEE && BodyDescriptor.describeRace(character) === "bee-morph") {
+            else if (cocks.get(0).type !== CockType.BEE && Desc.Body.describeRace(character) === "bee-morph") {
                 selectedCock = cocks.get(0);
-                DisplayText("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + character.inventory.equipment.armor.displayName + " and watch in fascination as your " + CockDescriptor.describeCock(character, selectedCock) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
+                DisplayText("\n\nYour huge member suddenly starts to hurt, especially the tip of the thing.  At the same time, you feel your length start to get incredibly sensitive and the base of your shaft starts to itch.  You tear off your " + character.inventory.equipment.armor.displayName + " and watch in fascination as your " + Desc.Cock.describeCock(character, selectedCock) + " starts to change.  The shaft turns black, while becoming hard and smooth to the touch, while the base develops a mane of four inch long yellow bee hair.  As the transformation continues, your member grows even larger than before.  However, it is the tip that keeps your attention the most, as a much finer layer of short yellow hairs grow around it.  Its appearance isn’t the thing that you care about right now, it is the pain that is filling it.\n\n");
                 DisplayText("It is entirely different from the usual feeling you get when you’re cock grows larger from imbibing transformative substances.  When the changes stop, the tip is shaped like a typical human mushroom cap covered in fine bee hair, but it feels nothing like what you’d expect a human dick to feel like.  Your whole length is incredibly sensitive, and touching it gives you incredible stimulation, but you’re sure that no matter how much you rub it, you aren’t going to cum by yourself.  You want cool honey covering it, you want tight walls surrounding it, you want to fertilize hundreds of eggs with it.  These desires are almost overwhelming, and it takes a lot of will not to just run off in search of the bee girl that gave you that special honey right now.  This isn’t good.\n\n");
                 DisplayText("<b>You now have a bee cock!</b>");
                 selectedCock.type = CockType.BEE;
@@ -302,7 +298,7 @@ export default class BeeHoney extends Consumable {
             }
             else {
                 selectedCock = cocks.get(0);
-                DisplayText("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + CockDescriptor.describeCock(character, selectedCock) + " grow slightly under your " + character.inventory.equipment.armor.displayName + ".");
+                DisplayText("\n\nThe effects of the honey don’t seem to focus on your groin this time, but you still feel your " + Desc.Cock.describeCock(character, selectedCock) + " grow slightly under your " + character.inventory.equipment.armor.displayName + ".");
                 selectedCock.length += 0.1 * randInt(10) + 1;
                 selectedCock.thickness += 0.1 * randInt(2) + 0.1;
                 character.stats.sens += 3;

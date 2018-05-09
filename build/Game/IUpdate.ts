@@ -1,4 +1,4 @@
 // Used for game updates
-export default interface IUpdate {
+export interface IUpdate {
     update(hours: number);
 }

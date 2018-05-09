@@ -1,8 +1,8 @@
-import Character from '../../Character/Character';
-import Perk, { PerkDesc } from '../Perk';
+import { Character } from '../../Character/Character';
+import { Perk, PerkDesc } from '../Perk';
 import { PerkType } from '../PerkType';
 
-export default class DoubleAttack extends PerkDesc {
+export class DoubleAttack extends PerkDesc {
     public description(perk?: Perk, character?: Character): string {
         if (character.stats.spe < 50)
             return "<b>You're too slow to double attack!</b>";

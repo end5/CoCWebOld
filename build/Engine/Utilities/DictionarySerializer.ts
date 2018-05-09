@@ -1,7 +1,7 @@
-import Dictionary from './Dictionary';
-import ISerializable from './ISerializable';
+import { Dictionary } from './Dictionary';
+import { ISerializable } from './ISerializable';
 
-export default class DictionarySerializer {
+export class DictionarySerializer {
     public static serialize(dictionary: Dictionary<any>): string {
         const saveObject: object = {};
         const keys = dictionary.keys();

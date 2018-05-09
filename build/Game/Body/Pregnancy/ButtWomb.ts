@@ -1,8 +1,8 @@
-import Pregnancy from './Pregnancy';
-import Womb from './Womb';
+import { Pregnancy } from './Pregnancy';
+import { Womb } from './Womb';
 import { randInt } from '../../../Engine/Utilities/SMath';
 
-export default class ButtWomb extends Womb {
+export class ButtWomb extends Womb {
     // fertility must be >= random(0-beat)
     // If arg == 1 then override any contraceptives and guarantee fertilization
     public knockUp(pregnancy: Pregnancy, virility: number = 100, guarantee: boolean = false): void {

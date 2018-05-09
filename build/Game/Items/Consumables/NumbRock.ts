@@ -1,17 +1,15 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { SkinType } from '../../Body/Skin';
-import Character from '../../Character/Character';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class NumbRock extends Consumable {
+export class NumbRock extends Consumable {
     public constructor() {
         super(ConsumableName.NumbRock, new ItemDesc("Numb Rox", "a strange packet of candy called 'Numb Rocks'", "This packet of innocuous looking 'candy' guarantees to reduce troublesome sensations and taste delicious."), 15);
     }
@@ -29,15 +27,15 @@ export default class NumbRock extends Consumable {
             if (!character.statusAffects.has(StatusAffectType.Dysfunction)) {
                 DisplayText("\n\nUnfortunately, the skin of ");
                 if (character.torso.cocks.count > 0) {
-                    DisplayText(CockDescriptor.describeMultiCockSimpleOne(character));
+                    DisplayText(Desc.Cock.describeMultiCockSimpleOne(character));
                     if (character.torso.vaginas.count > 0) DisplayText(" and");
                     DisplayText(" ");
                 }
                 if (character.torso.vaginas.count > 0) {
                     if (character.torso.cocks.count <= 0) DisplayText("your ");
-                    DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " ");
+                    DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " ");
                 }
-                if (!(character.torso.cocks.count > 0 || character.torso.vaginas.count > 0)) DisplayText(ButtDescriptor.describeButthole(character.torso.butt) + " ");
+                if (!(character.torso.cocks.count > 0 || character.torso.vaginas.count > 0)) DisplayText(Desc.Butt.describeButthole(character.torso.butt) + " ");
                 DisplayText(" numbs up too.  You give yourself a gentle touch, but are quite disturbed when you realize you can barely feel it.  You can probably still fuck something to get off, but regular masturbation is out of the question...");
                 character.statusAffects.add(StatusAffectType.Dysfunction, 50 + randInt(100), 0, 0, 0);
             }

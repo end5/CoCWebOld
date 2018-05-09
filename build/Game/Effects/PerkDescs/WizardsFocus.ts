@@ -1,6 +1,6 @@
-import Perk, { PerkDesc } from '../Perk';
+import { Perk, PerkDesc } from '../Perk';
 
-export default class WizardsFocus extends PerkDesc {
+export class WizardsFocus extends PerkDesc {
     public description(perk?: Perk): string {
         return "Increases your spell effect modifier by " + perk.value1 * 100 + "%.";
     }

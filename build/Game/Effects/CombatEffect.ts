@@ -1,15 +1,15 @@
 import { CombatAbilityFlag } from './CombatAbilityFlag';
 import { CombatEffectType } from './CombatEffectType';
-import Effect, { EffectSaveObject } from './Effect';
-import EffectDescription from './EffectDescription';
-import Character from '../Character/Character';
+import { Effect, EffectSaveObject } from './Effect';
+import { EffectDescription } from './EffectDescription';
+import { Character } from '../Character/Character';
 
 export interface CombatEffectSaveObject extends EffectSaveObject<CombatEffectType> {
     inflictedByCharId: number;
     effect: EffectSaveObject<CombatEffectType>;
 }
 
-export default class CombatEffect extends Effect<CombatEffectType, EffectDescription> {
+export class CombatEffect extends Effect<CombatEffectType, EffectDescription> {
     public readonly abilityFlag: CombatAbilityFlag;
     public readonly inflictedBy: Character;
 

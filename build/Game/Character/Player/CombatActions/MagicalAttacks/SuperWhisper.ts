@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class SuperWhisperAttack extends PlayerSpellAction {
     public name: string = "Whisper";
@@ -26,7 +27,7 @@ export class SuperWhisperAttack extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         if (monster.desc.short === "pod" || monster.stats.int === 0) {
             DisplayText("You reach for the enemy's mind, but cannot find anything.  You frantically search around, but there is no consciousness as you know it in the room.\n\n");

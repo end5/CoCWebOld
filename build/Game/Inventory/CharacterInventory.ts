@@ -1,13 +1,13 @@
-import EquipmentInventory from './EquipmentInventory';
-import Inventory from './Inventory';
-import KeyItemDict from './KeyItemDict';
-import DictionarySerializer from '../../Engine/Utilities/DictionarySerializer';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import Character from '../Character/Character';
-import Item from '../Items/Item';
-import KeyItem from '../Items/KeyItem';
+import { EquipmentInventory } from './EquipmentInventory';
+import { Inventory } from './Inventory';
+import { KeyItemDict } from './KeyItemDict';
+import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { Character } from '../Character/Character';
+import { Item } from '../Items/Item';
+import { KeyItem } from '../Items/KeyItem';
 
-export default class CharacterInventory implements ISerializable<CharacterInventory> {
+export class CharacterInventory implements ISerializable<CharacterInventory> {
     public readonly items: Inventory<Item>;
     public readonly equipment: EquipmentInventory;
     public gems: number;

@@ -1,8 +1,8 @@
-import IObservableList from './IObservableList';
-import IObserverList from './IObserverList';
-import List from '../../Engine/Utilities/List';
+import { IObservableList } from './IObservableList';
+import { IObserverList } from './IObserverList';
+import { List } from '../../Engine/Utilities/List';
 
-export default class ObservableList<T> extends List<T> implements IObservableList<T> {
+export class ObservableList<T> extends List<T> implements IObservableList<T> {
     private observerList: IObserverList<T>[] = [];
     public attach(observer: IObserverList<T>) {
         this.observerList.push(observer);

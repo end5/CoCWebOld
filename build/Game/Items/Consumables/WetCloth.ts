@@ -1,19 +1,18 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class WetCloth extends Consumable {
+export class WetCloth extends Consumable {
     public constructor() {
         super(ConsumableName.WetCloth, new ItemDesc("WetClth", "a wet cloth dripping with slippery slime", "Dripping with a viscous slime, you've no doubt rubbing this cloth on your body would have some kind of strange effect."));
     }
@@ -57,13 +56,13 @@ export default class WetCloth extends Consumable {
             character.torso.neck.head.hair.type = 3;
             // if bald
             if (character.torso.neck.head.hair.length <= 0) {
-                DisplayText("\n\nYour head buzzes pleasantly, feeling suddenly hot and wet.  You instinctively reach up to feel the source of your wetness, and discover you've grown some kind of gooey hair.  From time to time it drips, running down your back to the crack of your " + ButtDescriptor.describeButt(character) + ".");
+                DisplayText("\n\nYour head buzzes pleasantly, feeling suddenly hot and wet.  You instinctively reach up to feel the source of your wetness, and discover you've grown some kind of gooey hair.  From time to time it drips, running down your back to the crack of your " + Desc.Butt.describeButt(character) + ".");
                 character.torso.neck.head.hair.length = 5;
             }
             else {
                 // if hair isnt rubbery or latexy
                 if (character.torso.neck.head.hair.color.indexOf("rubbery") === -1 && character.torso.neck.head.hair.color.indexOf("latex-textured") === -1) {
-                    DisplayText("\n\nYour head buzzes pleasantly, feeling suddenly hot and wet.  You instinctively reach up to feel the source of your wetness, and discover your hair has become a slippery, gooey mess.  From time to time it drips, running down your back to the crack of your " + ButtDescriptor.describeButt(character) + ".");
+                    DisplayText("\n\nYour head buzzes pleasantly, feeling suddenly hot and wet.  You instinctively reach up to feel the source of your wetness, and discover your hair has become a slippery, gooey mess.  From time to time it drips, running down your back to the crack of your " + Desc.Butt.describeButt(character) + ".");
                 }
                 // Latexy stuff
                 else {
@@ -108,7 +107,7 @@ export default class WetCloth extends Consumable {
         // DONE EXCEPT FOR TITS & MULTIDICKS (UNFINISHED KINDA)
         // 2.Goo legs
         if (character.skin.adj === "slimy" && character.skin.desc === "skin" && character.torso.hips.legs.type !== LegType.GOO) {
-            DisplayText("\n\nYour viewpoint rapidly drops as everything below your " + ButtDescriptor.describeButt(character) + " and groin melts together into an amorphous blob.  Thankfully, you discover you can still roll about on your new slimey undercarriage, but it's still a whole new level of strange.");
+            DisplayText("\n\nYour viewpoint rapidly drops as everything below your " + Desc.Butt.describeButt(character) + " and groin melts together into an amorphous blob.  Thankfully, you discover you can still roll about on your new slimey undercarriage, but it's still a whole new level of strange.");
             character.tallness -= 3 + randInt(2);
             if (character.tallness < 36) {
                 character.tallness = 36;
@@ -134,7 +133,7 @@ export default class WetCloth extends Consumable {
             if (!character.statusAffects.has(StatusAffectType.BonusVCapacity))
                 character.statusAffects.add(StatusAffectType.BonusVCapacity, 9000, 0, 0, 0);
             else character.statusAffects.get(StatusAffectType.BonusVCapacity).value1 = 9000;
-            DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "'s internal walls feel a tingly wave of strange tightness.  Experimentally, you slip a few fingers, then your hand, then most of your forearm inside yourself.  <b>It seems you're now able to accommodate just about ANYTHING inside your sex.</b>");
+            DisplayText("\n\nYour " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "'s internal walls feel a tingly wave of strange tightness.  Experimentally, you slip a few fingers, then your hand, then most of your forearm inside yourself.  <b>It seems you're now able to accommodate just about ANYTHING inside your sex.</b>");
             return;
         }
         else if (character.tallness < 100 && randInt(3) <= 1) {
@@ -154,8 +153,8 @@ export default class WetCloth extends Consumable {
                 character.statusAffects.get(StatusAffectType.SlimeCraving).value1 = 0;
             }
         }
-        if (randInt(2) === 0) DisplayText(BodyModifier.displayModFem(character, 85, 3));
-        if (randInt(2) === 0) DisplayText(BodyModifier.displayModThickness(character, 20, 3));
-        if (randInt(2) === 0) DisplayText(BodyModifier.displayModTone(character, 15, 5));
+        if (randInt(2) === 0) DisplayText(Mod.Body.displayModFem(character, 85, 3));
+        if (randInt(2) === 0) DisplayText(Mod.Body.displayModThickness(character, 20, 3));
+        if (randInt(2) === 0) DisplayText(Mod.Body.displayModTone(character, 15, 5));
     }
 }

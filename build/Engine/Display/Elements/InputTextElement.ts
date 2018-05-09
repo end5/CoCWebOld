@@ -1,6 +1,6 @@
-import ScreenElement from './ScreenElement';
+import { ScreenElement } from './ScreenElement';
 
-export default class InputTextElement extends ScreenElement {
+export class InputTextElement extends ScreenElement {
     public constructor() {
         super();
         this.htmlElement = document.createElement('input');

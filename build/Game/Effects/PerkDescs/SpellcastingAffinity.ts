@@ -1,6 +1,6 @@
-import Perk, { PerkDesc } from '../Perk';
+import { Perk, PerkDesc } from '../Perk';
 
-export default class SpellcastingAffinity extends PerkDesc {
+export class SpellcastingAffinity extends PerkDesc {
     public description(perk?: Perk): string {
         return "Reduces spell costs by " + perk.value1 + "%.";
     }

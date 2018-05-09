@@ -1,10 +1,10 @@
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
 export class JeweledRapier extends Weapon {
     public constructor() {

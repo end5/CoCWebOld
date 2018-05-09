@@ -1,8 +1,8 @@
-import Character from './Character';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import * as GenderDescriptor from '../Descriptors/GenderDescriptor';
+import { Character } from './Character';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { Desc } from '../Descriptors/Descriptors';
 
-export default class Description implements ISerializable<Description> {
+export class CharacterDescription implements ISerializable<CharacterDescription> {
     private character: Character;
     private subjective: string;
     private objective: string;
@@ -24,9 +24,9 @@ export default class Description implements ISerializable<Description> {
     }
 
     public update() {
-        this.subjective = this.plural ? "they" : GenderDescriptor.mfn(this.character.gender, "he", "she", "it");
-        this.objective = this.plural ? "them" : GenderDescriptor.mfn(this.character.gender, "him", "her", "it");
-        this.possessive = this.plural ? "their" : GenderDescriptor.mfn(this.character.gender, "his", "her", "its");
+        this.subjective = this.plural ? "they" : Desc.Gender.mfn(this.character.gender, "he", "she", "it");
+        this.objective = this.plural ? "them" : Desc.Gender.mfn(this.character.gender, "him", "her", "it");
+        this.possessive = this.plural ? "their" : Desc.Gender.mfn(this.character.gender, "his", "her", "its");
         if (this.article === ("a" || "the"))
             this.article = this.plural ? "the" : "a";
     }
@@ -99,7 +99,7 @@ export default class Description implements ISerializable<Description> {
         });
     }
 
-    public deserialize(saveObject: Description) {
+    public deserialize(saveObject: CharacterDescription) {
         this.subjective = saveObject.subjective;
         this.objective = saveObject.objective;
         this.possessive = saveObject.possessive;

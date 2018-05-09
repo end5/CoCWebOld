@@ -1,5 +1,5 @@
-import ImageName from './ImageName';
-import Dictionary from '../../Utilities/Dictionary';
+import { ImageName } from './ImageName';
+import { Dictionary } from '../../Utilities/Dictionary';
 import { randomChoice } from '../../Utilities/SMath';
 
 interface ImageLoadPromise {

@@ -1,8 +1,8 @@
 import * as PerformActions from './PerformActions';
-import ActionPerform from '../../../Combat/ActionPerform';
-import CombatAction from '../../../Combat/Actions/CombatAction';
+import { ActionPerform } from '../../../Combat/ActionPerform';
+import { CombatAction } from '../../../Combat/Actions/CombatAction';
 
-export default class PlayerActionPerform implements ActionPerform {
+export class PlayerActionPerform implements ActionPerform {
     public mainAction: CombatAction = new PerformActions.MainAction();
     public approach: CombatAction = new PerformActions.Approach();
     public recover: CombatAction = new PerformActions.Recover();

@@ -1,7 +1,8 @@
-import Character from '../../../../Character/Character';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { Character } from '../../../../Character/Character';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
 
 export class Infest implements CombatAction {
     public name: string = "Infest";
@@ -15,7 +16,8 @@ export class Infest implements CombatAction {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         // this.playerInfest();
+        return;
     }
 }

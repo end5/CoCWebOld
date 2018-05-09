@@ -1,9 +1,9 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import CombatEffect from '../CombatEffect';
-import CombatEffectFactory from '../CombatEffectFactory';
+import { CombatEffect } from '../CombatEffect';
+import { CombatEffectFactory } from '../CombatEffectFactory';
 import { CombatEffectType } from '../CombatEffectType';
 
 export class Sandstorm extends CombatEffect {

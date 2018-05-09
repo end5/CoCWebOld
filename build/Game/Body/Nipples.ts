@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Nipples implements ISerializable<Nipples> {
+export class Nipples implements ISerializable<Nipples> {
     public count: number = 1;
     public length: number = 0.25;
     public fuckable: boolean = false;

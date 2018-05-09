@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class Hellfire extends PlayerSpellAction {
     public name: string = "Hellfire";
@@ -15,7 +16,7 @@ export class Hellfire extends PlayerSpellAction {
         return character.perks.has(PerkType.Hellfire);
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         // Amily!
@@ -81,5 +82,6 @@ export class Hellfire extends PlayerSpellAction {
         DisplayText("\n");
         // if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
         //     monster.lightHolliOnFireMagically() as Holli;
+        return;
     }
 }

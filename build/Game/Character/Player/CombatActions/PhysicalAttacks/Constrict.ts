@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { LegType } from '../../../../Body/Legs';
-import Character from '../../../../Character/Character';
+import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class Constrict extends PlayerPhysicalAction {
     public name: string = "Constrict";
@@ -31,7 +32,7 @@ export class Constrict extends PlayerPhysicalAction {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         // Amily!
         DisplayText().clear();
         if (monster.statusAffects.has(StatusAffectType.Concentration)) {
@@ -55,5 +56,6 @@ export class Constrict extends PlayerPhysicalAction {
             DisplayText("You launch yourself at your opponent and attempt to wrap yourself around " + monster.desc.objectivePronoun + ". Before you can even get close enough, " + monster.desc.a + monster.desc.short + " jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back.");
             player.combat.stats.loseHP(5, null);
         }
+        return;
     }
 }

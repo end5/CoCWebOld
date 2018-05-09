@@ -1,6 +1,6 @@
-import RandomDrop from './RandomDrop';
+import { ItemDrop } from './ItemDrop';
 
-export default class WeightedDrop implements RandomDrop {
+export class WeightedDrop implements ItemDrop {
     private items: any[] = [];
     private sum: number = 0;
 

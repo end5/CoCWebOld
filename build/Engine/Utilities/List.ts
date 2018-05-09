@@ -2,7 +2,7 @@
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
 
-export default class List<Entry> implements Iterable<Entry> {
+export class List<Entry> implements Iterable<Entry> {
     protected list: Entry[] = [];
     private minLength: number = 0;
 

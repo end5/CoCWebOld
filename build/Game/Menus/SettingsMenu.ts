@@ -1,9 +1,10 @@
-import Menus from './Menus';
-import DisplayText from '../../Engine/display/DisplayText';
-import MainScreen, { TopButton } from '../../Engine/Display/MainScreen';
-import User from '../User';
+import { Menus } from './Menus';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { NextScreenChoices } from '../SceneDisplay';
+import { User } from '../User';
 
-export default function display() {
+export function display(): NextScreenChoices {
     MainScreen.getTopButton(TopButton.MainMenu).show();
     MainScreen.getTopButton(TopButton.Data).show();
 
@@ -57,52 +58,56 @@ export default function display() {
     else
         DisplayText("Hyper Happy mode <b>Off</b>\n	Male enhancement potions shrink female endowments, and vice versa.");
 
-    MainScreen.displayChoices(
-        ["Toggle Debug", "Sprite Toggle", "EZ Mode", "Larger Font", "Controls", "Hyper Happy", "Low Standards", "Silly Toggle", "Smaller Font"],
-        [toggleDebug, toggleSpritesFlag, toggleEasyModeFlag, incFontSize, Menus.Controls, toggleHyperHappy, toggleStandards, toggleSillyFlag, decFontSize],
-        ["Back"],
-        [Menus.Main]
-    );
+    return {
+        choices: [
+            ["Toggle Debug", "Sprite Toggle", "EZ Mode", "Larger Font", "Controls", "Hyper Happy", "Low Standards", "Silly Toggle", "Smaller Font"],
+            [toggleDebug, toggleSpritesFlag, toggleEasyModeFlag, incFontSize, Menus.Controls, toggleHyperHappy, toggleStandards, toggleSillyFlag, decFontSize]
+        ],
+        persistantChoices: [
+            ["Back"],
+            [Menus.Main]
+        ]
+    };
 }
 
-function incFontSize() {
+function incFontSize(): NextScreenChoices {
     User.settings.customFontSize++;
     DisplayText().style.fontSize = User.settings.customFontSize + "px";
-    display();
+    return display();
 }
 
-function decFontSize() {
+function decFontSize(): NextScreenChoices {
     User.settings.customFontSize--;
     DisplayText().style.fontSize = User.settings.customFontSize + "px";
-    display();
+    return display();
 }
 
-function toggleStandards() {
+function toggleStandards(): NextScreenChoices {
     User.settings.lowStandards = !User.settings.lowStandards;
-    display();
+    return display();
 }
 
-function toggleHyperHappy() {
+function toggleHyperHappy(): NextScreenChoices {
     User.settings.hyperHappy = !User.settings.hyperHappy;
-    display();
+    return display();
 }
 
-function toggleDebug() {
+function toggleDebug(): NextScreenChoices {
     User.settings.debug = !User.settings.debug;
-    display();
+    return display();
 }
 
-function toggleEasyModeFlag() {
+function toggleEasyModeFlag(): NextScreenChoices {
     User.settings.easyMode = !User.settings.easyMode;
-    display();
+    return display();
 }
 
-function toggleSpritesFlag() {
+function toggleSpritesFlag(): NextScreenChoices {
     User.settings.showSprites = !User.settings.showSprites;
-    display();
+    return display();
 }
 
-function toggleSillyFlag() {
+function toggleSillyFlag(): NextScreenChoices {
     User.settings.sillyMode = !User.settings.sillyMode;
-    display();
+    return display();
 }

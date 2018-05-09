@@ -1,11 +1,11 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { FilterOption, ReduceOption, SortOption } from '../../Engine/Utilities/List';
 
 export enum CockType {
     HUMAN, HORSE, DOG, DEMON, TENTACLE, CAT, LIZARD, ANEMONE, KANGAROO, DRAGON, DISPLACER, FOX, BEE, UNDEFINED
 }
 
-export default class Cock implements ISerializable<Cock> {
+export class Cock implements ISerializable<Cock> {
     public static readonly SmallestCockArea: SortOption<Cock> = (a: Cock, b: Cock) => {
         return a.area - b.area;
     }

@@ -1,27 +1,26 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { HairType } from '../../Body/Hair';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import Menus from '../../Menus/Menus';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
+import { Menus } from '../../Menus/Menus';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class FerretFruit extends Consumable {
+export class FerretFruit extends Consumable {
     public constructor() {
         super(ConsumableName.FerretFruit, new ItemDesc("Frrtfrt", "a ferret fruit", "This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach."));
     }
@@ -52,8 +51,7 @@ export default class FerretFruit extends Consumable {
             else if (randInt(3) === 0) {
                 // -If you fail to heed the warning, it's game over:
                 DisplayText("\n\nAs you down the fruit, you begin to feel all warm and fuzzy inside.  You flop over on your back, eagerly removing your clothes.  You laugh giddily, wanting nothing more than to roll about happily in the grass.  Finally finished, you attempt to get up, but something feels...  different.  Try as you may, you find yourself completely unable to stand upright for a long period of time.  You only manage to move about comfortably on all fours.  Your body now resembles that of a regular ferret.  That can't be good!  As you attempt to comprehend your situation, you find yourself less and less able to focus on the problem.  Your attention eventually drifts to a rabbit in the distance.  You lick your lips. Nevermind that, you have warrens to raid!");
-                MainScreen.doNext(Menus.GameOver);
-                return;
+                return { next: Menus.GameOver };
             }
         }
         // Reset the warning if ferret score drops.
@@ -116,7 +114,7 @@ export default class FerretFruit extends Consumable {
             const longestCock = cocks.sort(Cock.LongestCocks)[0];
             if (randInt(2) === 0 && changes < changeLimit) {
                 if (longestCock.length > 6 && !User.settings.hyperHappy) {
-                    DisplayText("\n\nA pinching sensation racks the entire length of your " + CockDescriptor.describeCock(character, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
+                    DisplayText("\n\nA pinching sensation racks the entire length of your " + Desc.Cock.describeCock(character, longestCock) + ".  Within moments, the sensation is gone, but it appears to have become smaller.");
                     longestCock.length--;
                     if (randInt(2) === 0)
                         longestCock.length--;
@@ -168,7 +166,7 @@ export default class FerretFruit extends Consumable {
         }
         // Go into heat
         if (randInt(3) === 0 && changes < changeLimit) {
-            if (BodyModifier.displayGoIntoHeat(character)) {
+            if (Mod.Body.displayGoIntoHeat(character)) {
                 changes++;
             }
         }

@@ -1,8 +1,9 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
-import Player from '../../Player';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { Player } from '../../Player';
 
 export class ShieldingSpell implements CombatAction {
     public name: string = "Shielding";
@@ -16,11 +17,12 @@ export class ShieldingSpell implements CombatAction {
         return player.statusAffects.has(StatusAffectType.ShieldingSpell);
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         DisplayText("You gather energy in your Talisman and unleash the spell contained within.  A barrier of light engulfs you, before turning completely transparent.  Your defense has been increased.\n\n");
         player.statusAffects.add(StatusAffectType.Shielding, 0, 0, 0, 0);
         player.statusAffects.remove(StatusAffectType.ShieldingSpell);
         // Scenes.arianScene.clearTalisman();
+        return;
     }
 }

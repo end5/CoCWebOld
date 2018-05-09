@@ -1,14 +1,14 @@
-import Armor from './Armor';
-import ArmorName from './ArmorName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import BreastRow, { BreastCup } from '../../Body/BreastRow';
-import Vagina from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
+import { Armor } from './Armor';
+import { ArmorName } from './ArmorName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { BreastCup, BreastRow } from '../../Body/BreastRow';
+import { Vagina } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class LustyMaidensArmor extends Armor {
+export class LustyMaidensArmor extends Armor {
     public constructor() {
         super(ArmorName.LustyMaidensArmor, new ItemDesc("LMArmor", "a bikini-like set of armor that could only belong to a lusty maiden", "This skimpy chain bikini barely qualifies as armor.  Indeed, the chain is made from links much finer and lighter than normal, so fine that it feels almost silken under your fingertips.  A simple seal in the g-string-like undergarment states, \"Virgins only.\""), "lusty maiden's armor", 6, 400, "Light");
     }
@@ -36,7 +36,7 @@ export default class LustyMaidensArmor extends Armor {
         if (character.torso.cocks.count > 0 || character.torso.balls.quantity > 0) {
             DisplayText("that it won't fit you ");
             if (character.torso.cocks.count > 0)
-                DisplayText("or your " + CockDescriptor.describeMultiCockShort(character));
+                DisplayText("or your " + Desc.Cock.describeMultiCockShort(character));
             else
                 DisplayText("or your [balls]");
             DisplayText(" at all!  <b>You put your old gear back on with a sigh</b>.");

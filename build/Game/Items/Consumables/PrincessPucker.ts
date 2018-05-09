@@ -1,11 +1,11 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
-export default class PrincessPucker extends Consumable {
+export class PrincessPucker extends Consumable {
     public constructor() {
         super(ConsumableName.PrincessPucker, new ItemDesc("PrnsPkr", "a vial of pinkish fluid", "A vial filled with a viscous pink liquid."));
     }

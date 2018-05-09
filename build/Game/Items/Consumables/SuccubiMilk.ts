@@ -1,22 +1,19 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import GenericTransforms from './GenericTransforms';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { GenericTransforms } from './GenericTransforms';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
-import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
+import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as BreastModifier from '../../Modifiers/BreastModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class SuccubiMilk extends Consumable {
+export class SuccubiMilk extends Consumable {
     public readonly tainted: boolean;
 
     public constructor(tainted: boolean) {
@@ -37,7 +34,7 @@ export default class SuccubiMilk extends Consumable {
         if (character.stats.cor >= 35 && character.stats.cor < 70) {
             DisplayText("You savor the incredible flavor as you greedily gulp it down.");
             if (character.gender === 2 || character.gender === 3) {
-                DisplayText("  The taste alone makes your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " feel ");
+                DisplayText("  The taste alone makes your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " feel ");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.DRY) DisplayText("tingly.");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.NORMAL) DisplayText("wet.");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.WET) DisplayText("sloppy and wet.");
@@ -49,7 +46,7 @@ export default class SuccubiMilk extends Consumable {
         if (character.stats.cor >= 70) {
             DisplayText("You pour the milk down your throat, chugging the stuff as fast as you can.  You want more.");
             if (character.gender === 2 || character.gender === 3) {
-                DisplayText("  Your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+                DisplayText("  Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
                 if (character.torso.vaginas.count > 1) DisplayText(" quiver in orgasm, ");
                 if (character.torso.vaginas.count === 1) DisplayText(" quivers in orgasm, ");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.DRY) DisplayText("becoming slightly sticky.");
@@ -61,8 +58,8 @@ export default class SuccubiMilk extends Consumable {
                 character.orgasm();
             }
             else if (character.gender !== 0) {
-                if (character.torso.cocks.count === 1) DisplayText("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(character) + " remains unaffected.");
-                else DisplayText("  You feel a strange sexual pleasure, but your " + CockDescriptor.describeMultiCock(character) + " remain unaffected.");
+                if (character.torso.cocks.count === 1) DisplayText("  You feel a strange sexual pleasure, but your " + Desc.Cock.describeMultiCock(character) + " remains unaffected.");
+                else DisplayText("  You feel a strange sexual pleasure, but your " + Desc.Cock.describeMultiCock(character) + " remain unaffected.");
             }
         }
         if (this.tainted) {
@@ -93,7 +90,7 @@ export default class SuccubiMilk extends Consumable {
                 DisplayText("\n");
             }
             else
-                BreastModifier.growTopBreastRow(character, breastGrowth, character.torso.chest.count, true);
+                Mod.Breast.growTopBreastRow(character, breastGrowth, character.torso.chest.count, true);
 
             if (!User.settings.hyperHappy) {
                 // Shrink cocks if you have them.
@@ -108,12 +105,12 @@ export default class SuccubiMilk extends Consumable {
                         if (longestCock.thickness * 8 > longestCock.length) longestCock.thickness -= .2;
                         if (longestCock.thickness < .5) longestCock.thickness = .5;
                     }
-                    lengthenAmount += CockModifier.growCock(character, longestCock, (randInt(3) + 1) * -1);
+                    lengthenAmount += Mod.Cock.growCock(character, longestCock, (randInt(3) + 1) * -1);
                     DisplayText("\n\n");
-                    CockModifier.displayLengthChange(character, lengthenAmount, 1);
+                    Mod.Cock.displayLengthChange(character, lengthenAmount, 1);
                     if (longestCock.length < 2) {
                         DisplayText("  ");
-                        CockModifier.displayKillCocks(character, 1);
+                        Mod.Cock.displayKillCocks(character, 1);
                     }
                 }
             }
@@ -125,7 +122,7 @@ export default class SuccubiMilk extends Consumable {
             newVagina.virgin = true;
             character.torso.vaginas.add(newVagina);
             if (character.fertility <= 5) character.fertility = 6;
-            DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
+            DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
         }
         // Increase pussy wetness or grow one!!
         else if (chance > 75 && chance < 90) {
@@ -136,38 +133,38 @@ export default class SuccubiMilk extends Consumable {
                 // Shrink said cock
                 if (longestCock.length < 6 && longestCock.length >= 2.9)
                     longestCock.length -= .5;
-                const lengthChange: number = CockModifier.growCock(character, longestCock, -1 * (randInt(3) + 1));
-                CockModifier.displayLengthChange(character, lengthChange, 1);
+                const lengthChange: number = Mod.Cock.growCock(character, longestCock, -1 * (randInt(3) + 1));
+                Mod.Cock.displayLengthChange(character, lengthChange, 1);
                 if (longestCock.length < 3) {
                     DisplayText("  ");
-                    CockModifier.displayKillCocks(character, 1);
+                    Mod.Cock.displayKillCocks(character, 1);
                 }
             }
             if (character.torso.vaginas.count > 0) {
                 DisplayText("\n\n");
                 // 0 = dry, 1 = wet, 2 = extra wet, 3 = always slick, 4 = drools constantly, 5 = female ejaculator
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.SLAVERING) {
-                    if (character.torso.vaginas.count === 1) DisplayText("Your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " gushes fluids down your leg as you spontaneously orgasm.");
-                    else DisplayText("Your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.");
+                    if (character.torso.vaginas.count === 1) DisplayText("Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " gushes fluids down your leg as you spontaneously orgasm.");
+                    else DisplayText("Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "s gush fluids down your legs as you spontaneously orgasm, leaving a thick puddle of pussy-juice on the ground.  It is rapidly absorbed by the earth.");
                     character.orgasm();
                     if (this.tainted) character.stats.cor += 1;
                 }
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.DROOLING) {
-                    if (character.torso.vaginas.count === 1) DisplayText("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.");
-                    if (character.torso.vaginas.count > 1) DisplayText("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.");
+                    if (character.torso.vaginas.count === 1) DisplayText("Your pussy feels hot and juicy, aroused and tender.  You cannot resist as your hands dive into your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".  You quickly orgasm, squirting fluids everywhere.  <b>You are now a squirter</b>.");
+                    if (character.torso.vaginas.count > 1) DisplayText("Your pussies feel hot and juicy, aroused and tender.  You cannot resist plunging your hands inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "s.  You quiver around your fingers, squirting copious fluids over yourself and the ground.  The fluids quickly disappear into the dirt.");
                     character.orgasm();
                     if (this.tainted) character.stats.cor += 1;
                 }
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.SLICK) {
-                    if (character.torso.vaginas.count === 1) DisplayText("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " now drools lubricant constantly down your leg.");
+                    if (character.torso.vaginas.count === 1) DisplayText("You feel a sudden trickle of fluid down your leg.  You smell it and realize it's your pussy-juice.  Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " now drools lubricant constantly down your leg.");
                     if (character.torso.vaginas.count > 1) DisplayText("You feel sudden trickles of fluids down your leg.  You smell the stuff and realize it's your pussies-juices.  They seem to drool lubricant constantly down your legs.");
                 }
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.WET) {
                     DisplayText("You flush in sexual arousal as you realize how moist your cunt-lips have become.  Once you've calmed down a bit you realize they're still slick and ready to fuck, and always will be.");
                 }
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.NORMAL) {
-                    if (character.torso.vaginas.count === 1) DisplayText("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " felt much wetter than normal.");
-                    else DisplayText("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " were much wetter than normal.");
+                    if (character.torso.vaginas.count === 1) DisplayText("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " felt much wetter than normal.");
+                    else DisplayText("A feeling of intense arousal passes through you, causing you to masturbate furiously.  You realize afterwards that your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " were much wetter than normal.");
                 }
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.DRY) {
                     DisplayText("You feel a tingling in your crotch, but cannot identify it.");
@@ -196,7 +193,7 @@ export default class SuccubiMilk extends Consumable {
                     newVagina.wetness = VaginaWetness.NORMAL;
                     newVagina.virgin = true;
                     character.torso.vaginas.add(newVagina);
-                    DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
+                    DisplayText("\n\nAn itching starts in your crotch and spreads vertically.  You reach down and discover an opening.  You have grown a <b>new " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + "</b>!");
                 }
             }
             else {
@@ -213,12 +210,12 @@ export default class SuccubiMilk extends Consumable {
         // Demonic changes - higher chance with higher corruption.
         if (randInt(40) + character.stats.cor / 3 > 35 && this.tainted) GenericTransforms.demonChanges(character);
         if (this.tainted) {
-            DisplayText(BodyModifier.displayModFem(character, 100, 2));
-            if (randInt(3) === 0) DisplayText(BodyModifier.displayModTone(character, 15, 2));
+            DisplayText(Mod.Body.displayModFem(character, 100, 2));
+            if (randInt(3) === 0) DisplayText(Mod.Body.displayModTone(character, 15, 2));
         }
         else {
-            DisplayText(BodyModifier.displayModFem(character, 90, 1));
-            if (randInt(3) === 0) DisplayText(BodyModifier.displayModTone(character, 20, 2));
+            DisplayText(Mod.Body.displayModFem(character, 90, 1));
+            if (randInt(3) === 0) DisplayText(Mod.Body.displayModTone(character, 20, 2));
         }
         character.updateGender();
     }

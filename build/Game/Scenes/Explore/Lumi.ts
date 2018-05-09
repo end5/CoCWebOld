@@ -1,15 +1,15 @@
-﻿import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen, { ClickFunction } from '../../../Engine/Display/MainScreen';
+﻿import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import ConsumableName from '../../Items/Consumables/ConsumableName';
-import ItemFactory from '../../Items/ItemFactory';
-import ItemType from '../../Items/ItemType';
-import User from '../../User';
-import Scenes from '../Scenes';
+import { ConsumableName } from '../../Items/Consumables/ConsumableName';
+import { ItemFactory } from '../../Items/ItemFactory';
+import { ItemType } from '../../Items/ItemType';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
+import { Scenes } from '../Scenes';
 
 export interface LumiFlags {
     met: boolean;
@@ -21,24 +21,24 @@ const lumiFlags: LumiFlags = {
 
 User.flags.set(CharacterType.Lumi, lumiFlags);
 
-export function encounter() {
+export function encounter(): NextScreenChoices {
     DisplayText().clear();
     // 1st time lumi meeting
     if (!lumiFlags.met) {
         // placeholder text for outside the cathedral
         DisplayText("You spot an anomaly in the barren wastes; a door that seems to be standing out in the middle of nowhere. Somehow, you figure that it must lead to some other part of the world, and the only reason it's here is because you can't get to where the door should be right now.\n\n");
         DisplayText("Do you open it?");
-        MainScreen.doYesNo(lumiLabChoices, Scenes.camp.returnToCampUseOneHour);
+        return { yes: lumiLabChoices, no: Scenes.camp.returnToCampUseOneHour };
     }
     else {
         // placeholder text for outside the cathedral
         DisplayText("You spot the door standing in the middle of nowhere again, and you guess that it will lead you back to Lumi's laboratory.  It swings open easily...");
-        MainScreen.doNext(lumiLabChoices);
+        return { next: lumiLabChoices };
     }
     // end of placeholder text
 }
 
-export function lumiLabChoices(character: Character) {
+export function lumiLabChoices(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     DisplayText().clear();
     // First time meeting
@@ -58,12 +58,12 @@ export function lumiLabChoices(character: Character) {
         DisplayText("Once more, you step into Lumi's lab.  She's still working on her experiments. Before you even have a chance to call out to her, she has already pivoted to watch you.  In a flash her apron hits the floor and she is standing on her desk, asking, \"<i>Stho, what can Lumi the Aochomist Extwaordinaire do fo you today?</i>\"");
     }
     let enhance: ClickFunction;
-    if (lumiEnhance(character))
+    if (canEnhance(character))
         enhance = lumiEnhance;
-    MainScreen.displayChoices(["Shop", "Enhance", "", "", "Leave"], [lumiShop, enhance, undefined, undefined, Scenes.camp.returnToCampUseOneHour]);
+    return { choices: [["Shop", "Enhance", "", "", "Leave"], [lumiShop, enhance, undefined, undefined, Scenes.camp.returnToCampUseOneHour]] };
 }
 
-export function lumiShop() {
+export function lumiShop(): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     // Set item handling to lumi shop
     DisplayText().clear();
@@ -82,16 +82,16 @@ export function lumiShop() {
         lumiPitchGobboAle,
         lumiPitchOviElixer,
     ];
-    MainScreen.displayChoices(buttonText, buttonFunc, ["Leave"], [lumiLabChoices]);
+    return { choices: [buttonText, buttonFunc], persistantChoices: [["Leave"], [lumiLabChoices]] };
 }
 
 // Lust Draft
-function lumiLustDraftPitch() {
+function lumiLustDraftPitch(): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     DisplayText().clear();
     DisplayText("You point at the bottle filled with bubble-gum pink fluid.\n\n\"<i>De lust dwaft? Always a favowite, with it you nevar have to worwy about not bein weady for sexy time; one of my fiwst creations. 15 gems each.</i>\"\n\n");
     DisplayText("Will you buy the lust draft?");
-    MainScreen.doYesNo((character: Character) => { lumiPurchase(character, ConsumableName.LustDraft); }, lumiShop);
+    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.LustDraft), no: lumiShop };
 }
 // Goblin Ale
 function lumiPitchGobboAle() {
@@ -99,7 +99,7 @@ function lumiPitchGobboAle() {
     DisplayText().clear();
     DisplayText("You point at the flagon. \"<i>Oh? Oh thats Lumi's... actually no, dat tispsy stuff for 20 gems. You'll like if you want to be like Lumi. Do you like it?</i>\"\n\n");
     DisplayText("Will you buy the goblin ale?");
-    MainScreen.doYesNo((character: Character) => { lumiPurchase(character, ConsumableName.GoblinAle); }, lumiShop);
+    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.GoblinAle), no: lumiShop };
 }
 // Ovi Elixir
 function lumiPitchOviElixer() {
@@ -107,10 +107,10 @@ function lumiPitchOviElixer() {
     DisplayText().clear();
     DisplayText("You point at the curious hexagonal bottle. \"<i>De Oviposar Elixir? Made baithsed on da giant bee's special stuff dey give deir queen. It will help make de burfing go faster, an if you dwink it while you awen pweggy, iw will give you some eggs to burf later. More dwinks, eqwals more and biggar eggs. Lumi charges 45 gems for each dose.</i>\"\n\n");
     DisplayText("Will you buy the Ovi Elixir?");
-    MainScreen.doYesNo((character: Character) => { lumiPurchase(character, ConsumableName.OvipositionElixir); }, lumiShop);
+    return { yes: (character: Character) => lumiPurchase(character, ConsumableName.OvipositionElixir), no: lumiShop };
 }
 
-function lumiPurchase(character: Character, itype: string) {
+function lumiPurchase(character: Character, itype: string): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     DisplayText().clear();
     // After choosing, and PC has enough gems
@@ -124,43 +124,63 @@ function lumiPurchase(character: Character, itype: string) {
     if (character.inventory.gems >= cost) {
         DisplayText("You pay Lumi the gems, and she hands you " + ItemFactory.get(ItemType.Consumable, itype).desc.longName + " saying, \"<i>Here ya go!</i>\"\n\n");
         character.inventory.gems -= cost;
-        character.inventory.items.createAdd(character, ItemType.Consumable, itype, lumiLabChoices);
+        return character.inventory.items.createAdd(character, ItemType.Consumable, itype, lumiLabChoices);
     }
     else {
         // After choosing, and PC doesn't have enough gems
         DisplayText("You go to pay Lumi the gems, but then you realize that you don't have enough. Lumi seems to know what happened and tells you \"<i>Ok, is dere somefing you want to buy that you can affowd?</i>\"\n\n");
         // Return to main Lumi menu
-        MainScreen.doNext(lumiShop);
+        return { next: lumiShop };
     }
 }
 
-export function lumiEnhance(character: Character): boolean {
+function canEnhance(character: Character): boolean {
+    if (character.inventory.items.has(ConsumableName.FoxBerry))
+        return true;
+    if (character.inventory.items.has(ConsumableName.LaBova))
+        return true;
+    if (character.inventory.items.has(ConsumableName.SuccubisDelight))
+        return true;
+    if (character.inventory.items.has(ConsumableName.OvipositionElixir))
+        return true;
+    if (character.inventory.items.has(ConsumableName.LustDraft))
+        return true;
+    if (character.inventory.items.has(ConsumableName.GoldenSeed))
+        return true;
+    if (character.inventory.items.has(ConsumableName.KangaFruit))
+        return true;
+    if (character.inventory.items.has(ConsumableName.FoxJewel))
+        return true;
+    return false;
+}
+
+export function lumiEnhance(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     const buttonFunc = [];
     character.inventory.items.has(ConsumableName.FoxBerry);
 
-    let fox;
+    let fox: ClickFunction;
     if (character.inventory.items.has(ConsumableName.FoxBerry))
         fox = lumiEnhanceFox;
-    let laBova;
+    let laBova: ClickFunction;
     if (character.inventory.items.has(ConsumableName.LaBova))
         laBova = lumiEnhanceLaBova;
-    let succuDelight;
+    let succuDelight: ClickFunction;
     if (character.inventory.items.has(ConsumableName.SuccubisDelight))
         succuDelight = lumiEnhanceSDelight;
-    const oviElix = undefined;
-    // if(character.inventory.items.has(ConsumableName.OVIELIX))
-    // 	oviElix = lumiEnhanceOviElix;
-    let lustDraft;
+    let oviElix: ClickFunction;
+    if (character.inventory.items.has(ConsumableName.OvipositionElixir))
+        oviElix = lumiEnhanceOviElix;
+    let lustDraft: ClickFunction;
     if (character.inventory.items.has(ConsumableName.LustDraft))
         lustDraft = lumiEnhanceDraft;
-    let seed;
+    let seed: ClickFunction;
     if (character.inventory.items.has(ConsumableName.GoldenSeed))
         seed = lumiEnhanceGoldenSeed;
-    let kanga;
+    let kanga: ClickFunction;
     if (character.inventory.items.has(ConsumableName.KangaFruit))
         kanga = lumiEnhanceKanga;
-    let kitsune;
+    let kitsune: ClickFunction;
     if (character.inventory.items.has(ConsumableName.FoxJewel))
         kitsune = lumiEnhanceFoxJewel;
     DisplayText().clear();
@@ -169,61 +189,63 @@ export function lumiEnhance(character: Character): boolean {
     if (character.inventory.gems < 100) {
         DisplayText("You shake your head no, and Lumi gives you a disappointed look and says, \"<i>Den Lumi can do no enhancement for you. Anyfing else?</i>\"\n\n");
         // Return to main Lumi menu
-        MainScreen.doNext(lumiLabChoices);
-        return false;
+        return { next: lumiLabChoices };
     }
     else {
         DisplayText("You nod and Lumi gives an excited yell, \"<i>Yay! Lumi loves to do enhancement, what you want to be bettar?</i>\"\n\n");
         // The character chooses an item that can be enhanced from a list, regardless of which is chosen, the text for the next part is the same.
-        MainScreen.displayChoices([
-            ItemFactory.get(ItemType.Consumable, ConsumableName.FoxBerry).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.FoxJewel).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.GoldenSeed).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.KangaFruit).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.LaBova).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName,
-            ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight).desc.shortName,
-        ],
-            [
-                fox, kitsune, seed, kanga, lustDraft, laBova, oviElix, succuDelight
+        return {
+            choices: [
+                [
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.FoxBerry).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.FoxJewel).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.GoldenSeed).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.KangaFruit).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.LaBova).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName,
+                    ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight).desc.shortName,
+                ],
+                [fox, kitsune, seed, kanga, lustDraft, laBova, oviElix, succuDelight]
             ],
-            ["Back"], [lumiLabChoices]
-        );
+            persistantChoices: [["Back"], [lumiLabChoices]]
+        };
     }
 }
-function lumiEnhanceLaBova(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.LaBova);
-}
-function lumiEnhanceSDelight(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.SuccubisDelight);
+
+function lumiEnhanceLaBova(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.LaBova);
 }
 
-function lumiEnhanceOviElix(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.OvipositionElixir);
+function lumiEnhanceSDelight(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.SuccubisDelight);
 }
 
-function lumiEnhanceDraft(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.LustDraft);
+function lumiEnhanceOviElix(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.OvipositionElixir);
 }
 
-function lumiEnhanceGoldenSeed(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.GoldenSeed);
+function lumiEnhanceDraft(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.LustDraft);
 }
 
-function lumiEnhanceKanga(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.KangaFruit);
+function lumiEnhanceGoldenSeed(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.GoldenSeed);
 }
 
-function lumiEnhanceFox(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.FoxBerry);
+function lumiEnhanceKanga(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.KangaFruit);
 }
 
-function lumiEnhanceFoxJewel(character: Character) {
-    lumiEnhanceGo(character, ConsumableName.FoxJewel);
+function lumiEnhanceFox(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.FoxBerry);
 }
 
-function lumiEnhanceGo(character: Character, itype: string) {
+function lumiEnhanceFoxJewel(character: Character): NextScreenChoices {
+    return lumiEnhanceGo(character, ConsumableName.FoxJewel);
+}
+
+function lumiEnhanceGo(character: Character, itype: string): NextScreenChoices {
     DisplaySprite(SpriteName.Lumi);
     let nextItem = "";
     if (itype === ConsumableName.LaBova) {
@@ -263,5 +285,5 @@ function lumiEnhanceGo(character: Character, itype: string) {
     else if (temp === 0) DisplayText("She starts grabbing things from around the table, seemingly at random, and adds them to " + item.desc.longName + ".  To your alarm, there is soon a large cloud of smoke coming off it! There is a strong smell to the smoke and it makes it hard to breathe.  Lumi grabs a mask out of a drawer and puts it on, continuing with her work unperturbed.  She suddenly stops and you wonder if she is done, but she takes off her mask and inhales deeply of the smoke, then keels over!  As you go over to help her she suddenly stands up, waves away some of the smoke, and says, \"<i>All dun!</i>\"\n\n");
     else if (temp === 1) DisplayText("Taking hold of one of the bottles that were sitting where she put the tray, she seems to think for a moment before tossing the bottle into one of the corners of the room.  It shatters just behind the table, and a small puff of smoke goes up into the air.  You're a little nervous about that bottle, but before you have a chance to say anything, two more bottles fly off and join it; this time causing a small explosion. You ask her what she is thinking tossing those aside, and she simply responds, \"<i>Dey were in my way.</i>\"\n\n\"<i>What?!  So you just toss things that explode to the side?</i>\"\n\n<i>\"Don worry, I'll put counter agents in dere at de end of de day.  An I never throw stuff da'll do any damage.  Done!</i>\"\n\n");
     else if (temp === 2) DisplayText("She adds a few things to the tray before moving down the table.  She adds some reagents to a bubbling chemical reaction, and then adds some more ingredients to that.  You wonder why she just left " + item.desc.longName + " there to work on something else.  Then Lumi moves back across the table, past where " + item.desc.longName + " sits, to start adding things to something else.  Before you have a chance to complain, she moves back to " + item.desc.longName + " and continues.  You decide that it's probably best not to ask about her work ethic and just let her do her thing; she has more experience than you, after all.\n\nPOP! You look over in surprise as the first thing she worked on makes a small explosion.  POW! Now the second experiment has blown up!  You start to move in alarm, wondering if Lumi really knows what she's doing; just before " + item.desc.longName + " seems to explode with an incredible BOOM.  Lumi stops moving for a moment, looking straight ahead before saying, \"<i>Dat was a gud one, Lumi dun!</i>\"\n\n");
-    character.inventory.items.createAdd(character, ItemType.Consumable, nextItem, lumiLabChoices);
+    return character.inventory.items.createAdd(character, ItemType.Consumable, nextItem, lumiLabChoices);
 }

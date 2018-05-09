@@ -1,5 +1,7 @@
-import Menus from './Game/Menus/Menus';
+import { Menus } from './Game/Menus/Menus';
+import { displayNextSceneChoices } from './Game/SceneDisplay';
+import { CombatTest } from './Test/CombatTest';
 
+displayNextSceneChoices(Menus.Main());
 
-
-Menus.Main(undefined);
+// CombatTest();

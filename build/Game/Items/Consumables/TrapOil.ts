@@ -1,23 +1,21 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
 import { EyeType } from '../../Body/Eyes';
 import { VaginaType } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
+import { Mod } from '../../Modifiers/Modifiers';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class TrapOil extends Consumable {
+export class TrapOil extends Consumable {
     public constructor() {
         super(ConsumableName.TrapOil, new ItemDesc("TrapOil", "a vial of trap oil", "A round, opaque glass vial filled with a clear, viscous fluid.  It has a symbol inscribed on it, a circle with a cross and arrow pointing out of it in opposite directions.  It looks and smells entirely innocuous."));
     }
@@ -63,7 +61,7 @@ export default class TrapOil extends Consumable {
         // Body Mass Loss:
         if (character.thickness > 40 && randInt(3) === 0 && changes < changeLimit) {
             DisplayText("\n\nYou feel an odd tightening sensation in your midriff, as if you were becoming narrower and lither.  You frown downwards, and then turn your arms around, examining them closely.  Is it just you or have you lost weight?");
-            BodyModifier.displayModThickness(character, 40, 3);
+            Mod.Body.displayModThickness(character, 40, 3);
             changes++;
         }
 
@@ -107,7 +105,7 @@ export default class TrapOil extends Consumable {
         }
         // Penis Reduction towards 3.5 Inches:
         if (character.torso.cocks.count > 0 && character.torso.cocks.sort(Cock.LongestCocks)[0].length >= 3.5 && character.torso.cocks.count > 0 && randInt(2) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYou flinch and gasp as your " + CockDescriptor.describeMultiCockShort(character) + " suddenly become");
+            DisplayText("\n\nYou flinch and gasp as your " + Desc.Cock.describeMultiCockShort(character) + " suddenly become");
             if (character.torso.cocks.count === 1) DisplayText("s");
             DisplayText(" incredibly sensitive and retract into your body.  Anxiously you pull down your underclothes to examine your nether regions.  To your relief ");
             if (character.torso.cocks.count === 1) DisplayText("it is");
@@ -131,7 +129,7 @@ export default class TrapOil extends Consumable {
                         if (selectedCock.thickness < .5) selectedCock.thickness = .5;
                     }
                     selectedCock.length -= 0.5;
-                    CockModifier.growCock(character, selectedCock, Math.round(selectedCock.length * 0.33) * -1);
+                    Mod.Cock.growCock(character, selectedCock, Math.round(selectedCock.length * 0.33) * -1);
                 }
             }
             changes++;
@@ -147,7 +145,7 @@ export default class TrapOil extends Consumable {
             if (character.torso.balls.size > 20) character.torso.balls.size--;
             // Testicle Reduction final:
             if (character.torso.balls.size < 1 && !character.statusAffects.has(StatusAffectType.Uniball)) {
-                DisplayText("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + CockDescriptor.describeMultiCockShort(character) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + numToCardinalText(character.torso.balls.quantity) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
+                DisplayText("  You whimper as once again, your balls tighten and shrink.  Your eyes widen when you feel the gentle weight of your testicles pushing against the top of your [hips], and a few hesitant swings of your rear confirm what you can feel - you've tightened your balls up so much they no longer hang beneath your " + Desc.Cock.describeMultiCockShort(character) + ", but press perkily upwards.  Heat ringing your ears, you explore your new sack with a careful hand.  You are deeply grateful you apparently haven't reversed puberty, but you discover that though you still have " + numToCardinalText(character.torso.balls.quantity) + ", your balls now look and feel like one: one cute, tight little sissy parcel, its warm, insistent pressure upwards upon the joining of your thighs a never-ending reminder of it.");
                 // [Note: Balls description should no longer say �swings heavily beneath�.  For simplicity's sake sex scenes should continue to assume two balls]
                 character.torso.balls.size = 1;
                 character.statusAffects.add(StatusAffectType.Uniball, 0, 0, 0, 0);
@@ -248,7 +246,7 @@ export default class TrapOil extends Consumable {
         }
         // Remove odd eyes
         if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES && randInt(2) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+            DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
             if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
             DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             character.torso.neck.head.face.eyes.type = EyeType.HUMAN;

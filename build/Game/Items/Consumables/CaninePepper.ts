@@ -1,31 +1,24 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Menus from '../../Menus/Menus';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import ItemDesc from '../ItemDesc';
+import { Menus } from '../../Menus/Menus';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
 export enum CaninePepperType {
     Normal,
@@ -36,7 +29,7 @@ export enum CaninePepperType {
     Bulbous
 }
 
-export default class CaninePepper extends Consumable {
+export class CaninePepper extends Consumable {
     // 1-Oversized Pepper (+size, thickness)
     // 2-Double Pepper (+grows second cock or changes two cocks to dogcocks)
     // 3-Black Pepper (Dark Fur, +corruption/libido)
@@ -122,8 +115,7 @@ export default class CaninePepper extends Consumable {
                     DisplayText("All you know is that there is a scent on the wind, and it is time to hunt.");
             }
             else DisplayText("\n\nYou devour the sweet pepper, carefully licking your fingers for all the succulent juices of the fruit, and are about to go on your way when suddenly a tightness begins to build in your chest and stomach, horrid cramps working their way first through your chest, then slowly flowing out to your extremities, the feeling soon joined by horrible, blood-curdling cracks as your bones begin to reform, twisting and shifting, your mind exploding with pain. You fall to the ground, reaching one hand forward. No... A paw, you realize in horror, as you try to push yourself back up. You watch in horror, looking down your foreleg as thicker fur erupts from your skin, a " + character.torso.neck.head.hair.color + " coat slowly creeping from your bare flesh to cover your body. Suddenly, you feel yourself slipping away, as if into a dream, your mind warping and twisting, your body finally settling into its new form. With one last crack of bone you let out a yelp, kicking free of the cloth that binds you, wresting yourself from its grasp and fleeing into the now setting sun, eager to find prey to dine on tonight.");
-            MainScreen.doNext(Menus.GameOver);
-            return;
+            return { next: Menus.GameOver };
         }
     }
 
@@ -149,7 +141,7 @@ export default class CaninePepper extends Consumable {
                 }
                 // 1 dick - grow 1 and convert 1
                 else if (character.torso.cocks.count === 1) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " vibrates, the veins clearly visible as it reddens and distorts.  The head narrows into a pointed tip while a gradually widening bulge forms around the base.  Where it meets your crotch, the skin bunches up around it, forming a canine-like sheath.  ");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " vibrates, the veins clearly visible as it reddens and distorts.  The head narrows into a pointed tip while a gradually widening bulge forms around the base.  Where it meets your crotch, the skin bunches up around it, forming a canine-like sheath.  ");
                     character.torso.cocks.get(0).type = CockType.DOG;
                     character.torso.cocks.get(0).knotMultiplier = 1.5;
                     DisplayText("You feel something slippery wiggling inside the new sheath, and another red point peeks out.  In spite of yourself, you start getting turned on by the change, and the new dick slowly slides free, eventually stopping once the thick knot pops free.  The pair of dog-dicks hang there, leaking pre-cum and arousing you far beyond normal.");
@@ -161,7 +153,7 @@ export default class CaninePepper extends Consumable {
                 }
                 // 2 dicks+ - convert first 2 to doggie-dom
                 else {
-                    DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " and " + CockDescriptor.describeCock(character, character.torso.cocks.get(1)) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                    DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " and " + Desc.Cock.describeCock(character, character.torso.cocks.get(1)) + " both warp and twist, becoming red and pointed, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                     character.torso.cocks.get(0).type = CockType.DOG;
                     character.torso.cocks.get(1).type = CockType.DOG;
                     character.torso.cocks.get(0).knotMultiplier = 1.4;
@@ -185,13 +177,13 @@ export default class CaninePepper extends Consumable {
                 if (character.torso.cocks.count >= 1) {
                     // if first dick is already doggi'ed
                     if (character.torso.cocks.get(0).type === CockType.DOG) {
-                        DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(character, character.torso.cocks.get(1)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                        DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + Desc.Cock.describeCock(character, character.torso.cocks.get(1)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                         character.torso.cocks.get(1).type = CockType.DOG;
                         character.torso.cocks.get(1).knotMultiplier = 1.4;
                     }
                     // first dick is not dog
                     else {
-                        DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
+                        DisplayText("\n\nYour crotch twitches, and you pull open your " + character.inventory.equipment.armor.displayName + " to get a better look.  You watch in horror and arousal as your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " warps and twists, becoming red and pointed, just like other dog-dick, growing thick bulges near the base.  When it stops you have two dog-cocks and an animal-like sheath.  The whole episode turns you on far more than it should, leaving you dripping animal pre and ready to breed.");
                         character.torso.cocks.get(0).type = CockType.DOG;
                         character.torso.cocks.get(0).knotMultiplier = 1.4;
                     }
@@ -219,17 +211,17 @@ export default class CaninePepper extends Consumable {
 
                 DisplayText("\n\n");
                 if (knotGrowth < .06)
-                    DisplayText("Your " + CockDescriptor.nounCock(CockType.DOG) + " feels unusually tight in your sheath as your knot grows.");
+                    DisplayText("Your " + Desc.Cock.nounCock(CockType.DOG) + " feels unusually tight in your sheath as your knot grows.");
                 if (knotGrowth >= .06 && knotGrowth <= .12)
-                    DisplayText("Your " + CockDescriptor.nounCock(CockType.DOG) + " pops free of your sheath, thickening nicely into a bigger knot.");
+                    DisplayText("Your " + Desc.Cock.nounCock(CockType.DOG) + " pops free of your sheath, thickening nicely into a bigger knot.");
                 if (knotGrowth > .12)
-                    DisplayText("Your " + CockDescriptor.nounCock(CockType.DOG) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.");
+                    DisplayText("Your " + Desc.Cock.nounCock(CockType.DOG) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.");
                 character.stats.sens += 0.5;
                 character.stats.lust += 5 * crit;
             }
             // Grow dogdick with big knot
             else {
-                DisplayText("\n\nYour " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " twitches, reshaping itself.  The crown tapers down to a point while the base begins swelling.  It isn't painful in the slightest, actually kind of pleasant.  Your dog-like knot slowly fills up like a balloon, eventually stopping when it's nearly twice as thick as the rest.  You touch and shiver with pleasure, oozing pre-cum.");
+                DisplayText("\n\nYour " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " twitches, reshaping itself.  The crown tapers down to a point while the base begins swelling.  It isn't painful in the slightest, actually kind of pleasant.  Your dog-like knot slowly fills up like a balloon, eventually stopping when it's nearly twice as thick as the rest.  You touch and shiver with pleasure, oozing pre-cum.");
                 cocks.get(0).type = CockType.DOG;
                 cocks.get(0).knotMultiplier = 2.1;
             }
@@ -254,9 +246,9 @@ export default class CaninePepper extends Consumable {
             if (character.torso.balls.size > 10) character.torso.balls.size -= .5;
             // Texts
             if (character.torso.balls.size <= 2)
-                DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + BallsDescriptor.describeBalls(false, true, character) + " have grown larger than a human's.");
+                DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + Desc.Balls.describeBalls(false, true, character) + " have grown larger than a human's.");
             if (character.torso.balls.size > 2)
-                DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + BallsDescriptor.describeSack(character) + ".  Walking becomes difficult as you discover your " + BallsDescriptor.describeBalls(false, true, character) + " have enlarged again.");
+                DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + Desc.Balls.describeSack(character) + ".  Walking becomes difficult as you discover your " + Desc.Balls.describeBalls(false, true, character) + " have enlarged again.");
             character.stats.lib += 1;
             character.stats.lust -= 3;
         }
@@ -369,9 +361,9 @@ export default class CaninePepper extends Consumable {
                 if (smallestKnottedDogCock.knotMultiplier >= 1.75) growth /= 2;
                 if (smallestKnottedDogCock.knotMultiplier >= 2) growth /= 5;
                 smallestKnottedDogCock.knotMultiplier += (growth);
-                if (growth < .06) DisplayText("\n\nYour " + CockDescriptor.describeCock(character, smallestKnottedDogCock) + " feels unusually tight in your sheath as your knot grows.");
-                if (growth >= .06 && growth <= .12) DisplayText("\n\nYour " + CockDescriptor.describeCock(character, smallestKnottedDogCock) + " pops free of your sheath, thickening nicely into a bigger knot.");
-                if (growth > .12) DisplayText("\n\nYour " + CockDescriptor.describeCock(character, smallestKnottedDogCock) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.");
+                if (growth < .06) DisplayText("\n\nYour " + Desc.Cock.describeCock(character, smallestKnottedDogCock) + " feels unusually tight in your sheath as your knot grows.");
+                if (growth >= .06 && growth <= .12) DisplayText("\n\nYour " + Desc.Cock.describeCock(character, smallestKnottedDogCock) + " pops free of your sheath, thickening nicely into a bigger knot.");
+                if (growth > .12) DisplayText("\n\nYour " + Desc.Cock.describeCock(character, smallestKnottedDogCock) + " surges free of your sheath, swelling thicker with each passing second.  Your knot bulges out at the base, growing far beyond normal.");
                 character.stats.sens += 0.5;
                 character.stats.lust += 5 * crit;
                 changes++;
@@ -388,13 +380,13 @@ export default class CaninePepper extends Consumable {
                 // Talk about it
                 // Hooooman
                 if (firstNotDogCock.type === CockType.HUMAN) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, firstNotDogCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + CockDescriptor.describeCock(character, firstNotDogCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + CockDescriptor.nounCock(firstNotDogCock.type) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, firstNotDogCock) + " clenches painfully, becoming achingly, throbbingly erect.  A tightness seems to squeeze around the base, and you wince as you see your skin and flesh shifting forwards into a canine-looking sheath.  You shudder as the crown of your " + Desc.Cock.describeCock(character, firstNotDogCock) + " reshapes into a point, the sensations nearly too much for you.  You throw back your head as the transformation completes, your " + Desc.Cock.nounCock(firstNotDogCock.type) + " much thicker than it ever was before.  <b>You now have a dog-cock.</b>");
                     character.stats.sens += 10;
                     character.stats.lust += 5 * crit;
                 }
                 // Horse
                 else if (firstNotDogCock.type === CockType.HORSE) {
-                    DisplayText("\n\nYour " + CockDescriptor.nounCock(firstNotDogCock.type) + " shrinks, the extra equine length seeming to shift into girth.  The flared tip vanishes into a more pointed form, a thick knotted bulge forming just above your sheath.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.nounCock(firstNotDogCock.type) + " shrinks, the extra equine length seeming to shift into girth.  The flared tip vanishes into a more pointed form, a thick knotted bulge forming just above your sheath.  <b>You now have a dog-cock.</b>");
                     // Tweak length/thickness.
                     if (firstNotDogCock.length > 6)
                         firstNotDogCock.length -= 2;
@@ -407,19 +399,19 @@ export default class CaninePepper extends Consumable {
                 }
                 // Tentacular Tuesday!
                 else if (firstNotDogCock.type === CockType.TENTACLE) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, firstNotDogCock) + " coils in on itself, reshaping and losing its plant-like coloration as it thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, firstNotDogCock) + " coils in on itself, reshaping and losing its plant-like coloration as it thickens near the base, bulging out in a very canine-looking knot.  Your skin bunches painfully around the base, forming into a sheath.  <b>You now have a dog-cock.</b>");
                     character.stats.sens += 4;
                     character.stats.lust += 5 * crit;
                 }
                 // Demon
                 else if (firstNotDogCock.type === CockType.DEMON) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, firstNotDogCock) + " color shifts red for a moment and begins to swell at the base, but within moments it smooths out, retaining its distinctive demonic shape, only perhaps a bit thicker.");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, firstNotDogCock) + " color shifts red for a moment and begins to swell at the base, but within moments it smooths out, retaining its distinctive demonic shape, only perhaps a bit thicker.");
                     character.stats.sens += 1;
                     character.stats.lust += 2 * crit;
                 }
                 // Misc
                 else {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, firstNotDogCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, firstNotDogCock) + " trembles, reshaping itself into a shiny red doggie-dick with a fat knot at the base.  <b>You now have a dog-cock.</b>");
                     character.stats.sens += 4;
                     character.stats.lust += 5 * crit;
                 }
@@ -427,7 +419,7 @@ export default class CaninePepper extends Consumable {
                 if (firstNotDogCock.type !== CockType.DEMON)
                     firstNotDogCock.type = CockType.DOG;
                 firstNotDogCock.knotMultiplier = 1.1;
-                CockModifier.thickenCock(firstNotDogCock, 2);
+                Mod.Cock.thickenCock(firstNotDogCock, 2);
 
                 changes++;
 
@@ -447,28 +439,28 @@ export default class CaninePepper extends Consumable {
                     if (character.torso.balls.quantity === 0)
                         DisplayText("\n\nYou feel a churning inside your gut as something inside you changes.");
                     if (character.torso.balls.quantity > 0)
-                        DisplayText("\n\nYou feel a churning in your " + BallsDescriptor.describeBallsShort(character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
+                        DisplayText("\n\nYou feel a churning in your " + Desc.Balls.describeBallsShort(character) + ".  It quickly settles, leaving them feeling somewhat more dense.");
                     if (crit > 1)
-                        DisplayText("  A bit of milky pre dribbles from your " + CockDescriptor.describeMultiCockShort(character) + ", pushed out by the change.");
+                        DisplayText("  A bit of milky pre dribbles from your " + Desc.Cock.describeMultiCockShort(character) + ", pushed out by the change.");
                 }
                 changes++;
             }
             // Oversized pepper
             if (this.pepperType === CaninePepperType.Oversized) {
                 const shortestCock: Cock = cocks.sort(Cock.ShortestCocks)[0];
-                const cockGrowthAmount: number = CockModifier.growCock(character, shortestCock, randInt(4) + 3);
+                const cockGrowthAmount: number = Mod.Cock.growCock(character, shortestCock, randInt(4) + 3);
                 character.stats.sens += 1;
                 character.stats.lust += 10;
 
                 if (cocks.count >= 1 && shortestCock.thickness <= 2)
-                    CockModifier.thickenCock(shortestCock, 1);
+                    Mod.Cock.thickenCock(shortestCock, 1);
 
                 if (cockGrowthAmount > 2)
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, shortestCock) + " tightens painfully, inches of bulging dick-flesh pouring out from your crotch as it grows longer.  Thick pre forms at the pointed tip, drawn out from the pleasure of the change.");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, shortestCock) + " tightens painfully, inches of bulging dick-flesh pouring out from your crotch as it grows longer.  Thick pre forms at the pointed tip, drawn out from the pleasure of the change.");
                 if (cockGrowthAmount > 1 && cockGrowthAmount <= 2)
-                    DisplayText("\n\nAching pressure builds within your crotch, suddenly releasing as an inch or more of extra dick-flesh spills out.  A dollop of pre beads on the head of your enlarged " + CockDescriptor.describeCock(character, shortestCock) + " from the pleasure of the growth.");
+                    DisplayText("\n\nAching pressure builds within your crotch, suddenly releasing as an inch or more of extra dick-flesh spills out.  A dollop of pre beads on the head of your enlarged " + Desc.Cock.describeCock(character, shortestCock) + " from the pleasure of the growth.");
                 if (cockGrowthAmount <= 1)
-                    DisplayText("\n\nA slight pressure builds and releases as your " + CockDescriptor.describeCock(character, shortestCock) + " pushes a bit further out of your crotch.");
+                    DisplayText("\n\nA slight pressure builds and releases as your " + Desc.Cock.describeCock(character, shortestCock) + " pushes a bit further out of your crotch.");
             }
         }
         // Female Stuff
@@ -483,9 +475,9 @@ export default class CaninePepper extends Consumable {
                     // Breasts are too small to grow a new row, so they get bigger first
                     // But ONLY if character has a vagina (dont want dudes weirded out)
                     if (vaginas.count > 0 && chest.get(0).rating <= chest.count) {
-                        DisplayText("\n\nYour " + BreastDescriptor.describeBreastRow(chest.get(0)) + " feel constrained and painful against your top as they grow larger by the moment, finally stopping as they reach ");
+                        DisplayText("\n\nYour " + Desc.Breast.describeBreastRow(chest.get(0)) + " feel constrained and painful against your top as they grow larger by the moment, finally stopping as they reach ");
                         chest.get(0).rating += 2;
-                        DisplayText(BreastDescriptor.breastCup(chest.get(0).rating) + " size.  But it doesn't stop there, you feel a tightness beginning lower on your torso...");
+                        DisplayText(Desc.Breast.breastCup(chest.get(0).rating) + " size.  But it doesn't stop there, you feel a tightness beginning lower on your torso...");
                         changes++;
                     }
                     // Had 1 row to start
@@ -495,7 +487,7 @@ export default class CaninePepper extends Consumable {
                         if (chest.get(0).rating - 1 === 0)
                             DisplayText("\n\nA second set of breasts forms under your current pair, stopping while they are still fairly flat and masculine looking.");
                         else
-                            DisplayText("\n\nA second set of breasts bulges forth under your current pair, stopping as they reach " + BreastDescriptor.breastCup(newBreastRow.rating) + "s.");
+                            DisplayText("\n\nA second set of breasts bulges forth under your current pair, stopping as they reach " + Desc.Breast.breastCup(newBreastRow.rating) + "s.");
                         DisplayText("  A sensitive nub grows on the summit of each new tit, becoming a new nipple.");
                         character.stats.sens += 6;
                         character.stats.lust += 5;
@@ -517,7 +509,7 @@ export default class CaninePepper extends Consumable {
                         if (newBreastRow.rating === 0)
                             DisplayText("\n\nYour abdomen tingles and twitches as a new row of breasts sprouts below the others.  Your new breasts stay flat and masculine, not growing any larger.");
                         else
-                            DisplayText("\n\nYour abdomen tingles and twitches as a new row of " + BreastDescriptor.breastCup(newBreastRow.rating) + " " + BreastDescriptor.describeBreastRow(newBreastRow) + " sprouts below your others.");
+                            DisplayText("\n\nYour abdomen tingles and twitches as a new row of " + Desc.Breast.breastCup(newBreastRow.rating) + " " + Desc.Breast.describeBreastRow(newBreastRow) + " sprouts below your others.");
                         DisplayText("  A sensitive nub grows on the summit of each new tit, becoming a new nipple.");
                         changes++;
                     }
@@ -555,7 +547,7 @@ export default class CaninePepper extends Consumable {
                             if (index === 3) DisplayText("fourth ");
                             if (index === 4) DisplayText("fifth ");
                             if (index > 4) DisplayText("");
-                            DisplayText("row of " + BreastDescriptor.describeBreastRow(chest.get(index)) + " grows larger, as if jealous of the jiggling flesh above.");
+                            DisplayText("row of " + Desc.Breast.describeBreastRow(chest.get(index)) + " grows larger, as if jealous of the jiggling flesh above.");
                             let growthDiff: number = chest.get(index - 1).rating - chest.get(index).rating - 1;
                             if (growthDiff > 5) growthDiff = 5;
                             if (growthDiff < 1) growthDiff = 1;
@@ -580,7 +572,7 @@ export default class CaninePepper extends Consumable {
         }
         // Go into heat
         if (randInt(2) === 0 && changes < changeLimit) {
-            if (BodyModifier.displayGoIntoHeat(character)) {
+            if (Mod.Body.displayGoIntoHeat(character)) {
                 changes++;
             }
         }
@@ -596,7 +588,7 @@ export default class CaninePepper extends Consumable {
                 if (character.stats.cor < 33 || cocks.count === 0)
                     DisplayText("\nYou shake your head to clear the unwanted fantasy from your mind, repulsed by it.");
                 else {
-                    DisplayText("  Heart pounding, your shaft pops free of its sheath on instinct, as you take off after the new scent.  Caught firmly in the grip of a female's heat, you ignore your master's cry as you disappear into the wild, " + CockDescriptor.nounCock(CockType.DOG) + " growing harder as you near your quarry.  You burst through a bush, spotting a white-furred female.  She drops, exposing her dripping fem-sex to you, the musky scent of her sex channeling straight through your nose and sliding into your " + CockDescriptor.nounCock(CockType.DOG) + ".");
+                    DisplayText("  Heart pounding, your shaft pops free of its sheath on instinct, as you take off after the new scent.  Caught firmly in the grip of a female's heat, you ignore your master's cry as you disappear into the wild, " + Desc.Cock.nounCock(CockType.DOG) + " growing harder as you near your quarry.  You burst through a bush, spotting a white-furred female.  She drops, exposing her dripping fem-sex to you, the musky scent of her sex channeling straight through your nose and sliding into your " + Desc.Cock.nounCock(CockType.DOG) + ".");
                     character.stats.lust += 5 + character.stats.lib / 20;
                     // Break 2
                     if (character.stats.cor < 66)
@@ -607,11 +599,11 @@ export default class CaninePepper extends Consumable {
                         // break3
                         if (character.stats.cor < 80) {
                             if (character.torso.vaginas.count > 0)
-                                DisplayText("\nYou reluctantly pry your hand from your aching " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " as you drag yourself out of your fantasy.");
-                            else DisplayText("\nYou reluctantly pry your hand from your aching " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + " as you drag yourself out of your fantasy.");
+                                DisplayText("\nYou reluctantly pry your hand from your aching " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " as you drag yourself out of your fantasy.");
+                            else DisplayText("\nYou reluctantly pry your hand from your aching " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " as you drag yourself out of your fantasy.");
                         }
                         else {
-                            DisplayText("  At last your knot pops into her juicy snatch, splattering her groin with a smattering of her arousal.  The scents of your mating reach a peak as the velvet vice around your " + CockDescriptor.nounCock(CockType.DOG) + " quivers in the most indescribably pleasant way.  You clamp down on her hide as your whole body tenses, unleashing a torrent of cum into her sex.  Each blast is accompanied by a squeeze of her hot passage, milking you of the last of your spooge.  Your " + LegDescriptor.describeLegs(character) + " give out as your fantasy nearly brings you to orgasm, the sudden impact with the ground jarring you from your daydream.");
+                            DisplayText("  At last your knot pops into her juicy snatch, splattering her groin with a smattering of her arousal.  The scents of your mating reach a peak as the velvet vice around your " + Desc.Cock.nounCock(CockType.DOG) + " quivers in the most indescribably pleasant way.  You clamp down on her hide as your whole body tenses, unleashing a torrent of cum into her sex.  Each blast is accompanied by a squeeze of her hot passage, milking you of the last of your spooge.  Your " + Desc.Leg.describeLegs(character) + " give out as your fantasy nearly brings you to orgasm, the sudden impact with the ground jarring you from your daydream.");
                             character.stats.lust += 5 + character.stats.lib / 20;
                         }
                     }
@@ -619,7 +611,7 @@ export default class CaninePepper extends Consumable {
             }
             // Pure female fantasies
             else if (character.torso.vaginas.count > 0) {
-                DisplayText("wagging your dripping " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " before a pack of horny wolves, watching their shiny red doggie-pricks practically jump out of their sheaths at your fertile scent.");
+                DisplayText("wagging your dripping " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " before a pack of horny wolves, watching their shiny red doggie-pricks practically jump out of their sheaths at your fertile scent.");
                 character.stats.lust += 5 + character.stats.lib / 20;
                 // BREAK 1
                 if (character.stats.cor < 33) {
@@ -637,7 +629,7 @@ export default class CaninePepper extends Consumable {
                         character.stats.lust += 5 + character.stats.lib / 20;
                         // break3
                         if (character.stats.cor < 80) {
-                            DisplayText("\nYou reluctantly pry your hand from your aching " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " as you drag yourself out of your fantasy.");
+                            DisplayText("\nYou reluctantly pry your hand from your aching " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " as you drag yourself out of your fantasy.");
                         }
                         else {
                             DisplayText("  You growl with discomfort as he pushes into your abused wetness, stretching you tightly, every beat of his heart vibrating through your nethers.  With exquisite force, he buries his knot in you and begins filling you with his potent seed, impregnating you for sure. Your knees give out as your fantasy nearly brings you to orgasm, the sudden impact with the ground jarring you from your daydream.");
@@ -681,7 +673,7 @@ export default class CaninePepper extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -766,7 +758,7 @@ export default class CaninePepper extends Consumable {
         // If no changes yay
         if (changes === 0) {
             DisplayText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-            StatModifier.displayCharacterHPChange(character, 20);
+            Mod.Stat.displayCharacterHPChange(character, 20);
             character.stats.lust += 3;
         }
     }

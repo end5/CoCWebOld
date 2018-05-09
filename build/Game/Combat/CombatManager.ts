@@ -1,32 +1,33 @@
-import CombatParty from './CombatParty';
-import Encounter from './Encounter';
-import MainScreen, { ClickFunction, TopButton } from '../../Engine/Display/MainScreen';
-import List from '../../Engine/Utilities/List';
-import Character from '../Character/Character';
+import { CombatParty } from './CombatParty';
+import { Encounter } from './Encounter';
+import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
+import { List } from '../../Engine/Utilities/List';
+import { Character } from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
-import Item from '../Items/Item';
+import { Item } from '../Items/Item';
+import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
 
 class CombatManager {
     public readonly itemsOnFloor: List<Item> = new List();
     public encounter: Encounter;
-    public beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
+    public beginBattle(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]): NextScreenChoices {
         this.encounter = new Encounter(mainCharacter, allyParty, enemyParty);
-        this.startCombat();
+        return this.startCombat();
     }
 
     public get inCombat(): boolean {
         return this.encounter !== undefined;
     }
 
-    public get nextRound(): ClickFunction {
+    private get nextRound(): ClickFunction {
         return () => {
             if (this.encounter) {
-                this.encounter.performRound();
+                return this.encounter.performRound();
             }
         };
     }
 
-    private startCombat(): void {
+    private startCombat(): NextScreenChoices {
         MainScreen.getTopButton(TopButton.Data).hide();
         MainScreen.getTopButton(TopButton.Appearance).hide();
         MainScreen.getTopButton(TopButton.PerkUp).hide();
@@ -43,7 +44,7 @@ class CombatManager {
         this.loadPartyCombatEffects(this.encounter.allyParty);
         this.loadPartyCombatEffects(this.encounter.enemyParty);
 
-        this.encounter.performRound();
+        return this.encounter.performRound();
     }
 
     private loadPartyCombatEffects(party: CombatParty) {
@@ -82,4 +83,4 @@ class CombatManager {
 }
 
 const combatManager = new CombatManager();
-export default combatManager as CombatManager;
+export { combatManager as CombatManager };

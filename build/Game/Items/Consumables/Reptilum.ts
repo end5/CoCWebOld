@@ -1,34 +1,28 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import User from '../../User';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class Reptilum extends Consumable {
+export class Reptilum extends Consumable {
     public constructor() {
         super(ConsumableName.Reptilum, new ItemDesc("Reptlum", "a vial of Reptilum", "This is a rounded bottle with a small label that reads, \"<i>Reptilum</i>\".  It is likely this potion is tied to reptiles in some way."));
     }
@@ -75,13 +69,13 @@ export default class Reptilum extends Consumable {
             if (character.torso.cocks.count > 0 && (character.gender !== 3 || randInt(2) === 0)) {
                 DisplayText("filling ");
                 if (character.torso.cocks.count > 1) DisplayText("each of ");
-                DisplayText("your " + CockDescriptor.describeMultiCockShort(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
+                DisplayText("your " + Desc.Cock.describeMultiCockShort(character) + " with the desire to breed.  You get a bit hornier when you realize your sex-drive has gotten a boost.");
             }
             // (COOCH)
             else if (character.torso.vaginas.count > 0)
-                DisplayText("puddling in your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ".  An instinctive desire to mate and lay eggs spreads through you, increasing your lust and boosting your sex-drive.");
+                DisplayText("puddling in your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ".  An instinctive desire to mate and lay eggs spreads through you, increasing your lust and boosting your sex-drive.");
             // (TARDS)
-            else DisplayText("puddling in your featureless crotch for a split-second before it slides into your " + ButtDescriptor.describeButt(character) + ".  You want to be fucked, filled, and perhaps even gain a proper gender again.  Through the lust you realize your sex-drive has been permanently increased.");
+            else DisplayText("puddling in your featureless crotch for a split-second before it slides into your " + Desc.Butt.describeButt(character) + ".  You want to be fucked, filled, and perhaps even gain a proper gender again.  Through the lust you realize your sex-drive has been permanently increased.");
             // +3 lib if less than 50
             if (character.stats.lib < 50) character.stats.lib += 1;
             // +2 lib if less than 75
@@ -116,10 +110,10 @@ export default class Reptilum extends Consumable {
         if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length <= 0 && character.torso.cocks.count > 0 && changes < changeLimit && randInt(4) === 0) {
             // Find the first non-lizzy dick
             const nonLizzyDick: Cock = this.getFirstNonLizzyCock(character);
-            DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + CockDescriptor.describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
+            DisplayText("\n\nA slow tingle warms your groin.  Before it can progress any further, you yank back your " + character.inventory.equipment.armor.displayName + " to investigate.  Your " + Desc.Cock.describeCock(character, nonLizzyDick) + " is changing!  It ripples loosely from ");
             if (character.torso.cocks.filter(Cock.HasSheath).length > 0) DisplayText("sheath ");
             else DisplayText("base ");
-            DisplayText("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + CockDescriptor.nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
+            DisplayText("to tip, undulating and convulsing as its color lightens, darkens, and finally settles on a purplish hue.  Your " + Desc.Cock.nounCock(CockType.HUMAN) + " resolves itself into a bulbous form, with a slightly pointed tip.  The 'bulbs' throughout its shape look like they would provide an interesting ride for your sexual partners, but the perverse, alien pecker ");
             if (character.stats.cor < 33) DisplayText("horrifies you.");
             else if (character.stats.cor < 66) DisplayText("is a little strange for your tastes.");
             else {
@@ -132,7 +126,7 @@ export default class Reptilum extends Consumable {
             if (character.torso.cocks.filter(Cock.HasSheath).length > 0) {
                 nonLizzyDick.type = CockType.LIZARD;
                 if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
-                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
+                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
             }
             else nonLizzyDick.type = CockType.LIZARD;
             changes++;
@@ -155,7 +149,7 @@ export default class Reptilum extends Consumable {
             if (character.torso.cocks.filter(Cock.HasSheath).length > 0) {
                 nonLizzyDick.type = CockType.LIZARD;
                 if (character.torso.cocks.filter(Cock.HasSheath).length <= 0)
-                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + CockDescriptor.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
+                    DisplayText("\n\nYour sheath tightens and starts to smooth out, revealing ever greater amounts of your " + Desc.Cock.describeCock(character, nonLizzyDick) + "'s lower portions.  After a few moments <b>your groin is no longer so animalistic - the sheath is gone.</b>");
             }
             else nonLizzyDick.type = CockType.LIZARD;
             changes++;
@@ -165,7 +159,7 @@ export default class Reptilum extends Consumable {
         // -Grows second lizard dick if only 1 dick
         if (character.torso.cocks.filter(Cock.FilterType(CockType.LIZARD)).length === 1 && character.torso.cocks.count === 1 && randInt(4) === 0 && changes < changeLimit) {
             const firstCock = character.torso.cocks.get(0);
-            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + LegDescriptor.describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.skin.desc + ", adjacent to your " + CockDescriptor.describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
+            DisplayText("\n\nA knot of pressure forms in your groin, forcing you off your " + Desc.Leg.describeFeet(character) + " as you try to endure it.  You examine the affected area and see a lump starting to bulge under your " + character.skin.desc + ", adjacent to your " + Desc.Cock.describeCock(character, firstCock) + ".  The flesh darkens, turning purple");
             if (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES)
                 DisplayText(" and shedding " + character.skin.desc);
             DisplayText(" as the bulge lengthens, pushing out from your body.  Too surprised to react, you can only pant in pain and watch as the fleshy lump starts to take on a penis-like appearance.  <b>You're growing a second lizard-cock!</b>  It doesn't stop growing until it's just as long as its brother and the same shade of shiny purple.  A dribble of cum oozes from its tip, and you feel relief at last.");
@@ -231,7 +225,7 @@ export default class Reptilum extends Consumable {
         }
         // -Nipples reduction to 1 per tit.
         if (character.torso.chest.reduce(BreastRow.AverageNipplesPerBreast, 0) > 1 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nA chill runs over your " + BreastDescriptor.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
+            DisplayText("\n\nA chill runs over your " + Desc.Breast.describeAllBreasts(character) + " and vanishes.  You stick a hand under your " + character.inventory.equipment.armor.displayName + " and discover that your extra nipples are missing!  You're down to just one per ");
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating < 1) DisplayText("'breast'.");
             else DisplayText("breast.");
             changes++;
@@ -309,7 +303,7 @@ export default class Reptilum extends Consumable {
         }
         // -Hair stops growing!
         if ((User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD === 0 && changes < changeLimit && randInt(4) === 0) {
-            DisplayText("\n\nYour scalp tingles oddly.  In a panic, you reach up to your " + HeadDescriptor.describeHair(character) + ", but thankfully it appears unchanged.\n\n");
+            DisplayText("\n\nYour scalp tingles oddly.  In a panic, you reach up to your " + Desc.Head.describeHair(character) + ", but thankfully it appears unchanged.\n\n");
             DisplayText("(<b>Your hair has stopped growing.</b>)");
             changes++;
             (User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD++;
@@ -324,7 +318,7 @@ export default class Reptilum extends Consumable {
             // feet types -
             else if (character.torso.hips.legs.type === LegType.HUMAN || character.torso.hips.legs.type === LegType.DOG || character.torso.hips.legs.type === LegType.DEMONIC_HIGH_HEELS || character.torso.hips.legs.type === LegType.DEMONIC_CLAWS || character.torso.hips.legs.type === LegType.BEE || character.torso.hips.legs.type === LegType.CAT) DisplayText("\n\nYou scream in agony as you feel the bones in your legs break and begin to rearrange. They change to a digitigrade shape while your feet grow claws and shift to have three toes on the front and a smaller toe on the heel.");
             // Else -
-            else DisplayText("\n\nPain rips through your " + LegDescriptor.describeLegs(character) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
+            else DisplayText("\n\nPain rips through your " + Desc.Leg.describeLegs(character) + ", morphing and twisting them until the bones rearrange into a digitigrade configuration.  The strange legs have three-toed, clawed feet, complete with a small vestigial claw-toe on the back for added grip.");
             DisplayText("  <b>You have reptilian legs and claws!</b>");
             character.torso.hips.legs.type = LegType.LIZARD;
             changes++;
@@ -332,7 +326,7 @@ export default class Reptilum extends Consumable {
         // -Tail - sinuous lizard tail
         if (character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
             // No tail
-            if (character.torso.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + ButtDescriptor.describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
+            if (character.torso.tails.count >= 1) DisplayText("\n\nYou drop onto the ground as your spine twists and grows, forcing the flesh above your " + Desc.Butt.describeButt(character) + " to bulge out.  New bones form, one after another, building a tapered, prehensile tail onto the back of your body.  <b>You now have a reptilian tail!</b>");
             // Yes tail
             else DisplayText("\n\nYou drop to the ground as your tail twists and grows, changing its shape in order to gradually taper to a point.  It flicks back and forth, prehensile and totally under your control.  <b>You now have a reptilian tail.</b>");
             character.torso.tails.clear();
@@ -345,7 +339,7 @@ export default class Reptilum extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -403,7 +397,7 @@ export default class Reptilum extends Consumable {
         }
         // -Lizard-like face.
         if (character.torso.neck.head.face.type !== FaceType.LIZARD && character.skin.type === SkinType.SCALES && character.torso.neck.head.ears.type === EarType.LIZARD && character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false) && character.torso.hips.legs.type === LegType.LIZARD && changes < changeLimit && randInt(5) === 0) {
-            DisplayText("\n\nTerrible agony wracks your " + FaceDescriptor.describeFace(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
+            DisplayText("\n\nTerrible agony wracks your " + Desc.Face.describeFace(character) + " as bones crack and shift.  Your jawbone rearranges while your cranium shortens.  The changes seem to last forever; once they've finished, no time seems to have passed.  Your fingers brush against your toothy snout as you get used to your new face.  It seems <b>you have a toothy, reptilian visage now.</b>");
             character.torso.neck.head.face.type = FaceType.LIZARD;
         }
         if (randInt(4) === 0 && character.torso.neck.gills && changes < changeLimit) {
@@ -414,7 +408,7 @@ export default class Reptilum extends Consumable {
         // FAILSAFE CHANGE
         if (changes === 0) {
             DisplayText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-            StatModifier.displayCharacterHPChange(character, 50);
+            Mod.Stat.displayCharacterHPChange(character, 50);
             character.stats.lust += 3;
         }
     }

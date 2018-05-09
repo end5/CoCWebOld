@@ -1,15 +1,15 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import Scenes from '../../Scenes/Scenes';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { Scenes } from '../../Scenes/Scenes';
+import { ItemDesc } from '../ItemDesc';
 
-export default class MarbleMilk extends Consumable {
+export class MarbleMilk extends Consumable {
     public constructor() {
         super(ConsumableName.MarbleMilk, new ItemDesc("M. Milk", "a clear bottle of milk from Marble", "A clear bottle of milk from Marble's breasts. It smells delicious."));
     }
@@ -45,7 +45,7 @@ export default class MarbleMilk extends Consumable {
             DisplayText("You no longer feel the symptoms of withdrawal.\n\n");
         }
         // Heals the character 70-100 health
-        StatModifier.displayCharacterHPChange(character, 70 + randInt(31));
+        Mod.Stat.displayCharacterHPChange(character, 70 + randInt(31));
         // Restores a portion of fatigue (once implemented)
         character.stats.fatigue -= 25;
         // If the character is addicted, this item negates the withdrawal effects for a few hours (suggest 6), there will need to be a check here to make sure the withdrawal effect doesn't reactivate while the character is under the effect of 'Marble's Milk'.

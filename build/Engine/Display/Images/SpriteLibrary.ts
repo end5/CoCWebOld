@@ -1,9 +1,9 @@
-import SpriteName from './SpriteName';
-import Dictionary from '../../Utilities/Dictionary';
+import { SpriteName } from './SpriteName';
+import { Dictionary } from '../../Utilities/Dictionary';
 
 const dir = "resource/sprites/";
 
-export default class SpriteLibrary extends Dictionary<string> {
+export class SpriteLibrary extends Dictionary<string> {
     public constructor() {
         super();
         this.set(SpriteName.Akbal, dir + "akbal.png");

@@ -1,6 +1,11 @@
 ﻿import { percentChance, randomChoice } from '../../Engine/Utilities/SMath';
-import Butt, { ButtLooseness, ButtRating, ButtWetness } from '../Body/Butt';
-import Character from '../Character/Character';
+import {
+    Butt,
+    ButtLooseness,
+    ButtRating,
+    ButtWetness
+    } from '../Body/Butt';
+import { Character } from '../Character/Character';
 
 /**
  * Gives a full description of a Character's butt.

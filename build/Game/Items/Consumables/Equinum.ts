@@ -1,36 +1,28 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
 import { FaceType } from '../../Body/Face';
 import { Gender } from '../../Body/GenderIdentity';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Vagina, { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Vagina, VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import Menus from '../../Menus/Menus';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as CockModifier from '../../Modifiers/CockModifier';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Menus } from '../../Menus/Menus';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class Equinum extends Consumable {
+export class Equinum extends Consumable {
     public constructor() {
         super(ConsumableName.Equinum, new ItemDesc("Equinum", "a vial of Equinum", "This is a long flared vial with a small label that reads, \"<i>Equinum</i>\".  It is likely this potion is tied to horses in some way."));
     }
@@ -67,8 +59,7 @@ export default class Equinum extends Consumable {
                             if (character.gender === 2) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
                             if (character.gender === 3) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                             DisplayText("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me complete my quest. What do you say?</i>\"\n\nInstinctively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing your focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to succeed where you once failed.");
-                            MainScreen.doNext(Menus.GameOver);
-                            return;
+                            return { next: Menus.GameOver };
                         }
                     }
                     // If character has no cocks
@@ -83,8 +74,7 @@ export default class Equinum extends Consumable {
                         if (character.gender === 2) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
                         if (character.gender === 3) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                         DisplayText("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me to complete my quest. What do you say?</i>\"\n\nInstictively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing you focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to achieve what you once failed.");
-                        MainScreen.doNext(Menus.GameOver);
-                        return;
+                        return { next: Menus.GameOver };
                     }
                 }
             }
@@ -207,36 +197,36 @@ export default class Equinum extends Consumable {
                 if (cocks.count === 1) {
                     let cockTF: boolean = false;
                     if (selectedCock.type === CockType.HUMAN) {
-                        DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.");
+                        DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " begins to feel strange... you pull down your pants to take a look and see it darkening as you feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your cock's base, tightening and pulling your cock inside its depths.  A hot feeling envelops your member as it suddenly grows into a horse penis, dwarfing its old size.  The skin is mottled brown and black and feels more sensitive than normal.  Your hands are irresistibly drawn to it, and you jerk yourself off, splattering cum with intense force.");
                         selectedCock.type = CockType.HORSE;
-                        CockModifier.growCock(character, selectedCock, randInt(4) + 4);
+                        Mod.Cock.growCock(character, selectedCock, randInt(4) + 4);
                         cockTF = true;
                         character.stats.lib += 5;
                         character.stats.sens += 4;
                         character.stats.lust += 35;
                     }
                     else if (selectedCock.type === CockType.DOG) {
-                        DisplayText("\n\nYour " + CockDescriptor.nounCock(CockType.DOG) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond it's traditional size.  You notice your knot vanishing, the extra flesh pushing more horsecock out from your sheath.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
+                        DisplayText("\n\nYour " + Desc.Cock.nounCock(CockType.DOG) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + Desc.Cock.nounCock(CockType.DOG) + " as it flattens, flaring outwards.  Your cock pushes out of your sheath, inch after inch of animal-flesh growing beyond it's traditional size.  You notice your knot vanishing, the extra flesh pushing more horsecock out from your sheath.  Your hands are drawn to the strange new " + Desc.Cock.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
                         selectedCock.type = CockType.HORSE;
-                        CockModifier.growCock(character, selectedCock, randInt(4) + 4);
+                        Mod.Cock.growCock(character, selectedCock, randInt(4) + 4);
                         cockTF = true;
                         character.stats.lib += 5;
                         character.stats.sens += 4;
                         character.stats.lust += 35;
                     }
                     else if (selectedCock.type === CockType.TENTACLE) {
-                        DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.describeCock(character, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
+                        DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + Desc.Cock.describeCock(character, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + Desc.Cock.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
                         selectedCock.type = CockType.HORSE;
-                        CockModifier.growCock(character, selectedCock, randInt(4) + 4);
+                        Mod.Cock.growCock(character, selectedCock, randInt(4) + 4);
                         cockTF = true;
                         character.stats.lib += 5;
                         character.stats.sens += 4;
                         character.stats.lust += 35;
                     }
                     else if (selectedCock.type !== CockType.HORSE && selectedCock.type !== CockType.DEMON) {
-                        DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + CockDescriptor.describeCock(character, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + CockDescriptor.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
+                        DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " begins to feel odd... you pull down your clothes to take a look and see it darkening.  You feel a growing tightness in the tip of your " + Desc.Cock.describeCock(character, selectedCock) + " as it flattens, flaring outwards.  Your skin folds and bunches around the base, forming an animalistic sheath.  The slick inhuman texture you recently had fades, taking on a more leathery texture.  Your hands are drawn to the strange new " + Desc.Cock.nounCock(CockType.HORSE) + ", and you jerk yourself off, splattering thick ropes of cum with intense force.");
                         selectedCock.type = CockType.HORSE;
-                        CockModifier.growCock(character, selectedCock, randInt(4) + 4);
+                        Mod.Cock.growCock(character, selectedCock, randInt(4) + 4);
                         cockTF = true;
                         character.stats.lib += 5;
                         character.stats.sens += 4;
@@ -259,20 +249,20 @@ export default class Equinum extends Consumable {
 
                     selectedCock.type = CockType.HORSE;
 
-                    DisplayText("\n\nOne of your penises begins to feel strange.  You pull down your clothes to take a look and see the skin of your " + CockDescriptor.describeCock(character, selectedCock) + " darkening to a mottled brown and black pattern.");
+                    DisplayText("\n\nOne of your penises begins to feel strange.  You pull down your clothes to take a look and see the skin of your " + Desc.Cock.describeCock(character, selectedCock) + " darkening to a mottled brown and black pattern.");
 
                     // Already have a sheath
                     if (cocks.filter(Cock.FilterType(CockType.HORSE)).length > 1 || cocks.filter(Cock.FilterType(CockType.DOG)).length > 0)
                         DisplayText("  Your sheath tingles and begins growing larger as the cock's base shifts to lie inside it.");
                     else
-                        DisplayText("  You feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your " + CockDescriptor.describeCock(character, selectedCock) + "'s root, tightening and pulling your " + CockDescriptor.describeCock(character, selectedCock) + " inside its depths.");
-                    CockModifier.growCock(character, selectedCock, randInt(4) + 4);
+                        DisplayText("  You feel a tightness near the base where your skin seems to be bunching up.  A sheath begins forming around your " + Desc.Cock.describeCock(character, selectedCock) + "'s root, tightening and pulling your " + Desc.Cock.describeCock(character, selectedCock) + " inside its depths.");
+                    Mod.Cock.growCock(character, selectedCock, randInt(4) + 4);
                     DisplayText("  The shaft suddenly explodes with movement, growing longer and developing a thick flared head leaking steady stream of animal-cum.");
                     DisplayText("  <b>You now have a horse-cock.</b>");
                 }
                 // Make cock thicker if not thick already!
                 if (selectedCock.thickness <= 2)
-                    CockModifier.thickenCock(selectedCock, 1);
+                    Mod.Cock.thickenCock(selectedCock, 1);
                 changes++;
             }
             // Characters cocks are all horse-type - increase size!
@@ -282,7 +272,7 @@ export default class Equinum extends Consumable {
                 let selectedCock: Cock;
                 if (cocks.count === 1) {
                     selectedCock = cocks.get(0);
-                    growthAmount = CockModifier.growCock(character, selectedCock, randInt(3) + 1);
+                    growthAmount = Mod.Cock.growCock(character, selectedCock, randInt(3) + 1);
                     character.stats.sens += 1;
                     character.stats.lust += 10;
                 }
@@ -290,29 +280,29 @@ export default class Equinum extends Consumable {
                 else {
                     // Grow smallest cock!
                     selectedCock = cocks.sort(Cock.SmallestCockArea)[0];
-                    growthAmount = CockModifier.growCock(character, selectedCock, randInt(4) + 1);
+                    growthAmount = Mod.Cock.growCock(character, selectedCock, randInt(4) + 1);
                     character.stats.sens += 1;
                     character.stats.lust += 10;
                 }
                 DisplayText("\n\n");
-                if (growthAmount > 2) DisplayText("Your " + CockDescriptor.describeCock(character, selectedCock) + " tightens painfully, inches of taut horse-flesh pouring out from your sheath as it grows longer.  Thick animal-pre forms at the flared tip, drawn out from the pleasure of the change.");
-                if (growthAmount > 1 && growthAmount <= 2) DisplayText("Aching pressure builds within your sheath, suddenly releasing as an inch or more of extra dick flesh spills out.  A dollop of pre beads on the head of your enlarged " + CockDescriptor.describeCock(character, selectedCock) + " from the pleasure of the growth.");
-                if (growthAmount <= 1) DisplayText("A slight pressure builds and releases as your " + CockDescriptor.describeCock(character, selectedCock) + " pushes a bit further out of your sheath.");
+                if (growthAmount > 2) DisplayText("Your " + Desc.Cock.describeCock(character, selectedCock) + " tightens painfully, inches of taut horse-flesh pouring out from your sheath as it grows longer.  Thick animal-pre forms at the flared tip, drawn out from the pleasure of the change.");
+                if (growthAmount > 1 && growthAmount <= 2) DisplayText("Aching pressure builds within your sheath, suddenly releasing as an inch or more of extra dick flesh spills out.  A dollop of pre beads on the head of your enlarged " + Desc.Cock.describeCock(character, selectedCock) + " from the pleasure of the growth.");
+                if (growthAmount <= 1) DisplayText("A slight pressure builds and releases as your " + Desc.Cock.describeCock(character, selectedCock) + " pushes a bit further out of your sheath.");
                 changes++;
             }
             // Chance of thickness + daydream
             if (randInt(2) === 0 && changes < changeLimit && cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                 const selectedCock: Cock = cocks.sort(Cock.ThinnestCocks)[0];
-                CockModifier.thickenCock(selectedCock, 0.5);
-                DisplayText("\n\nYour " + CockDescriptor.nounCock(CockType.HORSE) + " thickens inside its sheath, growing larger and fatter as your veins thicken, becoming more noticeable.  It feels right");
+                Mod.Cock.thickenCock(selectedCock, 0.5);
+                DisplayText("\n\nYour " + Desc.Cock.nounCock(CockType.HORSE) + " thickens inside its sheath, growing larger and fatter as your veins thicken, becoming more noticeable.  It feels right");
                 if (character.stats.cor + character.stats.lib < 50)
-                    DisplayText(" to have such a splendid tool.  You idly daydream about cunts and pussies, your " + CockDescriptor.nounCock(CockType.HORSE) + " plowing them relentlessly, stuffing them pregnant with cum");
+                    DisplayText(" to have such a splendid tool.  You idly daydream about cunts and pussies, your " + Desc.Cock.nounCock(CockType.HORSE) + " plowing them relentlessly, stuffing them pregnant with cum");
                 if (character.stats.cor + character.stats.lib >= 50 && character.stats.cor + character.stats.lib < 80)
                     DisplayText(" to be this way... You breath the powerful animalistic scent and fantasize about fucking centaurs night and day until their bellies slosh with your cum");
                 if (character.stats.cor + character.stats.lib >= 75 && character.stats.cor + character.stats.lib <= 125)
-                    DisplayText(" to be a rutting stud.  You ache to find a mare or centaur to breed with.  Longing to spend your evenings plunging a " + CockDescriptor.nounCock(CockType.HORSE) + " deep into their musky passages, dumping load after load of your thick animal-cum into them.  You'd be happy just fucking horsecunts morning, noon, and night.  Maybe somewhere there is a farm needing a breeder..");
+                    DisplayText(" to be a rutting stud.  You ache to find a mare or centaur to breed with.  Longing to spend your evenings plunging a " + Desc.Cock.nounCock(CockType.HORSE) + " deep into their musky passages, dumping load after load of your thick animal-cum into them.  You'd be happy just fucking horsecunts morning, noon, and night.  Maybe somewhere there is a farm needing a breeder..");
                 if (character.stats.cor + character.stats.lib > 125)
-                    DisplayText(" to whinny loudly like a rutting stallion.  Your " + CockDescriptor.nounCock(CockType.HORSE) + " is perfect for fucking centaurs and mares.  You imagine the feel of plowing an equine pussy deeply, bottoming out and unloading sticky jets of horse-jizz into its fertile womb.  Your hand strokes your horsecock of its own accord, musky pre dripping from the flared tip with each stroke.  Your mind wanders to the thought of you with a harem of pregnant centaurs.");
+                    DisplayText(" to whinny loudly like a rutting stallion.  Your " + Desc.Cock.nounCock(CockType.HORSE) + " is perfect for fucking centaurs and mares.  You imagine the feel of plowing an equine pussy deeply, bottoming out and unloading sticky jets of horse-jizz into its fertile womb.  Your hand strokes your horsecock of its own accord, musky pre dripping from the flared tip with each stroke.  Your mind wanders to the thought of you with a harem of pregnant centaurs.");
                 DisplayText(".");
                 if (character.stats.cor < 30) DisplayText("  You shudder in revulsion at the strange thoughts and vow to control yourself better.");
                 if (character.stats.cor >= 30 && character.stats.cor < 60) DisplayText("  You wonder why you thought such odd things, but they have a certain appeal.");
@@ -332,8 +322,8 @@ export default class Equinum extends Consumable {
                 }
                 else {
                     character.torso.balls.size++;
-                    if (character.torso.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + BallsDescriptor.describeBalls(false, true, character) + " have grown larger than a human's.");
-                    if (character.torso.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + BallsDescriptor.describeSack(character) + ".  Walking becomes difficult as you discover your " + BallsDescriptor.describeBalls(false, true, character) + " have enlarged again.");
+                    if (character.torso.balls.size <= 2) DisplayText("\n\nA flash of warmth passes through you and a sudden weight develops in your groin.  You pause to examine the changes and your roving fingers discover your " + Desc.Balls.describeBalls(false, true, character) + " have grown larger than a human's.");
+                    if (character.torso.balls.size > 2) DisplayText("\n\nA sudden onset of heat envelops your groin, focusing on your " + Desc.Balls.describeSack(character) + ".  Walking becomes difficult as you discover your " + Desc.Balls.describeBalls(false, true, character) + " have enlarged again.");
                     character.stats.lib += 1;
                     character.stats.lust += 3;
                 }
@@ -345,12 +335,12 @@ export default class Equinum extends Consumable {
             // Single vag
             if (vaginas.count === 1) {
                 if (vaginas.get(0).looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
-                    DisplayText("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize your " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " has grown larger, in depth AND size.");
+                    DisplayText("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize your " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " has grown larger, in depth AND size.");
                     vaginas.get(0).looseness++;
                     changes++;
                 }
                 if (vaginas.get(0).wetness <= VaginaWetness.NORMAL && changes < changeLimit && randInt(2) === 0) {
-                    DisplayText("\n\nYour " + VaginaDescriptor.describeVagina(character, vaginas.get(0)) + " moistens perceptably, giving off an animalistic scent.");
+                    DisplayText("\n\nYour " + Desc.Vagina.describeVagina(character, vaginas.get(0)) + " moistens perceptably, giving off an animalistic scent.");
                     vaginas.get(0).wetness++;
                     changes++;
                 }
@@ -360,20 +350,20 @@ export default class Equinum extends Consumable {
                 // determine least wet
                 const leastWet = vaginas.sort(Vagina.WetnessLeast)[0];
                 if (leastWet.wetness <= VaginaWetness.NORMAL && changes < changeLimit && randInt(2) === 0) {
-                    DisplayText("\n\nOne of your " + VaginaDescriptor.describeVagina(character, leastWet) + " moistens perceptably, giving off an animalistic scent.");
+                    DisplayText("\n\nOne of your " + Desc.Vagina.describeVagina(character, leastWet) + " moistens perceptably, giving off an animalistic scent.");
                     leastWet.wetness++;
                     changes++;
                 }
                 // determine smallest
                 const smallest = vaginas.sort(Vagina.LoosenessLeast)[0];
                 if (smallest.looseness <= VaginaLooseness.GAPING && changes < changeLimit && randInt(2) === 0) {
-                    DisplayText("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize one of your " + VaginaDescriptor.describeVagina(character, smallest) + " has grown larger, in depth AND size.");
+                    DisplayText("\n\nYou grip your gut in pain as you feel your organs shift slightly.  When the pressure passes, you realize one of your " + Desc.Vagina.describeVagina(character, smallest) + " has grown larger, in depth AND size.");
                     smallest.looseness++;
                     changes++;
                 }
             }
             if (character.statusAffects.get(StatusAffectType.Heat).value2 < 30 && randInt(2) === 0 && changes < changeLimit) {
-                if (BodyModifier.displayGoIntoHeat(character)) {
+                if (Mod.Body.displayGoIntoHeat(character)) {
                     changes++;
                 }
             }
@@ -395,9 +385,9 @@ export default class Equinum extends Consumable {
                             }
                             // Talk about shrinkage
                             if (!majorShrinkage)
-                                DisplayText("\n\nYou feel a weight lifted from you, and realize your " + BreastDescriptor.describeBreastRow(selectedBreastRow) + " have shrunk to a " + BreastDescriptor.breastCup(selectedBreastRow.rating) + ".");
+                                DisplayText("\n\nYou feel a weight lifted from you, and realize your " + Desc.Breast.describeBreastRow(selectedBreastRow) + " have shrunk to a " + Desc.Breast.breastCup(selectedBreastRow.rating) + ".");
                             else
-                                DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + BreastDescriptor.breastCup(selectedBreastRow.rating) + "s.");
+                                DisplayText("\n\nYou feel significantly lighter.  Looking down, you realize your breasts are MUCH smaller, down to " + Desc.Breast.breastCup(selectedBreastRow.rating) + "s.");
                             changes++;
                         }
 
@@ -416,7 +406,7 @@ export default class Equinum extends Consumable {
                                     DisplayText("...and y");
                                 else
                                     DisplayText("Y");
-                                DisplayText("our " + BreastDescriptor.describeBreastRow(chest.get(index)) + " shrink, dropping to " + BreastDescriptor.breastCup(chest.get(index).rating) + "s.");
+                                DisplayText("our " + Desc.Breast.describeBreastRow(chest.get(index)) + " shrink, dropping to " + Desc.Breast.breastCup(chest.get(index).rating) + "s.");
                             }
                         }
                         if (shrinkAmount === 2) DisplayText("\nYou feel so much lighter after the change.");
@@ -445,7 +435,7 @@ export default class Equinum extends Consumable {
                 DisplayText("\n\nYou feel a twinge in your eyes and you blink.  It feels like black cataracts have just fallen away from you, and you know without needing to see your reflection that your eyes have gone back to looking human.");
             }
             else {
-                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + LegDescriptor.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
+                DisplayText("\n\nYou blink and stumble, a wave of vertigo threatening to pull your " + Desc.Leg.describeFeet(character) + " from under you.  As you steady and open your eyes, you realize something seems different.  Your vision is changed somehow.");
                 if (character.torso.neck.head.face.eyes.type === EyeType.FOUR_SPIDER_EYES) DisplayText("  Your multiple, arachnid eyes are gone!</b>");
                 DisplayText("  <b>You have normal, humanoid eyes again.</b>");
             }
@@ -493,14 +483,14 @@ export default class Equinum extends Consumable {
                 const firstTail = character.torso.tails.get(0);
                 // if other animal tail
                 if (firstTail.type > TailType.HORSE && firstTail.type <= TailType.COW) {
-                    DisplayText("\n\nPain lances up your " + ButtDescriptor.describeButthole(character.torso.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");
+                    DisplayText("\n\nPain lances up your " + Desc.Butt.describeButthole(character.torso.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");
                 }
                 // if bee/spider-butt.
                 if ((firstTail.type > TailType.COW && firstTail.type < TailType.SHARK)) {
                     DisplayText("\n\nYour insect-like abdomen bunches up as it begins shrinking, exoskeleton flaking off like a snake sheds its skin.  It bunches up until it is as small as a tennis ball, then explodes outwards, growing into an animalistic tail shape.  Moments later, it explodes into filaments of pain, dividing into hundreds of stUtils.Utils.rand(s and turning into a shiny horsetail.");
                 }
                 if (firstTail.type >= TailType.SHARK) {
-                    DisplayText("\n\nPain lances up your " + ButtDescriptor.describeButthole(character.torso.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");
+                    DisplayText("\n\nPain lances up your " + Desc.Butt.describeButthole(character.torso.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");
                 }
             }
             DisplayText("  <b>You now have a horse-tail.</b>");
@@ -517,11 +507,11 @@ export default class Equinum extends Consumable {
             character.torso.neck.gills = false;
             changes++;
         }
-        if (randInt(3) === 0) DisplayText(BodyModifier.displayModTone(character, 60, 1));
+        if (randInt(3) === 0) DisplayText(Mod.Body.displayModTone(character, 60, 1));
         // FAILSAFE CHANGE
         if (changes === 0) {
             DisplayText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-            StatModifier.displayCharacterHPChange(character, 20);
+            Mod.Stat.displayCharacterHPChange(character, 20);
             character.stats.lust += 3;
         }
     }

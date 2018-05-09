@@ -1,11 +1,11 @@
-import ArmorLib from './Armors/ArmorLib';
-import ConsumableLib from './Consumables/ConsumableLib';
-import Item from './Item';
-import ItemType from './ItemType';
-import MaterialLib from './Materials/MaterialLib';
-import MiscLib from './Misc/MiscLib';
-import WeaponLib from './Weapons/WeaponLib';
-import ItemStack from '../Inventory/ItemStack';
+import { ArmorLib } from './Armors/ArmorLib';
+import { ConsumableLib } from './Consumables/ConsumableLib';
+import { Item } from './Item';
+import { ItemType } from './ItemType';
+import { MaterialLib } from './Materials/MaterialLib';
+import { MiscLib } from './Misc/MiscLib';
+import { WeaponLib } from './Weapons/WeaponLib';
+import { ItemStack } from '../Inventory/ItemStack';
 
 class ItemFactory {
     private armorLib: ArmorLib;
@@ -60,4 +60,4 @@ class ItemFactory {
 }
 
 const itemFactory = new ItemFactory();
-export default itemFactory as ItemFactory;
+export { itemFactory as ItemFactory };

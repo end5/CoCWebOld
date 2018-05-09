@@ -1,9 +1,10 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class FoxFire extends PlayerSpellAction {
     public name: string = "FoxFire";
@@ -25,7 +26,7 @@ export class FoxFire extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         if (monster.statusAffects.has(StatusAffectType.Shell)) {
@@ -47,5 +48,6 @@ export class FoxFire extends PlayerSpellAction {
         }
         damage = monster.combat.stats.loseHP(damage, character);
         DisplayText("  (" + damage + ")\n\n");
+        return;
     }
 }

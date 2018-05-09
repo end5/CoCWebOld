@@ -1,7 +1,7 @@
-import Head from './Head';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { Head } from './Head';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Neck implements ISerializable<Neck> {
+export class Neck implements ISerializable<Neck> {
     public gills: boolean = false;
     public readonly head: Head = new Head();
 

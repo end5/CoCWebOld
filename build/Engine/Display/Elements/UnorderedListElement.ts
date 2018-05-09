@@ -1,7 +1,7 @@
-import ListEntryElement from './ListItemElement';
-import ScreenElement from './ScreenElement';
+import { ListEntryElement } from './ListItemElement';
+import { ScreenElement } from './ScreenElement';
 
-export default class UnorderedListElement extends ScreenElement {
+export class UnorderedListElement extends ScreenElement {
     private list: ListEntryElement[];
 
     public constructor() {

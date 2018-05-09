@@ -1,7 +1,7 @@
-﻿import BreastRow from './BreastRow';
-import ObservableList from '../Utilities/ObservableList';
+﻿import { BreastRow } from './BreastRow';
+import { ObservableList } from '../Utilities/ObservableList';
 
-export default class Chest extends ObservableList<BreastRow> {
+export class Chest extends ObservableList<BreastRow> {
     public add(newBreastRow: BreastRow) {
         if (this.list.length < 10)
             this.list.push(newBreastRow);

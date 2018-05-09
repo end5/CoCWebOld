@@ -1,4 +1,4 @@
-export default interface PlayerFlags {
+export interface PlayerFlags {
     CERULEAN_POTION_NEUTER_ATTEMPTED;
     CERULEAN_POTION_BAD_END_FUTA_COUNTER;
     UNKNOWN_FLAG_NUMBER_00111;

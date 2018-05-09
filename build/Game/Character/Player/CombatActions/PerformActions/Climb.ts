@@ -1,6 +1,7 @@
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Climb implements CombatAction {
     public name: string = "Climb";
@@ -14,9 +15,10 @@ export class Climb implements CombatAction {
         return target !== undefined && target.combat.effects.has(CombatEffectType.Level);
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         // if (monster.combat.effects.has(CombatEffectType.Level)) {
         //     (monster as Sandtrap).sandTrapWait();
         // }
+        return;
     }
 }

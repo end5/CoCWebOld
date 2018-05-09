@@ -1,24 +1,19 @@
-﻿import DisplayText from '../../../Engine/display/DisplayText';
-import InputTextElement from '../../../Engine/Display/Elements/InputTextElement';
-import MainScreen from '../../../Engine/Display/MainScreen';
+﻿import { DisplayText } from '../../../Engine/display/DisplayText';
+import { InputTextElement } from '../../../Engine/Display/Elements/InputTextElement';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock from '../../Body/Cock';
-import Character from '../../Character/Character';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock } from '../../Body/Cock';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import * as BodyDescriptor from '../../Descriptors/BodyDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as GenderDescriptor from '../../Descriptors/GenderDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Desc } from '../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import WeaponName from '../../Items/Weapons/WeaponName';
-import LocationName from '../../Locations/LocationName';
-import * as ButtModifier from '../../Modifiers/ButtModifier';
-import * as VaginaModifier from '../../Modifiers/VaginaModifier';
-import User from '../../User';
-import Time from '../../Utilities/Time';
-import Scenes from '../Scenes';
+import { WeaponName } from '../../Items/Weapons/WeaponName';
+import { LocationName } from '../../Locations/LocationName';
+import { Mod } from '../../Modifiers/Modifiers';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
+import { Time } from '../../Utilities/Time';
+import { Scenes } from '../Scenes';
 
 export interface GargoyleFlags {
     name: string;
@@ -60,7 +55,7 @@ function gargoyleConfidence(arg: number = 0): number {
 }
 
 // [b]Introduction, 1st Time:[/b]
-export function gargoylesTheShowNowOnWBNetwork(character: Character) {
+export function gargoylesTheShowNowOnWBNetwork(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (When using the “Explore” option; perhaps a 15-25% chance of discovery per go)
     DisplayText("You set off in search of new horizons, setting off from camp in a completely new direction than you've ever tried before.  Away from the parts of Mareth you have thus far discovered, much of the world seems to be a barren wasteland");
@@ -74,13 +69,12 @@ export function gargoylesTheShowNowOnWBNetwork(character: Character) {
     DisplayText("or (even) some demon enclave that needs destroying.  With a quick check of your [weapon], you begin the long trek towards the shimmer in the distance.");
 
     // [Next]
-    MainScreen.hideBottomButtons();
-    MainScreen.doNext(gargoyleMeeting2);
     Time.hour++;
+    return { next: gargoyleMeeting2 };
 }
 
 // (Advance time by 1 hour)
-function gargoyleMeeting2(character: Character) {
+function gargoyleMeeting2(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You finally close the distance between yourself and the strange structure, which begins to take shape ahead.  Though it's half-buried under what must be years of built-up sand and debris, you can clearly make out high stone walls supported by vaulted arches, broken every so often by the shattered remains of stained-glass windows and a pair of utterly destroyed oaken doors nearly hidden behind a row of tall marble pillars, many of which have long since crumbled.  High above the ground, you can see a pair of tall, slender towers reaching up to the heavens, one of which has been nearly obliterated by some unimaginably powerful impact, leaving it a stump compared to its twin.  From the rooftops, strange shapes look down upon you – stone statues made in the image of demons, dragons, and other monsters.");
 
@@ -104,21 +98,21 @@ function gargoyleMeeting2(character: Character) {
     User.locations.get(LocationName.Cathedral).locationKnown = true;
     DisplayText("\n\n<b>You have discovered the cathedral. You can return here in the future by selecting it from the 'Places' menu in your camp.</b>\n");
     // (Display [Break Chains] and [Don't Break] options)
-    MainScreen.displayChoices(["Don't Break", "Break Chains"], [dontBreakThatShit, breakZeChains]);
+    return { choices: [["Don't Break", "Break Chains"], [dontBreakThatShit, breakZeChains]] };
 }
 
 // [b]Don't Break[/b]
-function dontBreakThatShit(character: Character) {
+function dontBreakThatShit(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Oh, no.  Nope.  Nuh-uh.  Not going to happen.  You're not falling for that trick!  No, siree.  As soon as you chop those chains, it'll probably just come to life and try to kill - or rape - you.  Feeling rather smart, you turn on a heel and exit the cathedral – there's nothing else to see right now.");
 
     DisplayText("\n\nIf you change your mind, you can always come back.  The statue's been here for decades, it can wait a while longer.");
     // (Return character to Camp, advance time an hour)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Break Chains[/b]
-function breakZeChains(character: Character) {
+function breakZeChains(character: Character): NextScreenChoices {
     DisplayText().clear();
     // Introduces two new values: " + data.name + ", the gargoyle's name, given by the Champion, and Confidence, a value that has a base score of 0 (submissive/slave) rising to 100 (equal). Negatives are possible.
     DisplayText("You swing your [weapon] up over your head and strike the chains.");
@@ -144,19 +138,17 @@ function breakZeChains(character: Character) {
     const textElement = new InputTextElement();
     DisplayText().appendElement(textElement);
     textElement.text = "";
-    MainScreen.doNext((char: Character) => { nameZeGargoyle(char, textElement); });
+    return { next: (char: Character) => nameZeGargoyle(char, textElement) };
 }
 
-function nameZeGargoyle(character: Character, textElement: InputTextElement) {
+function nameZeGargoyle(character: Character, textElement: InputTextElement): NextScreenChoices {
     if (textElement.text === "" || textElement.text === "0") {
         // Name flag is used to track access into Gargoyles content. Default is "0" so somewhere the "0" string is coalescing to integer 0.
         // Solution? Fuck you for naming your Gargoyle "0".
         DisplayText().clear();
         DisplayText("<b>You must name her.</b>");
         textElement.text = "";
-        MainScreen.hideBottomButtons();
-        MainScreen.doNext((char: Character) => { nameZeGargoyle(char, textElement); });
-        return;
+        return { next: (char: Character) => nameZeGargoyle(char, textElement) };
     }
     gargoyleFlags.name = textElement.text;
     DisplayText().clear();
@@ -164,24 +156,24 @@ function nameZeGargoyle(character: Character, textElement: InputTextElement) {
 
     DisplayText("\n\nShe continues to kneel before you expectantly.  You suppose you could give her an order – perhaps something humorous, or perhaps something carnal – or maybe just talk to her, though as yet she seems a bit... odd.");
 
-    gargoyleStarterMenu(character);
+    return gargoyleStarterMenu(character);
 }
 
-function gargoyleStarterMenu(character: Character) {
+function gargoyleStarterMenu(character: Character): NextScreenChoices {
     // (Display options [Funny Order], [Carnal Order]. and [Talk])
-    MainScreen.displayChoices(["Funny Order", "Carnal Order", "Talk"], [giveGargoyleAFunnyOrder, carnalOrder, firstGargoyleTalk]);
+    return { choices: [["Funny Order", "Carnal Order", "Talk"], [giveGargoyleAFunnyOrder, carnalOrder, firstGargoyleTalk]] };
 }
 
 // [b]Funny Order[/b]
-function giveGargoyleAFunnyOrder(character: Character) {
+function giveGargoyleAFunnyOrder(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("If she's so intent on playing the servant, you suppose you can play along.  Summoning up your most commanding voice, you snap, \"<i>ROLL OVER!</i>\"");
     DisplayText("\n\nTo her credit, " + gargoyleFlags.name + " hesitates only for a moment before dropping to the floor and rolling belly-up, limbs upraised like a puppy in training.  Stifling a chuckle, you lean down and do just that, giving her a quick belly rub.  Her skin is cool to the touch, and impeccably smooth, as you might expect from a marble statue.  Seemingly pleased, " + gargoyleFlags.name + " scrambles back to a low crouch before you, awaiting your next command.");
-    gargoyleStarterMenu(character);
+    return gargoyleStarterMenu(character);
 }
 
 // [b]Carnal Order[/b]
-function carnalOrder(character: Character) {
+function carnalOrder(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Well, well. " + gargoyleFlags.name + " seems willing to follow any order you give, no matter how carnal, and you could not help but notice her rather <i>arousing</i> attributes earlier.  Smirking wickedly, you command your new gargoyle to finger herself.");
 
@@ -189,11 +181,11 @@ function carnalOrder(character: Character) {
     if (character.stats.cor < 40) DisplayText("flustered");
     else DisplayText("excited");
     DisplayText(" heartbeat.  The way she watches you, unblinking, as she fingers herself is rather unnerving, and you soon command her to stop.  She does so immediately, though with what you think might have been a sigh, and assumes a low crouch to await your next command.");
-    gargoyleStarterMenu(character);
+    return gargoyleStarterMenu(character);
 }
 
 // [b]Talk (First Time)[/b]
-function firstGargoyleTalk(character: Character) {
+function firstGargoyleTalk(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You decide against giving " + gargoyleFlags.name + " an order for now.  Instead, you right a nearby toppled pew and seat yourself across from the crouching gargoyle, returning her intense stare with one of your own.");
     DisplayText("\n\n\"<i>Why were you chained up?</i>\" you finally ask, glancing at the shattered bonds on the ground.");
@@ -210,11 +202,11 @@ function firstGargoyleTalk(character: Character) {
 
     DisplayText("\n\nIt seems the events that led to the cathedral's destruction weigh heavily on " + gargoyleFlags.name + "'s heart.  What do you do?");
     // (Display options: [Berate] and [Reassure])
-    MainScreen.displayChoices(["Berate", "Reassure"], [berateTheGargoyle, reassureTheGargoyle]);
+    return { choices: [["Berate", "Reassure"], [berateTheGargoyle, reassureTheGargoyle]] };
 }
 
 // [b]Berate[/b]
-function berateTheGargoyle() {
+function berateTheGargoyle(): NextScreenChoices {
     DisplayText().clear();
     // (Confidence - 10)
     gargoyleConfidence(-10);
@@ -222,11 +214,11 @@ function berateTheGargoyle() {
     DisplayText("\n\n" + gargoyleFlags.name + " recoils, flinching from you in expectation of assault. Instead, you spit on the ground and start for the exit.  You shout over your shoulder for her to stay here and wallow in her failure until you deign to use her.");
     DisplayText("\n\nYou storm out of the cathedral with a knot of disdain in your gut.  From behind you, you're not quite sure, but perhaps you heard \"<i>I couldn't leave here if I wanted to.</i>\"");
     // (Player is returned to camp; advance time 1 hour)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Reassure[/b]
-function reassureTheGargoyle(character: Character) {
+function reassureTheGargoyle(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (Confidence +10)
     DisplayText("You can't help but feel sorry for the poor gargoyle.  It isn't hard to figure out what happened, and in truth, she reminds you a bit of yourself – and of the consequences if you ever fail.  You reach over and put a hand on her smooth, cold shoulder.  As reassuringly as you can, you tell her that you are [name], the Champion of Ingnam.  Your duty isn't entirely dissimilar to what hers was, while you hope you'll never know what she's gone through, you can certainly sympathize.");
@@ -239,20 +231,20 @@ function reassureTheGargoyle(character: Character) {
 
     DisplayText("\n\nYou rustle " + gargoyleFlags.name + "'s hair and assure her you will before you take your leave and return to camp.");
     // (Return to camp, advance time 1 hour)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-export function returnToCathedralNoWake(character: Character) {
-    returnToCathedral(character);
+export function returnToCathedralNoWake(character: Character): NextScreenChoices {
+    return returnToCathedral(character);
 }
 
-export function returnToCathedralWake(character: Character) {
-    returnToCathedral(character, true);
+export function returnToCathedralWake(character: Character): NextScreenChoices {
+    return returnToCathedral(character, true);
 }
 
 // [i](Whenever the character returns to the Cathedral, play one of the following introductions, then the “Cathedral Interior” scenes. )[/i]
 // [b]Player Returns to the Cathedral A[/b]
-export function returnToCathedral(character: Character, woken: boolean = false) {
+export function returnToCathedral(character: Character, woken: boolean = false): NextScreenChoices {
     User.locations.get(LocationName.Cathedral).timesVisited++;
     if (!woken) {
         DisplayText().clear();
@@ -262,7 +254,6 @@ export function returnToCathedral(character: Character, woken: boolean = false) 
         // [b]Player Returns to the Cathedral C[/b]
         else DisplayText("You wander into the Cathedral grounds, and are rather alarmed to see a pair of little green goblin sluts poking around outside, trying to cart off some of the stone tombstones for their nefarious schemes.  They see you approaching, however, and quickly flee – more interested in salvage than fighting or fucking today.  Chuckling to yourself, you enter.");
     }
-    MainScreen.hideBottomButtons();
     let names = [];
     let funcs = [];
     // [b]Cathedral Interior – 06:00 –> 09:00 & 18:00 –> 21:00[/b]
@@ -303,57 +294,64 @@ export function returnToCathedral(character: Character, woken: boolean = false) 
             else if (character.torso.vaginas.count > 0) funcs[1] = useHerGargoyleFemale;
         }
     }
-    MainScreen.displayChoices(names, funcs, ["Leave"], [Scenes.camp.returnToCampUseOneHour]);
+    return { choices: [names, funcs], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [b]Sex[/b]
-function gargoyleSexMenu(character: Character) {
+function gargoyleSexMenu(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You approach " + gargoyleFlags.name + " and tell her you have some... pressure that needs relieving.");
     // (if Confidence =< 69:
     if (gargoyleConfidence() <= 69) DisplayText("  The gargoyle bows low before you, her face expressionless.  \"<i>By your command, Master.  How would you have me?</i>\"");
     else DisplayText("  Her ruby-red eyes lock with yours and a sultry grin plays across her gray marble features.  She slides an arm around your waist and presses her sizable, surprisingly soft breasts against your chest.  \"<i>How would Master have me?</i>\"");
-    MainScreen.hideBottomButtons();
     // (If Male, display options: [Vaginal] [Anal] [Titfuck] [Strap-on] [Leave])
     if (character.gender === 1) {
-        MainScreen.displayChoices(
-            ["Vaginal", "Anal", "Titfuck", "Strap-On"],
-            [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle],
-            ["Leave"],
-            [returnToCathedralNoWake]
-        );
+        return {
+            choices: [
+                ["Vaginal", "Anal", "Titfuck", "Strap-On"],
+                [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle]],
+            persistantChoices: [
+                ["Leave"],
+                [returnToCathedralNoWake]]
+        };
     }
     // (If Female, display options: [Tail Fuck] and [Ride Strap-on] [Leave])
     if (character.gender === 2) {
-        MainScreen.displayChoices(
-            ["Tail Fuck", "Strap-On"],
-            [tailFuckGargoyleScene, strapOnGargoyle],
-            ["Leave"],
-            [returnToCathedralNoWake]
-        );
+        return {
+            choices: [
+                ["Tail Fuck", "Strap-On"],
+                [tailFuckGargoyleScene, strapOnGargoyle]],
+            persistantChoices: [
+                ["Leave"],
+                [returnToCathedralNoWake]]
+        };
     }
     // (If Herm, display all above options)
     if (character.gender === 3) {
-        MainScreen.displayChoices(
-            ["Vaginal", "Anal", "Titfuck", "Strap-On", "Tail Fuck"],
-            [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle, tailFuckGargoyleScene],
-            ["Leave"],
-            [returnToCathedralNoWake]
-        );
+        return {
+            choices: [
+                ["Vaginal", "Anal", "Titfuck", "Strap-On", "Tail Fuck"],
+                [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle, tailFuckGargoyleScene]],
+            persistantChoices: [
+                ["Leave"],
+                [returnToCathedralNoWake]]
+        };
     }
     // (If Genderless, display [Strap-on] [Leave])
     if (character.gender === 0) {
-        MainScreen.displayChoices(
-            ["Strap-On"],
-            [strapOnGargoyle],
-            ["Leave"],
-            [returnToCathedralNoWake]
-        );
+        return {
+            choices: [
+                ["Strap-On"],
+                [strapOnGargoyle]],
+            persistantChoices: [
+                ["Leave"],
+                [returnToCathedralNoWake]]
+        };
     }
 }
 
 // [b]Anal[/b]
-function gargoyleAnal(character: Character) {
+function gargoyleAnal(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You tell her to get on all fours as you shed your [armor], unleashing your already-hardening cock.  Nervously, the gargoyle does as you command, quickly finding a clear bit of floor and getting on her hands and knees.  You kneel down behind her, peeling her taut ass-cheeks apart to reveal her tight slit and the marble ring of her tiny asshole.  Grinning, you slather up your forefinger with your tongue, lubing it up as best you can before pressing it to her backdoor.");
 
@@ -383,12 +381,12 @@ function gargoyleAnal(character: Character) {
     }
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Vaginal[/b]
 // no limits
-function gargoyleCoochiiGetsPlowed(character: Character) {
+function gargoyleCoochiiGetsPlowed(character: Character): NextScreenChoices {
     DisplayText().clear();
     let cockThatFits: Cock;
     const cocksThatFit = character.torso.cocks.filter(Cock.CockThatFits(60));
@@ -401,7 +399,7 @@ function gargoyleCoochiiGetsPlowed(character: Character) {
 
     DisplayText("\n\nYou're rewarded for your efforts by " + gargoyleFlags.name + " bucking her hips into your hands, moaning, \"<i>M-Master... please...</i>\"  Not done teasing her yet, you put your other hand on her flat belly and start to crawl it up, tickling her as you make your way toward her sizable breasts.  You glomp onto one of them, giving it a rough squeeze as you drive your finger into her a little further than before.  \"<i>Masterrrrr...</i>\" " + gargoyleFlags.name + " whines, reaching up to stroke your cheek.  Deciding you've teased the poor girl enough, you prepare for the main course.");
 
-    DisplayText("\n\nYou pull your " + CockDescriptor.describeCock(character, cockThatFits) + " from your [armor], letting it flop down atop her crotch.  Embarrassed, " + gargoyleFlags.name + " looks away as you rub the underside of your cock across her mons, spitting on it for a bit of extra lubricant.  You lean back, lining the tip of your cockhead with the gargoyle's tight slit, and press forward.  She lets out a sharp gasp as your cock presses against her, pushing it past her lips and finally slipping into her depths.");
+    DisplayText("\n\nYou pull your " + Desc.Cock.describeCock(character, cockThatFits) + " from your [armor], letting it flop down atop her crotch.  Embarrassed, " + gargoyleFlags.name + " looks away as you rub the underside of your cock across her mons, spitting on it for a bit of extra lubricant.  You lean back, lining the tip of your cockhead with the gargoyle's tight slit, and press forward.  She lets out a sharp gasp as your cock presses against her, pushing it past her lips and finally slipping into her depths.");
 
     DisplayText("\n\nThough her opening was painfully tight, her inner passage expands easily around your cock, letting you slip in more and more of your dickmeat until you're buried ");
     if (cockThatFits.area > 60) DisplayText("as far as she can take you.");
@@ -411,19 +409,19 @@ function gargoyleCoochiiGetsPlowed(character: Character) {
 
     DisplayText("\n\nTo your dismay, you feel the tell-tale clenching in your gut, signaling your impending orgasm.  You clutch at " + gargoyleFlags.name + "'s shoulders as you slam into her one last time, as far as you'll go, and shoot out the first of your load.  The sensation of your thick, hot jizz exploding into her sets the gargoyle off as well: she rolls her head back and lets out a soft scream, crunching down on your cock until you're afraid it's going to burst.  You bury your face in her neck and let her milk your cock for all it's worth, until your spooge threatens to overflow and pool on the ground.");
 
-    DisplayText("\n\nThe two of you lay there for a while after, until your " + CockDescriptor.describeCock(character, cockThatFits) + " has deflated and you've both stopped panting from exertion and pleasure.  Giving her another kiss, you pull out of her cold depths – now significantly warmer thanks to your passion – and stuff your dick back into your armor.");
+    DisplayText("\n\nThe two of you lay there for a while after, until your " + Desc.Cock.describeCock(character, cockThatFits) + " has deflated and you've both stopped panting from exertion and pleasure.  Giving her another kiss, you pull out of her cold depths – now significantly warmer thanks to your passion – and stuff your dick back into your armor.");
     if (gargoyleConfidence() >= 70) DisplayText("  Before you can stand, though, " + gargoyleFlags.name + " hugs her arms tightly around you pulling you down on top of her and mashing your face between her soft tits.");
 
-    DisplayText("\n\n\"<i>Thank you, Master,</i>\" she says, running a hand through your " + HeadDescriptor.describeHair(character) + ".  \"<i>That was wonderful.</i>\"");
+    DisplayText("\n\n\"<i>Thank you, Master,</i>\" she says, running a hand through your " + Desc.Head.describeHair(character) + ".  \"<i>That was wonderful.</i>\"");
 
     DisplayText("\n\nYou give her a pat on the head and head on back to camp.");
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Tit-Fuck[/b]
-function titFuckTheGargoyle(character: Character) {
+function titFuckTheGargoyle(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You situate yourself on a pew and spread your legs.  You pat your thighs, telling " + gargoyleFlags.name + " to sit between your legs as you fish out your [cock biggest].  She approaches, hesitantly placing herself on the floor between your legs as you recline and stroke your shaft to full hardness.  You let the gargoyle sit there, watching you wide-eyed as you continue to masturbate.  Though you're only preparing for the main act, you can't help but enjoy the sensation of such a basic sexual act, made all the more pleasurable by the creature at your feet, her face barely an inch from your cock's head as you stroke yourself.");
 
@@ -446,12 +444,12 @@ function titFuckTheGargoyle(character: Character) {
     DisplayText("\n\nYou give her a little pat on the head and tell her it was more than pleasing.  Gratified, the little gargoyle sets to slurping up your cum as your clean yourself up and head back to camp.");
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Strap-On[/b]
 // (Coding this one may be a *little* complex)
-function strapOnGargoyle(character: Character) {
+function strapOnGargoyle(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Giving a quick look around the ruins, you tell " + gargoyleFlags.name + " to go find something that can bring you two a little <i>closer</i>.");
 
@@ -469,7 +467,7 @@ function strapOnGargoyle(character: Character) {
         DisplayText("\n\n" + gargoyleFlags.name + " is panting with lust by the time you're done teasing and stripping for her. Now nude, you drop back to your knees over her holy rod-cock, straddling her hips and lining her up with your [vagina]. You lower yourself until the tip of the rod is pressing against your lower lips – you're pleasantly surprised by the warm tingling sensation that quickly spreads out around the point of contact, and your cunny responds immediately by letting loose a little trickle of moisture that beads down on the gargoyle's shaft.");
 
         DisplayText("\n\nWithout further ado, you drop down on the strap-on, lowering yourself onto the tingling metal rod until your groin is pressed against " + gargoyleFlags.name + "'s.  She, all the while, is biting her lower lip and whimpering with pleasure as your [vagina] swallows her length. Once you've taken all she has to offer, you begin grinding your hips against her, rocking back and forth atop the gargoyle.  To your surprise, " + gargoyleFlags.name + " grabs you, squeezing her long fingers into your [hips] and pulling you up, almost off her rod. You decide to go with it; you grab her tits for support and start to bounce on her cock.");
-        VaginaModifier.displayStretchVagina(character, 15, true, true, false);
+        Mod.Vagina.displayStretchVagina(character, 15, true, true, false);
         DisplayText("\n\nSoon, you're both moaning with pleasure, bucking and thrusting your hips to meet each other as you continue to ride " + gargoyleFlags.name + "'s strap-on.  However, you can feel the clenching sensation of a coming orgasm building in your gut, and if the strained panting of your partner is any indication, she isn't far behind.  You start bouncing faster, increasing to a wild pace as your cunt contracts on the metal rod inside it, trying to milk the fake cock as waves of pleasure roll over you.  You don't let up throughout the orgasm, quite literally riding it out until " + gargoyleFlags.name + " lets out a high-pitched shriek and grabs your back, smashing your face into her tits and holding you tight as she, too cums.  Suddenly she's the one pounding you, thrusting her hips into your [vagina].");
 
         DisplayText("\n\nBy the time she's done, both your hips and thighs are spattered with your sweat and girlcum. Still panting from the ordeal, you slowly drag yourself off of " + gargoyleFlags.name + "'s cock and roll onto your back, exhausted. By the time you've recovered enough to stumble to your feet, " + gargoyleFlags.name + " is fast asleep beside you, snoring cutely, her metal cock still standing straight up in the air.  You give her a gentle pat on the thigh and get dressed, leaving the gargoyle snoozing peacefully as you head back to camp.");
@@ -479,24 +477,24 @@ function strapOnGargoyle(character: Character) {
         DisplayText("\n\n" + gargoyleFlags.name + " is panting with lust by the time you're done teasing and stripping for her. Now nude, you drop back to your knees over her holy rod-cock, straddling her hips and lining her up with your [asshole].  You lower yourself until the tip of the rod is pressing against your clenched backdoor – and you're pleasantly surprised by the warm tingling sensation that quickly spreads out around the point of contact. Your anus responds immediately by utterly relaxing, letting just the tip of " + gargoyleFlags.name + "'s strap-on slide inside you.");
 
         DisplayText("\n\nWithout further ado, you drop down on the strap-on, lowering yourself onto the tingling metal rod until your ass is pressed against " + gargoyleFlags.name + "'s thighs.  She, all the while, is biting her lower lip and whimpering with pleasure as your ass swallows her length.  Once you've taken all she has to offer, you begin grinding your hips against her, rocking back and forth atop the gargoyle.  To your surprise, " + gargoyleFlags.name + " grabs you, squeezing her long fingers into your [hips] and pulling you up, almost off her rod.  You decide to go with it; you grab her tits for support and start to bounce on her cock.");
-        ButtModifier.displayStretchButt(character, 15, true, true, false);
+        Mod.Butt.displayStretchButt(character, 15, true, true, false);
         DisplayText("\n\nSoon, you're both moaning with pleasure, bucking and thrusting your hips to meet each other as you continue to ride " + gargoyleFlags.name + "'s strap-on.  However, you can feel the clenching sensation of a coming anal orgasm building in your gut, and if the strained panting of your partner is any indication, she isn't far behind.  You start bouncing faster, increasing to a wild pace as your hole contracts on the metal rod inside it, instinctively trying to force out the intruder, but only serving to let waves of pleasure roll over you.  You don't let up throughout the orgasm, quite literally riding it out until " + gargoyleFlags.name + " lets out a high-pitched shriek and grabs your back, smashing your face into her tits and holding you tight as she, too cums.  Suddenly she's the one pounding you, thrusting her hips into your [asshole] until you've both cum, hard, clutching each other as orgasmic pleasure slams through you.");
 
         DisplayText("\n\nStill panting from the ordeal, you slowly drag yourself off of " + gargoyleFlags.name + "'s cock and roll onto your back, exhausted. By the time you've recovered enough to stumble to your feet, " + gargoyleFlags.name + " is fast asleep beside you, snoring cutely, her metal cock still standing straight up in the air.  You give her a gentle pat on the thigh and get dressed, leaving the gargoyle snoozing peacefully as you head back to camp.");
     }
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Tail Fuck[/b]
 // Requires Vag
-function tailFuckGargoyleScene(character: Character) {
+function tailFuckGargoyleScene(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Without warning, you grab " + gargoyleFlags.name + "'s thick, spiked tail and give it a playful yank.  She lets out a surprised \"<i>EEP,</i>\" but settles down after you tell her to cop a squat and stiffen it up.  Obediently, she assumes a low crouch and stiffens her tail into a “U” shape between her legs, its tip pointed straight up between your belly and her face.  You ruffle her hair and strip out of your [armor], soon standing nude before the gargoyle.  At a command from you, the brutal stone spikes protruding from her tail's tip retract, leaving the appendage a smooth, cool surface.");
 
     DisplayText("\n\nWith a little balancing help from a nearby pew, you balance yourself over the narrow tip of her tail and slowly lower yourself down upon it.  The tip slips through your lower lips easily, its stone cold surface sending a chill up your spine as you slide down the gargoyle's shaft.");
-    VaginaModifier.displayStretchVagina(character, 15, true, true, false);
+    Mod.Vagina.displayStretchVagina(character, 15, true, true, false);
     DisplayText("You shudder as you finally bottom out on her tail, taking it until your cunt is almost painfully stretched by her ever - thickening tail and you can feel the tip pressing against the entrance to your womb.");
 
     DisplayText("\n\nNow firmly inside your depths, " + gargoyleFlags.name + " begins to wiggle her tail inside you, slithering a few inches in and out of your [vagina].  Encouraging her, you grasp her shoulders for support and push your cunt a little closer to her face.  Taking the hint, she snakes out her long tongue and gives your clitty a little flick, eliciting an immediate gasp of pleasure from you.  She's soon engaging in a double-assault on you, suckling on your [clit] one moment, and ramming her tail into your [vagina] the next.");
@@ -514,11 +512,11 @@ function tailFuckGargoyleScene(character: Character) {
     DisplayText("\n\nYou rub her head and tell her that oh, yes you were. You leave her with a gratified smile on her thin lips.");
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Use Her – Male/Herm[/b]
-function useGargoyleMaleHerm(character: Character) {
+function useGargoyleMaleHerm(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You approach the motionless statue with a lustful look in your eye. Quickly, you strip out of your [armor] and circle around the frozen girl.  With some effort, you're able to lift her heavy, spiked tail out of the way, revealing the tight cunt hidden between her legs.  You drop to your knees behind the gargoyle and bury your face in her crack, slurping at her vag, getting it nice and moist in preparation for your cock.");
     DisplayText("\n\nTo your surprise, the gargoyle does not even respond to your tongue as you slide it inside her.  She's completely motionless – even the walls of her love canal are still as you spread your saliva around inside her.  After a few minutes of preparation, you grab your [cock biggest] and slide on home.  Despite her natural tightness, it's relatively easy going thanks to the liberal lubrication you applied moments ago, and soon you're buried up to the hilt inside the gargoyle.  You give a few quick thrusts into her tight, smooth hole that quickly build up to a fast, hard fucking.");
@@ -531,11 +529,11 @@ function useGargoyleMaleHerm(character: Character) {
     DisplayText("\n\nYou give the gargoyle a little pat on the head for a job well done before heading on out.");
     character.orgasm();
     character.stats.sens += -1;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Use Her (Female)[/b]
-function useHerGargoyleFemale(character: Character) {
+function useHerGargoyleFemale(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You casually strip out of your [armor] and start to tease your cunt as you circle around the crouching gargoyle.  You lament her lack of male genitalia, but that will by no means stop you from sating your lust on the gargoyle.  You grab her tail, itself only just flexible enough to reposition thanks to her rigor-mortis-like state, and bend its tip to face straight up.");
 
@@ -547,11 +545,11 @@ function useHerGargoyleFemale(character: Character) {
 
     DisplayText("\n\nContented, you spend a few minutes recovering before slowly dressing back up into your [armor]. You head on out, making sure to give " + gargoyleFlags.name + " a little pat on the head on your way out.");
     character.orgasm();
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Ritual (First Time)[/b]
-function ritualGargoyle(character: Character) {
+function ritualGargoyle(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (gargoyleFlags.ritualIntro === 0) {
         gargoyleFlags.ritualIntro = 1;
@@ -568,17 +566,19 @@ function ritualGargoyle(character: Character) {
     // (Display Options: [Body] [Mind] [Banish (only with Exgartuan or Worms)] and [Leave])
     let banish = false;
     if (character.statusAffects.has(StatusAffectType.Infested) || character.statusAffects.has(StatusAffectType.Exgartuan)) banish = true;
-    MainScreen.displayChoices(
-        ["Body", "Mind", "Banish"],
-        [bodyRitual, mindGargoyleRitual, banish ? banishmentGargoyleRitual : undefined],
-        ["Leave"],
-        [returnToCathedralNoWake]
-    );
+    return {
+        choices: [
+            ["Body", "Mind", "Banish"],
+            [bodyRitual, mindGargoyleRitual, banish ? banishmentGargoyleRitual : undefined]],
+        persistantChoices: [
+            ["Leave"],
+            [returnToCathedralNoWake]]
+    };
 }
 
 // [b]Body[/b]
 // (PC decreases Libido and Sensitivity. Suffers 20% Max HP damage, to a minimum of 1 pt. remaining)
-function bodyRitual(character: Character) {
+function bodyRitual(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You tell " + gargoyleFlags.name + " that you could stand to reverse some of the corruption that has affected your body.  With an solemn nod, she takes you to a side alcove near the altar and instructs you to spread your arms and legs.  Hesitantly, you do so, and from the floor and ceiling " + gargoyleFlags.name + " produces leather straps with rough looped straps.  Before you can react, she binds your arms and legs, spreading you eagle against the cold stone wall.");
 
@@ -589,40 +589,40 @@ function bodyRitual(character: Character) {
     character.stats.sens += -2;
     character.stats.HP -= Math.round(character.stats.maxHP() / 2);
     // (Display options: [Nothing] [Revenge] and [Cuddle])
-    MainScreen.displayChoices(["Nothing", "Cuddle", "Revenge"], [noReactionToBodyRitual, gargoyleCuddleAfterBodyRitual, gargoyleRevengeAfterBodyRitual]);
+    return { choices: [["Nothing", "Cuddle", "Revenge"], [noReactionToBodyRitual, gargoyleCuddleAfterBodyRitual, gargoyleRevengeAfterBodyRitual]] };
 }
 
 // [b]Nothing[/b]
-function noReactionToBodyRitual() {
+function noReactionToBodyRitual(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You simply lie still and try to recover from " + gargoyleFlags.name + "'s \"gentle ministrations.\"  After a few minutes, you've caught your breath and, gathering your possessions, make your way out of the Cathedral without another word.  Damn, you're sore.");
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
     // (Return PC to camp, advance time 1 hour)
 }
 
 // [b]Revenge[/b]
 // (Confidence -5)
-function gargoyleRevengeAfterBodyRitual() {
+function gargoyleRevengeAfterBodyRitual(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Seeing " + gargoyleFlags.name + " just standing over you, gloating, causes you to sneer and lash out.  You strike her dead-center in the chest, throwing her back against the tree-idol at the church's head.  She slumps to the floor, looking meekly away from you.  While she's stunned, you gather your [armor] and stagger out of the Cathedral.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(-5);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Cuddle[/b]
 // (Confidence +5)
-function gargoyleCuddleAfterBodyRitual() {
+function gargoyleCuddleAfterBodyRitual(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Despite the pain she's caused you, you know " + gargoyleFlags.name + " did it at your command – and hell, it could only have helped you.  Before she can react, you reach up and pull the gray gargoyle down into a kiss, pressing firmly against her soft, cold lips.  She makes a cute little gasp, but soon relaxes into your hold, allowing you to shift her weight so that she's nearly lying atop you.  You sigh contentedly and wrap your gargoyle in a tight hug, holding her close for the few minutes it takes you to recover.  When you're feeling up to it, you rustle her hair and thank her for her... gentle ministrations.  If she could blush, you're sure she would be as she looks upon you with gleaming fiery eyes.  You gather your belongings and exit the Cathedral.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(5);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]“Mind”[/b]
 // (PC Decreases Corruption and Lust, increases Intelligence)
-function mindGargoyleRitual(character: Character) {
+function mindGargoyleRitual(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You tell " + gargoyleFlags.name + " that you've been plagued with dirty thoughts, and would like to undo some of the corruption that's spread to your mind.  " + gargoyleFlags.name + " nods respectfully and tells you to kneel before the altar. You do so, assuming a low, supplicating stance before the tree-idol at the Cathedral's head as the gargoyle picks up the bowl of water and raises it on high.");
     DisplayText("\n\n\"<i>Blessed is " + character.desc.subjectivePronoun + " who seeks purity,</i>\" she says, closing her eyes and bowing her head, \"<i>Blessed is " + character.desc.subjectivePronoun + " who seeks wisdom; and blessed is " + character.desc.subjectivePronoun + " who lusts after holiness and virtue before pleasures of the flesh.</i>\"");
@@ -633,12 +633,12 @@ function mindGargoyleRitual(character: Character) {
     character.stats.cor += -.5;
     // character.takeDamage(Math.round(character.maxHP()/2));
     character.stats.fatigue += 50;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Banishment[/b]
 // (PC is cleared of Worms and/or Exgartuan)
-function banishmentGargoyleRitual(character: Character) {
+function banishmentGargoyleRitual(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Talking about " + gargoyleFlags.name + "'s rituals, you explain that you seem to have picked up ");
     if (character.statusAffects.has(StatusAffectType.Exgartuan)) DisplayText("a hitchhiker");
@@ -676,39 +676,39 @@ function banishmentGargoyleRitual(character: Character) {
     character.stats.HP -= Math.round(character.stats.maxHP() / 3);
     character.stats.fatigue += 10;
     // (Display options: [Nothing] [Revenge] and [Cuddle])
-    MainScreen.displayChoices(["Nothing", "Cuddle", "Revenge"], [dontFreakOutAfterBanishment, cuddleForBanishments, getRevengeForBanishments]);
+    return { choices: [["Nothing", "Cuddle", "Revenge"], [dontFreakOutAfterBanishment, cuddleForBanishments, getRevengeForBanishments]] };
 }
 
 // [b]Nothing[/b]
-function dontFreakOutAfterBanishment() {
+function dontFreakOutAfterBanishment(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You simply lie still and try to recover from " + gargoyleFlags.name + "'s “gentle ministrations. ” After a few minutes, you've caught your breath and, gathering your possessions, make your way out of the Cathedral without another word. Damn, you're sore.");
     // (Return PC to camp, advance time 1 hour)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Revenge[/b]
 // (Confidence -5)
-function getRevengeForBanishments() {
+function getRevengeForBanishments(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Seeing " + gargoyleFlags.name + " just standing over you, gloating, causes you to sneer and lash out.  You strike her dead-center in the chest, throwing her back against the tree-idol at the church's head.  She slumps to the floor, looking meekly away from you.  While she's stunned, you gather your [armor] and stagger out of the Cathedral.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(-5);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Cuddle[/b]
 // (Confidence +5)
-function cuddleForBanishments() {
+function cuddleForBanishments(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Despite the pain she's caused you, you know " + gargoyleFlags.name + " did it at your command – and hell, it could only have helped you.  Before she can react, you reach up and pull the gray gargoyle down into your lap, hugging her around the waist and putting a quick kiss into the nape of her neck.  Giggling, she wraps her tail around you, giving you a gentle squeeze as she nuzzles into your chest.  You stay like that for a few minutes, cuddling the cute gargoyle, but eventually you know you need to check on things back at camp.  When you're feeling up to it, you rustle her hair and thank her for her... gentle ministrations.  If she could blush, you're sure she would be as she looks upon you with gleaming fiery eyes.  You gather your belongings and exit the Cathedral.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(5);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 // [b]Kinky Rituals (First Time)[/b]
 // (While Confidence 70+)
-function gargoyleKinkyRituals(character: Character) {
+function gargoyleKinkyRituals(character: Character): NextScreenChoices {
     DisplayText().clear();
     if (gargoyleFlags.kinkyRitualsSpoken === 0) {
         DisplayText("You broach the subject of rituals to your gargoyle and are met with a surprisingly coy smile from her.  You ask her what's on her mind, to which " + gargoyleFlags.name + " chuckles and says, \"<i>I've been thinking, Master. If you so desire, it may be possible to... enhance... the rituals that I've been using.</i>\"");
@@ -724,16 +724,18 @@ function gargoyleKinkyRituals(character: Character) {
     // (Display Options: [Body] [Mind] [Banish (only with Exgartuan or Worms)] and [Leave])
     let banish = false;
     if (character.statusAffects.has(StatusAffectType.Infested) || character.statusAffects.has(StatusAffectType.Exgartuan)) banish = true;
-    MainScreen.displayChoices(
-        ["Body", "Mind", "Banish"],
-        [kinkyBodyRitual, mindRitualPervy, banish ? banishPervRitual : undefined],
-        ["Leave"],
-        [returnToCathedralNoWake]
-    );
+    return {
+        choices: [
+            ["Body", "Mind", "Banish"],
+            [kinkyBodyRitual, mindRitualPervy, banish ? banishPervRitual : undefined]],
+        persistantChoices: [
+            ["Leave"],
+            [returnToCathedralNoWake]]
+    };
 }
 
 // [b]Body[/b]
-function kinkyBodyRitual(character: Character) {
+function kinkyBodyRitual(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (Confidence +2)
     // (PC decreases Libido and Sensitivity. Suffers 20% Max HP damage, to a minimum of 1 pt. remaining)
@@ -743,14 +745,14 @@ function kinkyBodyRitual(character: Character) {
     if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1) DisplayText(", cupping your [chest] in her cold stone hands");
     DisplayText(".  Your [nipples] go rock hard from her cold touch, and you shudder as she gently nips your ear and drags the length of the crop along your thighs.");
 
-    DisplayText("\n\n\"<i>You've been a very naughty " + GenderDescriptor.boyGirl(character.gender) + ", to have a body so warped,</i>\" she says, again running the crop along your incredibly sensitive inner thighs, making you tremble with the sensation.  You're acutely aware of her large, soft breasts pressing into your sweat-slicked back.  Huskily, " + gargoyleFlags.name + " whispers, \"<i>Don't worry, Master. I'll take good care of you...</i>\"  CRACK!  She lays on with the crop, a short, stinging stoke across your thigh.  You gasp, as much in pleasure as in pain, still reveling in the sensation of her embrace.");
+    DisplayText("\n\n\"<i>You've been a very naughty " + Desc.Gender.boyGirl(character.gender) + ", to have a body so warped,</i>\" she says, again running the crop along your incredibly sensitive inner thighs, making you tremble with the sensation.  You're acutely aware of her large, soft breasts pressing into your sweat-slicked back.  Huskily, " + gargoyleFlags.name + " whispers, \"<i>Don't worry, Master. I'll take good care of you...</i>\"  CRACK!  She lays on with the crop, a short, stinging stoke across your thigh.  You gasp, as much in pleasure as in pain, still reveling in the sensation of her embrace.");
 
     DisplayText("\n\nAs if reading your thoughts, she releases you and steps back, giving herself room for another CRACK!  She leaves a mark on your back this time, and you gasp at the sting of her crop.  But not a second later, she's up against you, her long, cool tongue running across the red streak she's left upon you.  She leans back and makes a tsk sound, patting your [butt].  \"<i>With pain comes purity,</i>\" she whispers, rising to nestle her chin in your neck.  \"<i>With agony comes enlightenment.</i>\"  CRACK!  She gives you a swat right on the ass, making you gasp – before you can close your mouth, she locks you in a deep kiss, easily slipping her long, slender tongue into your mouth.");
 
     DisplayText("\n\nShe plays easily within you, running her cool appendage over your own tongue, letting it slide across your teeth and cheeks as she slides a hand down to your ");
     // if Male/Herm:
-    if (character.torso.cocks.count > 0) DisplayText(CockDescriptor.describeCock(character, character.torso.cocks.get(0)));
-    else if (character.torso.vaginas.count > 0) DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)));
+    if (character.torso.cocks.count > 0) DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)));
+    else if (character.torso.vaginas.count > 0) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
     else DisplayText("barren crotch");
     DisplayText(".  She breaks the kiss and steps back, laying on one last time – CRACK! with the crop, stinging you again with an intense mix of pain and pleasure.  Gasping and panting from stimulation, you nearly collapse when " + gargoyleFlags.name + " unbinds you, though she's quick to catch you before you fall.");
 
@@ -765,13 +767,13 @@ function kinkyBodyRitual(character: Character) {
     character.stats.sens += -2;
     gargoyleConfidence(2);
     character.stats.HP -= Math.round(character.stats.maxHP() / 2);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Mind[/b]
 // (Confidence +2)
 // (PC Decreases Corruption and Lust, increases Intelligence)
-function mindRitualPervy(character: Character) {
+function mindRitualPervy(character: Character): NextScreenChoices {
     DisplayText().clear();
     gargoyleConfidence(2);
     DisplayText("You tell " + gargoyleFlags.name + " that you've been plagued with dirty thoughts, and would like to undo some of the corruption that's spread to your mind.  With a deep nod conveying both a respect for your choice and an eagerness to engage in the ritual, " + gargoyleFlags.name + " tells you to kneel before the altar.  You do so, assuming a low, supplicating stance before the tree-idol at the Cathedral's head as the gargoyle clears off the altar save for the humble bowl of water.");
@@ -782,7 +784,7 @@ function mindRitualPervy(character: Character) {
 
     DisplayText("\n\nYou do as she so obviously wishes, and spread her legs to get a good look at her now-sopping wet slit. Her vagina seems small, but an experimental touch proves it to be quite malleable – and your single touch causes " + gargoyleFlags.name + " to arch her back, gasping with the sudden pleasure.  Smiling at the adorable, enraptured look on her face, you start lapping with a vengeance, grasping her thighs and burying your face between her legs.  You flick your tongue into her smooth, cool slit, lapping up a few drops of water with each flick of your dexterous tongue, and eliciting a gasp or moan each time.");
 
-    DisplayText("\n\nSoon, " + gargoyleFlags.name + " is clutching at her breasts and quickly fingering her cherry-nub clit as you lick her out, trying her best to keep an even rhythm with you, even as the waterfall comes to an end and you begin to feel light-headed, as if a fog has lifted from your mind.  By way of thanks, you redouble your efforts to pleasure her, ramming your tongue into her depths and fucking her mercilessly.  Quickly, she begins to tense, stopping her own actions to grasp at your " + HeadDescriptor.describeHair(character) + " and shove your face further into her crotch, locking her legs and tail around your back as she approaches orgasm.");
+    DisplayText("\n\nSoon, " + gargoyleFlags.name + " is clutching at her breasts and quickly fingering her cherry-nub clit as you lick her out, trying her best to keep an even rhythm with you, even as the waterfall comes to an end and you begin to feel light-headed, as if a fog has lifted from your mind.  By way of thanks, you redouble your efforts to pleasure her, ramming your tongue into her depths and fucking her mercilessly.  Quickly, she begins to tense, stopping her own actions to grasp at your " + Desc.Head.describeHair(character) + " and shove your face further into her crotch, locking her legs and tail around your back as she approaches orgasm.");
 
     DisplayText("\n\nScreaming, " + gargoyleFlags.name + " arches her back and thrusts out her bat-wings to their full expanse, clamping down on your tongue as she cums.  You slow your pace, giving her a last few licks as she pants, gasps, and moans, slowly coming down from an orgasmic high.  She collapses backwards, clutching her chest and staring into the rafters.  Chuckling, you stand and give her a pleased pat on the inner thigh, letting her know she did a good job for you.  You leave her smiling atop the altar, slowly getting her breath under control.");
     // (Return PC to camp, advance time 1 hour)
@@ -790,12 +792,12 @@ function mindRitualPervy(character: Character) {
     character.stats.lust += -10;
     character.stats.cor += -.5;
     character.stats.fatigue += 50;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Banish[/b]
 // (Confidence +2)
-function banishPervRitual(character: Character) {
+function banishPervRitual(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (PC is cleared of Worms and/or Exgartuan)
     DisplayText("You explain to " + gargoyleFlags.name + " that you seem to have picked up ");
@@ -845,10 +847,10 @@ function banishPervRitual(character: Character) {
     character.stats.HP -= Math.round(character.stats.maxHP() / 3);
     character.stats.fatigue += 10;
     gargoyleConfidence(2);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function talkToGargoyleOutput() {
+function talkToGargoyleOutput(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You take a seat on one of the sanctuary's pews, motioning for " + gargoyleFlags.name + " to join you.");
     // If Confidence <50:
@@ -857,62 +859,64 @@ function talkToGargoyleOutput() {
     else if (gargoyleConfidence() < 70) DisplayText("  She nearly skips to follow you, assuming her low crouch at your feet and looking up at your expectantly.");
     else DisplayText("  Happily, she takes a seat beside you and slips an arm around your shoulders, locking you in companionable closeness.");
     DisplayText("  You tell her you'd like to talk for a few minutes, which immediately causes her eyes to brighten excitedly.  \"<i>Master honors me...  What would you like to talk about?</i>\"");
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]Talk[/b]
-function talkToGargoyle() {
+function talkToGargoyle(): NextScreenChoices {
     // (Display Options: [History] [Cathedral] " + data.name + " [Leave])
     // (Whenever the character selects a topic, play one of the following dialogue scenes then return the PC to the main interaction menu and increase Confidence by +10, unless noted otherwise. Once a scene has been played, it will not play again. Once all three in a topic are played, it closes.)
-    MainScreen.displayChoices(
-        ["History", "Cathedral", "Her", "Back"],
-        [
-            gargoyleFlags.history < 3 ? historyGo : undefined,
-            gargoyleFlags.cathedral < 3 ? cathedralTalks : undefined,
-            gargoyleFlags.nameTalks < 3 ? talkAboutGarName : undefined,
-            returnToCathedralNoWake
+    return {
+        choices: [
+            ["History", "Cathedral", "Her", "Back"],
+            [
+                gargoyleFlags.history < 3 ? historyGo : undefined,
+                gargoyleFlags.cathedral < 3 ? cathedralTalks : undefined,
+                gargoyleFlags.nameTalks < 3 ? talkAboutGarName : undefined,
+                returnToCathedralNoWake
+            ]
         ]
-    );
+    };
 }
 
-function historyGo(character: Character) {
+function historyGo(character: Character): NextScreenChoices {
     if (gargoyleFlags.history === 0) {
         gargoyleFlags.history = 1;
-        talkToGargoyleHistoryA();
+        return talkToGargoyleHistoryA();
     }
     else if (gargoyleFlags.history === 1) {
-        historyOfGargoylesB();
         gargoyleFlags.history = 2;
+        return historyOfGargoylesB();
     }
     else {
         gargoyleFlags.history = 3;
-        gargoyleHistoryC(character);
+        return gargoyleHistoryC(character);
     }
 }
 
 // [b]History A[/b]
-function talkToGargoyleHistoryA() {
+function talkToGargoyleHistoryA(): NextScreenChoices {
     DisplayText().clear();
 
     DisplayText("You ask " + gargoyleFlags.name + " what she can tell you about the history of Mareth.  She shrugs lightly.  \"<i>I can't tell you much, Master.  I've spent my entire life on these grounds.  Most of what I know was doctrine taught by the church. Is that acceptable?</i>\"");
 
     DisplayText("\n\nYou tell her that, sure, you'd like to hear it.  \"<i>The church-folk believe – believed – that the goddess Marae created intelligent life here many generations ago, long before the demons came.  She was the highest goddess amongst many, an embodiment of the natural world.  She brought forth the animal-morphs who created this cathedral in her honor.  Using magical knowledge, the priests of this church sought to mirror Marae's power, creating creatures such as myself.  Eventually, though, the demons came, I know not from where, and began to spread their corruption.  The priests... tried to resist... t-to ward against...  I'm sorry, Master,</i>\" she says, sniffling.  You notice that she's turned away from you, trying to hide her shame.  \"<i>I don't want to think about this anymore.  Please,</i>\" she begs.  The memory of her failure to protect the people of the church still weighs heavily upon her.  You suppose you could berate her for her emotionality, or try and comfort her.");
     // (Display Options: [Berate] and [Comfort])
-    MainScreen.displayChoices(["Berate", "Comfort"], [berateGargoyleForBeingDumb, comfortGargoyleDumbness]);
+    return { choices: [["Berate", "Comfort"], [berateGargoyleForBeingDumb, comfortGargoyleDumbness]] };
 }
 
 // [b]Berate[/b]
-function berateGargoyleForBeingDumb() {
+function berateGargoyleForBeingDumb(): NextScreenChoices {
     DisplayText().clear();
     // (Confidence -5)
     gargoyleConfidence(-5);
     DisplayText("\n\nYou attempt to give " + gargoyleFlags.name + " a none-too-gentle swat on the head, and tell her off for presuming to refuse you information.  The harshness of your voice only causes her to sob openly, however, and recoil away from you before you can hit her.  You sigh with frustration, and storm out of the cathedral before you have to listen to a moment more of your servant's cries.");
     // (Return PC to camp, advance time 1 hour.)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Comfort[/b]
-function comfortGargoyleDumbness() {
+function comfortGargoyleDumbness(): NextScreenChoices {
     DisplayText().clear();
     // (Confidence +3)
     gargoyleConfidence(10);
@@ -921,11 +925,11 @@ function comfortGargoyleDumbness() {
     if (gargoyleConfidence() < 50) DisplayText("she recoils, but ");
     DisplayText("you cup her cheek, and turn her to face you.  If she could produce tears, you're sure they'd be streaming down her cheeks.  You give her your most reassuring smile and lean in to give her a quick kiss on the brow.  She gasps, but before you know it, she has leapt into your lap and has buried her face into your chest, holding onto you as if for dear life.  You put your arms around her and hold her close while she cries, spending the next few minutes either whispering reassurances to her or stroking her back and hair.  Eventually, she calms down.  Ever so shyly, " + gargoyleFlags.name + " returns the kiss you'd given her.  \"<i>I'm sorry, Master,</i>\" she whispers, curling up beside you.  \"<i>I should have been strong enough to protect my people.  I know that.  That it's my fault they've all been dragged off to some unholy carnal pit.  I just...</i>\"  You stop her before she can go on and tell her that no, it wasn't her fault.  She couldn't have done anything to stop it.  She tries to give you a brave smile and says, \"<i>I know. Can we... talk about something else, Master?</i>\"");
     // (Return PC to the Talk menu)
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]History B[/b]
-function historyOfGargoylesB() {
+function historyOfGargoylesB(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You ask " + gargoyleFlags.name + " to tell you a little bit about the demons coming to Mareth");
     if (gargoyleConfidence() >= 70) DisplayText(" if she's up to it");
@@ -937,11 +941,11 @@ function historyOfGargoylesB() {
 
     DisplayText("\n\nYou tell her that's fine.  She steels herself, then begins to speak: \"<i>The demons arrived decades ago.  I can't remember how long, exactly; I spent most of that time chained and dormant until you found me, and time blurred.  When they arrived, it was like a tidal wave of corruption...  They swept down from the mountains and stormed through the fields.  They took the world by surprise, capturing... capturing much of it in short order.  There was little the people could do to stop them.  Some people fled, some people died, many more were captured and turned into-into sex toys o-or worse...</i>\" she trails off, shaking visibly.  The memory must be horrible for her.  \"<i>I'm sorry, Master.  It's just... those corrupt monsters came here near the end of the first year.  We'd held off so long... but it wasn't enough.</i>\"  She falls silent, looking shamefully away.  You suppose that's all you'll get out of her for now.");
     gargoyleConfidence(10);
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]History C[/b]
-function gargoyleHistoryC(character: Character) {
+function gargoyleHistoryC(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (PC has both Isabella and Izma as followers)
     // if (Scenes.izmaScene.izmaFollower() && Scenes.isabellaFollowerScene.isabellaFollower()) {
@@ -982,68 +986,68 @@ function gargoyleHistoryC(character: Character) {
         // (If PC has neither Marble nor Izma as a follower)
         DisplayText("You ask " + gargoyleFlags.name + " to tell you a little bit about the world of Mareth.  Giving it a few moments of quiet thought, she answers: \"<i>I do not have any experience outside of the church grounds, Master, but I remember the words of the last Master, and the parishioners before her.  There are... the world has a vast expanse of plains and woodlands, broken up by a great mountain range.  There is a lake not far from here, if I recall...</i>\" she goes on to tell you about some of the more common Marethian monsters, though she's short on details except about those that regularly bother the church – imps and goblins, mostly.  You thank her for the talk and turn toward another subject...");
         gargoyleConfidence(5);
-        returnToCathedral(character, true);
+        return returnToCathedral(character, true);
     }
 }
 
 // MARBLE
 // [b]Not Exclusive[/b]
-function marbleAintExclusiveBiatch(character: Character) {
+function marbleAintExclusiveBiatch(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You run a hand through " + gargoyleFlags.name + "'s hair and reassure her that being with Marble won't affect the way you interact with her – you're more than able to be fond of many girls at once.  This doesn't seem to entirely please her, but neither does she throw a tantrum, so you suppose that's good enough.");
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }
 
 // [b]Doesn't Count[/b]
 // (Confidence -5)
-function gargoyleDoesntCountAsAWaifu(character: Character) {
+function gargoyleDoesntCountAsAWaifu(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You scoff and tell her not to worry – it's not like you're cheating on Marble by being around her, after all.  She's just a statue – a toy, really. Her head sinks low, and the little gargoyle lets out a shudder that might just have been a sob.  You shake your head and change the subject.");
     // (Return PC to " + data.name + "'s main menu)
     gargoyleConfidence(-5);
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }
 // IZMA
 // [b]Not Exclusive[/b]
-function sharkgirlsArentExclusiveBiatch(character: Character) {
+function sharkgirlsArentExclusiveBiatch(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You run a hand through " + gargoyleFlags.name + "'s hair and reassure her that being with Izma won't affect the way you interact with her – you're more than able to be fond of many girls at once.  This doesn't seem to entirely please her, but neither does she throw a tantrum, so you suppose that's good enough.");
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }
 
 // [b]Doesn't Count[/b]
-function gargoylesDontCountAsSharkWaifus(character: Character) {
+function gargoylesDontCountAsSharkWaifus(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (Confidence -5)
     gargoyleConfidence(-5);
     DisplayText("You scoff and tell her not to worry – it's not like you're cheating on Izma by being around her, after all.  She's just a statue – a toy, really.  Her head sinks low, and the little gargoyle lets out a shudder that might just have been a sob.  You shake your head and change the subject.");
     // (Return PC to " + data.name + "'s main menu)
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }
 
 // IZMA & ISABELLA
 // [b]Dodge[/b]
-function izmaAndIsabellaDodge(character: Character) {
+function izmaAndIsabellaDodge(character: Character): NextScreenChoices {
     DisplayText().clear();
     // (Confidence -5)
     gargoyleConfidence(-5);
     DisplayText("You make a shitty joke and laugh awkwardly, trying to avoid the topic altogether.  " + gargoyleFlags.name + " makes a pitiful little sniffle, but takes the hint and falls silent, allowing you to change the subject.");
     // (Return PC to Talk menu)
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }
 
 // [b]Slave[/b]
 // (Confidence -15)
-function gargoylesAreSlavesYo() {
+function gargoylesAreSlavesYo(): NextScreenChoices {
     DisplayText().clear();
     gargoyleConfidence(-15);
     DisplayText("Well, really, what is she but a slave?  She's just a toy when you want sexual release, a servant to perform rituals at your demand, and a bit of eye-candy besides.  She's not even a real person – not really.  You tell her that, quite bluntly.  She makes no response, verbally at least, but she does give off a sob-like shudder and curls up into a little ball where she sits, hiding her face from you.");
     DisplayText("\n\nSince you've temporarily broken the gargoyle, you mosey on back to camp.");
     // (Return PC to camp, advance time 1 hour)
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 // [b]Girlfriend[/b]
-function gargoylesAreGirlfriends(character: Character) {
+function gargoylesAreGirlfriends(character: Character): NextScreenChoices {
     // (Confidence +15)
     DisplayText().clear();
 
@@ -1056,29 +1060,28 @@ function gargoylesAreGirlfriends(character: Character) {
     // (Use normal sex scenes for above options, as well as Leave options.
     const names = ["Vaginal", "Strap-On"];
     const funcs = [undefined, undefined];
-    MainScreen.hideBottomButtons();
     if (character.torso.cocks.count > 0) funcs[0] = gargoyleCoochiiGetsPlowed;
     else funcs[1] = strapOnGargoyle;
-    MainScreen.displayChoices(names, funcs, ["Leave"], [Scenes.camp.returnToCampUseOneHour]);
+    return { choices: [names, funcs], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
 }
 
-function cathedralTalks() {
+function cathedralTalks(): NextScreenChoices {
     if (gargoyleFlags.cathedral === 0) {
         gargoyleFlags.cathedral++;
-        talkCathedralA();
+        return talkCathedralA();
     }
     else if (gargoyleFlags.cathedral === 1) {
-        cathedralBTalk();
         gargoyleFlags.cathedral = 2;
+        return cathedralBTalk();
     }
     else {
-        cathedralC();
         gargoyleFlags.cathedral = 3;
+        return cathedralC();
     }
 }
 
 // [b]Cathedral A[/b]
-function talkCathedralA() {
+function talkCathedralA(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You ask " + gargoyleFlags.name + " to tell you a little about the Cathedral around you.  She visibly brightens at the idea.  \"<i>This is the greatest structure for miles around,</i>\" she claims proudly, motioning toward the vaulted ceiling and the remaining stained glass windows.  \"<i>Well, it isn't much to look at now, Master, but it was magnificent.  People came from all around to pray here.  It was wonderful...</i>\" she trails off, looking misty-eyed into the distance, remembering.");
 
@@ -1086,12 +1089,12 @@ function talkCathedralA() {
 
     DisplayText("\n\nYou could tell her it's pointless or encourage her.");
     // (Display Options: [Pointless] [Encourage])
-    MainScreen.displayChoices(["Pointless", "Encourage"], [pointlessGargoylesArePointless, encourageGargoyleWaifuToDoSomething]);
+    return { choices: [["Pointless", "Encourage"], [pointlessGargoylesArePointless, encourageGargoyleWaifuToDoSomething]] };
 }
 
 // [b]Pointless[/b]
 // (Confidence -2)
-function pointlessGargoylesArePointless() {
+function pointlessGargoylesArePointless(): NextScreenChoices {
     DisplayText().clear();
     gargoyleConfidence(-5);
     DisplayText("You roll your eyes and try to explain how foolish that is.  It's a building in the middle of nowhere; the demons sure as hell don't care about it, especially when there are no people around to corrupt or enslave.  You command her not to waste her time repairing the building any more than is necessary to make it bearable for you when you're there; anything more than that is effort wasted.");
@@ -1100,12 +1103,12 @@ function pointlessGargoylesArePointless() {
 
     DisplayText("\n\nYou nod, and change the subject.");
     // (Return PC to Talk menu)
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]Encourage[/b]
 // (Confidence +2)
-function encourageGargoyleWaifuToDoSomething(character: Character) {
+function encourageGargoyleWaifuToDoSomething(character: Character): NextScreenChoices {
     DisplayText().clear();
     gargoyleConfidence(10);
     DisplayText("You give " + gargoyleFlags.name + " a pat on the head and tell her it's a wonderful idea.  She makes a happy squeak and immediately flutters over to a pile of debris and starts cleaning it up.  Before you know it, the little gargoyle's on a roll, whistling a jaunty tune as she starts repairing some of the more obvious damage.  Seeing her so engrossed, you can't help but smile.  You wander over and start to give her a hand.");
@@ -1113,11 +1116,11 @@ function encourageGargoyleWaifuToDoSomething(character: Character) {
     DisplayText("\n\nWithin the hour, the two of you have made a sizable dent in the debris of the Cathedral, and " + gargoyleFlags.name + " has even managed to hang one of the candelabras back up in the rafters.  Exhausted, you say goodbye to the happy little gargoyle and head on back to camp.");
     // (Return PC to camp, advance time 1 hour, +10 fatigue.
     character.stats.fatigue += 10;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Cathedral B[/b]
-function cathedralBTalk() {
+function cathedralBTalk(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You ask " + gargoyleFlags.name + " to tell you a little bit more about the religion that called the Cathedral its home.  Happily, this seems to be an engaging topic for the little gargoyle, who eagerly explains: \"<i>They worshiped a pantheon of gods – the beings that inhabited this world before the animal-morphs were raised up, and long before the demons came.  Marae was the chief goddess,</i>\" she says, nodding to the tree-shaped icon at the head of the sanctuary.  \"<i>She taught the people rituals to better their lives, rituals to purify their minds and bodies, and even helped them learn the basics of life.  These gods were creators, raising up the animals of the world to intelligence, mirroring that of the humans.  For that, they were worshiped and... in some cases, imitated.</i>\"");
 
@@ -1125,11 +1128,11 @@ function cathedralBTalk() {
 
     DisplayText("\n\nShe falls into a deep, melancholy silence.  You soon try to change the subject.");
     gargoyleConfidence(10);
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]Cathedral C[/b]
-function cathedralC() {
+function cathedralC(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("As you sit down with " + gargoyleFlags.name + " to talk, you remember her words when you first met indicating that she could not – or would not – leave the Cathedral, even if you asked her to.   You ask her about that.");
     DisplayText("\n\n\"<i>Master,</i>\" " + gargoyleFlags.name + " says, now looking you straight in the eye, \"<i>the Cathedral is my home, the only home I've ever known.  Even if I could leave, I would not want to");
@@ -1144,12 +1147,12 @@ function cathedralC() {
 
     DisplayText("\n\nYou could comfort the little gargoyle, or you could remind her of the ramifications of her failure.");
     // (Display Options: [Comfort] and [Berate])
-    MainScreen.displayChoices(["Berate", "Comfort"], [berateDatGargoyle4SomeSavin, comfortGargoyle]);
+    return { choices: [["Berate", "Comfort"], [berateDatGargoyle4SomeSavin, comfortGargoyle]] };
 }
 
 // [b]Comfort[/b]
 // (Comfort +10)
-function comfortGargoyle() {
+function comfortGargoyle(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You pick " + gargoyleFlags.name + " up and wrap her in a tight hug, telling her that's everything's going to be all right and that you're here for her.  She makes a happy, girlish squeal and hugs you back, quickly wrapping her legs around your waist and planting a kiss on your cheek.  You sit back down, resting her on your lap, and ruffle her hair.  She grins and hugs you tighter until you're almost struggling to breathe.");
     DisplayText("\n\n\"<i>Thank you, Master,</i>\" she whispers into your ear, giving it a little kiss.  \"<i>I'll always be here for you, too.  I swear it.</i>\"");
@@ -1161,42 +1164,42 @@ function comfortGargoyle() {
     DisplayText("\n\nYou realize this is the first time you've ever seen her outside the sanctuary, and proudly give her a kiss on the lips at the gate.  When you part, she shyly tells you to take care on the way back, and that she'll be here waiting for you when you return.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(10);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]Berate[/b]
 // (Confidence -10)
-function berateDatGargoyle4SomeSavin() {
+function berateDatGargoyle4SomeSavin(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Right.  Because becoming a living footstool for you was TOTALLY worth everyone she ever knew being raped out of their minds.  You give " + gargoyleFlags.name + " a hard swat and remind her exactly how moronic she's being.  She recoils, shying away from you as you stand up and head for the door.  Over your shoulder, you tell her you're glad she's bound here – that way she can't fuck up and get you killed, too.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(-10);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function talkAboutGarName(character: Character) {
+function talkAboutGarName(character: Character): NextScreenChoices {
     if (gargoyleFlags.nameTalks === 0) {
         gargoyleFlags.nameTalks = 1;
-        garNameA(character);
+        return garNameA(character);
     }
     else if (gargoyleFlags.nameTalks === 1) {
         gargoyleFlags.nameTalks = 2;
-        garNameB();
+        return garNameB();
     }
     else {
         gargoyleFlags.nameTalks = 3;
-        garNameC();
+        return garNameC();
     }
 }
 
 // [b]" + data.name + " A[/b]
 // (Confidence +3)
-function garNameA(character: Character) {
+function garNameA(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Curious about your gargoyle, you ask " + gargoyleFlags.name + " to tell you a little bit about her life before you arrived.  She makes a nervous chuckle at the request, and shyly says, \"<i>Master is too kind...  I am no one special...</i>\"");
 
     DisplayText("\n\nYou urge her on, adding that you can make it a command if you have to.  She fidgets awkwardly for a moment, but finally says, \"<i>If Master insists.  I was sculpted in a village not far from here.  The high priest ordered me and a dozen others from the finest sculptor in the land.  We were perfect, in a way.  Each of us was unique, complete, made to be as human as you ");
-    if (BodyDescriptor.describeRace(character) === "human") DisplayText("are");
+    if (Desc.Body.describeRace(character) === "human") DisplayText("are");
     else DisplayText("once were");
     DisplayText(", Master, and more.  We were to be their guardians, protectors – their perfect servants.</i>\"");
 
@@ -1218,11 +1221,11 @@ function garNameA(character: Character) {
     DisplayText("\n\nYou consider pressing the issue, but remember that you've been away from camp a bit too long.  You resolve to ask her next time, and take your leave of the gargoyle.");
     // (Return PC to camp, advance time 1 hour)
     gargoyleConfidence(10);
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
 // [b]" + data.name + " B[/b]
-function garNameB() {
+function garNameB(): NextScreenChoices {
     DisplayText().clear();
     // (Confidence +3)
     DisplayText("Settling in for what could be a long talk, you ask " + gargoyleFlags.name + " if she's finally ready to tell you about her last Master.  She sighs heavily, but with a bit of encouragement, she begins to speak: \"<i>Master was... an unusual specimen, I should think.  She was so very beautiful, so very gentle,</i>\" the gargoyle says, almost wistfully.");
@@ -1236,11 +1239,11 @@ function garNameB() {
 
     DisplayText("\n\nWhile she still hasn't answered the whole of your question, you nod and move on.");
     gargoyleConfidence(5);
-    talkToGargoyle();
+    return talkToGargoyle();
 }
 
 // [b]" + data.name + " C[/b]
-function garNameC() {
+function garNameC(): NextScreenChoices {
     // (Confidence +3)
     gargoyleConfidence(5);
     DisplayText().clear();
@@ -1253,12 +1256,12 @@ function garNameC() {
 
     DisplayText("\n\nShe falls silent, heaving a heavy, hopeless sigh.  You could reassure her that she isn't a helpless non-person, or perhaps you'd be better served by berating her about her emotional weakness?");
     // (Display Options: [Comfort] [Berate])
-    MainScreen.displayChoices(["Berate", "Comfort"], [comfortGarNameC, berateGargoyleC]);
+    return { choices: [["Berate", "Comfort"], [comfortGarNameC, berateGargoyleC]] };
 }
 
 // [b]Comfort[/b]
 // (Confidence +15)
-function comfortGarNameC(character: Character) {
+function comfortGarNameC(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You pull " + gargoyleFlags.name + " onto your lap and run your hand through her hair.  You tell her that she's wrong – dead wrong.  She is a person, and she is not helpless.  She's anything but.");
 
@@ -1273,13 +1276,12 @@ function comfortGarNameC(character: Character) {
     DisplayText("\n\nSighing, you pat " + gargoyleFlags.name + " on the head and tell her you'd be happy to stay for a while longer.  Beaming, she asks you what you'd like to do.");
     // (Return to normal interaction menu)
     gargoyleConfidence(15);
-    returnToCathedral(character, true);
-
+    return returnToCathedral(character, true);
 }
 
 // [b]Berate[/b]
 // (Confidence -10)
-function berateGargoyleC(character: Character) {
+function berateGargoyleC(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("You laugh, and tell " + gargoyleFlags.name + " exactly what you think about her – that for a talking lump of rock, she's too damn talkative and way the hell too emotional about everything.  She sits there, very quietly, listening to your every word.  She even nods, from time to time, agreeing with you!  You're not sure if that makes you angrier or not.");
 
@@ -1290,12 +1292,11 @@ function berateGargoyleC(character: Character) {
     DisplayText("\n\nNodding appreciatively, you think of what to tell her to do.");
     gargoyleConfidence(-10);
     // (Return to normal interaction menu)
-    returnToCathedral(character, true);
-
+    return returnToCathedral(character, true);
 }
 
 // [b]Appearance[/b]
-function gargoyleAppearance(character: Character) {
+function gargoyleAppearance(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("" + gargoyleFlags.name + " is a gray marble statue that, through magics you can't quite grasp, has been animated.");
     DisplayText("\n\nShe stands roughly six feet tall, with a slender, girly frame.  She wears no clothes, seemingly possessing no modesty at all, and uses her brutally spiked tail as a weapon.  She has a cute, somewhat angular face that is very feminine.  Her skin and hair are a light shade of gray, though she has solid, ruby-red eyes which ");
@@ -1311,5 +1312,5 @@ function gargoyleAppearance(character: Character) {
     DisplayText("\n\nShe has a small yet easily stretched pussy between her legs, with a .2 inch clitoris.");
 
     DisplayText("\n\nShe has a tight asshole between her soft butt cheeks, right where it belongs.");
-    returnToCathedral(character, true);
+    return returnToCathedral(character, true);
 }

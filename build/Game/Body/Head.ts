@@ -1,14 +1,14 @@
-﻿import Ears from './Ears';
-import Face from './Face';
-import Hair from './Hair';
-import Horns from './Horns';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+﻿import { Ears } from './Ears';
+import { Face } from './Face';
+import { Hair } from './Hair';
+import { Horns } from './Horns';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
 export enum AntennaeType {
     NONE, BEE
 }
 
-export default class Head implements ISerializable<Head> {
+export class Head implements ISerializable<Head> {
     public readonly hair: Hair = new Hair();
     public readonly ears: Ears = new Ears();
     public readonly horns: Horns = new Horns();

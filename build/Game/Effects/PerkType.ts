@@ -1,4 +1,4 @@
-import LustyMaidensArmor from '../Items/Armors/LustyMaidensArmor';
+import { LustyMaidensArmor } from '../Items/Armors/LustyMaidensArmor';
 
 export enum PerkType {
     // UNSORTED perks TODO these are mostly incorrect perks: tested but never created

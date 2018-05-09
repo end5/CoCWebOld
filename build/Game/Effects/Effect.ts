@@ -1,13 +1,13 @@
-import EffectDescription from './EffectDescription';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import ValueContainer from '../Utilities/ValueContainer';
+import { EffectDescription } from './EffectDescription';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { ValueContainer } from '../Utilities/ValueContainer';
 
 export interface EffectSaveObject<Type> extends ValueContainer {
     type: Type;
     values: ValueContainer;
 }
 
-export default class Effect<Type extends string, Desc extends EffectDescription> extends ValueContainer implements ISerializable<EffectSaveObject<Type>> {
+export class Effect<Type extends string, Desc extends EffectDescription> extends ValueContainer implements ISerializable<EffectSaveObject<Type>> {
     // desc does not need to be serialized
     private effectType: Type;
     public readonly desc: Desc;

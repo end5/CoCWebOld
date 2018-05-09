@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Beard implements ISerializable<Beard> {
+export class Beard implements ISerializable<Beard> {
     public style: string = "";
     public length: number = 0;
 

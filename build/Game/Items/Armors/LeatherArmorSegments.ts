@@ -1,10 +1,10 @@
-import Armor from './Armor';
-import ArmorName from './ArmorName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import ItemDesc from '../ItemDesc';
+import { Armor } from './Armor';
+import { ArmorName } from './ArmorName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { ItemDesc } from '../ItemDesc';
 
-export default class LeatherArmorSegments extends Armor {
+export class LeatherArmorSegments extends Armor {
     public constructor() {
         super(ArmorName.LeatherArmorSegments, new ItemDesc("UrtaLta", "leather armor segments"), "leather armor segments", 5, 76, "Light", true);
     }

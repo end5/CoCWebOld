@@ -1,8 +1,8 @@
-import DisplayText from '../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CharacterType } from '../../Character/CharacterType';
-import CombatEffect from '../CombatEffect';
+import { CombatEffect } from '../CombatEffect';
 import { CombatEffectType } from '../CombatEffectType';
 
 export class IzmaBleed extends CombatEffect {

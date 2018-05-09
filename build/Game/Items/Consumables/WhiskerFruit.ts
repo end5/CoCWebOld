@@ -1,29 +1,24 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Cock, { CockType } from '../../Body/Cock';
+import { BreastRow } from '../../Body/BreastRow';
+import { Cock, CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import * as StatModifier from '../../Modifiers/StatModifier';
-import User from '../../User';
+import { Mod } from '../../Modifiers/Modifiers';
+import { User } from '../../User';
 import { numToOrdinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class WhiskerFruit extends Consumable {
+export class WhiskerFruit extends Consumable {
     public constructor() {
         super(ConsumableName.WhiskerFruit, new ItemDesc("W.Fruit", "a piece of whisker-fruit", "This small, peach-sized fruit has tiny whisker-like protrusions growing from the sides."));
     }
@@ -79,7 +74,7 @@ export default class WhiskerFruit extends Consumable {
         // Intelliloss
         if (randInt(4) === 0 && changes < changeLimit) {
             // low intelligence
-            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + FaceDescriptor.describeFace(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
+            if (character.stats.int < 15) DisplayText("\n\nYou feel like something is slipping away from you but can't figure out exactly what's happening.  You scrunch up your " + Desc.Face.describeFace(character) + ", trying to understand the situation.  Before you can reach any kind of conclusion, something glitters in the distance, distracting your feeble mind long enough for you to forget the problem entirely.");
             // medium intelligence
             else if (character.stats.int < 50) {
                 DisplayText("\n\nYour mind feels somewhat sluggish, and you wonder if you should just lie down ");
@@ -103,7 +98,7 @@ export default class WhiskerFruit extends Consumable {
             // Cat dicked folks
             if (character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0) {
                 const catCock: Cock = character.torso.cocks.filter(Cock.FilterType(CockType.CAT))[0];
-                DisplayText("\n\nYou feel your " + CockDescriptor.describeCock(character, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
+                DisplayText("\n\nYou feel your " + Desc.Cock.describeCock(character, catCock) + " growing hard, the barbs becoming more sensitive. You gently run your hands down them and imagine the feeling of raking the insides of a cunt as you pull.  The fantasy continues, and after ejaculating and hearing the female yowl with pleasure, you shake your head and try to drive off the image.  ");
                 if (character.stats.cor < 33) DisplayText("You need to control yourself better.");
                 else if (character.stats.cor < 66) DisplayText("You're not sure how you feel about the fantasy.");
                 else DisplayText("You hope to find a willing partner to make this a reality.");
@@ -126,16 +121,16 @@ export default class WhiskerFruit extends Consumable {
 
             if (character.torso.vaginas.count > 0) {
                 if (intensified) {
-                    if (randInt(2) === 0) DisplayText("\n\nThe itch inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " is growing stronger, and you desperately want to find a nice cock to massage the inside.");
-                    else DisplayText("\n\nThe need inside your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " grows even stronger.  You desperately need to find a mate to 'scratch your itch' and fill your womb with kittens.  It's difficult NOT to think about a cock slipping inside your moist fuck-tunnel, and at this point you'll have a hard time resisting ANY male who approaches.");
+                    if (randInt(2) === 0) DisplayText("\n\nThe itch inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " is growing stronger, and you desperately want to find a nice cock to massage the inside.");
+                    else DisplayText("\n\nThe need inside your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " grows even stronger.  You desperately need to find a mate to 'scratch your itch' and fill your womb with kittens.  It's difficult NOT to think about a cock slipping inside your moist fuck-tunnel, and at this point you'll have a hard time resisting ANY male who approaches.");
                 }
                 else {
-                    DisplayText("\n\nThe interior of your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " clenches tightly, squeezing with reflexive, aching need.  Your skin flushes hot ");
+                    DisplayText("\n\nThe interior of your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " clenches tightly, squeezing with reflexive, aching need.  Your skin flushes hot ");
                     if (character.skin.type === SkinType.FUR) DisplayText("underneath your fur ");
                     DisplayText("as images and fantasies ");
                     if (character.stats.cor < 50) DisplayText("assault ");
                     else DisplayText("fill ");
-                    DisplayText(" your mind.  Lithe cat-boys with their perfect, spine-covered cocks line up behind you, and you bend over to present your needy pussy to them.  You tremble with the desire to feel the exotic texture of their soft barbs rubbing your inner walls, smearing your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " with their cum as you're impregnated.  Shivering, you recover from the fantasy and pull your fingers from your aroused sex.  <b>It would seem you've gone into heat!</b>");
+                    DisplayText(" your mind.  Lithe cat-boys with their perfect, spine-covered cocks line up behind you, and you bend over to present your needy pussy to them.  You tremble with the desire to feel the exotic texture of their soft barbs rubbing your inner walls, smearing your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " with their cum as you're impregnated.  Shivering, you recover from the fantasy and pull your fingers from your aroused sex.  <b>It would seem you've gone into heat!</b>");
                 }
                 changes++;
             }
@@ -158,14 +153,14 @@ export default class WhiskerFruit extends Consumable {
                         // Big change
                         if (selectedBreastRow.rating > 10) {
                             selectedBreastRow.rating -= 2 + randInt(3);
-                            if (!shrinkingHappened) DisplayText("\n\nThe " + BreastDescriptor.describeBreastRow(selectedBreastRow) + " on your chest wobble for a second, then tighten up, losing several cup-sizes in the process!");
-                            else DisplayText("  The change moves down to your " + numToOrdinalText(index + 1) + " row of " + BreastDescriptor.describeBreastRow(selectedBreastRow) + ". They shrink greatly, losing a couple cup-sizes.");
+                            if (!shrinkingHappened) DisplayText("\n\nThe " + Desc.Breast.describeBreastRow(selectedBreastRow) + " on your chest wobble for a second, then tighten up, losing several cup-sizes in the process!");
+                            else DisplayText("  The change moves down to your " + numToOrdinalText(index + 1) + " row of " + Desc.Breast.describeBreastRow(selectedBreastRow) + ". They shrink greatly, losing a couple cup-sizes.");
                         }
                         // Small change
                         else {
                             selectedBreastRow.rating -= 1;
-                            if (!shrinkingHappened) DisplayText("\n\nAll at once, your sense of gravity shifts.  Your back feels a sense of relief, and it takes you a moment to realize your " + BreastDescriptor.describeBreastRow(selectedBreastRow) + " have shrunk!");
-                            else DisplayText("  Your " + numToOrdinalText(index + 1) + " row of " + BreastDescriptor.describeBreastRow(selectedBreastRow) + " gives a tiny jiggle as it shrinks, losing some off its mass.");
+                            if (!shrinkingHappened) DisplayText("\n\nAll at once, your sense of gravity shifts.  Your back feels a sense of relief, and it takes you a moment to realize your " + Desc.Breast.describeBreastRow(selectedBreastRow) + " have shrunk!");
+                            else DisplayText("  Your " + numToOrdinalText(index + 1) + " row of " + Desc.Breast.describeBreastRow(selectedBreastRow) + " gives a tiny jiggle as it shrinks, losing some off its mass.");
                         }
                         // Increment changed rows
                         shrinkingHappened = true;
@@ -183,7 +178,7 @@ export default class WhiskerFruit extends Consumable {
             for (let index: number = 0; index < character.torso.cocks.count; index++) {
                 selectedCock = character.torso.cocks.get(index);
                 if (selectedCock.type === CockType.CAT) {
-                    DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + CockDescriptor.nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
+                    DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " swells up with near-painful arousal and begins to transform.  It turns pink and begins to narrow until the tip is barely wide enough to accommodate your urethra.  Barbs begin to sprout from its flesh, if you can call the small, fleshy nubs barbs. They start out thick around the base of your " + Desc.Cock.nounCock(CockType.HUMAN) + " and shrink towards the tip. The smallest are barely visible. <b>Your new feline dong throbs powerfully</b> and spurts a few droplets of cum.  ");
                     if (!selectedCock.hasSheath()) {
                         DisplayText("Then, it begins to shrink and sucks itself inside your body.  Within a few moments, a fleshy sheath is formed.");
                         if (character.torso.balls.quantity > 0) DisplayText("  Thankfully, your balls appear untouched.");
@@ -206,13 +201,13 @@ export default class WhiskerFruit extends Consumable {
                     // lose 33% size until under 10, then lose 2" at a time
                     if (selectedCock.length > 16) {
                         if (changedCock === 0)
-                            DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
+                            DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " tingles, making your sheath feel a little less tight.  It dwindles in size, losing a full third of its length and a bit of girth before the change finally stops.");
                         selectedCock.length *= .66;
                         changedCock++;
                     }
                     else if (selectedCock.length > 6) {
                         if (changedCock === 0)
-                            DisplayText("\n\nYour " + CockDescriptor.describeCock(character, selectedCock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
+                            DisplayText("\n\nYour " + Desc.Cock.describeCock(character, selectedCock) + " tingles and withdraws further into your sheath.  If you had to guess, you'd say you've lost about two inches of total length and perhaps some girth.");
                         selectedCock.length -= 2;
                         changedCock++;
                     }
@@ -224,7 +219,7 @@ export default class WhiskerFruit extends Consumable {
             DisplayText("  Although the package is smaller, it feels even more sensitive � as if it retained all sensation of its larger size in its smaller form.");
             character.stats.sens += 5;
             // Make note of other dicks changing
-            if (changedCock > 1) DisplayText("  Upon further inspection, all your " + CockDescriptor.nounCock(CockType.CAT) + "s have shrunk!");
+            if (changedCock > 1) DisplayText("  Upon further inspection, all your " + Desc.Cock.nounCock(CockType.CAT) + "s have shrunk!");
             changes++;
         }
 
@@ -269,7 +264,7 @@ export default class WhiskerFruit extends Consumable {
                 DisplayText("\n\nYour lower body rushes inward, molding into two leg-like shapes that gradually stiffen up.  In moments they solidify into digitigrade legs, complete with soft, padded cat-paws.  <b>You now have cat-paws!</b>");
             }
             // non hoof to cat:
-            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + LegDescriptor.describeFeet(character) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
+            else DisplayText("\n\nYou scream in agony as you feel the bones in your " + Desc.Leg.describeFeet(character) + " break and begin to rearrange. When the pain fades, you feel surprisingly well-balanced. <b>You now have cat paws.</b>");
             character.torso.hips.legs.type = LegType.CAT;
             changes++;
         }
@@ -308,14 +303,14 @@ export default class WhiskerFruit extends Consumable {
         // FAILSAFE CHANGE
         if (changes === 0) {
             DisplayText("\n\nInhuman vitality spreads through your body, invigorating you!\n");
-            StatModifier.displayCharacterHPChange(character, 50);
+            Mod.Stat.displayCharacterHPChange(character, 50);
             character.stats.lust += 3;
         }
         if (changes < changeLimit) {
-            if (randInt(2) === 0) DisplayText(BodyModifier.displayModThickness(character, 5, 2));
-            if (randInt(2) === 0) DisplayText(BodyModifier.displayModTone(character, 76, 2));
-            if (character.gender < 2) if (randInt(2) === 0) DisplayText(BodyModifier.displayModFem(character, 65, 1));
-            else DisplayText(BodyModifier.displayModFem(character, 85, 2));
+            if (randInt(2) === 0) DisplayText(Mod.Body.displayModThickness(character, 5, 2));
+            if (randInt(2) === 0) DisplayText(Mod.Body.displayModTone(character, 76, 2));
+            if (character.gender < 2) if (randInt(2) === 0) DisplayText(Mod.Body.displayModFem(character, 65, 1));
+            else DisplayText(Mod.Body.displayModFem(character, 85, 2));
         }
     }
 }

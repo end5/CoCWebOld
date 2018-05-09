@@ -1,7 +1,7 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import CombatEffect from '../CombatEffect';
-import CombatEffectFactory from '../CombatEffectFactory';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { CombatEffect } from '../CombatEffect';
+import { CombatEffectFactory } from '../CombatEffectFactory';
 
 export class UBERWEB extends CombatEffect {
     public update(character: Character) {

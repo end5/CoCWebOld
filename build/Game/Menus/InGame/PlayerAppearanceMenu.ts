@@ -1,7 +1,7 @@
-﻿import DisplayText from '../../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt, round } from '../../../Engine/Utilities/SMath';
 import { ArmType } from '../../Body/Arms';
-import BreastRow from '../../Body/BreastRow';
+import { BreastRow } from '../../Body/BreastRow';
 import { CockType } from '../../Body/Cock';
 import { EarType } from '../../Body/Ears';
 import { EyeType } from '../../Body/Eyes';
@@ -12,31 +12,23 @@ import { HornType } from '../../Body/Horns';
 import { LegType } from '../../Body/Legs';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
+import { Tail, TailType } from '../../Body/Tail';
 import { TongueType } from '../../Body/Tongue';
 import { VaginaLooseness, VaginaWetness } from '../../Body/Vagina';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BodyDescriptor from '../../Descriptors/BodyDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as HipDescriptor from '../../Descriptors/HipDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import CockSockName from '../../Items/Misc/CockSockName';
+import { CockSockName } from '../../Items/Misc/CockSockName';
 import { PiercingType } from '../../Items/Misc/Piercing';
-import User from '../../User';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
 import { numToCardinalCapText, numToCardinalText } from '../../Utilities/NumToText';
+import { Menus } from '../Menus';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     heightRace(character);
     DisplayText("\n\n");
     face(character);
@@ -80,16 +72,17 @@ export default function display(character: Character) {
     piercing(character);
     DisplayText("\n\n");
     gems(character);
+    return { next: Menus.Player };
 }
 
 function heightRace(character: Character) {
     // Determine race type:
-    const race: string = BodyDescriptor.describeRace(character);
+    const race: string = Desc.Body.describeRace(character);
     // Discuss race
     DisplayText().clear();
     if (race !== "human") DisplayText("You began your journey as a human, but gave that up as you explored the dangers of this realm.  ");
     // Height and race.
-    DisplayText("You are a " + Math.floor(character.tallness / 12) + " foot " + character.tallness % 12 + " inch tall " + race + ", with " + BodyDescriptor.describeBody(character) + ".");
+    DisplayText("You are a " + Math.floor(character.tallness / 12) + " foot " + character.tallness % 12 + " inch tall " + race + ", with " + Desc.Body.describeBody(character) + ".");
     if (character.inventory.equipment.armor.displayName === "comfortable clothes")
         DisplayText("  You are currently wearing " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayname + " as a weapon.").bold();
     else DisplayText("  You are currently wearing your " + character.inventory.equipment.armor.displayName + " and using your " + character.inventory.equipment.weapon.displayname + " as a weapon.").bold();
@@ -98,11 +91,11 @@ function heightRace(character: Character) {
 function face(character: Character) {
     if (character.torso.neck.head.face.type === FaceType.HUMAN || character.torso.neck.head.face.type === FaceType.SHARK_TEETH || character.torso.neck.head.face.type === FaceType.BUNNY || character.torso.neck.head.face.type === FaceType.SPIDER_FANGS || character.torso.neck.head.face.type === FaceType.FERRET_MASK) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  Your face is human in shape and structure, with " + SkinDescriptor.skin(character) + ".");
+            DisplayText("  Your face is human in shape and structure, with " + Desc.Skin.skin(character) + ".");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  Under your " + SkinDescriptor.skinFurScales(character) + " you have a human-shaped head with " + SkinDescriptor.skin(character, true) + ".");
+            DisplayText("  Under your " + Desc.Skin.skinFurScales(character) + " you have a human-shaped head with " + Desc.Skin.skin(character, true) + ".");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  Your face is fairly human in shape, but is covered in " + SkinDescriptor.skin(character) + ".");
+            DisplayText("  Your face is fairly human in shape, but is covered in " + Desc.Skin.skin(character) + ".");
         if (character.torso.neck.head.face.type === FaceType.SHARK_TEETH)
             DisplayText("  A set of razor-sharp, retractable shark-teeth fill your mouth and gives your visage a slightly angular appearance.");
         else if (character.torso.neck.head.face.type === FaceType.BUNNY)
@@ -121,7 +114,7 @@ function face(character: Character) {
     else if (character.torso.neck.head.face.type === FaceType.RACCOON_MASK) {
         // appearance for skinheads
         if (character.skin.type !== SkinType.FUR && character.skin.type !== SkinType.SCALES) {
-            DisplayText("  Your face is human in shape and structure, with " + SkinDescriptor.skin(character));
+            DisplayText("  Your face is human in shape and structure, with " + Desc.Skin.skin(character));
             if ((character.skin.tone === "ebony" || character.skin.tone === "black") && (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO))
                 DisplayText(", though with your dusky hue, the black raccoon mask you sport isn't properly visible.");
             else DisplayText(", though it is decorated with a sly-looking raccoon mask over your eyes.");
@@ -130,13 +123,13 @@ function face(character: Character) {
         else {
             // (black/midnight furscales)
             if (((character.torso.neck.head.hair.color === "black" || character.torso.neck.head.hair.color === "midnight") && (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES)))
-                DisplayText("  Under your " + SkinDescriptor.skinFurScales(character) + " hides a black raccoon mask, barely visible due to your inky hue, and");
-            else DisplayText("  Your " + SkinDescriptor.skinFurScales(character) + " are decorated with a sly-looking raccoon mask, and under them");
-            DisplayText(" you have a human-shaped head with " + SkinDescriptor.skin(character, true) + ".");
+                DisplayText("  Under your " + Desc.Skin.skinFurScales(character) + " hides a black raccoon mask, barely visible due to your inky hue, and");
+            else DisplayText("  Your " + Desc.Skin.skinFurScales(character) + " are decorated with a sly-looking raccoon mask, and under them");
+            DisplayText(" you have a human-shaped head with " + Desc.Skin.skin(character, true) + ".");
         }
     }
     else if (character.torso.neck.head.face.type === FaceType.RACCOON) {
-        DisplayText("  You have a triangular raccoon face, replete with sensitive whiskers and a little black nose; a mask shades the space around your eyes, set apart from your " + SkinDescriptor.skinFurScales(character) + " by a band of white.");
+        DisplayText("  You have a triangular raccoon face, replete with sensitive whiskers and a little black nose; a mask shades the space around your eyes, set apart from your " + Desc.Skin.skinFurScales(character) + " by a band of white.");
         // (if skin)
         if (character.skin.type === SkinType.PLAIN)
             DisplayText("  It looks a bit strange with only the skin and no fur.");
@@ -146,62 +139,62 @@ function face(character: Character) {
     else if (character.torso.neck.head.face.type === FaceType.FOX) {
         DisplayText("  You have a tapered, shrewd-looking vulpine face with a speckling of downward-curved whiskers just behind the nose.");
         if (character.skin.type === SkinType.PLAIN)
-            DisplayText("  Oddly enough, there's no fur on your animalistic muzzle, just " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  Oddly enough, there's no fur on your animalistic muzzle, just " + Desc.Skin.skinFurScales(character) + ".");
         else if (character.skin.type === SkinType.FUR)
-            DisplayText("  A coat of " + SkinDescriptor.skinFurScales(character) + " decorates your muzzle.");
+            DisplayText("  A coat of " + Desc.Skin.skinFurScales(character) + " decorates your muzzle.");
         else if (character.skin.type === SkinType.SCALES)
-            DisplayText("  Strangely, " + SkinDescriptor.skinFurScales(character) + " adorn every inch of your animalistic visage.");
+            DisplayText("  Strangely, " + Desc.Skin.skinFurScales(character) + " adorn every inch of your animalistic visage.");
     }
     else if (character.torso.neck.head.face.type === FaceType.BUCKTEETH) {
         // appearance
-        DisplayText("  Your face is generally human in shape and structure, with " + SkinDescriptor.skin(character));
+        DisplayText("  Your face is generally human in shape and structure, with " + Desc.Skin.skin(character));
         if (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES)
-            DisplayText(" under your " + SkinDescriptor.skinFurScales(character));
+            DisplayText(" under your " + Desc.Skin.skinFurScales(character));
         DisplayText(" and mousey buckteeth.");
     }
     else if (character.torso.neck.head.face.type === FaceType.MOUSE) {
         // appearance
         DisplayText("  You have a snubby, tapered mouse's face, with whiskers, a little pink nose, and ");
         if (character.skin.type !== SkinType.FUR && character.skin.type !== SkinType.SCALES)
-            DisplayText(SkinDescriptor.skin(character));
-        else DisplayText(SkinDescriptor.skin(character) + " under your " + SkinDescriptor.skinFurScales(character));
+            DisplayText(Desc.Skin.skin(character));
+        else DisplayText(Desc.Skin.skin(character) + " under your " + Desc.Skin.skinFurScales(character));
         DisplayText(".  Two large incisors complete it.");
     }
     // Naga
     if (character.torso.neck.head.face.type === FaceType.SNAKE_FANGS) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  You have a fairly normal face, with " + SkinDescriptor.skin(character) + ".  The only oddity is your pair of dripping fangs which often hang over your lower lip.");
+            DisplayText("  You have a fairly normal face, with " + Desc.Skin.skin(character) + ".  The only oddity is your pair of dripping fangs which often hang over your lower lip.");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  Under your " + SkinDescriptor.skinFurScales(character) + " you have a human-shaped head with " + SkinDescriptor.skin(character, true) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
+            DisplayText("  Under your " + Desc.Skin.skinFurScales(character) + " you have a human-shaped head with " + Desc.Skin.skin(character, true) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  Your face is fairly human in shape, but is covered in " + SkinDescriptor.skinFurScales(character) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
+            DisplayText("  Your face is fairly human in shape, but is covered in " + Desc.Skin.skinFurScales(character) + ".  In addition, a pair of fangs hang over your lower lip, dripping with venom.");
     }
     // horse-face
     if (character.torso.neck.head.face.type === FaceType.HORSE) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  Your face is equine in shape and structure.  The odd visage is hairless and covered with " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  Your face is equine in shape and structure.  The odd visage is hairless and covered with " + Desc.Skin.skinFurScales(character) + ".");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  Your face is almost entirely equine in appearance, even having " + SkinDescriptor.skinFurScales(character) + ".  Underneath the fur, you believe you have " + SkinDescriptor.skin(character, true) + ".");
+            DisplayText("  Your face is almost entirely equine in appearance, even having " + Desc.Skin.skinFurScales(character) + ".  Underneath the fur, you believe you have " + Desc.Skin.skin(character, true) + ".");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  You have the face and head structure of a horse, overlaid with glittering " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  You have the face and head structure of a horse, overlaid with glittering " + Desc.Skin.skinFurScales(character) + ".");
     }
     // dog-face
     if (character.torso.neck.head.face.type === FaceType.DOG) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  You have a dog-like face, complete with a wet nose.  The odd visage is hairless and covered with " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  You have a dog-like face, complete with a wet nose.  The odd visage is hairless and covered with " + Desc.Skin.skinFurScales(character) + ".");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  You have a dog's face, complete with wet nose and panting tongue.  You've got " + SkinDescriptor.skinFurScales(character) + ", hiding your " + SkinDescriptor.skin(character, true) + " underneath your furry visage.");
+            DisplayText("  You have a dog's face, complete with wet nose and panting tongue.  You've got " + Desc.Skin.skinFurScales(character) + ", hiding your " + Desc.Skin.skin(character, true) + " underneath your furry visage.");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  You have the facial structure of a dog, wet nose and all, but overlaid with glittering " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  You have the facial structure of a dog, wet nose and all, but overlaid with glittering " + Desc.Skin.skinFurScales(character) + ".");
     }
     // cat-face
     if (character.torso.neck.head.face.type === FaceType.CAT) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  You have a cat-like face, complete with a cute, moist nose and whiskers.  The " + SkinDescriptor.skin(character) + " that is revealed by your lack of fur looks quite unusual on so feline a face.");
+            DisplayText("  You have a cat-like face, complete with a cute, moist nose and whiskers.  The " + Desc.Skin.skin(character) + " that is revealed by your lack of fur looks quite unusual on so feline a face.");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  You have a cat-like face, complete with moist nose and whiskers.  Your " + character.skin.desc + " is " + character.torso.neck.head.hair.color + ", hiding your " + SkinDescriptor.skin(character, true) + " underneath.");
+            DisplayText("  You have a cat-like face, complete with moist nose and whiskers.  Your " + character.skin.desc + " is " + character.torso.neck.head.hair.color + ", hiding your " + Desc.Skin.skin(character, true) + " underneath.");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  Your facial structure blends humanoid features with those of a cat.  A moist nose and whiskers are included, but overlaid with glittering " + SkinDescriptor.skinFurScales(character) + ".");
+            DisplayText("  Your facial structure blends humanoid features with those of a cat.  A moist nose and whiskers are included, but overlaid with glittering " + Desc.Skin.skinFurScales(character) + ".");
         if (character.torso.neck.head.face.eyes.type !== EyeType.BLACK_EYES_SAND_TRAP)
             DisplayText("  Of course, no feline face would be complete without vertically slit eyes.");
     }
@@ -210,31 +203,31 @@ function face(character: Character) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
             DisplayText("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Despite your lack of fur elsewhere, your visage does have a short layer of " + character.torso.neck.head.hair.color + " fuzz.");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Your " + SkinDescriptor.skinFurScales(character) + " thickens noticably on your head, looking shaggy and more than a little monstrous once laid over your visage.");
+            DisplayText("  You have a face resembling that of a minotaur, with cow-like features, particularly a squared off wet nose.  Your " + Desc.Skin.skinFurScales(character) + " thickens noticably on your head, looking shaggy and more than a little monstrous once laid over your visage.");
         if (character.skin.type === SkinType.SCALES)
             DisplayText("  Your face resembles a minotaur's, though strangely it is covered in shimmering scales, right up to the flat cow-like nose that protrudes from your face.");
     }
     // Lizard-face
     if (character.torso.neck.head.face.type === FaceType.LIZARD) {
         if (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)
-            DisplayText("  You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage.  The reptilian visage does look a little odd with just " + SkinDescriptor.skin(character) + ".");
+            DisplayText("  You have a face resembling that of a lizard, and with your toothy maw, you have quite a fearsome visage.  The reptilian visage does look a little odd with just " + Desc.Skin.skin(character) + ".");
         if (character.skin.type === SkinType.FUR)
-            DisplayText("  You have a face resembling that of a lizard.  Between the toothy maw, pointed snout, and the layer of " + SkinDescriptor.skinFurScales(character) + " covering your face, you have quite the fearsome visage.");
+            DisplayText("  You have a face resembling that of a lizard.  Between the toothy maw, pointed snout, and the layer of " + Desc.Skin.skinFurScales(character) + " covering your face, you have quite the fearsome visage.");
         if (character.skin.type === SkinType.SCALES)
-            DisplayText("  Your face is that of a lizard, complete with a toothy maw and pointed snout.  Reflective " + SkinDescriptor.skinFurScales(character) + " complete the look, making you look quite fearsome.");
+            DisplayText("  Your face is that of a lizard, complete with a toothy maw and pointed snout.  Reflective " + Desc.Skin.skinFurScales(character) + " complete the look, making you look quite fearsome.");
     }
     if (character.torso.neck.head.face.type === FaceType.DRAGON) {
-        DisplayText("  Your face is a narrow, reptilian muzzle.  It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw.  It gives you a regal but fierce visage.  Opening your mouth reveals several rows of dagger-like sharp teeth.  The fearsome visage is decorated by " + SkinDescriptor.skinFurScales(character) + ".");
+        DisplayText("  Your face is a narrow, reptilian muzzle.  It looks like a predatory lizard's, at first glance, but with an unusual array of spikes along the under-jaw.  It gives you a regal but fierce visage.  Opening your mouth reveals several rows of dagger-like sharp teeth.  The fearsome visage is decorated by " + Desc.Skin.skinFurScales(character) + ".");
     }
     if (character.torso.neck.head.face.type === FaceType.KANGAROO) {
         DisplayText("  Your face is ");
         if (character.skin.type === SkinType.PLAIN)
             DisplayText("bald");
-        else DisplayText("covered with " + SkinDescriptor.skinFurScales(character));
+        else DisplayText("covered with " + Desc.Skin.skinFurScales(character));
         DisplayText(" and shaped like that of a kangaroo, somewhat rabbit-like except for the extreme length of your odd visage.");
     }
     // M/F stuff!
-    DisplayText("  It has " + FaceDescriptor.describeFace(character) + ".");
+    DisplayText("  It has " + Desc.Face.describeFace(character) + ".");
 }
 
 function eyes(character: Character) {
@@ -280,33 +273,33 @@ function hair(character: Character) {
     // not bald
     else {
         if (character.torso.neck.head.ears.type === EarType.HUMAN)
-            DisplayText("  Your " + HeadDescriptor.describeHair(character) + " looks good on you, accentuating your features well.");
+            DisplayText("  Your " + Desc.Head.describeHair(character) + " looks good on you, accentuating your features well.");
         else if (character.torso.neck.head.ears.type === EarType.FERRET)
-            DisplayText("  A pair of small, rounded ferret ears burst through the top of your " + HeadDescriptor.describeHair(character) + ".");
+            DisplayText("  A pair of small, rounded ferret ears burst through the top of your " + Desc.Head.describeHair(character) + ".");
         else if (character.torso.neck.head.ears.type === EarType.HORSE)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head parts around a pair of very horse-like ears that grow up from your head.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head parts around a pair of very horse-like ears that grow up from your head.");
         else if (character.torso.neck.head.ears.type === EarType.DOG)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head is overlapped by a pair of pointed dog ears.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head is overlapped by a pair of pointed dog ears.");
         else if (character.torso.neck.head.ears.type === EarType.COW)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head is parted by a pair of rounded cow ears that stick out sideways.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head is parted by a pair of rounded cow ears that stick out sideways.");
         else if (character.torso.neck.head.ears.type === EarType.ELFIN)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head is parted by a pair of cute pointed ears, bigger than your old human ones.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head is parted by a pair of cute pointed ears, bigger than your old human ones.");
         else if (character.torso.neck.head.ears.type === EarType.CAT)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head is parted by a pair of cute, fuzzy cat ears, sprouting from atop your head and pivoting towards any sudden noises.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head is parted by a pair of cute, fuzzy cat ears, sprouting from atop your head and pivoting towards any sudden noises.");
         else if (character.torso.neck.head.ears.type === EarType.LIZARD)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " atop your head makes it nigh-impossible to notice the two small rounded openings that are your ears.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " atop your head makes it nigh-impossible to notice the two small rounded openings that are your ears.");
         else if (character.torso.neck.head.ears.type === EarType.BUNNY)
-            DisplayText("  A pair of floppy rabbit ears stick up out of your " + HeadDescriptor.describeHair(character) + ", bouncing around as you walk.");
+            DisplayText("  A pair of floppy rabbit ears stick up out of your " + Desc.Head.describeHair(character) + ", bouncing around as you walk.");
         else if (character.torso.neck.head.ears.type === EarType.KANGAROO)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " atop your head is parted by a pair of long, furred kangaroo ears that stick out at an angle.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " atop your head is parted by a pair of long, furred kangaroo ears that stick out at an angle.");
         else if (character.torso.neck.head.ears.type === EarType.FOX)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " atop your head is parted by a pair of large, adept fox ears that always seem to be listening.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " atop your head is parted by a pair of large, adept fox ears that always seem to be listening.");
         else if (character.torso.neck.head.ears.type === EarType.DRAGON)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " atop your head is parted by a pair of rounded protrusions with small holes on the sides of your head serve as your ears.  Bony fins sprout behind them.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " atop your head is parted by a pair of rounded protrusions with small holes on the sides of your head serve as your ears.  Bony fins sprout behind them.");
         else if (character.torso.neck.head.ears.type === EarType.RACCOON)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " on your head parts around a pair of egg-shaped, furry raccoon ears.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " on your head parts around a pair of egg-shaped, furry raccoon ears.");
         else if (character.torso.neck.head.ears.type === EarType.MOUSE)
-            DisplayText("  The " + HeadDescriptor.describeHair(character) + " atop your head is funneled between and around a pair of large, dish-shaped mouse ears that stick up prominently.");
+            DisplayText("  The " + Desc.Head.describeHair(character) + " atop your head is funneled between and around a pair of large, dish-shaped mouse ears that stick up prominently.");
         if (character.torso.neck.head.antennae === AntennaeType.BEE) {
             if (character.torso.neck.head.ears.type === EarType.BUNNY)
                 DisplayText("  Limp antennae also grow from just behind your hairline, waving and swaying in the breeze with your ears.");
@@ -400,7 +393,7 @@ function hips(character: Character) {
     // Hip info only displays if you aren't a centaur.
     if (!character.torso.hips.legs.isTaur()) {
         if (character.thickness > 70) {
-            DisplayText("  You have " + HipDescriptor.describeHips(character));
+            DisplayText("  You have " + Desc.Hip.describeHips(character));
             if (character.torso.hips.rating < 6) {
                 if (character.tone < 65)
                     DisplayText(" buried under a noticeable muffin-top, and");
@@ -416,7 +409,7 @@ function hips(character: Character) {
                 DisplayText(" that sway hypnotically on your extra-curvy frame, and");
         }
         else if (character.thickness < 30) {
-            DisplayText("  You have " + HipDescriptor.describeHips(character));
+            DisplayText("  You have " + Desc.Hip.describeHips(character));
             if (character.torso.hips.rating < 6)
                 DisplayText(" that match your trim, lithe body, and");
             if (character.torso.hips.rating >= 6 && character.torso.hips.rating < 10)
@@ -430,7 +423,7 @@ function hips(character: Character) {
         }
         // STANDARD
         else {
-            DisplayText("  You have " + HipDescriptor.describeHips(character));
+            DisplayText("  You have " + Desc.Hip.describeHips(character));
             if (character.torso.hips.rating < 6)
                 DisplayText(", and");
             if (character.femininity > 50) {
@@ -455,9 +448,9 @@ function hips(character: Character) {
                     if (character.torso.balls.quantity > 0)
                         DisplayText("balls plenty of room to breathe");
                     else if (character.torso.cocks.count > 0)
-                        DisplayText(CockDescriptor.describeMultiCock(character) + " plenty of room to swing");
+                        DisplayText(Desc.Cock.describeMultiCock(character) + " plenty of room to swing");
                     else if (character.torso.vaginas.count > 0)
-                        DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " a nice, wide berth");
+                        DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " a nice, wide berth");
                     else DisplayText("vacant groin plenty of room");
                     DisplayText(", and");
                 }
@@ -470,7 +463,7 @@ function butt(character: Character) {
     if (character.torso.hips.legs.isTaur()) {
         // FATBUTT
         if (character.tone < 65) {
-            DisplayText("  Your " + ButtDescriptor.describeButt(character));
+            DisplayText("  Your " + Desc.Butt.describeButt(character));
             if (character.torso.butt.rating < 4)
                 DisplayText(" is lean, from what you can see of it.");
             if (character.torso.butt.rating >= 4 && character.torso.butt.rating < 6)
@@ -486,7 +479,7 @@ function butt(character: Character) {
         }
         // GIRL LOOK AT DAT BOOTY
         else {
-            DisplayText("  Your " + ButtDescriptor.describeButt(character));
+            DisplayText("  Your " + Desc.Butt.describeButt(character));
             if (character.torso.butt.rating < 4)
                 DisplayText(" is barely noticable, showing off the muscles of your haunches.");
             if (character.torso.butt.rating >= 4 && character.torso.butt.rating < 6)
@@ -505,7 +498,7 @@ function butt(character: Character) {
     else {
         // TUBBY ASS
         if (character.tone < 60) {
-            DisplayText(" your " + ButtDescriptor.describeButt(character));
+            DisplayText(" your " + Desc.Butt.describeButt(character));
             if (character.torso.butt.rating < 4)
                 DisplayText(" looks great under your gear.");
             if (character.torso.butt.rating >= 4 && character.torso.butt.rating < 6)
@@ -521,7 +514,7 @@ function butt(character: Character) {
         }
         // FITBUTT
         else {
-            DisplayText(" your " + ButtDescriptor.describeButt(character));
+            DisplayText(" your " + Desc.Butt.describeButt(character));
             if (character.torso.butt.rating < 4)
                 DisplayText(" molds closely against your form.");
             if (character.torso.butt.rating >= 4 && character.torso.butt.rating < 6)
@@ -540,13 +533,13 @@ function butt(character: Character) {
 
 function tail(character: Character) {
     if (character.torso.tails.reduce(Tail.HasType(TailType.HORSE), false))
-        DisplayText("  A long " + character.torso.neck.head.hair.color + " horsetail hangs from your " + ButtDescriptor.describeButt(character) + ", smooth and shiny.");
+        DisplayText("  A long " + character.torso.neck.head.hair.color + " horsetail hangs from your " + Desc.Butt.describeButt(character) + ", smooth and shiny.");
     if (character.torso.tails.reduce(Tail.HasType(TailType.FERRET), false))
         DisplayText("  A long ferret tail sprouts from above your [butt].  It is thin, tapered, and covered in shaggy " + character.torso.neck.head.hair.color + " fur.");
     if (character.torso.tails.reduce(Tail.HasType(TailType.DOG), false))
-        DisplayText("  A fuzzy " + character.torso.neck.head.hair.color + " dogtail sprouts just above your " + ButtDescriptor.describeButt(character) + ", wagging to and fro whenever you are happy.");
+        DisplayText("  A fuzzy " + character.torso.neck.head.hair.color + " dogtail sprouts just above your " + Desc.Butt.describeButt(character) + ", wagging to and fro whenever you are happy.");
     if (character.torso.tails.reduce(Tail.HasType(TailType.DEMONIC), false))
-        DisplayText("  A narrow tail ending in a spaded tip curls down from your " + ButtDescriptor.describeButt(character) + ", wrapping around your " + LegDescriptor.describeLeg(character) + " sensually at every opportunity.");
+        DisplayText("  A narrow tail ending in a spaded tip curls down from your " + Desc.Butt.describeButt(character) + ", wrapping around your " + Desc.Leg.describeLeg(character) + " sensually at every opportunity.");
     if (character.torso.tails.reduce(Tail.HasType(TailType.COW), false))
         DisplayText("  A long cowtail with a puffy tip swishes back and forth as if swatting at flies.");
     if (character.torso.tails.reduce(Tail.HasType(TailType.SPIDER_ABDOMEN), false)) {
@@ -573,26 +566,26 @@ function tail(character: Character) {
         DisplayText("  A long shark-tail trails down from your backside, swaying to and fro while giving you a dangerous air.");
     }
     if (character.torso.tails.reduce(Tail.HasType(TailType.CAT), false)) {
-        DisplayText("  A soft " + character.torso.neck.head.hair.color + " cat-tail sprouts just above your " + ButtDescriptor.describeButt(character) + ", curling and twisting with every step to maintain perfect balance.");
+        DisplayText("  A soft " + character.torso.neck.head.hair.color + " cat-tail sprouts just above your " + Desc.Butt.describeButt(character) + ", curling and twisting with every step to maintain perfect balance.");
     }
     if (character.torso.tails.reduce(Tail.HasType(TailType.LIZARD), false)) {
-        DisplayText("  A tapered tail hangs down from just above your " + ButtDescriptor.describeButt(character) + ".  It sways back and forth, assisting you with keeping your balance.");
+        DisplayText("  A tapered tail hangs down from just above your " + Desc.Butt.describeButt(character) + ".  It sways back and forth, assisting you with keeping your balance.");
     }
     if (character.torso.tails.reduce(Tail.HasType(TailType.BUNNY), false))
-        DisplayText("  A short, soft bunny tail sprouts just above your " + ButtDescriptor.describeButt(character) + ", twitching constantly whenever you don't think about it.");
+        DisplayText("  A short, soft bunny tail sprouts just above your " + Desc.Butt.describeButt(character) + ", twitching constantly whenever you don't think about it.");
     else if (character.torso.tails.reduce(Tail.HasType(TailType.HARPY), false))
-        DisplayText("  A tail of feathers fans out from just above your " + ButtDescriptor.describeButt(character) + ", twitching instinctively to help guide you if you were to take flight.");
+        DisplayText("  A tail of feathers fans out from just above your " + Desc.Butt.describeButt(character) + ", twitching instinctively to help guide you if you were to take flight.");
     else if (character.torso.tails.reduce(Tail.HasType(TailType.KANGAROO), false)) {
         DisplayText("  A conical, ");
         if (character.skin.type === SkinType.GOO)
             DisplayText("gooey, " + character.skin.tone);
         else DisplayText("furry, " + character.torso.neck.head.hair.color);
-        DisplayText(", tail extends from your " + ButtDescriptor.describeButt(character) + ", bouncing up and down as you move and helping to counterbalance you.");
+        DisplayText(", tail extends from your " + Desc.Butt.describeButt(character) + ", bouncing up and down as you move and helping to counterbalance you.");
     }
     else if (character.torso.tails.reduce(Tail.HasType(TailType.FOX), false)) {
         if (character.torso.tails.count === 1)
-            DisplayText("  A swishing " + character.torso.neck.head.hair.color + " fox's brush extends from your " + ButtDescriptor.describeButt(character) + ", curling around your body - the soft fur feels lovely.");
-        else DisplayText("  " + numToCardinalCapText(character.torso.tails.count) + " swishing " + character.torso.neck.head.hair.color + " fox's tails extend from your " + ButtDescriptor.describeButt(character) + ", curling around your body - the soft fur feels lovely.");
+            DisplayText("  A swishing " + character.torso.neck.head.hair.color + " fox's brush extends from your " + Desc.Butt.describeButt(character) + ", curling around your body - the soft fur feels lovely.");
+        else DisplayText("  " + numToCardinalCapText(character.torso.tails.count) + " swishing " + character.torso.neck.head.hair.color + " fox's tails extend from your " + Desc.Butt.describeButt(character) + ", curling around your body - the soft fur feels lovely.");
     }
     else if (character.torso.tails.reduce(Tail.HasType(TailType.DRACONIC), false)) {
         DisplayText("  A thin, scaly, prehensile reptilian tail, almost as long as you are tall, swings behind you like a living bullwhip.  Its tip menaces with spikes of bone, meant to deliver painful blows.");
@@ -629,7 +622,7 @@ function lowerBody(character: Character) {
     else if (character.torso.hips.legs.type === LegType.CAT)
         DisplayText("  Two digitigrade legs grow downwards from your waist, ending in soft, padded cat-paws.");
     else if (character.torso.hips.legs.type === LegType.LIZARD)
-        DisplayText("  Two digitigrade legs grow down from your " + HipDescriptor.describeHips(character) + ", ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.");
+        DisplayText("  Two digitigrade legs grow down from your " + Desc.Hip.describeHips(character) + ", ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.");
     else if (character.torso.hips.legs.type === LegType.BUNNY)
         DisplayText("  Your legs thicken below the waist as they turn into soft-furred rabbit-like legs.  You even have large bunny feet that make hopping around a little easier than walking.");
     else if (character.torso.hips.legs.type === LegType.HARPY)
@@ -643,11 +636,11 @@ function lowerBody(character: Character) {
     else if (character.torso.hips.legs.type === LegType.FOX)
         DisplayText("  Your legs are crooked into high knees with hocks and long feet, like those of a fox; cute bulbous toes decorate the ends.");
     else if (character.torso.hips.legs.type === LegType.DRAGON)
-        DisplayText("  Two human-like legs grow down from your " + HipDescriptor.describeHips(character) + ", sheathed in scales and ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.");
+        DisplayText("  Two human-like legs grow down from your " + Desc.Hip.describeHips(character) + ", sheathed in scales and ending in clawed feet.  There are three long toes on the front, and a small hind-claw on the back.");
     else if (character.torso.hips.legs.type === LegType.RACCOON)
         DisplayText("  Your legs, though covered in fur, are humanlike.  Long feet on the ends bear equally long toes, and the pads on the bottoms are quite sensitive to the touch.");
     if (character.perks.has(PerkType.Incorporeality))
-        DisplayText("  Of course, your " + LegDescriptor.describeLegs(character) + " are partially transparent due to their ghostly nature.");
+        DisplayText("  Of course, your " + Desc.Leg.describeLegs(character) + " are partially transparent due to their ghostly nature.");
 
     DisplayText("\n");
     if (character.statusAffects.has(StatusAffectType.GooStuffed)) {
@@ -787,15 +780,15 @@ function chest(character: Character) {
     const charChest = character.torso.chest;
     if (charChest.count === 1) {
         const firstRow = charChest.get(0);
-        DisplayText("You have " + numToCardinalText(2) + " " + BreastDescriptor.describeBreastRow(firstRow) + ", each supporting ");
+        DisplayText("You have " + numToCardinalText(2) + " " + Desc.Breast.describeBreastRow(firstRow) + ", each supporting ");
         if (firstRow.nipples.count === 1)
-            DisplayText(numToCardinalText(firstRow.nipples.count) + " " + firstRow.nipples.length + "-inch " + BreastDescriptor.describeNipple(character, firstRow) + ".");
+            DisplayText(numToCardinalText(firstRow.nipples.count) + " " + firstRow.nipples.length + "-inch " + Desc.Breast.describeNipple(character, firstRow) + ".");
         else
-            DisplayText(numToCardinalText(firstRow.nipples.count) + " " + firstRow.nipples.length + "-inch " + BreastDescriptor.describeNipple(character, firstRow) + "s.");
+            DisplayText(numToCardinalText(firstRow.nipples.count) + " " + firstRow.nipples.length + "-inch " + Desc.Breast.describeNipple(character, firstRow) + "s.");
         if (firstRow.milkFullness > 75)
-            DisplayText("  Your " + BreastDescriptor.describeBreastRow(firstRow) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.");
+            DisplayText("  Your " + Desc.Breast.describeBreastRow(firstRow) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.");
         if (firstRow.rating >= 1)
-            DisplayText("  You could easily fill a " + BreastDescriptor.breastCup(firstRow.rating) + " bra.");
+            DisplayText("  You could easily fill a " + Desc.Breast.breastCup(firstRow.rating) + " bra.");
     }
     else {
         DisplayText("You have " + numToCardinalText(charChest.count) + " rows of breasts, the topmost pair starting at your chest.");
@@ -811,15 +804,15 @@ function chest(character: Character) {
                 DisplayText("--Your fourth set of tits cradles ");
             if (rowIndex === 4)
                 DisplayText("--Your fifth and final mammory grouping swells with ");
-            DisplayText(numToCardinalText(2) + " " + BreastDescriptor.describeBreastRow(breastRow) + " with ");
+            DisplayText(numToCardinalText(2) + " " + Desc.Breast.describeBreastRow(breastRow) + " with ");
             if (breastRow.nipples.count === 1)
-                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + " each.");
+                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + Desc.Breast.describeNipple(character, breastRow) + " each.");
             else
-                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + BreastDescriptor.describeNipple(character, breastRow) + "s each.");
+                DisplayText(numToCardinalText(breastRow.nipples.count) + " " + charChest.sort(BreastRow.BreastRatingLargest)[0].nipples.length + "-inch " + Desc.Breast.describeNipple(character, breastRow) + "s each.");
             if (breastRow.rating >= 1)
-                DisplayText("  They could easily fill a " + BreastDescriptor.breastCup(breastRow.rating) + " bra.");
+                DisplayText("  They could easily fill a " + Desc.Breast.breastCup(breastRow.rating) + " bra.");
             if (breastRow.milkFullness > 75)
-                DisplayText("  Your " + BreastDescriptor.describeBreastRow(breastRow) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.");
+                DisplayText("  Your " + Desc.Breast.describeBreastRow(breastRow) + " are painful and sensitive from being so stuffed with milk.  You should release the pressure soon.");
         }
     }
 }
@@ -842,7 +835,7 @@ function cocks(character: Character) {
         const firstCock = charCocks.get(0);
         if (character.torso.hips.legs.type === LegType.CENTAUR)
             DisplayText("Ever since becoming a centaur, your equipment has shifted to lie between your rear legs, like a horse.");
-        DisplayText("Your " + CockDescriptor.describeCock(character, firstCock) + " is " + firstCock.length + " inches long and ");
+        DisplayText("Your " + Desc.Cock.describeCock(character, firstCock) + " is " + firstCock.length + " inches long and ");
         if (Math.round(10 * firstCock.thickness) / 10 < 2) {
             if (Math.round(10 * firstCock.thickness) / 10 === 1)
                 DisplayText(firstCock.thickness + " inch thick.");
@@ -858,11 +851,11 @@ function cocks(character: Character) {
         // dog cock flavor
         if (firstCock.type === CockType.DOG || firstCock.type === CockType.FOX) {
             if (firstCock.knotMultiplier >= 1.8)
-                DisplayText("  The obscenely swollen lump of flesh near the base of your " + CockDescriptor.describeCock(character, firstCock) + " looks almost too big for your cock.");
+                DisplayText("  The obscenely swollen lump of flesh near the base of your " + Desc.Cock.describeCock(character, firstCock) + " looks almost too big for your cock.");
             else if (firstCock.knotMultiplier >= 1.4)
-                DisplayText("  A large bulge of flesh nestles just above the bottom of your " + CockDescriptor.describeCock(character, firstCock) + ", to ensure it stays where it belongs during mating.");
+                DisplayText("  A large bulge of flesh nestles just above the bottom of your " + Desc.Cock.describeCock(character, firstCock) + ", to ensure it stays where it belongs during mating.");
             else if (firstCock.knotMultiplier > 1)
-                DisplayText("  A small knot of thicker flesh is near the base of your " + CockDescriptor.describeCock(character, firstCock) + ", ready to expand to help you lodge it inside a female.");
+                DisplayText("  A small knot of thicker flesh is near the base of your " + Desc.Cock.describeCock(character, firstCock) + ", ready to expand to help you lodge it inside a female.");
             // List thickness
             DisplayText("  The knot is " + Math.round(firstCock.thickness * firstCock.knotMultiplier * 10) / 10 + " inches wide when at full size.");
         }
@@ -899,15 +892,15 @@ function cocks(character: Character) {
         }
         // Worm flavor
         if (character.statusAffects.has(StatusAffectType.Infested))
-            DisplayText("  Every now and again a slimy worm coated in spunk slips partway out of your " + CockDescriptor.describeCock(character, firstCock) + ", tasting the air like a snake's tongue.");
+            DisplayText("  Every now and again a slimy worm coated in spunk slips partway out of your " + Desc.Cock.describeCock(character, firstCock) + ", tasting the air like a snake's tongue.");
         if (character.inventory.equipment.cockSocks.get(0).isEquipped())
             sockDescript(character.inventory.equipment.cockSocks.get(0).item.name as CockSockName, firstCock.type);
     }
     if (charCocks.count > 1) {
         if (character.torso.hips.legs.type === LegType.CENTAUR)
-            DisplayText("Where a horse's penis would usually be located, you have instead grown " + CockDescriptor.describeMultiCock(character) + "!");
+            DisplayText("Where a horse's penis would usually be located, you have instead grown " + Desc.Cock.describeMultiCock(character) + "!");
         else
-            DisplayText("Where a penis would normally be located, you have instead grown " + CockDescriptor.describeMultiCock(character) + "!");
+            DisplayText("Where a penis would normally be located, you have instead grown " + Desc.Cock.describeMultiCock(character) + "!");
 
         for (let cockIndex = 0; cockIndex < charCocks.count; cockIndex++) {
             const curCock = charCocks.get(cockIndex);
@@ -917,7 +910,7 @@ function cocks(character: Character) {
                         DisplayText("--Your first ");
                     else
                         DisplayText("--Your next ");
-                    DisplayText(CockDescriptor.describeCock(character, curCock) + " is " + curCock.length + " inches long and ");
+                    DisplayText(Desc.Cock.describeCock(character, curCock) + " is " + curCock.length + " inches long and ");
                     if (curCock.thickness === 1)
                         DisplayText("one inch wide.");
                     else if (Math.floor(curCock.thickness) >= 2)
@@ -927,7 +920,7 @@ function cocks(character: Character) {
                 }
                 case 1: {
                     DisplayText("--One of your ");
-                    DisplayText(CockDescriptor.describeCock(character, curCock) + "s is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
+                    DisplayText(Desc.Cock.describeCock(character, curCock) + "s is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
                     if (curCock.thickness === 1)
                         DisplayText("one inch thick.");
                     else if (Math.floor(curCock.thickness) >= 2)
@@ -940,7 +933,7 @@ function cocks(character: Character) {
                         DisplayText("--Another of your ");
                     else
                         DisplayText("--One of your ");
-                    DisplayText(CockDescriptor.describeCock(character, curCock) + "s is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
+                    DisplayText(Desc.Cock.describeCock(character, curCock) + "s is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
                     if (curCock.thickness === 1)
                         DisplayText("one inch thick.");
                     else if (Math.floor(curCock.thickness) >= 2)
@@ -953,7 +946,7 @@ function cocks(character: Character) {
                         DisplayText("--Your next ");
                     else
                         DisplayText("--Your first ");
-                    DisplayText(CockDescriptor.describeCock(character, curCock) + " is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
+                    DisplayText(Desc.Cock.describeCock(character, curCock) + " is " + Math.round(10 * curCock.length) / 10 + " inches long and ");
                     if (curCock.thickness === 1)
                         DisplayText("one inch in diameter.");
                     else if (Math.floor(curCock.thickness) >= 2)
@@ -964,7 +957,7 @@ function cocks(character: Character) {
             }
             // horse cock flavor
             if (curCock.type === CockType.HORSE) {
-                DisplayText("  It's mottled black and brown in a very animalistic pattern.  The 'head' of your " + CockDescriptor.describeCock(character, curCock) + " flares proudly, just like a horse's.");
+                DisplayText("  It's mottled black and brown in a very animalistic pattern.  The 'head' of your " + Desc.Cock.describeCock(character, curCock) + " flares proudly, just like a horse's.");
             }
             // dog cock flavor
             if ((curCock.type === CockType.DOG) || (curCock.type === CockType.FOX)) {
@@ -975,11 +968,11 @@ function cocks(character: Character) {
                     DisplayText("fox's cock.");
 
                 if (curCock.knotMultiplier >= 1.8)
-                    DisplayText("  The obscenely swollen lump of flesh near the base of your " + CockDescriptor.describeCock(character, curCock) + " looks almost comically mismatched for your " + CockDescriptor.describeCock(character, curCock) + ".");
+                    DisplayText("  The obscenely swollen lump of flesh near the base of your " + Desc.Cock.describeCock(character, curCock) + " looks almost comically mismatched for your " + Desc.Cock.describeCock(character, curCock) + ".");
                 else if (curCock.knotMultiplier >= 1.4)
-                    DisplayText("  A large bulge of flesh nestles just above the bottom of your " + CockDescriptor.describeCock(character, curCock) + ", to ensure it stays where it belongs during mating.");
+                    DisplayText("  A large bulge of flesh nestles just above the bottom of your " + Desc.Cock.describeCock(character, curCock) + ", to ensure it stays where it belongs during mating.");
                 else if (curCock.knotMultiplier > 1)
-                    DisplayText("  A small knot of thicker flesh is near the base of your " + CockDescriptor.describeCock(character, curCock) + ", ready to expand to help you lodge your " + CockDescriptor.describeCock(character, curCock) + " inside a female.");
+                    DisplayText("  A small knot of thicker flesh is near the base of your " + Desc.Cock.describeCock(character, curCock) + ", ready to expand to help you lodge your " + Desc.Cock.describeCock(character, curCock) + " inside a female.");
                 // List knot thickness
                 DisplayText("  The knot is " + Math.floor(curCock.thickness * curCock.knotMultiplier * 10) / 10 + " inches thick when at full size.");
             }
@@ -1014,7 +1007,7 @@ function cocks(character: Character) {
         }
         // Worm flavor
         if (character.statusAffects.has(StatusAffectType.Infested))
-            DisplayText("Every now and again slimy worms coated in spunk slip partway out of your " + CockDescriptor.describeMultiCockShort(character) + ", tasting the air like tongues of snakes.");
+            DisplayText("Every now and again slimy worms coated in spunk slip partway out of your " + Desc.Cock.describeMultiCockShort(character) + ", tasting the air like tongues of snakes.");
     }
 }
 
@@ -1022,29 +1015,29 @@ function balls(character: Character) {
     if (character.torso.balls.quantity > 0) {
         if (character.statusAffects.has(StatusAffectType.Uniball)) {
             if (character.skin.type !== SkinType.GOO)
-                DisplayText("Your [sack] clings tightly to your groin, holding " + BallsDescriptor.describeBalls(false, true, character, true) + " snugly against you.");
+                DisplayText("Your [sack] clings tightly to your groin, holding " + Desc.Balls.describeBalls(false, true, character, true) + " snugly against you.");
             else if (character.skin.type === SkinType.GOO)
-                DisplayText("Your [sack] clings tightly to your groin, dripping and holding " + BallsDescriptor.describeBalls(false, true, character, true) + " snugly against you.");
+                DisplayText("Your [sack] clings tightly to your groin, dripping and holding " + Desc.Balls.describeBalls(false, true, character, true) + " snugly against you.");
         }
         else if (character.torso.cocks.count === 0) {
             if (character.skin.type === SkinType.PLAIN)
-                DisplayText("A " + BallsDescriptor.describeSack(character) + " with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings heavily under where a penis would normally grow.");
+                DisplayText("A " + Desc.Balls.describeSack(character) + " with " + Desc.Balls.describeBalls(false, true, character, true) + " swings heavily under where a penis would normally grow.");
             if (character.skin.type === SkinType.FUR)
-                DisplayText("A fuzzy " + BallsDescriptor.describeSack(character) + " filled with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings low under where a penis would normally grow.");
+                DisplayText("A fuzzy " + Desc.Balls.describeSack(character) + " filled with " + Desc.Balls.describeBalls(false, true, character, true) + " swings low under where a penis would normally grow.");
             if (character.skin.type === SkinType.SCALES)
-                DisplayText("A scaley " + BallsDescriptor.describeSack(character) + " hugs your " + BallsDescriptor.describeBalls(false, true, character, true) + " tightly against your body.");
+                DisplayText("A scaley " + Desc.Balls.describeSack(character) + " hugs your " + Desc.Balls.describeBalls(false, true, character, true) + " tightly against your body.");
             if (character.skin.type === SkinType.GOO)
-                DisplayText("An oozing, semi-solid sack with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings heavily under where a penis would normally grow.");
+                DisplayText("An oozing, semi-solid sack with " + Desc.Balls.describeBalls(false, true, character, true) + " swings heavily under where a penis would normally grow.");
         }
         else {
             if (character.skin.type === SkinType.PLAIN)
-                DisplayText("A " + BallsDescriptor.describeSack(character) + " with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings heavily beneath your " + CockDescriptor.describeMultiCockShort(character) + ".");
+                DisplayText("A " + Desc.Balls.describeSack(character) + " with " + Desc.Balls.describeBalls(false, true, character, true) + " swings heavily beneath your " + Desc.Cock.describeMultiCockShort(character) + ".");
             if (character.skin.type === SkinType.FUR)
-                DisplayText("A fuzzy " + BallsDescriptor.describeSack(character) + " filled with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings low under your " + CockDescriptor.describeMultiCockShort(character) + ".");
+                DisplayText("A fuzzy " + Desc.Balls.describeSack(character) + " filled with " + Desc.Balls.describeBalls(false, true, character, true) + " swings low under your " + Desc.Cock.describeMultiCockShort(character) + ".");
             if (character.skin.type === SkinType.SCALES)
-                DisplayText("A scaley " + BallsDescriptor.describeSack(character) + " hugs your " + BallsDescriptor.describeBalls(false, true, character, true) + " tightly against your body.");
+                DisplayText("A scaley " + Desc.Balls.describeSack(character) + " hugs your " + Desc.Balls.describeBalls(false, true, character, true) + " tightly against your body.");
             if (character.skin.type === SkinType.GOO)
-                DisplayText("An oozing, semi-solid sack with " + BallsDescriptor.describeBalls(false, true, character, true) + " swings heavily beneath your " + CockDescriptor.describeMultiCockShort(character) + ".");
+                DisplayText("An oozing, semi-solid sack with " + Desc.Balls.describeBalls(false, true, character, true) + " swings heavily beneath your " + Desc.Cock.describeMultiCockShort(character) + ".");
         }
         DisplayText("  You estimate each of them to be about " + numToCardinalText(Math.round(character.torso.balls.size)) + " ");
         if (Math.round(character.torso.balls.size) === 1)
@@ -1062,12 +1055,12 @@ function vaginas(character: Character) {
             DisplayText("Ever since becoming a centaur, your womanly parts have shifted to lie between your rear legs, in a rather equine fashion.");
         DisplayText("\n");
         if (charVaginas.count === 1)
-            DisplayText("You have a " + VaginaDescriptor.describeVagina(character, firstVagina) + ", with a " + character.torso.clit.length + "-inch clit");
+            DisplayText("You have a " + Desc.Vagina.describeVagina(character, firstVagina) + ", with a " + character.torso.clit.length + "-inch clit");
         if (firstVagina.virgin)
             DisplayText(" and an intact hymen");
         DisplayText(".  ");
         if (charVaginas.count > 1)
-            DisplayText("You have " + charVaginas.count + " " + VaginaDescriptor.describeVagina(character, firstVagina) + "s, with " + character.torso.clit.length + "-inch clits each.  ");
+            DisplayText("You have " + charVaginas.count + " " + Desc.Vagina.describeVagina(character, firstVagina) + "s, with " + character.torso.clit.length + "-inch clits each.  ");
         if (character.stats.lib < 50 && character.stats.lust < 50) { // not particularly horny
             // Wetness
             if (firstVagina.wetness >= VaginaWetness.WET && firstVagina.wetness < VaginaWetness.DROOLING)
@@ -1078,11 +1071,11 @@ function vaginas(character: Character) {
             // Different description based on vag looseness
             if (firstVagina.wetness >= VaginaWetness.WET) {
                 if (firstVagina.looseness < VaginaLooseness.LOOSE)
-                    DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ". ");
+                    DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ". ");
                 if (firstVagina.looseness >= VaginaLooseness.LOOSE && firstVagina.looseness < VaginaLooseness.GAPING_WIDE)
-                    DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
+                    DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
                 if (firstVagina.looseness >= VaginaLooseness.GAPING_WIDE)
-                    DisplayText("the massive hole that is your " + VaginaDescriptor.describeVagina(character, firstVagina) + ".  ");
+                    DisplayText("the massive hole that is your " + Desc.Vagina.describeVagina(character, firstVagina) + ".  ");
             }
         }
         if ((character.stats.lib >= 50 || character.stats.lust >= 50) && (character.stats.lib < 80 && character.stats.lust < 80)) { // kinda horny
@@ -1097,11 +1090,11 @@ function vaginas(character: Character) {
             }
             // Different description based on vag looseness
             if (firstVagina.looseness < VaginaLooseness.LOOSE)
-                DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ". ");
+                DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ". ");
             if (firstVagina.looseness >= VaginaLooseness.LOOSE && firstVagina.looseness < VaginaLooseness.GAPING_WIDE)
-                DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
+                DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
             if (firstVagina.looseness >= VaginaLooseness.GAPING_WIDE)
-                DisplayText("the massive hole that is your " + VaginaDescriptor.describeVagina(character, firstVagina) + ".  ");
+                DisplayText("the massive hole that is your " + Desc.Vagina.describeVagina(character, firstVagina) + ".  ");
         }
         if ((character.stats.lib > 80 || character.stats.lust > 80)) { // WTF horny!
             // Wetness
@@ -1116,9 +1109,9 @@ function vaginas(character: Character) {
             }
             // Different description based on vag looseness
             if (firstVagina.looseness < VaginaLooseness.LOOSE)
-                DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ". ");
+                DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ". ");
             if (firstVagina.looseness >= VaginaLooseness.LOOSE && firstVagina.looseness < VaginaLooseness.GAPING_WIDE)
-                DisplayText("your " + VaginaDescriptor.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
+                DisplayText("your " + Desc.Vagina.describeVagina(character, firstVagina) + ", its lips slightly parted. ");
             if (firstVagina.looseness >= VaginaLooseness.GAPING_WIDE)
                 DisplayText("the massive hole that is your cunt.  ");
         }
@@ -1134,7 +1127,7 @@ function noReproductiveOrgans(character: Character) {
 
 function butthole(character: Character) {
     if (character.torso.butt) {
-        DisplayText("You have one " + ButtDescriptor.describeButthole(character.torso.butt) + ", placed between your butt-cheeks where it belongs.");
+        DisplayText("You have one " + Desc.Butt.describeButthole(character.torso.butt) + ", placed between your butt-cheeks where it belongs.");
     }
 }
 
@@ -1153,20 +1146,20 @@ function piercing(character: Character) {
     const firstNipplePiercing = piercings.nipples.get(0);
     if (firstNipplePiercing.isEquipped()) {
         if (firstNipplePiercing.item.name === PiercingType.Ladder)
-            DisplayText("Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s ache and tingle with every step, as your heavy " + firstNipplePiercing.item.shortDesc + " swings back and forth.");
+            DisplayText("Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s ache and tingle with every step, as your heavy " + firstNipplePiercing.item.shortDesc + " swings back and forth.");
         else
-            DisplayText("Your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s are pierced with " + firstNipplePiercing.item.shortDesc + ".");
+            DisplayText("Your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s are pierced with " + firstNipplePiercing.item.shortDesc + ".");
     }
     if (piercings.cocks.get(0).isEquipped()) {
-        DisplayText("Looking positively perverse, a " + piercings.nipples.get(0).item.shortDesc + " adorns your " + CockDescriptor.describeCock(character, character.torso.cocks.get(0)) + ".");
+        DisplayText("Looking positively perverse, a " + piercings.nipples.get(0).item.shortDesc + " adorns your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + ".");
     }
     if ((User.flags.get("Player") as PlayerFlags).HAVE_CERAPH_PIERCING)
         DisplayText("A magical, ruby-studded bar pierces your belly button, allowing you to summon Ceraph on a whim.");
     const firstVagina = character.torso.vaginas.get(0);
     if (piercings.labia.isEquipped())
-        DisplayText("Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " glitters with the " + piercings.labia.item.shortDesc + " hanging from your lips.");
+        DisplayText("Your " + Desc.Vagina.describeVagina(character, firstVagina) + " glitters with the " + piercings.labia.item.shortDesc + " hanging from your lips.");
     if (piercings.clit.isEquipped())
-        DisplayText("Impossible to ignore, your " + VaginaDescriptor.describeClit(character) + " glitters with its " + piercings.clit.item.shortDesc + ".");
+        DisplayText("Impossible to ignore, your " + Desc.Vagina.describeClit(character) + " glitters with its " + piercings.clit.item.shortDesc + ".");
 }
 
 function gems(character: Character) {

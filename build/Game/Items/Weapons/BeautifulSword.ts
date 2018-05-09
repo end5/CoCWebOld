@@ -1,10 +1,10 @@
-import Weapon from './Weapon';
-import WeaponName from './WeaponName';
+import { Weapon } from './Weapon';
+import { WeaponName } from './WeaponName';
 import { WeaponPerkType } from './WeaponPerk';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
 export class BeautifulSword extends Weapon {
     public constructor() {

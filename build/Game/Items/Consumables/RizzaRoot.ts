@@ -1,13 +1,13 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class RizzaRoot extends Consumable {
+export class RizzaRoot extends Consumable {
     public constructor() {
         super(ConsumableName.RizzaRoot, new ItemDesc("Rizza Root", "a tube of rizza root stUtils.rand(s", "A small ceramic tube full of fine red root stUtils.rand(s.  They smell something like citrus fruit."), 10);
     }
@@ -39,7 +39,7 @@ export default class RizzaRoot extends Consumable {
         if ((changes < changeLimit) && (character.torso.neck.head.ears.type !== 4) && (randInt(4) === 0)) {
             character.torso.neck.head.ears.type = 4;
             changes++;
-            DisplayText("\n\nA weird tingling runs through your scalp as your " + HeadDescriptor.describeHair(character) + " shifts slightly.  You reach up and your hand bumps against <b>your new pointed elfin ears</b>.  You bet they look cute!");
+            DisplayText("\n\nA weird tingling runs through your scalp as your " + Desc.Head.describeHair(character) + " shifts slightly.  You reach up and your hand bumps against <b>your new pointed elfin ears</b>.  You bet they look cute!");
         }
         if ((changes < changeLimit) && (character.tallness < 108)) {
             character.tallness += changeLimit - changes + randInt(2); // Add remaining changes as additional height

@@ -1,16 +1,16 @@
-import Teased from './Teased';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { teased } from './Teased';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Character from '../../Character/Character';
+import { Character } from '../../Character/Character';
 import { CombatEffectType } from '../../Effects/CombatEffectType';
 import { PerkType } from '../../Effects/PerkType';
 import { WeaponPerkType } from '../../Items/Weapons/WeaponPerk';
-import ActionRespond from '../ActionRespond';
+import { ActionRespond } from '../ActionRespond';
 
-export default class DefaultRespond implements ActionRespond {
+export class DefaultRespond implements ActionRespond {
     public enemyAttack() { }
     public enemyTease(damage: number, self: Character, enemy: Character): void {
-        Teased(damage, self, enemy);
+        teased(damage, self, enemy);
     }
     public enemyUseItem() { }
     public enemyPhysicalAttack() { }

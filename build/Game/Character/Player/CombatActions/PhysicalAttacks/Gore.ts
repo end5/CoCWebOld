@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { HornType } from '../../../../Body/Horns';
-import Character from '../../../../Character/Character';
+import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class Gore extends PlayerPhysicalAction {
     public name: string = "Gore";
@@ -19,7 +20,7 @@ export class Gore extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         if (monster.desc.short === "worms") {
             DisplayText("Taking advantage of your new natural weapons, you quickly charge at the freak of nature. Sensing impending danger, the creature willingly drops its cohesion, causing the mass of worms to fall to the ground with a sick, wet 'thud', leaving your horns to stab only at air.\n\n");

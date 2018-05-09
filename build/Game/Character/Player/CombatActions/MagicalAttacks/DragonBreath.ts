@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import PlayerSpellAction from '../PlayerSpellAction';
+import { PlayerSpellAction } from '../PlayerSpellAction';
 
 export class DragonBreath extends PlayerSpellAction {
     public name: string = "DragonFire";
@@ -27,7 +28,7 @@ export class DragonBreath extends PlayerSpellAction {
         return true;
     }
 
-    public use(character: Character, monster: Character) {
+    public use(character: Character, monster: Character): NextScreenChoices {
         DisplayText().clear();
         character.stats.fatigueMagic(this.baseCost);
         character.statusAffects.add(StatusAffectType.DragonBreathCooldown, 0, 0, 0, 0);
@@ -101,5 +102,6 @@ export class DragonBreath extends PlayerSpellAction {
         DisplayText("\n\n");
         // if (monster.desc.short === "Holli" && !monster.statusAffects.has(StatusAffectType.HolliBurning))
         //     monster.lightHolliOnFireMagically() as Holli;
+        return;
     }
 }

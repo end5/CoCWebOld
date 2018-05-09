@@ -1,19 +1,16 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
-import Vagina, { VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { BreastRow } from '../../Body/BreastRow';
+import { Vagina, VaginaWetness } from '../../Body/Vagina';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class BimboLiqueur extends Consumable {
+export class BimboLiqueur extends Consumable {
     public constructor() {
         super(ConsumableName.BimboLiqueur, new ItemDesc("BimboLq", "a potent bottle of 'Bimbo Liqueur'", "This small bottle of liqueur is labelled 'Bimbo Liqueur'.  There's a HUGE warning label about the effects being strong and usually permanent, so you should handle this with care."), 1000);
     }
@@ -78,7 +75,7 @@ export default class BimboLiqueur extends Consumable {
         else {
             DisplayText("You pop the cork from the flask and are immediately assaulted by a cloying, spiced scent that paints visions of a slutty slave-girl's slightly-spread folds.  Wow, this is some potent stuff!  Well, you knew what you were getting into when you found this bottle!  You open wide and guzzle it down, feeling the fire of alcohol burning a path to your belly.  The burning quickly fades to a pleasant warmth that makes you light-headed and giggly.\n\n");
             if (character.torso.neck.head.hair.color !== "platinum blonde") {
-                DisplayText("The first change that you notice is to your " + HeadDescriptor.describeHair(character) + ".  It starts with a tingling in your scalp and intensifies ");
+                DisplayText("The first change that you notice is to your " + Desc.Head.describeHair(character) + ".  It starts with a tingling in your scalp and intensifies ");
                 if (character.torso.neck.head.hair.length < 36) {
                     DisplayText("as you feel the weight of your hair growing heavier and longer.");
                     character.torso.neck.head.hair.length = 36;
@@ -93,8 +90,8 @@ export default class BimboLiqueur extends Consumable {
                 character.torso.vaginas.add(new Vagina());
                 character.torso.clit.length = 0.25;
                 character.torso.vaginas.get(0).wetness = VaginaWetness.SLICK;
-                if (character.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + LegDescriptor.describeLegs(character) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
-                else DisplayText("Wait!?  Wet?  You touch yourself between the " + LegDescriptor.describeLegs(character) + " and groan when your fingers sink into a sloppy, wet cunt.");
+                if (character.torso.hips.legs.isTaur()) DisplayText("Wait!? Wet? You wish you could touch yourself between the " + Desc.Leg.describeLegs(character) + ", but you can tell from the fluid running down your hind-legs just how soaked your new vagina is.");
+                else DisplayText("Wait!?  Wet?  You touch yourself between the " + Desc.Leg.describeLegs(character) + " and groan when your fingers sink into a sloppy, wet cunt.");
             }
             else {
                 if (character.torso.hips.legs.isTaur()) {
@@ -130,20 +127,20 @@ export default class BimboLiqueur extends Consumable {
 
             DisplayText("Another bubbly giggle bursts from your lips, which you then lick hungrily.  You, like, totally want some dick to suck!  Wow, that came out of left field.  You shake your head and try to clear the unexpected, like, words from your head but it's getting kind of hard.  Omigosh, you feel kind of like a dumb bimbo after, like, drinking that weird booze.  Oh, well, it doesn't matter anyhow – you can, like, still stop the demons and stuff.  You'll just have to show off your sexy bod until they're offering to serve you.\n\n");
 
-            DisplayText("You sigh and run one hand over your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s");
+            DisplayText("You sigh and run one hand over your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s");
             if (character.torso.chest.get(0).rating < 10) {
                 character.torso.chest.get(0).rating += 5 + randInt(5);
-                DisplayText(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + BreastDescriptor.breastCup(character.torso.chest.get(0).rating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
+                DisplayText(", surprised at how large and rounded your expanding breasts have become while fresh tit-flesh continues to spill out around your needy fingers.  They feel so supple and soft, but when you let them go, they still sit fairly high and firm on your chest.  The newer, more generous, " + Desc.Breast.breastCup(character.torso.chest.get(0).rating) + " cleavage has you moaning with how sensitive it is, pinching a nipple with one hand ");
             }
             else {
                 character.torso.chest.get(0).rating += 5 + randInt(5);
-                DisplayText(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + BreastDescriptor.breastCup(character.torso.chest.get(0).rating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
+                DisplayText(", admiring how sensitive they're getting.  The big breasts start getting bigger and bigger, soft chest-flesh practically oozing out between your fingers as the squishy mammaries sprout like weeds, expanding well beyond any hand's ability to contain them.  The supple, " + Desc.Breast.breastCup(character.torso.chest.get(0).rating) + " boobs still manage to sit high on your chest, almost gravity defying in their ability to generate cleavage.  You pinch a nipple with one hand ");
             }
             character.stats.sens += 20;
-            DisplayText("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " like no tomorrow.  By now, your " + VaginaDescriptor.describeClit(character) + " is throbbing, and you give it an experimental ");
+            DisplayText("while the other toys with the juicy entrance of your folds.  Mmmm, it, like, feels too good not to touch yourself, and after being worried about getting all dumb and stuff, you need to relax.  Thinking is hard, but sex is so easy and, like, natural!  You lean back and start grunting as you plunge four fingers inside yourself, plowing your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " like no tomorrow.  By now, your " + Desc.Vagina.describeClit(character) + " is throbbing, and you give it an experimental ");
             if (character.torso.clit.length >= 3) DisplayText("jerk ");
             else DisplayText("caress ");
-            DisplayText("that makes your " + LegDescriptor.describeLegs(character) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
+            DisplayText("that makes your " + Desc.Leg.describeLegs(character) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
 
             DisplayText("Though the orgasm is intense, you recover a few moments later feeling refreshed, but still hot and horny.  Maybe you could find a partner to fuck?  After all, sex is, like, better with a partner or two.  Or that number after two.  You brush a lengthy, platinum blonde stUtils.rand( of hair out of your eyes and lick your lips - you're ready to have some fun!\n\n");
 
@@ -191,7 +188,7 @@ export default class BimboLiqueur extends Consumable {
             character.stats.lib -= 4;
             character.stats.sens -= 25;
             // FULL ON BITCHFACE
-            BodyModifier.displayModFem(character, 100, 100);
+            Mod.Body.displayModFem(character, 100, 100);
             // Body
             // Tease/Seduce Boost
             // *boosts min lust and lust resistance)

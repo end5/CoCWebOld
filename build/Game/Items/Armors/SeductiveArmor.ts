@@ -1,15 +1,15 @@
-import Armor from './Armor';
-import ArmorName from './ArmorName';
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as GenderDescriptor from '../../Descriptors/GenderDescriptor';
-import Scenes from '../../Scenes/Scenes';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
-import Piercing, { PiercingType } from '../Misc/Piercing';
+import { Armor } from './Armor';
+import { ArmorName } from './ArmorName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
+import { Scenes } from '../../Scenes/Scenes';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
+import { Piercing, PiercingType } from '../Misc/Piercing';
 
-export default class SeductiveArmor extends Armor {
+export class SeductiveArmor extends Armor {
     public constructor() {
         super(ArmorName.SeductiveArmor, new ItemDesc("SeductA", "a set of scandalously seductive armor", "A complete suit of scalemail shaped to hug tightly against every curve, it has a solid steel chest-plate with obscenely large nipples molded into it.  The armor does nothing to cover the backside, exposing the wearer's cheeks to the world."), "scandalously seductive armor", 0, 1);
     }
@@ -34,7 +34,7 @@ export default class SeductiveArmor extends Armor {
         (User.flags.get("Player") as PlayerFlags).FETISH = 2;
         // }
         // else {
-        //     DisplayText("As you're trying to put on the armor, Ceraph appears from nowhere, apologizing profusely and stopping you before you can slide the last strap into place.  \"<i>Please don't put that on, " + GenderDescriptor.mf(character, "Master", "Mistress") + ".  I trapped that armor to pierce new fetishes the unwary so that I could add them to my harem.  I'd hate to garner your anger.</i>\"  She wrings her hands nervously.  \"<i>If you'll hand it here, I'll get rid of it for you. Noone would buy it anyway.</i>\"");
+        //     DisplayText("As you're trying to put on the armor, Ceraph appears from nowhere, apologizing profusely and stopping you before you can slide the last strap into place.  \"<i>Please don't put that on, " + Desc.Gender.mf(character, "Master", "Mistress") + ".  I trapped that armor to pierce new fetishes the unwary so that I could add them to my harem.  I'd hate to garner your anger.</i>\"  She wrings her hands nervously.  \"<i>If you'll hand it here, I'll get rid of it for you. Noone would buy it anyway.</i>\"");
         //     DisplayText("\n\nYou shrug and toss her the armor, disappointed that you're down a potentially sexy outfit.");
         //     DisplayText("\n\nCeraph bows gratefully and swiftly backpedals, offering, \"<i>And if you ever want me to stuff you full of magic fetishes, just ask, okay?</i>\"");
         //     DisplayText("\n\nShe's gone before you can reply.  Sometimes she's more trouble than she's worth.");

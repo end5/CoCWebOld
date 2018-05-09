@@ -1,8 +1,8 @@
-﻿import DisplayText from '../../Engine/display/DisplayText';
+﻿import { DisplayText } from '../../Engine/display/DisplayText';
 import { randInt } from '../../Engine/Utilities/SMath';
-import Vagina, { VaginaLooseness } from '../Body/Vagina';
-import Character from '../Character/Character';
-import * as VaginaDescriptor from '../Descriptors/VaginaDescriptor';
+import { Vagina, VaginaLooseness } from '../Body/Vagina';
+import { Character } from '../Character/Character';
+import { Desc } from '../Descriptors/Descriptors';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 
@@ -76,17 +76,17 @@ export function displayStretchVagina(character: Character, cArea: number, displa
         // Non virgins as usual
         else if (spacingsF) DisplayText("  ");
         if (firstVagina.looseness === VaginaLooseness.LEVEL_CLOWN_CAR)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " is stretched painfully wide, large enough to accomodate most beasts and demons.</b>");
         if (firstVagina.looseness === VaginaLooseness.GAPING_WIDE)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " is stretched so wide that it gapes continually.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " is stretched so wide that it gapes continually.</b>");
         if (firstVagina.looseness === VaginaLooseness.GAPING)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " painfully stretches, the lips now wide enough to gape slightly.</b>");
         if (firstVagina.looseness === VaginaLooseness.LOOSE)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " is now very loose.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " is now very loose.</b>");
         if (firstVagina.looseness === VaginaLooseness.NORMAL)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " is now a little loose.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " is now a little loose.</b>");
         if (firstVagina.looseness === VaginaLooseness.TIGHT)
-            DisplayText("<b>Your " + VaginaDescriptor.describeVagina(character, firstVagina) + " is stretched out to a more normal size.</b>");
+            DisplayText("<b>Your " + Desc.Vagina.describeVagina(character, firstVagina) + " is stretched out to a more normal size.</b>");
         if (spacingsB) DisplayText("  ");
     }
     return stretched;

@@ -1,12 +1,13 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
-import Character from '../../../../Character/Character';
+import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
-import * as GenderDescriptor from '../../../../Descriptors/GenderDescriptor';
+import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class SpiderBite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -21,7 +22,7 @@ export class SpiderBite extends PlayerPhysicalAction {
         return player.stats.fatigue + this.physicalCost(player) <= 100;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         DisplayText().clear();
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
@@ -50,7 +51,7 @@ export class SpiderBite extends PlayerPhysicalAction {
                 if (monster.desc.plural)
                     DisplayText("  The one you bit flushes hotly, though the entire group seems to become more aroused in sympathy to their now-lusty compatriot.");
                 else
-                    DisplayText("  " + GenderDescriptor.mf(monster, "He", "She") + " flushes hotly and " + GenderDescriptor.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
+                    DisplayText("  " + Desc.Gender.mf(monster, "He", "She") + " flushes hotly and " + Desc.Gender.mf(monster, "touches his suddenly-stiff member, moaning lewdly for a moment.", "touches a suddenly stiff nipple, moaning lewdly.  You can smell her arousal in the air."));
                 monster.stats.lust += 25 * monster.stats.lustVuln;
                 if (randInt(5) === 0) monster.stats.lust += 25 * monster.stats.lustVuln;
             }

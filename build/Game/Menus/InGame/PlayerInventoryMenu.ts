@@ -1,15 +1,16 @@
 import { displayCharInventory } from './InventoryDisplay';
-import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen, { ClickFunction } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import CombatManager from '../../Combat/CombatManager';
+import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
+import { MainScreen } from '../../../Engine/Display/MainScreen';
+import { Character } from '../../Character/Character';
+import { CombatManager } from '../../Combat/CombatManager';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import WeaponName from '../../Items/Weapons/WeaponName';
-import Menus from '../Menus';
+import { WeaponName } from '../../Items/Weapons/WeaponName';
+import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { Menus } from '../Menus';
 
-export default function display(player: Character) {
+export function display(player: Character): NextScreenChoices {
     DisplaySprite(SpriteName.None);
 
     MainScreen.hideTopButtons();
@@ -29,7 +30,7 @@ export default function display(player: Character) {
 
     if (player.inventory.equipment.weapon.name !== WeaponName.Fists) {
         fixedTextList[0] = "Unequip";
-        fixedFuncList[0] = player.inventory.equipment.weapon.unequip;
+        fixedFuncList[0] = () => player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), display);
     }
 
     // if (!Game.inCombat && !Game.inDungeon && !Game.inRoomedDungeon) {
@@ -53,7 +54,7 @@ export default function display(player: Character) {
     // }
     /*if (!foundItem) {
         DisplayText("\nYou have no usable items.");
-        MainScreen.doNext(Menus.Player.display);
+        return { next: Menus.Player.display };
     }*/
     if (CombatManager.inCombat && player.statusAffects.has(StatusAffectType.Sealed) && player.statusAffects.get(StatusAffectType.Sealed).value1 === 3) {
         DisplayText("\nYou reach for your items, but you just can't get your pouches open.  <b>Your ability to use items was sealed, and now you've wasted a chance to attack!</b>\n\n");
@@ -67,5 +68,5 @@ export default function display(player: Character) {
         fixedTextList.shift();
         fixedFuncList.shift();
     }
-    displayCharInventory(player, fixedTextList, fixedFuncList);
+    return displayCharInventory(player, fixedTextList, fixedFuncList);
 }

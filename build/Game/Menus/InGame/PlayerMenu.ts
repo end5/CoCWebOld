@@ -1,9 +1,12 @@
-import MainScreen, { TopButton } from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import Scenes from '../../Scenes/Scenes';
-import Menus from '../Menus';
+import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
+import { Character } from '../../Character/Character';
+import { displayScreenQueue, NextScreenChoices } from '../../SceneDisplay';
+import { Scenes } from '../../Scenes/Scenes';
+import { Menus } from '../Menus';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
+    displayScreenQueue();
+
     // if (Game.state !== GameState.InCombat)
     //     DisplaySprite(SpriteName.None);
     MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", Menus.Main);
@@ -23,5 +26,5 @@ export default function display(character: Character) {
     //     return;
     // }
     // Flags.list[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;
-    Scenes.camp.display(character);
+    return Scenes.camp.display(character);
 }

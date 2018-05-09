@@ -1,10 +1,11 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { FaceType } from '../../../../Body/Face';
-import Character from '../../../../Character/Character';
+import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Player from '../../Player';
-import PlayerPhysicalAction from '../PlayerPhysicalAction';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Player } from '../../Player';
+import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 
 export class Bite extends PlayerPhysicalAction {
     public name: string = "Bite";
@@ -28,7 +29,7 @@ export class Bite extends PlayerPhysicalAction {
         return true;
     }
 
-    public use(player: Player, monster: Character) {
+    public use(player: Player, monster: Character): NextScreenChoices {
         player.stats.fatiguePhysical(this.baseCost);
         // Amily!
         DisplayText().clear();
@@ -77,5 +78,6 @@ export class Bite extends PlayerPhysicalAction {
             DisplayText("Your powerful bite <b>mutilates</b> " + monster.desc.a + monster.desc.short + "! (" + damage + ")");
         }
         DisplayText("\n\n");
+        return;
     }
 }

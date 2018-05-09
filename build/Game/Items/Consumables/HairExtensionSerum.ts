@@ -1,14 +1,14 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { HairType } from '../../Body/Hair';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import User from '../../User';
-import ItemDesc from '../ItemDesc';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
+import { User } from '../../User';
+import { ItemDesc } from '../ItemDesc';
 
-export default class HairExtensionSerum extends Consumable {
+export class HairExtensionSerum extends Consumable {
     public constructor() {
         super(ConsumableName.HairExtensionSerum, new ItemDesc("ExtSerm", "a bottle of hair extension serum", "This is a bottle of foamy pink liquid, purported by the label to increase the speed at which the user's hair grows."));
     }
@@ -36,7 +36,7 @@ export default class HairExtensionSerum extends Consumable {
         }
         if ((User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD > 0 && character.torso.neck.head.hair.type !== HairType.ANEMONE) {
             (User.flags.get("Player") as PlayerFlags).HAIR_GROWTH_STOPPED_BECAUSE_LIZARD = 0;
-            DisplayText("\n\n<b>Somehow you know that your " + HeadDescriptor.describeHair(character) + " is growing again.</b>");
+            DisplayText("\n\n<b>Somehow you know that your " + Desc.Head.describeHair(character) + " is growing again.</b>");
         }
         if ((User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING < 7)
             (User.flags.get("Player") as PlayerFlags).INCREASED_HAIR_GROWTH_TIME_REMAINING = 7;

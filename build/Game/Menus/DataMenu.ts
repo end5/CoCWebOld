@@ -1,8 +1,8 @@
-import Menus from './Menus';
-import DisplayText from '../../Engine/display/DisplayText';
-import MainScreen from '../../Engine/Display/MainScreen';
-import SaveManager from '../../Engine/Save/SaveManager';
-import Character from '../Character/Character';
+import { Menus } from './Menus';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { SaveManager } from '../../Engine/Save/SaveManager';
+import { Character } from '../Character/Character';
+import { NextScreenChoices } from '../SceneDisplay';
 
 function displayInfo() {
     DisplayText().clear();
@@ -17,7 +17,7 @@ function displayInfo() {
     DisplayText("<i>Save File and Load File are limited by the security settings imposed upon CoC by Flash. These options will only work if you have downloaded the game from the website, and are running it from your HDD. Additionally, they can only correctly save files to and load files from the directory where you have the game saved.</i>");
 }
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     displayInfo();
 
     const text = ["Save", "Load", "AutoSav: ON", "Delete", "Save File", "Load File"];
@@ -39,11 +39,14 @@ export default function display(character: Character) {
     // else if (character.stats.str === 0)
     //     backFunc = Menus.Main;
 
-    // MainScreen.displayChoices(text, func, ["Back"], [backFunc]);
-    MainScreen.displayChoices(text, func, ["Back"], [Menus.Main]);
+    // return { choices: [text, func], persistantChoices: [["Back"], [backFunc]] };
+    return {
+        choices: [text, func],
+        persistantChoices: [["Back"], [Menus.Main]]
+    };
 }
 
-function autosaveToggle(character?: Character) {
+function autosaveToggle(character?: Character): NextScreenChoices {
     SaveManager.autosaveToggle();
-    display(character);
+    return display(character);
 }

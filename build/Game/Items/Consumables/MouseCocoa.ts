@@ -1,21 +1,20 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
-import Pregnancy, { IncubationTime, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
+import { IncubationTime, Pregnancy, PregnancyType } from '../../Body/Pregnancy/Pregnancy';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import StatusAffect from '../../Effects/StatusAffect';
-import StatusAffectFactory from '../../Effects/StatusAffectFactory';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { StatusAffect } from '../../Effects/StatusAffect';
+import { StatusAffectFactory } from '../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class MouseCocoa extends Consumable {
+export class MouseCocoa extends Consumable {
     public constructor() {
         super(ConsumableName.MouseCocoa, new ItemDesc("MouseCo", "a handful of mouse cocoa", "A handful of rare aromatic beans with sharp creases in the middle, making them look like small mouse ears.  Allegedly very popular and plentiful before the mice-folk were wiped out."));
     }
@@ -124,7 +123,7 @@ export default class MouseCocoa extends Consumable {
             DisplayText("\n\nYour ears ");
             if (character.torso.neck.head.ears.type === EarType.HORSE || character.torso.neck.head.ears.type === EarType.COW || character.torso.neck.head.ears.type === EarType.DOG || character.torso.neck.head.ears.type === EarType.BUNNY || character.torso.neck.head.ears.type === EarType.KANGAROO) DisplayText("shrink suddenly");
             else DisplayText("pull away from your head");
-            DisplayText(", like they're being pinched, and you can distinctly feel the auricles taking a rounded shape through the pain.  Reaching up to try and massage away their stings, <b>you're not terribly surprised when you find a pair of fuzzy mouse's ears poking through your " + HeadDescriptor.describeHair(character) + ".</b>");
+            DisplayText(", like they're being pinched, and you can distinctly feel the auricles taking a rounded shape through the pain.  Reaching up to try and massage away their stings, <b>you're not terribly surprised when you find a pair of fuzzy mouse's ears poking through your " + Desc.Head.describeHair(character) + ".</b>");
             character.torso.neck.head.ears.type = EarType.MOUSE;
             changes++;
         }
@@ -170,7 +169,7 @@ export default class MouseCocoa extends Consumable {
         if ((character.skin.type !== SkinType.FUR || (character.skin.type === SkinType.FUR && (character.torso.neck.head.hair.color !== "brown" && character.torso.neck.head.hair.color !== "white"))) && changes < changeLimit && randInt(4) === 0) {
             // from skinscales
             if (character.skin.type !== SkinType.FUR) {
-                DisplayText("\n\nYour " + SkinDescriptor.skinFurScales(character) + " itch");
+                DisplayText("\n\nYour " + Desc.Skin.skinFurScales(character) + " itch");
                 if (character.skin.type > SkinType.PLAIN) DisplayText("es");
                 DisplayText(" all over");
                 if (character.torso.tails.count > 0) DisplayText(", except on your tail");

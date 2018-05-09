@@ -1,6 +1,6 @@
-import CombatAction from './Actions/CombatAction';
+import { CombatAction } from './Actions/CombatAction';
 
-export default interface ActionPerform {
+export interface ActionPerform {
     mainAction: CombatAction;
     approach: CombatAction;
     recover: CombatAction;

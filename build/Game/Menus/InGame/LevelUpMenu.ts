@@ -1,9 +1,10 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import MainScreen from '../../../Engine/Display/MainScreen';
-import Character from '../../Character/Character';
-import Menus from '../Menus';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { MainScreen } from '../../../Engine/Display/MainScreen';
+import { Character } from '../../Character/Character';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { Menus } from '../Menus';
 
-export default function display(character: Character) {
+export function display(character: Character): NextScreenChoices {
     DisplayText().clear();
     MainScreen.hideTopButtons();
     // MainScreen.getTopButton(TopButton.MainMenu).show();
@@ -13,37 +14,39 @@ export default function display(character: Character) {
         character.stats.perkPoints++;
         DisplayText("<b>You are now level " + character.stats.level + "!</b>\n\nYou may now apply +5 to one attribute.  Which will you choose?");
         character.stats.XP -= (character.stats.level - 1) * 100;
-        MainScreen.displayChoices(
-            ["Strength", "Toughness", "Speed", "Intelligence"],
-            [levelUpStatStrength, levelUpStatToughness, levelUpStatSpeed, levelUpStatIntelligence]
-        );
+        return {
+            choices: [
+                ["Strength", "Toughness", "Speed", "Intelligence"],
+                [levelUpStatStrength, levelUpStatToughness, levelUpStatSpeed, levelUpStatIntelligence]
+            ]
+        };
     }
 }
 
-function levelUpStatStrength(character: Character) {
+function levelUpStatStrength(character: Character): NextScreenChoices {
     character.stats.str += 5; // Gain +5 Str due to level
     DisplayText().clear();
     DisplayText("Your muscles feel significantly stronger from your time adventuring.");
-    MainScreen.doNext(Menus.PerkUp);
+    return { next: Menus.PerkUp };
 }
 
-function levelUpStatToughness(character: Character) {
+function levelUpStatToughness(character: Character): NextScreenChoices {
     character.stats.tou += 5; // Gain +5 Toughness due to level
     DisplayText().clear();
     DisplayText("You feel tougher from all the fights you have endured.");
-    MainScreen.doNext(Menus.PerkUp);
+    return { next: Menus.PerkUp };
 }
 
-function levelUpStatSpeed(character: Character) {
+function levelUpStatSpeed(character: Character): NextScreenChoices {
     character.stats.spe += 5; // Gain +5 speed due to level
     DisplayText().clear();
     DisplayText("Your time in combat has driven you to move faster.");
-    MainScreen.doNext(Menus.PerkUp);
+    return { next: Menus.PerkUp };
 }
 
-function levelUpStatIntelligence(character: Character) {
+function levelUpStatIntelligence(character: Character): NextScreenChoices {
     character.stats.int += 5; // Gain +5 Intelligence due to level
     DisplayText().clear();
     DisplayText("Your time spent fighting the creatures of this realm has sharpened your wit.");
-    MainScreen.doNext(Menus.PerkUp);
+    return { next: Menus.PerkUp };
 }

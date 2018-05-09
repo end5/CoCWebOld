@@ -1,8 +1,8 @@
-import DisplayText from '../../../Engine/display/DisplayText';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import User from '../../User';
-import CombatEffect from '../CombatEffect';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { User } from '../../User';
+import { CombatEffect } from '../CombatEffect';
 
 export class NagaBind extends CombatEffect {
     public update(character: Character) {

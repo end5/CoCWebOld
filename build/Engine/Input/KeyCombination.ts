@@ -1,6 +1,6 @@
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class KeyCombination implements ISerializable<KeyCombination> {
+export class KeyCombination implements ISerializable<KeyCombination> {
     public keyCode: number;
     public shiftKey: boolean = false;
     public altKey: boolean = false;

@@ -1,30 +1,22 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import BreastRow from '../../Body/BreastRow';
+import { BreastRow } from '../../Body/BreastRow';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
 import { PregnancyType } from '../../Body/Pregnancy/Pregnancy';
-import RaceScore from '../../Body/RaceScore';
+import { RaceScore } from '../../Body/RaceScore';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as BallsDescriptor from '../../Descriptors/BallsDescriptor';
-import * as BodyDescriptor from '../../Descriptors/BodyDescriptor';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as FaceDescriptor from '../../Descriptors/FaceDescriptor';
-import * as GenderDescriptor from '../../Descriptors/GenderDescriptor';
-import * as LegDescriptor from '../../Descriptors/LegDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class NeonPinkEgg extends Consumable {
+export class NeonPinkEgg extends Consumable {
     public constructor(pregnantChange: boolean) {
         if (pregnantChange)
             super(ConsumableName.NeonPinkEggPreg, new ItemDesc("NPnkEggPreg", "a neon pink egg", "This is an oblong egg with an unnatural neon pink coloration.  It tingles in your hand with odd energies that make you feel as if you could jump straight into the sky."));
@@ -89,7 +81,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (character.stats.cor < 90) DisplayText("You pant a little and wonder where the nearest fertile male is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  You should get bred soon!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + BodyDescriptor.assholeOrPussy(character) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + Desc.Body.assholeOrPussy(character) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
                 }
                 // WANGS!
                 if (character.torso.cocks.count > 0) {
@@ -103,7 +95,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (character.stats.cor < 75) DisplayText("You pant a little and wonder where the nearest fertile female is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  Gods you need to fuck!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to " + CockDescriptor.describeMultiCockSimpleOne(character) + ", and you groan from how tight and hard it feels.  The desire to squeeze it, not with your hand but with a tight pussy or puckered asshole, runs through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to " + Desc.Cock.describeMultiCockSimpleOne(character) + ", and you groan from how tight and hard it feels.  The desire to squeeze it, not with your hand but with a tight pussy or puckered asshole, runs through you like a wave, steadily increasing your desire for sex.");
                 }
             }
             // Libido over 60? FUCK YEAH!
@@ -111,10 +103,10 @@ export default class NeonPinkEgg extends Consumable {
                 DisplayText("\n\nYou fan your neck and start to pant as your " + character.skin.tone + " skin begins to flush red with heat");
                 if (character.skin.type > SkinType.PLAIN) DisplayText(" through your " + character.skin.desc);
                 DisplayText(".  ");
-                if (character.gender === 1) DisplayText("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                if (character.gender === 1) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
+                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
                 else if (character.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
-                else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
+                else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + Desc.Cock.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }
             // MEGALIBIDO
             else {
@@ -140,7 +132,7 @@ export default class NeonPinkEgg extends Consumable {
             // (BIG boost 1/3 chance)
             else {
                 character.stats.sens += 15;
-                DisplayText("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + character.inventory.equipment.armor.displayName + " rubs your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s deliciously");
+                DisplayText("Every movement of your body seems to bring heightened waves of sensation that make you woozy.  Your " + character.inventory.equipment.armor.displayName + " rubs your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s deliciously");
                 if (character.torso.chest.filter(BreastRow.FuckableNipples).length > 0) {
                     DisplayText(", sticking to the ");
                     if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 2) DisplayText("milk-leaking nipple-twats");
@@ -150,26 +142,26 @@ export default class NeonPinkEgg extends Consumable {
                 else DisplayText(" catching on each of the hard nubs repeatedly");
                 DisplayText(".  Meanwhile, your crotch... your crotch is filled with such heavenly sensations from ");
                 if (character.gender === 1) {
-                    DisplayText(CockDescriptor.describeMultiCockSimpleOne(character) + " and your ");
-                    if (character.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, character));
-                    else DisplayText(ButtDescriptor.describeButthole(character.torso.butt));
+                    DisplayText(Desc.Cock.describeMultiCockSimpleOne(character) + " and your ");
+                    if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character));
+                    else DisplayText(Desc.Butt.describeButthole(character.torso.butt));
                 }
-                else if (character.gender === 2) DisplayText("your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " and " + VaginaDescriptor.describeClit(character));
+                else if (character.gender === 2) DisplayText("your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Vagina.describeClit(character));
                 else if (character.gender === 3) {
-                    DisplayText(CockDescriptor.describeMultiCockSimpleOne(character) + ", ");
-                    if (character.torso.balls.quantity > 0) DisplayText(BallsDescriptor.describeBalls(true, true, character) + ", ");
-                    DisplayText(VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + ", and " + VaginaDescriptor.describeClit(character));
+                    DisplayText(Desc.Cock.describeMultiCockSimpleOne(character) + ", ");
+                    if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character) + ", ");
+                    DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", and " + Desc.Vagina.describeClit(character));
                 }
                 // oh god genderless
-                else DisplayText("you " + ButtDescriptor.describeButthole(character.torso.butt));
+                else DisplayText("you " + Desc.Butt.describeButthole(character.torso.butt));
                 DisplayText(" that you have to stay stock-still to keep yourself from falling down and masturbating on the spot.  Thankfully the orgy of tactile bliss fades after a minute, but you still feel way more sensitive than your previous norm.  This will take some getting used to!");
             }
         }
         // Makes girls very girl(90), guys somewhat girly (61).
         if (changes < changeLimit && randInt(2) === 0) {
             let buffer: string = "";
-            if (character.gender < 2) buffer += BodyModifier.displayModFem(character, 61, 4);
-            else buffer += BodyModifier.displayModFem(character, 90, 4);
+            if (character.gender < 2) buffer += Mod.Body.displayModFem(character, 61, 4);
+            else buffer += Mod.Body.displayModFem(character, 90, 4);
             if (buffer !== "") {
                 DisplayText(buffer);
                 changes++;
@@ -180,7 +172,7 @@ export default class NeonPinkEgg extends Consumable {
         if (character.torso.vaginas.get(0).wetness > 3 && changes < changeLimit && randInt(3) === 0) {
             // Just to be safe
             if (character.torso.vaginas.count > 0) {
-                DisplayText("\n\nThe constant flow of fluids that sluice from your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " slow down, leaving you feeling a bit less like a sexual slip-'n-slide.");
+                DisplayText("\n\nThe constant flow of fluids that sluice from your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " slow down, leaving you feeling a bit less like a sexual slip-'n-slide.");
                 character.torso.vaginas.get(0).wetness--;
                 changes++;
             }
@@ -201,15 +193,15 @@ export default class NeonPinkEgg extends Consumable {
         // Shrink Balls!
         if (character.torso.balls.quantity > 0 && character.torso.balls.size > 5 && randInt(3) === 0 && changes < changeLimit) {
             if (character.torso.balls.size < 10) {
-                DisplayText("\n\nRelief washes through your groin as your " + BallsDescriptor.describeBalls(false, true, character, true) + " lose about an inch of their diameter.");
+                DisplayText("\n\nRelief washes through your groin as your " + Desc.Balls.describeBalls(false, true, character, true) + " lose about an inch of their diameter.");
                 character.torso.balls.size--;
             }
             else if (character.torso.balls.size < 25) {
-                DisplayText("\n\nRelief washes through your groin as your " + BallsDescriptor.describeBalls(false, true, character, true) + " lose a few inches of their diameter.  Wow, it feels so much easier to move!");
+                DisplayText("\n\nRelief washes through your groin as your " + Desc.Balls.describeBalls(false, true, character, true) + " lose a few inches of their diameter.  Wow, it feels so much easier to move!");
                 character.torso.balls.size -= (2 + randInt(3));
             }
             else {
-                DisplayText("\n\nRelief washes through your groin as your " + BallsDescriptor.describeBalls(false, true, character, true) + " lose at least six inches of diameter.  Wow, it feels SOOOO much easier to move!");
+                DisplayText("\n\nRelief washes through your groin as your " + Desc.Balls.describeBalls(false, true, character, true) + " lose at least six inches of diameter.  Wow, it feels SOOOO much easier to move!");
                 character.torso.balls.size -= (6 + randInt(3));
             }
             changes++;
@@ -217,7 +209,7 @@ export default class NeonPinkEgg extends Consumable {
         // Get rid of extra balls
         if (character.torso.balls.quantity > 2 && changes < changeLimit && randInt(3) === 0) {
             changes++;
-            DisplayText("\n\nThere's a tightening in your " + BallsDescriptor.describeSack(character) + " that only gets higher and higher until you're doubled over and wheezing.  When it passes, you reach down and discover that <b>two of your testicles are gone.</b>");
+            DisplayText("\n\nThere's a tightening in your " + Desc.Balls.describeSack(character) + " that only gets higher and higher until you're doubled over and wheezing.  When it passes, you reach down and discover that <b>two of your testicles are gone.</b>");
             character.torso.balls.quantity -= 2;
         }
         // Boost cum production
@@ -230,29 +222,29 @@ export default class NeonPinkEgg extends Consumable {
             // Balls
             if (character.torso.balls.quantity > 0) {
                 // (Small cum quantity) < 50
-                if (character.cumQ() < 50) DisplayText("\n\nA twinge of discomfort runs through your " + BallsDescriptor.describeBalls(true, true, character) + ", but quickly vanishes.  You heft your orbs but they haven't changed in size - they just feel a little bit denser.");
+                if (character.cumQ() < 50) DisplayText("\n\nA twinge of discomfort runs through your " + Desc.Balls.describeBalls(true, true, character) + ", but quickly vanishes.  You heft your orbs but they haven't changed in size - they just feel a little bit denser.");
                 // (medium cum quantity) < 250
                 else if (character.cumQ() < 250) {
-                    DisplayText("\n\nA ripple of discomfort runs through your " + BallsDescriptor.describeBalls(true, true, character) + ", but it fades into a pleasant tingling.  You reach down to heft the orbs experimentally but they don't seem any larger.");
-                    if (character.torso.cocks.count > 0) DisplayText("  In the process, you brush " + CockDescriptor.describeMultiCockSimpleOne(character) + " and discover a bead of pre leaking at the tip.");
+                    DisplayText("\n\nA ripple of discomfort runs through your " + Desc.Balls.describeBalls(true, true, character) + ", but it fades into a pleasant tingling.  You reach down to heft the orbs experimentally but they don't seem any larger.");
+                    if (character.torso.cocks.count > 0) DisplayText("  In the process, you brush " + Desc.Cock.describeMultiCockSimpleOne(character) + " and discover a bead of pre leaking at the tip.");
                 }
                 // (large cum quantity) < 750
                 else if (character.cumQ() < 750) {
-                    DisplayText("\n\nA strong contraction passes through your " + BallsDescriptor.describeSack(character) + ", almost painful in its intensity.  ");
-                    if (character.torso.cocks.count > 0) DisplayText(CockDescriptor.describeMultiCockSimpleOne(character, true) + " leaks and dribbles pre-cum down your " + LegDescriptor.describeLegs(character) + " as your body's cum production kicks up even higher.");
+                    DisplayText("\n\nA strong contraction passes through your " + Desc.Balls.describeSack(character) + ", almost painful in its intensity.  ");
+                    if (character.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockSimpleOne(character, true) + " leaks and dribbles pre-cum down your " + Desc.Leg.describeLegs(character) + " as your body's cum production kicks up even higher.");
                     else DisplayText("You wince, feeling pent up and yet unable to release.  You really wish you had a cock right about now.");
                 }
                 // (XL cum quantity) < 2000
                 else if (character.cumQ() < 2000) {
-                    DisplayText("\n\nAn orgasmic contraction wracks your " + BallsDescriptor.describeBalls(true, true, character) + ", shivering through the potent orbs and passing as quickly as it came.  ");
-                    if (character.torso.cocks.count > 0) DisplayText("A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(character) + " down your " + LegDescriptor.describeLeg(character) + ", pooling below you.");
+                    DisplayText("\n\nAn orgasmic contraction wracks your " + Desc.Balls.describeBalls(true, true, character) + ", shivering through the potent orbs and passing as quickly as it came.  ");
+                    if (character.torso.cocks.count > 0) DisplayText("A thick trail of slime leaks from " + Desc.Cock.describeMultiCockSimpleOne(character) + " down your " + Desc.Leg.describeLeg(character) + ", pooling below you.");
                     else DisplayText("You grunt, feeling terribly pent-up and needing to release.  Maybe you should get a penis to go with these balls...");
                     DisplayText("  It's quite obvious that your cum production has gone up again.");
                 }
                 // (XXL cum quantity)
                 else {
-                    DisplayText("\n\nA body-wrenching contraction thrums through your " + BallsDescriptor.describeBalls(true, true, character) + ", bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  ");
-                    if (character.torso.cocks.count > 0) DisplayText("pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(character) + ", running down your " + LegDescriptor.describeLeg(character) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(character, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
+                    DisplayText("\n\nA body-wrenching contraction thrums through your " + Desc.Balls.describeBalls(true, true, character) + ", bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  ");
+                    if (character.torso.cocks.count > 0) DisplayText("pre-cum explodes from " + Desc.Cock.describeMultiCockSimpleOne(character) + ", running down your " + Desc.Leg.describeLeg(character) + " and splattering into puddles that would shame the orgasms of lesser " + Desc.Gender.mf(character, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
                     else DisplayText("You pant and groan but the pleasure just turns to pain.  You're so backed up - if only you had some way to vent all your seed!");
                 }
             }
@@ -261,13 +253,13 @@ export default class NeonPinkEgg extends Consumable {
                 // (Small cum quantity) < 50
                 if (character.cumQ() < 50) DisplayText("\n\nA twinge of discomfort runs through your body, but passes before you have any chance to figure out exactly what it did.");
                 // (Medium cum quantity) < 250)
-                else if (character.cumQ() < 250) DisplayText("\n\nA ripple of discomfort runs through your body, but it fades into a pleasant tingling that rushes down to " + CockDescriptor.describeMultiCockSimpleOne(character) + ".  You reach down to heft yourself experimentally and smile when you see pre-beading from your maleness.  Your cum production has increased!");
+                else if (character.cumQ() < 250) DisplayText("\n\nA ripple of discomfort runs through your body, but it fades into a pleasant tingling that rushes down to " + Desc.Cock.describeMultiCockSimpleOne(character) + ".  You reach down to heft yourself experimentally and smile when you see pre-beading from your maleness.  Your cum production has increased!");
                 // (large cum quantity) < 750
-                else if (character.cumQ() < 750) DisplayText("\n\nA strong contraction passes through your body, almost painful in its intensity.  " + CockDescriptor.describeMultiCockSimpleOne(character, true) + " leaks and dribbles pre-cum down your " + LegDescriptor.describeLegs(character) + " as your body's cum production kicks up even higher!  Wow, it feels kind of... good.");
+                else if (character.cumQ() < 750) DisplayText("\n\nA strong contraction passes through your body, almost painful in its intensity.  " + Desc.Cock.describeMultiCockSimpleOne(character, true) + " leaks and dribbles pre-cum down your " + Desc.Leg.describeLegs(character) + " as your body's cum production kicks up even higher!  Wow, it feels kind of... good.");
                 // (XL cum quantity) < 2000
-                else if (character.cumQ() < 2000) DisplayText("\n\nAn orgasmic contraction wracks your abdomen, shivering through your midsection and down towards your groin.  A thick trail of slime leaks from " + CockDescriptor.describeMultiCockSimpleOne(character) + "  and trails down your " + LegDescriptor.describeLeg(character) + ", pooling below you.  It's quite obvious that your body is producing even more cum now.");
+                else if (character.cumQ() < 2000) DisplayText("\n\nAn orgasmic contraction wracks your abdomen, shivering through your midsection and down towards your groin.  A thick trail of slime leaks from " + Desc.Cock.describeMultiCockSimpleOne(character) + "  and trails down your " + Desc.Leg.describeLeg(character) + ", pooling below you.  It's quite obvious that your body is producing even more cum now.");
                 // (XXL cum quantity)
-                else DisplayText("\n\nA body-wrenching contraction thrums through your gut, bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  pre-cum explodes from " + CockDescriptor.describeMultiCockSimpleOne(character) + ", running down your " + LegDescriptor.describeLegs(character) + " and splattering into puddles that would shame the orgasms of lesser " + GenderDescriptor.mf(character, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
+                else DisplayText("\n\nA body-wrenching contraction thrums through your gut, bringing with it the orgasmic feeling of your body kicking into cum-production overdrive.  pre-cum explodes from " + Desc.Cock.describeMultiCockSimpleOne(character) + ", running down your " + Desc.Leg.describeLegs(character) + " and splattering into puddles that would shame the orgasms of lesser " + Desc.Gender.mf(character, "males", "persons") + ".  You rub yourself a few times, nearly starting to masturbate on the spot, but you control yourself and refrain for now.");
             }
         }
         // Bunny feet! - requirez earz
@@ -276,7 +268,7 @@ export default class NeonPinkEgg extends Consumable {
             if (character.torso.hips.legs.isTaur()) DisplayText("\n\nYour quadrupedal hind-quarters seizes, overbalancing your surprised front-end and causing you to stagger and fall to your side.  Pain lances throughout, contorting your body into a tightly clenched ball of pain while tendons melt and bones break, melt, and regrow.  When it finally stops, <b>you look down to behold your new pair of fur-covered rabbit feet</b>!");
             // Non-taurs
             else {
-                DisplayText("\n\nNumbness envelops your " + LegDescriptor.describeLegs(character) + " as they pull tighter and tighter.  You overbalance and drop on your " + ButtDescriptor.describeButt(character));
+                DisplayText("\n\nNumbness envelops your " + Desc.Leg.describeLegs(character) + " as they pull tighter and tighter.  You overbalance and drop on your " + Desc.Butt.describeButt(character));
                 if (character.torso.tails.count > 0) DisplayText(", nearly smashing your tail flat");
                 else DisplayText(" hard enough to sting");
                 DisplayText(" while the change works its way through you.  Once it finishes, <b>you discover that you now have fuzzy bunny feet and legs</b>!");
@@ -291,7 +283,7 @@ export default class NeonPinkEgg extends Consumable {
             // Human(ish) face
             if (character.torso.neck.head.face.type === FaceType.HUMAN || character.torso.neck.head.face.type === FaceType.SHARK_TEETH) DisplayText("You catch your nose twitching on its own at the bottom of your vision, but as soon as you focus on it, it stops.  A moment later, some of your teeth tingle and brush past your lips, exposing a white pair of buckteeth!  <b>Your face has taken on some rabbit-like characteristics!</b>");
             // Crazy furry TF shit
-            else DisplayText("You grunt as your " + FaceDescriptor.describeFace(character) + " twists and reforms.  Even your teeth ache as their positions are rearranged to match some new, undetermined order.  When the process finishes, <b>you're left with a perfectly human looking face, save for your constantly twitching nose and prominent buck-teeth.</b>");
+            else DisplayText("You grunt as your " + Desc.Face.describeFace(character) + " twists and reforms.  Even your teeth ache as their positions are rearranged to match some new, undetermined order.  When the process finishes, <b>you're left with a perfectly human looking face, save for your constantly twitching nose and prominent buck-teeth.</b>");
             character.torso.neck.head.face.type = FaceType.BUNNY;
         }
         // DAH BUNBUN EARZ - requires poofbutt!
@@ -333,7 +325,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (character.stats.cor < 90) DisplayText("You pant a little and wonder where the nearest fertile male is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  You should get bred soon!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + BodyDescriptor.assholeOrPussy(character) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to your " + Desc.Body.assholeOrPussy(character) + ", and you're struck by just how empty it feels.  The desire to be filled, not by a hand or a finger but by a virile male, rolls through you like a wave, steadily increasing your desire for sex.");
                 }
                 // WANGS!
                 if (character.torso.cocks.count > 0) {
@@ -347,7 +339,7 @@ export default class NeonPinkEgg extends Consumable {
                         else if (character.stats.cor < 75) DisplayText("You pant a little and wonder where the nearest fertile female is.");
                         else DisplayText("You grunt and groan with desire and disappointment.  Gods you need to fuck!");
                     }
-                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to " + CockDescriptor.describeMultiCockSimpleOne(character) + ", and you groan from how tight and hard it feels.  The desire to have it squeezed, not with your hand but with a tight pussy or puckered asshole, runs through you like a wave, steadily increasing your desire for sex.");
+                    else DisplayText("\n\nYour mouth rolls open as you start to pant with desire.  Did it get hotter?  Your hand reaches down to " + Desc.Cock.describeMultiCockSimpleOne(character) + ", and you groan from how tight and hard it feels.  The desire to have it squeezed, not with your hand but with a tight pussy or puckered asshole, runs through you like a wave, steadily increasing your desire for sex.");
                 }
             }
             // Libido over 60? FUCK YEAH!
@@ -355,10 +347,10 @@ export default class NeonPinkEgg extends Consumable {
                 DisplayText("\n\nYou fan your neck and start to pant as your " + character.skin.tone + " skin begins to flush red with heat");
                 if (character.skin.type > SkinType.PLAIN) DisplayText(" through your " + character.skin.desc);
                 DisplayText(".  ");
-                if (character.gender === 1) DisplayText("Compression tightens down on " + CockDescriptor.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + ButtDescriptor.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                if (character.gender === 1) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
+                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
                 else if (character.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
-                else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + CockDescriptor.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
+                else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + Desc.Cock.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }
             // MEGALIBIDO
             else {

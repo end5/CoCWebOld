@@ -1,19 +1,18 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
 import { EarType } from '../../Body/Ears';
 import { FaceType } from '../../Body/Face';
 import { LegType } from '../../Body/Legs';
 import { SkinType } from '../../Body/Skin';
-import Tail, { TailType } from '../../Body/Tail';
-import Character from '../../Character/Character';
-import * as HeadDescriptor from '../../Descriptors/HeadDescriptor';
-import * as SkinDescriptor from '../../Descriptors/SkinDescriptor';
-import * as BodyModifier from '../../Modifiers/BodyModifier';
-import ItemDesc from '../ItemDesc';
+import { Tail, TailType } from '../../Body/Tail';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { Mod } from '../../Modifiers/Modifiers';
+import { ItemDesc } from '../ItemDesc';
 
-export default class RingtailFig extends Consumable {
+export class RingtailFig extends Consumable {
     public constructor() {
         super(ConsumableName.RingtailFig, new ItemDesc("RingFig", "a ringtail fig", "A dried fig with two lobes and thin dark rings just below its stem.  The skin is wrinkly and it looks vaguely like a bulging scrotum."));
     }
@@ -39,7 +38,7 @@ export default class RingtailFig extends Consumable {
         }
         // gain sensitivity
         if (character.stats.sens < 80 && randInt(3) === 0 && changes < changeLimit) {
-            DisplayText("\n\nThe wrinkled rind suddenly feels alarmingly distinct in your hands, and you drop the remnants of the fruit.  Wonderingly, you touch yourself with a finger - you can feel even the lightest pressure on your " + SkinDescriptor.skinFurScales(character) + " much more clearly now!");
+            DisplayText("\n\nThe wrinkled rind suddenly feels alarmingly distinct in your hands, and you drop the remnants of the fruit.  Wonderingly, you touch yourself with a finger - you can feel even the lightest pressure on your " + Desc.Skin.skinFurScales(character) + " much more clearly now!");
             if (character.stats.sens < 60) character.stats.sens += 2;
             character.stats.sens += 2;
             changes++;
@@ -71,7 +70,7 @@ export default class RingtailFig extends Consumable {
         }
         // gain thickness or lose tone or whatever - standard message
         if (randInt(4) === 0 && character.thickness < 80 && changes < changeLimit) {
-            DisplayText(BodyModifier.displayModThickness(character, 80, 2));
+            DisplayText(Mod.Body.displayModThickness(character, 80, 2));
             changes++;
         }
         // bodypart changes:
@@ -104,7 +103,7 @@ export default class RingtailFig extends Consumable {
             // from cat, horse, cow ears
             else if (character.torso.neck.head.ears.type === EarType.HORSE || character.torso.neck.head.ears.type === EarType.COW || character.torso.neck.head.ears.type === EarType.CAT) DisplayText("\n\nYour ears tingle.  Huh.  Do they feel a bit rounder at the tip now?  <b>Looks like you have raccoon ears.</b>");
             // from human, goblin, lizard or other short ears
-            else DisplayText("\n\nYour ears prick and stretch uncomfortably, poking up through your " + HeadDescriptor.describeHair(character) + ".  Covering them with your hands, you feel them shaping into little eggdrop ornaments resting atop your head.  <b>You have raccoon ears!</b>");
+            else DisplayText("\n\nYour ears prick and stretch uncomfortably, poking up through your " + Desc.Head.describeHair(character) + ".  Covering them with your hands, you feel them shaping into little eggdrop ornaments resting atop your head.  <b>You have raccoon ears!</b>");
             character.torso.neck.head.ears.type = EarType.RACCOON;
             changes++;
         }
@@ -150,13 +149,13 @@ export default class RingtailFig extends Consumable {
                 if (((character.skin.tone === "ebony" || character.skin.tone === "black") && (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)) || ((character.torso.neck.head.hair.color === "black" || character.torso.neck.head.hair.color === "midnight") && (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES))) {
                     DisplayText("Nothing seems different at first.  Strange... you look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask.</b>");
                 }
-                else DisplayText("A dark, almost black mask shades the " + SkinDescriptor.skinFurScales(character) + " around your eyes and over the topmost portion of your nose, lending you a criminal air!  <b>You now have a raccoon mask!</b>");
+                else DisplayText("A dark, almost black mask shades the " + Desc.Skin.skinFurScales(character) + " around your eyes and over the topmost portion of your nose, lending you a criminal air!  <b>You now have a raccoon mask!</b>");
             }
             // from snout (will not overwrite full-coon snout but will overwrite others)
             else {
                 DisplayText("\n\nA sudden migraine sweeps over you and you clutch your head in agony as your nose collapses back to human dimensions.  A worrying numb spot grows around your eyes, and you entertain several horrible premonitions until it passes as suddenly as it came.  Checking your reflection in your water barrel, you find ");
                 // [(if black/midnight fur or if black scales)
-                if (((character.torso.neck.head.hair.color === "black" || character.torso.neck.head.hair.color === "midnight") && (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES))) DisplayText("your face apparently returned to normal shape, albeit still covered in " + SkinDescriptor.skinFurScales(character) + ".  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your otherwise normal human face.</b>");
+                if (((character.torso.neck.head.hair.color === "black" || character.torso.neck.head.hair.color === "midnight") && (character.skin.type === SkinType.FUR || character.skin.type === SkinType.SCALES))) DisplayText("your face apparently returned to normal shape, albeit still covered in " + Desc.Skin.skinFurScales(character) + ".  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your otherwise normal human face.</b>");
                 else if ((character.skin.tone === "ebony" || character.skin.tone === "black") && (character.skin.type === SkinType.PLAIN || character.skin.type === SkinType.GOO)) DisplayText("your face apparently returned to normal shape.  You look closer and discover a darker, mask-line outline on your already inky visage.  <b>You now have a barely-visible raccoon mask on your normal human face.</b>");
                 else DisplayText("your face returned to human dimensions, but shaded by a black mask around the eyes and over the nose!  <b>You now have a humanoid face with a raccoon mask!</b>");
             }

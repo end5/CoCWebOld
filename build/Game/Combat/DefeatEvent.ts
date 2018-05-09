@@ -1,4 +1,4 @@
-import Character from '../Character/Character';
+import { Character } from '../Character/Character';
 
 export enum DefeatType {
     Special,
@@ -7,7 +7,7 @@ export enum DefeatType {
     Escape
 }
 
-export default class DefeatEvent {
+export class DefeatEvent {
     public readonly victor: Character;
     public readonly loser: Character;
     public readonly how: DefeatType;

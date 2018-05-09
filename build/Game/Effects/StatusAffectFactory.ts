@@ -1,5 +1,5 @@
-import StatusAffect from './StatusAffect';
-import StatusAffectDescLib from './StatusAffectDescLib';
+import { StatusAffect } from './StatusAffect';
+import { StatusAffectDescLib } from './StatusAffectDescLib';
 import { StatusAffectType } from './StatusAffectType';
 
 class StatusAffectFactory {
@@ -21,4 +21,4 @@ class StatusAffectFactory {
 }
 
 const statusAffectFactory = new StatusAffectFactory();
-export default statusAffectFactory as StatusAffectFactory;
+export { statusAffectFactory as StatusAffectFactory };

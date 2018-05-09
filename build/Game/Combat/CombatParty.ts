@@ -1,8 +1,8 @@
-import DefeatEvent, { DefeatType } from './DefeatEvent';
-import PartyEndScenes from './PartyEndScenes';
-import Character from '../Character/Character';
+import { DefeatEvent, DefeatType } from './DefeatEvent';
+import { PartyEndScenes } from './PartyEndScenes';
+import { Character } from '../Character/Character';
 
-export default class CombatParty {
+export class CombatParty {
     public readonly allMembers: Character[];
     public ableMembers: Character[];
     public defeatLog: DefeatEvent[];

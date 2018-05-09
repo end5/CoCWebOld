@@ -5,22 +5,21 @@ import * as ErlKingScene from './Forest/ErlKingScene';
 import * as Essrayle from './Forest/Essrayle';
 import * as Faerie from './Forest/Faerie';
 import * as KitsuneScene from './Forest/KitsuneScene';
-import DisplaySprite from '../../../Engine/Display/DisplaySprite';
-import DisplayText from '../../../Engine/display/DisplayText';
-import SpriteName from '../../../Engine/Display/Images/SpriteName';
-import MainScreen from '../../../Engine/Display/MainScreen';
+import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
+import { DisplayText } from '../../../Engine/display/DisplayText';
+import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { randInt, randomChoice } from '../../../Engine/Utilities/SMath';
-import Cock from '../../Body/Cock';
+import { Cock } from '../../Body/Cock';
 import { VaginaWetness } from '../../Body/Vagina';
-import Character from '../../Character/Character';
-import * as ButtDescriptor from '../../Descriptors/ButtDescriptor';
-import * as CockDescriptor from '../../Descriptors/CockDescriptor';
-import * as VaginaDescriptor from '../../Descriptors/VaginaDescriptor';
-import ItemType from '../../Items/ItemType';
-import MaterialName from '../../Items/Materials/MaterialName';
-import LocationName from '../../Locations/LocationName';
-import User from '../../User';
-import Scenes from '../Scenes';
+import { Character } from '../../Character/Character';
+import { Desc } from '../../Descriptors/Descriptors';
+import { ItemType } from '../../Items/ItemType';
+import { MaterialName } from '../../Items/Materials/MaterialName';
+import { LocationName } from '../../Locations/LocationName';
+import { Menus } from '../../Menus/Menus';
+import { NextScreenChoices } from '../../SceneDisplay';
+import { User } from '../../User';
+import { Scenes } from '../Scenes';
 
 /**
  * Created by aimozg on 06.01.14.
@@ -37,40 +36,38 @@ export const kitsuneScene = KitsuneScene;
 // export const tentacleBeastScene: TentacleBeastScene = new TentacleBeastScene();
 export const erlkingScene = ErlKingScene;
 
-export function exploreDeepwoods(character: Character): void {
+export function exploreDeepwoods(character: Character): NextScreenChoices {
     User.locations.get(LocationName.Deepwoods).timesVisited++;
 
     const chooser = randInt(5);
 
     // Faerie
     if (chooser === 0) {
-        Scenes.forest.faerie.encounter(character);
-        return;
+        return Scenes.forest.faerie.encounter(character);
     }
     // Tentacle monster
     if (chooser === 1) {
         DisplayText("Tentacle Beast Placeholder");
-        return;
+        return { next: Menus.Player };
     }
     // Corrupted Glade
     if (chooser === 2) {
         if (randInt(4) === 0) {
-            trappedSatyr(character);
-            return;
+            return trappedSatyr(character);
         }
-        corruptedGlade.intro(character);
+        return corruptedGlade.intro(character);
     }
     if (chooser === 3) {
-        akbalScene.supahAkabalEdition(character);
+        return akbalScene.supahAkabalEdition(character);
     }
     else if (chooser === 4) {
-        if (randInt(3) === 0) kitsuneScene.kitsuneShrine(character);
-        else kitsuneScene.enterTheTrickster(character);
+        if (randInt(3) === 0) return kitsuneScene.kitsuneShrine(character);
+        else return kitsuneScene.enterTheTrickster(character);
     }
 }
 
 // Explore forest
-export function exploreForest(character: Character): void {
+export function exploreForest(character: Character): NextScreenChoices {
     User.locations.get(LocationName.Forest).timesVisited++;
 
     // Chance to discover deepwoods
@@ -78,35 +75,33 @@ export function exploreForest(character: Character): void {
         User.locations.get(LocationName.Deepwoods).timesVisited++;
         DisplayText().clear();
         DisplayText("After exploring the forest so many times, you decide to really push it, and plunge deeper and deeper into the woods.  The further you go the darker it gets, but you courageously press on.  The plant-life changes too, and you spot more and more lichens and fungi, many of which are luminescent.  Finally, a wall of tree-trunks as wide as houses blocks your progress.  There is a knot-hole like opening in the center, and a small sign marking it as the entrance to the 'Deepwoods'.  You don't press on for now, but you could easily find your way back to explore the Deepwoods.\n\n<b>Deepwoods exploration unlocked!</b>");
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-        return;
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
 
     const chooser = randInt(4);
-    [goblinEncounter, jojoEncounter, tentacleEncounter, beeGirlEncounter][chooser](character);
+    return [goblinEncounter, jojoEncounter, tentacleEncounter, beeGirlEncounter][chooser](character);
 }
 
-function goblinEncounter(character: Character) {
+function goblinEncounter(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Goblin Encounter Placeholder");
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function jojoEncounter(character: Character) {
+function jojoEncounter(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Jojo Encounter Placeholder");
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
-function tentacleEncounter(character: Character) {
+function tentacleEncounter(character: Character): NextScreenChoices {
     DisplayText().clear();
     const temp = randInt(5);
     // Oh noes, tentacles!
     if (temp === 0) {
         // Tentacle avoidance chance due to dangerous plants
         DisplayText("Tentacle Beast Placeholder.");
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-        return;
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
     if (temp === 1) {
         if (character.stats.cor < 80) {
@@ -116,49 +111,45 @@ function tentacleEncounter(character: Character) {
         }
         else {
             DisplayText("As you wander in the forest, you keep ");
-            if (character.gender === 1) DisplayText("stroking your half-erect " + CockDescriptor.describeMultiCockShort(character) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes.");
-            if (character.gender === 2) DisplayText("idly toying with your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about getting fucked by all kinds of monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
-            if (character.gender === 3) DisplayText("stroking alternatively your " + CockDescriptor.describeMultiCockShort(character) + " and your " + VaginaDescriptor.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes, before, or while, getting fucked by various monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
+            if (character.gender === 1) DisplayText("stroking your half-erect " + Desc.Cock.describeMultiCockShort(character) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes.");
+            if (character.gender === 2) DisplayText("idly toying with your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about getting fucked by all kinds of monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
+            if (character.gender === 3) DisplayText("stroking alternatively your " + Desc.Cock.describeMultiCockShort(character) + " and your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes, before, or while, getting fucked by various monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
             if (character.gender === 0) DisplayText("daydreaming about sex-demons with huge sexual attributes, and how you could please them.");
             DisplayText("");
             character.stats.tou += 0.5;
             character.stats.lib += 0.25;
             character.stats.lust += character.stats.lib / 5;
         }
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-        return;
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
     // CORRUPTED GLADE
     if (temp === 2 || temp >= 4) {
         if (randInt(4) === 0) {
-            trappedSatyr(character);
-            return;
+            return trappedSatyr(character);
         }
-        corruptedGlade.intro(character);
+        return corruptedGlade.intro(character);
     }
     // Trip on a root!
     if (temp === 3) {
         DisplayText("You trip on an exposed root, scraping yourself somewhat, but otherwise the hour is uneventful.");
         character.stats.HP -= 10;
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
-        return;
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
 }
 
-function beeGirlEncounter(character: Character) {
+function beeGirlEncounter(character: Character): NextScreenChoices {
     if (randInt(10) === 0) {
         DisplayText().clear();
         DisplayText("You find a large piece of insectile carapace obscured in the ferns to your left.  It's mostly black with a thin border of bright yellow along the outer edge.  There's still a fair portion of yellow fuzz clinging to the chitinous shard.  It feels strong and flexible - maybe someone can make something of it.  ");
-        character.inventory.items.createAdd(character, ItemType.Material, MaterialName.BlackChitin, Scenes.camp.returnToCampUseOneHour);
-        return;
+        return character.inventory.items.createAdd(character, ItemType.Material, MaterialName.BlackChitin, Scenes.camp.returnToCampUseOneHour);
     }
-    Scenes.forest.beeGirlScene.beeEncounter(character);
+    return Scenes.forest.beeGirlScene.beeEncounter(character);
 }
 
 // Catch a Satyr using the corrupt glade and either leave or have your way with him.
 // Suggested to Fen as the MaleXMale submission.
 // Will be standalone
-function trappedSatyr(character: Character): void {
+function trappedSatyr(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Satyr);
     DisplayText("As you wander through the woods, you find yourself straying into yet another corrupt glade.  However, this time the perverse grove isn't unoccupied; loud bleatings and brayings of pleasure split the air, and as you push past a bush covered in dripping, glans-shaped berries, you spot the source.\n\n");
@@ -168,19 +159,19 @@ function trappedSatyr(character: Character): void {
     // (Player lacks a penis:
     if (character.torso.cocks.count <= 0) {
         DisplayText("You can't really see any way to take advantage of this scenario, so you simply turn back and leave the way you came.");
-        MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+        return { next: Scenes.camp.returnToCampUseOneHour };
     }
     // Player returns to camp)
     // (Player has penis:
     else {
         DisplayText("You can see his goat tail flitting happily above his tight, squeezable asscheeks, the loincloth discarded beside him failing to obscure his black cherry, ripe for the picking.  Do you take advantage of his distraction and ravage his ass while he's helpless?\n\n");
         // [Yes] [No]
-        MainScreen.displayChoices(["Ravage"], [rapeSatyr], ["Leave"], [ignoreSatyr]);
+        return { choices: [["Ravage"], [rapeSatyr]], persistantChoices: [["Leave"], [ignoreSatyr]] };
     }
 }
 
 // [=No=]
-function ignoreSatyr(character: Character): void {
+function ignoreSatyr(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Satyr);
     DisplayText("You shake your head, ");
@@ -188,10 +179,10 @@ function ignoreSatyr(character: Character): void {
     else DisplayText("not feeling inclined to rape some satyr butt right now");
     DisplayText(", and silently leave him to his pleasures.");
     character.stats.lust += 5 + character.stats.lib / 20;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 // Player returns to camp
-function rapeSatyr(character: Character): void {
+function rapeSatyr(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Satyr);
     const biggestCocks = character.torso.cocks.sort(Cock.LargestCockArea);
@@ -208,20 +199,20 @@ function rapeSatyr(character: Character): void {
     if (character.torso.hips.legs.isNaga()) DisplayText("slither");
     else DisplayText("sneak");
 
-    DisplayText(" towards the distracted satyr; stopping a few feet away, you stroke your " + CockDescriptor.describeCock(character, x) + ", urging it to full erection and coaxing a few beads of pre, which you smear along your " + CockDescriptor.describeCockHead(x) + ".  With no warning, you lunge forward, grabbing and pulling his hips towards your " + CockDescriptor.describeCock(character, x) + " and shoving as much of yourself inside his tight ass as you can.\n\n");
+    DisplayText(" towards the distracted satyr; stopping a few feet away, you stroke your " + Desc.Cock.describeCock(character, x) + ", urging it to full erection and coaxing a few beads of pre, which you smear along your " + Desc.Cock.describeCockHead(x) + ".  With no warning, you lunge forward, grabbing and pulling his hips towards your " + Desc.Cock.describeCock(character, x) + " and shoving as much of yourself inside his tight ass as you can.\n\n");
 
     DisplayText("The satyr lets out a startled yelp, struggling against you, but between his awkward position and the mutant flower ravenously sucking on his sizable cock, he's helpless.\n\n");
 
-    DisplayText("You slap his butt with a open palm, leaving a clear mark on his taut behind.  He bleats, bucking wildly, but this serves only to slam his butt into your crotch until the flower hungrily sucks him back, sliding him off your prick.  You smile as a wicked idea hits you; you hit his ass again and again, making him buck into your throbbing " + CockDescriptor.nounCock(x.type) + ", while the flower keeps pulling him back inside; effectively making the satyr fuck himself.\n\n");
+    DisplayText("You slap his butt with a open palm, leaving a clear mark on his taut behind.  He bleats, bucking wildly, but this serves only to slam his butt into your crotch until the flower hungrily sucks him back, sliding him off your prick.  You smile as a wicked idea hits you; you hit his ass again and again, making him buck into your throbbing " + Desc.Cock.nounCock(x.type) + ", while the flower keeps pulling him back inside; effectively making the satyr fuck himself.\n\n");
 
     DisplayText("Eventually, his bleating and screaming start to annoy you, so you silence him by grabbing at his horns and shoving his head to the side, into one of the breast-like growths nearby.  The satyr unthinkingly latches onto the floral nipple and starts to suckle, quieting him as you hoped.  You're not sure why, but he starts to voluntarily buck back and forth between you and the flower; maybe he's getting into the spirit of things, or maybe the vegetal teat he's pulling on has introduced an aphrodisiac chemical after so many violent attempts to pull out of the kindred flower.\n\n");
 
     DisplayText("You resolve not to think about it right now and just enjoy pounding the satyr's ass.  With his bucking you're able to thrust even farther into his tight puckered cherry, ");
     if (x.area >= 100) DisplayText("stretching it all out of normal proportion and ruining it for whomever might happen to use it next.");
-    else DisplayText("stretching it to fit your " + CockDescriptor.describeCock(character, x) + " like a condom.");
+    else DisplayText("stretching it to fit your " + Desc.Cock.describeCock(character, x) + " like a condom.");
     DisplayText("  Your groin throbs, ");
     if (character.torso.balls.quantity > 0) DisplayText("your balls churn, ");
-    DisplayText("and you grunt as you feel the first shots of cum flowing along " + CockDescriptor.describeMultiCockSimpleOne(character) + ", only to pour out into");
+    DisplayText("and you grunt as you feel the first shots of cum flowing along " + Desc.Cock.describeMultiCockSimpleOne(character) + ", only to pour out into");
     if (character.torso.cocks.count > 1) DisplayText(" and onto");
     DisplayText(" the satyr's abused ass; you continue pounding him even as you climax, causing rivulets of cum to run down his cheeks and legs.\n\n");
 
@@ -240,25 +231,25 @@ function rapeSatyr(character: Character): void {
 
     DisplayText("You can't help but smile inwardly at the helpless goatman's eagerness, and decide to stick around and watch him a little longer.  It's not everyday you see a creature like him at your mercy.  Every once in awhile you egg him on with a fresh slapping of his butt. The satyr grumbles and huffs, but continues to thrust and rut mindlessly into the vegetative pussy feeding on his cock. You don't think it'll be long before he cums...\n\n");
 
-    DisplayText("As you watch the lewd display, you feel your arousal building and your " + CockDescriptor.describeCock(character, x) + " growing back into full mast. Figuring you already have a willing slut readily available, you consider using him to relieve yourself once more... What do you do?");
+    DisplayText("As you watch the lewd display, you feel your arousal building and your " + Desc.Cock.describeCock(character, x) + " growing back into full mast. Figuring you already have a willing slut readily available, you consider using him to relieve yourself once more... What do you do?");
     character.orgasm();
     // [Again][Leave]
-    MainScreen.displayChoices(["Again"], [secondSatyrFuck], ["Leave"], [dontRepeatFuckSatyr]);
+    return { choices: [["Again"], [secondSatyrFuck]], persistantChoices: [["Leave"], [dontRepeatFuckSatyr]] };
 }
 
 // [=Leave=]
-function dontRepeatFuckSatyr(character: Character): void {
+function dontRepeatFuckSatyr(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Satyr);
     DisplayText("You've had your fun, and you don't really want to fool around in the forest all day, so you grab your " + character.inventory.equipment.armor.displayName + " and leave the rutting satyr behind.\n\n");
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }
 // [=Again=]
-function secondSatyrFuck(character: Character): void {
+function secondSatyrFuck(character: Character): NextScreenChoices {
     const biggestCocks = character.torso.cocks.sort(Cock.LargestCockArea);
     const x = biggestCocks[0];
     DisplayText().clear();
-    DisplayText("There's no harm in using the helpless goat once more... This time though, you decide you'll use his mouth.  With a yank on his horns, you forcefully dislodge him from the breast-plant and force him to his knees, turning his head towards you; he doesn't put up much resistance and when you present your erect shaft to him, he licks his lips in excitement and latches onto your " + CockDescriptor.describeCock(character, x) + ".\n\n");
+    DisplayText("There's no harm in using the helpless goat once more... This time though, you decide you'll use his mouth.  With a yank on his horns, you forcefully dislodge him from the breast-plant and force him to his knees, turning his head towards you; he doesn't put up much resistance and when you present your erect shaft to him, he licks his lips in excitement and latches onto your " + Desc.Cock.describeCock(character, x) + ".\n\n");
 
     DisplayText("His mouth is exquisite; it feels slippery and warm and his lips are soft while his tongue wriggles about your shaft, trying to embrace and massage it.  He gloms onto your manhood with eager hunger, desperate to ravish you with his mouth.  Quivers of pleasure ripple and shudder through his body as he slobbers and gulps - and no wonder!  From the remnants of sap still in his mouth, you can feel currents of arousal tingling down your cock; if he's been drinking it straight, his mouth must be as sensitive as a cunt from the effects of this stuff.\n\n");
 
@@ -270,5 +261,5 @@ function secondSatyrFuck(character: Character): void {
     character.orgasm();
     character.stats.lib += 1;
     character.stats.sens += -5;
-    MainScreen.doNext(Scenes.camp.returnToCampUseOneHour);
+    return { next: Scenes.camp.returnToCampUseOneHour };
 }

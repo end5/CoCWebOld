@@ -1,19 +1,19 @@
-﻿import BreastRow from './BreastRow';
-import GenderIdentity, { Gender } from './GenderIdentity';
+﻿import { BreastRow } from './BreastRow';
+import { Gender, GenderIdentity } from './GenderIdentity';
 import { LegType } from './Legs';
-import PregnancyManager from './Pregnancy/PregnancyManager';
-import Skin from './Skin';
-import Stats from './Stats';
-import StatsModifier from './StatsModifier';
-import Torso from './Torso';
-import Vagina from './Vagina';
+import { PregnancyManager } from './Pregnancy/PregnancyManager';
+import { Skin } from './Skin';
+import { Stats } from './Stats';
+import { StatsModifier } from './StatsModifier';
+import { Torso } from './Torso';
+import { Vagina } from './Vagina';
 import { WingType } from './Wings';
-import DictionarySerializer from '../../Engine/Utilities/DictionarySerializer';
-import ISerializable from '../../Engine/Utilities/ISerializable';
-import PerkDict from '../Effects/PerkDict';
-import StatusAffectDict from '../Effects/StatusAffectDict';
+import { DictionarySerializer } from '../../Engine/Utilities/DictionarySerializer';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
+import { PerkDict } from '../Effects/PerkDict';
+import { StatusAffectDict } from '../Effects/StatusAffectDict';
 
-export default class Creature implements ISerializable<Creature> {
+export class Creature implements ISerializable<Creature> {
     // Appearance Variables
     public genderManager: GenderIdentity = new GenderIdentity(this);
     public tallness: number = 0;

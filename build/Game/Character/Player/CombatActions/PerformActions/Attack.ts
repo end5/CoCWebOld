@@ -1,16 +1,16 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
-import MainScreen from '../../../../../Engine/Display/MainScreen';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
-import CombatManager from '../../../../Combat/CombatManager';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
+import { CombatManager } from '../../../../Combat/CombatManager';
 import { fatigueRecovery } from '../../../../Combat/CombatUtils';
-import CombatEffectFactory from '../../../../Effects/CombatEffectFactory';
+import { CombatEffectFactory } from '../../../../Effects/CombatEffectFactory';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
-import User from '../../../../User';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { User } from '../../../../User';
+import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
-import PlayerFlags from '../../PlayerFlags';
+import { PlayerFlags } from '../../PlayerFlags';
 
 export class Attack implements CombatAction {
     public name: string = "Attack";
@@ -24,7 +24,7 @@ export class Attack implements CombatAction {
         return true;
     }
 
-    public use(character: Character, target: Character): void {
+    public use(character: Character, target: Character): NextScreenChoices {
         if (!character.combat.effects.has(CombatEffectType.FirstAttack)) {
             DisplayText().clear();
             fatigueRecovery(character);
@@ -59,7 +59,7 @@ export class Attack implements CombatAction {
             else
                 DisplayText("\n");
         }
-        MainScreen.doNext(CombatManager.nextRound);
+        return;
     }
 }
 

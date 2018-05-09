@@ -1,12 +1,12 @@
 import { CaninePepperType } from './CaninePepper';
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
 import { EggType } from './Eggs';
 import { HairDyeType } from './HairDye';
-import Dictionary from '../../../Engine/Utilities/Dictionary';
+import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import * as Consumables from '.';
 
-export default class ConsumableLib extends Dictionary<Consumable> {
+export class ConsumableLib extends Dictionary<Consumable> {
     public constructor() {
         super();
         this.set(ConsumableName.BeeHoney, new Consumables.BeeHoney(false, false));

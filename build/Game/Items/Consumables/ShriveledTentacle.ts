@@ -1,18 +1,18 @@
-import Consumable from './Consumable';
-import ConsumableName from './ConsumableName';
-import DisplayText from '../../../Engine/display/DisplayText';
+import { Consumable } from './Consumable';
+import { ConsumableName } from './ConsumableName';
+import { DisplayText } from '../../../Engine/display/DisplayText';
 import { randInt } from '../../../Engine/Utilities/SMath';
-import Tail, { TailType } from '../../Body/Tail';
+import { Tail, TailType } from '../../Body/Tail';
 import { WingType } from '../../Body/Wings';
-import Character from '../../Character/Character';
-import PlayerFlags from '../../Character/Player/PlayerFlags';
-import * as BreastDescriptor from '../../Descriptors/BreastDescriptor';
+import { Character } from '../../Character/Character';
+import { PlayerFlags } from '../../Character/Player/PlayerFlags';
+import { Desc } from '../../Descriptors/Descriptors';
 import { PerkType } from '../../Effects/PerkType';
-import User from '../../User';
+import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
-import ItemDesc from '../ItemDesc';
+import { ItemDesc } from '../ItemDesc';
 
-export default class ShriveledTentacle extends Consumable {
+export class ShriveledTentacle extends Consumable {
     public constructor() {
         super(ConsumableName.ShriveledTentacle, new ItemDesc("DryTent", "a shriveled tentacle", "A dried tentacle from one of the lake anemones.  It's probably edible, but the stingers are still a little active."));
     }
@@ -80,7 +80,7 @@ export default class ShriveledTentacle extends Consumable {
         }
         // -feathery gills sprout from chest and drape sensually over nipples (cumulative swimming power boost with fin, if swimming is implemented)
         if (randInt(5) === 0 && !character.torso.neck.gills && character.skin.tone === "aphotic blue-black" && changes < changeLimit) {
-            DisplayText("\n\nYou feel a pressure in your lower esophageal region and pull your garments down to check the area.  <b>Before your eyes a pair of feathery gills start to push out of the center of your chest, just below your neckline, parting sideways and draping over your " + BreastDescriptor.describeNipple(character, character.torso.chest.get(0)) + "s.</b>  They feel a bit uncomfortable in the open air at first, but soon a thin film of mucus covers them and you hardly notice anything at all.  You redress carefully.");
+            DisplayText("\n\nYou feel a pressure in your lower esophageal region and pull your garments down to check the area.  <b>Before your eyes a pair of feathery gills start to push out of the center of your chest, just below your neckline, parting sideways and draping over your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s.</b>  They feel a bit uncomfortable in the open air at first, but soon a thin film of mucus covers them and you hardly notice anything at all.  You redress carefully.");
             character.torso.neck.gills = true;
             changes++;
         }

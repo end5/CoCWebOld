@@ -1,7 +1,7 @@
-import LocationName from './LocationName';
-import ISerializable from '../../Engine/Utilities/ISerializable';
+import { LocationName } from './LocationName';
+import { ISerializable } from '../../Engine/Utilities/ISerializable';
 
-export default class Location implements ISerializable<Location> {
+export class Location implements ISerializable<Location> {
     private locName: LocationName;
     private visitCount: number;
     public locationKnown: boolean;

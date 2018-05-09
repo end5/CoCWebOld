@@ -1,7 +1,8 @@
-import DisplayText from '../../../../../Engine/display/DisplayText';
-import CombatAction from '../../../../Combat/Actions/CombatAction';
+import { DisplayText } from '../../../../../Engine/display/DisplayText';
+import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import Character from '../../../Character';
+import { NextScreenChoices } from '../../../../SceneDisplay';
+import { Character } from '../../../Character';
 
 export class Recover implements CombatAction {
     public name: string = "Recover";
@@ -18,7 +19,7 @@ export class Recover implements CombatAction {
             character.statusAffects.has(StatusAffectType.Confusion);
     }
 
-    public use(character: Character, target: Character) {
+    public use(character: Character, target: Character): NextScreenChoices {
         if (character.statusAffects.has(StatusAffectType.IsabellaStunned) || character.statusAffects.has(StatusAffectType.Stunned)) {
             DisplayText("\n<b>You're too stunned to attack!</b>  All you can do is wait and try to recover!");
             // MainScreen.getBottomButton(0).modify("Recover", wait);
@@ -31,5 +32,6 @@ export class Recover implements CombatAction {
             DisplayText("\nYou're too confused about who you are to try to attack!");
             // MainScreen.getBottomButton(0).modify("Recover", wait);
         }
+        return;
     }
 }

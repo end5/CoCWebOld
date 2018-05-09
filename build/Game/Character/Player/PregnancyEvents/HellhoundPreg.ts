@@ -1,15 +1,14 @@
 import * as GenericPregnancyChanges from './GenericPregnancyChanges';
-import DisplayText from '../../../../Engine/display/DisplayText';
+import { DisplayText } from '../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../Engine/Utilities/SMath';
-import BreastRow from '../../../Body/BreastRow';
-import IPregnancyEvent from '../../../Body/Pregnancy/IPregnancyEvent';
+import { BreastRow } from '../../../Body/BreastRow';
+import { IPregnancyEvent } from '../../../Body/Pregnancy/IPregnancyEvent';
 import { VaginaWetness } from '../../../Body/Vagina';
-import * as ButtDescriptor from '../../../Descriptors/ButtDescriptor';
-import * as BreastModifier from '../../../Modifiers/BreastModifier';
-import * as VaginaModifier from '../../../Modifiers/VaginaModifier';
-import Player from '../Player';
+import { Desc } from '../../../Descriptors/Descriptors';
+import { Mod } from '../../../Modifiers/Modifiers';
+import { Player } from '../Player';
 
-export default class HellhoundPreg implements IPregnancyEvent {
+export class HellhoundPreg implements IPregnancyEvent {
     public incubationDisplay(player: Player, incubationTime: number) {
         if (incubationTime === 290) {
             DisplayText("\nYou realize your belly has gotten slightly larger.  Maybe you need to cut back on the strange food.\n").bold();
@@ -67,13 +66,13 @@ export default class HellhoundPreg implements IPregnancyEvent {
         DisplayText("Hearing a hiss, you look down to see drops of water hitting the ground and instantly turning to steam.  There is unnatural heat filling you, it's hot enough to boil water; but thanks to the creature inside you, you're barely feeling a thing!  More energy fills you and you begin to push down on the child within in earnest.  The process is painful, but satisfying; you feel like you could push out a mountain with the energy you have right now.  Within a minute, you can feel the heads emerge.  The heads are quickly followed by the rest of the body and you catch your hellhound child in your hands and lift it up to look at it.\n\n");
         DisplayText("You can see the distinctive dog heads are wrapped around each other and yipping softly; a hint of flame can sometimes be seen inside their mouths.  Its cute paws are waving in the air looking for purchase, but the rest of its body looks entirely human except for the double dicks, and it even has your skin color.  Its mouths are aching for nutrition, and you realize that your breasts are filled with what this pup needs and pull it to your chest.  Each head quickly finds a nipple and begins to suckle.  Having finished the birthing, you contentedly sit back down and bask in the feeling of giving milk to your child, or is it children?\n\n");
         DisplayText("You sit there in a state of euphoria for some time.  It's not until the child in front of you starts to become uncomfortably hot and heavy, that you are brought back to reality.  You look down to see that the hellhound pup has grown to three times its original size and even sprouted the distinctive layer of tough black fur.  The beast is licking contentedly at your breasts instead of sucking.  It was the now-full flames in its mouth that had broken your reverie, but before you get a real grasp of what had happened, the hellhound pulls away from you and gives you a few quick happy barks before turning around and running off into the wilds, dropping down onto four legs just before disappearing from view.  You feel the unnatural strength you gained during the birth fade away, and you fall into a deep contented sleep.\n\n");
-        BreastModifier.boostLactation(player, .01);
+        Mod.Breast.boostLactation(player, .01);
         // Main Text here
         if (player.torso.chest.reduce(BreastRow.AverageLactation, 0) > 0 && player.torso.chest.reduce(BreastRow.AverageLactation, 0) < 5) {
             DisplayText("Your breasts won't seem to stop dribbling milk, lactating more heavily than before.  ");
-            BreastModifier.boostLactation(player, .5);
+            Mod.Breast.boostLactation(player, .5);
         }
-        VaginaModifier.displayStretchVagina(player, 60, true);
+        Mod.Vagina.displayStretchVagina(player, 60, true);
         if (player.torso.vaginas.get(0).wetness === VaginaWetness.DRY) player.torso.vaginas.get(0).wetness++;
         if (player.gender === 1) player.gender = 3;
         if (player.gender === 0) player.gender = 2;
@@ -87,12 +86,12 @@ export default class HellhoundPreg implements IPregnancyEvent {
         if (player.torso.butt.rating < 14 && randInt(2) === 0) {
             if (player.torso.butt.rating < 10) {
                 player.torso.butt.rating++;
-                DisplayText("\n\nYou notice your " + ButtDescriptor.describeButt(player) + " feeling larger and plumper after the ordeal.");
+                DisplayText("\n\nYou notice your " + Desc.Butt.describeButt(player) + " feeling larger and plumper after the ordeal.");
             }
             // Big butts grow slower!
             else if (player.torso.butt.rating < 14 && randInt(2) === 0) {
                 player.torso.butt.rating++;
-                DisplayText("\n\nYou notice your " + ButtDescriptor.describeButt(player) + " feeling larger and plumper after the ordeal.");
+                DisplayText("\n\nYou notice your " + Desc.Butt.describeButt(player) + " feeling larger and plumper after the ordeal.");
             }
         }
         DisplayText().newline();

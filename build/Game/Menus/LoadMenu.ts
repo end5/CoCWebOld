@@ -1,9 +1,10 @@
-import Menus from './Menus';
-import { displaySaves, modifyBottomButtons } from './SaveDisplay';
-import DisplayText from '../../Engine/display/DisplayText';
-import SaveManager from '../../Engine/Save/SaveManager';
+import { Menus } from './Menus';
+import { displaySaves, saveSlotChoices } from './SaveDisplay';
+import { DisplayText } from '../../Engine/display/DisplayText';
+import { SaveManager } from '../../Engine/Save/SaveManager';
+import { NextScreenChoices } from '../SceneDisplay';
 
-export default function display() {
+export function display(): NextScreenChoices {
     DisplayText().clear();
     if (SaveManager.activeSlot() !== 0)
         DisplayText("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r");
@@ -11,5 +12,5 @@ export default function display() {
 
     displaySaves();
 
-    modifyBottomButtons(SaveManager.loadFromSlot, Menus.Data);
+    return saveSlotChoices(SaveManager.loadFromSlot, Menus.Data);
 }

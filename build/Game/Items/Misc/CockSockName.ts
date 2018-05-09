@@ -1,4 +1,4 @@
-enum CockSockName {
+export enum CockSockName {
     Wool = "Wool",
     Alabaster = "Alabaster",
     Cockring = "Cockring",
@@ -8,4 +8,3 @@ enum CockSockName {
     Gilded = "Gilded",
     Purple = "Purple"
 }
-export default CockSockName;
