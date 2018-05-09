@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Berserk implements CombatAction {

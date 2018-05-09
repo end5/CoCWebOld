@@ -1,7 +1,7 @@
 import { Menus } from './Game/Menus/Menus';
-import { displayNextSceneChoices } from './Game/SceneDisplay';
+import { displayNextScreenChoices } from './Game/ScreenDisplay';
 import { CombatTest } from './Test/CombatTest';
 
-displayNextSceneChoices(Menus.Main());
+displayNextScreenChoices(Menus.Main());
 
 // CombatTest();

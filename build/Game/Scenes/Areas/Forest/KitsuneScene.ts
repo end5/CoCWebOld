@@ -21,7 +21,7 @@ import { ItemType } from '../../../Items/ItemType';
 import { MaterialName } from '../../../Items/Materials/MaterialName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Time } from '../../../Utilities/Time';

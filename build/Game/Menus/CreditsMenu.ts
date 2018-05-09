@@ -1,6 +1,6 @@
 import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export function display(): NextScreenChoices {
     DisplayText().clear();

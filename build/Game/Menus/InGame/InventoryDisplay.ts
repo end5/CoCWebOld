@@ -3,7 +3,7 @@ import { Character } from '../../Character/Character';
 import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 
 /* better inventory system

@@ -1,7 +1,7 @@
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { showActions } from '../../../../Menus/InGame/PlayerCombatMenu';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { MagicalActionLib } from '../ActionLibs/MagicalActionLib';
 

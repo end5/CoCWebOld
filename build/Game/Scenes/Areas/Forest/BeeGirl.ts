@@ -28,7 +28,7 @@ import { Armor } from '../../../Items/Armors/Armor';
 import { ArmorName } from '../../../Items/Armors/ArmorName';
 import { Weapon } from '../../../Items/Weapons/Weapon';
 import { WeaponName } from '../../../Items/Weapons/WeaponName';
-import { ClickFunction, NextScreenChoices } from '../../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Scenes } from '../../Scenes';
 

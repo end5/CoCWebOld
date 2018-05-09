@@ -3,7 +3,7 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { numToCardinalText } from '../../../../Utilities/NumToText';
 import { Character } from '../../../Character';
 

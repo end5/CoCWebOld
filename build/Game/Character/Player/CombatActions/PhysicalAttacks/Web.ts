@@ -4,7 +4,7 @@ import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
 export class Web implements CombatAction {

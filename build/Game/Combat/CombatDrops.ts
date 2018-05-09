@@ -13,7 +13,7 @@ import { ItemType } from '../Items/ItemType';
 import { CockSockName } from '../Items/Misc/CockSockName';
 import { WeaponName } from '../Items/Weapons/WeaponName';
 import { Menus } from '../Menus/Menus';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 import { isEaster } from '../Utilities/Dates';
 
 export class CombatDrops {

@@ -5,7 +5,7 @@ import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
 export class Kiss implements CombatAction {

@@ -1,7 +1,7 @@
 import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
-import { displayScreenQueue, NextScreenChoices } from '../../SceneDisplay';
 import { Scenes } from '../../Scenes/Scenes';
+import { displayScreenQueue, NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(character: Character): NextScreenChoices {

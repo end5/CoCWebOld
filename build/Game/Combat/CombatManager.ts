@@ -5,7 +5,7 @@ import { List } from '../../Engine/Utilities/List';
 import { Character } from '../Character/Character';
 import { CombatEffectType } from '../Effects/CombatEffectType';
 import { Item } from '../Items/Item';
-import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
 class CombatManager {
     public readonly itemsOnFloor: List<Item> = new List();

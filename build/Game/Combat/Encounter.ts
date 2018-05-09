@@ -7,7 +7,7 @@ import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { Menus } from '../Menus/Menus';
-import { displayScreenQueue, NextScreenChoices, queueScreen } from '../SceneDisplay';
+import { displayScreenQueue, NextScreenChoices, queueScreen } from '../ScreenDisplay';
 import { User } from '../User';
 
 export class Encounter {

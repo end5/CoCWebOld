@@ -23,7 +23,7 @@ import { ItemType } from '../../../Items/ItemType';
 import { MaterialName } from '../../../Items/Materials/MaterialName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Scenes } from '../../Scenes';

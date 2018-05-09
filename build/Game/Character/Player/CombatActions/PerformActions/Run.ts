@@ -8,7 +8,7 @@ import { Desc } from '../../../../Descriptors/Descriptors';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Run implements CombatAction {

@@ -12,7 +12,7 @@ import { Item } from '../Items/Item';
 import { ItemFactory } from '../Items/ItemFactory';
 import { ItemType } from '../Items/ItemType';
 import { displayCharInventoryFull } from '../Menus/InGame/InventoryDisplay';
-import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
 export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
     private itemSlots: List<ItemStack<T>> = new List();

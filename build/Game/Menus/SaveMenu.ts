@@ -3,7 +3,7 @@ import { displaySaves, saveSlotChoices } from './SaveDisplay';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export function display(): NextScreenChoices {
     DisplayText().clear();

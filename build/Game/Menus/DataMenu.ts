@@ -2,7 +2,7 @@ import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 function displayInfo() {
     DisplayText().clear();

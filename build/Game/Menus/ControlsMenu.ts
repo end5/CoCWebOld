@@ -8,7 +8,7 @@ import { BindableAction } from '../../Engine/Input/BindableAction';
 import { InputManager } from '../../Engine/Input/InputManager';
 import { KeyCombination } from '../../Engine/Input/KeyCombination';
 import { Character } from '../Character/Character';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export function display(): NextScreenChoices {
     DisplayText().clear();

@@ -12,7 +12,7 @@ import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Menus } from '../Menus/Menus';
 import { Mod } from '../Modifiers/Modifiers';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 import { numToCardinalCapText, numToCardinalText } from '../Utilities/NumToText';
 import { Time } from '../Utilities/Time';

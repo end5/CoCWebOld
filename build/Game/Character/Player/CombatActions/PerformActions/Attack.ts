@@ -6,7 +6,7 @@ import { fatigueRecovery } from '../../../../Combat/CombatUtils';
 import { CombatEffectFactory } from '../../../../Effects/CombatEffectFactory';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { PerkType } from '../../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { User } from '../../../../User';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';

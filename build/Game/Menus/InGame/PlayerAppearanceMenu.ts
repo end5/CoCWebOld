@@ -23,7 +23,7 @@ import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { CockSockName } from '../../Items/Misc/CockSockName';
 import { PiercingType } from '../../Items/Misc/Piercing';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { numToCardinalCapText, numToCardinalText } from '../../Utilities/NumToText';
 import { Menus } from '../Menus';

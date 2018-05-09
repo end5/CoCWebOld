@@ -4,7 +4,7 @@ import { Desc } from '../Descriptors/Descriptors';
 import { WeaponName } from '../Items/Weapons/WeaponName';
 import { WeaponPerkType } from '../Items/Weapons/WeaponPerk';
 import { Menus } from '../Menus/Menus';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 import { Time } from '../Utilities/Time';
 

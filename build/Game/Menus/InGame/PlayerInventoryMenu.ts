@@ -7,7 +7,7 @@ import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(player: Character): NextScreenChoices {

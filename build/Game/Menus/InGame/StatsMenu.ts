@@ -4,7 +4,7 @@ import * as Spells from '../../Character/Player/CombatActions/PerformActions';
 import { Player } from '../../Character/Player/Player';
 import { PerkType } from '../../Effects/PerkType';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(player: Player): NextScreenChoices {

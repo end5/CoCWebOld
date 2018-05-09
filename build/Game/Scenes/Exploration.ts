@@ -13,7 +13,7 @@ import { CharacterType } from '../Character/CharacterType';
 import { Desc } from '../Descriptors/Descriptors';
 import { LocationName } from '../Locations/LocationName';
 import { Menus } from '../Menus/Menus';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 import { numToCardinalText } from '../Utilities/NumToText';
 

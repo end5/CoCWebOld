@@ -2,8 +2,8 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
 import { Scenes } from '../../../../Scenes/Scenes';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 

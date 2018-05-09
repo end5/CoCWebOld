@@ -10,7 +10,7 @@ import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
 import { LocationName } from '../../Locations/LocationName';
 import { Mod } from '../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
 import { Scenes } from '../Scenes';

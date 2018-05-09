@@ -9,7 +9,7 @@ import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { Perk } from '../../Effects/Perk';
 import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import { displayNextSceneChoices, NextScreenChoices } from '../../SceneDisplay';
+import { displayNextScreenChoices, NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { Menus } from '../Menus';
@@ -61,7 +61,7 @@ function displayPerkList(character: Character, selectedPerk: string) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            displayNextSceneChoices({ choices: [["Okay", "Skip"], [(char) => confirmPerk(char, perk), Menus.Player]] });
+            displayNextScreenChoices({ choices: [["Okay", "Skip"], [(char) => confirmPerk(char, perk), Menus.Player]] });
         });
 
         const longDescElement = new ParagraphElement();

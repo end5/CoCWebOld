@@ -2,7 +2,7 @@ import { DisplaySprite } from '../../../Engine/Display/DisplaySprite';
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { SpriteName } from '../../../Engine/Display/Images/SpriteName';
 import { Player } from '../../Character/Player/Player';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(player: Player): NextScreenChoices {

@@ -4,7 +4,7 @@ import { LegType } from '../../../../Body/Legs';
 import { Tail, TailType } from '../../../../Body/Tail';
 import { Character } from '../../../../Character/Character';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { User } from '../../../../User';
 import { Player } from '../../Player';
 import { PlayerFlags } from '../../PlayerFlags';

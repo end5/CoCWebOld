@@ -5,7 +5,7 @@ import { Character } from '../../../../Character/Character';
 import { CharacterType } from '../../../../Character/CharacterType';
 import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 import { PlayerPhysicalAction } from '../PlayerPhysicalAction';
 

@@ -1,6 +1,6 @@
 import { CombatAction } from './CombatAction';
 import { Character } from '../../Character/Character';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 
 class NoAction implements CombatAction {
     public name: string = "NoAction";

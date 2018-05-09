@@ -1,7 +1,7 @@
 import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
 import { MainScreen, TopButton } from '../../Engine/Display/MainScreen';
-import { clickFuncWrapper, NextScreenChoices } from '../SceneDisplay';
+import { clickFuncWrapper, NextScreenChoices } from '../ScreenDisplay';
 import { Settings } from '../Settings';
 import { User } from '../User';
 import { isEaster, isValentine } from '../Utilities/Dates';

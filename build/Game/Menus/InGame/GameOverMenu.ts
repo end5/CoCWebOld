@@ -1,6 +1,6 @@
 import { DisplayText } from '../../../Engine/display/DisplayText';
 import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(): NextScreenChoices {

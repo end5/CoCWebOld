@@ -10,7 +10,7 @@ import { Desc } from '../../../Descriptors/Descriptors';
 import { PerkType } from '../../../Effects/PerkType';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Scenes } from '../../Scenes';
 
 export function intro(character: Character): NextScreenChoices {

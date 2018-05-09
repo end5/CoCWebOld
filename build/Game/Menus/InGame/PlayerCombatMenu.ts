@@ -5,7 +5,7 @@ import { CombatManager } from '../../Combat/CombatManager';
 import { Desc } from '../../Descriptors/Descriptors';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 
 export function display(character: Character): NextScreenChoices {
     DisplayText().clear();

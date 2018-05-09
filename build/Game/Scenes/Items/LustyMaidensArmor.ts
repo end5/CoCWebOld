@@ -3,7 +3,7 @@ import { BreastRow } from '../../Body/BreastRow';
 import { Vagina } from '../../Body/Vagina';
 import { Character } from '../../Character/Character';
 import { Desc } from '../../Descriptors/Descriptors';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Scenes } from '../Scenes';
 
 // "Chaste" Paizuri - works for most foes with penises.

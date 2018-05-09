@@ -3,8 +3,8 @@ import { randInt } from '../../../Engine/Utilities/SMath';
 import { DefeatType } from '../../Combat/DefeatEvent';
 import { EndScenes } from '../../Combat/EndScenes';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../SceneDisplay';
 import { Scenes } from '../../Scenes/Scenes';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Character } from '../Character';
 
 export class PlayerEndScenes extends EndScenes {

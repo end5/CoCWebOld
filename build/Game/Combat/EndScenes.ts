@@ -2,7 +2,7 @@ import { CharacterHolder } from './CharacterHolder';
 import { DefeatType } from './DefeatEvent';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export abstract class EndScenes extends CharacterHolder {
     /**

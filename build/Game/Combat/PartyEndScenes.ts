@@ -1,6 +1,6 @@
 import { CharacterHolder } from './CharacterHolder';
 import { CombatParty } from './CombatParty';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export abstract class PartyEndScenes extends CharacterHolder {
     /**

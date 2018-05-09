@@ -1,6 +1,6 @@
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class MoveAway implements CombatAction {

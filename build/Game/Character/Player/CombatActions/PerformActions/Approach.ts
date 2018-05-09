@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatManager } from '../../../../Combat/CombatManager';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Approach implements CombatAction {

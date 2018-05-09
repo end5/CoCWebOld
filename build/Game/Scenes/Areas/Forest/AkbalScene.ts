@@ -18,7 +18,7 @@ import { StatusAffectType } from '../../../Effects/StatusAffectType';
 import { ArmorName } from '../../../Items/Armors/ArmorName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { lustyMaidenPaizuri } from '../../Items/LustyMaidensArmor';
 import { Scenes } from '../../Scenes';

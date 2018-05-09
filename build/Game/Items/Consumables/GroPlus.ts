@@ -8,7 +8,7 @@ import { Character } from '../../Character/Character';
 import { Desc } from '../../Descriptors/Descriptors';
 import { Menus } from '../../Menus/Menus';
 import { Mod } from '../../Modifiers/Modifiers';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 import { ItemDesc } from '../ItemDesc';
 import { ItemType } from '../ItemType';
 

@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { PerkType } from '../../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { CharacterType } from '../../../CharacterType';
 

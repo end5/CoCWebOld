@@ -4,7 +4,7 @@ import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Vagina, VaginaWetness } from '../../../../Body/Vagina';
 import { Desc } from '../../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Arouse extends BlackMagic {

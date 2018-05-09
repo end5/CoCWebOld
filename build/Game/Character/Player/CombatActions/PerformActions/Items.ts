@@ -1,7 +1,7 @@
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { Menus } from '../../../../Menus/Menus';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Items implements CombatAction {

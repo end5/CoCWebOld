@@ -4,7 +4,7 @@ import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedLis
 import { SaveFile } from '../../Engine/Save/SaveFile';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
-import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
 export function saveSlotChoices(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction): NextScreenChoices {
     const text = [];

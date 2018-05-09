@@ -8,7 +8,7 @@ import { VaginaWetness } from '../../../Body/Vagina';
 import { Character } from '../../../Character/Character';
 import { Desc } from '../../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Scenes } from '../../Scenes';
 
 // faerie Encounter

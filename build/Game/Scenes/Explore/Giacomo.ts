@@ -12,7 +12,7 @@ import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { ConsumableName } from '../../Items/Consumables/ConsumableName';
 import { ItemType } from '../../Items/ItemType';
 import { Menus } from '../../Menus/Menus';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Scenes } from '../Scenes';
 

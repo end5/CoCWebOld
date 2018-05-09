@@ -18,7 +18,7 @@ import { display as MainMenu } from './MainMenu';
 import { display as SaveFileMenu } from './SaveFileMenu';
 import { display as SaveMenu } from './SaveMenu';
 import { display as SettingsMenu } from './SettingsMenu';
-import { ClickFunction, NextScreenChoices } from '../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
 export const Menus = {
     Controls: ControlsMenu,

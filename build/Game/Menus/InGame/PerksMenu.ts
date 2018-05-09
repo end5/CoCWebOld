@@ -2,7 +2,7 @@ import { DisplayText } from '../../../Engine/display/DisplayText';
 import { Character } from '../../Character/Character';
 import { PlayerFlags } from '../../Character/Player/PlayerFlags';
 import { PerkType } from '../../Effects/PerkType';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { numToCardinalText } from '../../Utilities/NumToText';
 import { Menus } from '../Menus';

@@ -2,7 +2,7 @@ import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { randInt } from '../../../../../Engine/Utilities/SMath';
 import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
 export class AnemoneSting implements CombatAction {

@@ -4,7 +4,7 @@ import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { CombatAbilityFlag } from '../../../../Effects/CombatAbilityFlag';
 import { CombatEffectType } from '../../../../Effects/CombatEffectType';
 import { Menus } from '../../../../Menus/Menus';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 
 export class Wait implements CombatAction {

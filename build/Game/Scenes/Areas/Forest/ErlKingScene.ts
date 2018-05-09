@@ -14,7 +14,7 @@ import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
 import { ItemType } from '../../../Items/ItemType';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Time } from '../../../Utilities/Time';
 import { Scenes } from '../../Scenes';

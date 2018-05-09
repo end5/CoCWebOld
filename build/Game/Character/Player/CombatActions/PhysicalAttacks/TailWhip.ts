@@ -5,7 +5,7 @@ import { Character } from '../../../../Character/Character';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectFactory } from '../../../../Effects/StatusAffectFactory';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Player } from '../../Player';
 
 export class TailWhip implements CombatAction {

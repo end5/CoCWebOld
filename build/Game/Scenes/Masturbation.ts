@@ -8,7 +8,7 @@ import { Character } from '../Character/Character';
 import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Menus } from '../Menus/Menus';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export function display(player: Character): NextScreenChoices {
     if (player.torso.cocks.count > 0 && (player.torso.cocks.get(0).type === CockType.BEE)) {

@@ -1,7 +1,7 @@
 import { DisplayText } from '../../../../../Engine/display/DisplayText';
 import { CombatAction } from '../../../../Combat/Actions/CombatAction';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { Character } from '../../../Character';
 import { Player } from '../../Player';
 

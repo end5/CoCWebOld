@@ -22,7 +22,7 @@ import { Armor } from '../../../Items/Armors/Armor';
 import { ArmorName } from '../../../Items/Armors/ArmorName';
 import { Weapon } from '../../../Items/Weapons/Weapon';
 import { WeaponName } from '../../../Items/Weapons/WeaponName';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Scenes } from '../../Scenes';
 
 class Attack implements CombatAction {

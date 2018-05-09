@@ -7,7 +7,7 @@ import { CharacterType } from '../../Character/CharacterType';
 import { ConsumableName } from '../../Items/Consumables/ConsumableName';
 import { ItemFactory } from '../../Items/ItemFactory';
 import { ItemType } from '../../Items/ItemType';
-import { ClickFunction, NextScreenChoices } from '../../SceneDisplay';
+import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Scenes } from '../Scenes';
 

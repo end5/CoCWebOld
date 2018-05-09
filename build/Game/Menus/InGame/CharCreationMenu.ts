@@ -11,7 +11,7 @@ import { Player } from '../../Character/Player/Player';
 import { Desc } from '../../Descriptors/Descriptors';
 import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
 import { Menus } from '../Menus';

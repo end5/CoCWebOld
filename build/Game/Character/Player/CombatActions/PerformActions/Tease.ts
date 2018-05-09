@@ -16,7 +16,7 @@ import { PerkType } from '../../../../Effects/PerkType';
 import { StatusAffectType } from '../../../../Effects/StatusAffectType';
 import { ArmorName } from '../../../../Items/Armors/ArmorName';
 import { Menus } from '../../../../Menus/Menus';
-import { NextScreenChoices } from '../../../../SceneDisplay';
+import { NextScreenChoices } from '../../../../ScreenDisplay';
 import { User } from '../../../../User';
 import { PlayerFlags } from '../../PlayerFlags';
 

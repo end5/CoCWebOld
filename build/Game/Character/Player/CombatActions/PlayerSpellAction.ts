@@ -1,7 +1,7 @@
 import { CombatAction } from '../../../Combat/Actions/CombatAction';
 import { SpellAction } from '../../../Combat/Actions/SpellAction';
 import { PerkType } from '../../../Effects/PerkType';
-import { NextScreenChoices } from '../../../SceneDisplay';
+import { NextScreenChoices } from '../../../ScreenDisplay';
 import { Character } from '../../Character';
 
 export abstract class PlayerSpellAction implements CombatAction, SpellAction {

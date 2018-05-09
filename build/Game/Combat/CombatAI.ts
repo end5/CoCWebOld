@@ -3,7 +3,7 @@ import { CombatManager } from './CombatManager';
 import { randInt } from '../../Engine/Utilities/SMath';
 import { Character } from '../Character/Character';
 import { CombatAbilityFlag } from '../Effects/CombatAbilityFlag';
-import { NextScreenChoices } from '../SceneDisplay';
+import { NextScreenChoices } from '../ScreenDisplay';
 
 export function performActionAI(character: Character): NextScreenChoices {
     const actions: (() => NextScreenChoices)[] = [];

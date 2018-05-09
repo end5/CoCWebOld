@@ -17,7 +17,7 @@ import { ItemType } from '../../Items/ItemType';
 import { MaterialName } from '../../Items/Materials/MaterialName';
 import { LocationName } from '../../Locations/LocationName';
 import { Menus } from '../../Menus/Menus';
-import { NextScreenChoices } from '../../SceneDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Scenes } from '../Scenes';
 
