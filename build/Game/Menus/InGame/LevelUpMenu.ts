@@ -16,8 +16,7 @@ export function display(character: Character): NextScreenChoices {
         character.stats.XP -= (character.stats.level - 1) * 100;
         return {
             choices: [
-                ["Strength", "Toughness", "Speed", "Intelligence"],
-                [levelUpStatStrength, levelUpStatToughness, levelUpStatSpeed, levelUpStatIntelligence]
+                ["Strength", levelUpStatStrength], ["Toughness", levelUpStatToughness], ["Speed", levelUpStatSpeed], ["Intelligence", levelUpStatIntelligence],
             ]
         };
     }

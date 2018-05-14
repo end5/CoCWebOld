@@ -12,6 +12,7 @@ import { PerkType } from '../Effects/PerkType';
 import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Menus } from '../Menus/Menus';
 import { Mod } from '../Modifiers/Modifiers';
+import { generateSave } from '../SaveFile';
 import { NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 import { numToCardinalCapText, numToCardinalText } from '../Utilities/NumToText';
@@ -103,8 +104,7 @@ export function display(character: Character): NextScreenChoices {
     }
     // Menu
     return {
-        choices: [["Explore", "Places", "Inventory", "Stash", "Followers", "Lovers", "Slaves", "", baitText, restName],
-        [exploreEvent, undefined, Menus.Inventory, undefined, undefined, undefined, undefined, undefined, masturbate, restEvent]]
+        choices: [["Explore", exploreEvent], ["Places", undefined], ["Inventory", Menus.Inventory], ["Stash", undefined], ["Followers", undefined], ["Lovers", undefined], ["Slaves", undefined], ["", undefined], [baitText, masturbate], [restName, restEvent]]
     };
 }
 
@@ -203,7 +203,7 @@ export function doSleep(character: Character): NextScreenChoices {
         // Autosave stuff
         if (SaveManager.autoSave && SaveManager.activeSlot !== undefined /*&& Game.state !== GameState.GameOver*/) {
             console.trace("Autosaving to slot: " + SaveManager.activeSlot);
-            User.save();
+            SaveManager.saveToSlot(SaveManager.activeSlot(), generateSave());
         }
         DisplayText().clear();
         displaySleepRecovery(character, time);

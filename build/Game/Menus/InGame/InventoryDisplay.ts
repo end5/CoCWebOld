@@ -3,12 +3,12 @@ import { Character } from '../../Character/Character';
 import { Inventory } from '../../Inventory/Inventory';
 import { ItemStack } from '../../Inventory/ItemStack';
 import { Item } from '../../Items/Item';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickFunction, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 
 /* better inventory system
-    other inv = null
-    helditem = null
+    other inv = undefined
+    helditem = undefined
     page = 0
 
     buttons
@@ -46,25 +46,25 @@ interface AddItemsRequest<T extends Item> {
 /**
  * Displays character's item inventory.
  * @param character A character.
- * @param fixedTextList A list of text to appear on the buttons. If a string is empty or undefined, the button will be disabled.
- * @param fixedFuncList A list of ClickFunctions that will trigger when the buttons are clicked. If the ClickFunction is null or undefined, the button is disabled.
+ * @param persistantChoices A list of ScreenChoices that will trigger when the buttons are clicked. If a string or the ClickFunction is undefined or undefined, the button is disabled.
  */
-export function displayCharInventory(character: Character, fixedTextList: string[], fixedFuncList: ClickFunction[]): NextScreenChoices {
-    const buttonText = [];
-    const buttonFunc = [];
+export function displayCharInventory(character: Character, persistantChoices: ScreenChoice[]): NextScreenChoices {
+    const choices = [];
     const inventory = character.inventory.items;
     for (let index = 0; index < inventory.slotCount; index++) {
         const itemSlot = inventory.get(index);
         if (itemSlot.quantity > 0) {
-            buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
-            buttonFunc.push(() => {
-                itemSlot.quantity--;
-                itemSlot.item.use(character);
-                itemSlot.item.useText(character);
-            });
+            choices.push([
+                itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
+                () => {
+                    itemSlot.quantity--;
+                    itemSlot.item.use(character);
+                    itemSlot.item.useText(character);
+                }
+            ]);
         }
     }
-    return { choices: [buttonText, buttonFunc], persistantChoices: [fixedTextList, fixedFuncList] };
+    return { choices, persistantChoices };
 }
 
 /**
@@ -74,51 +74,54 @@ export function displayCharInventory(character: Character, fixedTextList: string
  * @param prevMenu The menu to return to by pressing Back.
  */
 export function displayInventoryTake<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
-    const buttonText = [];
-    const buttonFunc = [];
+    const choices = [];
     const invTakingFrom = inventory;
     const invAddingTo = character.inventory.items;
     for (let index = 0; index < invTakingFrom.slotCount; index++) {
         const itemSlot = invTakingFrom.get(index);
         if (itemSlot.quantity > 0) {
-            buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
-            buttonFunc.push(() => {
-                const pickedUpItem = itemSlot.split(1);
-                const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
-                if (itemsCannotAdd.length > 0) {
-                    const request = createAddItemsRequest(character, itemsCannotAdd, () => displayInventoryTake(invTakingFrom, character, prevMenu), invTakingFrom);
-                    request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
-                    invFull(request);
+            choices.push([
+                itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
+                () => {
+                    const pickedUpItem = itemSlot.split(1);
+                    const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
+                    if (itemsCannotAdd.length > 0) {
+                        const request = createAddItemsRequest(character, itemsCannotAdd, () => displayInventoryTake(invTakingFrom, character, prevMenu), invTakingFrom);
+                        request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
+                        invFull(request);
+                    }
                 }
-            });
+            ]);
         }
     }
-    return { choices: [buttonText, buttonFunc], persistantChoices: [["Put", "Back"], [() => inventoryPut(inventory, character, prevMenu), prevMenu]] };
+    return { choices, persistantChoices: [["Put", () => inventoryPut(inventory, character, prevMenu)], ["Back", prevMenu]] };
 }
 
 function inventoryPut<T extends Item>(inventory: Inventory<T>, character: Character, prevMenu: ClickFunction): NextScreenChoices {
-    const buttonText = [];
+    const choices = [];
     const buttonFunc = [];
     const invTakingFrom = character.inventory.items;
     const invAddingTo = inventory;
     for (let index = 0; index < invTakingFrom.slotCount; index++) {
         const itemSlot = invTakingFrom.get(index);
         if (itemSlot.quantity > 0) {
-            buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
-            buttonFunc.push(() => {
-                const pickedUpItem = itemSlot.split(1);
-                const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
-                if (itemsCannotAdd.length > 0) {
-                    const request = createAddItemsRequest(character, itemsCannotAdd, () => {
-                        return displayInventoryTake(invTakingFrom, character, prevMenu);
-                    }, invTakingFrom);
-                    request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
-                    invFull(request);
+            choices.push([
+                itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
+                () => {
+                    const pickedUpItem = itemSlot.split(1);
+                    const itemsCannotAdd = invAddingTo.addItems([pickedUpItem]);
+                    if (itemsCannotAdd.length > 0) {
+                        const request = createAddItemsRequest(character, itemsCannotAdd, () => {
+                            return displayInventoryTake(invTakingFrom, character, prevMenu);
+                        }, invTakingFrom);
+                        request.reverseActionFunc = createReverseAction(itemSlot, pickedUpItem);
+                        invFull(request);
+                    }
                 }
-            });
+            ]);
         }
     }
-    return { choices: [buttonText, buttonFunc], persistantChoices: [["Take", "Back"], [() => displayInventoryTake(inventory, character, prevMenu), prevMenu]] };
+    return { choices, persistantChoices: [["Take", () => displayInventoryTake(inventory, character, prevMenu)], ["Back", prevMenu]] };
 }
 
 function createReverseAction<T extends Item>(itemSlot: ItemStack<T>, pickedUpItem: ItemStack<T>): ReverseAction {
@@ -149,32 +152,27 @@ export function displayCharInventoryFull<T extends Item>(character: Character, i
 }
 
 function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices {
-    const buttonText = [];
-    const buttonFunc = [];
+    const choices = [];
     const inventory = request.character.inventory.items;
     const itemToAdd = request.itemList[0];
     for (let index = 0; index < inventory.slotCount; index++) {
         const itemSlot = inventory.get(index);
         if (itemSlot.quantity > 0) {
-            buttonText.push(itemSlot.item.desc.shortName + " x" + itemSlot.quantity);
-            buttonFunc.push(discardFromInventory(request, itemSlot, itemToAdd));
+            choices.push([
+                itemSlot.item.desc.shortName + " x" + itemSlot.quantity,
+                discardFromInventory(request, itemSlot, itemToAdd)
+            ]);
         }
     }
     if (request.itemList.length > 0) {
         DisplayText("There is no room for " + itemToAdd.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + itemToAdd.item.desc.longName + " or abandon it.");
-        const fixedTextList = [];
-        const fixedFuncList = [];
+        const persistantChoices: ScreenChoice[] = [["Back", request.menuToDisplayUponFinish]];
         if (request.reverseActionFunc !== undefined) {
-            fixedTextList.push("Put Back");
-            fixedFuncList.push(putBack(request));
+            persistantChoices.push(["Put Back", putBack(request)]);
         }
-        fixedTextList.push("Use Now");
-        fixedFuncList.push(useNow(request));
-        fixedTextList.push("Abandon");
-        fixedFuncList.push(abandon(request));
-        return {
-            choices: [buttonText, buttonFunc], persistantChoices: [["Back"], [request.menuToDisplayUponFinish]]
-        };
+        persistantChoices.push(["Use Now", useNow(request)]);
+        persistantChoices.push(["Abandon", abandon(request)]);
+        return { choices, persistantChoices };
     }
     else {
         return request.menuToDisplayUponFinish(User.char);
@@ -209,7 +207,7 @@ function createAddItemsRequest<T extends Item>(character: Character, itemStackLi
 function putBack<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
     return () => {
         request.reverseActionFunc();
-        request.reverseActionFunc = null;
+        request.reverseActionFunc = undefined;
         return displayInventoryTake(request.otherInventory, request.character, request.menuToDisplayUponFinish);
     };
 }
@@ -220,7 +218,7 @@ function useNow<T extends Item>(request: AddItemsRequest<T>): ClickFunction {
         if (itemToAdd.item.canUse(request.character)) {
             itemToAdd.item.use(request.character);
             itemToAdd.item.useText(request.character);
-            request.reverseActionFunc = null;
+            request.reverseActionFunc = undefined;
             return destroyItem(request);
         }
     };

@@ -15,14 +15,14 @@
 
     PutBack - otherInventory
         reverseAction()
-        reverseAction = null
+        reverseAction = undefined
         display other inventory
 
     UseNow - character, itemList
         item = itemList[0]
         item.use(character)
         item.useText(character)
-        reverseAction = null
+        reverseAction = undefined
         DestroyItem()
 
     Abandon - itemList, nextMenu

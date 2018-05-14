@@ -73,6 +73,7 @@ export function exploreForest(character: Character): NextScreenChoices {
     // Chance to discover deepwoods
     if ((User.locations.get(LocationName.Forest).timesVisited >= 20) && !User.locations.get(LocationName.Deepwoods).visited) {
         User.locations.get(LocationName.Deepwoods).timesVisited++;
+        User.locations.get(LocationName.Deepwoods).locationKnown = true;
         DisplayText().clear();
         DisplayText("After exploring the forest so many times, you decide to really push it, and plunge deeper and deeper into the woods.  The further you go the darker it gets, but you courageously press on.  The plant-life changes too, and you spot more and more lichens and fungi, many of which are luminescent.  Finally, a wall of tree-trunks as wide as houses blocks your progress.  There is a knot-hole like opening in the center, and a small sign marking it as the entrance to the 'Deepwoods'.  You don't press on for now, but you could easily find your way back to explore the Deepwoods.\n\n<b>Deepwoods exploration unlocked!</b>");
         return { next: Scenes.camp.returnToCampUseOneHour };
@@ -166,7 +167,7 @@ function trappedSatyr(character: Character): NextScreenChoices {
     else {
         DisplayText("You can see his goat tail flitting happily above his tight, squeezable asscheeks, the loincloth discarded beside him failing to obscure his black cherry, ripe for the picking.  Do you take advantage of his distraction and ravage his ass while he's helpless?\n\n");
         // [Yes] [No]
-        return { choices: [["Ravage"], [rapeSatyr]], persistantChoices: [["Leave"], [ignoreSatyr]] };
+        return { choices: [["Ravage", rapeSatyr]], persistantChoices: [["Leave", ignoreSatyr]] };
     }
 }
 
@@ -234,7 +235,7 @@ function rapeSatyr(character: Character): NextScreenChoices {
     DisplayText("As you watch the lewd display, you feel your arousal building and your " + Desc.Cock.describeCock(character, x) + " growing back into full mast. Figuring you already have a willing slut readily available, you consider using him to relieve yourself once more... What do you do?");
     character.orgasm();
     // [Again][Leave]
-    return { choices: [["Again"], [secondSatyrFuck]], persistantChoices: [["Leave"], [dontRepeatFuckSatyr]] };
+    return { choices: [["Again", secondSatyrFuck]], persistantChoices: [["Leave", dontRepeatFuckSatyr]] };
 }
 
 // [=Leave=]

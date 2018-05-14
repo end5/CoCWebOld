@@ -76,7 +76,7 @@ export function beeEncounter(character: Character): NextScreenChoices {
     if (character.inventory.keyItems.has("Traveler's Guide") && character.stats.int / 2 > randInt(40)) {
         DisplayText("You suddenly remember a passage from the Traveler's Guide about monstrous bees that lay eggs in unmentionable places.  Of course, a brave champion would face any danger.\n\n<b>Do you proceed?</b>");
         // Yes goes to beeEncounterLevel2(), no goes to camp
-        return { choices: [["Yes"], [beeEncounterSelectClear]], persistantChoices: [["Back"], [Scenes.camp.returnToCampUseOneHour]] };
+        return { choices: [["Yes", beeEncounterSelectClear]], persistantChoices: [["Back", Scenes.camp.returnToCampUseOneHour]] };
     }
     // If not smart enough, proceed.
     else return beeEncounterSelect(character);
@@ -133,7 +133,10 @@ function beeEncounterSelect(character: Character): NextScreenChoices {
                 // Chance to aNextScreenChoices raaaaeeeeep
                 if ((character.stats.lib + character.stats.cor < 140) || randInt(2) === 0) {
                     DisplayText("You barely stop yourself from gleefully throwing yourself into her arms.  You realize the harmonic buzzing of her wings and the unearthly scent of her honey briefly robbed you of your reason.  Feeling momentarily more clear-headed, what do you do?");
-                    return { choices: [["Fight", "Talk", "Seduce"], [fightTheBeeGirl, beeTalk, null]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+                    return {
+                        choices: [["Fight", fightTheBeeGirl], ["Talk", beeTalk], ["Seduce", undefined]],
+                        persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]]
+                    };
                 }
                 else return beeEncounterClassic(character);
             }
@@ -151,7 +154,7 @@ function beeEncounterAsBeeMorphMaleOrGiantCock(character: Character, isBeeMorph:
     // Chance to aNextScreenChoices raaaaeeeeep
     if ((character.stats.lib + character.stats.cor < 140) || randInt(2) === 0) {
         DisplayText("\n\nYou just barely hold yourself back and shake your head to clear the smell and buzzing from your mind.  Something about your " + (isBeeMorph ? "new bee body seems to have drawn" : "massive member has attracted") + " her attention, and she is staring at your crotch in anticipation.  You steady yourself and decide what you should do next.");
-        return { choices: [["Fight", "Sex"], [fightTheBeeGirl, beeSexForCocksClear]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+        return { choices: [["Fight", fightTheBeeGirl], ["Sex", beeSexForCocksClear]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
     else return beeSexForCocks(character);
 }
@@ -165,7 +168,7 @@ function beeEncounterAsBeeMorphFemale(character: Character): NextScreenChoices {
         DisplayText("You catch yourself staring at her for a few moments before you collect yourself.  She seems harmless enough, and it does seem like it will be fun to enjoy what she has to offer.");
     else DisplayText("You grin at the thought, it would certainly be fun fucking her, but maybe it would be even more fun to force yourself on her?");
     DisplayText("  What will you do?");
-    return { choices: [["Fight", "Play"], [fightTheBeeGirl, beeMaidenPlay]], persistantChoices: [["Leave"], [beeEncounterAsBeeMorphFemaleLeave]] };
+    return { choices: [["Fight", fightTheBeeGirl], ["Play", beeMaidenPlay]], persistantChoices: [["Leave", beeEncounterAsBeeMorphFemaleLeave]] };
 }
 
 function beeEncounterAsBeeMorphFemaleLeave(): NextScreenChoices {
@@ -177,7 +180,7 @@ function beeEncounterAsBeeMorphFemaleLeave(): NextScreenChoices {
 function beeEncounterAfraid(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her face breaks into a smile at the sight of you.  Her buzzing dies down and you notice that the mind numbing smell in the glade isn’t as strong as you were last here.  The handmaiden turns to the side and shows you that her bee abdomen is quite slender today; it doesn’t look like she has any eggs this time.  <i>“Zzzo, the queen hazzz zzzaid that we can try a little experiment with you, if thingzzz work out, maybe we won’t use zzzo much buzzzing and honey.”</i>  She giggles, <i>“Firzzzt time, no eggzzz, zzzo you don’t have to worry.  Are you ready to have zzzome fun?”</i>");
-    return { choices: [["Fight", "Have Sex"], [fightTheBeeGirl, beeEncounterAfraidFirstTimeSex]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl], ["Have Sex", beeEncounterAfraidFirstTimeSex]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterAfraidFirstTimeSex(character: Character): NextScreenChoices {
@@ -221,7 +224,7 @@ function beeEncounterAfraidFirstTimeSex(character: Character): NextScreenChoices
 function beeEncounterAfraidRepeat(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her face breaks into a smile at the sight of you and her buzzing dies down.  Once again, the smell in the grove is much weaker than it was when you first came to this grove.  Those same flowers have been scattered around to ease off on the scent’s mind affecting powers.  She turns to the side to give you a full view of her now swollen abdomen and gives it a gentle pat.  <i>“Are you ready to carry zzzome eggzzz now?  I won’t hurt you, and I promizzzizz I won’t uzzze my buzzzing and honey to make you do it.  Thezzze where zzzaved zzzpecially for you, and I’ve got a little gift for you too if you zzzay yezzz.  Are you up for a little zzzex and eggzzz up your butt?”</i>");
-    return { choices: [["Fight", "Have Sex"], [fightTheBeeGirl, beeEncounterAfraidRepeatSex]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl], ["Have Sex", beeEncounterAfraidRepeatSex]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterAfraidRepeatSex(character: Character): NextScreenChoices {
@@ -280,13 +283,13 @@ function beeEncounterAfraidRepeatSex(character: Character): NextScreenChoices {
 function beeEncounterDisgusted(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her face breaks into a frown at the sight of you.  At once her buzzing stops and she looks at you and says <i>“Oh, it’zzz you again, juzzzt go away; I need to find zzzomeone that actually will carry my queen’zzz eggzzz.”</i>  Your mind is pulled from its stupor, as she directs you out of the clearing with a dismissive look.");
-    return { choices: [["Fight"], [fightTheBeeGirl]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterDuty(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her face breaks into a smile and her buzzing dies down.  You shake your head slightly to clear away the effect that you were under and look back at the smiling bee girl.");
-    return { choices: [["Fight", "Talk"], [fightTheBeeGirl, beeEncounterDutyTalk]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl], ["Talk", beeEncounterDutyTalk]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterDutyTalk(character: Character): NextScreenChoices {
@@ -308,14 +311,14 @@ function beeEncounterSheFearsYou(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her mouth opens wide in panic as she catches sight of you.  She drops the flower and starts to draw back yelling <i>“Pleazzze don't hurt me again!  I won't try to lay eggzzz in you any more, just let me go!”</i>\n\n");
     DisplayText("What will you do with her?");
-    return { choices: [["Fight"], [fightTheBeeGirl]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterSheDesiresYou(): NextScreenChoices {
     DisplayText(" in the light.\n\n");
     DisplayText("Her mouth opens wide in panic as she catches sight of you.  She drops the flower and starts to draw back yelling <i>“No!  I won't give in to the dezzzire!  Go away!”</i>\n\n");
     DisplayText("What will you do with her?");
-    return { choices: [["Fight"], [fightTheBeeGirl]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", fightTheBeeGirl]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function beeEncounterSheBeatsYouRegularly(character: Character): NextScreenChoices {
@@ -323,7 +326,7 @@ function beeEncounterSheBeatsYouRegularly(character: Character): NextScreenChoic
     DisplayText("Her mouth breaks out in a grin at the sight of you.  <i>“Hello again naughty " + Desc.Gender.boyGirl(character.gender) + ",”</i> her buzzing really starting to get inside your head as she stands up and beckons to you.  <i>“Juzzzt make it eazzier on yourzzzelf and let me lay my eggzzz in you.  No fuzzzzz, no fighting.  Just let yourzzzelf be carried away.”</i>\n\n");
     if ((character.stats.lib + character.stats.cor < 70) || randInt(4) === 0) { // Chance to aNextScreenChoices raaaaeeeeep
         DisplayText("With great difficulty you manage to stop yourself from throwing yourself into her arms.  Losing to this girl isn’t helping you resist her charms at all.  You’re finding It harder and harder to fight the call of her incredible song and unnatural scent, it may be wise to run now; but what will you do now that you have your senses again?");
-        return { choices: [["Fight", "Talk"], [fightTheBeeGirl, beeEncounterSheBeatsYouRegularlyTalk]], persistantChoices: [["Run"], [Scenes.camp.returnToCampUseOneHour]] };
+        return { choices: [["Fight", fightTheBeeGirl], ["Talk", beeEncounterSheBeatsYouRegularlyTalk]], persistantChoices: [["Run", Scenes.camp.returnToCampUseOneHour]] };
     }
     else {
         DisplayText("Unable to control yourself in her presence, you throw yourself into her arms and she lifts you up a little into the air before setting you face down onto the flower and landing on your back.  <i>“That’zzz the way it should be, it’zzz zzzo much easier when you juzzzt let go.  Are you ready?”</i>");
@@ -827,7 +830,7 @@ function beeEncounterRefusedHerEggs(character: Character): NextScreenChoices {
             DisplayText("\n\nThe handmaiden stands up on the flower, and puts her hands on her hips.  <i>“Why not?  Thizzz will be abzzzolutly wonderful for you, I promizzze.  Why won’t you aczzzept me?”</i> she pouts through her glossy lips.\n\n");
             DisplayText("You stop for a moment and wonder exactly why you’ve refused her up until now.  Is it because you are afraid of her and the effect she has on your mind?  Is it because the idea of her eggs inside you is disgusting?  Is it because of your duty as a champion?  Or are you just going to leave her there wondering?");
             character.stats.lust += 5 + character.stats.lib / 25;
-            return { choices: [["Afraid", "Disgusted", "Duty"], [beeEncounterRefusedHerEggsAfraid, beeEncounterRefusedHerEggsDisgusted, beeEncounterRefusedHerEggsDuty]], persistantChoices: [["Leave"], [beeEncounterRefusedHerEggsLeave]] };
+            return { choices: [["Afraid", beeEncounterRefusedHerEggsAfraid], ["Disgusted", beeEncounterRefusedHerEggsDisgusted], ["Duty", beeEncounterRefusedHerEggsDuty]], persistantChoices: [["Leave", beeEncounterRefusedHerEggsLeave]] };
         }
         case BEE_GIRL_TALKED_AND_LEFT: {
             beeGirlFlags.attitude = BEE_GIRL_TALKED_AND_LEFT_TWICE; // Same text as for first time you talked and left, just update attitude
@@ -1375,7 +1378,17 @@ export function rapeTheBeeGirl(character: Character): NextScreenChoices {
         DisplayText("(You could play with her a bit and try to make her lay eggs into herself.)\n");
         gentleman = beeGirlRapeForTheDistinguishedGentleman;
     }
-    return { choices: [["Use Cock", "Use Cocks", "Use Vagina", "Herm Style", "Naga", "Self-Egg", "LayYourEggs"], [cock, multiCock, vagina, herm, naga, gentleman, eggs]] };
+    return {
+        choices: [
+            ["Use Cock", cock],
+            ["Use Cocks", multiCock],
+            ["Use Vagina", vagina],
+            ["Herm Style", herm],
+            ["Naga", naga],
+            ["Self-Egg", gentleman],
+            ["LayYourEggs", eggs]
+        ]
+    };
 }
 
 function rapeTheBeeMultiCockStuff(character: Character): NextScreenChoices {

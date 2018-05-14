@@ -16,7 +16,7 @@ export class IzmaBleed extends CombatEffect {
             else {
                 let bleed: number = (2 + randInt(4)) / 100;
                 bleed *= character.combat.stats.HP();
-                bleed = character.combat.stats.loseHP(bleed, null);
+                bleed = character.combat.stats.loseHP(bleed, undefined);
                 DisplayText("You gasp and wince in pain, feeling fresh blood pump from your wounds. (" + bleed + ")").bold();
             }
         }
@@ -30,7 +30,7 @@ export class IzmaBleed extends CombatEffect {
             }
             // Deal damage if still wounded.
             else {
-                const hpLoss: number = enemy.combat.stats.loseHP(character.stats.maxHP() * (3 + randInt(4)) / 100, null);
+                const hpLoss: number = enemy.combat.stats.loseHP(character.stats.maxHP() * (3 + randInt(4)) / 100, undefined);
                 if (character.desc.plural)
                     DisplayText(character.desc.capitalA + character.desc.short + " bleed profusely from the jagged wounds your weapon left behind. (" + hpLoss + ")");
                 else

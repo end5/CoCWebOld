@@ -77,7 +77,7 @@ class InputManager implements ISerializable<InputManager> {
     private initDefaultKeyBind(bindableAction: BindableAction) {
         const keyPair = DefaultKeyBinds[bindableAction];
         const primaryKey = keyPair.primaryKey.clone();
-        const secondaryKey = keyPair.secondaryKey ? keyPair.secondaryKey.clone() : null;
+        const secondaryKey = keyPair.secondaryKey ? keyPair.secondaryKey.clone() : undefined;
         this.keyBinds.add(new KeyPair(primaryKey, secondaryKey));
     }
 

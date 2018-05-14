@@ -193,7 +193,7 @@ export class WhiskerFruit extends Consumable {
         // Cat penorz shrink
         if (character.torso.cocks.filter(Cock.FilterType(CockType.CAT)).length > 0 && randInt(3) === 0 && changes < changeLimit && !User.settings.hyperHappy) {
             // loop through and find a cat wang.
-            let selectedCock: Cock = null;
+            let selectedCock: Cock = undefined;
             let changedCock: number = 0;
             for (let index: number = 0; index < character.torso.cocks.count; index++) {
                 selectedCock = character.torso.cocks.get(index);

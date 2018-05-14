@@ -1,11 +1,15 @@
 import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
+import { CombatManager } from '../../Combat/CombatManager';
 import { Scenes } from '../../Scenes/Scenes';
-import { displayScreenQueue, NextScreenChoices } from '../../ScreenDisplay';
+import { NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(character: Character): NextScreenChoices {
-    displayScreenQueue();
+    // Safe guard against combat breaking
+    if (CombatManager.inCombat) {
+        return CombatManager.encounter.performTurnEnd();
+    }
 
     // if (Game.state !== GameState.InCombat)
     //     DisplaySprite(SpriteName.None);
@@ -22,7 +26,7 @@ export function display(character: Character): NextScreenChoices {
     //     return;
     // }
     // else if (inRoomedDungeon) {
-    //     if (inRoomedDungeonResume != null) inRoomedDungeonResume();
+    //     if (inRoomedDungeonResume != undefined) inRoomedDungeonResume();
     //     return;
     // }
     // Flags.list[FlagEnum.PLAYER_PREGGO_WITH_WORMS] = 0;

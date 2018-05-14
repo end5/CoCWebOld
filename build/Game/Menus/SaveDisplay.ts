@@ -1,21 +1,19 @@
+import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
+import { InputTextElement } from '../../Engine/Display/Elements/InputTextElement';
 import { ListEntryElement } from '../../Engine/Display/Elements/ListItemElement';
 import { UnorderedListElement } from '../../Engine/Display/Elements/UnorderedListElement';
-import { SaveFile } from '../../Engine/Save/SaveFile';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Gender } from '../Body/GenderIdentity';
+import { SaveFile } from '../SaveFile';
 import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
-export function saveSlotChoices(saveSlotFunc: (index: number) => void, prevMenu: ClickFunction): NextScreenChoices {
-    const text = [];
-    const func = [];
+export function saveSlotChoices(saveSlotCallback: (index: number) => ClickFunction, prevMenu: ClickFunction): NextScreenChoices {
+    const choices = [];
     for (let index: number = 0; index < SaveManager.saveSlotCount(); index++) {
-        if (SaveManager.has(index)) {
-            text.push("Slot " + index.toString());
-            func.push(() => { saveSlotFunc(index); });
-        }
+        choices.push(["Slot " + index.toString(), saveSlotCallback(index)]);
     }
-    return { choices: [text, func], persistantChoices: [["Back"], [prevMenu]] };
+    return { choices, persistantChoices: [["Back", prevMenu]] };
 }
 
 export function displaySaves() {

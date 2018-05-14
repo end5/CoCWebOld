@@ -49,7 +49,7 @@ class BeeGirlEndScenes extends EndScenes {
             return { next: Scenes.camp.returnToCampUseOneHour };
         }
         else {
-            Scenes.forest.beeGirlScene.beeRapesYou(enemy);
+            return Scenes.forest.beeGirlScene.beeRapesYou(enemy);
         }
     }
     public readonly hasDefeatScene: boolean = true;
@@ -64,9 +64,16 @@ class BeeGirlEndScenes extends EndScenes {
             }
             enemy.stats.lust = 98;
             enemy.stats.lust += 1;
-            const dildoRape = (enemy.inventory.keyItems.has("Deluxe Dildo") ? Scenes.forest.beeGirlScene.beeGirlsGetsDildoed : null);
-            const milkAndHoney = (enemy.statusAffects.has(StatusAffectType.Feeder) ? Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny : null);
-            return { choices: [["Rape", "Dildo Rape", "B. Feed"], [Scenes.forest.beeGirlScene.rapeTheBeeGirl, dildoRape, milkAndHoney]], persistantChoices: [["Leave"], [this.leaveAfterDefeating(howYouLost)]] };
+            const dildoRape = (enemy.inventory.keyItems.has("Deluxe Dildo") ? Scenes.forest.beeGirlScene.beeGirlsGetsDildoed : undefined);
+            const milkAndHoney = (enemy.statusAffects.has(StatusAffectType.Feeder) ? Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny : undefined);
+            return {
+                choices: [
+                    ["Rape", Scenes.forest.beeGirlScene.rapeTheBeeGirl],
+                    ["Dildo Rape", dildoRape],
+                    ["B. Feed", milkAndHoney]
+                ],
+                persistantChoices: [["Leave", this.leaveAfterDefeating(howYouLost)]]
+            };
         }
         else if (enemy.statusAffects.has(StatusAffectType.Feeder)) { // Genderless can still breastfeed
             if (howYouLost === DefeatType.HP) {
@@ -75,7 +82,10 @@ class BeeGirlEndScenes extends EndScenes {
             else {
                 DisplayText("You smile in satisfaction as the " + this.char.desc.short + " spreads her legs and starts frigging her honey-soaked cunt.  The sweet scent oozing from between her legs is too much to bear, arousing you painfully.\n\nWhat do you do?");
             }
-            return { choices: [["B. Feed"], [Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny]], persistantChoices: [["Leave"], [this.leaveAfterDefeating(howYouLost)]] };
+            return {
+                choices: [["B. Feed", Scenes.forest.beeGirlScene.milkAndHoneyAreKindaFunny]],
+                persistantChoices: [["Leave", this.leaveAfterDefeating(howYouLost)]]
+            };
         }
     }
 
@@ -210,7 +220,7 @@ export class BeeGirl extends Character {
         // this.temperment = TEMPERMENT_LOVE_GRAPPLES;
         this.baseStats.level = 4;
         this.inventory.gems = randInt(15) + 1;
-        // this.combat.rewards.drop = new WeightedDrop().add(consumables.BEEHONY, 4).addMany(1, consumables.OVIELIX, consumables.W__BOOK, useables.B_CHITN, null);
+        // this.combat.rewards.drop = new WeightedDrop().add(consumables.BEEHONY, 4).addMany(1, consumables.OVIELIX, consumables.W__BOOK, useables.B_CHITN, undefined);
         this.torso.neck.head.antennae = AntennaeType.BEE;
         this.torso.wings.type = WingType.BEE_LIKE_SMALL;
         this.torso.tails.add(new Tail(TailType.BEE_ABDOMEN, 100));

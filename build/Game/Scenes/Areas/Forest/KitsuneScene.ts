@@ -21,7 +21,7 @@ import { ItemType } from '../../../Items/ItemType';
 import { MaterialName } from '../../../Items/Materials/MaterialName';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { numToCardinalText } from '../../../Utilities/NumToText';
 import { Time } from '../../../Utilities/Time';
@@ -171,7 +171,7 @@ function willOWisp(character: Character): NextScreenChoices {
     if (character.inventory.keyItems.has("Traveler's Guide")) {
         DisplayText("\n\nYour mind is jogged out of its haze when you remember a note from the Traveler's Guide.  It warned about mysterious flames in the forest that lead hapless adventurers astray.  You hesitate now, wondering what to do.");
         // [Turn Back] [Follow] //automatically follow without traveler's guide.
-        return { choices: [["Turn Back", "Follow"], [turnBackFromWillOWisp, followTheWillOWispNotFirstTime]] };
+        return { choices: [["Turn Back", turnBackFromWillOWisp], ["Follow", followTheWillOWispNotFirstTime]] };
     }
     else return { next: followTheWillOWispNotFirstTime };
 }
@@ -221,7 +221,7 @@ function followTheWillOWisp(character: Character, firstTime: boolean = false): N
         DisplayText("How did she get behind you so quickly?  You were staring at her the entire time!  Glancing quickly over your shoulder, you confirm that this is not a case of twins, but when you turn to face her, she has disappeared once again!\n\n");
         DisplayText("\"<i>Over here, silly~</i>\" she calls to you with a mischievous tone, beckoning to you as you whip around to face her voice.  \"<i>Don't be shy, I don't bite...  often...</i>\"\n\n");
         DisplayText("Her tone is innocuous enough, but her mannerisms are a little disconcerting, somehow.  What are you going to do?");
-        return { choices: [["Fight", "Talk"], [fightSomeKitsunes, talkAfterResistingKitsunellusion]] };
+        return { choices: [["Fight", fightSomeKitsunes], ["Talk", talkAfterResistingKitsunellusion]] };
     }
 }
 
@@ -254,7 +254,7 @@ function talkAfterResistingKitsunellusion(character: Character): NextScreenChoic
     // [Follow { mansion(willing = true) }] [Leave]
     const follow = (char: Character) => mansion(char, true, false);
     const leave = (char: Character) => leaveKitsune(char, true);
-    return { choices: [["Follow"], [follow]], persistantChoices: [["Leave"], [leave]] };
+    return { choices: [["Follow", follow]], persistantChoices: [["Leave", leave]] };
 }
 
 // [Leave] (C)
@@ -348,7 +348,7 @@ function kitsuneMaleOrHermMansion(character: Character, willing: boolean): NextS
         // ["Let Her" ] ["Shove Her" ]
         const letHer = (char: Character) => kitSuneLetHerMansion(character, willing);
         const shoveHer = (char: Character) => kitsuneShoveHerMansion(character, willing);
-        return { choices: [["Let Her", "Shove Her"], [letHer, shoveHer]] };
+        return { choices: [["Let Her", letHer], ["Shove Her", shoveHer]] };
     }
     else {
         return { next: (char: Character) => kitSuneLetHerMansion(character, true) };
@@ -533,7 +533,7 @@ function kitsuneFemaleOrGenderless(character: Character, willing: boolean): Next
         // ["Let Her" = letHer() ] ["Shove Her" = shoveHer() ]
         const letHer = (char: Character) => kitsunesGenderlessLetHer(char, willing);
         const shoveHer = (char: Character) => kitsunesGenderlessShoverHer(char, willing);
-        return { choices: [["Let Her", "Shove Her"], [letHer, shoveHer]] };
+        return { choices: [["Let Her", letHer], ["Shove Her", shoveHer]] };
     }
     else {
         return { next: (char: Character) => kitsunesGenderlessLetHer(char, true) };
@@ -1079,30 +1079,25 @@ export function defeatTheKitsunes(character: Character, display: boolean = true)
             DisplayText("The kitsune falls to the ground, one hand buried in her robes as she plays with herself shamelessly, too turned on to continue fighting." + ((hairColor === "red" && kitsuneFlags.redheadIsFuta === 0) ? "  The moment her rounded rump impacts the dirt, a swirling flame crackles to life between her legs, engulfing her exposed cock.  When it dies away, all that remains of her throbbing member is a pert cherry-colored bud between her dripping lips." : "") + "\n\n" + ((character.stats.lust >= 33) ? "<b>As you watch her lewd display, you realize your own lusts have not been sated yet. What will you do to her?</b>" : ""));
         }
     }
-    const sceneName = [];
+    const choices = [];
     const sceneFunc = [];
     // Shared Scenes
     // [Vaginal] - requires cock
     if (character.torso.cocks.count > 0) {
-        sceneName.push("FuckHerVag");
-        sceneFunc.push(fuckAKitsuneVaginally);
+        choices.push(["FuckHerVag", fuckAKitsuneVaginally]);
     }
     if (character.torso.cocks.filter(Cock.CockThatFits(144)).length >= 0) {
-        sceneName.push("FuckAss");
-        sceneFunc.push(putItInAKitsunesAssWin);
+        choices.push(["FuckAss", putItInAKitsunesAssWin]);
     }
     if (character.torso.vaginas.count > 0) {
-        sceneName.push("Tribbing");
-        sceneFunc.push(tribbingWithAKitsune);
+        choices.push(["Tribbing", tribbingWithAKitsune]);
     }
     if (character.torso.cocks.count > 0) {
-        sceneName.push("Tailjob");
-        sceneFunc.push(tailJobKitsuneWin);
+        choices.push(["Tailjob", tailJobKitsuneWin]);
     }
     // [Tentacles] - requires 3+ tentacles of 30" or longer
     if (character.torso.cocks.filter(Cock.FilterType(CockType.TENTACLE)).length >= 3) {
-        sceneName.push("Tentacles...");
-        sceneFunc.push(kitsunesGetBonedBy3PlusTentacles);
+        choices.push(["Tentacles...", kitsunesGetBonedBy3PlusTentacles]);
     }
     // Blonde-exclusive
     if (hairColor === "blonde") {
@@ -1110,20 +1105,17 @@ export function defeatTheKitsunes(character: Character, display: boolean = true)
             // [Fuck Draft]
             if (character.inventory.items.has(ConsumableName.LustDraftEnhanced)) {
                 if (display) DisplayText("  You could dose her with a fuck draft...");
-                sceneName.push("Use F.Draft");
-                sceneFunc.push(fuckDraftBlond);
+                choices.push(["Use F.Draft", fuckDraftBlond]);
             }
             // [Lactaid]
             if (character.inventory.items.has(ConsumableName.Lactaid)) {
                 if (display) DisplayText("  You could dose her with lactad...");
-                sceneName.push("Use L-Aid");
-                sceneFunc.push(lactaidDoseAKitSune);
+                choices.push(["Use L-Aid", lactaidDoseAKitSune]);
             }
             // [Ovi Elixir]
             if (character.inventory.items.has(ConsumableName.OvipositionElixir)) {
                 if (display) DisplayText("  You could use an oviposition elixir on her...");
-                sceneName.push("Use OviElix");
-                sceneFunc.push(doseAKitsuneWithOviElixirs);
+                choices.push(["Use OviElix", doseAKitsuneWithOviElixirs]);
             }
         }
     }
@@ -1132,65 +1124,54 @@ export function defeatTheKitsunes(character: Character, display: boolean = true)
         // [Hotdog Anal] - replaces regular Anal option only for the black-haired girl.
         // character.cockThatFits( 144 );
         if (character.torso.cocks.filter(Cock.CockThatFits(144)).length >= 0) {
-            sceneName.push("HotDogAnal");
-            sceneFunc.push(hotdogAnalInKitsuneButtDontLetTailTickleYourNose);
+            choices.push(["HotDogAnal", hotdogAnalInKitsuneButtDontLetTailTickleYourNose]);
         }
         // [GetLicked] - requires a vagina
         if (character.torso.vaginas.count > 0) {
-            sceneName.push("GetLicked");
-            sceneFunc.push(getLickedByKitsunes);
+            choices.push(["GetLicked", getLickedByKitsunes]);
         }
         // [GetBJ] - requires cock 108 area or less
         if (character.torso.cocks.filter(Cock.CockThatFits(108)).length >= 0) {
-            sceneName.push("Get BJ");
-            sceneFunc.push(getABJFromAFoxGirl);
+            choices.push(["Get BJ", getABJFromAFoxGirl]);
         }
     }
     if (hairColor === "red") {
         // Non-futa Redhead: [Bondage] - requires a cock with area <= 144 due to some anal
         if (character.torso.cocks.filter(Cock.CockThatFits(144)).length >= 0) {
-            sceneName.push("Bondage");
-            sceneFunc.push(nonFutaRedHeadBondageIGuessYouTieHerUpWithYourPenisThenHuh);
+            choices.push(["Bondage", nonFutaRedHeadBondageIGuessYouTieHerUpWithYourPenisThenHuh]);
         }
         // Non-Futa Redhead: [Some sort of lapsitting handjob thing, I don't know]
         if (kitsuneFlags.redheadIsFuta === 0 && character.torso.cocks.count > 0) {
-            sceneName.push("Lap HJ");
-            sceneFunc.push(nonFutaRedHeadIsWorstRedheadLapsittingHandjobThingIDontKnow);
+            choices.push(["Lap HJ", nonFutaRedHeadIsWorstRedheadLapsittingHandjobThingIDontKnow]);
         }
         // [Helix] - requires herm
         if (kitsuneFlags.redheadIsFuta > 0 && character.gender === 3) {
-            sceneName.push("Herm Helix");
-            sceneFunc.push(helixZeKitsunes);
+            choices.push(["Herm Helix", helixZeKitsunes]);
         }
 
         // [Bring Back Dick] // AKA you don't know dick about dick AKA the dickening
         if (kitsuneFlags.redheadIsFuta === 0) {
-            sceneName.push("Grow Dick");
-            sceneFunc.push(bringBackDick);
+            choices.push(["Grow Dick", bringBackDick]);
         }
         // [Remove Dick]
         else {
             // AKA Lose the dick, schweethaat AKA put that thing away
-            sceneName.push("Ditch Dick");
-            sceneFunc.push(redheadsDontDeserveToHavePenisesBecauseTheyreTooGayForPenisOrSomethingIDontReallyKnowHowThisWorksOrWhyThisFunctionNameIsSoFuckingLong);
+            choices.push(["Ditch Dick", redheadsDontDeserveToHavePenisesBecauseTheyreTooGayForPenisOrSomethingIDontReallyKnowHowThisWorksOrWhyThisFunctionNameIsSoFuckingLong]);
         }
         // Redhead-exclusive
         // [Ride] - requires vagina & redheadIsFuta
         if (character.torso.vaginas.count > 0 && kitsuneFlags.redheadIsFuta > 0) {
-            sceneName.push("RideHerCock");
-            sceneFunc.push(rideDatRedheadKitsuneCockIntoTheSkyDiamonds);
+            choices.push(["RideHerCock", rideDatRedheadKitsuneCockIntoTheSkyDiamonds]);
         }
         if (kitsuneFlags.redheadIsFuta > 0 && character.torso.vaginas.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 4 && character.inventory.equipment.armor.displayName === "lusty maiden's armor") {
-            sceneName.push("B.Titfuck");
-            sceneFunc.push((char: Character) => lustyMaidenPaizuri(char, kitsuneNpc));
+            choices.push(["B.Titfuck", (char: Character) => lustyMaidenPaizuri(char, kitsuneNpc)]);
         }
     }
     // [Feeder]
     if (character.perks.has(PerkType.Feeder)) {
-        sceneName.push("Breastfeed");
-        sceneFunc.push(feederTheKitsunes);
+        choices.push(["Breastfeed", feederTheKitsunes]);
     }
-    return { choices: [sceneName, sceneFunc], persistantChoices: [["Leave"], [(char) => leaveKitsune(char)]] };
+    return { choices, persistantChoices: [["Leave", (char) => leaveKitsune(char)]] };
 }
 
 // Shared Scenes
@@ -2323,17 +2304,14 @@ export function kitsuneShrine(character: Character): NextScreenChoices {
     }
     kitsuneFlags.shrineVisit++;
     // [Read Books] [Meditate] [Steal Statue] - [Leave]
-    const sceneName = ["Read Books"];
-    const sceneFunc = [readKitsuneBooks];
+    const choices: ScreenChoice[] = [["Read Books", readKitsuneBooks]];
     if (kitsuneFlags.tookStatue === 0) {
-        sceneName.push("Meditate");
-        sceneFunc.push(meditateLikeAKitsuneEhQuestionMark);
+        choices.push(["Meditate", meditateLikeAKitsuneEhQuestionMark]);
     }
     if (character.inventory.items.has(MaterialName.GoldenStatue) || kitsuneFlags.tookStatue === 0) {
-        sceneName.push("Statue");
-        sceneFunc.push(stealAStatue);
+        choices.push(["Statue", stealAStatue]);
     }
-    return { choices: [sceneName, sceneFunc], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices, persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Read Books]
@@ -2415,20 +2393,17 @@ function meditateLikeAKitsuneEhQuestionMark(character: Character): NextScreenCho
 // [Steal Statue]
 function stealAStatue(): NextScreenChoices {
     DisplayText().clear();
-    const sceneName = [];
-    const sceneFunc = [];
+    const choices = [];
     if (kitsuneFlags.tookStatue === 0) {
         DisplayText("Feeling the chance is just too great to pass up, you rub your hands together greedily and snatch the gold statue from the shrine.  As you stuff it into your pouch, you are overwhelmed with the sensation that what you are doing is very wrong.  You are starting to have second thoughts...");
         // [Take It] [Put it Back]
-        sceneName.push("Take It");
-        sceneFunc.push(takeAKitsuneStatue);
+        choices.push(["Take It", takeAKitsuneStatue]);
     }
     else {
         DisplayText("The empty alter stands there, obviously missing the statue you took from it.  You COULD put it back, if you wanted.");
-        sceneName.push("Put Back");
-        sceneFunc.push(putKitsuneStatueBack);
+        choices.push(["Put Back", putKitsuneStatueBack]);
     }
-    return { choices: [sceneName, sceneFunc], persistantChoices: [["Back"], [kitsuneShrine]] };
+    return { choices, persistantChoices: [["Back", kitsuneShrine]] };
 }
 
 // [Take it]

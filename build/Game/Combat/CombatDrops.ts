@@ -47,7 +47,7 @@ export class CombatDrops {
                         item = ItemFactory.get(ItemType.Weapon, WeaponName.LargeAxe);
                         if (character.tallness < 78) {
                             DisplayText("\nYou find a large axe on the minotaur, but it is too big for a person of your stature to comfortably carry.  ");
-                            if (randInt(2) === 0) item = null;
+                            if (randInt(2) === 0) item = undefined;
                             else item = ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight);
                         }
                         // Not too tall, dont rob of axe!

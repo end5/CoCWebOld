@@ -43,5 +43,5 @@ export function display(player: Player): NextScreenChoices {
     //     };
     //     DisplayText("\n\n");
     // }
-    return { choices: [["Back"], [Menus.Player]] };
+    return { choices: [["Back", Menus.Player]] };
 }

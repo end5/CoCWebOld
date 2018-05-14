@@ -5,7 +5,7 @@ import { WeaponPerkType } from './WeaponPerk';
 import { Dictionary } from '../../../Engine/Utilities/Dictionary';
 import { ItemDesc } from '../ItemDesc';
 
-// key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = null, perk: string = ""
+// key: string, shortName: string, displayname: string, longName: string, verb: string, attack: number, value: number = 0, description: string = undefined, perk: string = ""
 export class WeaponLib extends Dictionary<Weapon> {
     public constructor() {
         super();

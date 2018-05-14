@@ -4,4 +4,4 @@ import { CombatTest } from './Test/CombatTest';
 
 displayNextScreenChoices(Menus.Main());
 
-// CombatTest();
+// displayNextScreenChoices(CombatTest());

@@ -1,8 +1,10 @@
 import { Menus } from './Menus';
 import { DisplayText } from '../../Engine/display/DisplayText';
+import { AnchorElement } from '../../Engine/Display/Elements/AnchorElement';
 import { SaveManager } from '../../Engine/Save/SaveManager';
 import { Character } from '../Character/Character';
-import { NextScreenChoices } from '../ScreenDisplay';
+import { generateSave, loadFromSave } from '../SaveFile';
+import { displayNextScreenChoices, NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
 
 function displayInfo() {
     DisplayText().clear();
@@ -20,8 +22,14 @@ function displayInfo() {
 export function display(character: Character): NextScreenChoices {
     displayInfo();
 
-    const text = ["Save", "Load", "AutoSav: ON", "Delete", "Save File", "Load File"];
-    const func = [Menus.Save, Menus.Load, autosaveToggle, Menus.Delete, Menus.SaveFile, Menus.LoadFile];
+    const choices: ScreenChoice[] = [
+        ["Save", Menus.Save],
+        ["Load", Menus.Load],
+        ["AutoSav: ON", autosaveToggle],
+        ["Delete", Menus.Delete],
+        ["Save File", saveToFile],
+        ["Load File", loadFromFile]
+    ];
 
     // if (Game.state === GameState.GameOver || character.stats.str === 0 || inDungeon) {
     //     func[0] = undefined;
@@ -29,7 +37,7 @@ export function display(character: Character): NextScreenChoices {
     // }
 
     if (!SaveManager.autoSave) {
-        text[2] = "AutoSav: OFF";
+        choices[2][0] = "AutoSav: OFF";
     }
 
     // const backFunc = Menus.Player;
@@ -40,13 +48,32 @@ export function display(character: Character): NextScreenChoices {
     //     backFunc = Menus.Main;
 
     // return { choices: [text, func], persistantChoices: [["Back"], [backFunc]] };
-    return {
-        choices: [text, func],
-        persistantChoices: [["Back"], [Menus.Main]]
-    };
+    return { choices, persistantChoices: [["Back", Menus.Main]] };
 }
 
-function autosaveToggle(character?: Character): NextScreenChoices {
+function autosaveToggle(character: Character): NextScreenChoices {
     SaveManager.autosaveToggle();
+    return display(character);
+}
+
+function saveToFile(character: Character): NextScreenChoices {
+    const saveFile = generateSave();
+    const anchor = new AnchorElement();
+    DisplayText().appendElement(anchor);
+    anchor.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(saveFile));
+    anchor.download = saveFile.name;
+    anchor.click();
+    return display(character);
+}
+
+function loadFromFile(character: Character, event: Event): NextScreenChoices {
+    const file = (event.srcElement as HTMLInputElement).files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsBinaryString(file);
+    fileReader.addEventListener("loadend", () => {
+        const obj = JSON.parse(fileReader.result);
+        loadFromSave(obj);
+        displayNextScreenChoices({ next: display });
+    });
     return display(character);
 }

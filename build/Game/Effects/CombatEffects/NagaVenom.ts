@@ -11,7 +11,7 @@ export class NagaVenom extends CombatEffect {
     }
 
     public update(character: Character) {
-        character.combat.stats.loseHP(2, null);
+        character.combat.stats.loseHP(2, undefined);
         DisplayText("You wince in pain and try to collect yourself, the naga's venom still plaguing you.");
         DisplayText("\n\n");
         if (character.perks.has(PerkType.Medicine) && randInt(100) <= 14) {
@@ -25,6 +25,6 @@ export class NagaVenom extends CombatEffect {
             character.stats.spe -= 2;
         }
         else
-            character.combat.stats.loseHP(5, null);
+            character.combat.stats.loseHP(5, undefined);
     }
 }

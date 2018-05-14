@@ -56,7 +56,7 @@ export function display(player: Character): NextScreenChoices {
     //     return;
     // }
 
-    return { choices: [["Masturbate"], [masturbateGo]], persistantChoices: [["Back"], [Menus.Player]] };
+    return { choices: [["Masturbate", masturbateGo]], persistantChoices: [["Back", Menus.Player]] };
 }
 
 function masturbateGo() {

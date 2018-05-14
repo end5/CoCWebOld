@@ -19,7 +19,7 @@ export class List<Entry> implements Iterable<Entry> {
         if (index >= 0 && index < this.list.length)
             return this.list[index];
         console.error("Array index out of bounds");
-        return null;
+        return undefined;
     }
 
     public indexOf(object: Entry): number {

@@ -51,7 +51,7 @@ class ItemFactory {
             }
         }
         console.error("Item " + name + " not found.");
-        return null;
+        return undefined;
     }
 
     public create<T extends Item>(type: ItemType, name: string): ItemStack<T> {

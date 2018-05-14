@@ -16,7 +16,7 @@ class CombatManager {
     }
 
     public get inCombat(): boolean {
-        return this.encounter !== undefined;
+        return this.encounter !== undefined && this.encounter.performTurnEnd !== undefined;
     }
 
     private get nextRound(): ClickFunction {

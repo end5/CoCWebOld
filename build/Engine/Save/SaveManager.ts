@@ -1,4 +1,5 @@
-import { SaveFile } from './SaveFile';
+import { DisplayText } from '../display/DisplayText';
+import { AnchorElement } from '../Display/Elements/AnchorElement';
 import { MainScreen } from '../Display/MainScreen';
 
 class SaveManager {
@@ -7,25 +8,10 @@ class SaveManager {
     public autoSave: boolean;
 
     public constructor() {
-        this.activatedSlot = -1;
         this.saveSlots = [];
         this.saveSlots.length = this.saveSlotCount();
         this.autoSave = true;
         this.readSlots();
-    }
-
-    private save(notes?: string): object {
-        const saveFile = {} as SaveFile;
-        // saveFile.days = Time.day;
-        // saveFile.name = User.char.desc.short;
-        // saveFile.game = Game.save();
-        // saveFile.gender = User.char.gender;
-        // saveFile.notes = notes;
-        return saveFile;
-    }
-
-    private load(save: object) {
-        // Game.load(save);
     }
 
     private writeSlots() {
@@ -55,7 +41,7 @@ class SaveManager {
     }
 
     public delete(slot: number) {
-        this.saveSlots[slot] = null;
+        this.saveSlots[slot] = undefined;
         this.writeSlots();
     }
 
@@ -69,20 +55,28 @@ class SaveManager {
 
     public loadFromSlot(slotNumber: number) {
         this.readSlots();
-        this.load(this.saveSlots[slotNumber]);
+        return this.saveSlots[slotNumber];
     }
 
-    public loadFromFile(save: object) {
-        this.load(save);
+    public loadFromFile(blob: Blob, callback: (obj: object) => void) {
+        const fileReader = new FileReader();
+        fileReader.readAsBinaryString(blob);
+        fileReader.addEventListener("loadend", () => {
+            callback(JSON.parse(fileReader.result));
+        });
     }
 
-    public saveToSlot(slotNumber: number, notes?: string) {
-        this.saveSlots[slotNumber] = this.save(notes);
+    public saveToSlot(slotNumber: number, save: object) {
+        this.saveSlots[slotNumber] = save;
         this.writeSlots();
     }
 
-    public saveToFile(notes?: string): object {
-        return this.save(notes);
+    public saveToFile(save: object, filename: string) {
+        const anchor = new AnchorElement();
+        DisplayText().appendElement(anchor);
+        anchor.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(save));
+        anchor.download = filename;
+        anchor.click();
     }
 }
 

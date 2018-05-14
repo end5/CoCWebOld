@@ -372,7 +372,7 @@ export class CaninePepper extends Consumable {
             if (cocks.filter(Cock.FilterType(CockType.DOG)).length < cocks.count &&
                 ((changes < changeLimit && randInt(1.6)) || this.pepperType === CaninePepperType.Oversized) === 0) {
                 // Select first not dog cock
-                let firstNotDogCock: Cock = null;
+                let firstNotDogCock: Cock = undefined;
                 for (let index = 0; index < cocks.count; index++)
                     if (cocks.get(index).type !== CockType.DOG)
                         firstNotDogCock = cocks.get(index);

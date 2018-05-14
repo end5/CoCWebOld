@@ -88,8 +88,8 @@ export function akbalDefeated(character: Character, hpVictory: boolean): NextScr
             DisplayText("\n\nDo you rape him?");
             // Rape / Don't Rape
             return {
-                choices: [["Butt-fuck", "Take Vaginally", "Force Lick", "B.Titfuck"], [buttFuck, vagoo, vagooLick, bikiniTits]],
-                persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]]
+                choices: [["Butt-fuck", buttFuck], ["Take Vaginally", vagoo], ["Force Lick", vagooLick], ["B.Titfuck", bikiniTits]],
+                persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]]
             };
         }
     }
@@ -716,7 +716,7 @@ export function supahAkabalEdition(character: Character): NextScreenChoices {
 
     DisplayText("The aura pouring forth from this 'Akbal' is anything but god-like; you recognize the demon for what it truly is.  Yet its ivory teeth and sharp claws prove to you that it can make good on its threat.  What do you do?");
     // Talk / Fight / Run
-    return { choices: [["Talk", "Fight"], [superAkbalioTalk, startuAkabalFightomon]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Talk", superAkbalioTalk], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Talk]
@@ -726,7 +726,7 @@ function superAkbalioTalk(): NextScreenChoices {
     DisplayText("After a few moments of silence you ask, \"<i>What do you mean, 'submit'?</i>\" Akbal grins, revealing a row of wicked ivory teeth as he opens his mouth. You suddenly feel the demon's powerful body pinning you down, a wide tongue licking your neck and claws tickling your back in a way that is both horrifying and sensual. Yet after a moment of taking it in, you realize that he is still there in front of you, unmoved and grinning. You can guess what the image means: he wants you to become his mate for a day to make up for invading his territory.  What do you do?\n\n");
 
     // Submit / Fight
-    return { choices: [["Fight", "Submit"], [startuAkabalFightomon, akbalSubmit]] };
+    return { choices: [["Fight", startuAkabalFightomon], ["Submit", akbalSubmit]] };
 }
 
 // [Encounter if previously submitted]
@@ -736,7 +736,7 @@ function repeatAkbalPostSubmission(): NextScreenChoices {
     DisplayText("As you walk through the forest, you hear a purring coming from behind you.  Turning around reveals that Akbal has come to find you.  He uses his head to push you in the direction of his territory, obviously wanting to dominate you again.\n\n");
     DisplayText("What do you do?");
     // Submit / Deny / Fight
-    return { choices: [["Submit", "Deny", "Fight"], [akbalSubmit, akbalDeny, startuAkabalFightomon]] };
+    return { choices: [["Submit", akbalSubmit], ["Deny", akbalDeny], ["Fight", startuAkabalFightomon]] };
 }
 
 // [Deny]
@@ -758,7 +758,7 @@ function ackbalRepeatAfterWin(character: Character): NextScreenChoices {
     else
         DisplayText("dodging roll places you a good distance away from him.  Do you fight or flee?\n\n");
     // Fight / Flee
-    return { choices: [["Fight"], [startuAkabalFightomon]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Encounter if previously fought and lost]
@@ -768,7 +768,7 @@ function ackbalRepeatAfterLoss(): NextScreenChoices {
     DisplayText("A chorus of laughter sounds inside your mind as the jaguar demon, Akbal, drops to the ground in front of you.  His masculine voice says, \"<i>Well, if it isn't the defiant welp who, in all their great idiocy, has wandered into my territory again.  Will you submit, or do I have to teach you another harsh lesson?</i>\"\n\n");
 
     // Submit / Fight / Run
-    return { choices: [["Submit", "Fight"], [akbalSubmit, startuAkabalFightomon]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Submit", akbalSubmit], ["Fight", startuAkabalFightomon]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [Fight]
@@ -1201,12 +1201,12 @@ export function takeAdvantageOfAkbitch(character: Character): NextScreenChoices 
 
     akbalFlags.timesBitched++;
     return {
-        choices: [["Normal", "Strong", "Fast", "Toughness"], [
-            basicAkbitchScene,
-            character.stats.str >= 70 ? akbitchHighStrengthVariant : undefined,
-            character.stats.spe >= 70 ? akbalBitchSpeed : undefined,
-            character.stats.tou >= 70 ? akbitchToughness : undefined,
-        ]]
+        choices: [
+            ["Normal", basicAkbitchScene],
+            ["Strong", character.stats.str >= 70 ? akbitchHighStrengthVariant : undefined],
+            ["Fast", character.stats.spe >= 70 ? akbalBitchSpeed : undefined],
+            ["Toughness", character.stats.tou >= 70 ? akbitchToughness : undefined],
+        ]
     };
 }
 
@@ -1222,10 +1222,10 @@ function basicAkbitchScene(character: Character): NextScreenChoices {
     DisplayText("\n\nWhat will you do with him?");
 
     return {
-        choices: [["Fuck Him", "Ride Him"], [
-            character.torso.cocks.count > 0 ? buttFuckbuttFuckbuttFuckAkbal : undefined,
-            topAkbitchFromDaBottom
-        ]]
+        choices: [
+            ["Fuck Him", character.torso.cocks.count > 0 ? buttFuckbuttFuckbuttFuckAkbal : undefined],
+            ["Ride Him", topAkbitchFromDaBottom]
+        ]
     };
 }
 

@@ -22,6 +22,7 @@ export enum StatType {
 export class StatsPanelObserver extends ScreenElement {
     private statPanels: StatPanelObserver[];
     public setHTMLElement(element: HTMLElement) {
+        super.setHTMLElement(element);
         this.statPanels = [];
         for (let index = 0; index < 14; index++)
             this.statPanels.push(new StatPanelObserver());

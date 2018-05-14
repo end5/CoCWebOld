@@ -54,7 +54,7 @@ export class Constrict extends PlayerPhysicalAction {
         else {
             // Failure (-10 HPs) -
             DisplayText("You launch yourself at your opponent and attempt to wrap yourself around " + monster.desc.objectivePronoun + ". Before you can even get close enough, " + monster.desc.a + monster.desc.short + " jumps out of the way, causing you to fall flat on your face. You quickly pick yourself up and jump back.");
-            player.combat.stats.loseHP(5, null);
+            player.combat.stats.loseHP(5, undefined);
         }
         return;
     }

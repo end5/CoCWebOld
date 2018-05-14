@@ -53,7 +53,7 @@ export function display(): NextScreenChoices {
     listBindableAction(bindListElement, "Button 9", BindableAction.Button8);
     listBindableAction(bindListElement, "Button 10", BindableAction.Button9);
 
-    return { choices: [["Reset Ctrls", "Clear Ctrls"], [resetControls, clearControls]], persistantChoices: [["Back"], [Menus.Settings]] };
+    return { choices: [["Reset Ctrls", resetControls], ["Clear Ctrls", clearControls]], persistantChoices: [["Back", Menus.Settings]] };
 }
 
 function listBindableAction(bindListElement: UnorderedListElement, text: string, bindableAction: BindableAction) {

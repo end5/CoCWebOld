@@ -16,7 +16,7 @@ export class UnorderedListElement extends ScreenElement {
     }
 
     public get(index: number): ListEntryElement {
-        return index < this.list.length ? this.list[index] : null;
+        return index < this.list.length ? this.list[index] : undefined;
     }
 
     public remove(index: number) {

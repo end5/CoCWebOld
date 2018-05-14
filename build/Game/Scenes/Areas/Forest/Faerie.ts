@@ -18,7 +18,7 @@ export function encounter(character: Character): NextScreenChoices {
     DisplayText("A faerie slightly taller and thicker than your middle finger flits about the air. Her flat chest and girlish bob of hair make her look quite cute, but the solid black stockings and leather straps covering her chest show her slutty nature. Her wings are a light red, the color of aroused genitals.\n\n");
     if (character.torso.cocks.count > 0 && (character.torso.vaginas.count <= 0 || randInt(2) === 0)) {
         DisplayText("She seems to notice you getting hard at the sight of her and looks down. \"<i>Ew, man parts!</i>\" the faerie exclaims, flying away like a frightened bird.");
-        if (randInt(character.stats.spe / 2) + character.statusAffects.get(StatusAffectType.FaerieFucked).value1 > 15) {
+        if (character.statusAffects.has(StatusAffectType.FaerieFucked) && randInt(character.stats.spe / 2) + character.statusAffects.get(StatusAffectType.FaerieFucked).value1 > 15) {
             if (character.statusAffects.get(StatusAffectType.FaerieFucked).value1 < 5) {
                 DisplayText("\n\nYou make a desperate lunge for the faerie girl and grab her before she can fly away.   She wriggles and squirms in your grasp, shouting, \"<i>Let me go you meanie!</i>\"\n\n");
                 DisplayText("It would be cute if she wasn't dressed up like such a slut.  You bet you could get her to help pleasure you, but she might not like it.  Or you could be a nice " + Desc.Gender.guyGirl(character.gender) + " and let her go...\n\nDo you force her to pleasure you?");
@@ -47,8 +47,8 @@ export function encounter(character: Character): NextScreenChoices {
     DisplayText("The faerie slows the beating of her wings and hovers towards you. You dismiss your fearful notions, certain a small faerie is quite harmless to you.\n\n");
     DisplayText("How do you react?");
     // Shoo Away, Nothing, RAEP
-    if (character.torso.vaginas.count > 0) return { choices: [["Shoo Away", "Nothing", "Rape"], [faerieShooAway, faerieDoNothing, faerieRAEP]] };
-    else return { choices: [["Shoo Away", "Nothing"], [faerieShooAway, faerieDoNothing]] };
+    if (character.torso.vaginas.count > 0) return { choices: [["Shoo Away", faerieShooAway], ["Nothing", faerieDoNothing], ["Rape", faerieRAEP]] };
+    else return { choices: [["Shoo Away", faerieShooAway], ["Nothing", faerieDoNothing]] };
 }
 
 function faerieRAEP(character: Character): NextScreenChoices {

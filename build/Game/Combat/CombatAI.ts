@@ -22,12 +22,18 @@ export function performActionAI(character: Character): NextScreenChoices {
     return (actions[randInt(actions.length)])();
 }
 
-function canPerformAction(actions: (() => void)[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {
+function canPerformAction(actions: (() => NextScreenChoices)[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {
     if (character.combat.effects.combatAbilityFlag & flag && action && action.isPossible(character)) {
         const enemies = CombatManager.getEnemyParty(character);
         for (const enemy of enemies.ableMembers) {
             if (action.canUse(character, enemy)) {
-                actions.push(() => action.use(character, enemy));
+                actions.push(() => {
+                    const useResult = action.use(character, enemy);
+                    if (useResult)
+                        return useResult;
+                    else
+                        return CombatManager.encounter.performRound();
+                });
             }
         }
     }

@@ -60,7 +60,7 @@ export function lumiLabChoices(character: Character): NextScreenChoices {
     let enhance: ClickFunction;
     if (canEnhance(character))
         enhance = lumiEnhance;
-    return { choices: [["Shop", "Enhance", "", "", "Leave"], [lumiShop, enhance, undefined, undefined, Scenes.camp.returnToCampUseOneHour]] };
+    return { choices: [["Shop", lumiShop], ["Enhance", enhance], ["", undefined], ["", undefined], ["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 export function lumiShop(): NextScreenChoices {
@@ -71,18 +71,14 @@ export function lumiShop(): NextScreenChoices {
     DisplayText("Lust Draft - 15 gems\nGoblin Ale - 20 gems\nOviposition Elixir - 45 gems\n");
 
     // The player is given a list of choices, clicking on one gives the description and the price, like Giacomo.
-    const buttonText = [
-        ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName,
-        ItemFactory.get(ItemType.Consumable, ConsumableName.GoblinAle).desc.shortName,
-        ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName,
-    ];
-
-    const buttonFunc = [
-        lumiLustDraftPitch,
-        lumiPitchGobboAle,
-        lumiPitchOviElixer,
-    ];
-    return { choices: [buttonText, buttonFunc], persistantChoices: [["Leave"], [lumiLabChoices]] };
+    return {
+        choices: [
+            [ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName, lumiLustDraftPitch],
+            [ItemFactory.get(ItemType.Consumable, ConsumableName.GoblinAle).desc.shortName, lumiPitchGobboAle],
+            [ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName, lumiPitchOviElixer],
+        ],
+        persistantChoices: [["Leave", lumiLabChoices]]
+    };
 }
 
 // Lust Draft
@@ -196,19 +192,16 @@ export function lumiEnhance(character: Character): NextScreenChoices {
         // The character chooses an item that can be enhanced from a list, regardless of which is chosen, the text for the next part is the same.
         return {
             choices: [
-                [
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.FoxBerry).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.FoxJewel).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.GoldenSeed).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.KangaFruit).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.LaBova).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName,
-                    ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight).desc.shortName,
-                ],
-                [fox, kitsune, seed, kanga, lustDraft, laBova, oviElix, succuDelight]
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.FoxBerry).desc.shortName, fox],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.FoxJewel).desc.shortName, kitsune],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.GoldenSeed).desc.shortName, seed],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.KangaFruit).desc.shortName, kanga],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.LustDraft).desc.shortName, lustDraft],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.LaBova).desc.shortName, laBova],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.OvipositionElixir).desc.shortName, oviElix],
+                [ItemFactory.get(ItemType.Consumable, ConsumableName.SuccubisDelight).desc.shortName, succuDelight],
             ],
-            persistantChoices: [["Back"], [lumiLabChoices]]
+            persistantChoices: [["Back", lumiLabChoices]]
         };
     }
 }

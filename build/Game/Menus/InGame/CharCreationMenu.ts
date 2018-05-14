@@ -11,7 +11,7 @@ import { Player } from '../../Character/Player/Player';
 import { Desc } from '../../Descriptors/Descriptors';
 import { PerkFactory } from '../../Effects/PerkFactory';
 import { PerkType } from '../../Effects/PerkType';
-import { NextScreenChoices } from '../../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
 import { Menus } from '../Menus';
@@ -54,7 +54,7 @@ function enterName(player: Player): NextScreenChoices {
     const nameField = new InputTextElement();
     DisplayText().appendElement(nameField);
 
-    return { choices: [["OK"], [() => chooseName(player, nameField)]] };
+    return { choices: [["OK", () => chooseName(player, nameField)]] };
 }
 
 function chooseName(player: Player, nameField: InputTextElement): NextScreenChoices {
@@ -67,11 +67,11 @@ function chooseName(player: Player, nameField: InputTextElement): NextScreenChoi
     DisplayText().clear();
     if (customName(player.desc.name) !== undefined) {
         DisplayText("This name, like you, is special.  Do you live up to your name or continue on, assuming it to be coincidence?");
-        return { choices: [["SpecialName", "Continue On"], [useCustomProfile, noCustomProfile]] };
+        return { choices: [["SpecialName", useCustomProfile], ["Continue On", noCustomProfile]] };
     }
     else { // Proceed with normal character creation
         DisplayText("\n\n\n\nAre you a man or a woman?");
-        return { choices: [["Man", "Woman"], [isAMan, isAWoman]] };
+        return { choices: [["Man", isAMan], ["Woman", isAWoman]] };
     }
 }
 
@@ -88,7 +88,7 @@ function useCustomProfile(player: Player) {
         /*
         DisplayText("There is something different about you, but first, what is your basic gender?  An individual such as you may later overcome this, of course...");
         DisplayText("\n\n\n\nAre you a man or a woman?");
-        return { choices: [["Man", "Woman"], [isAMan, isAWoman]] };
+        return { choices: [["Man", isAMan], ["Woman", isAWoman]] };
         */
     }
 }
@@ -96,7 +96,7 @@ function useCustomProfile(player: Player) {
 function noCustomProfile(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Your name carries little significance beyond it being your name.  What is your gender?");
-    return { choices: [["Man", "Woman"], [isAMan, isAWoman]] };
+    return { choices: [["Man", isAMan], ["Woman", isAWoman]] };
 }
 
 // Determines if has character creation bonuses
@@ -166,7 +166,7 @@ function isAMan(player: Player): NextScreenChoices {
     player.gender = Gender.MALE;
     DisplayText().clear();
     DisplayText("You are a man.  Your upbringing has provided you an advantage in strength and toughness.\n\nWhat type of build do you have?");
-    return { choices: [["Lean", "Average", "Thick", "Girly"], [buildLeanMale, buildAverageMale, buildThickMale, buildGirlyMale]] };
+    return { choices: [["Lean", buildLeanMale], ["Average", buildAverageMale], ["Thick", buildThickMale], ["Girly", buildGirlyMale]] };
 }
 
 function isAWoman(player: Player): NextScreenChoices {
@@ -186,7 +186,7 @@ function isAWoman(player: Player): NextScreenChoices {
     player.gender = Gender.FEMALE;
     DisplayText().clear();
     DisplayText("You are a woman.  Your upbringing has provided you an advantage in speed and intellect.\n\nWhat type of build do you have?");
-    return { choices: [["Slender", "Average", "Curvy", "Tomboyish"], [buildSlenderFemale, buildAverageFemale, buildCurvyFemale, buildTomboyishFemale]] };
+    return { choices: [["Slender", buildSlenderFemale], ["Average", buildAverageFemale], ["Curvy", buildCurvyFemale], ["Tomboyish", buildTomboyishFemale]] };
 }
 
 function buildLeanMale(player: Player): NextScreenChoices {
@@ -298,15 +298,12 @@ function chooseComplexion(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("What is your complexion?");
     return {
-        choices: [
-            ["Light", "Olive", "Dark", "Ebony"],
-            [
-                (player: Player) => setComplexion(player, "light"),
-                (player: Player) => setComplexion(player, "olive"),
-                (player: Player) => setComplexion(player, "dark"),
-                (player: Player) => setComplexion(player, "ebony")
-            ]
-        ]
+        choices: [[
+            "Light", (player: Player) => setComplexion(player, "light"),
+            "Olive", (player: Player) => setComplexion(player, "olive"),
+            "Dark", (player: Player) => setComplexion(player, "dark"),
+            "Ebony", (player: Player) => setComplexion(player, "ebony")
+        ]]
     };
 }
 
@@ -316,16 +313,13 @@ function setComplexion(player: Player, choice: string): NextScreenChoices { // A
     DisplayText("You selected a " + choice + " complexion.\n\nWhat color is your hair?");
     return {
         choices: [
-            ["Blonde", "Brown", "Black", "Red", "Gray", "White", "Auburn"],
-            [
-                () => setHair(player, "blonde"),
-                () => setHair(player, "brown"),
-                () => setHair(player, "black"),
-                () => setHair(player, "red"),
-                () => setHair(player, "gray"),
-                () => setHair(player, "white"),
-                () => setHair(player, "auburn")
-            ]
+            ["Blonde", () => setHair(player, "blonde")],
+            ["Brown", () => setHair(player, "brown")],
+            ["Black", () => setHair(player, "black")],
+            ["Red", () => setHair(player, "red")],
+            ["Gray", () => setHair(player, "gray")],
+            ["White", () => setHair(player, "white")],
+            ["Auburn", () => setHair(player, "auburn")]
         ]
     };
 }
@@ -340,24 +334,26 @@ function setHair(player: Player, choice: string): NextScreenChoices {
 function chooseEndowment(player: Player): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Every person is born with a gift.  What's yours?");
-    const text = ["Strength", "Toughness", "Speed", "Smarts", "Libido", "Touch"];
-    const func = [
-        confirmEndowmentStrength,
-        confirmEndowmentThoughness,
-        confirmEndowmentSpeed,
-        confirmEndowmentSmarts,
-        confirmEndowmentLibido,
-        confirmEndowmentTouch
+    const choices: ScreenChoice[] = [
+        ["Strength", confirmEndowmentStrength],
+        ["Toughness", confirmEndowmentThoughness],
+        ["Speed", confirmEndowmentSpeed],
+        ["Smarts", confirmEndowmentSmarts],
+        ["Libido", confirmEndowmentLibido],
+        ["Touch", confirmEndowmentTouch]
     ];
     if (player.torso.cocks.count > 0) {
-        text.push("Big Cock", "Lots of Jizz");
-        func.push(confirmEndowmentBigCock, confirmEndowmentMessyOrgasms);
+        choices.push(["Big Cock", confirmEndowmentBigCock], ["Lots of Jizz", confirmEndowmentMessyOrgasms]);
     }
     else {
-        text.push("Big Breasts", "Big Clit", "Fertile", "Wet Vagina");
-        func.push(confirmEndowmentBigBreasts, confirmEndowmentBigClit, confirmEndowmentFertile, confirmEndowmentWetVagina);
+        choices.push(
+            ["Big Breasts", confirmEndowmentBigBreasts],
+            ["Big Clit", confirmEndowmentBigClit],
+            ["Fertile", confirmEndowmentFertile],
+            ["Wet Vagina", confirmEndowmentWetVagina]
+        );
     }
-    return { choices: [text, func] };
+    return { choices };
 }
 
 function confirmEndowmentStrength(): NextScreenChoices {
@@ -524,21 +520,17 @@ function chooseHistory(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Before you became a champion, you had other plans for your life.  What were you doing before?");
     return {
-        choices:
-            [
-                ["Alchemy", "Fighting", "Healing", "Religion", "Schooling", "Slacking", "Slutting", "Smithing", "Whoring"],
-                [
-                    () => confirmHistory(PerkType.HistoryAlchemist),
-                    () => confirmHistory(PerkType.HistoryFighter),
-                    () => confirmHistory(PerkType.HistoryHealer),
-                    () => confirmHistory(PerkType.HistoryReligious),
-                    () => confirmHistory(PerkType.HistoryScholar),
-                    () => confirmHistory(PerkType.HistorySlacker),
-                    () => confirmHistory(PerkType.HistorySlut),
-                    () => confirmHistory(PerkType.HistorySmith),
-                    () => confirmHistory(PerkType.HistoryWhore),
-                ]
-            ]
+        choices: [
+            ["Alchemy", () => confirmHistory(PerkType.HistoryAlchemist)],
+            ["Fighting", () => confirmHistory(PerkType.HistoryFighter)],
+            ["Healing", () => confirmHistory(PerkType.HistoryHealer)],
+            ["Religion", () => confirmHistory(PerkType.HistoryReligious)],
+            ["Schooling", () => confirmHistory(PerkType.HistoryScholar)],
+            ["Slacking", () => confirmHistory(PerkType.HistorySlacker)],
+            ["Slutting", () => confirmHistory(PerkType.HistorySlut)],
+            ["Smithing", () => confirmHistory(PerkType.HistorySmith)],
+            ["Whoring", () => confirmHistory(PerkType.HistoryWhore)],
+        ]
     };
 }
 

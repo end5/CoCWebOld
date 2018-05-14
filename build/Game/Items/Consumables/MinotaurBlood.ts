@@ -236,7 +236,7 @@ export class MinotaurBlood extends Consumable {
         }
         // Boosts cock size up to 36"x5".
         if (changes < changeLimit && randInt(2) === 0 && cocks.count > 0) {
-            let selectedCock: Cock = null;
+            let selectedCock: Cock = undefined;
             for (let index: number = 0; index < cocks.count; index++) {
                 if (cocks.get(index).type === CockType.HORSE && (cocks.get(index).length < 36 || cocks.get(index).thickness < 5)) {
                     selectedCock = cocks.get(index);
@@ -272,7 +272,7 @@ export class MinotaurBlood extends Consumable {
         }
         // Morph dick to horsediiiiick
         if (cocks.count > 0 && randInt(2) === 0 && changes < changeLimit) {
-            let selectedCock: Cock = null;
+            let selectedCock: Cock = undefined;
             for (let index: number = 0; index < cocks.count; index++) {
                 if (cocks.get(index).type !== CockType.HORSE) {
                     selectedCock = cocks.get(index);

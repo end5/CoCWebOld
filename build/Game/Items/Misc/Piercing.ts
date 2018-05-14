@@ -21,7 +21,7 @@ export class Piercing extends EquipableItem implements ISerializable<Piercing> {
     public longDesc: string;
 
     public constructor(piercingType: PiercingType, shortDesc: string = "", longDesc: string = "") {
-        super(piercingType, ItemType.Misc, null);
+        super(piercingType, ItemType.Misc, undefined);
         this.shortDesc = shortDesc;
         this.longDesc = longDesc;
     }

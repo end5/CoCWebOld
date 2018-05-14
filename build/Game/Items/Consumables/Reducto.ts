@@ -22,17 +22,17 @@ export class Reducto extends Consumable {
     }
 
     public use(character: Character): NextScreenChoices {
-        const rdtBalls: ClickFunction = (character.torso.balls.quantity > 0 && character.torso.balls.size > 1 ? this.reductoBalls : null);
-        const rdtBreasts: ClickFunction = (character.torso.chest.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0 ? this.reductoBreasts : null);
-        const rdtButt: ClickFunction = (character.torso.butt.rating > 1 ? this.reductoButt : null);
-        const rdtClit: ClickFunction = (character.torso.vaginas.count > 0 && character.torso.clit.length > 0.25 ? this.reductoClit : null);
-        const rdtCock: ClickFunction = (character.torso.cocks.count > 0 && character.torso.cocks.sort(Cock.LargestCockArea)[0].area > 6 ? this.reductoCock : null);
-        const rdtHips: ClickFunction = (character.torso.hips.rating > 2 ? this.reductoHips : null);
-        const rdtNipples: ClickFunction = (character.torso.chest.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length > 0.25 ? this.reductoNipples : null);
+        const rdtBalls: ClickFunction = (character.torso.balls.quantity > 0 && character.torso.balls.size > 1 ? this.reductoBalls : undefined);
+        const rdtBreasts: ClickFunction = (character.torso.chest.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 0 ? this.reductoBreasts : undefined);
+        const rdtButt: ClickFunction = (character.torso.butt.rating > 1 ? this.reductoButt : undefined);
+        const rdtClit: ClickFunction = (character.torso.vaginas.count > 0 && character.torso.clit.length > 0.25 ? this.reductoClit : undefined);
+        const rdtCock: ClickFunction = (character.torso.cocks.count > 0 && character.torso.cocks.sort(Cock.LargestCockArea)[0].area > 6 ? this.reductoCock : undefined);
+        const rdtHips: ClickFunction = (character.torso.hips.rating > 2 ? this.reductoHips : undefined);
+        const rdtNipples: ClickFunction = (character.torso.chest.count > 0 && character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].nipples.length > 0.25 ? this.reductoNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the paste in your hand and wonder what part of your body you would like to shrink.  What will you use it on?");
         return {
-            choices: [["Balls", "Breasts", "Butt", "Clit", "Cock", "Hips", "Nipples"], [rdtBalls, rdtBreasts, rdtButt, rdtClit, rdtCock, rdtHips, rdtNipples]], persistantChoices: [["Nevermind"], [this.reductoCancel]]
+            choices: [["Balls", rdtBalls], ["Breasts", rdtBreasts], ["Butt", rdtButt], ["Clit", rdtClit], ["Cock", rdtCock], ["Hips", rdtHips], ["Nipples", rdtNipples]], persistantChoices: [["Nevermind", this.reductoCancel]]
         };
     }
 

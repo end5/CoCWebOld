@@ -22,8 +22,8 @@ export class StatPanelObserver extends ScreenElement {
         this.statCurrentElement.innerHTML = this.statCurrent.toString();
         if (this.statBarElement) {
             if (statMax >= 0) {
-                this.statMax = statMax;
-                this.statMaxElement.innerHTML = statMax.toString();
+                this.statMax = Math.floor(statMax);
+                // this.statMaxElement.innerHTML = statMax.toString();
             }
             if (this.statMax <= 0 || this.statCurrent <= 0)
                 this.statBarElement.style.width = "0%";

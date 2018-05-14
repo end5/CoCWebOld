@@ -148,6 +148,8 @@ export class StatsModifier {
         this.stats.HP = value;
         if (this.stats.HP < 0)
             this.stats.HP = 0;
+        if (this.stats.HP > this.maxHP())
+            this.stats.HP = this.maxHP();
     }
 
     public maxHP(): number {

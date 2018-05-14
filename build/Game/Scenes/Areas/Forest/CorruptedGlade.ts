@@ -46,7 +46,7 @@ export function intro(character: Character): NextScreenChoices {
     }
     else { // drink sap/lick flower reaction
         DisplayText("  You smile as you enter the glade, wondering which of the forbidden fruits you should try...\n\nThere are flowers that bear more than a passing resemblance to pussies,\nvines with absurdly large penis-like tips,\nand trees covered in breast-like knots, leaking sap.");
-        return { choices: [["Flowers", "Vines", "Trees"], [this.flowerFun, this.tentacleFun, this.treeBoobFun]], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+        return { choices: [["Flowers", flowerFun], ["Vines", tentacleFun], ["Trees", treeBoobFun]], persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
     }
     // Wallow in decadence reaction - UNFINISHED
 }

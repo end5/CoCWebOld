@@ -60,12 +60,18 @@ export function display(): NextScreenChoices {
 
     return {
         choices: [
-            ["Toggle Debug", "Sprite Toggle", "EZ Mode", "Larger Font", "Controls", "Hyper Happy", "Low Standards", "Silly Toggle", "Smaller Font"],
-            [toggleDebug, toggleSpritesFlag, toggleEasyModeFlag, incFontSize, Menus.Controls, toggleHyperHappy, toggleStandards, toggleSillyFlag, decFontSize]
+                ["Toggle Debug", toggleDebug],
+                ["Sprite Toggle", toggleSpritesFlag],
+                ["EZ Mode", toggleEasyModeFlag],
+                ["Larger Font", incFontSize],
+                ["Controls", Menus.Controls],
+                ["Hyper Happy", toggleHyperHappy],
+                ["Low Standards", toggleStandards],
+                ["Silly Toggle", toggleSillyFlag],
+                ["Smaller Font", decFontSize],
         ],
         persistantChoices: [
-            ["Back"],
-            [Menus.Main]
+            ["Back", Menus.Main]
         ]
     };
 }

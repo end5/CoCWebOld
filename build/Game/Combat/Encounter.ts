@@ -7,7 +7,7 @@ import { DefeatType } from './DefeatEvent';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { Menus } from '../Menus/Menus';
-import { displayScreenQueue, NextScreenChoices, queueScreen } from '../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
 import { User } from '../User';
 
 export class Encounter {
@@ -17,6 +17,7 @@ export class Encounter {
     public allyParty: CombatParty;
     public enemyParty: CombatParty;
     private allyPartyTurn: boolean;
+    public performTurnEnd: () => NextScreenChoices;
 
     public constructor(mainCharacter: Character, allyParty: Character[], enemyParty: Character[]) {
         this.mainCharacter = mainCharacter;
@@ -29,7 +30,8 @@ export class Encounter {
     }
 
     public performRound(): NextScreenChoices {
-        displayScreenQueue();
+        if (this.performTurnEnd)
+            return this.performTurnEnd();
         if (this.allyPartyTurn) {
             return this.performAllyPartyTurn();
         }
@@ -40,32 +42,37 @@ export class Encounter {
 
     private performAllyPartyTurn(): NextScreenChoices {
         const activeMember = this.allyParty.activePartyMember();
-        queueScreen(() => {
+        this.performTurnEnd = () => {
             const encounter = this;
+            encounter.performTurnEnd = undefined;
             encounter.enemyParty.resolveAttacker(activeMember);
             encounter.resolveEndTurn(activeMember);
             return encounter.endCombatOrNextRound();
-        });
-        if (activeMember.uuid === User.char.uuid) {
-            // player pick action
-            return Menus.Combat(this.mainCharacter);
+        };
+        if (!activeMember) {
+            return { next: Menus.Player };
+        }
+        else if (activeMember.uuid === User.char.uuid) {
+            return { next: () => Menus.Combat(this.mainCharacter) };
         }
         else {
-            // do ai
             return performActionAI(activeMember);
         }
     }
 
     private performEnemyPartyTurn(): NextScreenChoices {
         const activeMember = this.enemyParty.activePartyMember();
-        // do ai
-        queueScreen(() => {
+        this.performTurnEnd = () => {
             const encounter = this;
+            encounter.performTurnEnd = undefined;
             encounter.allyParty.resolveAttacker(activeMember);
             encounter.resolveEndTurn(activeMember);
             return encounter.endCombatOrNextRound();
-        });
-        return performActionAI(activeMember);
+        };
+        if (!activeMember) {
+            return { next: Menus.Player };
+        }
+        else return performActionAI(activeMember);
     }
 
     /*private resolvePlayerRound() {
@@ -143,25 +150,26 @@ export class Encounter {
             else {
                 if (this.enemyParty.allMembers.length > 1) {
                     // If multiple enemies lose, player picks one for end scene
-                    const nameList = [];
-                    const sceneList = [];
+                    const choices: ScreenChoice[] = [];
                     for (const defeatEvent of this.enemyParty.defeatLog) {
                         if (defeatEvent.how !== DefeatType.Escape) {
-                            nameList.push(defeatEvent.loser);
-                            sceneList.push(() => {
-                                return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
-                            });
+                            choices.push([
+                                defeatEvent.loser.desc.name,
+                                () => {
+                                    return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
+                                }
+                            ]);
                         }
                     }
                     // Should be replaced with separate menu
-                    return { choices: [nameList, sceneList] };
+                    return { choices };
                 }
                 else {
                     const defeatEvent = this.enemyParty.defeatLog[0];
                     if (defeatEvent.how !== DefeatType.Escape) {
-                        queueScreen(() => {
+                        this.performTurnEnd = () => {
                             return CombatDrops.awardPlayer(this.mainCharacter, defeatEvent.loser);
-                        });
+                        };
                     }
                     return defeatEvent.victor.combat.endScenes.victory(defeatEvent.how, defeatEvent.loser);
                 }

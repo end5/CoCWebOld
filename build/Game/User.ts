@@ -4,16 +4,20 @@ import { Settings } from './Settings';
 import { Flags } from './Utilities/Flags';
 import { Dictionary } from '../Engine/Utilities/Dictionary';
 
-class User {
+export interface IUser {
+    char: Character;
+    settings: Settings;
+    flags: Flags;
+    npcs: Dictionary<Character>;
+    locations: LocationDict;
+}
+
+class User implements IUser {
     public char: Character;
     public settings = new Settings();
     public flags = new Flags();
     public npcs = new Dictionary<Character>();
     public locations = new LocationDict();
-
-    public save(): string {
-        return "";
-    }
 }
 
 const user = new User();

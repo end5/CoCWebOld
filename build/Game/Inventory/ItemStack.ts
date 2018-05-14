@@ -51,7 +51,7 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
 
     public serialize(): string {
         return JSON.stringify({
-            item: this.item.serialize(),
+            item: this.item ? this.item.serialize() : undefined,
             amount: this.amount,
             maxAmount: this.maxAmount
         });

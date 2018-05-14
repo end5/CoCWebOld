@@ -7,7 +7,7 @@ import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickFunction, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(player: Character): NextScreenChoices {
@@ -25,12 +25,10 @@ export function display(player: Character): NextScreenChoices {
 
     MainScreen.hideTopButtons();
 
-    const fixedTextList: string[] = [];
-    const fixedFuncList: ClickFunction[] = [];
+    const choices: ScreenChoice[] = [];
 
     if (player.inventory.equipment.weapon.name !== WeaponName.Fists) {
-        fixedTextList[0] = "Unequip";
-        fixedFuncList[0] = () => player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), display);
+        choices[0] = ["Unequip", () => player.inventory.items.add(player, player.inventory.equipment.weapon.unequip(), display)];
     }
 
     // if (!Game.inCombat && !Game.inDungeon && !Game.inRoomedDungeon) {
@@ -61,12 +59,10 @@ export function display(player: Character): NextScreenChoices {
     }
 
     DisplayText("\nWhich item will you use?");
-    fixedTextList[4] = "Back";
-    fixedFuncList[4] = CombatManager.inCombat ? Menus.Combat : Menus.Player;
+    choices[4] = ["Back", CombatManager.inCombat ? Menus.Combat : Menus.Player];
     // Removes empty buttons for more inventory buttons
-    while (fixedTextList[0] === undefined) {
-        fixedTextList.shift();
-        fixedFuncList.shift();
+    while (choices[0] === undefined) {
+        choices.shift();
     }
-    return displayCharInventory(player, fixedTextList, fixedFuncList);
+    return displayCharInventory(player, choices);
 }

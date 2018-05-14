@@ -22,16 +22,16 @@ export class GroPlus extends Consumable {
     }
 
     public use(character: Character): NextScreenChoices {
-        const gpBalls: ClickFunction = (character.torso.balls.quantity > 0 ? this.growPlusBalls : null);
-        const gpBreasts: ClickFunction = (character.torso.chest.count > 0 ? this.growPlusBreasts : null);
-        const gpClit: ClickFunction = (character.torso.vaginas.count > 0 ? this.growPlusClit : null);
-        const gpCock: ClickFunction = (character.torso.cocks.count > 0 ? this.growPlusCock : null);
-        const gpNipples: ClickFunction = (character.torso.chest.countNipples() > 0 ? this.growPlusNipples : null);
+        const gpBalls: ClickFunction = (character.torso.balls.quantity > 0 ? this.growPlusBalls : undefined);
+        const gpBreasts: ClickFunction = (character.torso.chest.count > 0 ? this.growPlusBreasts : undefined);
+        const gpClit: ClickFunction = (character.torso.vaginas.count > 0 ? this.growPlusClit : undefined);
+        const gpCock: ClickFunction = (character.torso.cocks.count > 0 ? this.growPlusCock : undefined);
+        const gpNipples: ClickFunction = (character.torso.chest.countNipples() > 0 ? this.growPlusNipples : undefined);
         DisplayText().clear();
         DisplayText("You ponder the needle in your hand knowing it will enlarge the injection site.  What part of your body will you use it on?  ");
         return {
-            choices: [["Balls", "Breasts", "Clit", "Cock", "Nipples"], [gpBalls, gpBreasts, gpClit, gpCock, gpNipples]],
-            persistantChoices: [["Nevermind"], [this.growPlusCancel]]
+            choices: [["Balls", gpBalls], ["Breasts", gpBreasts], ["Clit", gpClit], ["Cock", gpCock], ["Nipples", gpNipples]],
+            persistantChoices: [["Nevermind", this.growPlusCancel]]
         };
     }
 

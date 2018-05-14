@@ -1,47 +1,43 @@
-import { display as ControlsMenu } from './ControlsMenu';
-import { display as CreditsMenu } from './CreditsMenu';
-import { display as DataMenu } from './DataMenu';
-import { display as DeleteMenu } from './DeleteMenu';
-import { display as CharCreationMenu } from './InGame/CharCreationMenu';
-import { display as GameOverMenu } from './InGame/GameOverMenu';
-import { display as LevelUpMenu } from './InGame/LevelUpMenu';
-import { display as PerkUpMenu } from './InGame/PerkUpMenu';
-import { display as PlayerAppearanceMenu } from './InGame/PlayerAppearanceMenu';
-import { display as PlayerCombatMenu } from './InGame/PlayerCombatMenu';
-import { display as PlayerInventoryMenu } from './InGame/PlayerInventoryMenu';
-import { display as PlayerMenu } from './InGame/PlayerMenu';
-import { display as StatsMenu } from './InGame/StatsMenu';
-import { display as InstructionsMenu } from './InstructionsMenu';
-import { display as LoadFileMenu } from './LoadFileMenu';
-import { display as LoadMenu } from './LoadMenu';
-import { display as MainMenu } from './MainMenu';
-import { display as SaveFileMenu } from './SaveFileMenu';
-import { display as SaveMenu } from './SaveMenu';
-import { display as SettingsMenu } from './SettingsMenu';
+import { display as Controls } from './ControlsMenu';
+import { display as Credits } from './CreditsMenu';
+import { display as Data } from './DataMenu';
+import { display as Delete } from './DeleteMenu';
+import { display as CharCreation } from './InGame/CharCreationMenu';
+import { display as GameOver } from './InGame/GameOverMenu';
+import { display as LevelUp } from './InGame/LevelUpMenu';
+import { display as PerkUp } from './InGame/PerkUpMenu';
+import { display as Appearance } from './InGame/PlayerAppearanceMenu';
+import { display as Combat } from './InGame/PlayerCombatMenu';
+import { display as Inventory } from './InGame/PlayerInventoryMenu';
+import { display as Player } from './InGame/PlayerMenu';
+import { display as Stats } from './InGame/StatsMenu';
+import { display as Instructions } from './InstructionsMenu';
+import { display as Load } from './LoadMenu';
+import { display as Main } from './MainMenu';
+import { display as Save } from './SaveMenu';
+import { display as Settings } from './SettingsMenu';
 import { ClickFunction, NextScreenChoices } from '../ScreenDisplay';
 
 export const Menus = {
-    Controls: ControlsMenu,
-    Credits: CreditsMenu,
-    Data: DataMenu,
-    Delete: DeleteMenu,
-    CharCreation: CharCreationMenu,
-    GameOver: GameOverMenu,
-    LevelUp: LevelUpMenu,
-    PerkUp: PerkUpMenu,
-    // PlayerAppearance: PlayerAppearanceMenu,
-    // PlayerCombat: PlayerCombatMenu,
-    // PlayerInventory: PlayerInventoryMenu,
-    Appearance: PlayerAppearanceMenu,
-    Combat: PlayerCombatMenu,
-    Inventory: PlayerInventoryMenu,
-    Player: PlayerMenu,
-    Stats: StatsMenu,
-    Instructions: InstructionsMenu,
-    LoadFile: LoadFileMenu,
-    Load: LoadMenu,
-    Main: MainMenu,
-    SaveFile: SaveFileMenu,
-    Save: SaveMenu,
-    Settings: SettingsMenu,
+    Controls,
+    Credits,
+    Data,
+    Delete,
+    CharCreation,
+    GameOver,
+    LevelUp,
+    PerkUp,
+    // PlayerAppearance,
+    // PlayerCombat,
+    // PlayerInventory,
+    Appearance,
+    Combat,
+    Inventory,
+    Player,
+    Stats,
+    Instructions,
+    Load,
+    Main,
+    Save,
+    Settings,
 };

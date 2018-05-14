@@ -23,7 +23,7 @@ export abstract class EquipableItem extends Item {
 
     public unequip(): EquipableItem {
         this.slot.unequip();
-        this.slot = null;
+        this.slot = undefined;
         return this;
     }
 

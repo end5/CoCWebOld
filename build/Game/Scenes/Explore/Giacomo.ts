@@ -77,7 +77,15 @@ export function encounter(character: Character): NextScreenChoices {
         DisplayText("You spy the merchant Giacomo in the distance.  He makes a beeline for you, setting up his shop in moments.  ");
         DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you. What are you interested in?");
     }
-    return { choices: [["Potions", "Books", "Erotica", "Worm Cure", "Leave"], [potionMenu, bookMenu, eroticaMenu, deworm, Scenes.camp.returnToCampUseOneHour]] };
+    return {
+        choices: [
+            ["Potions", potionMenu],
+            ["Books", bookMenu],
+            ["Erotica", eroticaMenu],
+            ["Worm Cure", deworm],
+            ["Leave", Scenes.camp.returnToCampUseOneHour]
+        ]
+    };
 }
 
 function deworm(character: Character): NextScreenChoices {
@@ -100,14 +108,29 @@ function potionMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Which potion or tincture will you examine?");
-    return { choices: [["Vitality T.", "Scholars T.", "Cerulean P.", "Back"], [pitchVitailtyTincture, pitchScholarsTea, (character.gender !== 2 ? pitchCeruleanPotion : undefined), encounter]] };
+    return {
+        choices: [
+            ["Vitality T.", pitchVitailtyTincture],
+            ["Scholars T.", pitchScholarsTea],
+            ["Cerulean P.", (character.gender !== 2 ? pitchCeruleanPotion : undefined)],
+            ["Back", encounter]
+        ]
+    };
 }
 
 function bookMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Which book are you interested in perusing?");
-    return { choices: [["Dangerous Plants", "Traveler's Guide", "Hentai Comic", "Yoga Guide", "Back"], [pitchDangerousPlantsBook, pitchTravellersGuide, pitchHentaiComic, ((User.flags.get("Player") as PlayerFlags).COTTON_UNUSUAL_YOGA_BOOK_TRACKER > 0 ? pitchYogaGuide : undefined), encounter]] };
+    return {
+        choices: [
+            ["Dangerous Plants", pitchDangerousPlantsBook],
+            ["Traveler's Guide", pitchTravellersGuide],
+            ["Hentai Comic", pitchHentaiComic],
+            ["Yoga Guide", ((User.flags.get("Player") as PlayerFlags).COTTON_UNUSUAL_YOGA_BOOK_TRACKER > 0 ? pitchYogaGuide : undefined)],
+            ["Back", encounter]
+        ]
+    };
 }
 
 function eroticaMenu(character: Character): NextScreenChoices {
@@ -115,13 +138,45 @@ function eroticaMenu(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you.  What are you interested in?");
     if (character.gender === 1)
-        return { choices: [["Dildo", "Onahole", "D Onahole", "Back"], [pitchDildo, pitchOnahole, pitchDeluxeOnahole, encounter]] };
+        return {
+            choices: [
+                ["Dildo", pitchDildo],
+                ["Onahole", pitchOnahole],
+                ["D Onahole", pitchDeluxeOnahole],
+                ["Back", encounter]
+            ]
+        };
     if (character.gender === 2)
-        return { choices: [["Dildo", "Stim-Belt", "AN Stim-Belt", "Back"], [pitchDildo, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, encounter]] };
+        return {
+            choices: [
+                ["Dildo", pitchDildo],
+                ["Stim-Belt", pitchSelfStimulationBelt],
+                ["AN Stim-Belt", pitchAllNaturalSelfStimulationBelt],
+                ["Back", encounter]
+            ]
+        };
     if (character.gender === 3)
-        return { choices: [["Onahole", "D Onahole", "AN Onahole", "Stim-Belt", "AN Stim-Belt", "Dual Belt", "Dildo", "Back"], [pitchOnahole, pitchDeluxeOnahole, pitchAllNaturalOnahole, pitchSelfStimulationBelt, pitchAllNaturalSelfStimulationBelt, pitchDualStimulationBelt, pitchDildo, encounter]] };
+        return {
+            choices: [
+                ["Onahole", pitchOnahole],
+                ["D Onahole", pitchDeluxeOnahole],
+                ["AN Onahole", pitchAllNaturalOnahole],
+                ["Stim-Belt", pitchSelfStimulationBelt],
+                ["AN Stim-Belt", pitchAllNaturalSelfStimulationBelt],
+                ["Dual Belt", pitchDualStimulationBelt],
+                ["Dildo", pitchDildo],
+                ["Back", encounter]
+            ]
+        };
     if (character.gender === 0)
-        return { choices: [["Dildo", "Onahole", "Stim-Belt", "Back"], [pitchDildo, pitchOnahole, pitchSelfStimulationBelt, encounter]] };
+        return {
+            choices: [
+                ["Dildo", pitchDildo],
+                ["Onahole", pitchOnahole],
+                ["Stim-Belt", pitchSelfStimulationBelt],
+                ["Back", encounter]
+            ]
+        };
 }
 
 function pitchVitailtyTincture(character: Character): NextScreenChoices {

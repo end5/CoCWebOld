@@ -3,12 +3,13 @@ import { StatType } from '../Engine/Display/Elements/StatsPanelObserver';
 import { MainScreen } from '../Engine/Display/MainScreen';
 
 export type ClickFunction = (activeCharacter?: any, event?: Event) => NextScreenChoices;
+export interface ScreenChoice extends Array<string | ClickFunction> { 0: string; 1: ClickFunction; }
 export interface NextScreenChoices {
     yes?: ClickFunction;
     no?: ClickFunction;
     next?: ClickFunction;
-    choices?: [string[], ClickFunction[]];
-    persistantChoices?: [string[], ClickFunction[]];
+    choices?: ScreenChoice[];
+    persistantChoices?: ScreenChoice[];
 }
 
 function updateStats() {
@@ -30,58 +31,62 @@ function updateStats() {
     }
 }
 
-let lastScreen: ClickFunction;
+const previousScreens: string[] = [];
+let nextScreens: string[] = [];
 
 export function clickFuncWrapper(clickFunc: ClickFunction): (event: Event) => void {
-    if (clickFunc)
+    if (clickFunc) {
+        nextScreens.push(clickFunc.name);
         return (event) => {
-            lastScreen = clickFunc;
+            previousScreens.push(clickFunc.name);
+            nextScreens = [];
             displayNextScreenChoices(clickFunc(User.char, event));
         };
+    }
     else return undefined;
 }
 
-function displayChoices(textList: string[], funcList: ClickFunction[], fixedTextList?: string[], fixedFuncList?: ClickFunction[]) {
-    const fixedCount = fixedTextList ? fixedTextList.length : 0;
-    if (textList.length + fixedCount <= MainScreen.NUM_BOT_BUTTONS) {
+function displayChoices(choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
+    const fixedCount = persistantChoices ? persistantChoices.length : 0;
+    if (choices.length + fixedCount <= MainScreen.NUM_BOT_BUTTONS) {
         MainScreen.hideBottomButtons();
-        for (let index = 0; index < textList.length; index++) {
-            MainScreen.getBottomButton(index).modify(textList[index], clickFuncWrapper(funcList[index]));
-            if (textList[index] === "")
+        for (let index = 0; index < choices.length; index++) {
+            MainScreen.getBottomButton(index).modify(choices[index][0], clickFuncWrapper(choices[index][1]));
+            if (choices[index][0] === "")
                 MainScreen.getBottomButton(index).hide();
         }
         if (fixedCount > 0) {
             const startingIndex = MainScreen.NUM_BOT_BUTTONS - fixedCount;
             for (let botButtonIndex = startingIndex; botButtonIndex < MainScreen.NUM_BOT_BUTTONS; botButtonIndex++) {
                 const fixedIndex = botButtonIndex - startingIndex;
-                MainScreen.getBottomButton(botButtonIndex).modify(fixedTextList[fixedIndex], clickFuncWrapper(fixedFuncList[fixedIndex]));
-                if (fixedTextList[fixedIndex] === "")
+                MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+                if (persistantChoices[fixedIndex][0] === "")
                     MainScreen.getBottomButton(botButtonIndex).hide();
             }
         }
     }
     else {
-        displayPage(0, textList, funcList, fixedTextList, fixedFuncList);
+        displayPage(0, choices, persistantChoices);
     }
 }
 
-function displayPage(startingIndex: number, textList: string[], funcList: ClickFunction[], fixedTextList?: string[], fixedFuncList?: ClickFunction[]) {
+function displayPage(startingIndex: number, choices: ScreenChoice[], persistantChoices?: ScreenChoice[]) {
     MainScreen.hideBottomButtons();
     const pageNavIndex = MainScreen.NUM_BOT_BUTTONS - 2;
     const prevButtonIndex = pageNavIndex;
     const nextButtonIndex = pageNavIndex + 1;
-    const fixedCount = fixedTextList ? fixedTextList.length : 0;
+    const fixedCount = persistantChoices ? persistantChoices.length : 0;
     const startingFixedIndex = pageNavIndex - fixedCount;
-    for (let index = 0; index < startingFixedIndex && index + startingIndex < textList.length; index++) {
-        MainScreen.getBottomButton(index).modify(textList[index + startingIndex], clickFuncWrapper(funcList[index + startingIndex]));
-        if (textList[index] === "")
+    for (let index = 0; index < startingFixedIndex && index + startingIndex < choices.length; index++) {
+        MainScreen.getBottomButton(index).modify(choices[index + startingIndex][0], clickFuncWrapper(choices[index + startingIndex][1]));
+        if (choices[index][0] === "")
             MainScreen.getBottomButton(index).hide();
     }
     if (fixedCount > 0) {
         for (let botButtonIndex = startingFixedIndex; botButtonIndex < pageNavIndex; botButtonIndex++) {
             const fixedIndex = botButtonIndex - startingFixedIndex;
-            MainScreen.getBottomButton(botButtonIndex).modify(fixedTextList[fixedIndex], clickFuncWrapper(fixedFuncList[fixedIndex]));
-            if (fixedTextList[fixedIndex] === "")
+            MainScreen.getBottomButton(botButtonIndex).modify(persistantChoices[fixedIndex][0], clickFuncWrapper(persistantChoices[fixedIndex][1]));
+            if (persistantChoices[fixedIndex][0] === "")
                 MainScreen.getBottomButton(botButtonIndex).hide();
         }
     }
@@ -89,17 +94,17 @@ function displayPage(startingIndex: number, textList: string[], funcList: ClickF
     const hasPrevPage = startingIndex - startingFixedIndex > 0 ? true : false;
     if (hasPrevPage) {
         MainScreen.getBottomButton(prevButtonIndex).modify("Prev", () => {
-            displayPage(startingIndex - startingFixedIndex, textList, funcList);
+            displayPage(startingIndex - startingFixedIndex, choices, persistantChoices);
         });
     }
     else {
         MainScreen.getBottomButton(prevButtonIndex).modify("Prev", undefined, true);
     }
 
-    const hasNextPage = startingIndex + startingFixedIndex < textList.length ? true : false;
+    const hasNextPage = startingIndex + startingFixedIndex < choices.length ? true : false;
     if (hasNextPage) {
         MainScreen.getBottomButton(nextButtonIndex).modify("Next", () => {
-            displayPage(startingIndex + startingFixedIndex, textList, funcList);
+            displayPage(startingIndex + startingFixedIndex, choices, persistantChoices);
         });
     }
     else {
@@ -118,37 +123,23 @@ function doYesNo(yesFunc: ClickFunction, noFunc: ClickFunction) {
     MainScreen.getBottomButton(MainScreen.NO_BUTTON_ID).modify("No", clickFuncWrapper(noFunc));
 }
 
-export function displayNextScreenChoices(nextScene: NextScreenChoices) {
+export function displayNextScreenChoices(nextScreen: NextScreenChoices) {
     updateStats();
-    if (nextScene || queue.length > 0) {
-        if (nextScene.yes && nextScene.no) {
-            doYesNo(nextScene.yes, nextScene.no);
+    if (nextScreen) {
+        if (nextScreen.yes && nextScreen.no) {
+            doYesNo(nextScreen.yes, nextScreen.no);
         }
-        else if (nextScene.next) {
-            doNext(nextScene.next);
+        else if (nextScreen.next) {
+            doNext(nextScreen.next);
         }
-        else if (nextScene.choices.length === 2) {
-            if (nextScene.persistantChoices && nextScene.persistantChoices.length === 2)
-                displayChoices(nextScene.choices[0], nextScene.choices[1], nextScene.persistantChoices[0], nextScene.persistantChoices[1]);
-            else
-                displayChoices(nextScene.choices[0], nextScene.choices[1]);
+        else if (nextScreen.choices.length > 0) {
+            displayChoices(nextScreen.choices, nextScreen.persistantChoices);
         }
     }
     else {
-        alert("No Next Scene could be found");
-        console.trace("No Next Scene found.");
-        console.log("Last Scene: " + lastScreen);
-    }
-}
-
-const queue: ClickFunction[] = [];
-
-export function queueScreen(screen: ClickFunction) {
-    queue.push(screen);
-}
-
-export function displayScreenQueue(): void {
-    if (queue.length > 0) {
-        queue.shift()(User.char);
+        alert("No Next Screen could be found");
+        console.trace("No Next Screen found.");
+        console.log("Prev Screens: " + previousScreens);
+        console.log("Next Screens: " + nextScreens);
     }
 }

@@ -40,7 +40,7 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
             effect(this.equippedItem, this.character);
         }
         this.equippedItem.onUnequip(this.character);
-        this.equippedItem = null;
+        this.equippedItem = undefined;
     }
 
     public addEquipEffect(equipEffect: EquipEffect) {
@@ -53,7 +53,7 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
 
     public serialize(): string {
         return JSON.stringify({
-            item: this.equippedItem.serialize()
+            item: this.equippedItem ? this.equippedItem.serialize() : undefined
         });
     }
 

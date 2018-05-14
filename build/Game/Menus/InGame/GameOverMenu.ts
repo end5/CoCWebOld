@@ -7,7 +7,7 @@ export function display(): NextScreenChoices {
     DisplayText().clear();
     DisplayText("\n\n<b>GAME OVER</b>");
     // return { choices: [["Game Over", "NewGamePlus"], [gameOverMenuOverride, Menus.CharCreation.newGamePlus]] };
-    return { choices: [["Game Over", "NewGamePlus"], [gameOverMenuOverride, undefined]] };
+    return { choices: [["Game Over", gameOverMenuOverride], ["NewGamePlus", undefined]] };
 
     // MainScreen.getBottomButton(0).modify("Game Over", this.gameOverMenuOverride);
     // MainScreen.getBottomButton(3).modify("NewGamePlus", Menus.CharCreation.newGamePlus);

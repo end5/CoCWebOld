@@ -100,7 +100,7 @@ export function fatigueRecovery(character: Character): void {
     // VICTORY OR DEATH?
 
     // public runAway(callHook: boolean = true): void {
-    //     if (callHook && monster.onPcRunAttempt != null) {
+    //     if (callHook && monster.onPcRunAttempt != undefined) {
     //         monster.onPcRunAttempt();
     //         return;
     //     }

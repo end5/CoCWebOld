@@ -7,7 +7,7 @@ import { BeeGirl } from '../Scenes/Areas/Forest/BeeGirl';
 import { Kitsune } from '../Scenes/Areas/Forest/Kitsune';
 
 type CharConstructor = new () => Character;
-export class CharConstructorLib extends Dictionary<CharConstructor> {
+class CharConstructorLib extends Dictionary<CharConstructor> {
     public constructor() {
         super();
         this.set(CharacterType.Player, Player);
@@ -170,3 +170,6 @@ export class CharConstructorLib extends Dictionary<CharConstructor> {
         // Sirius
     }
 }
+
+const charConstructorLib = new CharConstructorLib();
+export { charConstructorLib as CharConstructorLib };

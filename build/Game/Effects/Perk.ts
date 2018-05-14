@@ -6,7 +6,7 @@ import { Character } from '../Character/Character';
 export class Perk extends Effect<PerkType, PerkDesc> { }
 
 export class PerkDesc extends EffectDescription {
-    constructor(key: string, name: string, desc: string, longDesc: string = null) {
+    constructor(key: string, name: string, desc: string, longDesc: string = undefined) {
         super(key, name, desc, longDesc);
     }
 

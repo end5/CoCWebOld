@@ -21,7 +21,7 @@ export abstract class TextElement extends ScreenElement {
 
     public text(text: string): TextElement {
         this.bufferModified = true;
-        this.textBuffer = text;
+        this.textBuffer = text + "";
         this.htmlElement.innerHTML += text;
         return this;
     }

@@ -5,7 +5,7 @@ import { CombatManager } from '../../Combat/CombatManager';
 import { Desc } from '../../Descriptors/Descriptors';
 import { CombatAbilityFlag } from '../../Effects/CombatAbilityFlag';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
-import { ClickFunction, NextScreenChoices } from '../../ScreenDisplay';
+import { ClickFunction, NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 
 export function display(character: Character): NextScreenChoices {
     DisplayText().clear();
@@ -14,62 +14,54 @@ export function display(character: Character): NextScreenChoices {
         enemyDescription(character, enemy);
     }
 
-    const names = [];
-    const funcs = [];
+    const choices = [];
 
     // Main Action          Tease               Spells  Items       Move Away
     // Physical Specials    Magical Specials    Wait    Fantasize   Inspect
 
     const performActions = character.combat.perform;
-    showAction(names, funcs, character, performActions.mainAction, CombatAbilityFlag.MainAction);
-    showAction(names, funcs, character, performActions.tease, CombatAbilityFlag.Tease);
-    showAction(names, funcs, character, performActions.spells, CombatAbilityFlag.Spells);
-    showAction(names, funcs, character, performActions.items, CombatAbilityFlag.Items);
-    showAction(names, funcs, character, performActions.moveAway, CombatAbilityFlag.MoveAway);
-    showAction(names, funcs, character, performActions.physicalSpecials, CombatAbilityFlag.PhysSpec);
-    showAction(names, funcs, character, performActions.magicalSpecials, CombatAbilityFlag.MagicSpec);
-    showAction(names, funcs, character, performActions.wait, CombatAbilityFlag.Wait);
-    showAction(names, funcs, character, performActions.fantasize, CombatAbilityFlag.Fantasize);
+    showAction(choices, character, performActions.mainAction, CombatAbilityFlag.MainAction);
+    showAction(choices, character, performActions.tease, CombatAbilityFlag.Tease);
+    showAction(choices, character, performActions.spells, CombatAbilityFlag.Spells);
+    showAction(choices, character, performActions.items, CombatAbilityFlag.Items);
+    showAction(choices, character, performActions.moveAway, CombatAbilityFlag.MoveAway);
+    showAction(choices, character, performActions.physicalSpecials, CombatAbilityFlag.PhysSpec);
+    showAction(choices, character, performActions.magicalSpecials, CombatAbilityFlag.MagicSpec);
+    showAction(choices, character, performActions.wait, CombatAbilityFlag.Wait);
+    showAction(choices, character, performActions.fantasize, CombatAbilityFlag.Fantasize);
     // showAction(INSPECT, character, performActions.inspect, CombatAbilityFlag.None);
-    return { choices: [names, funcs] };
+    return { choices };
 }
 
 export function showActions<T extends CombatAction>(character: Character, combatActions: T[]): NextScreenChoices {
-    const names = [];
-    const funcs = [];
+    const choices = [];
     for (const combatAction of combatActions) {
         if (combatAction.isPossible(character)) {
             if (combatAction.canUse(character)) {
-                names.push(combatAction.name);
-                funcs.push(() => selectTarget(character, combatAction.use));
+                choices.push([combatAction.name, () => selectTarget(character, combatAction.use)]);
             }
             else {
-                names.push(combatAction.name);
-                funcs.push(undefined);
+                choices.push([combatAction.name, undefined]);
             }
         }
         else {
-            names.push("");
-            funcs.push(undefined);
+            choices.push(["", undefined]);
         }
     }
-    return { choices: [names, funcs] };
+    return { choices };
 }
 
-function showAction(names: string[], funcs: ClickFunction[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {
+function showAction(choices: ScreenChoice[], character: Character, action: CombatAction, flag: CombatAbilityFlag) {
     if (character.combat.effects.combatAbilityFlag & flag && action.isPossible(character)) {
         if (action.canUse(character)) {
-            names.push(action.name);
-            funcs.push(() => selectTarget(character, action.use));
+            choices.push([action.name, () => selectTarget(character, action.use)]);
         }
         else {
-            names.push(action.name);
-            funcs.push(undefined);
+            choices.push([action.name, undefined]);
         }
     }
     else {
-        names.push("");
-        funcs.push(undefined);
+        choices.push(["", undefined]);
     }
 }
 
@@ -80,16 +72,15 @@ function selectTarget(character: Character, use: (char, enemy) => void | NextScr
         if (useResult)
             return useResult;
         else
-            return display(character);
+            return CombatManager.encounter.performRound();
+        // return display(character);
     }
     else {
-        const names = [];
-        const funcs = [];
+        const choices = [];
         for (const enemy of enemies.ableMembers) {
-            names.push(enemy.desc.name);
-            funcs.push(() => use(character, enemy));
+            choices.push([enemy.desc.name, () => use(character, enemy)]);
         }
-        return { choices: [names, funcs] };
+        return { choices };
     }
 }
 

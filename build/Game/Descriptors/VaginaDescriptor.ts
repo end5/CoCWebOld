@@ -1,4 +1,4 @@
-﻿import { percentChance, randomChoice } from '../../Engine/Utilities/SMath';
+﻿import { percentChance, randInt, randomChoice } from '../../Engine/Utilities/SMath';
 import { SkinType } from '../Body/Skin';
 import {
     Vagina,
@@ -82,6 +82,13 @@ export function describeVagina(character: Character, vagina: Vagina): string {
     // if(i_creature.bunnyScore() >= 3) description += "rabbit hole";
 
     return description;
+}
+
+export function describeAllVagina(character: Character): string {
+    if (character.torso.vaginas.count === 1)
+        return describeVagina(character, character.torso.vaginas.get(randInt(character.torso.vaginas.count - 1)));
+    if (character.torso.vaginas.count > 1)
+        return describeVagina(character, character.torso.vaginas.get(randInt(character.torso.vaginas.count - 1))) + "s";
 }
 
 export function describeClit(character: Character): string {

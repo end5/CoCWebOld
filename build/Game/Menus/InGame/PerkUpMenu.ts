@@ -32,7 +32,7 @@ export function display(character: Character): NextScreenChoices {
 
         MainScreen.getTopButton(TopButton.MainMenu).hide();
         // "Okay" button is modified in displayPerkList
-        return { choices: [["Okay", "Skip"], [undefined, Menus.Player]] };
+        return { choices: [["Okay", undefined], ["Skip", Menus.Player]] };
     }
 }
 
@@ -44,7 +44,7 @@ function confirmPerk(character: Character, selectedPerk: Perk): NextScreenChoice
     DisplayText(selectedPerk.desc.longDesc);
     DisplayText("\n\n");
     DisplayText("If you would like to select this perk, click <b>Okay</b>.  Otherwise, select a new perk, or press <b>Skip</b> to make a decision later.");
-    return { choices: [["Okay", "Skip"], [(char) => applyPerk(char, selectedPerk), Menus.Player]] };
+    return { choices: [["Okay", (char) => applyPerk(char, selectedPerk)], ["Skip", Menus.Player]] };
 }
 
 function displayPerkList(character: Character, selectedPerk: string) {
@@ -61,7 +61,7 @@ function displayPerkList(character: Character, selectedPerk: string) {
         listEntry.appendElement(buttonElement);
         buttonElement.modify(perk.desc.name, () => {
             // Okay button is disabled until perk is selected
-            displayNextScreenChoices({ choices: [["Okay", "Skip"], [(char) => confirmPerk(char, perk), Menus.Player]] });
+            displayNextScreenChoices({ choices: [["Okay", (char) => confirmPerk(char, perk)], ["Skip", Menus.Player]] });
         });
 
         const longDescElement = new ParagraphElement();

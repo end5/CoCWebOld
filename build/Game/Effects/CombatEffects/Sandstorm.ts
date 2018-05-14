@@ -21,7 +21,7 @@ export class Sandstorm extends CombatEffect {
                     DisplayText("The sand is in your eyes!  You're blinded this turn!").bold();
                 }
                 else {
-                    DisplayText("The grainy mess cuts at any exposed flesh and gets into every crack and crevice of your armor. (" + enemy.combat.stats.loseHP(1 + randInt(2), null) + ")").bold();
+                    DisplayText("The grainy mess cuts at any exposed flesh and gets into every crack and crevice of your armor. (" + enemy.combat.stats.loseHP(1 + randInt(2), undefined) + ")").bold();
                 }
             }
             DisplayText("\n\n");

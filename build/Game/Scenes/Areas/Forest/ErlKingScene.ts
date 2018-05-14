@@ -14,7 +14,7 @@ import { ConsumableName } from '../../../Items/Consumables/ConsumableName';
 import { ItemType } from '../../../Items/ItemType';
 import { Menus } from '../../../Menus/Menus';
 import { Mod } from '../../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice } from '../../../ScreenDisplay';
 import { User } from '../../../User';
 import { Time } from '../../../Utilities/Time';
 import { Scenes } from '../../Scenes';
@@ -154,7 +154,7 @@ export function firstWildHuntEncounter(): NextScreenChoices {
 
     DisplayText("The unholy choir of horns, hounds, and hooves shake the woods around you as the fog rises, shoulder-high.  Your heart pounds - you’re not sure <b>why</b> you’re frightened, only that you <b>are</b>.  Something is out there in the darkness, and it's coming for you!  Do you flee, or stand your ground?\n\n");
 
-    return { choices: [["Wait", "Run"], [firstWildHuntChaseWaited, firstWildHuntChaseRan]] };
+    return { choices: [["Wait", firstWildHuntChaseWaited], ["Run", firstWildHuntChaseRan]] };
 }
 
 function firstWildHuntChaseWaited(character: Character): NextScreenChoices {
@@ -243,7 +243,7 @@ export function repeatWildHuntEncounter(character: Character): NextScreenChoices
 
     DisplayText("Do you make a run for it or stand your ground?\n\n");
 
-    return { choices: [["Run", "Wait"], [repeatWildHuntChase, repeatWildHuntWait]] };
+    return { choices: [["Run", repeatWildHuntChase], ["Wait", repeatWildHuntWait]] };
 }
 
 function repeatWildHuntWait(character: Character): NextScreenChoices {
@@ -414,7 +414,7 @@ function repeatWildHuntAWinnerIsYou(character: Character): NextScreenChoices {
 
     // Sex	 	What’s my prize?		Stop the Madness 		Surrender Forever		How Dare You!
     character.stats.fatigue += 10;
-    return { choices: [["Sex", "Prize?", "Stop", "Surrender", "Revenge"], [predatoryPrey, whatsMyPrize, stopTheMadness, surrenderToTheHounds, howDareYou]] };
+    return { choices: [["Sex", predatoryPrey], ["Prize?", whatsMyPrize], ["Stop", stopTheMadness], ["Surrender", surrenderToTheHounds], ["Revenge", howDareYou]] };
 }
 
 function whatsMyPrize(character: Character): NextScreenChoices {
@@ -783,23 +783,17 @@ function encounterPrincessGwynn(character: Character): NextScreenChoices {
     DisplayText("You run through the options in your head, even briefly considering ‘getting some of her potion’ on your own terms.\n\n");
 
     // Suck My Dick  /  Fuck Her Ass  /  Eat My Pussy  /  Milk Her Dick  /  Gifts
-    const names = ["", "", ""];
-    const funcs = [undefined, undefined, undefined];
+    const choices: ScreenChoice[] = [["", undefined], ["", undefined], ["", undefined]];
     if (character.torso.cocks.count > 0) {
-        names[0] = "Suck Me";
-        funcs[0] = gwynnSucksDicks;
-        names[1] = "Assfuck";
-        funcs[1] = gwynnGetsButtfuxed;
+        choices[0] = ["Suck Me", gwynnSucksDicks];
+        choices[1] = ["Assfuck", gwynnGetsButtfuxed];
     }
     if (character.torso.vaginas.count > 0) {
-        names[2] = "Eat Me";
-        funcs[2] = gwynnNomsDaCunts;
+        choices[2] = ["Eat Me", gwynnNomsDaCunts];
     }
-    names.push("Milk Dick");
-    funcs.push(gwynnGetsDickmilked);
-    names.push("Gifts");
-    funcs.push(gwynnGibsGifts);
-    return { choices: [names, funcs] };
+    choices.push(["Milk Dick", gwynnGetsDickmilked]);
+    choices.push(["Gifts", gwynnGibsGifts]);
+    return { choices };
 }
 
 function gwynnSucksDicks(character: Character): NextScreenChoices {

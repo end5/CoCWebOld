@@ -289,8 +289,8 @@ export function approachTrappedEssy(character: Character): NextScreenChoices {
     }
     character.stats.lust += 10 + character.stats.lib / 10;
     // Option: [Feed her] [leave]
-    if (character.gender > 0) return { choices: [["Feed Her"], [feedTrappedEssy]], persistantChoices: [["Leave"], [Menus.Player]] };
-    return { choices: [["Leave"], [Menus.Player]] };
+    if (character.gender > 0) return { choices: [["Feed Her", feedTrappedEssy]], persistantChoices: [["Leave", Menus.Player]] };
+    return { choices: [["Leave", Menus.Player]] };
 }
 
 // [Feed Her]
@@ -311,7 +311,7 @@ function feedTrappedEssy(character: Character): NextScreenChoices {
     }
     if (character.gender === 3) {
         DisplayText("  How best to make use of this floral beauty?");
-        return { choices: [["Cock", "Pussy"], [hasCockFeedEssyClear, hasPussyFeedEssyClear]] };
+        return { choices: [["Cock", hasCockFeedEssyClear], ["Pussy", hasPussyFeedEssyClear]] };
     }
 }
 

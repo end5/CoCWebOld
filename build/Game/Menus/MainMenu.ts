@@ -70,12 +70,11 @@ export function display(): NextScreenChoices {
 
     // MainScreen.displayChoices(
     //     ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-    //     [null, Menus.Credits, Menus.Instructions, null, Menus.Settings, resume]
+    //     [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, resume]
     // );
     return {
         choices: [
-            ["Image Credits", "Credits", "Instructions", "Debug Info", "Settings", "Resume"],
-            [undefined, Menus.Credits, Menus.Instructions, undefined, Menus.Settings, User.char ? Menus.Player : undefined]
+            ["Image Credits", undefined], ["Credits", Menus.Credits], ["Instructions", Menus.Instructions], ["Debug Info", undefined], ["Settings", Menus.Settings], ["Resume", User.char ? Menus.Player : undefined]
         ]
     };
 }

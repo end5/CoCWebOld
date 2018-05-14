@@ -2,7 +2,7 @@
  * List of known bound keyboard methods
  *
  * Some of the methods use an undefined "Event" parameter to pass into the actual UI components...
- * ... strip this out and instead modify the handlers on the execution end to have a default null parameter?
+ * ... strip this out and instead modify the handlers on the execution end to have a default undefined parameter?
  *
  * ** Bypass handler if mainView.eventTestInput.x == 270.5
  * ** Bypass handler if mainView.nameBox.visible && stage.focus == mainView.nameBox

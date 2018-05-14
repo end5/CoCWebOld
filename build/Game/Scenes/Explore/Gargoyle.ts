@@ -10,7 +10,7 @@ import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
 import { LocationName } from '../../Locations/LocationName';
 import { Mod } from '../../Modifiers/Modifiers';
-import { NextScreenChoices } from '../../ScreenDisplay';
+import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
 import { Scenes } from '../Scenes';
@@ -98,7 +98,7 @@ function gargoyleMeeting2(character: Character): NextScreenChoices {
     User.locations.get(LocationName.Cathedral).locationKnown = true;
     DisplayText("\n\n<b>You have discovered the cathedral. You can return here in the future by selecting it from the 'Places' menu in your camp.</b>\n");
     // (Display [Break Chains] and [Don't Break] options)
-    return { choices: [["Don't Break", "Break Chains"], [dontBreakThatShit, breakZeChains]] };
+    return { choices: [["Don't Break", dontBreakThatShit], ["Break Chains", breakZeChains]] };
 }
 
 // [b]Don't Break[/b]
@@ -161,7 +161,7 @@ function nameZeGargoyle(character: Character, textElement: InputTextElement): Ne
 
 function gargoyleStarterMenu(character: Character): NextScreenChoices {
     // (Display options [Funny Order], [Carnal Order]. and [Talk])
-    return { choices: [["Funny Order", "Carnal Order", "Talk"], [giveGargoyleAFunnyOrder, carnalOrder, firstGargoyleTalk]] };
+    return { choices: [["Funny Order", giveGargoyleAFunnyOrder], ["Carnal Order", carnalOrder], ["Talk", firstGargoyleTalk]] };
 }
 
 // [b]Funny Order[/b]
@@ -202,7 +202,7 @@ function firstGargoyleTalk(character: Character): NextScreenChoices {
 
     DisplayText("\n\nIt seems the events that led to the cathedral's destruction weigh heavily on " + gargoyleFlags.name + "'s heart.  What do you do?");
     // (Display options: [Berate] and [Reassure])
-    return { choices: [["Berate", "Reassure"], [berateTheGargoyle, reassureTheGargoyle]] };
+    return { choices: [["Berate", berateTheGargoyle], ["Reassure", reassureTheGargoyle]] };
 }
 
 // [b]Berate[/b]
@@ -254,8 +254,7 @@ export function returnToCathedral(character: Character, woken: boolean = false):
         // [b]Player Returns to the Cathedral C[/b]
         else DisplayText("You wander into the Cathedral grounds, and are rather alarmed to see a pair of little green goblin sluts poking around outside, trying to cart off some of the stone tombstones for their nefarious schemes.  They see you approaching, however, and quickly flee – more interested in salvage than fighting or fucking today.  Chuckling to yourself, you enter.");
     }
-    let names = [];
-    let funcs = [];
+    let choices = [];
     // [b]Cathedral Interior – 06:00 –> 09:00 & 18:00 –> 21:00[/b]
     if (Time.hour <= 9 || Time.hour >= 18 || woken) {
         if (!woken) {
@@ -273,11 +272,10 @@ export function returnToCathedral(character: Character, woken: boolean = false):
             DisplayText("  \"<i>What would you have of me?</i>\"");
         }
         // (Display options: [Sex] [Rituals] [Talk] [Appearance] and [Leave]. If Confidence is 70+, also display the option for [Kinky Rituals])
-        names = ["Sex", "Rituals", "Talk", "Appearance", "Kinky Rituals"];
-        funcs = [undefined, ritualGargoyle, undefined, gargoyleAppearance, undefined];
-        if (character.stats.lust >= 33) funcs[0] = gargoyleSexMenu;
-        if (gargoyleFlags.history < 3 || gargoyleFlags.cathedral < 3 || gargoyleFlags.nameTalks < 3) funcs[2] = talkToGargoyleOutput;
-        if (gargoyleConfidence() >= 70 && gargoyleFlags.ritualIntro > 0) funcs[4] = gargoyleKinkyRituals;
+        choices = [["Sex", undefined], ["Rituals", ritualGargoyle], ["Talk", undefined], ["Appearance", gargoyleAppearance], ["Kinky Rituals", undefined]];
+        if (character.stats.lust >= 33) choices[0][1] = gargoyleSexMenu;
+        if (gargoyleFlags.history < 3 || gargoyleFlags.cathedral < 3 || gargoyleFlags.nameTalks < 3) choices[2][1] = talkToGargoyleOutput;
+        if (gargoyleConfidence() >= 70 && gargoyleFlags.ritualIntro > 0) choices[4][1] = gargoyleKinkyRituals;
     }
     // [b]Cathedral Interior: 10:00 –> 17:00[/b]
     else {
@@ -287,14 +285,13 @@ export function returnToCathedral(character: Character, woken: boolean = false):
             DisplayText(".");
         }
         // (Display options: [Wake Her] [Use Her (if Lust >= 30)] [Appearance] and [Leave])
-        names = ["Wake Her", "Use Her", "Appearance"];
-        funcs = [returnToCathedralWake, undefined, gargoyleAppearance];
+        choices = [["Wake Her", returnToCathedralWake], ["Use Her", undefined], ["Appearance", gargoyleAppearance]];
         if (character.stats.lust >= 33) {
-            if (character.torso.cocks.count > 0) funcs[1] = useGargoyleMaleHerm;
-            else if (character.torso.vaginas.count > 0) funcs[1] = useHerGargoyleFemale;
+            if (character.torso.cocks.count > 0) choices[1][1] = useGargoyleMaleHerm;
+            else if (character.torso.vaginas.count > 0) choices[1][1] = useHerGargoyleFemale;
         }
     }
-    return { choices: [names, funcs], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    return { choices, persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 // [b]Sex[/b]
@@ -308,44 +305,52 @@ function gargoyleSexMenu(character: Character): NextScreenChoices {
     if (character.gender === 1) {
         return {
             choices: [
-                ["Vaginal", "Anal", "Titfuck", "Strap-On"],
-                [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle]],
+                ["Vaginal", gargoyleCoochiiGetsPlowed],
+                ["Anal", gargoyleAnal],
+                ["Titfuck", titFuckTheGargoyle],
+                ["Strap-On", strapOnGargoyle]
+            ],
             persistantChoices: [
-                ["Leave"],
-                [returnToCathedralNoWake]]
+                ["Leave", returnToCathedralNoWake]
+            ]
         };
     }
     // (If Female, display options: [Tail Fuck] and [Ride Strap-on] [Leave])
     if (character.gender === 2) {
         return {
             choices: [
-                ["Tail Fuck", "Strap-On"],
-                [tailFuckGargoyleScene, strapOnGargoyle]],
+                ["Tail Fuck", tailFuckGargoyleScene],
+                ["Strap-On", strapOnGargoyle]
+            ],
             persistantChoices: [
-                ["Leave"],
-                [returnToCathedralNoWake]]
+                ["Leave", returnToCathedralNoWake]
+            ]
         };
     }
     // (If Herm, display all above options)
     if (character.gender === 3) {
         return {
             choices: [
-                ["Vaginal", "Anal", "Titfuck", "Strap-On", "Tail Fuck"],
-                [gargoyleCoochiiGetsPlowed, gargoyleAnal, titFuckTheGargoyle, strapOnGargoyle, tailFuckGargoyleScene]],
+                ["Vaginal", gargoyleCoochiiGetsPlowed],
+                ["Anal", gargoyleAnal],
+                ["Titfuck", titFuckTheGargoyle],
+                ["Strap-On", strapOnGargoyle],
+                ["Tail Fuck", tailFuckGargoyleScene]
+            ],
             persistantChoices: [
-                ["Leave"],
-                [returnToCathedralNoWake]]
+                ["Leave", returnToCathedralNoWake]
+            ]
         };
     }
     // (If Genderless, display [Strap-on] [Leave])
     if (character.gender === 0) {
         return {
             choices: [
-                ["Strap-On"],
-                [strapOnGargoyle]],
+                ["Strap-On", strapOnGargoyle],
+            ],
             persistantChoices: [
-                ["Leave"],
-                [returnToCathedralNoWake]]
+                ["Leave", returnToCathedralNoWake]
+            ]
         };
     }
 }
@@ -568,11 +573,13 @@ function ritualGargoyle(character: Character): NextScreenChoices {
     if (character.statusAffects.has(StatusAffectType.Infested) || character.statusAffects.has(StatusAffectType.Exgartuan)) banish = true;
     return {
         choices: [
-            ["Body", "Mind", "Banish"],
-            [bodyRitual, mindGargoyleRitual, banish ? banishmentGargoyleRitual : undefined]],
+            ["Body", bodyRitual],
+            ["Mind", mindGargoyleRitual],
+            ["Banish", banish ? banishmentGargoyleRitual : undefined]
+        ],
         persistantChoices: [
-            ["Leave"],
-            [returnToCathedralNoWake]]
+            ["Leave", returnToCathedralNoWake]
+        ]
     };
 }
 
@@ -589,7 +596,7 @@ function bodyRitual(character: Character): NextScreenChoices {
     character.stats.sens += -2;
     character.stats.HP -= Math.round(character.stats.maxHP() / 2);
     // (Display options: [Nothing] [Revenge] and [Cuddle])
-    return { choices: [["Nothing", "Cuddle", "Revenge"], [noReactionToBodyRitual, gargoyleCuddleAfterBodyRitual, gargoyleRevengeAfterBodyRitual]] };
+    return { choices: [["Nothing", noReactionToBodyRitual], ["Cuddle", gargoyleCuddleAfterBodyRitual], ["Revenge", gargoyleRevengeAfterBodyRitual]] };
 }
 
 // [b]Nothing[/b]
@@ -676,7 +683,7 @@ function banishmentGargoyleRitual(character: Character): NextScreenChoices {
     character.stats.HP -= Math.round(character.stats.maxHP() / 3);
     character.stats.fatigue += 10;
     // (Display options: [Nothing] [Revenge] and [Cuddle])
-    return { choices: [["Nothing", "Cuddle", "Revenge"], [dontFreakOutAfterBanishment, cuddleForBanishments, getRevengeForBanishments]] };
+    return { choices: [["Nothing", dontFreakOutAfterBanishment], ["Cuddle", cuddleForBanishments], ["Revenge", getRevengeForBanishments]] };
 }
 
 // [b]Nothing[/b]
@@ -726,11 +733,13 @@ function gargoyleKinkyRituals(character: Character): NextScreenChoices {
     if (character.statusAffects.has(StatusAffectType.Infested) || character.statusAffects.has(StatusAffectType.Exgartuan)) banish = true;
     return {
         choices: [
-            ["Body", "Mind", "Banish"],
-            [kinkyBodyRitual, mindRitualPervy, banish ? banishPervRitual : undefined]],
+            ["Body", kinkyBodyRitual],
+            ["Mind", mindRitualPervy],
+            ["Banish", banish ? banishPervRitual : undefined]
+        ],
         persistantChoices: [
-            ["Leave"],
-            [returnToCathedralNoWake]]
+            ["Leave", returnToCathedralNoWake]
+        ]
     };
 }
 
@@ -868,13 +877,10 @@ function talkToGargoyle(): NextScreenChoices {
     // (Whenever the character selects a topic, play one of the following dialogue scenes then return the PC to the main interaction menu and increase Confidence by +10, unless noted otherwise. Once a scene has been played, it will not play again. Once all three in a topic are played, it closes.)
     return {
         choices: [
-            ["History", "Cathedral", "Her", "Back"],
-            [
-                gargoyleFlags.history < 3 ? historyGo : undefined,
-                gargoyleFlags.cathedral < 3 ? cathedralTalks : undefined,
-                gargoyleFlags.nameTalks < 3 ? talkAboutGarName : undefined,
-                returnToCathedralNoWake
-            ]
+            ["History", gargoyleFlags.history < 3 ? historyGo : undefined],
+            ["Cathedral", gargoyleFlags.cathedral < 3 ? cathedralTalks : undefined],
+            ["Her", gargoyleFlags.nameTalks < 3 ? talkAboutGarName : undefined],
+            ["Back", returnToCathedralNoWake]
         ]
     };
 }
@@ -902,7 +908,7 @@ function talkToGargoyleHistoryA(): NextScreenChoices {
 
     DisplayText("\n\nYou tell her that, sure, you'd like to hear it.  \"<i>The church-folk believe – believed – that the goddess Marae created intelligent life here many generations ago, long before the demons came.  She was the highest goddess amongst many, an embodiment of the natural world.  She brought forth the animal-morphs who created this cathedral in her honor.  Using magical knowledge, the priests of this church sought to mirror Marae's power, creating creatures such as myself.  Eventually, though, the demons came, I know not from where, and began to spread their corruption.  The priests... tried to resist... t-to ward against...  I'm sorry, Master,</i>\" she says, sniffling.  You notice that she's turned away from you, trying to hide her shame.  \"<i>I don't want to think about this anymore.  Please,</i>\" she begs.  The memory of her failure to protect the people of the church still weighs heavily upon her.  You suppose you could berate her for her emotionality, or try and comfort her.");
     // (Display Options: [Berate] and [Comfort])
-    return { choices: [["Berate", "Comfort"], [berateGargoyleForBeingDumb, comfortGargoyleDumbness]] };
+    return { choices: [["Berate", berateGargoyleForBeingDumb], ["Comfort", comfortGargoyleDumbness]] };
 }
 
 // [b]Berate[/b]
@@ -1058,11 +1064,10 @@ function gargoylesAreGirlfriends(character: Character): NextScreenChoices {
     // (Male Display Options: [Vaginal] [Leave])
     // (All Other Display Options: [Strap-on] [Leave])
     // (Use normal sex scenes for above options, as well as Leave options.
-    const names = ["Vaginal", "Strap-On"];
-    const funcs = [undefined, undefined];
-    if (character.torso.cocks.count > 0) funcs[0] = gargoyleCoochiiGetsPlowed;
-    else funcs[1] = strapOnGargoyle;
-    return { choices: [names, funcs], persistantChoices: [["Leave"], [Scenes.camp.returnToCampUseOneHour]] };
+    const choices: ScreenChoice[] = [["Vaginal", undefined], ["Strap-On", undefined]];
+    if (character.torso.cocks.count > 0) choices[0][1] = gargoyleCoochiiGetsPlowed;
+    else choices[1][1] = strapOnGargoyle;
+    return { choices, persistantChoices: [["Leave", Scenes.camp.returnToCampUseOneHour]] };
 }
 
 function cathedralTalks(): NextScreenChoices {
@@ -1089,7 +1094,7 @@ function talkCathedralA(): NextScreenChoices {
 
     DisplayText("\n\nYou could tell her it's pointless or encourage her.");
     // (Display Options: [Pointless] [Encourage])
-    return { choices: [["Pointless", "Encourage"], [pointlessGargoylesArePointless, encourageGargoyleWaifuToDoSomething]] };
+    return { choices: [["Pointless", pointlessGargoylesArePointless], ["Encourage", encourageGargoyleWaifuToDoSomething]] };
 }
 
 // [b]Pointless[/b]
@@ -1147,7 +1152,7 @@ function cathedralC(): NextScreenChoices {
 
     DisplayText("\n\nYou could comfort the little gargoyle, or you could remind her of the ramifications of her failure.");
     // (Display Options: [Comfort] and [Berate])
-    return { choices: [["Berate", "Comfort"], [berateDatGargoyle4SomeSavin, comfortGargoyle]] };
+    return { choices: [["Berate", berateDatGargoyle4SomeSavin], ["Comfort", comfortGargoyle]] };
 }
 
 // [b]Comfort[/b]
@@ -1256,7 +1261,7 @@ function garNameC(): NextScreenChoices {
 
     DisplayText("\n\nShe falls silent, heaving a heavy, hopeless sigh.  You could reassure her that she isn't a helpless non-person, or perhaps you'd be better served by berating her about her emotional weakness?");
     // (Display Options: [Comfort] [Berate])
-    return { choices: [["Berate", "Comfort"], [comfortGarNameC, berateGargoyleC]] };
+    return { choices: [["Berate", comfortGarNameC], ["Comfort", berateGargoyleC]] };
 }
 
 // [b]Comfort[/b]

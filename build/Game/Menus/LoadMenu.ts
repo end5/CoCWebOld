@@ -6,11 +6,22 @@ import { NextScreenChoices } from '../ScreenDisplay';
 
 export function display(): NextScreenChoices {
     DisplayText().clear();
-    if (SaveManager.activeSlot() !== 0)
+    if (SaveManager.activeSlot() !== undefined)
         DisplayText("<b>Last saved or loaded from: " + SaveManager.activeSlot() + "</b>\r\r");
     DisplayText("<b><u>Slot: Sex,  Game Days Played</u></b>\r");
 
     displaySaves();
 
-    return saveSlotChoices(SaveManager.loadFromSlot, Menus.Data);
+    return saveSlotChoices((index: number) => {
+        return () => {
+            SaveManager.loadFromSlot(index);
+            return loaded();
+        };
+    }, Menus.Data);
+}
+
+function loaded(): NextScreenChoices {
+    DisplayText().clear();
+    DisplayText("Load Successful.");
+    return { next: display };
 }
