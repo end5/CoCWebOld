@@ -1,0 +1,4 @@
+Build/
+**/.vscode
+!**/.vscode/tasks.json
+*.map
