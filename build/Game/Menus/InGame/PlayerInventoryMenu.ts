@@ -61,7 +61,7 @@ export function display(player: Character): NextScreenChoices {
     DisplayText("\nWhich item will you use?");
     choices[4] = ["Back", CombatManager.inCombat ? Menus.Combat : Menus.Player];
     // Removes empty buttons for more inventory buttons
-    while (choices[0] === undefined) {
+    while (!choices[0]) {
         choices.shift();
     }
     return displayCharInventory(player, choices);

@@ -40,10 +40,10 @@ export class Legs implements ISerializable<Legs> {
         return false;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type
-        });
+        };
     }
 
     public deserialize(saveObject: Legs) {

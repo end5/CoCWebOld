@@ -2,12 +2,7 @@ import { EffectDescription } from './EffectDescription';
 import { ISerializable } from '../../Engine/Utilities/ISerializable';
 import { ValueContainer } from '../Utilities/ValueContainer';
 
-export interface EffectSaveObject<Type> extends ValueContainer {
-    type: Type;
-    values: ValueContainer;
-}
-
-export class Effect<Type extends string, Desc extends EffectDescription> extends ValueContainer implements ISerializable<EffectSaveObject<Type>> {
+export class Effect<Type extends string, Desc extends EffectDescription> extends ValueContainer implements ISerializable<Effect<Type, Desc>> {
     // desc does not need to be serialized
     private effectType: Type;
     public readonly desc: Desc;
@@ -21,15 +16,17 @@ export class Effect<Type extends string, Desc extends EffectDescription> extends
         return this.effectType;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            type: this.effectType,
-            values: super.serialize()
-        });
+    public serialize(): object | undefined {
+        return Object.assign(
+            {
+                type: this.effectType,
+            },
+            super.serialize()
+        );
     }
 
-    public deserialize(saveObject: EffectSaveObject<Type>) {
+    public deserialize(saveObject: Effect<Type, Desc>) {
         this.effectType = saveObject.type;
-        super.deserialize(saveObject.values);
+        super.deserialize(saveObject);
     }
 }

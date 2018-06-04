@@ -29,18 +29,18 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             String.fromCharCode(this.keyCode);
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             keyCode: this.keyCode,
             shiftKey: this.shiftKey,
             altKey: this.altKey,
             ctrlKey: this.ctrlKey,
             metaKey: this.metaKey
-        });
+        };
     }
 
     public deserialize(saveObject: KeyCombination) {
-        if (saveObject.keyCode !== undefined) {
+        if (saveObject.keyCode) {
             this.keyCode = saveObject.keyCode;
         }
         else {
@@ -48,7 +48,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             console.trace();
         }
 
-        if (saveObject.shiftKey !== undefined) {
+        if (saveObject.shiftKey) {
             this.shiftKey = saveObject.shiftKey;
         }
         else {
@@ -56,7 +56,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             console.trace();
         }
 
-        if (saveObject.altKey !== undefined) {
+        if (saveObject.altKey) {
             this.altKey = saveObject.altKey;
         }
         else {
@@ -64,7 +64,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             console.trace();
         }
 
-        if (saveObject.ctrlKey !== undefined) {
+        if (saveObject.ctrlKey) {
             this.ctrlKey = saveObject.ctrlKey;
         }
         else {
@@ -72,7 +72,7 @@ export class KeyCombination implements ISerializable<KeyCombination> {
             console.trace();
         }
 
-        if (saveObject.metaKey !== undefined) {
+        if (saveObject.metaKey) {
             this.metaKey = saveObject.metaKey;
         }
         else {

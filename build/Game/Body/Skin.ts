@@ -10,13 +10,13 @@ export class Skin implements ISerializable<Skin> {
     public desc: string = "skin";
     public adj: string = "";
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             tone: this.tone,
             desc: this.desc,
             adj: this.adj
-        });
+        };
     }
 
     public deserialize(saveObject: Skin) {

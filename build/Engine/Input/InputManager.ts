@@ -81,8 +81,8 @@ class InputManager implements ISerializable<InputManager> {
         this.keyBinds.add(new KeyPair(primaryKey, secondaryKey));
     }
 
-    public serialize(): string {
-        return JSON.stringify({ keyBinds: ListSerializer.serialize(this.keyBinds) });
+    public serialize(): object | undefined {
+        return { keyBinds: ListSerializer.serialize(this.keyBinds) };
     }
 
     public deserialize(saveObject: InputManager) {

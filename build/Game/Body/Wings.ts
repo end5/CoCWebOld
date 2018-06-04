@@ -8,11 +8,11 @@ export class Wings implements ISerializable<Wings> {
     public type: WingType = WingType.NONE;
     public desc: string = "non-existant";
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             desc: this.desc
-        });
+        };
     }
 
     public deserialize(saveObject: Wings) {

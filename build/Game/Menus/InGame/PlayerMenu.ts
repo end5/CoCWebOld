@@ -2,7 +2,7 @@ import { MainScreen, TopButton } from '../../../Engine/Display/MainScreen';
 import { Character } from '../../Character/Character';
 import { CombatManager } from '../../Combat/CombatManager';
 import { Scenes } from '../../Scenes/Scenes';
-import { NextScreenChoices } from '../../ScreenDisplay';
+import { clickFuncWrapper, NextScreenChoices } from '../../ScreenDisplay';
 import { Menus } from '../Menus';
 
 export function display(character: Character): NextScreenChoices {
@@ -13,7 +13,7 @@ export function display(character: Character): NextScreenChoices {
 
     // if (Game.state !== GameState.InCombat)
     //     DisplaySprite(SpriteName.None);
-    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", Menus.Main);
+    MainScreen.getTopButton(TopButton.MainMenu).modify("Main Menu", clickFuncWrapper(Menus.Main));
     // MainScreen.getStatsPanel().nameBox.visible = false;
     // if (Game.state === GameState.InCombat || Game.state === GameState.InCombatGrapple) {
     //     Menus.Combat.display(character);

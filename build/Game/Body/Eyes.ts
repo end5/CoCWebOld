@@ -7,10 +7,10 @@ export enum EyeType {
 export class Eyes implements ISerializable<Eyes> {
     public type: EyeType = EyeType.HUMAN;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type
-        });
+        };
     }
 
     public deserialize(saveObject: Eyes) {

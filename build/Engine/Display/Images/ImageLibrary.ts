@@ -14,7 +14,7 @@ const lib: Dictionary<string[]> = new Dictionary<string[]>();
 const promises = {};
 
 export function getImage(name: ImageName): string {
-    if (lib.get(name) !== undefined)
+    if (lib.get(name))
         return randomChoice(lib.get(name));
     else return "";
 }

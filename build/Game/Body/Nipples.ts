@@ -5,12 +5,12 @@ export class Nipples implements ISerializable<Nipples> {
     public length: number = 0.25;
     public fuckable: boolean = false;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             count: this.count,
             fuckable: this.fuckable,
             length: this.length,
-        });
+        };
     }
 
     public deserialize(saveObject: Nipples) {

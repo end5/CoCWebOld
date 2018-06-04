@@ -139,7 +139,7 @@ export class Creature implements ISerializable<Creature> {
         // (Large – 0.8 - Size 10 + 4 Multi)
         // (HUGE – 2.4 - Size 12 + 5 Multi + 4 tits)
         let total: number;
-        total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.reduce(BreastRow.AverageLactation, 0) ;
+        total = chest.sort(BreastRow.BreastRatingLargest)[0].rating * 10 * chest.reduce(BreastRow.AverageLactation, 0);
         return total;
     }
 
@@ -185,8 +185,8 @@ export class Creature implements ISerializable<Creature> {
         return this.fertility;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             gender: this.gender,
             tallness: this.tallness,
             skin: this.skin.serialize(),
@@ -201,7 +201,7 @@ export class Creature implements ISerializable<Creature> {
             baseStats: this.baseStats.serialize(),
             statusAffects: DictionarySerializer.serialize(this.statusAffects),
             perks: DictionarySerializer.serialize(this.perks),
-     });
+        };
     }
 
     public deserialize(saveObject: Creature) {
@@ -219,5 +219,5 @@ export class Creature implements ISerializable<Creature> {
         this.baseStats.deserialize(saveObject.baseStats);
         this.statusAffects.deserialize(saveObject.statusAffects);
         this.perks.deserialize(saveObject.perks);
-  }
+    }
 }

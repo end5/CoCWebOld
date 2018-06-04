@@ -11,14 +11,15 @@ export class EquipSlotList<T extends EquipableItem> extends List<EquipSlot<T>> {
     }
 
     public remove(index: number) {
-        if (index >= 0 && index < this.list.length)
+        if (index >= 0 && index < this.list.length && this.list[index])
             this.list[index].unequip();
         super.remove(index);
     }
 
     public clear() {
         for (const equipmentSlot of this.list) {
-            equipmentSlot.unequip();
+            if (equipmentSlot)
+                equipmentSlot.unequip();
         }
         super.clear();
     }

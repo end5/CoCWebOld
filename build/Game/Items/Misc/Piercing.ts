@@ -42,11 +42,11 @@ export class Piercing extends EquipableItem implements ISerializable<Piercing> {
 
     public useText(character: Character) { }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             shortDesc: this.desc.shortName,
             longDesc: this.desc.longName,
-        });
+        };
     }
 
     public deserialize(saveObject: Piercing) {

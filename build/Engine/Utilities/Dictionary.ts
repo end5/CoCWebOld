@@ -18,7 +18,7 @@ export class Dictionary<Entry> implements Iterable<Entry> {
     }
 
     public has(key: string): boolean {
-        return this.dictionary[key] !== undefined ? true : false;
+        return !!this.dictionary[key];
     }
 
     public keys(): string[] {

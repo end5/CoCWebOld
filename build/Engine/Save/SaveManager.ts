@@ -15,13 +15,13 @@ class SaveManager {
     }
 
     private writeSlots() {
-        document.cookie = JSON.stringify(this.saveSlots);
+        localStorage.setItem("CoCWeb", JSON.stringify(this.saveSlots));
     }
 
     private readSlots() {
-        if (document.cookie !== "")
+        if (localStorage.getItem("CoCWeb"))
             try {
-                this.saveSlots = JSON.parse(document.cookie);
+                this.saveSlots = JSON.parse(localStorage.getItem("CoCWeb"));
             }
             catch (e) {
                 console.error(e);
@@ -33,7 +33,7 @@ class SaveManager {
     }
 
     public has(slot: number): boolean {
-        return this.saveSlots[slot] !== undefined;
+        return !!this.saveSlots[slot];
     }
 
     public get(slot: number): object {

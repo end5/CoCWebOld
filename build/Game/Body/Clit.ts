@@ -3,10 +3,10 @@ import { ISerializable } from '../../Engine/Utilities/ISerializable';
 export class Clit implements ISerializable<Clit> {
     public length: number = 0.25;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             length: this.length
-        });
+        };
     }
 
     public deserialize(saveObject: Clit) {

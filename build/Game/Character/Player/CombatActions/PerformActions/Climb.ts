@@ -12,7 +12,7 @@ export class Climb implements CombatAction {
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return target !== undefined && target.combat.effects.has(CombatEffectType.Level);
+        return !!target && target.combat.effects.has(CombatEffectType.Level);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {

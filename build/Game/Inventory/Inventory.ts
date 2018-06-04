@@ -169,13 +169,13 @@ export class Inventory<T extends Item> implements ISerializable<Inventory<T>> {
         }
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             itemSlots: ListSerializer.serialize(this.itemSlots)
-        });
+        };
     }
 
     public deserialize(saveObject: Inventory<T>) {
-        ListSerializer.deserialize(saveObject, this.itemSlots, ItemStack);
+        ListSerializer.deserialize(saveObject.itemSlots, this.itemSlots, ItemStack);
     }
 }

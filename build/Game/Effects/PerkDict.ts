@@ -31,7 +31,7 @@ export class PerkDict extends Dictionary<Perk> {
     public deserialize(saveObject: PerkDict) {
         const keys = Object.keys(saveObject);
         for (const key of keys) {
-            const perk = keys[key];
+            const perk = saveObject[key];
             this.add(perk.type, perk.value1, perk.value1, perk.value1, perk.value4);
         }
     }

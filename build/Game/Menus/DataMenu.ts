@@ -60,20 +60,42 @@ function saveToFile(character: Character): NextScreenChoices {
     const saveFile = generateSave();
     const anchor = new AnchorElement();
     DisplayText().appendElement(anchor);
-    anchor.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(saveFile));
+    const blob = new Blob([JSON.stringify(saveFile)], { type: 'text/json' });
+    // tslint:disable-next-line:no-string-literal
+    if (!!window["StyleMedia"]) // IE Edge
+        window.navigator.msSaveBlob(blob, saveFile.name);
+    else
+        anchor.href = window.URL.createObjectURL(blob);
     anchor.download = saveFile.name;
     anchor.click();
     return display(character);
 }
 
 function loadFromFile(character: Character, event: Event): NextScreenChoices {
-    const file = (event.srcElement as HTMLInputElement).files[0];
+    const target = (event.target as HTMLInputElement);
+    if (!target.files || target.files.length === 0) {
+        alert("Error in file loading");
+    }
+    const file = target.files[0];
     const fileReader = new FileReader();
-    fileReader.readAsBinaryString(file);
+    fileReader.readAsText(file);
     fileReader.addEventListener("loadend", () => {
-        const obj = JSON.parse(fileReader.result);
-        loadFromSave(obj);
-        displayNextScreenChoices({ next: display });
+        let obj;
+        try {
+            obj = JSON.parse(fileReader.result);
+        }
+        catch (e) {
+            console.error(e);
+            alert("Error parsing file");
+        }
+        if (obj) {
+            loadFromSave(obj);
+            displayNextScreenChoices({ next: display });
+        }
+    });
+    fileReader.addEventListener("error", (evnt) => {
+        console.log(evnt);
+        alert("Error reading file");
     });
     return display(character);
 }

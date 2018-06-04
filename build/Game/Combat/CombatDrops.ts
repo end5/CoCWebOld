@@ -26,7 +26,7 @@ export class CombatDrops {
         character.inventory.gems += enemy.combat.rewards.gems();
         character.stats.XP += enemy.combat.rewards.XP();
         const item = CombatDrops.dropItem(character, enemy);
-        if (item !== undefined) {
+        if (item) {
             return character.inventory.items.createAdd(character, item.type, item.name, Menus.Player);
         }
     }

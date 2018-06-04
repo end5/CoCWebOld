@@ -9,11 +9,11 @@ export class Hips implements ISerializable<Hips> {
     public rating: HipRating = HipRating.BOYISH;
     public readonly legs: Legs = new Legs();
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             rating: this.rating,
             legs: this.legs.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: Hips) {

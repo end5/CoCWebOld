@@ -9,7 +9,7 @@ import { User } from '../User';
 
 export function display(): NextScreenChoices {
     DisplayText().clear();
-    if (SaveManager.activeSlot() !== undefined)
+    if (SaveManager.activeSlot())
         DisplayText("Last saved or loaded from: " + SaveManager.activeSlot()).bold();
     DisplayText("Slot: Sex,  Game Days Played").bold().underscore();
 

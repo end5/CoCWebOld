@@ -12,7 +12,7 @@ export class Release implements CombatAction {
     }
 
     public canUse(character: Character, target?: Character): boolean {
-        return target !== undefined && target.combat.effects.has(CombatEffectType.Constricted);
+        return !!target && target.combat.effects.has(CombatEffectType.Constricted);
     }
 
     public use(character: Character, target: Character): NextScreenChoices {

@@ -34,13 +34,13 @@ export class Face implements ISerializable<Face>  {
         return this.beard.length > 0;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             eyes: this.eyes.serialize(),
             tongue: this.tongue.serialize(),
             beard: this.beard.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: Face) {

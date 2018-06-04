@@ -91,14 +91,14 @@ export class Vagina implements ISerializable<Vagina> {
         return 10000;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             vaginaType: this.type,
             virgin: this.virgin,
             vaginalWetness: this.wetness,
             vaginalLooseness: this.looseness,
             fullness: this.fullness
-        });
+        };
     }
 
     public deserialize(saveObject: Vagina) {

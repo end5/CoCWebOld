@@ -65,7 +65,7 @@ function chooseName(player: Player, nameField: InputTextElement): NextScreenChoi
     }
     player.desc.name = nameField.text;
     DisplayText().clear();
-    if (customName(player.desc.name) !== undefined) {
+    if (customName(player.desc.name)) {
         DisplayText("This name, like you, is special.  Do you live up to your name or continue on, assuming it to be coincidence?");
         return { choices: [["SpecialName", useCustomProfile], ["Continue On", noCustomProfile]] };
     }
@@ -77,7 +77,7 @@ function chooseName(player: Player, nameField: InputTextElement): NextScreenChoi
 
 function useCustomProfile(player: Player) {
     DisplayText().clear();
-    if (customNameWithHistory(player.desc.name) !== undefined) {
+    if (customNameWithHistory(player.desc.name)) {
         DisplayText().clear();
         DisplayText("Your name defines everything about you, and as such, it is time to wake...\n\n");
         // Flags.list[FlagEnum.HISTORY_PERK_SELECTED] = 1;
@@ -580,7 +580,7 @@ function setHistory(player: Player, choice: PerkType): NextScreenChoices {
 }
 
 function completeCharacterCreation(player: Player, customProile?: (player: Player) => void): NextScreenChoices {
-    if (customProile !== undefined) {
+    if (customProile) {
         customProile(player);
         return { next: arrival };
     }

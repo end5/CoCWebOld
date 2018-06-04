@@ -43,8 +43,8 @@ export class Torso implements ISerializable<Torso> {
         this.clit = new Clit();
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             neck: this.neck.serialize(),
             arms: this.arms.serialize(),
             chest: ListSerializer.serialize(this.chest),
@@ -56,7 +56,7 @@ export class Torso implements ISerializable<Torso> {
             balls: this.balls.serialize(),
             vaginas: ListSerializer.serialize(this.vaginas),
             clit: this.clit.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: Torso) {

@@ -7,10 +7,10 @@ export enum TongueType {
 export class Tongue implements ISerializable<Tongue> {
     public type: TongueType = TongueType.HUMAN;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type
-        });
+        };
     }
 
     public deserialize(saveObject: Tongue) {

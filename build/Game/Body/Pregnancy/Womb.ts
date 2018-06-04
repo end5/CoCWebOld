@@ -19,7 +19,7 @@ export class Womb implements ISerializable<Womb> {
     }
 
     public isPregnant(): boolean {
-        return this.pregnancy !== undefined;
+        return !!this.pregnancy;
     }
 
     public isPregnantWith(type: PregnancyType): boolean {
@@ -27,7 +27,7 @@ export class Womb implements ISerializable<Womb> {
     }
 
     public canKnockUp(): boolean {
-        return this.pregnancy === undefined && this.body.torso.vaginas.count > 0;
+        return !this.pregnancy && this.body.torso.vaginas.count > 0;
     }
 
     private removeHeat() {
@@ -81,14 +81,15 @@ export class Womb implements ISerializable<Womb> {
         }
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            currentPregnancy: this.currentPregnancy
-        });
+    public serialize(): object | undefined {
+        if (this.currentPregnancy)
+            return {
+                currentPregnancy: this.currentPregnancy
+            };
     }
 
     public deserialize(saveObject: Womb) {
-        if (saveObject.pregnancy) {
+        if (saveObject) {
             this.currentPregnancy = new Pregnancy();
             this.currentPregnancy.deserialize(saveObject.pregnancy);
         }

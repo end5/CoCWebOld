@@ -36,8 +36,9 @@ export function saveInfo(saveFile: SaveFile, slotName: string, element: ListEntr
             element.text(saveFile.notes).italic();
         else
             element.text("No notes available.");
-        element.newline();
-        element.text("Days - " + saveFile.days + "  Gender - ");
+        element.endline();
+        element.text("Days - " + saveFile.days).endline();
+        element.text("  Gender - ");
         if (saveFile.gender === Gender.NONE)
             element.text("U");
         if (saveFile.gender === Gender.MALE)
@@ -46,7 +47,7 @@ export function saveInfo(saveFile: SaveFile, slotName: string, element: ListEntr
             element.text("F");
         if (saveFile.gender === Gender.HERM)
             element.text("H");
-        element.newline();
+        element.endline();
     }
     else {
         element.text("EMPTY").bold();

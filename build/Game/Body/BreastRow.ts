@@ -103,14 +103,14 @@ export class BreastRow implements ISerializable<BreastRow> {
         this.lactationMultiplier = lactationMultiplier;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             rating: this.rating,
             lactationMultiplier: this.lactationMultiplier,
             milkFullness: this.milkFullness,
             fullness: this.fullness,
             nipples: this.nipples.serialize(),
-        });
+        };
     }
 
     public deserialize(saveObject: BreastRow) {

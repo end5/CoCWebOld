@@ -102,11 +102,11 @@ export class Pregnancy implements ISerializable<Pregnancy> {
         return this.pregType;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             pregType: this.pregType,
             incubation: this.incubation,
-        });
+        };
     }
 
     public deserialize(saveObject: Pregnancy) {

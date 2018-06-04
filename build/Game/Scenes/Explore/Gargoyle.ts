@@ -8,8 +8,8 @@ import { CharacterType } from '../../Character/CharacterType';
 import { Desc } from '../../Descriptors/Descriptors';
 import { StatusAffectType } from '../../Effects/StatusAffectType';
 import { WeaponName } from '../../Items/Weapons/WeaponName';
-import { LocationName } from '../../Locations/LocationName';
 import { Mod } from '../../Modifiers/Modifiers';
+import { PlaceName } from '../../Places/PlaceName';
 import { NextScreenChoices, ScreenChoice } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Time } from '../../Utilities/Time';
@@ -60,12 +60,12 @@ export function gargoylesTheShowNowOnWBNetwork(character: Character): NextScreen
     // (When using the “Explore” option; perhaps a 15-25% chance of discovery per go)
     DisplayText("You set off in search of new horizons, setting off from camp in a completely new direction than you've ever tried before.  Away from the parts of Mareth you have thus far discovered, much of the world seems to be a barren wasteland");
     // if Desert is discovered:
-    if (User.locations.get(LocationName.Desert).visited) DisplayText(", making even the desert seem healthy and full of life");
+    if (User.places.get(PlaceName.Desert).visited) DisplayText(", making even the desert seem healthy and full of life");
     DisplayText(".  Your trip soon begins to seem unproductive, having found no new areas of Mareth or any contact with its inhabitants.  You sigh and turn back towards camp.");
 
     DisplayText("\n\nHowever, soon you catch the faintest glimpse of <b>something</b> in the distance!  Squinting, you shield your eyes from the sun and try to discern the strange glint on the horizon, but it's simply too far away.  Well, whatever it is, it certainly merits a check – it could be anything, perhaps a city, ");
     // if Tel'Adre has been discovered:
-    if (User.locations.get(LocationName.TelAdre).visited) DisplayText("or the ruins of one of Tel'Adre's more distant neighbors, ");
+    if (User.places.get(PlaceName.TelAdre).visited) DisplayText("or the ruins of one of Tel'Adre's more distant neighbors, ");
     DisplayText("or (even) some demon enclave that needs destroying.  With a quick check of your [weapon], you begin the long trek towards the shimmer in the distance.");
 
     // [Next]
@@ -95,7 +95,7 @@ function gargoyleMeeting2(character: Character): NextScreenChoices {
 
     DisplayText("\n\nYou suppose you could break the chains on the statue.  But who knows what will happen if you do?");
 
-    User.locations.get(LocationName.Cathedral).locationKnown = true;
+    User.places.get(PlaceName.Cathedral).locationKnown = true;
     DisplayText("\n\n<b>You have discovered the cathedral. You can return here in the future by selecting it from the 'Places' menu in your camp.</b>\n");
     // (Display [Break Chains] and [Don't Break] options)
     return { choices: [["Don't Break", dontBreakThatShit], ["Break Chains", breakZeChains]] };
@@ -245,7 +245,7 @@ export function returnToCathedralWake(character: Character): NextScreenChoices {
 // [i](Whenever the character returns to the Cathedral, play one of the following introductions, then the “Cathedral Interior” scenes. )[/i]
 // [b]Player Returns to the Cathedral A[/b]
 export function returnToCathedral(character: Character, woken: boolean = false): NextScreenChoices {
-    User.locations.get(LocationName.Cathedral).timesVisited++;
+    User.places.get(PlaceName.Cathedral).timesVisited++;
     if (!woken) {
         DisplayText().clear();
         if (randInt(3) === 0) DisplayText("You make your way back to the ruined Cathedral in the wastelands.  You notice some of the debris has been cleared away from the courtyard, and some of the windows have been boarded up.  " + gargoyleFlags.name + "'s obviously been working since you last left, trying to make the building more habitable.  With your path less obstructed than before, you enter.");

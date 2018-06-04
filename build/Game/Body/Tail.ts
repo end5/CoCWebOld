@@ -50,12 +50,12 @@ export class Tail implements ISerializable<Tail> {
         return a.type === TailType.BEE_ABDOMEN || a.type === TailType.SPIDER_ABDOMEN;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             vemon: this.vemon,
             recharge: this.recharge
-        });
+        };
     }
 
     public deserialize(saveObject: Tail) {

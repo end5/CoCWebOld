@@ -8,11 +8,11 @@ export class Horns implements ISerializable<Horns> {
     public type: HornType = HornType.NONE;
     public amount: number = 0;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             amount: this.amount
-        });
+        };
     }
 
     public deserialize(saveObject: Horns) {

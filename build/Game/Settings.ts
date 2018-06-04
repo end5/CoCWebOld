@@ -13,8 +13,16 @@ export class Settings implements ISerializable<Settings> {
         return this.sillyMode;
     }
 
-    public serialize(): string {
-        return JSON.stringify(this);
+    public serialize(): object | undefined {
+        return {
+            customFontSize: this.customFontSize,
+            lowStandards: this.lowStandards,
+            hyperHappy: this.hyperHappy,
+            debug: this.debug,
+            easyMode: this.easyMode,
+            showSprites: this.showSprites,
+            sillyMode: this.sillyMode
+        };
     }
 
     public deserialize(saveObject: Settings) {

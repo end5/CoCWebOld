@@ -13,7 +13,7 @@ import { StatusAffectType } from '../Effects/StatusAffectType';
 import { Menus } from '../Menus/Menus';
 import { Mod } from '../Modifiers/Modifiers';
 import { generateSave } from '../SaveFile';
-import { NextScreenChoices } from '../ScreenDisplay';
+import { clickFuncWrapper, NextScreenChoices } from '../ScreenDisplay';
 import { User } from '../User';
 import { numToCardinalCapText, numToCardinalText } from '../Utilities/NumToText';
 import { Time } from '../Utilities/Time';
@@ -43,9 +43,9 @@ export function display(character: Character): NextScreenChoices {
     // Level junk
     if (character.stats.XP >= (character.stats.level) * 100 || character.stats.perkPoints > 0) {
         if (character.stats.XP < character.stats.level * 100)
-            MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", () => Menus.PerkUp(User.char));
+            MainScreen.getTopButton(TopButton.PerkUp).modify("Perk Up", clickFuncWrapper(Menus.PerkUp));
         else
-            MainScreen.getTopButton(TopButton.PerkUp).modify("Level Up", () => Menus.LevelUp(User.char));
+            MainScreen.getTopButton(TopButton.PerkUp).modify("Level Up", clickFuncWrapper(Menus.LevelUp));
         MainScreen.getLevelUpIcon().show();
     }
     else {
@@ -201,7 +201,7 @@ export function doSleep(character: Character): NextScreenChoices {
         if (Time.hour === 4) time = 2;
         if (Time.hour === 5) time = 1;
         // Autosave stuff
-        if (SaveManager.autoSave && SaveManager.activeSlot !== undefined /*&& Game.state !== GameState.GameOver*/) {
+        if (SaveManager.autoSave && SaveManager.activeSlot /*&& Game.state !== GameState.GameOver*/) {
             console.trace("Autosaving to slot: " + SaveManager.activeSlot);
             SaveManager.saveToSlot(SaveManager.activeSlot(), generateSave());
         }

@@ -150,13 +150,13 @@ export class Cock implements ISerializable<Cock> {
         return this.length >= 20;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             length: this.length,
             thickness: this.thickness,
             type: this.type,
             knotMultiplier: this.knotMultiplier
-        });
+        };
     }
 
     public deserialize(saveObject: Cock) {

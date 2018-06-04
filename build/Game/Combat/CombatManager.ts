@@ -16,7 +16,7 @@ class CombatManager {
     }
 
     public get inCombat(): boolean {
-        return this.encounter !== undefined && this.encounter.performTurnEnd !== undefined;
+        return !!this.encounter && !!this.encounter.performTurnEnd;
     }
 
     private get nextRound(): ClickFunction {
@@ -55,11 +55,11 @@ class CombatManager {
 
     private loadCombatEffects(character: Character) {
         for (const type of character.statusAffects.keys()) {
-            if (CombatEffectType[type] !== undefined)
+            if (CombatEffectType[type])
                 character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
         }
         for (const type of character.perks.keys()) {
-            if (CombatEffectType[type] !== undefined)
+            if (CombatEffectType[type])
                 character.combat.effects.add(CombatEffectType[type] as CombatEffectType);
         }
     }

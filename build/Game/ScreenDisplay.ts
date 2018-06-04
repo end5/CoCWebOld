@@ -132,7 +132,7 @@ export function displayNextScreenChoices(nextScreen: NextScreenChoices) {
         else if (nextScreen.next) {
             doNext(nextScreen.next);
         }
-        else if (nextScreen.choices.length > 0) {
+        else if (nextScreen.choices.length > 0 || (nextScreen.persistantChoices && nextScreen.persistantChoices.length > 0)) {
             displayChoices(nextScreen.choices, nextScreen.persistantChoices);
         }
     }

@@ -28,13 +28,13 @@ export class Butt implements ISerializable<Butt> {
     // Used during sex to determine how full it currently is.  For multi-dick sex.
     public fullness: number = 0;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             rating: this.rating,
             wetness: this.wetness,
             looseness: this.looseness,
             fullness: this.fullness
-        });
+        };
     }
 
     public deserialize(saveObject: Butt) {

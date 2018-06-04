@@ -9,22 +9,22 @@ export class KeyPair implements ISerializable<KeyPair> {
         this.secondaryKey = secondaryKey;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             primaryKey: this.primaryKey.serialize(),
             secondaryKey: this.secondaryKey.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: KeyPair) {
-        if (saveObject.primaryKey !== undefined) {
+        if (saveObject.primaryKey) {
             this.primaryKey.deserialize(saveObject.primaryKey);
         }
         else {
             console.error("Error - Deserialize: KeyPair - primaryKey incorrect");
             console.trace();
         }
-        if (saveObject.secondaryKey !== undefined) {
+        if (saveObject.secondaryKey) {
             this.secondaryKey.deserialize(saveObject.secondaryKey);
         }
         else {

@@ -24,12 +24,12 @@ export class PregnancyManager implements ISerializable<PregnancyManager> {
         }
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             buttWomb: this.buttWomb.serialize(),
             wombs: this.womb.serialize(),
             ovipositor: this.ovipositor.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: PregnancyManager) {

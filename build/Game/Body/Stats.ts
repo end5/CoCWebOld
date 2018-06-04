@@ -52,8 +52,8 @@ export class Stats implements ISerializable<Stats> {
         this.teaseLevel = 0;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             str: this.str,
             tou: this.tou,
             spe: this.spe,
@@ -73,7 +73,7 @@ export class Stats implements ISerializable<Stats> {
             perkPoints: this.perkPoints,
             teaseXP: this.teaseXP,
             teaseLevel: this.teaseLevel
-        });
+        };
     }
 
     public deserialize(saveObject: Stats) {

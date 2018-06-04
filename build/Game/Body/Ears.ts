@@ -8,11 +8,11 @@ export class Ears implements ISerializable<Ears> {
     public type: EarType = EarType.HUMAN;
     public value: number = 0;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             value: this.value
-        });
+        };
     }
 
     public deserialize(saveObject: Ears) {

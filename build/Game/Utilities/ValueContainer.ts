@@ -17,13 +17,13 @@ export abstract class ValueContainer implements ISerializable<ValueContainer> {
         return "[" + this.value1 + "," + this.value2 + "," + this.value3 + "," + this.value4 + "]";
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             value1: this.value1,
             value2: this.value2,
             value3: this.value3,
             value4: this.value4
-        });
+        };
     }
 
     public deserialize(saveObject: ValueContainer) {

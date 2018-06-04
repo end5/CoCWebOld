@@ -15,6 +15,7 @@
         "no-bitwise": false,
         "array-type": false,
         "object-literal-sort-keys": false,
-        "no-console": false
+        "no-console": false,
+        "no-null-keyword": true
     }
 }

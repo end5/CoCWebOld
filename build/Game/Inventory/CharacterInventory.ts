@@ -20,13 +20,13 @@ export class CharacterInventory implements ISerializable<CharacterInventory> {
         this.keyItems = new KeyItemDict();
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             gems: this.gems,
             items: this.items.serialize(),
             equipment: this.equipment.serialize(),
             keyItems: DictionarySerializer.serialize(this.keyItems)
-        });
+        };
     }
 
     public deserialize(saveObject: CharacterInventory) {

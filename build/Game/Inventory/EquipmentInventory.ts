@@ -40,8 +40,8 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
         return this.equippedArmorSlot.item ? this.equippedArmorSlot.item : this.defaultArmorSlot.item;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             defaultWeaponSlot: this.defaultWeaponSlot.serialize(),
             equippedWeaponSlot: this.equippedWeaponSlot.serialize(),
             defaultArmorSlot: this.defaultArmorSlot.serialize(),
@@ -49,7 +49,7 @@ export class EquipmentInventory implements ISerializable<EquipmentInventory> {
             piercings: this.piercings.serialize(),
             cockSocks: ListSerializer.serialize(this.cockSocks),
             armorDescMod: this.armorDescMod
-        });
+        };
     }
 
     public deserialize(saveObject: EquipmentInventory) {

@@ -226,7 +226,7 @@ class Parser {
                 break;
             }
         }
-        if (opStored === undefined) {
+        if (!opStored) {
             this.failed(startIndex);
             return;
         }

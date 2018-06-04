@@ -13,7 +13,7 @@ export class MoveAway implements CombatAction {
 
     public canUse(character: Character, target?: Character): boolean {
         const performActions = character.combat.perform;
-        if (target !== undefined) {
+        if (target) {
             if (performActions.climb.canUse(character, target)) {
                 this.name = performActions.climb.name;
             }

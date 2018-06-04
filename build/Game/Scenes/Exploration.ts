@@ -11,8 +11,8 @@ import { VaginaWetness } from '../Body/Vagina';
 import { Character } from '../Character/Character';
 import { CharacterType } from '../Character/CharacterType';
 import { Desc } from '../Descriptors/Descriptors';
-import { LocationName } from '../Locations/LocationName';
 import { Menus } from '../Menus/Menus';
+import { PlaceName } from '../Places/PlaceName';
 import { NextScreenChoices, ScreenChoice } from '../ScreenDisplay';
 import { User } from '../User';
 import { numToCardinalText } from '../Utilities/NumToText';
@@ -29,59 +29,59 @@ export const gargoyle = Gargoyle;
 // const EXPLORATION_PAGE: number = 1015;
 // const BOG_EXPLORED: number = 1016;
 export function display(character: Character): NextScreenChoices {
-    if (!User.locations.get(LocationName.BeyondCamp).visited) {
+    if (!User.places.get(PlaceName.BeyondCamp).visited) {
         DisplayText().clear();
         DisplayText("You tentatively step away from your campsite, alert and scanning the ground and sky for danger.  You walk for the better part of an hour, marking the rocks you pass for a return trip to your camp.  It worries you that the portal has an opening on this side, and it was totally unguarded...\n\n...Wait a second, why is your campsite in front of you? The portal's glow is clearly visible from inside the tall rock formation.   Looking carefully you see your footprints leaving the opposite side of your camp, then disappearing.  You look back the way you came and see your markings vanish before your eyes.  The implications boggle your mind as you do your best to mull over them.  Distance, direction, and geography seem to have little meaning here, yet your campsite remains exactly as you left it.  A few things click into place as you realize you found your way back just as you were mentally picturing the portal!  Perhaps memory influences travel here, just like time, distance, and speed would in the real world!\n\nThis won't help at all with finding new places, but at least you can get back to camp quickly.  You are determined to stay focused the next time you explore and learn how to traverse this gods-forsaken realm.");
         return tryDiscover(character);
     }
-    else if (User.locations.get(LocationName.BeyondCamp).timesVisited === 1) {
+    else if (User.places.get(PlaceName.BeyondCamp).timesVisited === 1) {
         DisplayText().clear();
         DisplayText("You walk for quite some time, roaming the hard-packed and pink-tinged earth of the demon-realm.  Rust-red rocks speckle the wasteland, as barren and lifeless as anywhere else you've been.  A cool breeze suddenly brushes against your face, as if gracing you with its presence.  You turn towards it and are confronted by the lush foliage of a very old looking forest.  You smile as the plants look fairly familiar and non-threatening.  Unbidden, you remember your decision to test the properties of this place, and think of your campsite as you walk forward.  Reality seems to shift and blur, making you dizzy, but after a few minutes you're back, and sure you'll be able to return to the forest with similar speed.\n\n<b>You have discovered the Forest!</b>");
-        User.locations.get(LocationName.Forest).timesVisited++;
-        User.locations.get(LocationName.Forest).locationKnown = true;
+        User.places.get(PlaceName.Forest).timesVisited++;
+        User.places.get(PlaceName.Forest).locationKnown = true;
         return tryDiscover(character);
     }
-    else if (User.locations.get(LocationName.BeyondCamp).locationKnown) {
+    else if (User.places.get(PlaceName.BeyondCamp).locationKnown) {
         DisplayText().clear();
         DisplayText("You can continue to search for new locations, or explore your previously discovered locations.");
     }
 
     const choices: ScreenChoice[] = [["Explore", tryDiscover]];
     // choices.push([
-    //     User.locations.get(LocationName.Desert) ? "Desert" : "",
-    //     User.locations.get(LocationName.Desert) ? Scenes.desert.exploreDesert : undefined
+    //     User.locations.get(PlaceName.Desert) ? "Desert" : "",
+    //     User.locations.get(PlaceName.Desert) ? Scenes.desert.exploreDesert : undefined
     // ]);
     choices.push([
-        User.locations.get(LocationName.Forest).locationKnown ? "Forest" : "",
-        User.locations.get(LocationName.Forest).locationKnown ? Scenes.forest.exploreForest : undefined
+        User.places.get(PlaceName.Forest).locationKnown ? "Forest" : "",
+        User.places.get(PlaceName.Forest).locationKnown ? Scenes.forest.exploreForest : undefined
     ]);
     // choices.push([
-    //     User.locations.get(LocationName.Lake) ? "Lake" : "",
-    //     User.locations.get(LocationName.Lake) ? Scenes.lake.exploreLake : undefined
+    //     User.locations.get(PlaceName.Lake) ? "Lake" : "",
+    //     User.locations.get(PlaceName.Lake) ? Scenes.lake.exploreLake : undefined
     // ]);
     // choices.push([
-    //     User.locations.get(LocationName.Plains) ? "Plains" : "",
-    //     User.locations.get(LocationName.Plains) ? Scenes.plains.explorePlains : undefined
+    //     User.locations.get(PlaceName.Plains) ? "Plains" : "",
+    //     User.locations.get(PlaceName.Plains) ? Scenes.plains.explorePlains : undefined
     // ]);
     // choices.push([
-    //     User.locations.get(LocationName.Swamp) ? "Swamp" : "",
-    //     User.locations.get(LocationName.Swamp) ? Scenes.swamp.exploreSwamp : undefined
+    //     User.locations.get(PlaceName.Swamp) ? "Swamp" : "",
+    //     User.locations.get(PlaceName.Swamp) ? Scenes.swamp.exploreSwamp : undefined
     // ]);
     choices.push([
-        User.locations.get(LocationName.Deepwoods).locationKnown ? "Deepwoods" : "",
-        User.locations.get(LocationName.Deepwoods).locationKnown ? Scenes.forest.exploreDeepwoods : undefined
+        User.places.get(PlaceName.Deepwoods).locationKnown ? "Deepwoods" : "",
+        User.places.get(PlaceName.Deepwoods).locationKnown ? Scenes.forest.exploreDeepwoods : undefined
     ]);
     // choices.push([
-    //     User.locations.get(LocationName.Mountains) ? "Mountain" : "",
-    //     User.locations.get(LocationName.Mountains) ? Scenes.mountain.exploreMountain : undefined
+    //     User.locations.get(PlaceName.Mountains) ? "Mountain" : "",
+    //     User.locations.get(PlaceName.Mountains) ? Scenes.mountain.exploreMountain : undefined
     // ]);
     // choices.push([
-    //     User.locations.get(LocationName.HighMountain) ? "High Mountain" : "",
-    //     User.locations.get(LocationName.HighMountain) ? Scenes.highMountains.exploreHighMountain : undefined
+    //     User.locations.get(PlaceName.HighMountain) ? "High Mountain" : "",
+    //     User.locations.get(PlaceName.HighMountain) ? Scenes.highMountains.exploreHighMountain : undefined
     // ]);
     // choices.push([
-    //     User.locations.get(LocationName.Bog) ? "Bog" : "",
-    //     User.locations.get(LocationName.Bog) ? Scenes.bog.exploreBog : undefined
+    //     User.locations.get(PlaceName.Bog) ? "Bog" : "",
+    //     User.locations.get(PlaceName.Bog) ? Scenes.bog.exploreBog : undefined
     // ]);
     return { choices, persistantChoices: [["Back", Menus.Player]] };
 }
@@ -92,16 +92,16 @@ export function tryDiscover(character: Character): NextScreenChoices {
     // kGAMECLASS.goblinAssassinScene.goblinAssassinEncounter();
     // return;
 
-    if (User.locations.get(LocationName.BeyondCamp).timesVisited > 1) {
-        if (!User.locations.get(LocationName.Lake).visited) {
+    if (User.places.get(PlaceName.BeyondCamp).timesVisited > 1) {
+        if (!User.places.get(PlaceName.Lake).visited) {
             DisplayText().clear();
             DisplayText("Your wanderings take you far and wide across the barren wasteland that surrounds the portal, until the smell of humidity and fresh water alerts you to the nearby lake.  With a few quick strides you find a lake so massive the distant shore cannot be seen.  Grass and a few sparse trees grow all around it.\n\n<b>You have discovered the Lake!</b>");
-            User.locations.get(LocationName.Lake).timesVisited++;
-            User.locations.get(LocationName.Lake).locationKnown = true;
-            User.locations.get(LocationName.BeyondCamp).timesVisited++;
+            User.places.get(PlaceName.Lake).timesVisited++;
+            User.places.get(PlaceName.Lake).locationKnown = true;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
             return { next: Scenes.camp.returnToCampUseOneHour };
         }
-        // if (User.locations.get(LocationName.Lake).locationKnown && randInt(3) === 0 && !User.locations.get(LocationName.Desert).visited) {
+        // if (User.locations.get(PlaceName.Lake).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Desert).visited) {
         //     DisplayText().clear();
         //     DisplayText("You stumble as the ground shifts a bit underneath you.  Groaning in frustration, you straighten up and discover the rough feeling of sand ");
         //     if (character.torso.hips.legs.type === LegType.HUMAN) DisplayText("inside your footwear, between your toes");
@@ -109,33 +109,33 @@ export function tryDiscover(character: Character): NextScreenChoices {
         //     if (character.torso.hips.legs.type === LegType.DOG) DisplayText("in your paws");
         //     if (character.torso.hips.legs.type === LegType.NAGA) DisplayText("in your scales");
         //     DisplayText(".\n\n<b>You've discovered the Desert!</b>");
-        //     User.locations.get(LocationName.Desert).timesVisited++;
-        //     User.locations.get(LocationName.Desert).locationKnown = true;
-        //     User.locations.get(LocationName.BeyondCamp).timesVisited++;
+        //     User.locations.get(PlaceName.Desert).timesVisited++;
+        //     User.locations.get(PlaceName.Desert).locationKnown = true;
+        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
         //     return { next: Scenes.camp.returnToCampUseOneHour };
         //     return;
         // }
-        // if (User.locations.get(LocationName.Desert).locationKnown && randInt(3) === 0 && !User.locations.get(LocationName.Mountains).visited) {
+        // if (User.locations.get(PlaceName.Desert).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Mountains).visited) {
         //     DisplayText().clear();
         //     DisplayText("Thunder booms overhead, shaking you out of your thoughts.  High above, dark clouds encircle a distant mountain peak.  You get an ominous feeling in your gut as you gaze up at it.\n\n<b>You have discovered the mountain!</b>");
-        //     User.locations.get(LocationName.Mountains).timesVisited++;
-        //     User.locations.get(LocationName.Mountains).locationKnown = true;
-        //     User.locations.get(LocationName.BeyondCamp).timesVisited++;
+        //     User.locations.get(PlaceName.Mountains).timesVisited++;
+        //     User.locations.get(PlaceName.Mountains).locationKnown = true;
+        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
         //     return { next: Scenes.camp.returnToCampUseOneHour };
         //     return;
         // }
-        // if (User.locations.get(LocationName.Mountains).locationKnown && randInt(3) === 0 && !User.locations.get(LocationName.Plains).visited) {
-        //     User.locations.get(LocationName.Plains).timesVisited++;
-        //     User.locations.get(LocationName.Plains).locationKnown = true;
-        //     User.locations.get(LocationName.BeyondCamp).timesVisited++;
+        // if (User.locations.get(PlaceName.Mountains).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Plains).visited) {
+        //     User.locations.get(PlaceName.Plains).timesVisited++;
+        //     User.locations.get(PlaceName.Plains).locationKnown = true;
+        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
         //     DisplayText().clear();
         //     DisplayText("You find yourself standing in knee-high grass, surrounded by flat plains on all sides.  Though the mountain, forest, and lake are all visible from here, they seem quite distant.\n\n<b>You've discovered the plains!</b>");
         //     return { next: Scenes.camp.returnToCampUseOneHour };
         //     return;
         // }
-        // if (User.locations.get(LocationName.Plains).locationKnown && randInt(3) === 0 && !User.locations.get(LocationName.Swamp).visited) {
-        //     User.locations.get(LocationName.Swamp).timesVisited++;
-        //     User.locations.get(LocationName.BeyondCamp).timesVisited++;
+        // if (User.locations.get(PlaceName.Plains).locationKnown && randInt(3) === 0 && !User.locations.get(PlaceName.Swamp).visited) {
+        //     User.locations.get(PlaceName.Swamp).timesVisited++;
+        //     User.locations.get(PlaceName.BeyondCamp).timesVisited++;
         //     DisplayText().clear();
         //     DisplayText("All things considered, you decide you wouldn't mind a change of scenery.  Gathering up your belongings, you begin a journey into the wasteland.  The journey begins in high spirits, and you whistle a little traveling tune to pass the time.  After an hour of wandering, however, your wanderlust begins to whittle away.  Another half-hour ticks by.  Fed up with the fruitless exploration, you're nearly about to head back to camp when a faint light flits across your vision.  Startled, you whirl about to take in three luminous will-o'-the-wisps, swirling around each other whimsically.  As you watch, the three ghostly lights begin to move off, and though the thought of a trap crosses your mind, you decide to follow.\n\n");
         //     DisplayText("Before long, you start to detect traces of change in the environment.  The most immediate difference is the increasingly sweltering heat.  A few minutes pass, then the will-o'-the-wisps plunge into the boundaries of a dark, murky, stagnant swamp; after a steadying breath you follow them into the bog.  Once within, however, the gaseous balls float off in different directions, causing you to lose track of them.  You sigh resignedly and retrace your steps, satisfied with your discovery.  Further exploration can wait.  For now, your camp is waiting.\n\n");
@@ -146,27 +146,27 @@ export function tryDiscover(character: Character): NextScreenChoices {
         // Used for chosing 'repeat' encounters.
         let choosey: number = randInt(6);
         // 2 (gargoyle) is never chosen once cathedral is discovered.
-        if (choosey === 2 && !User.locations.get(LocationName.Lake).locationKnown) {
+        if (choosey === 2 && !User.places.get(PlaceName.Lake).locationKnown) {
             choosey = randInt(5);
             if (choosey >= 2) choosey++;
         }
         // Chance of encountering Giacomo!
         if (choosey === 0) {
-            User.locations.get(LocationName.BeyondCamp).timesVisited++;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
             return giacomo.encounter(character); // eventParser(2015);
         }
         else if (choosey === 1) {
-            User.locations.get(LocationName.BeyondCamp).timesVisited++;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
             return lumi.encounter();
         }
         else if (choosey === 2) {
-            User.locations.get(LocationName.BeyondCamp).timesVisited++;
+            User.places.get(PlaceName.BeyondCamp).timesVisited++;
             if ((User.flags.get(CharacterType.Gargoyle) as Gargoyle.GargoyleFlags).name === "") return gargoyle.gargoylesTheShowNowOnWBNetwork(character);
             else return gargoyle.returnToCathedral(character);
         }
         // Monster - 50/50 imp/gob split.
         else {
-            // User.locations.get(LocationName.BeyondCamp).timesVisited++;
+            // User.locations.get(PlaceName.BeyondCamp).timesVisited++;
             // const impGob: number = 5;
             // Imptacular Encounter
             // if (randInt(10) < impGob) {
@@ -211,7 +211,7 @@ export function tryDiscover(character: Character): NextScreenChoices {
         DisplayText().clear();
         DisplayText("You wander around, fruitlessly searching for new places.");
     }
-    User.locations.get(LocationName.BeyondCamp).timesVisited++;
+    User.places.get(PlaceName.BeyondCamp).timesVisited++;
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 

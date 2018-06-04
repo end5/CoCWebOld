@@ -85,8 +85,8 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
         });
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             clit: this.clit.serialize(),
             ears: this.ears.serialize(),
             eyebrow: this.eyebrow.serialize(),
@@ -96,7 +96,7 @@ export class PiercingInventory implements ISerializable<PiercingInventory> {
             labia: this.labia.serialize(),
             nipples: ListSerializer.serialize(this.nipples),
             cocks: ListSerializer.serialize(this.cocks)
-        });
+        };
     }
 
     public deserialize(saveObject: PiercingInventory) {

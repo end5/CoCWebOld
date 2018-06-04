@@ -22,25 +22,29 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
     }
 
     public isEquipped(): boolean {
-        return this.equippedItem !== undefined;
+        return !!this.equippedItem;
     }
 
     public equip(item: T) {
-        if (this.isEquipped())
-            this.unequip();
-        this.equippedItem = item;
-        item.onEquip(this.character);
-        for (const effect of this.onEquipEffects) {
-            effect(item, this.character);
+        if (item) {
+            if (this.isEquipped())
+                this.unequip();
+            this.equippedItem = item;
+            item.onEquip(this.character);
+            for (const effect of this.onEquipEffects) {
+                effect(item, this.character);
+            }
         }
     }
 
     public unequip() {
-        for (const effect of this.onEquipEffects) {
-            effect(this.equippedItem, this.character);
+        if (this.equippedItem) {
+            for (const effect of this.onEquipEffects) {
+                effect(this.equippedItem, this.character);
+            }
+            this.equippedItem.onUnequip(this.character);
+            this.equippedItem = undefined;
         }
-        this.equippedItem.onUnequip(this.character);
-        this.equippedItem = undefined;
     }
 
     public addEquipEffect(equipEffect: EquipEffect) {
@@ -51,14 +55,12 @@ export class EquipSlot<T extends EquipableItem> implements ISerializable<EquipSl
         this.onUnequipEffects.push(equipEffect);
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            item: this.equippedItem ? this.equippedItem.serialize() : undefined
-        });
+    public serialize(): object | undefined {
+        return this.equippedItem ? { equippedItem: this.equippedItem.serialize() } : undefined;
     }
 
     public deserialize(saveObject: EquipSlot<T>) {
-        if (saveObject.item) {
+        if (saveObject) {
             this.equip(ItemFactory.get(saveObject.equippedItem.type, saveObject.equippedItem.name) as T);
         }
     }

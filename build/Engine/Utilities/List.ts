@@ -1,6 +1,7 @@
 ﻿export type SortOption<T> = (a: T, b: T) => number;
 export type FilterOption<T> = (value: T, index: number, array: T[]) => boolean;
 export type ReduceOption<T, U> = (previousValue: U, currentValue: T, currentIndex: number, array: T[]) => U;
+export type MapOption<T, U> = (value: T, index: number, array: T[]) => U;
 
 export class List<Entry> implements Iterable<Entry> {
     protected list: Entry[] = [];
@@ -60,6 +61,14 @@ export class List<Entry> implements Iterable<Entry> {
      */
     public reduce<U>(option: ReduceOption<Entry, U>, initialValue: U): U {
         return this.list.reduce(option, initialValue);
+    }
+
+    public map<U>(option: MapOption<Entry, U>, thisArg?: any): U[] {
+        return this.list.map(option, thisArg);
+    }
+
+    public forEach(callbackfn: (value: Entry, index: number, array: Entry[]) => void, thisArg?: any): void {
+        return this.list.forEach(callbackfn, thisArg);
     }
 
     public [Symbol.iterator](): Iterator<Entry> {

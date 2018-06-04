@@ -28,11 +28,11 @@ export abstract class Item implements ISerializable<Item> {
         return this.desc.description + " (Cost: " + this.value + ")";
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             name: this.name,
             type: this.type
-        });
+        };
     }
 
     public deserialize(saveObject: Item) { }

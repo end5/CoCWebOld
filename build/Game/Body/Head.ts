@@ -15,14 +15,14 @@ export class Head implements ISerializable<Head> {
     public antennae: AntennaeType = AntennaeType.NONE;
     public readonly face: Face = new Face();
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             hair: this.hair.serialize(),
             ears: this.ears.serialize(),
             horns: this.horns.serialize(),
             antennae: this.antennae,
             face: this.face.serialize()
-        });
+        };
     }
 
     public deserialize(saveObject: Head) {

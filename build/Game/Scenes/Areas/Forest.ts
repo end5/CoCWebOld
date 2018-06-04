@@ -15,8 +15,8 @@ import { Character } from '../../Character/Character';
 import { Desc } from '../../Descriptors/Descriptors';
 import { ItemType } from '../../Items/ItemType';
 import { MaterialName } from '../../Items/Materials/MaterialName';
-import { LocationName } from '../../Locations/LocationName';
 import { Menus } from '../../Menus/Menus';
+import { PlaceName } from '../../Places/PlaceName';
 import { NextScreenChoices } from '../../ScreenDisplay';
 import { User } from '../../User';
 import { Scenes } from '../Scenes';
@@ -37,7 +37,7 @@ export const kitsuneScene = KitsuneScene;
 export const erlkingScene = ErlKingScene;
 
 export function exploreDeepwoods(character: Character): NextScreenChoices {
-    User.locations.get(LocationName.Deepwoods).timesVisited++;
+    User.places.get(PlaceName.Deepwoods).timesVisited++;
 
     const chooser = randInt(5);
 
@@ -68,12 +68,12 @@ export function exploreDeepwoods(character: Character): NextScreenChoices {
 
 // Explore forest
 export function exploreForest(character: Character): NextScreenChoices {
-    User.locations.get(LocationName.Forest).timesVisited++;
+    User.places.get(PlaceName.Forest).timesVisited++;
 
     // Chance to discover deepwoods
-    if ((User.locations.get(LocationName.Forest).timesVisited >= 20) && !User.locations.get(LocationName.Deepwoods).visited) {
-        User.locations.get(LocationName.Deepwoods).timesVisited++;
-        User.locations.get(LocationName.Deepwoods).locationKnown = true;
+    if ((User.places.get(PlaceName.Forest).timesVisited >= 20) && !User.places.get(PlaceName.Deepwoods).visited) {
+        User.places.get(PlaceName.Deepwoods).timesVisited++;
+        User.places.get(PlaceName.Deepwoods).locationKnown = true;
         DisplayText().clear();
         DisplayText("After exploring the forest so many times, you decide to really push it, and plunge deeper and deeper into the woods.  The further you go the darker it gets, but you courageously press on.  The plant-life changes too, and you spot more and more lichens and fungi, many of which are luminescent.  Finally, a wall of tree-trunks as wide as houses blocks your progress.  There is a knot-hole like opening in the center, and a small sign marking it as the entrance to the 'Deepwoods'.  You don't press on for now, but you could easily find your way back to explore the Deepwoods.\n\n<b>Deepwoods exploration unlocked!</b>");
         return { next: Scenes.camp.returnToCampUseOneHour };

@@ -34,11 +34,11 @@ export class Ovipositor implements ISerializable<Ovipositor> {
         return this.fertileEggs;
     }
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             unfertileEggs: this.unfertileEggs,
             fertileEggs: this.fertileEggs
-        });
+        };
     }
 
     public deserialize(saveObject: Ovipositor) {

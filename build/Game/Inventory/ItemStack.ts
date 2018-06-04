@@ -18,7 +18,7 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
     }
 
     public set quantity(value: number) {
-        if (this.item !== undefined && value >= 0) {
+        if (this.item && value >= 0) {
             this.amount = value <= this.maxAmount ? value : this.maxAmount;
             if (value === 0) {
                 this.item = undefined;
@@ -49,17 +49,19 @@ export class ItemStack<T extends Item> implements ISerializable<ItemStack<T>> {
         }
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            item: this.item ? this.item.serialize() : undefined,
+    public serialize(): object | undefined {
+        return this.item ? {
+            item: this.item.serialize(),
             amount: this.amount,
             maxAmount: this.maxAmount
-        });
+        } : undefined;
     }
 
     public deserialize(saveObject: ItemStack<T>) {
-        this.item = ItemFactory.get(saveObject.item.type, saveObject.item.name);
-        this.amount = saveObject.amount;
-        this.maxAmount = saveObject.maxAmount;
+        if (saveObject) {
+            this.item = ItemFactory.get(saveObject.item.type, saveObject.item.name);
+            this.amount = saveObject.amount;
+            this.maxAmount = saveObject.maxAmount;
+        }
     }
 }

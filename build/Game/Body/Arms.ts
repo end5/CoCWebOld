@@ -7,10 +7,10 @@ export enum ArmType {
 export class Arms implements ISerializable<Arms> {
     public type: ArmType = ArmType.HUMAN;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type
-        });
+        };
     }
 
     public deserialize(saveObject: Arms) {

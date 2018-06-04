@@ -9,7 +9,7 @@ import { LegType } from '../Body/Legs';
 import { Tail, TailType } from '../Body/Tail';
 import { CombatContainer } from '../Combat/CombatContainer';
 import { CharacterInventory } from '../Inventory/CharacterInventory';
-import { LocationDict } from '../Locations/LocationDict';
+import { PlaceDict } from '../Places/PlaceDict';
 import { generateUUID } from '../Utilities/Uuid';
 
 export abstract class Character extends Creature implements ISerializable<Character> {
@@ -42,13 +42,17 @@ export abstract class Character extends Creature implements ISerializable<Charac
         }
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            charType: this.charType,
-            UUID: this.UUID,
-            inventory: this.inventory.serialize(),
-            desc: this.desc.serialize(),
-        });
+    public serialize(): object | undefined {
+        return Object.assign(
+            {
+                charType: this.charType,
+                UUID: this.UUID,
+                inventory: this.inventory.serialize(),
+                desc: this.desc.serialize(),
+                creature: super.serialize()
+            },
+            super.serialize()
+        );
     }
 
     public deserialize(saveObject: Character) {

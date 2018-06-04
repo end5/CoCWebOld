@@ -1426,7 +1426,7 @@ function rapeTheBeeGirlWithADick(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Bee_Girl);
     DisplayText().clear();
     let cockThatFits = character.torso.cocks.filter(Cock.FilterType(beeGirl.vaginalCapacity()))[0];
-    if (cockThatFits === undefined) cockThatFits = character.torso.cocks.get(0);
+    if (!cockThatFits) cockThatFits = character.torso.cocks.get(0);
     // TAURS GO!
     if (character.torso.hips.legs.isTaur()) {
         if (beeGirl.stats.lust > 99) DisplayText("The bee-girl plops onto her flower with her legs splayed out, letting you get a clear look at her dripping honeypot. She watches you nervously as you approach, letting her stinger slide out in a pointless threat. She seems taken aback when you smile down at her, but returns the gesture with a nervous smile of her own.\n\n");

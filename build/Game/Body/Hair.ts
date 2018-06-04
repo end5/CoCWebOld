@@ -9,12 +9,12 @@ export class Hair implements ISerializable<Hair> {
     public color: string = "black";
     public length: number = 0;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             type: this.type,
             color: this.color,
             length: this.length
-        });
+        };
     }
 
     public deserialize(saveObject: Hair) {

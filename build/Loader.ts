@@ -1,6 +1,9 @@
+import { CharConstructorLib } from './Game/Character/CharConstructorLib';
 import { Menus } from './Game/Menus/Menus';
 import { displayNextScreenChoices } from './Game/ScreenDisplay';
-import { CombatTest } from './Test/CombatTest';
+
+// Used to force this module to load before others to prevent circular dependency
+CharConstructorLib.has("pc");
 
 displayNextScreenChoices(Menus.Main());
 

@@ -4,11 +4,11 @@ export class Beard implements ISerializable<Beard> {
     public style: string = "";
     public length: number = 0;
 
-    public serialize(): string {
-        return JSON.stringify({
+    public serialize(): object | undefined {
+        return {
             style: this.style,
             length: this.length
-        });
+        };
     }
 
     public deserialize(saveObject: Beard) {

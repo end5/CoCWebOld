@@ -167,7 +167,7 @@ function invFull<T extends Item>(request: AddItemsRequest<T>): NextScreenChoices
     if (request.itemList.length > 0) {
         DisplayText("There is no room for " + itemToAdd.item.desc.longName + " in your inventory.  You may replace the contents of a pouch with " + itemToAdd.item.desc.longName + " or abandon it.");
         const persistantChoices: ScreenChoice[] = [["Back", request.menuToDisplayUponFinish]];
-        if (request.reverseActionFunc !== undefined) {
+        if (request.reverseActionFunc) {
             persistantChoices.push(["Put Back", putBack(request)]);
         }
         persistantChoices.push(["Use Now", useNow(request)]);

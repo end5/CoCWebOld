@@ -87,25 +87,25 @@ export class CharacterDescription implements ISerializable<CharacterDescription>
         return this.article.charAt(0).toUpperCase() + this.article.substr(1);
     }
 
-    public serialize(): string {
-        return JSON.stringify({
-            subjective: this.subjective,
-            objective: this.objective,
-            possessive: this.possessive,
-            article: this.article,
-            shortDesc: this.short,
-            longDesc: this.long,
-            isPlural: this.plural
-        });
+    public serialize(): object | undefined {
+        return {
+            // subjective: this.subjective,
+            // objective: this.objective,
+            // possessive: this.possessive,
+            // article: this.article,
+            defaultShort: this.short,
+            // longDesc: this.long,
+            // isPlural: this.plural
+        };
     }
 
     public deserialize(saveObject: CharacterDescription) {
-        this.subjective = saveObject.subjective;
-        this.objective = saveObject.objective;
-        this.possessive = saveObject.possessive;
-        this.article = saveObject.article;
+        // this.subjective = saveObject.subjective;
+        // this.objective = saveObject.objective;
+        // this.possessive = saveObject.possessive;
+        // this.article = saveObject.article;
         this.defaultShort = saveObject.defaultShort;
-        this.longDesc = saveObject.longDesc;
-        this.isPlural = saveObject.isPlural;
+        // this.longDesc = saveObject.longDesc;
+        // this.isPlural = saveObject.isPlural;
     }
 }
