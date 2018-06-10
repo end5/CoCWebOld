@@ -1,3 +1,7 @@
+import { TimeModel } from './TimeModel';
+import { DefaultDict } from '../../classes/DefaultDict';
+import { Player } from '../../classes/Player';
+
 export class GameModel {
     public player: Player;
     public oldStats: Object;
@@ -5,9 +9,6 @@ export class GameModel {
 
     public flags: DefaultDict;
 
-    //public debug : boolean;
-    // I think this is supposed to be a compile time constant, sorta...
-    public mobile: boolean;
 
     // TODO: Should this be attached to player instead?
     public maxHP: Function;

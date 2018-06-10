@@ -391,73 +391,6 @@ class Appearance {
         return description;
     }
 
-    /* This special version was only called from Creature.cockMultiLDescriptionShort, and then only if the creature had just one cock.
-        The cock index of 99 was never used, so the extra cock names at the end of the function were never seen as output.
-        Replaced with a call to the more common cockDesript function.
-            public  cockDescription(i_creature:Creature, i_cockIndex: number): string
-            {
-                if (i_creature.totalCocks() == 0) {
-                    CoC_Settings.error("<b>ERROR: CockDescript Called But No Cock Present</b>");
-                    return "<b>ERROR: CockDescript Called But No Cock Present</b>";
-                }
-                if (i_creature.totalCocks() <= i_cockIndex || (i_cockIndex == 99 || i_cockIndex == -1)) {
-                    CoC_Settings.error("<b>ERROR: CockDescript called with index of " + i_cockIndex + " - out of BOUNDS</b>");
-                    return "<b>ERROR: CockDescript called with index of " + i_cockIndex + " - out of BOUNDS</b>";
-                }
-    
-                //Cocknum 99 to default to boring descriptions!
-                if (i_cockIndex != 99) {
-                    switch (i_creature.cocks[i_cockIndex].cockType) {
-                        case CockTypesEnum.ANEMONE:
-                        case CockTypesEnum.BEE:
-                        case CockTypesEnum.CAT:
-                        case CockTypesEnum.DEMON:
-                        case CockTypesEnum.DISPLACER:
-                        case CockTypesEnum.DOG:
-                        case CockTypesEnum.DRAGON:
-                        case CockTypesEnum.FOX:
-                        case CockTypesEnum.HORSE:
-                        case CockTypesEnum.HUMAN:
-                        case CockTypesEnum.KANGAROO:
-                        case CockTypesEnum.LIZARD:
-                        case CockTypesEnum.TENTACLE:
-                            return cockNoun(i_creature.cocks[i_cockIndex].cockType);
-                        default:
-                            CoC_Settings.error("cockDescription failed to describe your cock");
-                            trace("ERROR: Cock type failed to match. " + i_creature.cocks[i_cockIndex].cockType);
-                            return "cockDescription failed to describe your cock";
-                    }
-                }
-                i_cockIndex = 0; //I'm pretty sure this 99 business never gets used anywhere in the code, so this whole lower part of the function is probably orphaned code.
-    
-                var description: string = "";
-                var options:Array;
-    
-                //50% of the time add a descriptor
-                if (rand(2) == 0)
-                    description += i_creature.cockAdjective(i_cockIndex) + " ";
-                var rando: number = 0;
-                options = ["cock",
-                    "prick",
-                    "pecker",
-                    "shaft",
-                    "dick",
-                    "manhood",
-                    "member",
-                    "meatstick",
-                    "schlong",
-                    "wang",
-                    "fuckpole",
-                    "package",
-                    "love muscle",
-                    "rod",
-                    "anaconda"];
-                description += randomChoice(options);
-    
-                return description;
-            }
-    */
-
     public cockDescript(creature: Creature, cockIndex: number = 0): string {
         if (creature.cocks.length == 0) return "<b>ERROR: CockDescript Called But No Cock Present</b>";
         var cockType: CockTypesEnum = CockTypesEnum.HUMAN;
@@ -482,13 +415,6 @@ class Appearance {
     }
 
     public cockNoun(cockType: CockTypesEnum): string {
-        /*
-        if (cockType is int) {
-            trace("Someone is still calling cockNoun with an integer cock type");
-            trace("Fix this shit already, dammit!")
-            cockType = CockTypesEnum.ParseConstantByIndex(cockType);
-        }
-        */
         if (cockType == CockTypesEnum.HUMAN) {
             // Yeah, this is kind of messy
             // there is no other easy way to preserve the weighting fenoxo did
@@ -776,15 +702,6 @@ class Appearance {
             }
             descripts = 1;
         }
-        //Length/Thickness done.  Moving on to special animal characters/lust stuff.
-        /*Animal Fillers - turned off due to duplication in noun segment
-         else if(type == 1 && descripts == 0 && rand(2) == 0) {
-         if(rand(2) == 0) descript += "flared ";
-         else descript += "musky ";
-         }
-         else if(type == 2 && descripts == 0 && rand(2) == 0) {
-         descript += "musky ";
-         }*/
         //FINAL FALLBACKS - lust descriptors
         //Lust stuff
         else if (i_creature.lust > 90) {
@@ -1757,107 +1674,6 @@ class Appearance {
         return this.DEFAULT_WING_NAMES[i_creature.wingType] + " wings";
     }
 
-    /* All of these functions have been replaced with direct calls to the appropriate form of cockNoun().
-            private  humanDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.HUMAN);
-                return descript;
-            }
-    
-            private  kangaDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.KANGAROO);
-                return descript;
-            }
-    
-            public  dogDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.DOG);
-                return descript;
-            }
-    
-            private  foxDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.FOX);
-                return descript;
-            }
-    
-            private  tentacleDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.TENTACLE);
-                return descript;
-            }
-    
-            private  demonDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.DEMON);
-                return descript;
-            }
-    
-    
-            //Horsecock + Descript
-            public  horseDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.HORSE);
-                return descript;
-            }
-    
-            private  catDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.CAT);
-                return descript;
-            }
-    
-            private  anemoneDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.ANEMONE);
-                return descript;
-            }
-    
-            private  dragonDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.DRAGON);
-                return descript;
-            }
-    
-            private  displacerDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.DISPLACER);
-                return descript;
-            }
-    
-    
-            private  snakeDescript(cockNum: number): string
-            {
-                var descript: string = "";
-                //if(rand(2) == 0) descript += cockAdjective(cockNum) + ", ";
-                descript += cockNoun(CockTypesEnum.LIZARD);
-                return descript;
-            }
-    */
-
     public BREAST_CUP_NAMES: Array<any> = [
         "flat",//0
         //				1			2			3			4			5				6			7		8			9
@@ -2372,14 +2188,6 @@ class Appearance {
         }
         return descript;
     }
-
-    /* Moved to Creature.as
-            public  chestDesc(creature:Creature): string
-            {
-                if (creature.biggestTitSize() < 1) return "chest";
-                else return biggestBreastSizeDescript(creature);
-            }
-    */
 
     public assholeOrPussy(creature: Creature): string {
         if (creature.hasVagina()) return this.vaginaDescript(creature, 0);

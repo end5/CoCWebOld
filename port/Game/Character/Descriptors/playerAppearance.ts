@@ -292,7 +292,7 @@ import {
 
 } from './appearanceDefs';
 
-export function appearance(e: MouseEvent = null, player: Player): void {
+export function playerAppearance(e: MouseEvent = null, player: Player): void {
     var funcs = new Array();
     var args = new Array();
     //Temp vars
