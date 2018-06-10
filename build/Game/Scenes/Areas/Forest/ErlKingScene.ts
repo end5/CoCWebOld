@@ -388,7 +388,7 @@ export function repeatWildHuntGivenToTheHounds(character: Character): NextScreen
     character.stats.lust = 0;
     character.stats.fatigue += 10;
     character.orgasm();
-    // character.slimeFeed();
+    character.slimeFeed();
     return character.inventory.items.createAdd(character, ItemType.Consumable, ConsumableName.CaninePepper, Scenes.camp.returnToCampUseOneHour);
     // inventory.takeItem(consumables.CANINEP, Scenes.camp.returnToCampUseOneHour);
 }
@@ -570,7 +570,7 @@ function predatoryPrey(character: Character): NextScreenChoices {
 
             DisplayText("“<i>Take me, Huntsman,</i>” you moan.  His shaft is already poised, his equine dick sliding up into your [vagina], pushing deep inside you.");
             Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
-            // character.cuntChange(12 * 3, true, true, false);
+            // character.displayStretchVagina(12 * 3, true, true, false);
             DisplayText("\n\n");
 
             DisplayText("You gasp, shuddering in delight as he begins to push in and out of you.  His hands shift, holding you under the arms, fucking you against the tree.  The rough bark scratches your back as he thrusts deep inside you.  You feel the triple rings of his prepuce rubbing against your inner walls.\n\n");
@@ -592,7 +592,7 @@ function predatoryPrey(character: Character): NextScreenChoices {
             DisplayText("“<i>Take me, Huntsman,</i>” you groan.  His shaft is already at your [ass].  His equine dick pushing up into your [asshole], pushing deep inside you.");
 
             Mod.Butt.displayStretchButt(character, 12 * 3, true, true, false);
-            // character.buttChange(12 * 3, true, true, false);
+            // character.displayStretchButt(12 * 3, true, true, false);
             DisplayText("\n\n");
 
             DisplayText("You gasp, shuddering in delight as he begins to push in and out of you.  His hands shift, one at the small of your back, steadying you, fucking you against the tree.  The other squeezes tight around your dick, jacking you off, gloved hand stroking you roughly in time to his thrusts.  The coarse bark of the tree scratches at your back as you feel the triple rings of his prepuce rubbing against the inner walls of your [asshole].  \n\n");
@@ -613,7 +613,7 @@ function predatoryPrey(character: Character): NextScreenChoices {
             DisplayText("With your [chest] against the rough bark, he lifts your [tail], exposing your [pussy] to the swelling head of his equine cock.  With a soft sound, he pushes between your lips, letting you feel each prepuce ring as they squeeze into you.");
 
             Mod.Vagina.displayStretchVagina(character, 12 * 3, true, true, false);
-            // character.cuntChange(12 * 3, true, true, false);
+            // character.displayStretchVagina(12 * 3, true, true, false);
             DisplayText("\n\n");
 
             DisplayText("You wrap your arms around the trunk of the tree as his hands grip your flanks.  His own equine legs begin thrusting him against you, his ribbed cock sliding in and out of your [pussy], the ridges of his horselike shaft massaging you from the inside.  The force of his fucking ginds your [chest] against the tree.");
@@ -662,7 +662,7 @@ function predatoryPrey(character: Character): NextScreenChoices {
     }
 
     character.orgasm();
-    // character.slimeFeed();
+    character.slimeFeed();
 
     return { next: Scenes.camp.returnToCampUseOneHour };
 }

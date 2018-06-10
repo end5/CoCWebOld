@@ -103,7 +103,7 @@ export class TatteredScroll extends Consumable {
         // character.orgasm();
         // character.stats.lib += 1;
         // character.stats.sens += 5;
-        // character.slimeFeed();
+        character.slimeFeed();
         // }
     }
 }

@@ -23,7 +23,7 @@ export class IncubusDraft extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         let changeAmount: number = randInt(100);
         if (character.perks.has(PerkType.HistoryAlchemist))
             changeAmount += 10;

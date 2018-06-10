@@ -12,7 +12,7 @@ export class VitalityTincture extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText().clear();
         DisplayText("You down the contents of the bottle. The liquid is thick and tastes remarkably like cherries. Within moments, you feel much more fit and healthy.");
         // str change

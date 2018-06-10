@@ -123,11 +123,11 @@ export function describeRace(character: Character): string {
     if (RaceScore.catScore(character) >= 4)
         race = "cat-" + Desc.Gender.mf(character, "boy", "girl");
     if (RaceScore.lizardScore(character) >= 4) {
-        if (character.gender === 0)
+        if (character.gender === Gender.NONE)
             race = "lizan";
-        else if (character.gender === 1)
+        else if (character.gender === Gender.MALE)
             race = "male lizan";
-        else if (character.gender === 2)
+        else if (character.gender === Gender.FEMALE)
             race = "female lizan";
         else
             race = "hermaphrodite lizan";

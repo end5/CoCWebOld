@@ -18,7 +18,7 @@ import { ItemDesc } from '../ItemDesc';
     Ass reduction
     Testicles return inside your body (could be reverted by the use of succubi delight)
     Can change penis into reptilian form  (since there's a lot of commentary here not knowing where to go, let me lay it out.)
-    the change will select one cock (Utils.randomly if you have multiple)
+    the change will select one cock (strand if you have multiple)
     said cock will become two reptilian cocks
     these can then be affected separately, so if someone wants to go through the effort of removing one and leaving themselves with one reptile penis, they have the ability to do that
     This also means that someone who's already reached the maximum numbers of dicks cannot get a reptilian penis unless they remove one first
@@ -41,7 +41,7 @@ export class SnakeOil extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText().clear();
         let changes: number = 0;
         let changeLimit: number = 1;

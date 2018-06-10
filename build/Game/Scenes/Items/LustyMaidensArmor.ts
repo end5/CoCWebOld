@@ -49,7 +49,7 @@ export function lustyMaidenPaizuri(character: Character, monster: Character): Ne
     DisplayText("\n\nThe stink of sperm slowly fades as you move, almost seeming to absorb into your skin.  It leaves you with a healthy glow and a surety to your movements, sure that your revealing armor is going to protect you.");
 
     // Slimefeed, minus slight corruption if PC is a virgin, raise sensitivity
-    // character.slimeFeed();
+    character.slimeFeed();
     // Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] += 2;
     // if (Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] > 8)
     //     Flags.list[FlagEnum.BIKINI_ARMOR_BONUS] = 8;

@@ -28,7 +28,7 @@ export class FerretFruit extends Consumable {
     public use(character: Character) {
         // CoC Ferret TF (Ferret Fruit)
         // Finding Ferret Fruit
-        // - Ferret Fruit may be Utils.randomly found while exploring the plains.
+        // - Ferret Fruit may be strand found while exploring the plains.
         // - Upon finding Ferret Fruit: 'While searching the plains, you find an odd little tree with a curved trunk. The shape of its fruit appears to mimic that of the tree. A few of the fruits seem to have fallen off. You brush the dirt off of one of the fruits before placing in in your (x) pouch. (if there is no room in your inventory, you get the generic option to use now or abandon)
         // - If you hover over the fruit in your inventory, this is its description:  'This fruit is curved oddly, just like the tree it came from.  The skin is fuzzy and brown, like the skin of a peach.'
         // -Upon eating the fruit:

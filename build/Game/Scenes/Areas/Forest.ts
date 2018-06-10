@@ -112,10 +112,10 @@ function tentacleEncounter(character: Character): NextScreenChoices {
         }
         else {
             DisplayText("As you wander in the forest, you keep ");
-            if (character.gender === 1) DisplayText("stroking your half-erect " + Desc.Cock.describeMultiCockShort(character) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes.");
-            if (character.gender === 2) DisplayText("idly toying with your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about getting fucked by all kinds of monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
-            if (character.gender === 3) DisplayText("stroking alternatively your " + Desc.Cock.describeMultiCockShort(character) + " and your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes, before, or while, getting fucked by various monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
-            if (character.gender === 0) DisplayText("daydreaming about sex-demons with huge sexual attributes, and how you could please them.");
+            if (character.gender === Gender.MALE) DisplayText("stroking your half-erect " + Desc.Cock.describeMultiCockShort(character) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes.");
+            if (character.gender === Gender.FEMALE) DisplayText("idly toying with your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about getting fucked by all kinds of monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
+            if (character.gender === Gender.HERM) DisplayText("stroking alternatively your " + Desc.Cock.describeMultiCockShort(character) + " and your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " as you daydream about fucking all kinds of women, from weeping tight virgins to lustful succubi with gaping, drooling fuck-holes, before, or while, getting fucked by various monstrous cocks, from minotaurs' thick, smelly dongs to demons' towering, bumpy pleasure-rods.");
+            if (character.gender === Gender.NONE) DisplayText("daydreaming about sex-demons with huge sexual attributes, and how you could please them.");
             DisplayText("");
             character.stats.tou += 0.5;
             character.stats.lib += 0.25;

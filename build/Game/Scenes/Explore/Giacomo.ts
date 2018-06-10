@@ -137,7 +137,7 @@ function eroticaMenu(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText().clear();
     DisplayText("Giacomo's grin is nothing short of creepy as he offers his wares to you.  What are you interested in?");
-    if (character.gender === 1)
+    if (character.gender === Gender.MALE)
         return {
             choices: [
                 ["Dildo", pitchDildo],
@@ -146,7 +146,7 @@ function eroticaMenu(character: Character): NextScreenChoices {
                 ["Back", encounter]
             ]
         };
-    if (character.gender === 2)
+    if (character.gender === Gender.FEMALE)
         return {
             choices: [
                 ["Dildo", pitchDildo],
@@ -155,7 +155,7 @@ function eroticaMenu(character: Character): NextScreenChoices {
                 ["Back", encounter]
             ]
         };
-    if (character.gender === 3)
+    if (character.gender === Gender.HERM)
         return {
             choices: [
                 ["Onahole", pitchOnahole],
@@ -168,7 +168,7 @@ function eroticaMenu(character: Character): NextScreenChoices {
                 ["Back", encounter]
             ]
         };
-    if (character.gender === 0)
+    if (character.gender === Gender.NONE)
         return {
             choices: [
                 ["Dildo", pitchDildo],
@@ -572,7 +572,7 @@ function wormRemovalOffer(character: Character): NextScreenChoices {
 function nightSuccubiFirstTime(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
     DisplayText("\nAs you sleep, your rest becomes increasingly disturbed.  You feel a great weight on top of you and you find it difficult to breathe.  Stirred to consciousness, your eyes are greeted by an enormous pair of blue tinged breasts.  The nipples are quite long and thick and are surrounded by large, round areola.  A deep, feminine voice breaks the silence.  \"<i>I was wondering if you would wake up.</i>\"  You turn your head to the voice to see the visage of a sharp-featured, attractive woman.  The woman grins mischievously and speaks again.  \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\"  Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features.  The pupils of her eyes are slit like a cat's.  As she grins, she bares her teeth, which contain two pairs of long and short fangs.  This woman is clearly NOT human!  In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground.  You see that each finger on her hand also contains a fourth joint, further proving her status.  Before you can speak a word, the woman begins mocking your fear and places her face in front of yours.  Her face is almost certainly demonic in nature.\n\n");
-    if (character.gender === 0) {
+    if (character.gender === Gender.NONE) {
         DisplayText("She quickly moves down to your crotch... only to discover no organs down there.\n\n");
         DisplayText("*record scratch*\n\n");
         DisplayText("\"<i>Wait a fucking minute,</i>\" the Succubus says, \"<i>Where's your dick?!</i>\"\n\n");
@@ -589,9 +589,9 @@ function nightSuccubiFirstTime(character: Character): NextScreenChoices {
         (User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_NEUTER_ATTEMPTED = 1;
         return { next: Menus.Player };
     }
-    if (character.gender === 1)
+    if (character.gender === Gender.MALE)
         DisplayText("\"<i>Awwww!  Did my blue skin and pointy teeth scare you?</i>\" she says in a childish voice.  \"<i>Believe me stud, if I wanted to harm you, I would not have let you wake up at all.  I am here because you have 'called' me.</i>\"  She teases you with the empty blue bottle you bought from the merchant.  \"<i>My essence is in this bottle.  Any man who drinks this, I am compelled to return the pleasure by drinking his.</i>\"  The demon woman reaches her skinny hand down to your crotch where you see you have become fiercely erect.  The demon gently strokes your cock until you begin oozing generous amounts of your own natural lubricants.  The demon takes one of her massive breasts and teases you with her fat nipples.  \"<i>Open your mouth,</i>\" she demands.  \"<i>Take me into your mouth as I will soon take you into mine.</i>\"\n\n");
-    else if (character.gender === 3) {
+    else if (character.gender === Gender.HERM) {
         (User.flags.get("Player") as PlayerFlags).UNKNOWN_FLAG_NUMBER_00111++;
         DisplayText("\nIt is obvious that you have been confronted by a succubus.  As the fire illuminates your captor, her grin widens broadly.\n\n");
         DisplayText("\"<i>Well, well, well!</i>\" the Succubus jingles.  \"<i>What have we here?!  A little girl with a big cock!</i>\"\n\n");
@@ -608,7 +608,7 @@ function nightSuccubiFirstTime(character: Character): NextScreenChoices {
 function ceruleanSuccubusEncounterPart2(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Giacomo);
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         DisplayText("Your natural instincts immediately take over and you open your mouth and allow her nipple inside.  Immediately, your mouth has a mind of its own as you press your head firmly into her breast and begin suckling the unnaturally long teat like a starving baby.  The demon-woman laughs in satisfaction.  \"<i>To think, that you believed me to do you harm!</i>\" she taunts.  \"<i>Drink, little man.  Feed your lust as you will soon feed mine.</i>\"  Immediately, you feel her milk flood your mouth.  Its taste immediately reminds you of the potion you got from Giacomo.  You realize the potion was not a potion at all, but this demon's breast milk!  Concerned only for your blind libido, the suction of your mouth coaxes torrents of the devil's fluid into your mouth and down your throat.  She continues teasing your cock only enough to maintain your erection.  In time, your stomach signals that you are full and you break the seal from her tit, making a loud 'pop'.  She briefly hoses you down with milk, soaking you.\n\n");
         DisplayText("The demon has a satisfied look on her face.  \"<i>Did I taste good?  Was I wholesome and fulfilling?</i>\" she asks.  \"<i>Since you have fed from my life-milk, it is only fair that I do the same.  To be fair, 'yes', I am as fierce as I look and I will leave you sore and insensible.  However, I do so to pleasure you and feed myself.  Accept it and be happy.</i>\"  She gives you another inhumanly toothy grin and kisses you deeply.  A small pang of fear still shoots through you as you feel the sharpness of her teeth.  She breaks away from your lips and sighs in excitement.  \"<i>Now, I FEED!</i>\" she utters jubilantly.");
     }
@@ -628,7 +628,7 @@ function ceruleanSuccubusEncounterPart2(character: Character): NextScreenChoices
 function ceruleanSuccubusEncounterPart3(character: Character): NextScreenChoices {
     DisplayText().clear();
     DisplaySprite(SpriteName.Giacomo);
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         DisplayText("Rotating herself into a 69 position, she seizes your throbbing member and effortlessly begins deep throating.  Her thighs wrap around your head and confront you with her surprisingly hairy pussy.  Her clitoris is long and erect, begging for attention and the smell of her pheromones enslaves you.  You bury your face into her furry mound, ignoring your normal revulsion to such an unshaved state and begin eating her as well as any woman you have ever pleased.  The demon takes your cock out of her mouth to cry in delight.  \"<i>YES, LITTLE MAN!</i>\" she screams.  \"<i>LICK ME!  TEASE ME!  LOVE MY WOMB WITH YOUR TONGUE!</i>\"  She responds by clamping her mouth around the head of your penis and sucking smartly.  A sharp pain in your ass signals the entry of her bony fingers working their way to your inner manhood.  Finding the root of your sex easily, she mashes down to force you to cum.\n\n");
         DisplayText("Finding it impossible to resist such pleasure, you immediately begin cumming.  Glob after glob, stream after stream of your semen shoots into the woman's mouth.  Her timed sucking ensures that she swallows each drop as you launch it into her.  While you have been proud of the ability to cum in a woman for over a minute, you are wracked with both pain and pleasure as your ejaculations continue for almost ten.  Once you have spent your last, the demon releases your penis to bear down on your face with her thighs and unloads a massive squirting orgasm.  Your face is soaked with pussy juice as you see her cunt spasm from the force of her pleasure.  The sight of her rhythmic muscles is hypnotic.  She then promptly removes her finger from your ass.");
     }
@@ -648,7 +648,7 @@ function ceruleanSuccubusEncounterPart3(character: Character): NextScreenChoices
 
 function ceruleanSuccubusEncounterPart4(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         DisplayText().clear();
         DisplayText("She stands up and helps you to your feet.  While dazed, ");
         if (character.tallness < 80)
@@ -667,7 +667,7 @@ function ceruleanSuccubusEncounterPart4(character: Character): NextScreenChoices
 
 function nightSuccubiRepeat(character: Character): NextScreenChoices {
     DisplaySprite(SpriteName.Giacomo);
-    if (character.gender === 0) {
+    if (character.gender === Gender.NONE) {
         if ((User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_NEUTER_ATTEMPTED === 0) {
             DisplayText("\nAs you sleep, your rest becomes increasingly disturbed. You feel a great weight on top of you and you find it difficult to breathe. Stirred to consciousness, your eyes are greeted by an enormous pair of blue-tinged breasts. The nipples are quite long and thick and are surrounded by large, round areola. A deep, feminine voice breaks the silence, \"<i>I was wondering if you would wake up.</i>\" You turn your head to the voice to see the visage of a sharp featured, attractive woman. The woman grins mischievously and speaks again, \"<i>I was hoping that idiot, Giacomo, did not dilute the 'potion' again.</i>\" Your campfire reflects off the woman's face and her beauty contains some sharply contrasting features. The pupils of her eyes are slit like a cat's. As she grins, she bares her teeth, which contain two pairs of long and short fangs. This woman is clearly NOT human! In shock, you attempt to get up, only prompting the woman to prove her inhuman nature by grabbing your shoulders and pinning you to the ground. You see that each finger on her hand also contains a fourth joint, further proving her status. Before you can speak a word, the woman begins mocking your fear and places her face in front of yours. Her face is almost certainly demonic in nature.\n\n");
             DisplayText("She quickly moves down to your crotch...only to discover no organs down there.\n\n");
@@ -722,7 +722,7 @@ function nightSuccubiRepeat(character: Character): NextScreenChoices {
     }
     character.orgasm();
     character.stats.cor += 2;
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         if (character.stats.cor < 66) {
             DisplayText("\nAgainst your better judgment, you've again partaken of the cerulean elixir and fallen asleep. You are quickly awakened by a thick nipple being thrust into your mouth and torrents of breast milk gushing down your throat as the succubus returns to have her way with you. Looking up, your eyes meet hers as a hungry manipulative grin stretches across her blue face. Unable to control your lust, your prick jumps to attention, which prompts the demoness to ");
             if (character.torso.hips.legs.isTaur()) DisplayText(" crouch between your legs and impale herself on your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " with a wet sound caused by her well-lubricated vulva. Y");
@@ -759,7 +759,7 @@ function nightSuccubiRepeat(character: Character): NextScreenChoices {
             character.stats.lib += -1;
         }
     }
-    else if (character.gender === 3) {
+    else if (character.gender === Gender.HERM) {
         // Bad End-Cerulean Succubus Futa/herm
         // [Conditions: Corruption >50. Drink 10 Cerulean potions over the course of 20 Days. (Other stipulations as required that prevent interference with other events-to be determined)]
         if ((User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_BAD_END_FUTA_COUNTER > 10 && character.stats.cor > 50) {

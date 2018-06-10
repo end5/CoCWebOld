@@ -69,7 +69,7 @@ export class SharkTooth extends Consumable {
         }
         // Smexual stuff!
         // -TIGGERSHARK ONLY: Grow a cunt (guaranteed if no gender)
-        if (this.enhanced && (character.gender === 0 || (character.torso.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0))) {
+        if (this.enhanced && (character.gender === Gender.NONE || (character.torso.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0))) {
             changes++;
             // (balls)
             if (character.torso.balls.quantity > 0)
@@ -78,7 +78,7 @@ export class SharkTooth extends Consumable {
             else if (character.torso.cocks.count > 0)
                 DisplayText("\n\nAn itch starts on your groin, just below your " + Desc.Cock.describeMultiCockShort(character) + ". You pull the manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
-            else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your bUtils.Utils.rand( new vagina, complete with pussy lips and a tiny clit.</b>");
+            else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             const newVagina: Vagina = new Vagina();
             character.torso.vaginas.add(newVagina);
             character.stats.sens += 10;
@@ -145,7 +145,7 @@ export class SharkTooth extends Consumable {
         // Tail TF
         if (character.torso.tails.reduce(Tail.HasType(TailType.SHARK), false) && randInt(3) === 0 && changes < changeLimit) {
             changes++;
-            if (character.torso.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your bUtils.Utils.rand( new shark tail.");
+            if (character.torso.tails.count >= 1) DisplayText("\n\nJets of pain shoot down your spine, causing you to gasp in surprise and fall to your hands and knees. Feeling a bulging at the end of your back, you lower your " + character.inventory.equipment.armor.displayName + " down just in time for a fully formed shark tail to burst through. You swish it around a few times, surprised by how flexible it is. After some modifications to your clothing, you're ready to go with your brand new shark tail.");
             else DisplayText("\n\nJets of pain shoot down your spine into your tail.  You feel the tail bulging out until it explodes into a large and flexible shark-tail.  You swish it about experimentally, and find it quite easy to control.");
             character.torso.tails.clear();
             character.torso.tails.add(new Tail(TailType.SHARK));
@@ -170,7 +170,7 @@ export class SharkTooth extends Consumable {
                 changes++;
             }
             else {
-                DisplayText("Your skin begins to tingle and itch, before rapidly shifting to a shiny orange color, marked by Utils.random black stripes. You take a quick look in a nearby pool of water, to see your skin has morphed in appearance and texture to become more like a tigershark!");
+                DisplayText("Your skin begins to tingle and itch, before rapidly shifting to a shiny orange color, marked by randIntom black stripes. You take a quick look in a nearby pool of water, to see your skin has morphed in appearance and texture to become more like a tigershark!");
                 character.skin.type = SkinType.PLAIN;
                 character.skin.desc = "skin";
                 character.skin.tone = "orange and black striped";

@@ -16,7 +16,7 @@ export class MinotaurCum extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         // Minotaur cum addiction
         // character.minoCumAddiction(7);
         DisplayText().clear();

@@ -25,7 +25,7 @@ export class SuccubiMilk extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         let chance: number = randInt(100);
         if (character.perks.has(PerkType.HistoryAlchemist)) chance += 10;
         if (chance >= 90 && !this.tainted) chance -= 10;
@@ -33,7 +33,7 @@ export class SuccubiMilk extends Consumable {
         if (character.stats.cor < 35) DisplayText("You wonder why in the gods' names you would drink such a thing, but you have to admit, it is the best thing you have ever tasted.");
         if (character.stats.cor >= 35 && character.stats.cor < 70) {
             DisplayText("You savor the incredible flavor as you greedily gulp it down.");
-            if (character.gender === 2 || character.gender === 3) {
+            if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
                 DisplayText("  The taste alone makes your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " feel ");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.DRY) DisplayText("tingly.");
                 if (character.torso.vaginas.get(0).wetness === VaginaWetness.NORMAL) DisplayText("wet.");
@@ -45,7 +45,7 @@ export class SuccubiMilk extends Consumable {
         }
         if (character.stats.cor >= 70) {
             DisplayText("You pour the milk down your throat, chugging the stuff as fast as you can.  You want more.");
-            if (character.gender === 2 || character.gender === 3) {
+            if (character.gender === Gender.FEMALE || character.gender === Gender.HERM) {
                 DisplayText("  Your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
                 if (character.torso.vaginas.count > 1) DisplayText(" quiver in orgasm, ");
                 if (character.torso.vaginas.count === 1) DisplayText(" quivers in orgasm, ");

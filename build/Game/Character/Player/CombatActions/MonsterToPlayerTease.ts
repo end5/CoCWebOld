@@ -16,10 +16,10 @@ export class MonsterToPlayerTease {
         }
         else {
             DisplayText("As the " + monster.desc.short + " mill around you, their bodies rub constantly over yours, and it becomes harder and harder to keep your thoughts on the fight or resist reaching out to touch a well lubricated cock or pussy as it slips past.  You keep subconsciously moving your ");
-            if (character.gender === 1) DisplayText(Desc.Cock.describeMultiCockShort(character) + " towards the nearest inviting hole.");
-            if (character.gender === 2) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " towards the nearest swinging cock.");
-            if (character.gender === 3) DisplayText("aching cock and thirsty pussy towards the nearest thing willing to fuck it.");
-            if (character.gender === 0) DisplayText("groin, before remember there is nothing there to caress.");
+            if (character.gender === Gender.MALE) DisplayText(Desc.Cock.describeMultiCockShort(character) + " towards the nearest inviting hole.");
+            if (character.gender === Gender.FEMALE) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " towards the nearest swinging cock.");
+            if (character.gender === Gender.HERM) DisplayText("aching cock and thirsty pussy towards the nearest thing willing to fuck it.");
+            if (character.gender === Gender.NONE) DisplayText("groin, before remember there is nothing there to caress.");
         }
         character.stats.lust += 10 + character.stats.sens / 10;
     }

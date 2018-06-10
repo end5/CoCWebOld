@@ -114,7 +114,7 @@ export class PlayerEndScenes extends EndScenes {
         //     DisplayText("  Somehow you came away from the encounter with " + ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]).longName + ".\n\n");
         //     inventory.takeItem(ItemType.lookupItem(Flags.list[FlagEnum.BONUS_ITEM_AFTER_COMBAT_ID]), createCallBackFunction(Game.camp.returnToCamp, timePasses));
         // }
-        // else MainScreen.doNext(createCallBackFunction(Scenes.camp.returnToCamp, timePasses));
+        // else return { next: createCallBackFunction(Scenes.camp.returnToCamp, timePasses) };
 
         return { next: Scenes.camp.returnToCampUseEightHours };
     }

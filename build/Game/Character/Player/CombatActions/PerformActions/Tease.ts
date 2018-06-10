@@ -343,11 +343,11 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
         if (largestBreastRating >= 80) choices[TeaseType.Feeder]++;
     }
     // 28 FEMALE TEACHER COSTUME TEASE
-    if (character.inventory.equipment.armor.displayName === "backless female teacher's clothes" && character.gender === 2) {
+    if (character.inventory.equipment.armor.displayName === "backless female teacher's clothes" && character.gender === Gender.FEMALE) {
         choices[TeaseType.ClothesFemaleTeacher] += 4;
     }
     // 29 Male Teacher Outfit Tease
-    if (character.inventory.equipment.armor.displayName === "formal vest, tie, and crotchless pants" && character.gender === 1) {
+    if (character.inventory.equipment.armor.displayName === "formal vest, tie, and crotchless pants" && character.gender === Gender.MALE) {
         choices[TeaseType.ClothesMaleTeacher] += 4;
     }
     // 30 Naga Fetish Clothes
@@ -359,11 +359,11 @@ function determineTeaseChoice(character: Character, monster: Character, bimbo: b
         choices[TeaseType.ClothesCentaurHarness] += 4;
     }
     // 32 Genderless servant clothes
-    if (character.inventory.equipment.armor.displayName === "servant's clothes" && character.gender === 0) {
+    if (character.inventory.equipment.armor.displayName === "servant's clothes" && character.gender === Gender.NONE) {
         choices[TeaseType.ClothesGenderlessServant] += 4;
     }
     // 33 Crotch Revealing Clothes (herm only?)
-    if (character.inventory.equipment.armor.displayName === "crotch-revealing clothes" && character.gender === 3) {
+    if (character.inventory.equipment.armor.displayName === "crotch-revealing clothes" && character.gender === Gender.HERM) {
         choices[TeaseType.ClothesCrotchRevealing] += 4;
     }
     // 34 Maid Costume (female only):
@@ -905,7 +905,7 @@ export class Tease implements CombatAction {
             case TeaseType.KitsuneGendered:
                 DisplayText("Smirking coyly, you sway from side to side, running your tongue along your upper teeth seductively.  You hook your thumbs into your " + character.inventory.equipment.armor.displayName + " and pull them away to partially reveal ");
                 if (character.torso.cocks.count > 0) DisplayText(Desc.Cock.describeMultiCockSimpleOne(character));
-                if (character.gender === 3) DisplayText(" and ");
+                if (character.gender === Gender.HERM) DisplayText(" and ");
                 if (character.gender >= 2) DisplayText("your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)));
                 DisplayText(".  Your bushy tail" + ((character.torso.tails.count > 1) ? "s" : "") + " cross" + ((character.torso.tails.count > 1) ? "" : "es") + " in front, wrapping around your genitals and obscuring the view teasingly.");
                 vagina = true;

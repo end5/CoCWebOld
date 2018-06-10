@@ -18,7 +18,7 @@ export class SuccubisDelight extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         let changes: number = 0;
         let crit: number = 1;
         // Determine crit multiplier (x2 or x3)

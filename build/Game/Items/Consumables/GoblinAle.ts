@@ -24,7 +24,7 @@ export class GoblinAle extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         let changes: number = 0;
         let changeLimit: number = 1;
         if (randInt(2) === 0) changeLimit++;
@@ -52,7 +52,7 @@ export class GoblinAle extends Consumable {
         // antianemone corollary:
         if (changes < changeLimit && character.torso.neck.head.hair.type === 4 && randInt(2) === 0) {
             // -insert anemone hair removal into them under whatever criteria you like, though hair removal should precede abdomen growth; here's some sample text:
-            DisplayText("\n\nAs you down the potent ale, your head begins to feel heavier - and not just from the alcohol!  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels smooth, silky, and fibrous; you watch as it dissolves into many thin, hair-like stUtils.Utils.rand(s.  <b>Your hair is now back to normal!</b>");
+            DisplayText("\n\nAs you down the potent ale, your head begins to feel heavier - and not just from the alcohol!  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels smooth, silky, and fibrous; you watch as it dissolves into many thin, hair-like strands.  <b>Your hair is now back to normal!</b>");
             character.torso.neck.head.hair.type = 0;
             changes++;
         }

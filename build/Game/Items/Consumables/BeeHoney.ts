@@ -63,7 +63,7 @@ export class BeeHoney extends Consumable {
         const chest = character.torso.chest;
 
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         // Chances of boosting the change limit.
         if (randInt(2) === 0) changeLimit++;
         if (randInt(2) === 0) changeLimit++;
@@ -114,7 +114,7 @@ export class BeeHoney extends Consumable {
         // bee item corollary:
         if (changes < changeLimit && character.torso.neck.head.hair.type === 4 && randInt(2) === 0) {
             // -insert anemone hair removal into them under whatever criteria you like, though hair removal should precede abdomen growth; here's some sample text:
-            DisplayText("\n\nAs you down the sticky-sweet honey, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels and smells like the honey you just ate; you watch as it dissolves into many thin stUtils.rand(s coated in the sugary syrup.  <b>Your hair is back to normal (well, once you wash the honey out)!</b>");
+            DisplayText("\n\nAs you down the sticky-sweet honey, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels and smells like the honey you just ate; you watch as it dissolves into many thin strands coated in the sugary syrup.  <b>Your hair is back to normal (well, once you wash the honey out)!</b>");
             character.torso.neck.head.hair.type = 0;
             changes++;
         }
@@ -130,7 +130,7 @@ export class BeeHoney extends Consumable {
         // Appearance Stuff
         // Hair Color
         if (changes < changeLimit && (character.torso.neck.head.hair.color !== "shiny black" && character.torso.neck.head.hair.color !== "black and yellow") && character.torso.neck.head.hair.length > 10 && randInt(2) === 0) {
-            DisplayText("\n\nYou feel your scalp tingling, and you grab your hair in a panic, pulling a stUtils.rand( forward.  ");
+            DisplayText("\n\nYou feel your scalp tingling, and you grab your hair in a panic, pulling a strand forward.  ");
             if (randInt(9) === 0) character.torso.neck.head.hair.color = "black and yellow";
             else character.torso.neck.head.hair.color = "shiny black";
             DisplayText("Your hair is now " + character.torso.neck.head.hair.color + ", just like a bee-girl's!");

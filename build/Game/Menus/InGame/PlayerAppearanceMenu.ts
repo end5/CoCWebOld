@@ -821,7 +821,7 @@ function lowerBodySex(character: Character) {
     // Crotchial stuff - mention snake
     if (character.torso.hips.legs.type === LegType.NAGA && character.gender > 0) {
         DisplayText("Your sex");
-        if (character.gender === 3 || character.torso.cocks.count > 1)
+        if (character.gender === Gender.HERM || character.torso.cocks.count > 1)
             DisplayText("es are ");
         else DisplayText(" is ");
         DisplayText("concealed within a cavity in your tail when not in use, though when the need arises, you can part your concealing slit and reveal your true self.");

@@ -4,5 +4,9 @@
         "module": "commonjs",
         "sourceMap": true,
         "outDir": "Build"
-    }
+    },
+    "exclude": [
+        "main.js",
+        "Build/"
+    ]
 }

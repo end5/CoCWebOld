@@ -247,14 +247,14 @@ function plantsForMe2(character: Character, BE: number = 0): NextScreenChoices {
         DisplayText("\n\nYou sit there for the next hour or two, milking your bloated bosom and giving the flora a generous watering in the process.  When all is taken care of, you stumble back upright with a brief struggle and don your gear once more.  The smell of fresh-cut flowers seems to linger on your [armor] as you depart.");
     }
     if (character.torso.chest.count > 0 && character.isLactating()) {
-        // character.milked();
+        character.milked();
         // Mod.Breast.boostLactation(character, 0.01);
         Mod.Breast.boostLactation(character, 0.01);
     }
     character.orgasm();
     character.stats.lib += 1;
     // Slimefeed!
-    // character.slimeFeed();
+    character.slimeFeed();
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -301,15 +301,15 @@ function feedTrappedEssy(character: Character): NextScreenChoices {
 
     essrayleFlags.dungeonFucked++;
 
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         DisplayText("\n\n");
         return hasCockFeedEssy(character);
     }
-    if (character.gender === 2) {
+    if (character.gender === Gender.FEMALE) {
         DisplayText("\n\n");
         return hasPussyFeedEssy(character);
     }
-    if (character.gender === 3) {
+    if (character.gender === Gender.HERM) {
         DisplayText("  How best to make use of this floral beauty?");
         return { choices: [["Cock", hasCockFeedEssyClear], ["Pussy", hasPussyFeedEssyClear]] };
     }

@@ -22,7 +22,7 @@ export class TemporaryHeat extends CombatEffect {
             else if (character.torso.cocks.count > 0) {
                 out = "Your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " pulses and twitches, overwhelmed with the desire to breed.  ";
             }
-            if (character.gender === 0) {
+            if (character.gender === Gender.NONE) {
                 out = "You feel a tingle in your " + Desc.Butt.describeButthole(character.torso.butt) + ", and the need to touch and fill it nearly overwhelms you.  ";
             }
             DisplayText(out + "If you don't finish this soon you'll give in to this potent drug!");

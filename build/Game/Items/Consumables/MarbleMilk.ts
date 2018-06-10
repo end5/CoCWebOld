@@ -15,7 +15,7 @@ export class MarbleMilk extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         // Bottle of Marble's milk - item
         // Description: "A clear bottle of milk from Marble's breasts. �It smells delicious.  "
         DisplayText().clear();

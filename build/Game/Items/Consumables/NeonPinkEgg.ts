@@ -73,7 +73,7 @@ export class NeonPinkEgg extends Consumable {
             // Lower ones are gender specific for some reason
             if (character.stats.lib < 60) {
                 // (Cunts or assholes!
-                if (character.torso.cocks.count <= 0 || (character.gender === 3 && randInt(2) === 0)) {
+                if (character.torso.cocks.count <= 0 || (character.gender === Gender.HERM && randInt(2) === 0)) {
                     if (character.stats.lib < 30) {
                         DisplayText("\n\nYou squirm a little and find your eyes glancing down to your groin.  Strange thoughts jump to mind, wondering how it would feel to breed until you're swollen and pregnant.  ");
                         if (character.stats.cor < 25) DisplayText("You're repulsed by such shameful thoughts.");
@@ -103,9 +103,9 @@ export class NeonPinkEgg extends Consumable {
                 DisplayText("\n\nYou fan your neck and start to pant as your " + character.skin.tone + " skin begins to flush red with heat");
                 if (character.skin.type > SkinType.PLAIN) DisplayText(" through your " + character.skin.desc);
                 DisplayText(".  ");
-                if (character.gender === 1) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
-                else if (character.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
+                if (character.gender === Gender.MALE) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
+                else if (character.gender === Gender.NONE) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                else if (character.gender === Gender.FEMALE) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
                 else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + Desc.Cock.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }
             // MEGALIBIDO
@@ -141,13 +141,13 @@ export class NeonPinkEgg extends Consumable {
                 else if (character.torso.chest.sort(BreastRow.LactationMultipierLargest)[0].lactationMultiplier > 2) DisplayText(", sliding over the milk-leaking teats with ease");
                 else DisplayText(" catching on each of the hard nubs repeatedly");
                 DisplayText(".  Meanwhile, your crotch... your crotch is filled with such heavenly sensations from ");
-                if (character.gender === 1) {
+                if (character.gender === Gender.MALE) {
                     DisplayText(Desc.Cock.describeMultiCockSimpleOne(character) + " and your ");
                     if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character));
                     else DisplayText(Desc.Butt.describeButthole(character.torso.butt));
                 }
-                else if (character.gender === 2) DisplayText("your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Vagina.describeClit(character));
-                else if (character.gender === 3) {
+                else if (character.gender === Gender.FEMALE) DisplayText("your " + Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Vagina.describeClit(character));
+                else if (character.gender === Gender.HERM) {
                     DisplayText(Desc.Cock.describeMultiCockSimpleOne(character) + ", ");
                     if (character.torso.balls.quantity > 0) DisplayText(Desc.Balls.describeBalls(true, true, character) + ", ");
                     DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + ", and " + Desc.Vagina.describeClit(character));
@@ -317,7 +317,7 @@ export class NeonPinkEgg extends Consumable {
             // Lower ones are gender specific for some reason
             if (character.stats.lib < 60) {
                 // (Cunts or assholes!
-                if (character.torso.cocks.count <= 0 || (character.gender === 3 && randInt(2) === 0)) {
+                if (character.torso.cocks.count <= 0 || (character.gender === Gender.HERM && randInt(2) === 0)) {
                     if (character.stats.lib < 30) {
                         DisplayText("\n\nYou squirm a little and find your eyes glancing down to your groin.  Strange thoughts jump to mind, wondering how it would feel to breed until you're swollen and pregnant.  ");
                         if (character.stats.cor < 25) DisplayText("You're repulsed by such shameful thoughts.");
@@ -347,9 +347,9 @@ export class NeonPinkEgg extends Consumable {
                 DisplayText("\n\nYou fan your neck and start to pant as your " + character.skin.tone + " skin begins to flush red with heat");
                 if (character.skin.type > SkinType.PLAIN) DisplayText(" through your " + character.skin.desc);
                 DisplayText(".  ");
-                if (character.gender === 1) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
-                else if (character.gender === 0) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
-                else if (character.gender === 2) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
+                if (character.gender === Gender.MALE) DisplayText("Compression tightens down on " + Desc.Cock.describeMultiCockSimpleOne(character) + " as it strains against your " + character.inventory.equipment.armor.displayName + ".  You struggle to fight down your heightened libido, but it's hard - so very hard.");
+                else if (character.gender === Gender.NONE) DisplayText("Sexual hunger seems to gnaw at your " + Desc.Butt.describeButthole(character.torso.butt) + ", demanding it be filled, but you try to resist your heightened libido.  It's so very, very hard.");
+                else if (character.gender === Gender.FEMALE) DisplayText("Moisture grows between your rapidly-engorging vulva, making you squish and squirm as you try to fight down your heightened libido, but it's hard - so very hard.");
                 else DisplayText("Steamy moisture and tight compression war for your awareness in your groin as " + Desc.Cock.describeMultiCockSimpleOne(character) + " starts to strain against your " + character.inventory.equipment.armor.displayName + ".  Your vulva engorges with blood, growing slicker and wetter.  You try so hard to fight down your heightened libido, but it's so very, very hard.  The urge to breed lingers in your mind, threatening to rear its ugly head.");
             }
             // MEGALIBIDO

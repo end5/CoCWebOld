@@ -26,7 +26,7 @@ export class MinotaurBlood extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         const chest = character.torso.chest;
         const vaginas = character.torso.vaginas;
         const cocks = character.torso.cocks;

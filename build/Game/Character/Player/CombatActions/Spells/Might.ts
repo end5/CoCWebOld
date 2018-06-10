@@ -29,13 +29,13 @@ export class Might extends BlackMagic {
         // 25% backfire!
         if (randInt(4) === 0) {
             DisplayText("An errant sexual thought crosses your mind, and you lose control of the spell!  Your ");
-            if (character.gender === 0) DisplayText(Desc.Butt.describeButthole(character.torso.butt) + " tingles with a desire to be filled as your libido spins out of control.");
-            if (character.gender === 1) {
+            if (character.gender === Gender.NONE) DisplayText(Desc.Butt.describeButthole(character.torso.butt) + " tingles with a desire to be filled as your libido spins out of control.");
+            if (character.gender === Gender.MALE) {
                 if (character.torso.cocks.count === 1) DisplayText(Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " twitches obscenely and drips with pre-cum as your libido spins out of control.");
                 else DisplayText(Desc.Cock.describeMultiCockShort(character) + " twitch obscenely and drip with pre-cum as your libido spins out of control.");
             }
-            if (character.gender === 2) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
-            if (character.gender === 3) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Cock.describeMultiCockShort(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
+            if (character.gender === Gender.FEMALE) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " becomes puffy, hot, and ready to be touched as the magic diverts into it.");
+            if (character.gender === Gender.HERM) DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " and " + Desc.Cock.describeMultiCockShort(character) + " overfill with blood, becoming puffy and incredibly sensitive as the magic focuses on them.");
             character.stats.lib += .25;
             character.stats.lust += 15;
         }

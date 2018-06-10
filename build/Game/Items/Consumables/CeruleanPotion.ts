@@ -14,7 +14,7 @@ export class CeruleanPotion extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         // Repeat genderless encounters
         DisplayText().clear();
         if (character.gender === Gender.NONE && (User.flags.get("Player") as PlayerFlags).CERULEAN_POTION_NEUTER_ATTEMPTED > 0) {

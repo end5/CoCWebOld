@@ -93,7 +93,7 @@ function masturbateGo() {
 //         if (menus) MainScreen.addButton(button, "AN Stim-Belt", allNaturalStimBeltUse);
 //         button++;
 //     }
-//     if (player.hasKeyItem("Dual Belt") >= 0 && player.gender === 3 && !player.torso.hips.legs.isTaur()) {
+//     if (player.hasKeyItem("Dual Belt") >= 0 && player.gender === Gender.HERM && !player.torso.hips.legs.isTaur()) {
 //         if (menus) MainScreen.addButton(button, "Dual Belt", dualBeltMasturbation);
 //         button++;
 //     }
@@ -138,7 +138,7 @@ function masturbateGo() {
 //         else return { next: Menus.Player };
 //         return;
 //     }
-//     if (player.gender === 0) {
+//     if (player.gender === Gender.NONE) {
 //         genderlessMasturbate();
 //         player.stats.lust += -50;
 //         return { next: Scenes.camp.returnToCampUseOneHour };
@@ -1124,7 +1124,7 @@ function masturbateGo() {
 //         }
 //     }
 //     // Round and compare cock thickness to vag looseness
-//     if (Math.round(player.cockArea(0)) >= player.vaginalCapacity()) {
+//     if (Math.round(player.torso.cocks.get(0).area) >= player.vaginalCapacity()) {
 //         // Different noises based on sensitivity
 //         if (player.stats.sens < 45)
 //             DisplayText("ou grunt with exertion as you attempt to stuff your " + Desc.Cock.describeCock(player, ) + " into ");
@@ -1139,7 +1139,7 @@ function masturbateGo() {
 //         else DisplayText("the gaping fuck-mouth of your inhuman nipple-cunt. ");
 //         // Compare cockthickness and vaglooseness more specifically
 //         // if it barely fits
-//         if (Math.round(player.cockArea(0)) === player.vaginalCapacity()) {
+//         if (Math.round(player.torso.cocks.get(0).area) === player.vaginalCapacity()) {
 //             if (player.averageVaginalLooseness() < 2)
 //                 DisplayText("Your poor, tortured nipple is barely up to the task of accepting the " + Desc.Cock.describeCock(player, ) + ", but accept it it does. ");
 //             else if (player.averageVaginalLooseness() < 4)
@@ -1193,7 +1193,7 @@ function masturbateGo() {
 //             DisplayText("With each thrust, you bury your " + Desc.Cock.describeCock(player, ) + " deeper into your greedy tit. Overwhelmed by the combined sensations, your mind is barely able to cope with the intense feeling of fullness where no such feeling should be possible.");
 //         }
 //         // if it doesnt really fit
-//         if (Math.round(player.cockArea(0)) > player.vaginalCapacity()) {
+//         if (Math.round(player.torso.cocks.get(0).area) > player.vaginalCapacity()) {
 //             if (player.averageVaginalLooseness() < 2)
 //                 DisplayText("Your poor, tortured nipple is woefully insufficient compared to your " + Desc.Cock.describeCock(player, ) + ", delerious with arousal, you keep trying anyway. ");
 //             else if (player.averageVaginalLooseness() < 4)
@@ -1293,7 +1293,7 @@ function masturbateGo() {
 //         }
 //         else DisplayText("girl-lube spurts out of your tortured nipple with each thrust of your " + Desc.Cock.describeCock(player, ) + ", spattering your arms and face with your secretions. ");
 //     }
-//     if (Math.round(player.cockArea(0)) < player.vaginalCapacity()) {
+//     if (Math.round(player.torso.cocks.get(0).area) < player.vaginalCapacity()) {
 //         // Different noises based on sensitivity
 //         if (player.stats.sens < 45)
 //             DisplayText("ou sigh with pleasure");
@@ -1702,7 +1702,7 @@ function masturbateGo() {
 //         if (player.torso.vaginas.count === 1) {
 //             DisplayText("Your ");
 //             // Specify which sex for herms :3
-//             if (player.gender === 3) DisplayText("fem");
+//             if (player.gender === Gender.HERM) DisplayText("fem");
 //             DisplayText("sex quivers as the pleasure overwhelms you, robbing you of muscle control, your passage rippling and contracting around your fingers.  ");
 //             // Big clitty bonus!
 //             if (player.torso.clit.length >= 4.5)
@@ -1837,7 +1837,7 @@ function masturbateGo() {
 //         player.orgasm();
 //         return { next: Scenes.camp.returnToCampUseOneHour };
 //         DisplayText("\n");
-//         player.cuntChange(player.vaginalCapacity() * 0.9, true);
+//         player.displayStretchVagina(player.vaginalCapacity() * 0.9, true);
 //     }
 // }
 
@@ -1896,11 +1896,11 @@ function masturbateGo() {
 
 // function onaholeContinuation(): void {
 //     if (player.torso.cocks.count > 1) {
-//         if (player.gender === 3 && randInt(2) === 0)
+//         if (player.gender === Gender.HERM && randInt(2) === 0)
 //             return { next: onaholeFutaContinuation };
 //         else return { next: onaholeMulticockContinuation };
 //     }
-//     else if (player.gender === 3)
+//     else if (player.gender === Gender.HERM)
 //         return { next: onaholeFutaContinuation };
 //     else {
 //         player.orgasm();
@@ -1989,7 +1989,7 @@ function masturbateGo() {
 //             player.stats.sens += -1;
 //             return { next: Scenes.camp.returnToCampUseOneHour };
 //         }
-//         player.cuntChange(1, true, true, false);
+//         player.displayStretchVagina(1, true, true, false);
 //     }
 // }
 
@@ -2031,7 +2031,7 @@ function masturbateGo() {
 //             }
 //         }
 //     }
-//     player.cuntChange(1, true);
+//     player.displayStretchVagina(1, true);
 //     player.slimeFeed();
 // }
 
@@ -2048,7 +2048,7 @@ function masturbateGo() {
 // }
 
 // function allNaturalSelfStimulationBeltBadEnd(): void {
-//     spriteSelect(23);
+//     DisplaySprite(23);
 //     DisplayText().clear();
 //     DisplayText("Whatever the belt is, whatever it does, it no longer matters to you.  The only thing you want is to feel the belt and its creature fuck the hell out of you, day and night.  You quickly don the creature again and it begins working its usual lustful magic on your insatiable little box.  An endless wave of orgasms take you.  All you now know is the endless bliss of an eternal orgasm.\n\n");
 //     DisplayText("Your awareness hopelessly compromised by the belt and your pleasure, you fail to notice a familiar face approach your undulating form.  It is the very person who sold you this infernal toy.  The merchant, Giacomo.\n\n");
@@ -2510,7 +2510,7 @@ function masturbateGo() {
 
 // // [Maturbate] -- [Fake Mare] (Cock Centaurs Only)
 // function centaurDudesGetHorseAids(): void {
-//     let x: number = player.biggestCockIndex();
+//     let x: number = player.torso.cocks.sort(Cock.LargestCockArea)[0];
 //     DisplayText().clear();
 //     if (player.keyItemv1("Fake Mare") === 0) {
 //         if (player.stats.cor < 50)
@@ -2531,7 +2531,7 @@ function masturbateGo() {
 //     else DisplayText("lining up with the toy's gaping cunt");
 //     DisplayText(".  You rear your " + LowerDesc.Body.describeHips(player) + " and slam yourself into the mare's waiting hole.\n\n");
 
-//     DisplayText("The toy's passage seems to shift and contract around your " + Desc.Cock.describeCock(player, x) + ", molding itself to perfectly sheathe you.  What a marvelous little toy!  You slide on up until you hilt yourself, your crotch pressed against the mare's wide ass as your " + player.chestDesc() + " squeezes against her back.  Now fully mounted, you begin to rut on the mare toy, slapping your hips");
+//     DisplayText("The toy's passage seems to shift and contract around your " + Desc.Cock.describeCock(player, x) + ", molding itself to perfectly sheathe you.  What a marvelous little toy!  You slide on up until you hilt yourself, your crotch pressed against the mare's wide ass as your " + player.Desc.Breast.describeChest(character) + " squeezes against her back.  Now fully mounted, you begin to rut on the mare toy, slapping your hips");
 //     if (player.torso.balls.quantity > 0)
 //         DisplayText(" and " + player.Desc.Balls.describeBalls(true, true, player));
 //     DisplayText(" hard against her rump as you pound into her tight, slick ");
@@ -2583,7 +2583,7 @@ function masturbateGo() {
 //     DisplayText("Though it tastes rubbery, the heft and size of the prick feels... right... inside you.  You spend a few blissful minutes sucking off the horse dildo, getting it nice and wet and ready for you.  When you're satisfied the imp-statue's wang is sufficiently lubed up, you let it pop out of your mouth and, making sure it's still standing straight out of the statue, you turn around.\n\n");
 
 //     DisplayText("Your " + LowerDesc.Body.describeHips(player) + " wiggle in anticipation as you work to get your ready " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " lined up with the horse dildo.  Unable to see the toy past your equine rump, it's a long, desperate minute until finally you feel its flared head against your horsecunt.  You shimmy back, gasping in delight as the meaty horsecock pushes into you.  It seems to inflate and expand inside you as you take it, until you're completely and utterly full of purple rubber -- and then some.  You grunt as the cock continues to grow, stretching your " + Desc.Vagina.describeVagina(player, player.torso.vaginas.get(0)) + " until you let out a pained whimper.");
-//     player.cuntChange(player.vaginalCapacity() - 3, true, true, false);
+//     player.displayStretchVagina(player.vaginalCapacity() - 3, true, true, false);
 //     DisplayText("\n\n");
 
 //     DisplayText("Just then, though, the cock seems to stop.  You grunt and groan as it settles inside you, finally letting out a relieved sigh when it's only giving you a modest, pleasant stretching.  Now that you're stuffed full of fake horsecock, though, you're not sure what to do... \"<i>EEP!</i>\" you yelp as the imp-statue's hands suddenly reach out and grasp your " + LowerDesc.Body.describeHips(player) + ".  Your eyes go wide as you feel the thick dildo withdraw from your cunt, the imp's hips pulling back.\n\n");
@@ -2636,7 +2636,7 @@ function masturbateGo() {
 
 //         DisplayText("\n\nThe sensation nearly causes you to black out, your girth stretching more than you can ever remember to accept this invader within you, and you curl up even further atop yourself, the anticipation goading you on.  You shove more of your egg-laying tube down your length, and now stimulating honey begins to seep from the hole of your bloated and bulging cock along with the remnants of the cum that Exgartuan was trying to use against you.  Perhaps now resigned to his 'fate', the demon seems to have gone silent - though knowing him he's merely planning something else.");
 
-//         DisplayText("\n\nMore eggs begin to rise up from your abdomen, one after the other beginning to shove its way down your poor stretched length.  The first is nearly halfway down your " + num2Text(player.torso.cocks.list[player.biggestCockIndex()].cockLength) + " inches, and you feel another entering your slit.  Then you feel something else deep within, something that drops your jaw.  Your cock begins to lurch, as if beginning to orgasm, and you realize what Exartuan is doing. He's trying to make you climax to force the eggs out!");
+//         DisplayText("\n\nMore eggs begin to rise up from your abdomen, one after the other beginning to shove its way down your poor stretched length.  The first is nearly halfway down your " + num2Text(player.torso.cocks.list[player.torso.cocks.sort(Cock.LargestCockArea)[0]].cockLength) + " inches, and you feel another entering your slit.  Then you feel something else deep within, something that drops your jaw.  Your cock begins to lurch, as if beginning to orgasm, and you realize what Exartuan is doing. He's trying to make you climax to force the eggs out!");
 
 //         DisplayText("\n\nYou struggle, ");
 //         if (Game.shouldraFollower.followerShouldra()) DisplayText("ghost-assisted ");
@@ -2681,7 +2681,7 @@ function masturbateGo() {
 //         DisplayText("\n\nYou get yourself comfortable and begin to stroke your cock, eyes closing as you lose yourself to the pleasure.  Your length hardens further, feeling full in your hand, and an errant thought sparks through your mind.  What if you were the receptacle?  Your eyes open, and you look down at yourself.  Unbidden, your ovipositor has already extended from your bee-half, and is dripping golden-colored, sweet-smelling honey on the ground.  You begin examining yourself, pondering just where it might be possible to lay eggs within your own body to relieve your burden.");
 
 //         // [If herm:]
-//         if (player.gender === 3) {
+//         if (player.gender === Gender.HERM) {
 //             DisplayText("\n\nYou examine your cock");
 //             if (player.torso.cocks.count > 1) DisplayText("s");
 //             DisplayText(" as well as your pussy, and decide to try the latter first.  You flex your still-unfamiliar muscles and curl your abdomen back across yourself, straining to pull it into place, but it just isn't flexible enough to curl that far. Even using your arms, ");
@@ -2973,7 +2973,7 @@ function masturbateGo() {
 //     else DisplayText("  You");
 //     DisplayText(" twist your wrist down.  That change in direction comes far easier than trying to stroke it.  Releasing sets of alien muscles that you had held instinctively, you let your " + Desc.Cock.describeCock(player, x) + " do what it was made to do.  It slithers down sinuously, the purplish head pressing heavy and hot against your juicy mound just hard enough to encourage you to press back against it.  It slowly spreads your clinging tunnel around its obscene girth one fold at a time.");
 //     // Cunt change!
-//     player.cuntChange(player.cockArea(x), true, true, false);
+//     player.displayStretchVagina(player.cockArea(x), true, true, false);
 
 //     DisplayText("\n\nRipples of delight radiate along your " + Desc.Cock.describeCock(player, x) + " as it buries itself as deeply into your velvet tunnel as possible.  The fat, purplish head stretches you out as it goes, just enough that the trailing stalk is comfortably ensconced in twat.  Tugging on the exposed portion, you find yourself pumping wildly on your length, squeezing it while paroxysms of ecstasy render your fine muscle control useless.  The dual sensations of being fucked and dishing out a hot dicking have overlapped into a tangled-up knot inside you.");
 //     if (y >= 0) {
@@ -2981,7 +2981,7 @@ function masturbateGo() {
 //         if (player.torso.cocks.get(y).type === CockType.TENTACLE) {
 //             DisplayText("  In no time flat the second tendril has gotten the idea, and it elongates to reach for your unoccupied asshole.  There's a moment of token resistance before it violates your [asshole], but then, there's only the warm heat of a torrid butt-fuck.");
 //             // BUTTCHANGE IF APPROPRIATE
-//             player.buttChange(player.cockArea(y), true, true, false);
+//             player.displayStretchButt(player.cockArea(y), true, true, false);
 //         }
 //     }
 //     DisplayText("\n\nDelirious with excitement, you grab hold of your [chest]");
@@ -3123,7 +3123,7 @@ function masturbateGo() {
 
 //     DisplayText("You eagerly reveal your flora pecker as it squirms and wriggles on its own, gently caressing the green surface here and there, its coloration changing as you tease yourself.  After toying with your tentacle dick for a while, you decide to get down to business; using your newly acquired shaft muscles, you expertly guide your ever-writhing " + Desc.Cock.describeCock(player, tentacle) + " to your back, pointing it toward your buttocks.  You grind the tip against your [butt], making pre-cum flow from your mushroom-like head and smearing it against your " + player.skinFurScales() + ".  Using your own seminal fluid as a natural lube, you press the tip of your " + Desc.Cock.describeCock(player, tentacle) + " in front of your own backdoor, stretching your anal opening little by little, careful not to tear your own insides.  This goes on for a while, until you suddenly lose all patience and roughly stuff your own " + Desc.Cock.describeCock(player, tentacle) + " at full force inside your colon.");
 //     // [anal tightness check]
-//     player.buttChange(player.cockArea(tentacle), true, true, false);
+//     player.displayStretchButt(player.cockArea(tentacle), true, true, false);
 
 //     DisplayText("\n\nThe impetuousness of the act makes you cry in a mixture of pleasure and pain, your [asshole] being overloaded with intense sensations.  Fortunately the tender and rubbery texture of your " + Desc.Cock.describeCock(player, tentacle) + " allows for more sensitivity, the subtle friction sending tingles from your crotch all the way up your spine.  You shiver from the sheer cocktail of raw pleasure you're inflicting on your own body.  Your " + Desc.Cock.describeCock(player, tentacle) + " keeps squirming against your insides, making you quiver and giggle like a whore, until it lodges all the way inside your colon, adopting a more comfortable position.  You then proceed to ferociously fuck your own [asshole], stretching it a bit more at every thrust.");
 
@@ -3229,7 +3229,7 @@ function masturbateGo() {
 //             else DisplayText("The toy slides effortlessly thanks to your copious, almost inhuman lubrication.");
 
 //             DisplayText("\n\nSwallowing, you lean back and position the dildo toward your [vagina], the entrance twitching as it yearns for penetration. With an experimental push, you prod at the hole, jumping at the realization of how large the object really is. It's not nearly as thin, short, and bendable as a finger. You think about why you'd do such a thing. Your virginity too precious to risk a demon stealing away, or perhaps you're simply grown more perverted in this corrupt world. Whatever the case, you bite your lip and press the toy into you. Your decision made, the pain of your splitting hymen shoots through you. You gasp, easing the pressure on the toy, letting it sink one more inch before letting go altogether.");
-//             player.cuntChange(8, true, true, false);
+//             player.displayStretchVagina(8, true, true, false);
 //             // Cunt change text go here!
 //             DisplayText("\n\nBreathing heavily, you slowly pull the invasive, fake phallus from your stinging vagina. A light stain of blood now coats the first several inches of the dildo. Taking a deep breath, you push the toy back in, this time feeling less pain. The worst of the experience behind you, you gently pump in and out. Your once pure pussy is now accepting the intruder deeply. Your speed increases as you get used to it. Breathing heavier in between moans, you thrust your cherry-picker in towards unforeseen ecstasy. The tears in your eyes, accumulated from pain, well up even larger in pleasure. Using one hand to piston the imitation cock in your [vagina] and the other to massage around your [clit], the stimulation becomes almost unbearable. Even with the remnants of pain from your recent deflowering, you can't help but grind your [hips] and slide slowly onto your back in preparation for your first penetrative orgasm. Your moans becoming louder and more intense while vaginal juices drip down your buttcheeks. In one last screaming moan, your thighs lift, and you thrust the dildo as deeply into you as it will go, pushing you over the edge into orgasm.");
 //             DisplayText("\n\nYou rest your [butt] back onto the ground and your arms limply at your sides. After several minutes of catching your breath, you pull the toy out of you with a sigh of relief and pleasure. The experience has been quite draining; you decide to rest for some time longer before washing up.");
@@ -3240,7 +3240,7 @@ function masturbateGo() {
 //             DisplayText("\n\nPrancing nude to a comfortable spot, you proceed to rest on your [butt] and place the toy cock aside as you eagerly prepare your [vagina]. You rub your lips gently as you relax your vaginal muscles. Not wishing to leave your mouth out of the fun, you grasp this dildo and begin to lick and suckle it. The passion of the act urging you on, you push a finger inside your [vagina]. Its tight grip on your finger emphasizes the inexperience of the little hole - a problem you're soon to fix.");
 //             DisplayText("\n\nWith your faux phallus slick with saliva, you remove the digit from your virgin depths. You press the tip against your entrance, savouring your last moments of virginity. Your poor hymen was only an obstacle for cock, and you're the only one truly worthy of taking your virginity. You push the lust-driving object inside. Pain shoots through you, forcing a gasp from you, but failing to halt your beloved cherry-picker's progress. When you finally reach the greatest depth you can, you release the dildo, breathing deeply as the pain passes.");
 //             // CUNT CHANGE CALL
-//             player.cuntChange(8, true, true, false);
+//             player.displayStretchVagina(8, true, true, false);
 //             DisplayText("\n\nYet to be satisfied, you regain composure and start pumping into your freshly plucked flower. Your other hand rushes to massage and caress your sensitive [chest]. The fantasies of all the monstrous cocks you'll have thrusted into you spur the rough piston motion, eager to train your [vagina] for its fated task. You slide onto your back as your body devotes itself to pleasure, moans and whimpers fleeting from your mouth. The stimulation builds, only enhanced by the mild pain of inexperience, and within minutes you tense up and scream in ecstasy. Fluids squirt from your [vagina], and you smile gleefully. When the orgasm has passed, you pull your well-used toy from your newly trained slutting-slot. You bring the dildo to your lips to give it an affectionate kiss and lick your virginal blood from it's surface.");
 //             DisplayText("\n\nAfter basking in the afterglow, you clean yourself up and redress.");
 //         }
@@ -3249,7 +3249,7 @@ function masturbateGo() {
 //     else {
 //         DisplayText("You remove your [armor] and sit yourself down behind a rock not far from camp, being sure to bring your toy with you.");
 //         DisplayText("\n\nSpreading your [legs], you rub two fingers between your lips, while also suckling your healthy-sized faux cock to lubricate it. Your [vagina] becomes slick with your juices in moments and you eagerly delve a finger into the thirsty hole. The digit goes in slowly and deeply, pleasuring your inner walls with tender stimulation. Your muscles begin to relax, and you feel ready to move onto the main event. Removing the saliva-slicked toy from your mouth, you trade it with your finger. The satisfying easing of the dildo into your nethers is matched by your feminine flavor pushing across your tongue. Muffled moans escape your plugged maw as the beloved toy sinks deep into your [vagina]. Using your free hand, you grope and caress your [chest].");
-//         player.cuntChange(8, true, true, false);
+//         player.displayStretchVagina(8, true, true, false);
 //         DisplayText("\n\nThe erotic pumping of the phallic object picks up the pace as you gently build a rhythm with the beating of your heart and tensing of your vaginal walls. Your breathing heaves, and your moans become almost as desperate as they are lustful. Soon the pleasure is rising up into unstoppable tide of phallus-induced ecstasy, and you slide from against the rock to on your side, still fucking yourself with blissful joy. The constant thrusting of the toy begins to make you shake and lose rhythm, your body wanting only to fuck as hard and fast as possible.");
 //         DisplayText("\n\nYour orgasm arrives with supreme relief as you force the dildo to your furthest depths. Juices spurt from your genitals, and you roll onto your back to rest. When your breathing regulates, you pull the thoroughly used toy from your [vagina] and prepare to return to camp.");
 //     }
@@ -3271,7 +3271,7 @@ function masturbateGo() {
 //     DisplayText("\n\nGrabbing your toy, you give it several long wet licks before holding your [legs] up and sending the substitute cock to its true task. You rub the tip against your [asshole] momentarily before finally pushing it inside. Stuttering moans escape your lips as your butt gets its much-needed fill of firm faux phallus");
 //     if (silly()) DisplayText(", the alliteration of the experience further arousing you");
 //     DisplayText(". Your toes curl as you begin to pull in and out, pumping the dildo with smooth motions. Your tongue hangs from your mouth, your breathing becomes heavy, and your moans lewdly express pure lust as you increase your tempo. Before too long, you feel your pucker becoming more sensitive and know an orgasm is quickly approaching.");
-//     player.buttChange(8, true, true, false);
+//     player.displayStretchButt(8, true, true, false);
 //     if (player.torso.cocks.count > 0 && player.torso.vaginas.count > 0)
 //         DisplayText("\n\nYou moan in ecstasy while your [vagina] and " + Desc.Cock.describeMultiCockShort(player) + " erupt with sex juices. ");
 //     else if (player.torso.cocks.count > 0)

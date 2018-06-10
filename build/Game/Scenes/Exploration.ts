@@ -172,14 +172,14 @@ export function tryDiscover(character: Character): NextScreenChoices {
             // if (randInt(10) < impGob) {
             //     if (character.stats.level >= 8 && randInt(2) === 0) {
             //         Scenes.impScene.impLordEncounter();
-            //         spriteSelect(29);
+            //         DisplaySprite(29);
             //         return;
             //     }
             //     else {
             //         DisplayText().clear();
             //         DisplayText("An imp wings out of the sky and attacks!");
             //         CombatManager.beginBattle(character, character.party, [new Imp()]);
-            //         spriteSelect(29);
+            //         DisplaySprite(29);
             //     }
             //     return;
             // }
@@ -195,7 +195,7 @@ export function tryDiscover(character: Character): NextScreenChoices {
             //         DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fucked, " + character.mf("stud", "slut"));
             //         DisplayText(".</i>\"");
             //         CombatManager.beginBattle(character, character.party, [new Goblin()]);
-            //         spriteSelect(24);
+            //         DisplaySprite(24);
             //         return;
             //     }
             //     else {
@@ -203,7 +203,7 @@ export function tryDiscover(character: Character): NextScreenChoices {
             //         DisplayText("A goblin saunters out of the bushes with a dangerous glint in her eyes.\n\nShe says, \"<i>Time to get fuc-oh shit, you don't even have anything to play with!  This is for wasting my time!");
             //         DisplayText("</i>\"");
             //         CombatManager.beginBattle(character, character.party, [new Goblin()]);
-            //         spriteSelect(24);
+            //         DisplaySprite(24);
             //         return;
             //     }
             // }

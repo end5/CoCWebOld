@@ -20,7 +20,7 @@ export class GooArmor extends Armor {
             DisplayText(" and ");
         if (character.torso.cocks.count > 0)
             DisplayText(Desc.Cock.describeMultiCockShort(character));
-        if (character.gender === 0)
+        if (character.gender === Gender.NONE)
             DisplayText("groin");
         DisplayText(", encasing your loins in case you need a little mid-battle release, she says.");
         DisplayText("\n\nAfter a few minutes, you and your armor-friend are settled and ready to go.");

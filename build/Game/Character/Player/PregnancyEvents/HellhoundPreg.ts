@@ -74,8 +74,8 @@ export class HellhoundPreg implements IPregnancyEvent {
         }
         Mod.Vagina.displayStretchVagina(player, 60, true);
         if (player.torso.vaginas.get(0).wetness === VaginaWetness.DRY) player.torso.vaginas.get(0).wetness++;
-        if (player.gender === 1) player.gender = 3;
-        if (player.gender === 0) player.gender = 2;
+        if (player.gender === Gender.MALE) player.gender = 3;
+        if (player.gender === Gender.NONE) player.gender = 2;
         player.orgasm();
         player.stats.str += -1;
         player.stats.tou += -1;

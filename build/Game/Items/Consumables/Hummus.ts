@@ -65,7 +65,7 @@ export class Hummus extends Consumable {
         // Clear cocks
         character.torso.cocks.clear();
         // Reset dongs!
-        if (character.gender === 1 || character.gender === 3) {
+        if (character.gender === Gender.MALE || character.gender === Gender.HERM) {
             character.torso.cocks.add(new Cock(6, 1));
             character.torso.balls.size = 2;
             if (character.torso.balls.quantity > 2) character.torso.balls.quantity = 2;

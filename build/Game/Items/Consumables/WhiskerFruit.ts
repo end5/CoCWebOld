@@ -274,7 +274,7 @@ export class WhiskerFruit extends Consumable {
             character.torso.hips.legs.type === LegType.CAT &&
             character.skin.type !== SkinType.FUR &&
             randInt(5) === 0 && changes < changeLimit) {
-            DisplayText("\n\nYour " + character.skin.desc + " begins to tingle, then itch. You reach down to scratch your arm absent-mindedly and pull your fingers away to find stUtils.Utils.rand(s of " + character.torso.neck.head.hair.color + " fur. Wait, fur?  What just happened?! You spend a moment examining yourself and discover that <b>you are now covered in glossy, soft fur.</b>\n\n");
+            DisplayText("\n\nYour " + character.skin.desc + " begins to tingle, then itch. You reach down to scratch your arm absent-mindedly and pull your fingers away to find strands of " + character.torso.neck.head.hair.color + " fur. Wait, fur?  What just happened?! You spend a moment examining yourself and discover that <b>you are now covered in glossy, soft fur.</b>\n\n");
             character.skin.type = SkinType.FUR;
             character.skin.desc = "fur";
             changes++;

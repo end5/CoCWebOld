@@ -80,7 +80,7 @@ export class StatsModifier {
 
         if (this.stats.lib < 15 && this.body.gender > 0)
             this.stats.lib = 15;
-        else if (this.stats.lib < 10 && this.body.gender === 0)
+        else if (this.stats.lib < 10 && this.body.gender === Gender.NONE)
             this.stats.lib = 10;
         if (this.stats.lib < this.minLust() * 2 / 3)
             this.stats.lib = this.minLust() * 2 / 3;

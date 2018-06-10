@@ -159,7 +159,7 @@ export class TrapOil extends Consumable {
             // Anal Wetness Increase Final (always loose):
             else DisplayText("\n\nYou moan as clear, odorless oil dribbles out of your [asshole], this time in enough quantity to stain your [armor].  Your back passage feels incredibly sensitive, wet and accommodating.  Your ass is ready to be plowed by anything, and always will be.");
             character.torso.butt.wetness++;
-            // buttChange(30,false,false,false);
+            // displayStretchButt(30,false,false,false);
             if (character.torso.butt.looseness < 3) character.torso.butt.looseness++;
             changes++;
             character.stats.sens += 2;
@@ -185,7 +185,7 @@ export class TrapOil extends Consumable {
             changes++;
         }
         // Male Effects
-        if (character.gender === 1) {
+        if (character.gender === Gender.MALE) {
             // Femininity Increase Final (max femininity allowed increased by +10):
             if (randInt(4) === 0 && changes < changeLimit) {
                 if (character.femininity < 70 && character.femininity >= 60) {
@@ -213,7 +213,7 @@ export class TrapOil extends Consumable {
             }
         }
         // Female Effects
-        else if (character.gender === 2) {
+        else if (character.gender === Gender.FEMALE) {
             // Masculinity Increase:
             if (character.femininity > 30 && randInt(4) === 0 && changes < changeLimit) {
                 character.femininity -= 10;

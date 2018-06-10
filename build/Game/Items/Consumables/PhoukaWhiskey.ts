@@ -34,7 +34,7 @@ export class PhoukaWhiskey extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         switch (this.phoukaWhiskeyDrink(character)) {
             case 0: // Character isn't pregnant
                 DisplayText("You uncork the bottle and drink some whiskey, hoping it will let you relax for a while.\n\nIt's strong stuff and afterwards you worry a bit less about the future.  Surely things will right themselves in the end.");

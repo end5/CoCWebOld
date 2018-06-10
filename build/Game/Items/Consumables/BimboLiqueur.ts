@@ -81,7 +81,7 @@ export class BimboLiqueur extends Consumable {
                     character.torso.neck.head.hair.length = 36;
                 }
                 else DisplayText("as your hair grows thicker and heavier.");
-                DisplayText("  You grab a lock of the silken stUtils.rand(s and watch open-mouthed while streaks so blonde they're almost white flow down the " + character.torso.neck.head.hair.color + " hair.  It goes faster and faster until your hair has changed into perfectly bimbo-blonde, flowing locks.\n\n");
+                DisplayText("  You grab a lock of the silken strands and watch open-mouthed while streaks so blonde they're almost white flow down the " + character.torso.neck.head.hair.color + " hair.  It goes faster and faster until your hair has changed into perfectly bimbo-blonde, flowing locks.\n\n");
                 character.torso.neck.head.hair.color = "platinum blonde";
             }
 
@@ -142,7 +142,7 @@ export class BimboLiqueur extends Consumable {
             else DisplayText("caress ");
             DisplayText("that makes your " + Desc.Leg.describeLegs(character) + " give out as you cum, splattering female fluids as you convulse nervelessly on the ground.\n\n");
 
-            DisplayText("Though the orgasm is intense, you recover a few moments later feeling refreshed, but still hot and horny.  Maybe you could find a partner to fuck?  After all, sex is, like, better with a partner or two.  Or that number after two.  You brush a lengthy, platinum blonde stUtils.rand( of hair out of your eyes and lick your lips - you're ready to have some fun!\n\n");
+            DisplayText("Though the orgasm is intense, you recover a few moments later feeling refreshed, but still hot and horny.  Maybe you could find a partner to fuck?  After all, sex is, like, better with a partner or two.  Or that number after two.  You brush a lengthy, platinum blonde strand of hair out of your eyes and lick your lips - you're ready to have some fun!\n\n");
 
             if (character.torso.hips.rating < 12 || character.torso.butt.rating < 12) {
                 DisplayText("As you start to walk off in search of a sexual partner, you feel your center of balance shifting.");

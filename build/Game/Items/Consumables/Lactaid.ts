@@ -14,7 +14,7 @@ export class Lactaid extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText().clear();
         DisplayText("You gulp down the bottle of lactaid, easily swallowing the creamy liquid.");
         // Bump up size!

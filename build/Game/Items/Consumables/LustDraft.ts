@@ -18,7 +18,7 @@ export class LustDraft extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText().clear();
         DisplayText("You drink the ");
         if (this.enhanced) DisplayText("red");
@@ -45,7 +45,7 @@ export class LustDraft extends Consumable {
             if (character.torso.vaginas.count > 0) {
                 DisplayText(Desc.Vagina.describeVagina(character, character.torso.vaginas.get(0)) + " soaks your thighs.  ");
             }
-            if (character.gender === 0) DisplayText("body begins to quiver with orgasmic bliss.  ");
+            if (character.gender === Gender.NONE) DisplayText("body begins to quiver with orgasmic bliss.  ");
             DisplayText("Once you've had a chance to calm down, you notice that the explosion of pleasure you just experienced has rocked you to your core.  You are a little hornier than you were before.");
             // increase character libido, and maybe sensitivity too?
             character.orgasm();

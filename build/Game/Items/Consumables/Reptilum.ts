@@ -36,11 +36,11 @@ export class Reptilum extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         // init variables
         let changes: number = 0;
         let changeLimit: number = 1;
-        // Utils.randomly choose affects limit
+        // strand choose affects limit
         if (randInt(2) === 0) changeLimit++;
         if (randInt(2) === 0) changeLimit++;
         if (randInt(4) === 0) changeLimit++;
@@ -183,7 +183,7 @@ export class Reptilum extends Consumable {
             changes++;
         }
         // -Breasts vanish to 0 rating if male
-        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.gender === 1 && changes < changeLimit && randInt(3) === 0) {
+        if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating >= 1 && character.gender === Gender.MALE && changes < changeLimit && randInt(3) === 0) {
             // (HUEG)
             if (character.torso.chest.sort(BreastRow.BreastRatingLargest)[0].rating > 8) {
                 DisplayText("\n\nThe flesh on your chest tightens up, losing nearly half its mass in the span of a few seconds.  With your center of balance shifted so suddenly, you stagger about trying not to fall on your ass.  You catch yourself and marvel at the massive change in breast size.");

@@ -32,7 +32,7 @@ export class OvipositionElixir extends Consumable {
      5 - rubbery black
      */
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You pop the cork and gulp down the thick greenish fluid.  The taste is unusual and unlike anything you've tasted before.");
         if (character.pregnancy.womb.isPregnantWith(PregnancyType.GOO_STUFFED)) {
             DisplayText("\n\nFor a moment you feel even more bloated than you already are.  That feeling is soon replaced by a dull throbbing pain.  It seems that with Valeria's goo filling your womb the ovielixir is unable to work its magic on you.");

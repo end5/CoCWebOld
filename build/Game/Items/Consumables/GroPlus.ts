@@ -37,7 +37,7 @@ export class GroPlus extends Consumable {
 
     private growPlusBalls(character: Character): NextScreenChoices {
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You sink the needle deep into your " + Desc.Balls.describeSack(character) + ".  It hurts like hell, but you push down the plunger and the pain vanishes as the needles contents flow into you.\n\n");
         // 1 in 4 BIG growth.
         if (randInt(4) === 0) {
@@ -56,7 +56,7 @@ export class GroPlus extends Consumable {
 
     private growPlusBreasts(character: Character): NextScreenChoices {
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You sink the needle into the flesh of your " + Desc.Breast.describeAllBreasts(character) + " injecting each with a portion of the needle.\n\n");
         if (character.torso.chest.count === 1)
             Mod.Breast.growSmallestBreastRow(character, randInt(5) + 1, 1, true);
@@ -68,7 +68,7 @@ export class GroPlus extends Consumable {
 
     private growPlusClit(character: Character): NextScreenChoices {
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You sink the needle into your clit, nearly crying with how much it hurts.  You push down the plunger and the pain vanishes as your clit starts to grow.\n\n");
         character.torso.clit.length++;
         DisplayText("Your " + Desc.Vagina.describeClit(character) + " stops growing after an inch of new flesh surges free of your netherlips.  It twitches, feeling incredibly sensitive.");
@@ -80,7 +80,7 @@ export class GroPlus extends Consumable {
 
     private growPlusCock(character: Character): NextScreenChoices {
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You sink the needle into the base of your " + Desc.Cock.describeMultiCockShort(character) + ".  It hurts like hell, but as you depress the plunger, the pain vanishes, replaced by a tingling pleasure as the chemicals take effect.\n\n");
         if (character.torso.cocks.count === 1) {
             DisplayText("Your " + Desc.Cock.describeCock(character, character.torso.cocks.get(0)) + " twitches and thickens, pouring more than an inch of thick new length from your ");
@@ -107,7 +107,7 @@ export class GroPlus extends Consumable {
 
     private growPlusNipples(character: Character): NextScreenChoices {
         DisplayText().clear();
-        // character.slimeFeed();
+        character.slimeFeed();
         DisplayText("You sink the needle into each of your " + Desc.Breast.describeNipple(character, character.torso.chest.get(0)) + "s in turn, dividing the fluid evenly between them.  Though each injection hurts, the pain is quickly washed away by the potent chemical cocktail.\n\n");
         // Grow nipples
         DisplayText("Your nipples engorge, prodding hard against the inside of your " + character.inventory.equipment.armor.displayName + ".  Abruptly you realize they've grown more than an additional quarter-inch.\n\n");

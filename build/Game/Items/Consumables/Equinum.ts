@@ -50,14 +50,14 @@ export class Equinum extends Consumable {
                         // If character has horsedicks
                         if (character.torso.cocks.filter(Cock.FilterType(CockType.HORSE)).length > 0) {
                             DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the potion, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
-                            if (character.gender === 0 || character.gender === 3) DisplayText("horse ");
-                            if (character.gender === 1) DisplayText("stallion ");
-                            if (character.gender === 2) DisplayText("mare ");
+                            if (character.gender === Gender.NONE || character.gender === Gender.HERM) DisplayText("horse ");
+                            if (character.gender === Gender.MALE) DisplayText("stallion ");
+                            if (character.gender === Gender.FEMALE) DisplayText("mare ");
                             DisplayText(" with beautiful " + character.torso.neck.head.hair.color + " " + character.skin.desc + " covering its body gazes back up at you.  That's you, and yet the doubt in your mind remains. Strange images fill your mind, and you feel as if you have not always been a horse, but some kind of funny fur-less creature standing on two legs. Your equine mind rapidly dismisses that doubt as a daydream however, and you trot away, oblivious to who you once were.\n\n");
                             DisplayText("<b>One year later...</b>\n\nAs you graze upon the small plants that coat the open plains of your home, you hear a noise on your right side. As you raise your head to check where the noise comes from, preparing to run from a potential predator, you see a strange creature. It stands on its two feet, its furless pink skin appearing beneath its clothes.  With a start, you realize you can identify the strange creatures gender.  ");
-                            if (character.gender === 0 || character.gender === 1) DisplayText("He is clearly a male, but you are somewhat confused as you can see not one but three bulges where his manhood would be.\n\n");
-                            if (character.gender === 2) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
-                            if (character.gender === 3) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
+                            if (character.gender === Gender.NONE || character.gender === Gender.MALE) DisplayText("He is clearly a male, but you are somewhat confused as you can see not one but three bulges where his manhood would be.\n\n");
+                            if (character.gender === Gender.FEMALE) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
+                            if (character.gender === Gender.HERM) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                             DisplayText("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me complete my quest. What do you say?</i>\"\n\nInstinctively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing your focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to succeed where you once failed.");
                             return { next: Menus.GameOver };
                         }
@@ -65,14 +65,14 @@ export class Equinum extends Consumable {
                     // If character has no cocks
                     else {
                         DisplayText("\n\nSoon after you drink the Equinum, a burning sensation fills your chest. You have consumed too much of the drink, and the overdose starts to provoke dramatic changes in your body.  You collapse suddenly, twitching in pain as all the bones and all the muscles in your body break and reform. Eventually, you pass out from the strain you are put through.\n\nYou wake up after a few minutes. Once you get up on your legs, doubt fills your mind. You rush to a nearby pond and look down, nearly jumping when the reflection of a ");
-                        if (character.gender === 0 || character.gender === 3) DisplayText("horse ");
-                        if (character.gender === 1) DisplayText("stallion ");
-                        if (character.gender === 2) DisplayText("mare ");
+                        if (character.gender === Gender.NONE || character.gender === Gender.HERM) DisplayText("horse ");
+                        if (character.gender === Gender.MALE) DisplayText("stallion ");
+                        if (character.gender === Gender.FEMALE) DisplayText("mare ");
                         DisplayText("with beautiful " + character.torso.neck.head.hair.color + " " + character.skin.desc + " covering its body looks back at you.  That's you, and yet the doubt in your mind remains. Strange mental images fill your mind.  You feel as if you have not always been a horse, but some kind of funny fur-less creature standing on two legs. But your equine mind rapidly dismisses that doubt as a daydream, and you trot away, oblivious to who you once were.\n\n");
                         DisplayText("<b>One year after...</b>\n\nAs you graze small plants in the open plains that became your home, you hear a noise on your right side. As you raise your head to check where the noise comes from, preparing to run from a potential predator, you see a strange creature. It stands on two feet, its furless pink skin appearing beneath its clothes.  ");
-                        if (character.gender === 0 || character.gender === 1) DisplayText("He is clearly a male, but you are somewhat confused as you can see not one but three bulges where his manhood would be.\n\n");
-                        if (character.gender === 2) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
-                        if (character.gender === 3) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
+                        if (character.gender === Gender.NONE || character.gender === Gender.MALE) DisplayText("He is clearly a male, but you are somewhat confused as you can see not one but three bulges where his manhood would be.\n\n");
+                        if (character.gender === Gender.FEMALE) DisplayText("She is clearly a female, as you can see her six breasts jiggle as she walks towards you, small stains appearing on her shirt where her nipples are.\n\n");
+                        if (character.gender === Gender.HERM) DisplayText("You are somewhat confused as you can see a bulge near her thighs but also huge boobs jiggling as she walks, and you can't say if she's a male or female.\n\n");
                         DisplayText("As soon as you lay eyes on the creature, a wave of nostalgia overtakes you. Somehow, looking at that creature makes you sad, as if you forgot something important.\n\n\"<i>How strange to see a horse here all alone,</i>\" the creature muses, \"<i>In any case, you're still the least bizarre creature I've met here.  Not to mention the only one that hasn't tried to rape me,</i>\" it says with a sigh.\n\nYou answer with an interrogative whinny.\n\n\"<i>Hey, I've got an idea. I'll take you back to the camp. I'll feed you and in return you can help me to complete my quest. What do you say?</i>\"\n\nInstictively, you utter a happy and approving whinny.\n\nYou failed in your quest, losing you focus and more importantly, losing yourself.  But, even so, you found a new meaning to your life, and have a new chance to achieve what you once failed.");
                         return { next: Menus.GameOver };
                     }
@@ -82,7 +82,7 @@ export class Equinum extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         const cocks = character.torso.cocks;
         const vaginas = character.torso.vaginas;
         const chest = character.torso.chest;
@@ -94,7 +94,7 @@ export class Equinum extends Consumable {
         if (randInt(2) === 0) changeLimit++;
         if (randInt(3) === 0) changeLimit++;
         if (character.perks.has(PerkType.HistoryAlchemist)) changeLimit++;
-        // Used for Utils.random chances
+        // Used for randIntom chances
         // Set up output
         DisplayText().clear();
         DisplayText("You down the potion, grimacing at the strong taste.");
@@ -178,9 +178,9 @@ export class Equinum extends Consumable {
         // -Remove feathery hair (copy for equinum, canine peppers, Labova)
         if (changes < changeLimit && character.torso.neck.head.hair.type === 1 && randInt(4) === 0) {
             // (long):
-            if (character.torso.neck.head.hair.length >= 6) DisplayText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal stUtils.Utils.rand( of hair.  <b>Your hair is no longer feathery!</b>");
+            if (character.torso.neck.head.hair.length >= 6) DisplayText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal strand of hair.  <b>Your hair is no longer feathery!</b>");
             // (short)
-            else DisplayText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into stUtils.Utils.rand(s of regular hair.  <b>Your hair is no longer feathery!</b>");
+            else DisplayText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into strands of regular hair.  <b>Your hair is no longer feathery!</b>");
             changes++;
             character.torso.neck.head.hair.type = 0;
         }
@@ -188,7 +188,7 @@ export class Equinum extends Consumable {
         // SEXUAL CHARACTERISTICS
         //
         // MALENESS.
-        if ((character.gender === 1 || character.gender === 3) && randInt(1.5) === 0 && changes < changeLimit) {
+        if ((character.gender === Gender.MALE || character.gender === Gender.HERM) && randInt(1.5) === 0 && changes < changeLimit) {
             // If cocks that aren't horsified!
             if ((cocks.filter(Cock.FilterType(CockType.HORSE)).length + cocks.filter(Cock.FilterType(CockType.DEMON)).length) < cocks.count) {
                 // Transform a cock and store it's index value to talk about it.
@@ -487,7 +487,7 @@ export class Equinum extends Consumable {
                 }
                 // if bee/spider-butt.
                 if ((firstTail.type > TailType.COW && firstTail.type < TailType.SHARK)) {
-                    DisplayText("\n\nYour insect-like abdomen bunches up as it begins shrinking, exoskeleton flaking off like a snake sheds its skin.  It bunches up until it is as small as a tennis ball, then explodes outwards, growing into an animalistic tail shape.  Moments later, it explodes into filaments of pain, dividing into hundreds of stUtils.Utils.rand(s and turning into a shiny horsetail.");
+                    DisplayText("\n\nYour insect-like abdomen bunches up as it begins shrinking, exoskeleton flaking off like a snake sheds its skin.  It bunches up until it is as small as a tennis ball, then explodes outwards, growing into an animalistic tail shape.  Moments later, it explodes into filaments of pain, dividing into hundreds of strands and turning into a shiny horsetail.");
                 }
                 if (firstTail.type >= TailType.SHARK) {
                     DisplayText("\n\nPain lances up your " + Desc.Butt.describeButthole(character.torso.butt) + " as your tail shifts and morphs disgustingly.  With one last wave of pain, it splits into hundreds of tiny filaments, transforming into a horsetail.");

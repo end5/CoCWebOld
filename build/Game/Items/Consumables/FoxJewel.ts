@@ -228,7 +228,7 @@ export class FoxJewel extends Consumable {
             else if (hairTemp <= 3) character.torso.neck.head.hair.color = "white";
             else if (hairTemp <= 6) character.torso.neck.head.hair.color = "black";
             else character.torso.neck.head.hair.color = "red";
-            DisplayText("\n\nYour scalp begins to tingle, and you gently grasp a stUtils.Utils.rand(, pulling it forward to check it.  Your hair has become the same " + character.torso.neck.head.hair.color + " as a kitsune's!");
+            DisplayText("\n\nYour scalp begins to tingle, and you gently grasp a strand, pulling it forward to check it.  Your hair has become the same " + character.torso.neck.head.hair.color + " as a kitsune's!");
             changes++;
         }
         // [Change Skin Type: remove fur or scales, change skin to Tan, Olive, or Light]

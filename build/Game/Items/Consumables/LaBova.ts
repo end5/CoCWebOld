@@ -53,7 +53,7 @@ export class LaBova extends Consumable {
     }
 
     public use(character: Character) {
-        // character.slimeFeed();
+        character.slimeFeed();
         // Changes done
         let changes: number = 0;
         // Change limit
@@ -169,9 +169,9 @@ export class LaBova extends Consumable {
         // -Remove feathery hair (copy for equinum, canine peppers, Labova)
         if (changes < changeLimit && character.torso.neck.head.hair.type === 1 && randInt(4) === 0) {
             // (long):
-            if (character.torso.neck.head.hair.length >= 6) DisplayText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal stUtils.Utils.rand( of hair.  <b>Your hair is no longer feathery!</b>");
+            if (character.torso.neck.head.hair.length >= 6) DisplayText("\n\nA lock of your downy-soft feather-hair droops over your eye.  Before you can blow the offending down away, you realize the feather is collapsing in on itself.  It continues to curl inward until all that remains is a normal strand of hair.  <b>Your hair is no longer feathery!</b>");
             // (short)
-            else DisplayText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into stUtils.Utils.rand(s of regular hair.  <b>Your hair is no longer feathery!</b>");
+            else DisplayText("\n\nYou run your fingers through your downy-soft feather-hair while you await the effects of the item you just ingested.  While your hand is up there, it detects a change in the texture of your feathers.  They're completely disappearing, merging down into strands of regular hair.  <b>Your hair is no longer feathery!</b>");
             changes++;
             character.torso.neck.head.hair.type = 0;
         }

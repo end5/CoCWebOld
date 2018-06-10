@@ -22,7 +22,7 @@ export class KitsuneGift extends Consumable {
     public use(character: Character) {
         DisplayText().clear();
         DisplayText("Curiosity gets the best of you, and you decide to open the package.  After all, what's the worst that could happen?\n\n");
-        // Opening the gift Utils.randomly results in one of the following:
+        // Opening the gift strand results in one of the following:
         switch (randInt(12)) {
             // [Fox Jewel]
             case 0:

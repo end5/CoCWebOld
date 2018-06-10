@@ -422,13 +422,13 @@ export class Eggs extends Consumable {
                 if (character.torso.neck.head.hair.color.indexOf("rubbery") === -1 && character.torso.neck.head.hair.color.indexOf("latex-textured") && character.torso.neck.head.hair.length !== 0) {
                     // if skin is already one...
                     if (character.skin.desc === "skin" && character.skin.adj === "rubber") {
-                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the stUtils.Utils.rand(s merging into ");
+                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the strands merging into ");
                         DisplayText(" thick rubbery hair.");
                         character.torso.neck.head.hair.color = "rubbery " + character.torso.neck.head.hair.color;
                         character.stats.cor += 2;
                     }
                     if (character.skin.desc === "skin" && character.skin.adj === "latex") {
-                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the stUtils.Utils.rand(s merging into ");
+                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the strands merging into ");
                         DisplayText(" shiny latex hair.");
                         character.torso.neck.head.hair.color = "latex-textured " + character.torso.neck.head.hair.color;
                         character.stats.cor += 2;
@@ -477,13 +477,13 @@ export class Eggs extends Consumable {
                 if (character.torso.neck.head.hair.color.indexOf("rubbery") === -1 && character.torso.neck.head.hair.color.indexOf("latex-textured") && character.torso.neck.head.hair.length !== 0) {
                     // if skin is already one...
                     if (character.skin.adj === "rubber" && character.skin.desc === "skin") {
-                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the stUtils.Utils.rand(s merging into ");
+                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the strands merging into ");
                         DisplayText(" thick rubbery hair.");
                         character.torso.neck.head.hair.color = "rubbery " + character.torso.neck.head.hair.color;
                         character.stats.cor += 2;
                     }
                     if (character.skin.adj === "latex" && character.skin.desc === "skin") {
-                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the stUtils.Utils.rand(s merging into ");
+                        DisplayText("\n\nYour scalp tingles and your " + Desc.Head.describeHair(character) + " thickens, the strands merging into ");
                         DisplayText(" shiny latex hair.");
                         character.torso.neck.head.hair.color = "latex-textured " + character.torso.neck.head.hair.color;
                         character.stats.cor += 2;

@@ -68,7 +68,7 @@ export class Ectoplasm extends Consumable {
         // Appearnace Change
         // Hair
         if (randInt(4) === 0 && changes < changeLimit && character.torso.neck.head.hair.type !== 2) {
-            DisplayText("\n\nA sensation of weightlessness assaults your scalp. You reach up and grab a handful of hair, confused. Your perplexion only heightens when you actually feel the follicles becoming lighter in your grasp, before you can hardly tell you're holding anything.  Plucking a stUtils.Utils.rand(, you hold it up before you, surprised to see... it's completely transparent!  You have transparent hair!");
+            DisplayText("\n\nA sensation of weightlessness assaults your scalp. You reach up and grab a handful of hair, confused. Your perplexion only heightens when you actually feel the follicles becoming lighter in your grasp, before you can hardly tell you're holding anything.  Plucking a strand, you hold it up before you, surprised to see... it's completely transparent!  You have transparent hair!");
             character.torso.neck.head.hair.type = 2;
             changes++;
         }

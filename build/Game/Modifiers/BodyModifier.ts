@@ -132,7 +132,7 @@ export function displayFixFemininity(character: Character): string {
         }
     }
     // GURLS!
-    else if (character.gender === 2) {
+    else if (character.gender === Gender.FEMALE) {
         if (character.femininity < 30) {
             output += "\n<b>Your incredibly masculine, chiseled features become a little bit softer from your body's changing hormones.";
             if (character.torso.neck.head.face.hasBeard()) {
@@ -145,7 +145,7 @@ export function displayFixFemininity(character: Character): string {
         }
     }
     // BOIZ!
-    else if (character.gender === 1) {
+    else if (character.gender === Gender.MALE) {
         if (character.femininity > 70) {
             output += "\n<b>You find your overly feminine face loses a little bit of its former female beauty due to your body's changing hormones.</b>\n";
             character.femininity = 70;

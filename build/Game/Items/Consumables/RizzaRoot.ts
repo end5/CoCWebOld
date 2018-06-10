@@ -9,7 +9,7 @@ import { ItemDesc } from '../ItemDesc';
 
 export class RizzaRoot extends Consumable {
     public constructor() {
-        super(ConsumableName.RizzaRoot, new ItemDesc("Rizza Root", "a tube of rizza root stUtils.rand(s", "A small ceramic tube full of fine red root stUtils.rand(s.  They smell something like citrus fruit."), 10);
+        super(ConsumableName.RizzaRoot, new ItemDesc("Rizza Root", "a tube of rizza root strands", "A small ceramic tube full of fine red root strands.  They smell something like citrus fruit."), 10);
     }
 
     public canUse(character: Character): boolean {

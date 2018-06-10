@@ -120,7 +120,7 @@ function breakZeChains(character: Character): NextScreenChoices {
     if (character.inventory.equipment.weapon.name === WeaponName.Fists) DisplayText("  \"<i>OW! Dammit, that hurt!</i>\"  What the hell were you thinking!?  Still, looks like you got results...");
     DisplayText("  An ear-splitting <i>SCHING!</i> echoes through the cathedral as shards of gold go flying.  You recoil, shielding your face from the surprisingly explosive force of the chains' shattering.  When the dust settles you cautiously lower your arms, giving you a good view of what lies – or rather, kneels – before you:");
 
-    DisplayText("\n\nThe gargoyle has stepped down from her pedestal, and now kneels as a supplicant before a king, forehead near the ground and weight rested upon her stone knuckles even as her massive wingspan unfolds behind her and her mace-like tail swishes rapidly behind her.  Slowly, the gargoyle raises her head to gaze upon you, her now ruby-red eyes staring into yours. Her smooth, nippleless breasts heave, once-stone hair falling forward in stUtils.rand(s, fringing her smooth, angular face.  Her thin, gray lips slowly curl into a small, sultry smile as she says, just on the edge of hearing...");
+    DisplayText("\n\nThe gargoyle has stepped down from her pedestal, and now kneels as a supplicant before a king, forehead near the ground and weight rested upon her stone knuckles even as her massive wingspan unfolds behind her and her mace-like tail swishes rapidly behind her.  Slowly, the gargoyle raises her head to gaze upon you, her now ruby-red eyes staring into yours. Her smooth, nippleless breasts heave, once-stone hair falling forward in strands, fringing her smooth, angular face.  Her thin, gray lips slowly curl into a small, sultry smile as she says, just on the edge of hearing...");
 
     DisplayText("\n\n\"<i>Master. My... Master.</i>\"");
 
@@ -302,7 +302,7 @@ function gargoyleSexMenu(character: Character): NextScreenChoices {
     if (gargoyleConfidence() <= 69) DisplayText("  The gargoyle bows low before you, her face expressionless.  \"<i>By your command, Master.  How would you have me?</i>\"");
     else DisplayText("  Her ruby-red eyes lock with yours and a sultry grin plays across her gray marble features.  She slides an arm around your waist and presses her sizable, surprisingly soft breasts against your chest.  \"<i>How would Master have me?</i>\"");
     // (If Male, display options: [Vaginal] [Anal] [Titfuck] [Strap-on] [Leave])
-    if (character.gender === 1) {
+    if (character.gender === Gender.MALE) {
         return {
             choices: [
                 ["Vaginal", gargoyleCoochiiGetsPlowed],
@@ -316,7 +316,7 @@ function gargoyleSexMenu(character: Character): NextScreenChoices {
         };
     }
     // (If Female, display options: [Tail Fuck] and [Ride Strap-on] [Leave])
-    if (character.gender === 2) {
+    if (character.gender === Gender.FEMALE) {
         return {
             choices: [
                 ["Tail Fuck", tailFuckGargoyleScene],
@@ -328,7 +328,7 @@ function gargoyleSexMenu(character: Character): NextScreenChoices {
         };
     }
     // (If Herm, display all above options)
-    if (character.gender === 3) {
+    if (character.gender === Gender.HERM) {
         return {
             choices: [
                 ["Vaginal", gargoyleCoochiiGetsPlowed],
@@ -343,7 +343,7 @@ function gargoyleSexMenu(character: Character): NextScreenChoices {
         };
     }
     // (If Genderless, display [Strap-on] [Leave])
-    if (character.gender === 0) {
+    if (character.gender === Gender.NONE) {
         return {
             choices: [
                 ["Strap-On", strapOnGargoyle],

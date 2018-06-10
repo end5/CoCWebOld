@@ -104,7 +104,7 @@ function flowerFun(character: Character): NextScreenChoices {
         DisplayText("Closing your eyes, it becomes easy to lose yourself in the feeling of plunging in and out of those petals, your tongue a tiny cock. You revel in the decadence of it all, your lips becoming equally sensitive and engorged, french kissing the pussy-flower with abandon, rubbing your puffy lips over its clit, tongue-fucking the flower with abandon. The petals curl around your face, as a sudden gush of fluid rushes out from deep within the flower, flooding your mouth with tangy sweetness. Your tongue quivers in pleasure as you feel your over-sensitized mouth orgasming, pleasurable and unlike anything else you've experienced. Swallowing instinctively, you collapse back on your haunches, licking your lips and squirming in satisfaction.");
 
         DisplayText("You walk away, your lips and tongue feeling slightly puffy and sensitive, but none the worse for the wear.");
-        // character.slimeFeed();
+        character.slimeFeed();
         character.orgasm();
         character.stats.sens += 4;
         character.stats.cor += 1;
@@ -230,7 +230,7 @@ function tentacleFun(character: Character): NextScreenChoices {
             }
         }
     }
-    // character.slimeFeed();
+    character.slimeFeed();
     return { next: Scenes.camp.returnToCampUseOneHour };
 }
 
@@ -243,7 +243,7 @@ function treeBoobFun(character: Character): NextScreenChoices {
     character.stats.sens += 1;
     character.stats.lust += 15;
     character.stats.cor += .5;
-    // character.slimeFeed();
+    character.slimeFeed();
     if (!character.statusAffects.has(StatusAffectType.LustyTongue)) {
         if (randInt(4) === 0) { // 25% Chance of sensitive mouth status – increased lust gain/hour due to licking your lips :3
             DisplayText("  The feeling doesn't seem to fade, only becoming more and more intense over the coming hour.  It will be hard to keep from getting turned on any time you lick your lips or eat some food.");

@@ -67,7 +67,7 @@ export class GoldenSeed extends Consumable {
         // antianemone corollary:
         if (changes < changeLimit && character.torso.neck.head.hair.type === 4 && randInt(2) === 0) {
             // -insert anemone hair removal into them under whatever criteria you like, though hair removal should precede abdomen growth; here's some sample text:
-            DisplayText("\n\nAs you down the seed, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels soft and fluffy, almost feathery; you watch as it dissolves into many thin, feathery stUtils.Utils.rand(s.  <b>Your hair is now like that of a harpy!</b>");
+            DisplayText("\n\nAs you down the seed, your head begins to feel heavier.  Reaching up, you notice your tentacles becoming soft and somewhat fibrous.  Pulling one down reveals that it feels soft and fluffy, almost feathery; you watch as it dissolves into many thin, feathery strands.  <b>Your hair is now like that of a harpy!</b>");
             character.torso.neck.head.hair.type = 1;
             changes++;
         }
@@ -142,14 +142,14 @@ export class GoldenSeed extends Consumable {
         //   Sexual:
         // ****************
         // -Grow a cunt (guaranteed if no gender)
-        if (character.gender === 0 || (character.torso.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0)) {
+        if (character.gender === Gender.NONE || (character.torso.vaginas.count <= 0 && changes < changeLimit && randInt(3) === 0)) {
             changes++;
             // (balls)
             if (character.torso.balls.quantity > 0) DisplayText("\n\nAn itch starts behind your " + Desc.Balls.describeBallsShort(character) + ", but before you can reach under to scratch it, the discomfort fades. A moment later a warm, wet feeling brushes your " + Desc.Balls.describeSack(character) + ", and curious about the sensation, <b>you lift up your balls to reveal your new vagina.</b>");
             // (dick)
             else if (character.torso.cocks.count > 0) DisplayText("\n\nAn itch starts on your groin, just below your " + Desc.Cock.describeMultiCockShort(character) + ". You pull your manhood aside to give you a better view, and you're able to watch as <b>your skin splits to give you a new vagina, complete with a tiny clit.</b>");
             // (neither)
-            else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your bUtils.Utils.rand( new vagina, complete with pussy lips and a tiny clit.</b>");
+            else DisplayText("\n\nAn itch starts on your groin and fades before you can take action. Curious about the intermittent sensation, <b>you peek under your " + character.inventory.equipment.armor.displayName + " to discover your brand new vagina, complete with pussy lips and a tiny clit.</b>");
             character.torso.clit.length = 0.25;
             const newVagina = new Vagina();
             character.torso.vaginas.add(newVagina);
@@ -283,7 +283,7 @@ export class GoldenSeed extends Consumable {
         }
         // -Propah Wings
         if (character.torso.wings.type === WingType.NONE && changes < changeLimit && (this.enhanced || character.torso.arms.type === ArmType.HARPY) && randInt(4) === 0) {
-            DisplayText("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + character.skin.desc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + character.inventory.equipment.armor.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your bUtils.Utils.rand( new, " + character.torso.neck.head.hair.color + " wings.</b>");
+            DisplayText("\n\nPain lances through your back, the muscles knotting oddly and pressing up to bulge your " + character.skin.desc + ". It hurts, oh gods does it hurt, but you can't get a good angle to feel at the source of your agony. A loud crack splits the air, and then your body is forcing a pair of narrow limbs through a gap in your " + character.inventory.equipment.armor.displayName + ". Blood pumps through the new appendages, easing the pain as they fill out and grow. Tentatively, you find yourself flexing muscles you didn't know you had, and <b>you're able to curve the new growths far enough around to behold your brand new, " + character.torso.neck.head.hair.color + " wings.</b>");
             character.torso.wings.type = WingType.FEATHERED_LARGE;
             character.torso.wings.desc = "large, feathered";
             changes++;
@@ -304,7 +304,7 @@ export class GoldenSeed extends Consumable {
         }
         // -Feathery Hair
         if (character.torso.neck.head.hair.type !== 1 && changes < changeLimit && (this.enhanced || character.torso.neck.head.face.type === FaceType.HUMAN) && randInt(4) === 0) {
-            DisplayText("\n\nA tingling starts in your scalp, getting worse and worse until you're itching like mad, the feathery stUtils.Utils.rand(s of your hair tickling your fingertips while you scratch like a dog itching a flea. When you pull back your hand, you're treated to the sight of downy fluff trailing from your fingernails. A realization dawns on you - you have feathers for hair, just like a harpy!");
+            DisplayText("\n\nA tingling starts in your scalp, getting worse and worse until you're itching like mad, the feathery strands of your hair tickling your fingertips while you scratch like a dog itching a flea. When you pull back your hand, you're treated to the sight of downy fluff trailing from your fingernails. A realization dawns on you - you have feathers for hair, just like a harpy!");
             character.torso.neck.head.hair.type = 1;
             changes++;
         }

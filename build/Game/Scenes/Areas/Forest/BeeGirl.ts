@@ -136,14 +136,14 @@ class Attack implements CombatAction {
         if (randInt(2) === 0) {
             DisplayText("Searing pain lances through you as " + name + " manages to sting you!  You stagger back a step and nearly trip, flushing hotly.  ");
             DisplayText("Oh no!  You've been injected with some kind of aphrodisiac.  You've got to keep focused, you can't think about... fucking... ");
-            if (enemy.gender === 1) DisplayText("or dripping honey-slicked cunts beckoning you. ");
-            if (enemy.gender === 2) DisplayText("planting your aching sex over her face while you lick her sweet honeypot. ");
-            if (enemy.gender === 3) DisplayText("or cocks, tits, and puffy nipples. ");
+            if (enemy.gender === Gender.MALE) DisplayText("or dripping honey-slicked cunts beckoning you. ");
+            if (enemy.gender === Gender.FEMALE) DisplayText("planting your aching sex over her face while you lick her sweet honeypot. ");
+            if (enemy.gender === Gender.HERM) DisplayText("or cocks, tits, and puffy nipples. ");
             enemy.stats.lust += 25;
             if (enemy.stats.lust > 60) {
                 DisplayText(" You shake your head and struggle to stay focused,");
-                if (enemy.gender === 1 || enemy.gender === 3) DisplayText(" but it's difficult with the sensitive bulge in your groin.");
-                if (enemy.gender === 2) DisplayText(" but can't ignore the soaking wetness in your groin.");
+                if (enemy.gender === Gender.MALE || enemy.gender === Gender.HERM) DisplayText(" but it's difficult with the sensitive bulge in your groin.");
+                if (enemy.gender === Gender.FEMALE) DisplayText(" but can't ignore the soaking wetness in your groin.");
                 if (enemy.stats.sens > 50) DisplayText("  The sensitive nubs of your nipples rub tightly under your " + enemy.inventory.equipment.armor.displayName + ".");
             }
             else DisplayText(" You shake your head and clear the thoughts from your head, focusing on the task at hand.");
